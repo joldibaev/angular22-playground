@@ -4,10 +4,22 @@ import { UiAutocompleteOption } from './ui-autocomplete/ui-autocomplete-option/u
 import { UiSelect } from './ui-select/ui-select';
 import { UiSelectGroup } from './ui-select/ui-select-group/ui-select-group';
 import { UiSelectOption } from './ui-select/ui-select-option/ui-select-option';
+import { UiMenu } from './ui-menu/ui-menu';
+import { UiMenuItem } from './ui-menu/ui-menu-item/ui-menu-item';
+import { UiMenuTrigger } from './ui-menu/ui-menu-trigger/ui-menu-trigger';
 
 @Component({
   selector: 'app-root',
-  imports: [UiAutocomplete, UiAutocompleteOption, UiSelect, UiSelectGroup, UiSelectOption],
+  imports: [
+    UiAutocomplete,
+    UiAutocompleteOption,
+    UiSelect,
+    UiSelectGroup,
+    UiSelectOption,
+    UiMenu,
+    UiMenuItem,
+    UiMenuTrigger,
+  ],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })

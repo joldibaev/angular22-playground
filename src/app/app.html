@@ -41,7 +41,15 @@
           <p class="mb-1 text-sm font-bold text-slate-500">Inbox triage</p>
           <h3 class="text-xl font-black">Customer operations queue</h3>
         </div>
-        <span class="w-fit rounded-full bg-[color-mix(in_srgb,var(--hot-pink)_10%,white)] px-3 py-2 text-sm font-black text-[var(--hot-pink)]">12 open</span>
+        <div class="flex flex-wrap items-center gap-3">
+          <button uiMenuTrigger [menu]="ticketMenu.menu()">Actions</button>
+          <ui-menu #ticketMenu>
+            <ui-menu-item value="assign">Assign owner</ui-menu-item>
+            <ui-menu-item value="snooze">Snooze ticket</ui-menu-item>
+            <ui-menu-item value="close">Close ticket</ui-menu-item>
+          </ui-menu>
+          <span class="w-fit rounded-full bg-[color-mix(in_srgb,var(--hot-pink)_10%,white)] px-3 py-2 text-sm font-black text-[var(--hot-pink)]">12 open</span>
+        </div>
       </div>
 
       <div class="my-5 grid gap-4 md:grid-cols-2">

@@ -1,0 +1,11 @@
+<div ngMenu #menuPanel="ngMenu" class="ui-menu-panel" (itemSelected)="onItemSelected($event)">
+  <ng-template ngMenuContent>
+    @for (item of items(); track item) {
+      <div ngMenuItem class="ui-menu-item" [value]="item.value()" [disabled]="item.disabled()">
+        <ng-container [ngTemplateOutlet]="item.template()" />
+      </div>
+    }
+  </ng-template>
+</div>
+
+<ng-content />
