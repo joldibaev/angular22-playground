@@ -6,6 +6,7 @@ import { ListboxHarness } from '@angular/aria/listbox/testing';
 
 import { UiSelect } from './ui-select';
 import { Component, viewChild } from '@angular/core';
+import { UiSelectGroup } from './ui-select-group/ui-select-group';
 import { UiSelectOption } from './ui-select-option/ui-select-option';
 
 @Component({
@@ -21,6 +22,29 @@ import { UiSelectOption } from './ui-select-option/ui-select-option';
 class TestHost {
   readonly select = viewChild.required(UiSelect);
 }
+
+@Component({
+  imports: [UiSelect, UiSelectGroup, UiSelectOption],
+  template: `
+    <ui-select>
+      <ui-select-option value="all">All</ui-select-option>
+      <ui-select-group label="Status">
+        <ui-select-option value="created">Created</ui-select-option>
+        <ui-select-option value="approved">Approved</ui-select-option>
+      </ui-select-group>
+      <ui-select-group label="Payment">
+        <ui-select-option value="paid">Paid</ui-select-option>
+      </ui-select-group>
+    </ui-select>
+  `,
+})
+class GroupedTestHost {
+  readonly select = viewChild.required(UiSelect);
+}
+
+type SelectHost = {
+  select(): UiSelect;
+};
 
 function dispatchKeyboardEvent(element: HTMLElement, key: string): KeyboardEvent {
   const event = new KeyboardEvent('keydown', {
@@ -43,11 +67,20 @@ async function createHostFixture(): Promise<ComponentFixture<TestHost>> {
   return hostFixture;
 }
 
-function getCombobox(fixture: ComponentFixture<TestHost>): HTMLElement {
+async function createGroupedHostFixture(): Promise<ComponentFixture<GroupedTestHost>> {
+  const hostFixture = TestBed.createComponent(GroupedTestHost);
+  hostFixture.detectChanges();
+  await hostFixture.whenStable();
+  await hostFixture.whenRenderingDone();
+
+  return hostFixture;
+}
+
+function getCombobox(fixture: ComponentFixture<SelectHost>): HTMLElement {
   return fixture.nativeElement.querySelector('[role="combobox"]');
 }
 
-async function openPopup(fixture: ComponentFixture<TestHost>): Promise<HTMLElement> {
+async function openPopup(fixture: ComponentFixture<SelectHost>): Promise<HTMLElement> {
   const combobox = getCombobox(fixture);
 
   combobox.focus();
@@ -63,12 +96,16 @@ function getListbox(): HTMLElement {
   return document.body.querySelector('[role="listbox"]') as HTMLElement;
 }
 
-function getPopup(fixture: ComponentFixture<TestHost>): HTMLElement | null {
+function getPopup(fixture: ComponentFixture<SelectHost>): HTMLElement | null {
   return fixture.nativeElement.querySelector('.ui-select-popup');
 }
 
 function getOptions(): HTMLElement[] {
   return Array.from(document.body.querySelectorAll<HTMLElement>('[role="option"]'));
+}
+
+function getGroups(): HTMLElement[] {
+  return Array.from(document.body.querySelectorAll<HTMLElement>('[role="group"]'));
 }
 
 function getActiveOption(): HTMLElement | null {
@@ -148,6 +185,17 @@ describe('UiSelect', () => {
     ]);
   });
 
+  it('should expose grouped options to build the display value', async () => {
+    const hostFixture = await createGroupedHostFixture();
+
+    hostFixture.componentInstance.select().selectedValues.set(['approved']);
+    hostFixture.detectChanges();
+
+    const label = hostFixture.nativeElement.querySelector('.selected-label-text');
+
+    expect(label?.textContent).toContain('Approved');
+  });
+
   it('should expose combobox accessibility attributes when collapsed', async () => {
     const hostFixture = await createHostFixture();
     const combobox = getCombobox(hostFixture);
@@ -182,6 +230,36 @@ describe('UiSelect', () => {
       'Approved',
       'Paid',
     ]);
+  });
+
+  it('should render optgroup-like groups without changing option order', async () => {
+    const hostFixture = await createGroupedHostFixture();
+
+    await openPopup(hostFixture);
+    const groups = getGroups();
+    const options = getOptions();
+
+    expect(groups.map((group) => group.getAttribute('aria-label'))).toEqual(['Status', 'Payment']);
+    expect(options.map((option) => option.textContent?.trim())).toEqual([
+      'All',
+      'Created',
+      'Approved',
+      'Paid',
+    ]);
+  });
+
+  it('should not collapse the popup when a group label is clicked', async () => {
+    const hostFixture = await createGroupedHostFixture();
+
+    await openPopup(hostFixture);
+    const groupLabel = document.body.querySelector<HTMLElement>('.ui-select-group-label');
+
+    groupLabel?.click();
+    hostFixture.detectChanges();
+    await hostFixture.whenStable();
+
+    expect(hostFixture.componentInstance.select().popupExpanded()).toBe(true);
+    expect(hostFixture.componentInstance.select().selectedValues()).toEqual([]);
   });
 
   it('should allow selecting an option with Angular Aria harnesses', async () => {

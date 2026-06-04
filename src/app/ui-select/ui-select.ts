@@ -3,13 +3,21 @@ import {
   Component,
   computed,
   contentChildren,
+  ElementRef,
+  inject,
   signal,
   viewChild,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { Listbox, Option } from '@angular/aria/listbox';
 import { Combobox, ComboboxPopup, ComboboxWidget } from '@angular/aria/combobox';
+import { UiSelectGroup } from './ui-select-group/ui-select-group';
 import { UiSelectOption } from './ui-select-option/ui-select-option';
+
+type UiSelectRenderItem = {
+  group?: UiSelectGroup;
+  option?: UiSelectOption;
+};
 
 @Component({
   selector: 'ui-select',
@@ -34,12 +42,44 @@ export class UiSelect {
     return 'Select a label';
   });
 
-  options = contentChildren(UiSelectOption);
+  options = contentChildren(UiSelectOption, { descendants: true });
+  groups = contentChildren(UiSelectGroup);
+
+  readonly renderItems = computed<UiSelectRenderItem[]>(() => {
+    const groups = this.groups();
+    const groupedOptions = new Set(groups.flatMap((group) => group.options()));
+    const directOptions = this.options().filter((option) => !groupedOptions.has(option));
+    const items: UiSelectRenderItem[] = [
+      ...directOptions.map((option) => ({ option })),
+      ...groups.map((group) => ({ group })),
+    ];
+
+    return items.sort((first, second) => {
+      const firstElement = (first.group ?? first.option)?.element.nativeElement;
+      const secondElement = (second.group ?? second.option)?.element.nativeElement;
+
+      if (!firstElement || !secondElement) {
+        return 0;
+      }
+
+      return firstElement.compareDocumentPosition(secondElement) & Node.DOCUMENT_POSITION_PRECEDING
+        ? -1
+        : 1;
+    });
+  });
+
+  private element = inject(ElementRef<HTMLElement>);
 
   constructor() {
     afterRenderEffect(() => {
       this.listbox()?.scrollActiveItemIntoView();
     });
+  }
+
+  onListboxClick(event: MouseEvent) {
+    if (event.target instanceof Element && event.target.closest('[role="option"]')) {
+      this.onCommit();
+    }
   }
 
   onCommit() {

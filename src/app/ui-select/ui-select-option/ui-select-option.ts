@@ -7,7 +7,7 @@ import { Component, computed, ElementRef, inject, input } from '@angular/core';
   styleUrl: './ui-select-option.css',
 })
 export class UiSelectOption {
-  private element = inject(ElementRef<HTMLElement>);
+  readonly element = inject(ElementRef<HTMLElement>);
 
   value = input.required<string>();
 
