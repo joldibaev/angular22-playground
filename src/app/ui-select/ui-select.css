@@ -1,0 +1,142 @@
+:host {
+  anchor-scope: --ui-select-trigger;
+  display: inline-block;
+  position: relative;
+}
+
+[ngCombobox],
+[ngListbox],
+[ngOption] {
+  outline: none;
+}
+
+[ngCombobox] {
+  display: flex;
+  position: relative;
+  anchor-name: --ui-select-trigger;
+  align-items: center;
+  color: color-mix(in srgb, var(--hot-pink) 90%, var(--primary-contrast));
+  background-color: color-mix(in srgb, var(--hot-pink) 5%, transparent);
+  border-radius: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--hot-pink) 80%, transparent);
+  cursor: pointer;
+  padding: 0 3.5rem;
+  height: 2.5rem;
+  box-sizing: border-box;
+  width: 14rem;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+[ngCombobox] span {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+[ngCombobox]:hover {
+  background-color: color-mix(in srgb, var(--hot-pink) 15%, transparent);
+}
+
+[ngCombobox][aria-disabled='true'] {
+  opacity: 0.6;
+  cursor: default;
+}
+
+[ngCombobox]:focus,
+[ngCombobox]:focus-within {
+  outline: 2px solid color-mix(in srgb, var(--hot-pink) 50%, transparent);
+}
+
+.combobox-label {
+  gap: 1rem;
+  left: 1rem;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  pointer-events: none;
+}
+
+.icon-tabler-chevron-down {
+  right: 1rem;
+  position: absolute;
+  pointer-events: none;
+  transition: transform 150ms ease-in-out;
+}
+
+[ngCombobox][aria-expanded='true'] .icon-tabler-chevron-down {
+  transform: rotate(180deg);
+}
+
+.ui-select-popup {
+  position: fixed;
+  position-anchor: --ui-select-trigger;
+  top: calc(anchor(bottom) + 8px);
+  left: anchor(left);
+  width: anchor-size(width);
+  position-try-fallbacks: flip-block;
+  z-index: 1000;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: var(--septenary-contrast);
+  font-size: 0.9rem;
+  max-height: 12rem;
+  box-sizing: border-box;
+  overflow: scroll;
+  animation: smoothPopupOpen 150ms ease-out forwards;
+  transform-origin: top;
+}
+
+@supports not (anchor-name: --ui-select-trigger) {
+  .ui-select-popup {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+  }
+}
+
+@keyframes smoothPopupOpen {
+  0% {
+    max-height: 0;
+    opacity: 0;
+  }
+  16.7% {
+    opacity: 1;
+  }
+  100% {
+    max-height: 12rem;
+    opacity: 1;
+  }
+}
+
+[ngListbox] {
+  gap: 2px;
+  height: 100%;
+  display: flex;
+  overflow: auto;
+  flex-direction: column;
+}
+
+[ngOption] {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  margin: 1px;
+  padding: 0 1rem;
+  min-height: 2.25rem;
+  border-radius: 0.5rem;
+}
+
+[ngOption]:hover {
+  background-color: color-mix(in srgb, var(--primary-contrast) 5%, transparent);
+}
+
+[ngOption][data-active='true'] {
+  outline-offset: -2px;
+  outline: 2px solid color-mix(in srgb, var(--hot-pink) 50%, transparent);
+}
+
+[ngOption][aria-selected='true'] {
+  color: var(--hot-pink);
+  background-color: color-mix(in srgb, var(--hot-pink) 5%, transparent);
+}

@@ -1,12 +1,11 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { UiSelect } from './ui-select/ui-select';
+import { UiSelectOption } from './ui-select/ui-select-option/ui-select-option';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [UiSelect, UiSelectOption],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
 })
-export class App {
-  protected readonly title = signal('angular22');
-}
+export class App {}
