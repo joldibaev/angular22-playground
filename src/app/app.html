@@ -1,7 +1,11 @@
-<main class="mx-auto w-[min(1120px,calc(100%_-_2rem))] space-y-20 px-4 py-10 text-slate-950 md:py-16">
-  <section class="grid min-h-[520px] gap-6 md:grid-cols-[1.25fr_.75fr]">
-    <div class="flex flex-col justify-center rounded-lg border border-slate-200 bg-white/82 p-8 shadow-2xl shadow-slate-950/8 md:p-14">
-      <p class="mb-3 text-xs font-black uppercase tracking-[.08em] text-[var(--hot-pink)]">Angular 22 UI primitives</p>
+<main class="mx-auto w-[min(1120px,calc(100%-2rem))] space-y-20 px-4 py-10 text-slate-950 md:py-16">
+  <section class="grid min-h-130 gap-6 md:grid-cols-[1.25fr_.75fr]">
+    <div
+      class="flex flex-col justify-center rounded-lg border border-slate-200 bg-white/82 p-8 shadow-2xl shadow-slate-950/8 md:p-14"
+    >
+      <p class="mb-3 text-xs font-black uppercase tracking-[.08em] text-(--hot-pink)">
+        Angular 22 UI primitives
+      </p>
       <h1 class="max-w-3xl text-5xl font-black leading-[.95] tracking-normal md:text-7xl">
         Select and autocomplete controls for dense product workflows
       </h1>
@@ -10,12 +14,22 @@
         navigation, inline suggestions, empty states, and resilient popovers.
       </p>
       <div class="mt-8 flex flex-wrap gap-3">
-        <a class="rounded-lg bg-[var(--hot-pink)] px-5 py-3 font-bold text-white outline-offset-4 focus-visible:outline-3 focus-visible:outline-[var(--focus-ring)]" href="#live-demo">Explore demo</a>
-        <a class="rounded-lg border border-slate-200 bg-white px-5 py-3 font-bold outline-offset-4 focus-visible:outline-3 focus-visible:outline-[var(--focus-ring)]" href="#patterns">View patterns</a>
+        <a
+          class="rounded-lg bg-(--hot-pink) px-5 py-3 font-bold text-white outline-offset-4 focus-visible:outline-3 focus-visible:outline-(--focus-ring)"
+          href="#live-demo"
+          >Explore demo</a
+        >
+        <a
+          class="rounded-lg border border-slate-200 bg-white px-5 py-3 font-bold outline-offset-4 focus-visible:outline-3 focus-visible:outline-(--focus-ring)"
+          href="#patterns"
+          >View patterns</a
+        >
       </div>
     </div>
 
-    <aside class="grid content-center gap-4 rounded-lg border border-slate-900/15 bg-slate-950 p-6 text-white shadow-2xl shadow-slate-950/12 sm:grid-cols-3 md:grid-cols-1">
+    <aside
+      class="grid content-center gap-4 rounded-lg border border-slate-900/15 bg-slate-950 p-6 text-white shadow-2xl shadow-slate-950/12 sm:grid-cols-3 md:grid-cols-1"
+    >
       @for (metric of metrics; track metric.label) {
         <div class="rounded-lg bg-white/10 p-6">
           <span class="block text-5xl font-black leading-none">{{ metric.value }}</span>
@@ -27,16 +41,20 @@
 
   <section id="live-demo" class="space-y-6">
     <div class="max-w-3xl">
-      <p class="mb-3 text-xs font-black uppercase tracking-[.08em] text-[var(--hot-pink)]">Live composition</p>
+      <p class="mb-3 text-xs font-black uppercase tracking-[.08em] text-(--hot-pink)">
+        Live composition
+      </p>
       <h2 class="text-4xl font-black leading-none md:text-5xl">A realistic command panel</h2>
       <p class="mt-4 leading-7 text-slate-600">
-        The controls sit inside the kind of dense surface where predictable focus behavior,
-        grouped data, and fast filtering matter.
+        The controls sit inside the kind of dense surface where predictable focus behavior, grouped
+        data, and fast filtering matter.
       </p>
     </div>
 
     <div class="rounded-lg border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-950/8">
-      <div class="flex flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between">
+      <div
+        class="flex flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between"
+      >
         <div>
           <p class="mb-1 text-sm font-bold text-slate-500">Inbox triage</p>
           <h3 class="text-xl font-black">Customer operations queue</h3>
@@ -48,7 +66,10 @@
             <ui-menu-item value="snooze">Snooze ticket</ui-menu-item>
             <ui-menu-item value="close">Close ticket</ui-menu-item>
           </ui-menu>
-          <span class="w-fit rounded-full bg-[color-mix(in_srgb,var(--hot-pink)_10%,white)] px-3 py-2 text-sm font-black text-[var(--hot-pink)]">12 open</span>
+          <span
+            class="w-fit rounded-full bg-[color-mix(in_srgb,var(--hot-pink)_10%,white)] px-3 py-2 text-sm font-black text-(--hot-pink)"
+            >12 open</span
+          >
         </div>
       </div>
 
@@ -73,15 +94,30 @@
           Assign city
           <ui-autocomplete>
             @for (city of cities; track city) {
-              <ui-autocomplete-option [value]="'city_' + city.toLowerCase()">{{ city }}</ui-autocomplete-option>
+              <ui-autocomplete-option [value]="'city_' + city.toLowerCase()">{{
+                city
+              }}</ui-autocomplete-option>
             }
           </ui-autocomplete>
         </label>
       </div>
 
-      <div class="grid gap-3" aria-label="Example tickets">
+      <ui-tab>
+        @for (insight of tabInsights; track insight.value) {
+          <ui-tab-item [value]="insight.value" [label]="insight.label">
+            <div class="grid gap-2">
+              <h4 class="text-lg font-black">{{ insight.title }}</h4>
+              <p class="leading-7 text-slate-600">{{ insight.description }}</p>
+            </div>
+          </ui-tab-item>
+        }
+      </ui-tab>
+
+      <div class="mt-5 grid gap-3" aria-label="Example tickets">
         @for (ticket of tickets; track ticket.title) {
-          <article class="grid grid-cols-[auto_1fr_auto] gap-3 rounded-lg border border-slate-200 p-4">
+          <article
+            class="grid grid-cols-[auto_1fr_auto] gap-3 rounded-lg border border-slate-200 p-4"
+          >
             <span class="mt-2 size-2.5 rounded-full {{ ticket.markerClass }}"></span>
             <div>
               <h4 class="font-black">{{ ticket.title }}</h4>
@@ -96,14 +132,20 @@
 
   <section id="patterns" class="space-y-6">
     <div class="max-w-3xl">
-      <p class="mb-3 text-xs font-black uppercase tracking-[.08em] text-[var(--hot-pink)]">Patterns</p>
-      <h2 class="text-4xl font-black leading-none md:text-5xl">Built for real application surfaces</h2>
+      <p class="mb-3 text-xs font-black uppercase tracking-[.08em] text-(--hot-pink)">
+        Patterns
+      </p>
+      <h2 class="text-4xl font-black leading-none md:text-5xl">
+        Built for real application surfaces
+      </h2>
     </div>
 
     <div class="grid gap-4 md:grid-cols-3">
       @for (pattern of patterns; track pattern.title; let index = $index) {
-        <article class="rounded-lg border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-950/8">
-          <span class="mb-6 block text-xs font-black text-[var(--hot-pink)]">0{{ index + 1 }}</span>
+        <article
+          class="rounded-lg border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-950/8"
+        >
+          <span class="mb-6 block text-xs font-black text-(--hot-pink)">0{{ index + 1 }}</span>
           <h3 class="text-xl font-black">{{ pattern.title }}</h3>
           <p class="mt-3 leading-7 text-slate-600">{{ pattern.description }}</p>
         </article>
@@ -125,7 +167,9 @@
       <h2 class="mb-4 text-2xl font-black">Team lookup</h2>
       <ui-autocomplete>
         @for (team of teams; track team) {
-          <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{ team }}</ui-autocomplete-option>
+          <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
+            team
+          }}</ui-autocomplete-option>
         }
       </ui-autocomplete>
     </div>

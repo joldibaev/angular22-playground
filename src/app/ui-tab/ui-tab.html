@@ -1,0 +1,40 @@
+<div ngTabs class="ui-tab-root">
+  <div
+    ngTabList
+    class="ui-tab-list"
+    [(selectedTab)]="selectedTab"
+    [selectionMode]="selectionMode()"
+    [orientation]="orientation()"
+    [wrap]="wrap()"
+    [softDisabled]="softDisabled()"
+  >
+    @for (item of items(); track item) {
+      <button
+        ngTab
+        class="ui-tab-trigger"
+        type="button"
+        [value]="item.value()"
+        [disabled]="item.disabled()"
+      >
+        {{ item.displayLabel() }}
+      </button>
+    }
+
+    <span class="ui-tab-indicator" aria-hidden="true"></span>
+  </div>
+
+  <div class="ui-tab-panels">
+    @for (item of items(); track item) {
+      <section
+        ngTabPanel
+        class="ui-tab-panel"
+        [value]="item.value()"
+        [preserveContent]="preserveContent()"
+      >
+        <ng-template ngTabContent>
+          <ng-container [ngTemplateOutlet]="item.template()" />
+        </ng-template>
+      </section>
+    }
+  </div>
+</div>

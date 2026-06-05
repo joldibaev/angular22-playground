@@ -7,6 +7,8 @@ import { UiSelectOption } from './ui-select/ui-select-option/ui-select-option';
 import { UiMenu } from './ui-menu/ui-menu';
 import { UiMenuItem } from './ui-menu/ui-menu-item/ui-menu-item';
 import { UiMenuTrigger } from './ui-menu/ui-menu-trigger/ui-menu-trigger';
+import { UiTab } from './ui-tab/ui-tab';
+import { UiTabItem } from './ui-tab/ui-tab-item/ui-tab-item';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +21,8 @@ import { UiMenuTrigger } from './ui-menu/ui-menu-trigger/ui-menu-trigger';
     UiMenu,
     UiMenuItem,
     UiMenuTrigger,
+    UiTab,
+    UiTabItem,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
@@ -33,6 +37,28 @@ export class App {
   readonly cities = ['Tashkent', 'Samarkand', 'Bukhara', 'Andijan', 'Namangan', 'Fergana'];
   readonly labels = ['Roadmap', 'Research', 'Design review', 'Release candidate'];
   readonly teams = ['Platform', 'Growth', 'Support', 'Finance', 'Legal'];
+  readonly tabInsights = [
+    {
+      value: 'summary',
+      label: 'Summary',
+      title: 'Queue health',
+      description: 'A compact overview of ticket volume, ownership, and SLA risk.',
+    },
+    {
+      value: 'activity',
+      label: 'Activity',
+      title: 'Recent movement',
+      description:
+        'Tab panels can render dense operational content without changing focus behavior.',
+    },
+    {
+      value: 'settings',
+      label: 'Settings',
+      title: 'Workflow rules',
+      description:
+        'Manual activation, disabled states, and vertical orientation stay in the wrapper API.',
+    },
+  ];
 
   readonly tickets = [
     {
@@ -58,7 +84,8 @@ export class App {
   readonly patterns = [
     {
       title: 'Grouped choice lists',
-      description: 'Separate pinned items from the rest of a taxonomy without changing the public API.',
+      description:
+        'Separate pinned items from the rest of a taxonomy without changing the public API.',
     },
     {
       title: 'Inline suggestions',
@@ -66,7 +93,8 @@ export class App {
     },
     {
       title: 'Anchored popovers',
-      description: 'Popup placement follows the trigger and falls back gracefully when anchor positioning is unavailable.',
+      description:
+        'Popup placement follows the trigger and falls back gracefully when anchor positioning is unavailable.',
     },
   ];
 }

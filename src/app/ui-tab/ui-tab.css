@@ -1,0 +1,114 @@
+:host {
+  display: block;
+  anchor-scope: --ui-tab-active;
+}
+
+[ngTabs] {
+  display: grid;
+  gap: 0.75rem;
+}
+
+[ngTabList] {
+  display: flex;
+  position: relative;
+  gap: 0.25rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-color, rgb(226 232 240));
+  background: rgb(248 250 252);
+  padding: 0.25rem;
+}
+
+[ngTabList][aria-orientation='vertical'] {
+  flex-direction: column;
+  width: max-content;
+}
+
+[ngTab] {
+  position: relative;
+  z-index: 1;
+  min-height: 2.25rem;
+  cursor: pointer;
+  border: 0;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: rgb(71 85 105);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 800;
+  line-height: 1.25rem;
+  outline: none;
+  padding: 0.5rem 0.875rem;
+}
+
+[ngTab][aria-selected='true'] {
+  anchor-name: --ui-tab-active;
+  color: rgb(15 23 42);
+}
+
+[ngTab][aria-disabled='true'] {
+  cursor: default;
+  opacity: 0.45;
+}
+
+[ngTab][aria-disabled='false']:hover {
+  color: var(--hot-pink, rgb(219 39 119));
+}
+
+[ngTab]:focus-visible {
+  outline: 2px solid var(--focus-ring, rgb(219 39 119));
+  outline-offset: -2px;
+}
+
+.ui-tab-indicator {
+  position: absolute;
+  position-anchor: --ui-tab-active;
+  top: anchor(top);
+  left: anchor(left);
+  width: anchor-size(width);
+  height: anchor-size(height);
+  border-radius: 0.375rem;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(15 23 42 / 12%);
+  pointer-events: none;
+  transition:
+    top 150ms ease,
+    left 150ms ease,
+    width 150ms ease,
+    height 150ms ease;
+}
+
+[ngTabList][aria-orientation='vertical'] .ui-tab-indicator {
+  inset-block: auto;
+}
+
+@supports not (position-anchor: --ui-tab-active) {
+  .ui-tab-indicator {
+    display: none;
+  }
+
+  [ngTab][aria-selected='true'] {
+    background: #fff;
+    box-shadow: 0 1px 3px rgb(15 23 42 / 12%);
+  }
+}
+
+.ui-tab-panels {
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-color, rgb(226 232 240));
+  background: #fff;
+}
+
+[ngTabPanel] {
+  min-height: 8rem;
+  outline: none;
+  padding: 1rem;
+}
+
+[ngTabPanel]:focus-visible {
+  outline: 2px solid var(--focus-ring, rgb(219 39 119));
+  outline-offset: -2px;
+}
+
+[ngTabPanel][inert] {
+  display: none;
+}
