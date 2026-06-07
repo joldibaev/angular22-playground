@@ -1,28 +1,32 @@
-<div
-  ngCombobox
-  #combobox="ngCombobox"
-  [(expanded)]="popupExpanded"
-  [preserveContent]="true"
-  class="select"
->
-  <span class="combobox-label">
-    <span class="selected-label-text">{{ displayValue() }}</span>
-  </span>
-
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="currentColor"
-    class="icon-tabler-chevron-down"
+<ui-input [label]="label()" [showError]="showError()">
+  <div
+    ngCombobox
+    #combobox="ngCombobox"
+    [(expanded)]="popupExpanded"
+    [disabled]="disabled()"
+    [preserveContent]="true"
+    class="select"
+    (blur)="touch.emit()"
   >
-    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-    <path
-      d="M18.707 8.293a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1 -1.414 0l-6 -6a1 1 0 0 1 1.414 -1.414l5.293 5.293l5.293 -5.293a1 1 0 0 1 1.414 0"
-    />
-  </svg>
-</div>
+    <span class="combobox-label">
+      <span class="selected-label-text">{{ displayValue() }}</span>
+    </span>
+
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      class="icon-tabler-chevron-down"
+    >
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path
+        d="M18.707 8.293a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1 -1.414 0l-6 -6a1 1 0 0 1 1.414 -1.414l5.293 5.293l5.293 -5.293a1 1 0 0 1 1.414 0"
+      />
+    </svg>
+  </div>
+</ui-input>
 
 @if (popupExpanded()) {
   <ng-container [ngTemplateOutlet]="popupTemplate" />
@@ -39,6 +43,7 @@
         [tabindex]="-1"
         focusMode="activedescendant"
         selectionMode="explicit"
+        [disabled]="disabled()"
         [(value)]="selectedValues"
         [activeDescendant]="listbox.activeDescendant()"
         (click)="onListboxClick($event)"

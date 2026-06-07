@@ -1,0 +1,39 @@
+@if (!hidden()) {
+  <label
+    class="ui-input"
+    [class.ui-input-invalid]="invalid()"
+    [class.ui-input-disabled]="disabled()"
+  >
+    @if (label()) {
+      <span class="ui-input-label">
+        {{ label() }}
+
+        @if (required()) {
+          <span class="ui-input-required" aria-hidden="true">*</span>
+        }
+      </span>
+    }
+
+    <span class="ui-input-control">
+      <ng-content />
+
+      @if (showErrorTooltip()) {
+        <span uiTooltip>
+          <span uiTooltipSurface>
+            @for (message of errorMessages(); track message) {
+              <span>{{ message }}</span>
+            }
+          </span>
+        </span>
+      }
+    </span>
+
+    @if (disabledReasonMessages().length) {
+      <span class="ui-input-disabled-reason">
+        @for (message of disabledReasonMessages(); track message) {
+          <span>{{ message }}</span>
+        }
+      </span>
+    }
+  </label>
+}

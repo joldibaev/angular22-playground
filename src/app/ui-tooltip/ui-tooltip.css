@@ -1,0 +1,139 @@
+.ui-tooltip {
+  position: fixed;
+  position-anchor: --ui-input-control;
+  position-area: block-start;
+  bottom: anchor(top);
+  justify-self: anchor-center;
+  position-try: flip-block;
+  position-try-fallbacks: flip-block, flip-inline;
+  container-type: anchored;
+  overflow: visible;
+  z-index: 1000;
+  width: max-content;
+  max-width: min(18rem, calc(100vw - 2rem));
+}
+
+.ui-tooltip-surface {
+  --ui-tooltip-radius: 0.5rem;
+  --ui-tooltip-arrow-position: 50%;
+  --ui-tooltip-arrow-height: 0.625rem;
+  --ui-tooltip-arrow-width: 0.625rem;
+
+  position: relative;
+  display: grid;
+  gap: 0.25rem;
+  border-radius: var(--ui-tooltip-radius);
+  border: 1px solid rgb(254 205 211);
+  background: rgb(255 241 242);
+  color: rgb(136 19 55);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.45;
+  padding: 0.625rem 0.75rem;
+  box-shadow: 0 1rem 2rem rgb(136 19 55 / 12%);
+}
+
+.ui-tooltip-surface::after {
+  position: absolute;
+  left: calc(var(--ui-tooltip-arrow-position) - var(--ui-tooltip-arrow-width));
+  bottom: calc(-1 * var(--ui-tooltip-arrow-height) + 1px);
+  width: calc(var(--ui-tooltip-arrow-width) * 2);
+  height: var(--ui-tooltip-arrow-height);
+  background: rgb(255 241 242);
+  clip-path: polygon(50% 100%, 0 0, 100% 0);
+  content: '';
+}
+
+@supports (clip-path: shape(from 50% 100%, line to 0 0, line to 100% 0, close)) {
+  .ui-tooltip-surface::after {
+    clip-path: shape(from 50% 100%, line to 0 0, line to 100% 0, close);
+  }
+}
+
+.ui-tooltip-surface span {
+  display: block;
+}
+
+@supports (
+  border-shape:
+    shape(
+      from 0 0,
+      hline to 100%,
+      vline to 100%,
+      hline to 0,
+      close
+    )
+) {
+  .ui-tooltip-surface {
+    padding: 0.625rem 0.75rem calc(0.625rem + var(--ui-tooltip-arrow-height));
+    border-shape: shape(
+      from var(--ui-tooltip-radius) 0,
+      hline to calc(100% - var(--ui-tooltip-radius)),
+      curve to right var(--ui-tooltip-radius) with right top,
+      vline to calc(100% - (var(--ui-tooltip-radius) + var(--ui-tooltip-arrow-height))),
+      curve to calc(100% - var(--ui-tooltip-radius)) calc(100% - var(--ui-tooltip-arrow-height)) with right calc(100% - var(--ui-tooltip-arrow-height)),
+      hline to calc(var(--ui-tooltip-arrow-position) + var(--ui-tooltip-arrow-width)),
+      line by calc(var(--ui-tooltip-arrow-width) * -1) var(--ui-tooltip-arrow-height),
+      line by calc(var(--ui-tooltip-arrow-width) * -1) calc(var(--ui-tooltip-arrow-height) * -1),
+      hline to var(--ui-tooltip-radius),
+      curve to left calc(100% - (var(--ui-tooltip-radius) + var(--ui-tooltip-arrow-height))) with left calc(100% - var(--ui-tooltip-arrow-height)),
+      vline to var(--ui-tooltip-radius),
+      curve to var(--ui-tooltip-radius) top with left top
+    );
+  }
+
+  .ui-tooltip-surface::after {
+    content: none;
+  }
+}
+
+@supports not (anchor-name: --ui-input-control) {
+  .ui-tooltip {
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 0.5rem);
+  }
+}
+
+@container anchored(fallback: flip-block) {
+  .ui-tooltip-surface::after {
+    top: calc(-1 * var(--ui-tooltip-arrow-height) + 1px);
+    bottom: auto;
+    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  }
+
+  @supports (clip-path: shape(from 50% 0, line to 100% 100%, line to 0 100%, close)) {
+    .ui-tooltip-surface::after {
+      clip-path: shape(from 50% 0, line to 100% 100%, line to 0 100%, close);
+    }
+  }
+
+  @supports (
+    border-shape:
+      shape(
+        from 0 0,
+        hline to 100%,
+        vline to 100%,
+        hline to 0,
+        close
+      )
+  ) {
+    .ui-tooltip-surface {
+      padding: calc(0.625rem + var(--ui-tooltip-arrow-height)) 0.75rem 0.625rem;
+      border-shape: shape(
+        from var(--ui-tooltip-radius) var(--ui-tooltip-arrow-height),
+        hline to calc(var(--ui-tooltip-arrow-position) - var(--ui-tooltip-arrow-width)),
+        line by var(--ui-tooltip-arrow-width) calc(var(--ui-tooltip-arrow-height) * -1),
+        line by var(--ui-tooltip-arrow-width) var(--ui-tooltip-arrow-height),
+        hline to calc(100% - var(--ui-tooltip-radius)),
+        curve to right calc(var(--ui-tooltip-arrow-height) + var(--ui-tooltip-radius)) with right var(--ui-tooltip-arrow-height),
+        vline to calc(100% - var(--ui-tooltip-radius)),
+        curve to calc(100% - var(--ui-tooltip-radius)) bottom with right bottom,
+        hline to var(--ui-tooltip-radius),
+        curve to left calc(100% - var(--ui-tooltip-radius)) with left bottom,
+        vline to calc(var(--ui-tooltip-arrow-height) + var(--ui-tooltip-radius)),
+        curve to var(--ui-tooltip-radius) var(--ui-tooltip-arrow-height) with left var(--ui-tooltip-arrow-height)
+      );
+    }
+  }
+}

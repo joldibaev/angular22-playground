@@ -74,9 +74,8 @@
       </div>
 
       <div class="my-5 grid gap-4 md:grid-cols-2">
-        <label class="grid gap-3 rounded-lg bg-slate-50 p-4 text-sm font-bold">
-          Priority label
-          <ui-select>
+        <div class="grid gap-3 rounded-lg bg-slate-50 p-4 text-sm font-bold">
+          <ui-select label="Priority label">
             <ui-select-group label="Pinned">
               <ui-select-option value="important">Important</ui-select-option>
               <ui-select-option value="starred">Starred</ui-select-option>
@@ -88,21 +87,20 @@
               <ui-select-option value="security">Security</ui-select-option>
             </ui-select-group>
           </ui-select>
-        </label>
+        </div>
 
-        <label class="grid gap-3 rounded-lg bg-slate-50 p-4 text-sm font-bold">
-          Assign city
-          <ui-autocomplete>
+        <div class="grid gap-3 rounded-lg bg-slate-50 p-4 text-sm font-bold">
+          <ui-autocomplete label="Assign city">
             @for (city of cities; track city) {
               <ui-autocomplete-option [value]="'city_' + city.toLowerCase()">{{
                 city
               }}</ui-autocomplete-option>
             }
           </ui-autocomplete>
-        </label>
+        </div>
       </div>
 
-      <ui-tab>
+      <ui-tab queryParam="operationsTab">
         @for (insight of tabInsights; track insight.value) {
           <ui-tab-item [value]="insight.value" [label]="insight.label">
             <div class="grid gap-2">
@@ -130,11 +128,148 @@
     </div>
   </section>
 
-  <section id="patterns" class="space-y-6">
+  <section class="space-y-6">
     <div class="max-w-3xl">
       <p class="mb-3 text-xs font-black uppercase tracking-[.08em] text-(--hot-pink)">
-        Patterns
+        Tab appearances
       </p>
+      <h2 class="text-4xl font-black leading-none md:text-5xl">Line, pills, and fluid layouts</h2>
+      <p class="mt-4 leading-7 text-slate-600">
+        The tab primitive can stay compact by default or stretch across a dense panel when the
+        layout needs equal-width triggers.
+      </p>
+    </div>
+
+    <div class="grid gap-4 lg:grid-cols-2">
+      <div class="rounded-lg border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-950/8">
+        <div class="mb-5">
+          <p class="text-sm font-bold text-slate-500">Compact line</p>
+          <h3 class="text-2xl font-black">Report switcher</h3>
+        </div>
+
+        <ui-tab appearance="line" queryParam="reportsTab">
+          @for (report of tabReports.slice(0, 3); track report.value) {
+            <ui-tab-item [value]="report.value" [label]="report.label">
+              <div class="grid gap-3 pt-2">
+                <span class="text-4xl font-black leading-none">{{ report.metric }}</span>
+                <div>
+                  <h4 class="font-black">{{ report.title }}</h4>
+                  <p class="mt-1 leading-7 text-slate-600">{{ report.description }}</p>
+                </div>
+              </div>
+            </ui-tab-item>
+          }
+        </ui-tab>
+      </div>
+
+      <div class="rounded-lg border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-950/8">
+        <div class="mb-5">
+          <p class="text-sm font-bold text-slate-500">Fluid pills</p>
+          <h3 class="text-2xl font-black">Workspace overview</h3>
+        </div>
+
+        <ui-tab fluid queryParam="workspaceTab">
+          @for (report of tabReports; track report.value) {
+            <ui-tab-item [value]="report.value" [label]="report.label">
+              <div class="grid gap-3 pt-1">
+                <div class="flex flex-wrap items-end justify-between gap-3">
+                  <div>
+                    <h4 class="font-black">{{ report.title }}</h4>
+                    <p class="mt-1 leading-7 text-slate-600">{{ report.description }}</p>
+                  </div>
+                  <span class="text-3xl font-black text-(--hot-pink)">{{ report.metric }}</span>
+                </div>
+              </div>
+            </ui-tab-item>
+          }
+        </ui-tab>
+      </div>
+    </div>
+  </section>
+
+  <section class="space-y-6">
+    <div class="max-w-3xl">
+      <p class="mb-3 text-xs font-black uppercase tracking-[.08em] text-(--hot-pink)">
+        Signal form binding
+      </p>
+      <h2 class="text-4xl font-black leading-none md:text-5xl">
+        Bound controls with live model state
+      </h2>
+      <p class="mt-4 leading-7 text-slate-600">
+        Select a priority label or owner to update the signal form model.
+      </p>
+    </div>
+
+    <div
+      class="grid gap-4 rounded-lg border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-950/8 md:grid-cols-[1fr_18rem]"
+    >
+      <div class="grid gap-4 lg:grid-cols-2">
+        <div class="min-w-0 rounded-lg bg-slate-50 p-4">
+          <ui-input label="Ticket title" showError>
+            <input [formField]="signalForm.title" placeholder="Ticket title" />
+          </ui-input>
+        </div>
+
+        <div class="min-w-0 rounded-lg bg-slate-50 p-4">
+          <ui-input label="Routing note">
+            <input [formField]="signalForm.routingNote" placeholder="Routing note" />
+          </ui-input>
+        </div>
+
+        <div class="grid min-w-0 gap-3 rounded-lg bg-slate-50 p-4 text-sm font-bold">
+          <ui-select label="Priority label" showError [formField]="signalForm.priorityLabel">
+            <ui-select-group label="Pinned">
+              <ui-select-option value="important">Important</ui-select-option>
+              <ui-select-option value="starred">Starred</ui-select-option>
+            </ui-select-group>
+            <ui-select-group label="Workflow">
+              <ui-select-option value="billing">Billing</ui-select-option>
+              <ui-select-option value="onboarding">Onboarding</ui-select-option>
+              <ui-select-option value="retention">Retention</ui-select-option>
+              <ui-select-option value="security">Security</ui-select-option>
+            </ui-select-group>
+          </ui-select>
+        </div>
+
+        <div class="grid min-w-0 gap-3 rounded-lg bg-slate-50 p-4 text-sm font-bold">
+          <ui-autocomplete label="Owner" showError [formField]="signalForm.owner">
+            @for (owner of owners; track owner) {
+              <ui-autocomplete-option [value]="'owner_' + owner.toLowerCase().replaceAll(' ', '_')">
+                {{ owner }}
+              </ui-autocomplete-option>
+            }
+          </ui-autocomplete>
+        </div>
+      </div>
+
+      <dl class="grid content-start gap-3 rounded-lg bg-slate-950 p-5 text-white">
+        <div>
+          <dt class="text-xs font-black uppercase tracking-[.08em] text-white/55">title</dt>
+          <dd class="mt-1 wrap-break-word font-mono text-sm">{{ signalFormModel().title }}</dd>
+        </div>
+        <div>
+          <dt class="text-xs font-black uppercase tracking-[.08em] text-white/55">routingNote</dt>
+          <dd class="mt-1 wrap-break-word font-mono text-sm">
+            {{ signalFormModel().routingNote }}
+          </dd>
+        </div>
+        <div>
+          <dt class="text-xs font-black uppercase tracking-[.08em] text-white/55">priorityLabel</dt>
+          <dd class="mt-1 wrap-break-word font-mono text-sm">
+            {{ signalFormModel().priorityLabel }}
+          </dd>
+        </div>
+        <div>
+          <dt class="text-xs font-black uppercase tracking-[.08em] text-white/55">owner</dt>
+          <dd class="mt-1 wrap-break-word font-mono text-sm">{{ signalFormModel().owner }}</dd>
+        </div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="patterns" class="space-y-6">
+    <div class="max-w-3xl">
+      <p class="mb-3 text-xs font-black uppercase tracking-[.08em] text-(--hot-pink)">Patterns</p>
       <h2 class="text-4xl font-black leading-none md:text-5xl">
         Built for real application surfaces
       </h2>
@@ -156,7 +291,7 @@
   <section class="grid gap-4 md:grid-cols-2">
     <div class="rounded-lg border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-950/8">
       <h2 class="mb-4 text-2xl font-black">Project labels</h2>
-      <ui-select>
+      <ui-select label="Project labels">
         @for (label of labels; track label) {
           <ui-select-option [value]="label.toLowerCase()">{{ label }}</ui-select-option>
         }
@@ -165,7 +300,7 @@
 
     <div class="rounded-lg border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-950/8">
       <h2 class="mb-4 text-2xl font-black">Team lookup</h2>
-      <ui-autocomplete>
+      <ui-autocomplete label="Team lookup">
         @for (team of teams; track team) {
           <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
             team

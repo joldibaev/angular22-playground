@@ -5,7 +5,8 @@ import { ComboboxHarness } from '@angular/aria/combobox/testing';
 import { ListboxHarness } from '@angular/aria/listbox/testing';
 
 import { UiSelect } from './ui-select';
-import { Component, viewChild } from '@angular/core';
+import { Component, signal, viewChild } from '@angular/core';
+import { disabled, FormField, form, required } from '@angular/forms/signals';
 import { UiSelectGroup } from './ui-select-group/ui-select-group';
 import { UiSelectOption } from './ui-select-option/ui-select-option';
 
@@ -42,6 +43,44 @@ class GroupedTestHost {
   readonly select = viewChild.required(UiSelect);
 }
 
+@Component({
+  imports: [FormField, UiSelect, UiSelectOption],
+  template: `
+    <ui-select [formField]="formState.status">
+      <ui-select-option value="created">Created</ui-select-option>
+      <ui-select-option value="approved">Approved</ui-select-option>
+      <ui-select-option value="paid">Paid</ui-select-option>
+    </ui-select>
+  `,
+})
+class SignalFormTestHost {
+  readonly model = signal({ status: 'approved' });
+  readonly formState = form(this.model);
+  readonly select = viewChild.required(UiSelect);
+}
+
+@Component({
+  imports: [FormField, UiSelect, UiSelectOption],
+  template: `
+    <ui-select label="Status" showError [formField]="formState.status">
+      <ui-select-option value="created">Created</ui-select-option>
+      <ui-select-option value="approved">Approved</ui-select-option>
+    </ui-select>
+
+    <ui-select label="Locked status" [formField]="formState.lockedStatus">
+      <ui-select-option value="created">Created</ui-select-option>
+      <ui-select-option value="approved">Approved</ui-select-option>
+    </ui-select>
+  `,
+})
+class SignalFormStateTestHost {
+  readonly model = signal({ status: '', lockedStatus: 'approved' });
+  readonly formState = form(this.model, (path) => {
+    required(path.status, { message: 'Status is required' });
+    disabled(path.lockedStatus, { when: 'Status is locked by workflow' });
+  });
+}
+
 type SelectHost = {
   select(): UiSelect;
 };
@@ -69,6 +108,26 @@ async function createHostFixture(): Promise<ComponentFixture<TestHost>> {
 
 async function createGroupedHostFixture(): Promise<ComponentFixture<GroupedTestHost>> {
   const hostFixture = TestBed.createComponent(GroupedTestHost);
+  hostFixture.detectChanges();
+  await hostFixture.whenStable();
+  await hostFixture.whenRenderingDone();
+
+  return hostFixture;
+}
+
+async function createSignalFormHostFixture(): Promise<ComponentFixture<SignalFormTestHost>> {
+  const hostFixture = TestBed.createComponent(SignalFormTestHost);
+  hostFixture.detectChanges();
+  await hostFixture.whenStable();
+  await hostFixture.whenRenderingDone();
+
+  return hostFixture;
+}
+
+async function createSignalFormStateHostFixture(): Promise<
+  ComponentFixture<SignalFormStateTestHost>
+> {
+  const hostFixture = TestBed.createComponent(SignalFormStateTestHost);
   hostFixture.detectChanges();
   await hostFixture.whenStable();
   await hostFixture.whenRenderingDone();
@@ -162,6 +221,52 @@ describe('UiSelect', () => {
     const label = hostFixture.nativeElement.querySelector('.selected-label-text');
 
     expect(label?.textContent).toContain('Created, Paid');
+  });
+
+  it('should sync selected value from a signal form field', async () => {
+    const hostFixture = await createSignalFormHostFixture();
+
+    expect(hostFixture.componentInstance.select().value()).toBe('approved');
+    expect(hostFixture.componentInstance.select().selectedValues()).toEqual(['approved']);
+    expect(hostFixture.nativeElement.querySelector('.selected-label-text')?.textContent).toContain(
+      'Approved',
+    );
+  });
+
+  it('should write selected value back to a signal form field', async () => {
+    const hostFixture = await createSignalFormHostFixture();
+    const loader = TestbedHarnessEnvironment.loader(hostFixture);
+    const select = await loader.getHarness(ComboboxHarness);
+
+    await select.open();
+
+    const listbox = await select.getPopupWidget(ListboxHarness);
+    const options = await listbox.getOptions();
+
+    await options[2].click();
+
+    expect(hostFixture.componentInstance.model().status).toBe('paid');
+    expect(hostFixture.componentInstance.formState.status().value()).toBe('paid');
+  });
+
+  it('should render signal form errors and disabled reasons through ui-input', async () => {
+    const hostFixture = await createSignalFormStateHostFixture();
+    const fields = hostFixture.nativeElement.querySelectorAll('ui-select');
+    const invalidField = fields[0] as HTMLElement;
+    const disabledField = fields[1] as HTMLElement;
+
+    expect(invalidField.querySelector('.ui-input-label')?.textContent).toContain('Status');
+    expect(invalidField.querySelector('.ui-input-label')?.textContent).toContain('*');
+    expect(invalidField.querySelector('.ui-tooltip')?.textContent).toContain(
+      'Status is required',
+    );
+    expect(disabledField.querySelector('[role="combobox"]')?.getAttribute('aria-disabled')).toBe(
+      'true',
+    );
+    expect(disabledField.querySelector('.ui-tooltip')).toBeNull();
+    expect(disabledField.querySelector('.ui-input-disabled-reason')?.textContent).toContain(
+      'Status is locked by workflow',
+    );
   });
 
   it('should collapse the popup when a selection is committed', () => {

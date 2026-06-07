@@ -2,6 +2,7 @@ import { Component, signal, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { TabsHarness } from '@angular/aria/tabs/testing';
+import { Router, provideRouter } from '@angular/router';
 import { UiTab } from './ui-tab';
 import { UiTabItem } from './ui-tab-item/ui-tab-item';
 
@@ -33,6 +34,32 @@ class VerticalTestHost {
   readonly tab = viewChild.required(UiTab);
 }
 
+@Component({
+  imports: [UiTab, UiTabItem],
+  template: `
+    <ui-tab queryParam="section">
+      <ui-tab-item value="overview" label="Overview">Overview panel</ui-tab-item>
+      <ui-tab-item value="activity" label="Activity">Activity panel</ui-tab-item>
+    </ui-tab>
+  `,
+})
+class QueryParamTestHost {
+  readonly tab = viewChild.required(UiTab);
+}
+
+@Component({
+  imports: [UiTab, UiTabItem],
+  template: `
+    <ui-tab appearance="line" fluid>
+      <ui-tab-item value="overview" label="Overview">Overview panel</ui-tab-item>
+      <ui-tab-item value="activity" label="Activity">Activity panel</ui-tab-item>
+    </ui-tab>
+  `,
+})
+class LineFluidTestHost {
+  readonly tab = viewChild.required(UiTab);
+}
+
 async function createHostFixture(): Promise<ComponentFixture<TestHost>> {
   const hostFixture = TestBed.createComponent(TestHost);
   hostFixture.detectChanges();
@@ -49,6 +76,28 @@ async function createVerticalHostFixture(): Promise<ComponentFixture<VerticalTes
   await hostFixture.whenRenderingDone();
 
   return hostFixture;
+}
+
+async function createQueryParamHostFixture(): Promise<ComponentFixture<QueryParamTestHost>> {
+  const hostFixture = TestBed.createComponent(QueryParamTestHost);
+  hostFixture.detectChanges();
+  await hostFixture.whenStable();
+  await hostFixture.whenRenderingDone();
+
+  return hostFixture;
+}
+
+async function createLineFluidHostFixture(): Promise<ComponentFixture<LineFluidTestHost>> {
+  const hostFixture = TestBed.createComponent(LineFluidTestHost);
+  hostFixture.detectChanges();
+  await hostFixture.whenStable();
+  await hostFixture.whenRenderingDone();
+
+  return hostFixture;
+}
+
+function getHost(fixture: ComponentFixture<unknown>): HTMLElement {
+  return (fixture.nativeElement as HTMLElement).querySelector('ui-tab') as HTMLElement;
 }
 
 function getTabList(fixture: ComponentFixture<unknown>): HTMLElement {
@@ -74,6 +123,7 @@ describe('UiTab', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [UiTab],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(UiTab);
@@ -148,5 +198,67 @@ describe('UiTab', () => {
     expect(selectedTabStyle.anchorName).toBe('--ui-tab-active');
     expect(indicatorStyle.position).toBe('absolute');
     expect(indicatorStyle.positionAnchor).toBe('--ui-tab-active');
+  });
+
+  it('should use the pills appearance by default', async () => {
+    const hostFixture = await createHostFixture();
+    const host = getHost(hostFixture);
+
+    expect(host.classList.contains('ui-tab-pills')).toBe(true);
+    expect(host.classList.contains('ui-tab-line')).toBe(false);
+    expect(host.classList.contains('ui-tab-fluid')).toBe(false);
+    expect(hostFixture.componentInstance.tab().appearance()).toBe('pills');
+    expect(hostFixture.componentInstance.tab().fluid()).toBe(false);
+  });
+
+  it('should support line appearance and fluid layout', async () => {
+    const hostFixture = await createLineFluidHostFixture();
+    const host = getHost(hostFixture);
+    const tabList = getTabList(hostFixture);
+    const firstTab = getTabs(hostFixture)[0];
+    const indicator = hostFixture.nativeElement.querySelector('.ui-tab-indicator') as HTMLElement;
+    const hostStyle = getComputedStyle(host);
+    const tabListStyle = getComputedStyle(tabList);
+    const firstTabStyle = getComputedStyle(firstTab);
+    const indicatorStyle = getComputedStyle(indicator);
+
+    expect(host.classList.contains('ui-tab-line')).toBe(true);
+    expect(host.classList.contains('ui-tab-pills')).toBe(false);
+    expect(host.classList.contains('ui-tab-fluid')).toBe(true);
+    expect(hostFixture.componentInstance.tab().appearance()).toBe('line');
+    expect(hostFixture.componentInstance.tab().fluid()).toBe(true);
+    expect(hostStyle.width).toBe('100%');
+    expect(tabListStyle.width).toBe('100%');
+    expect(firstTabStyle.flexGrow).toBe('1');
+    expect(indicatorStyle.height).toBe('2px');
+  });
+
+  it('should initialize the selected tab from a query param', async () => {
+    const router = TestBed.inject(Router);
+
+    await router.navigateByUrl('/?section=activity');
+
+    const hostFixture = await createQueryParamHostFixture();
+
+    expect(hostFixture.componentInstance.tab().selectedTab()).toBe('activity');
+    expect(getTabs(hostFixture)[1].getAttribute('aria-selected')).toBe('true');
+  });
+
+  it('should write the selected tab to the configured query param', async () => {
+    const router = TestBed.inject(Router);
+    await router.navigateByUrl('/?section=overview&ticket=42');
+
+    const hostFixture = await createQueryParamHostFixture();
+    const loader = TestbedHarnessEnvironment.loader(hostFixture);
+    const tabs = await loader.getHarness(TabsHarness);
+
+    await tabs.selectTab({ title: 'Activity' });
+    hostFixture.detectChanges();
+    await hostFixture.whenStable();
+
+    const urlTree = router.parseUrl(router.url);
+
+    expect(urlTree.queryParams['section']).toBe('activity');
+    expect(urlTree.queryParams['ticket']).toBe('42');
   });
 });

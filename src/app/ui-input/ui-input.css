@@ -1,0 +1,94 @@
+:host {
+  anchor-scope: --ui-input-control;
+  display: block;
+  min-width: 0;
+  width: 100%;
+}
+
+.ui-input {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+  width: 100%;
+}
+
+.ui-input-label {
+  color: var(--primary-contrast);
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+
+.ui-input-required {
+  color: rgb(190 18 60);
+  margin-left: 0.125rem;
+}
+
+.ui-input-control {
+  --ui-input-border: color-mix(in srgb, var(--hot-pink) 80%, transparent);
+
+  anchor-name: --ui-input-control;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  position: relative;
+  width: 100%;
+}
+
+:host ::ng-deep input {
+  display: block;
+}
+
+:host ::ng-deep input,
+:host ::ng-deep [ngCombobox] {
+  min-width: 0;
+  width: 100%;
+  height: 2.5rem;
+  border: 1px solid var(--ui-input-border);
+  border-radius: 0.5rem;
+  background-color: color-mix(in srgb, var(--hot-pink) 5%, transparent);
+  color: color-mix(in srgb, var(--hot-pink) 90%, var(--primary-contrast));
+  font: inherit;
+  padding: 0 1rem;
+  outline: none;
+}
+
+:host ::ng-deep input::placeholder {
+  color: color-mix(in srgb, var(--hot-pink) 45%, var(--primary-contrast));
+}
+
+:host ::ng-deep input:not(:disabled):hover {
+  background-color: color-mix(in srgb, var(--hot-pink) 15%, transparent);
+}
+
+:host ::ng-deep [ngCombobox]:hover {
+  background-color: color-mix(in srgb, var(--hot-pink) 15%, transparent);
+}
+
+:host ::ng-deep input:disabled,
+:host ::ng-deep [ngCombobox][aria-disabled='true'] {
+  cursor: default;
+  opacity: 0.6;
+}
+
+:host ::ng-deep input:focus,
+:host ::ng-deep [ngCombobox]:focus,
+:host ::ng-deep [ngCombobox]:focus-within {
+  outline: 2px solid color-mix(in srgb, var(--hot-pink) 50%, transparent);
+}
+
+.ui-input-invalid .ui-input-control {
+  --ui-input-border: rgb(190 18 60);
+}
+
+.ui-input-disabled-reason {
+  color: rgb(71 85 105);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.45;
+}
+
+.ui-input-disabled-reason span {
+  display: block;
+}

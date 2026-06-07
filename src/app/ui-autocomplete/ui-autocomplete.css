@@ -1,7 +1,9 @@
 :host {
   anchor-scope: --ui-autocomplete-trigger;
-  display: inline-block;
+  display: block;
+  min-width: 0;
   position: relative;
+  width: 100%;
 }
 
 [ngCombobox],
@@ -14,32 +16,10 @@
   display: block;
   position: relative;
   anchor-name: --ui-autocomplete-trigger;
-  color: color-mix(in srgb, var(--hot-pink) 90%, var(--primary-contrast));
-  background-color: color-mix(in srgb, var(--hot-pink) 5%, transparent);
-  border-radius: 0.5rem;
-  border: 1px solid color-mix(in srgb, var(--hot-pink) 80%, transparent);
-  padding: 0 1rem;
-  height: 2.5rem;
-  box-sizing: border-box;
-  width: 14rem;
 }
 
 [ngCombobox]::placeholder {
   color: color-mix(in srgb, var(--hot-pink) 45%, var(--primary-contrast));
-}
-
-[ngCombobox]:hover {
-  background-color: color-mix(in srgb, var(--hot-pink) 15%, transparent);
-}
-
-[ngCombobox][aria-disabled='true'] {
-  opacity: 0.6;
-  cursor: default;
-}
-
-[ngCombobox]:focus,
-[ngCombobox]:focus-within {
-  outline: 2px solid color-mix(in srgb, var(--hot-pink) 50%, transparent);
 }
 
 .ui-autocomplete-popup {

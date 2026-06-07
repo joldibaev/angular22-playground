@@ -1,16 +1,22 @@
 import {
   afterRenderEffect,
+  booleanAttribute,
   Component,
   computed,
   contentChildren,
-  ElementRef,
-  inject,
+  effect,
+  input,
+  model,
+  output,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { Listbox, Option } from '@angular/aria/listbox';
 import { Combobox, ComboboxPopup, ComboboxWidget } from '@angular/aria/combobox';
+import type { FormValueControl } from '@angular/forms/signals';
+import { UiInput } from '../ui-input/ui-input';
 import { UiSelectGroup } from './ui-select-group/ui-select-group';
 import { UiSelectOption } from './ui-select-option/ui-select-option';
 
@@ -21,12 +27,19 @@ type UiSelectRenderItem = {
 
 @Component({
   selector: 'ui-select',
-  imports: [NgTemplateOutlet, Combobox, ComboboxPopup, Listbox, ComboboxWidget, Option],
+  imports: [NgTemplateOutlet, Combobox, ComboboxPopup, Listbox, ComboboxWidget, Option, UiInput],
   templateUrl: './ui-select.html',
   styleUrl: './ui-select.css',
 })
-export class UiSelect {
+export class UiSelect implements FormValueControl<string> {
+  readonly combobox = viewChild(Combobox);
   readonly listbox = viewChild(Listbox);
+
+  value = model('');
+  disabled = input(false);
+  label = input('Select');
+  showError = input(false, { transform: booleanAttribute });
+  touch = output<void>();
 
   selectedValues = signal<string[]>([]);
   popupExpanded = signal(false);
@@ -68,9 +81,25 @@ export class UiSelect {
     });
   });
 
-  private element = inject(ElementRef<HTMLElement>);
-
   constructor() {
+    effect(() => {
+      const value = this.value();
+      const nextSelectedValues = value ? [value] : [];
+      const selectedValues = untracked(this.selectedValues);
+
+      if (value && selectedValues.includes(value)) {
+        return;
+      }
+
+      if (!value && selectedValues.length === 0) {
+        return;
+      }
+
+      if (!this.areSelectedValuesEqual(selectedValues, nextSelectedValues)) {
+        this.selectedValues.set(nextSelectedValues);
+      }
+    });
+
     afterRenderEffect(() => {
       this.listbox()?.scrollActiveItemIntoView();
     });
@@ -83,6 +112,21 @@ export class UiSelect {
   }
 
   onCommit() {
+    this.value.set(this.selectedValues()[0] ?? '');
     this.popupExpanded.set(false);
+  }
+
+  focus(options?: FocusOptions) {
+    this.combobox()?.element.focus(options);
+  }
+
+  reset() {
+    this.value.set('');
+    this.selectedValues.set([]);
+    this.popupExpanded.set(false);
+  }
+
+  private areSelectedValuesEqual(first: string[], second: string[]) {
+    return first.length === second.length && first.every((value, index) => value === second[index]);
   }
 }

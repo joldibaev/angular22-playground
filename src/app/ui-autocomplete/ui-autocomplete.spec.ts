@@ -1,4 +1,5 @@
-import { Component, viewChild } from '@angular/core';
+import { Component, signal, viewChild } from '@angular/core';
+import { disabled, FormField, form, required } from '@angular/forms/signals';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { ComboboxHarness } from '@angular/aria/combobox/testing';
 import { ListboxHarness } from '@angular/aria/listbox/testing';
@@ -20,6 +21,44 @@ import { UiAutocompleteOption } from './ui-autocomplete-option/ui-autocomplete-o
 })
 class TestHost {
   readonly autocomplete = viewChild.required(UiAutocomplete);
+}
+
+@Component({
+  imports: [FormField, UiAutocomplete, UiAutocompleteOption],
+  template: `
+    <ui-autocomplete [formField]="formState.status">
+      <ui-autocomplete-option value="created">Created</ui-autocomplete-option>
+      <ui-autocomplete-option value="approved">Approved</ui-autocomplete-option>
+      <ui-autocomplete-option value="paid">Paid</ui-autocomplete-option>
+    </ui-autocomplete>
+  `,
+})
+class SignalFormTestHost {
+  readonly model = signal({ status: 'approved' });
+  readonly formState = form(this.model);
+  readonly autocomplete = viewChild.required(UiAutocomplete);
+}
+
+@Component({
+  imports: [FormField, UiAutocomplete, UiAutocompleteOption],
+  template: `
+    <ui-autocomplete label="Status" showError [formField]="formState.status">
+      <ui-autocomplete-option value="created">Created</ui-autocomplete-option>
+      <ui-autocomplete-option value="approved">Approved</ui-autocomplete-option>
+    </ui-autocomplete>
+
+    <ui-autocomplete label="Locked status" [formField]="formState.lockedStatus">
+      <ui-autocomplete-option value="created">Created</ui-autocomplete-option>
+      <ui-autocomplete-option value="approved">Approved</ui-autocomplete-option>
+    </ui-autocomplete>
+  `,
+})
+class SignalFormStateTestHost {
+  readonly model = signal({ status: '', lockedStatus: 'approved' });
+  readonly formState = form(this.model, (path) => {
+    required(path.status, { message: 'Status is required' });
+    disabled(path.lockedStatus, { when: 'Status is locked by workflow' });
+  });
 }
 
 function dispatchKeyboardEvent(element: HTMLElement, key: string): KeyboardEvent {
@@ -48,7 +87,27 @@ async function createHostFixture(): Promise<ComponentFixture<TestHost>> {
   return hostFixture;
 }
 
-function getCombobox(fixture: ComponentFixture<TestHost>): HTMLInputElement {
+async function createSignalFormHostFixture(): Promise<ComponentFixture<SignalFormTestHost>> {
+  const hostFixture = TestBed.createComponent(SignalFormTestHost);
+  hostFixture.detectChanges();
+  await hostFixture.whenStable();
+  await hostFixture.whenRenderingDone();
+
+  return hostFixture;
+}
+
+async function createSignalFormStateHostFixture(): Promise<
+  ComponentFixture<SignalFormStateTestHost>
+> {
+  const hostFixture = TestBed.createComponent(SignalFormStateTestHost);
+  hostFixture.detectChanges();
+  await hostFixture.whenStable();
+  await hostFixture.whenRenderingDone();
+
+  return hostFixture;
+}
+
+function getCombobox(fixture: ComponentFixture<unknown>): HTMLInputElement {
   return fixture.nativeElement.querySelector('[role="combobox"]');
 }
 
@@ -106,7 +165,7 @@ describe('UiAutocomplete', () => {
     const hostFixture = await createHostFixture();
     const autocomplete = hostFixture.componentInstance.autocomplete();
 
-    autocomplete.value.set('p');
+    autocomplete.inputValue.set('p');
     hostFixture.detectChanges();
 
     expect(autocomplete.options().map((option) => option.value())).toEqual([
@@ -124,7 +183,7 @@ describe('UiAutocomplete', () => {
     const hostFixture = await createHostFixture();
     const autocomplete = hostFixture.componentInstance.autocomplete();
 
-    autocomplete.value.set('app');
+    autocomplete.inputValue.set('app');
     hostFixture.detectChanges();
 
     expect(autocomplete.inlineSuggestion()).toBe('Approved');
@@ -140,6 +199,54 @@ describe('UiAutocomplete', () => {
     expect(combobox.getAttribute('aria-autocomplete')).toBe('none');
     expect(combobox.getAttribute('placeholder')).toBe('Search labels');
     expect(getPopup(hostFixture)).toBeNull();
+  });
+
+  it('should sync selected value from a signal form field', async () => {
+    const hostFixture = await createSignalFormHostFixture();
+    const autocomplete = hostFixture.componentInstance.autocomplete();
+    const combobox = getCombobox(hostFixture);
+
+    expect(autocomplete.value()).toBe('approved');
+    expect(autocomplete.inputValue()).toBe('Approved');
+    expect(autocomplete.selectedValues()).toEqual(['approved']);
+    expect(combobox.value).toBe('Approved');
+  });
+
+  it('should write selected value back to a signal form field', async () => {
+    const hostFixture = await createSignalFormHostFixture();
+    const loader = TestbedHarnessEnvironment.loader(hostFixture);
+    const autocomplete = await loader.getHarness(ComboboxHarness);
+
+    await autocomplete.setValue('p');
+
+    const listbox = await autocomplete.getPopupWidget(ListboxHarness);
+    const options = await listbox.getOptions();
+
+    await options[1].click();
+
+    expect(hostFixture.componentInstance.model().status).toBe('paid');
+    expect(hostFixture.componentInstance.formState.status().value()).toBe('paid');
+    expect(await autocomplete.getValue()).toBe('Paid');
+  });
+
+  it('should render signal form errors and disabled reasons through ui-input', async () => {
+    const hostFixture = await createSignalFormStateHostFixture();
+    const fields = hostFixture.nativeElement.querySelectorAll('ui-autocomplete');
+    const invalidField = fields[0] as HTMLElement;
+    const disabledField = fields[1] as HTMLElement;
+
+    expect(invalidField.querySelector('.ui-input-label')?.textContent).toContain('Status');
+    expect(invalidField.querySelector('.ui-input-label')?.textContent).toContain('*');
+    expect(invalidField.querySelector('.ui-tooltip')?.textContent).toContain(
+      'Status is required',
+    );
+    expect(disabledField.querySelector('[role="combobox"]')?.getAttribute('aria-disabled')).toBe(
+      'true',
+    );
+    expect(disabledField.querySelector('.ui-tooltip')).toBeNull();
+    expect(disabledField.querySelector('.ui-input-disabled-reason')?.textContent).toContain(
+      'Status is locked by workflow',
+    );
   });
 
   it('should expose listbox and option accessibility attributes when expanded', async () => {
@@ -178,10 +285,7 @@ describe('UiAutocomplete', () => {
     await hostFixture.whenRenderingDone();
 
     expect(hostFixture.componentInstance.autocomplete().popupExpanded()).toBe(true);
-    expect(getOptions().map((option) => option.textContent?.trim())).toEqual([
-      'Approved',
-      'Paid',
-    ]);
+    expect(getOptions().map((option) => option.textContent?.trim())).toEqual(['Approved', 'Paid']);
   });
 
   it('should filter and select an option with Angular Aria harnesses', async () => {
@@ -285,7 +389,7 @@ describe('UiAutocomplete', () => {
     const autocomplete = hostFixture.componentInstance.autocomplete();
 
     expect(autocomplete.selectedValues()).toEqual(['approved']);
-    expect(autocomplete.value()).toBe('Approved');
+    expect(autocomplete.inputValue()).toBe('Approved');
     expect(autocomplete.popupExpanded()).toBe(false);
     expect(getPopup(hostFixture)).toBeNull();
   });

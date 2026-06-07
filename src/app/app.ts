@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
+import { disabled, FormField, form, required } from '@angular/forms/signals';
 import { UiAutocomplete } from './ui-autocomplete/ui-autocomplete';
 import { UiAutocompleteOption } from './ui-autocomplete/ui-autocomplete-option/ui-autocomplete-option';
+import { UiInput } from './ui-input/ui-input';
 import { UiSelect } from './ui-select/ui-select';
 import { UiSelectGroup } from './ui-select/ui-select-group/ui-select-group';
 import { UiSelectOption } from './ui-select/ui-select-option/ui-select-option';
@@ -23,6 +25,8 @@ import { UiTabItem } from './ui-tab/ui-tab-item/ui-tab-item';
     UiMenuTrigger,
     UiTab,
     UiTabItem,
+    FormField,
+    UiInput,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
@@ -37,6 +41,18 @@ export class App {
   readonly cities = ['Tashkent', 'Samarkand', 'Bukhara', 'Andijan', 'Namangan', 'Fergana'];
   readonly labels = ['Roadmap', 'Research', 'Design review', 'Release candidate'];
   readonly teams = ['Platform', 'Growth', 'Support', 'Finance', 'Legal'];
+  readonly owners = ['Amina Karimova', 'Bekzod Tursunov', 'Diana Lee', 'Mark Chen'];
+  readonly signalFormModel = signal({
+    title: '',
+    routingNote: 'Managed by workflow rules',
+    priorityLabel: 'security',
+    owner: 'owner_bekzod_tursunov',
+  });
+  readonly signalForm = form(this.signalFormModel, (path) => {
+    required(path.title, { message: 'Ticket title is required' });
+    disabled(path.routingNote, { when: 'Routing note is managed automatically' });
+  });
+
   readonly tabInsights = [
     {
       value: 'summary',
@@ -57,6 +73,36 @@ export class App {
       title: 'Workflow rules',
       description:
         'Manual activation, disabled states, and vertical orientation stay in the wrapper API.',
+    },
+  ];
+  readonly tabReports = [
+    {
+      value: 'overview',
+      label: 'Overview',
+      metric: '1,284',
+      title: 'Open requests',
+      description: 'Requests grouped by priority, assignee, and current SLA status.',
+    },
+    {
+      value: 'analytics',
+      label: 'Analytics',
+      metric: '87%',
+      title: 'Automation coverage',
+      description: 'Rules handled by routing automation without manual triage.',
+    },
+    {
+      value: 'reports',
+      label: 'Reports',
+      metric: '14',
+      title: 'Weekly exports',
+      description: 'Saved report views for operations leads and regional managers.',
+    },
+    {
+      value: 'settings',
+      label: 'Settings',
+      metric: '6',
+      title: 'Active rules',
+      description: 'Workflow policies currently affecting assignment and escalation.',
     },
   ];
 

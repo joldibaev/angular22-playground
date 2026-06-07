@@ -1,7 +1,9 @@
 :host {
   anchor-scope: --ui-select-trigger;
-  display: inline-block;
+  display: block;
+  min-width: 0;
   position: relative;
+  width: 100%;
 }
 
 [ngCombobox],
@@ -15,15 +17,10 @@
   position: relative;
   anchor-name: --ui-select-trigger;
   align-items: center;
-  color: color-mix(in srgb, var(--hot-pink) 90%, var(--primary-contrast));
-  background-color: color-mix(in srgb, var(--hot-pink) 5%, transparent);
-  border-radius: 0.5rem;
-  border: 1px solid color-mix(in srgb, var(--hot-pink) 80%, transparent);
+  justify-content: space-between;
+  gap: 1rem;
   cursor: pointer;
-  padding: 0 3.5rem;
-  height: 2.5rem;
-  box-sizing: border-box;
-  width: 14rem;
+  padding: 0 1rem;
   user-select: none;
   -webkit-user-select: none;
 }
@@ -33,32 +30,22 @@
   -webkit-user-select: none;
 }
 
-[ngCombobox]:hover {
-  background-color: color-mix(in srgb, var(--hot-pink) 15%, transparent);
-}
-
-[ngCombobox][aria-disabled='true'] {
-  opacity: 0.6;
-  cursor: default;
-}
-
-[ngCombobox]:focus,
-[ngCombobox]:focus-within {
-  outline: 2px solid color-mix(in srgb, var(--hot-pink) 50%, transparent);
-}
-
 .combobox-label {
   gap: 1rem;
-  left: 1rem;
   display: flex;
-  position: absolute;
   align-items: center;
+  min-width: 0;
   pointer-events: none;
 }
 
+.selected-label-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .icon-tabler-chevron-down {
-  right: 1rem;
-  position: absolute;
+  flex: 0 0 auto;
   pointer-events: none;
   transition: transform 150ms ease-in-out;
 }

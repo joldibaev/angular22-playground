@@ -1,14 +1,18 @@
-<input
-  ngCombobox
-  #combobox="ngCombobox"
-  [(value)]="value"
-  [(expanded)]="popupExpanded"
-  [inlineSuggestion]="inlineSuggestion()"
-  [preserveContent]="true"
-  class="autocomplete-input"
-  type="text"
-  placeholder="Search labels"
-/>
+<ui-input [label]="label()" [showError]="showError()">
+  <input
+    ngCombobox
+    #combobox="ngCombobox"
+    [(value)]="inputValue"
+    [(expanded)]="popupExpanded"
+    [disabled]="disabled()"
+    [inlineSuggestion]="inlineSuggestion()"
+    [preserveContent]="true"
+    class="autocomplete-input"
+    type="text"
+    placeholder="Search labels"
+    (blur)="touch.emit()"
+  />
+</ui-input>
 
 @if (popupExpanded()) {
   <ng-container [ngTemplateOutlet]="popupTemplate" />
@@ -26,6 +30,7 @@
           [tabindex]="-1"
           focusMode="activedescendant"
           selectionMode="explicit"
+          [disabled]="disabled()"
           [(value)]="selectedValues"
           [activeDescendant]="listbox.activeDescendant()"
           (click)="onCommit()"
