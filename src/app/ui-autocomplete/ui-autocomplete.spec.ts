@@ -340,12 +340,15 @@ describe('UiAutocomplete', () => {
     const style = getComputedStyle(popup);
 
     expect(popup).toBeTruthy();
+    expect(popup.getAttribute('popover')).toBe('auto');
     expect(hostStyle.anchorScope).toBe('--ui-autocomplete-trigger');
     expect(comboboxStyle.anchorName).toBe('--ui-autocomplete-trigger');
     expect(style.position).toBe('fixed');
+    expect(style.inset).toBe('auto');
     expect(style.positionAnchor).toBe('--ui-autocomplete-trigger');
     expect(style.top).toContain('anchor(bottom)');
     expect(style.top).toContain('8px');
+    expect(style.margin).toBe('0px');
     expect(style.positionTryFallbacks).toContain('flip-block');
   });
 

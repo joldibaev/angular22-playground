@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, contentChildren, output, viewChild } from '@angular/core';
+import { afterRenderEffect, Component, contentChildren, output, viewChild } from '@angular/core';
 import { Menu, MenuContent, MenuItem } from '@angular/aria/menu';
 import { UiMenuItem } from './ui-menu-item/ui-menu-item';
 
@@ -15,8 +15,33 @@ export class UiMenu {
 
   itemSelected = output<string>();
 
+  constructor() {
+    afterRenderEffect(() => {
+      const menu = this.menu();
+      this.syncPopover(menu?.element, menu?.visible() ?? false);
+    });
+  }
+
   onItemSelected(value: string) {
     this.itemSelected.emit(value);
     queueMicrotask(() => this.menu()?.parent()?.close());
+  }
+
+  onPopoverToggle(event: Event) {
+    if ((event as { newState?: string }).newState === 'closed') {
+      this.menu()?.parent()?.close();
+    }
+  }
+
+  private syncPopover(element: HTMLElement | undefined, expanded: boolean) {
+    if (!element || !('showPopover' in element) || !('hidePopover' in element)) {
+      return;
+    }
+
+    if (expanded && !element.matches(':popover-open')) {
+      element.showPopover();
+    } else if (!expanded && element.matches(':popover-open')) {
+      element.hidePopover();
+    }
   }
 }

@@ -24,12 +24,15 @@
 
 .ui-autocomplete-popup {
   position: fixed;
+  inset: auto;
   position-anchor: --ui-autocomplete-trigger;
   top: calc(anchor(bottom) + 8px);
   left: anchor(left);
   width: anchor-size(width);
   position-try-fallbacks: flip-block;
   z-index: 1000;
+  margin: 0;
+  border: 0;
   padding: 0.5rem;
   border-radius: 0.5rem;
   background-color: var(--septenary-contrast);

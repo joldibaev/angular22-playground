@@ -85,10 +85,19 @@ describe('UiMenu', () => {
 
     const menu = getMenu();
     const items = getMenuItems();
+    const menuStyle = getComputedStyle(menu);
 
     expect(trigger.getAttribute('aria-expanded')).toBe('true');
     expect(trigger.getAttribute('aria-controls')).toBe(menu.id);
     expect(menu.getAttribute('role')).toBe('menu');
+    expect(menu.getAttribute('popover')).toBe('auto');
+    expect(menuStyle.position).toBe('fixed');
+    expect(menuStyle.inset).toBe('auto');
+    expect(menuStyle.positionAnchor).toBe('--ui-menu-trigger');
+    expect(menuStyle.top).toContain('anchor(bottom)');
+    expect(menuStyle.top).toContain('8px');
+    expect(menuStyle.margin).toBe('0px');
+    expect(menuStyle.positionTryFallbacks).toContain('flip-block');
     expect(items.map((item) => item.textContent?.trim())).toEqual([
       'Assign owner',
       'Snooze',

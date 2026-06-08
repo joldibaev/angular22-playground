@@ -20,7 +20,12 @@
 
 <ng-template #popupTemplate>
   <ng-template ngComboboxPopup [combobox]="combobox">
-    <div class="ui-autocomplete-popup">
+    <div
+      #popupElement
+      class="ui-autocomplete-popup"
+      popover="auto"
+      (toggle)="onPopupToggle($event)"
+    >
       @if (hasOptions()) {
         <div
           #listbox="ngListbox"

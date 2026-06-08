@@ -34,7 +34,12 @@
 
 <ng-template #popupTemplate>
   <ng-template ngComboboxPopup [combobox]="combobox">
-    <div class="ui-select-popup">
+    <div
+      #popupElement
+      class="ui-select-popup"
+      popover="auto"
+      (toggle)="onPopupToggle($event)"
+    >
       <div
         #listbox="ngListbox"
         ngListbox

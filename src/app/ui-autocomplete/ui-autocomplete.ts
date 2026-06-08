@@ -4,6 +4,7 @@ import {
   Component,
   computed,
   contentChildren,
+  ElementRef,
   input,
   model,
   output,
@@ -27,6 +28,7 @@ import { UiAutocompleteOption } from './ui-autocomplete-option/ui-autocomplete-o
 export class UiAutocomplete implements FormValueControl<string> {
   readonly combobox = viewChild(Combobox);
   readonly listbox = viewChild(Listbox);
+  readonly popupElement = viewChild<ElementRef<HTMLElement>>('popupElement');
 
   value = model('');
   disabled = input(false);
@@ -84,6 +86,10 @@ export class UiAutocomplete implements FormValueControl<string> {
     afterRenderEffect(() => {
       this.listbox()?.scrollActiveItemIntoView();
     });
+
+    afterRenderEffect(() => {
+      this.syncPopover(this.popupElement()?.nativeElement, this.popupExpanded());
+    });
   }
 
   onCommit() {
@@ -96,6 +102,12 @@ export class UiAutocomplete implements FormValueControl<string> {
     }
 
     this.popupExpanded.set(false);
+  }
+
+  onPopupToggle(event: Event) {
+    if ((event as { newState?: string }).newState === 'closed') {
+      this.popupExpanded.set(false);
+    }
   }
 
   focus(options?: FocusOptions) {
@@ -111,5 +123,17 @@ export class UiAutocomplete implements FormValueControl<string> {
 
   private areSelectedValuesEqual(first: string[], second: string[]) {
     return first.length === second.length && first.every((value, index) => value === second[index]);
+  }
+
+  private syncPopover(element: HTMLElement | undefined, expanded: boolean) {
+    if (!element || !('showPopover' in element) || !('hidePopover' in element)) {
+      return;
+    }
+
+    if (expanded && !element.matches(':popover-open')) {
+      element.showPopover();
+    } else if (!expanded && element.matches(':popover-open')) {
+      element.hidePopover();
+    }
   }
 }
