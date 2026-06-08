@@ -47,19 +47,7 @@
               <span class="flex-1">{{ option.label() }}</span>
 
               @if (ngOption.selected()) {
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  class="icon-tabler-check"
-                >
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                  <path
-                    d="M20.707 6.293a1 1 0 0 1 0 1.414l-10 10a1 1 0 0 1 -1.414 0l-5 -5a1 1 0 0 1 1.414 -1.414l4.293 4.293l9.293 -9.293a1 1 0 0 1 1.414 0"
-                  />
-                </svg>
+                <ui-icon name="outline-check" class="icon-check" />
               }
             </div>
           }

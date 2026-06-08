@@ -44,13 +44,13 @@
   white-space: nowrap;
 }
 
-.icon-tabler-chevron-down {
+.icon-chevron-down {
   flex: 0 0 auto;
   pointer-events: none;
   transition: transform 150ms ease-in-out;
 }
 
-[ngCombobox][aria-expanded='true'] .icon-tabler-chevron-down {
+[ngCombobox][aria-expanded='true'] .icon-chevron-down {
   transform: rotate(180deg);
 }
 
@@ -67,7 +67,7 @@
   border: 0;
   padding: 0.5rem;
   border-radius: 0.5rem;
-  background-color: var(--septenary-contrast);
+  background-color: var(--background-color-secondary);
   font-size: 0.9rem;
   max-height: 12rem;
   box-sizing: border-box;
@@ -114,7 +114,7 @@
 }
 
 .ui-select-group-label {
-  color: color-mix(in srgb, var(--primary-contrast) 60%, transparent);
+  color: color-mix(in srgb, var(--text-color-secondary) 60%, transparent);
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.5rem 1rem 0.25rem;
@@ -132,15 +132,15 @@
 }
 
 [ngOption]:hover {
-  background-color: color-mix(in srgb, var(--primary-contrast) 5%, transparent);
+  background-color: color-mix(in srgb, var(--text-color-secondary) 5%, transparent);
 }
 
 [ngOption][data-active='true'] {
   outline-offset: -2px;
-  outline: 2px solid color-mix(in srgb, var(--hot-pink) 50%, transparent);
+  outline: 2px solid color-mix(in srgb, var(--color-brand) 50%, transparent);
 }
 
 [ngOption][aria-selected='true'] {
-  color: var(--hot-pink);
-  background-color: color-mix(in srgb, var(--hot-pink) 5%, transparent);
+  color: var(--color-brand);
+  background-color: color-mix(in srgb, var(--color-brand) 5%, transparent);
 }

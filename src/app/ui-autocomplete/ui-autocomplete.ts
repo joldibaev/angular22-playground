@@ -18,10 +18,20 @@ import { Listbox, Option } from '@angular/aria/listbox';
 import type { FormValueControl } from '@angular/forms/signals';
 import { UiInput } from '../ui-input/ui-input';
 import { UiAutocompleteOption } from './ui-autocomplete-option/ui-autocomplete-option';
+import { UiIcon } from '../ui-icon/ui-icon';
 
 @Component({
   selector: 'ui-autocomplete',
-  imports: [NgTemplateOutlet, Combobox, ComboboxPopup, ComboboxWidget, Listbox, Option, UiInput],
+  imports: [
+    NgTemplateOutlet,
+    Combobox,
+    ComboboxPopup,
+    ComboboxWidget,
+    Listbox,
+    Option,
+    UiInput,
+    UiIcon,
+  ],
   templateUrl: './ui-autocomplete.html',
   styleUrl: './ui-autocomplete.css',
 })

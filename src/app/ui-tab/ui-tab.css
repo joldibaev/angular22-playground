@@ -27,13 +27,13 @@
 
 :host(.ui-tab-pills) [ngTabList] {
   border-radius: 0.5rem;
-  border: 1px solid var(--border-color, rgb(226 232 240));
+  border: 1px solid var(--border-color-primary);
   background: rgb(248 250 252);
   padding: 0.25rem;
 }
 
 :host(.ui-tab-line) [ngTabList] {
-  border-bottom: 1px solid var(--border-color, rgb(226 232 240));
+  border-bottom: 1px solid var(--border-color-primary);
   padding: 0;
 }
 
@@ -96,11 +96,11 @@
 }
 
 [ngTab][aria-disabled='false']:hover {
-  color: var(--hot-pink, rgb(219 39 119));
+  color: var(--color-brand);
 }
 
 [ngTab]:focus-visible {
-  outline: 2px solid var(--focus-ring, rgb(219 39 119));
+  outline: 2px solid var(--focus-ring);
   outline-offset: -2px;
 }
 
@@ -165,7 +165,7 @@
 
 .ui-tab-panels {
   border-radius: 0.5rem;
-  border: 1px solid var(--border-color, rgb(226 232 240));
+  border: 1px solid var(--border-color-primary);
   background: #fff;
 }
 
@@ -181,7 +181,7 @@
 }
 
 [ngTabPanel]:focus-visible {
-  outline: 2px solid var(--focus-ring, rgb(219 39 119));
+  outline: 2px solid var(--focus-ring);
   outline-offset: -2px;
 }
 

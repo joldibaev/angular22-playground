@@ -20,6 +20,7 @@ import type { FormValueControl } from '@angular/forms/signals';
 import { UiInput } from '../ui-input/ui-input';
 import { UiSelectGroup } from './ui-select-group/ui-select-group';
 import { UiSelectOption } from './ui-select-option/ui-select-option';
+import { UiIcon } from '../ui-icon/ui-icon';
 
 type UiSelectRenderItem = {
   group?: UiSelectGroup;
@@ -28,7 +29,16 @@ type UiSelectRenderItem = {
 
 @Component({
   selector: 'ui-select',
-  imports: [NgTemplateOutlet, Combobox, ComboboxPopup, Listbox, ComboboxWidget, Option, UiInput],
+  imports: [
+    NgTemplateOutlet,
+    Combobox,
+    ComboboxPopup,
+    Listbox,
+    ComboboxWidget,
+    Option,
+    UiInput,
+    UiIcon,
+  ],
   templateUrl: './ui-select.html',
   styleUrl: './ui-select.css',
 })
