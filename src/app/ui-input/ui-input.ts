@@ -28,8 +28,10 @@ let nextInputId = 0;
 export class UiInput {
   readonly label = input('');
   readonly showError = input(false, { transform: booleanAttribute });
-  readonly labelId = `ui-input-label-${nextInputId}`;
-  readonly controlId = `ui-input-control-${nextInputId++}`;
+  private readonly id = nextInputId++;
+  readonly labelId = `ui-input-label-${this.id}`;
+  readonly controlId = `ui-input-control-${this.id}`;
+  readonly errorTooltipId = `ui-input-error-${this.id}`;
 
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly renderer = inject(Renderer2);
@@ -81,10 +83,6 @@ export class UiInput {
   }
 
   private syncLabelledControl() {
-    if (!this.label()) {
-      return;
-    }
-
     const control = this.element.nativeElement.querySelector<HTMLElement>('input, [ngCombobox]');
 
     if (!control) {
@@ -94,14 +92,28 @@ export class UiInput {
     const controlId = control.id || this.controlId;
 
     this.renderer.setAttribute(control, 'id', controlId);
-    this.syncLabelFor(controlId);
 
-    const labelledBy = control.getAttribute('aria-labelledby');
-    const labelIds = labelledBy?.split(/\s+/).filter(Boolean) ?? [];
+    if (this.label()) {
+      this.syncLabelFor(controlId);
 
-    if (!labelIds.includes(this.labelId)) {
-      this.renderer.setAttribute(control, 'aria-labelledby', [...labelIds, this.labelId].join(' '));
+      const labelledBy = control.getAttribute('aria-labelledby');
+      const labelIds = labelledBy?.split(/\s+/).filter(Boolean) ?? [];
+
+      if (!labelIds.includes(this.labelId)) {
+        this.renderer.setAttribute(
+          control,
+          'aria-labelledby',
+          [...labelIds, this.labelId].join(' '),
+        );
+      }
     }
+
+    this.syncTokenAttribute(
+      control,
+      'aria-describedby',
+      this.errorTooltipId,
+      this.showErrorTooltip(),
+    );
   }
 
   private syncLabelFor(controlId: string) {
@@ -109,6 +121,24 @@ export class UiInput {
 
     if (label) {
       this.renderer.setAttribute(label, 'for', controlId);
+    }
+  }
+
+  private syncTokenAttribute(
+    element: HTMLElement,
+    attribute: string,
+    token: string,
+    shouldInclude: boolean,
+  ): void {
+    const tokens = element.getAttribute(attribute)?.split(/\s+/).filter(Boolean) ?? [];
+    const nextTokens = shouldInclude
+      ? [...new Set([...tokens, token])]
+      : tokens.filter((currentToken) => currentToken !== token);
+
+    if (nextTokens.length) {
+      this.renderer.setAttribute(element, attribute, nextTokens.join(' '));
+    } else {
+      this.renderer.removeAttribute(element, attribute);
     }
   }
 }

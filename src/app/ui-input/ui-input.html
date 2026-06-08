@@ -17,8 +17,13 @@
     <span class="ui-input-control">
       <ng-content />
 
-      @if (showErrorTooltip()) {
-        <span uiTooltip>
+      @if (errorMessages().length) {
+        <span
+          [id]="errorTooltipId"
+          uiTooltip
+          [uiTooltipOpen]="showErrorTooltip()"
+          uiTooltipVariant="red"
+        >
           <span uiTooltipSurface>
             @for (message of errorMessages(); track message) {
               <span>{{ message }}</span>

@@ -14,7 +14,6 @@
     color-mix(in srgb, var(--color-brand) 12%, transparent);
 
   position: fixed;
-  position-anchor: --ui-input-control;
   position-area: block-start;
   bottom: anchor(top);
   justify-self: anchor-center;
@@ -25,6 +24,34 @@
   z-index: 1000;
   width: max-content;
   max-width: min(18rem, calc(100vw - 2rem));
+
+  &[hidden] {
+    display: none;
+  }
+
+  &.ui-tooltip-inverted {
+    --ui-tooltip-background: light-dark(var(--color-neutral-950), var(--color-neutral-50));
+    --ui-tooltip-border-color: color-mix(
+      in srgb,
+      var(--ui-tooltip-background) 82%,
+      var(--border-color-strong)
+    );
+    --ui-tooltip-text-color: contrast-color(var(--ui-tooltip-background));
+    --ui-tooltip-shadow: 0 1rem 2rem
+      color-mix(in srgb, var(--ui-tooltip-background) 24%, transparent);
+  }
+
+  &.ui-tooltip-red {
+    --ui-tooltip-background: light-dark(var(--color-red-50), var(--color-red-950));
+    --ui-tooltip-border-color: light-dark(var(--color-red-300), var(--color-red-800));
+    --ui-tooltip-text-color: light-dark(var(--color-red-950), var(--color-red-50));
+    --ui-tooltip-shadow: 0 1rem 2rem
+      color-mix(in srgb, var(--color-red-500) 18%, transparent);
+  }
+}
+
+.ui-tooltip-trigger {
+  cursor: help;
 }
 
 .ui-tooltip-surface {
@@ -104,7 +131,7 @@
   }
 }
 
-@supports not (anchor-name: --ui-input-control) {
+@supports not (anchor-name: --ui-tooltip-anchor) {
   .ui-tooltip {
     position: absolute;
     left: 0;

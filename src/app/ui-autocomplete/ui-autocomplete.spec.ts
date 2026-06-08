@@ -347,7 +347,7 @@ describe('UiAutocomplete', () => {
     expect(style.inset).toBe('auto');
     expect(style.positionAnchor).toBe('--ui-autocomplete-trigger');
     expect(style.top).toContain('anchor(bottom)');
-    expect(style.top).toContain('8px');
+    expect(style.top).toContain('0.5rem');
     expect(style.margin).toBe('0px');
     expect(style.positionTryFallbacks).toContain('flip-block');
   });

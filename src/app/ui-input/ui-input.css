@@ -57,6 +57,10 @@
   min-width: 0;
   position: relative;
   width: 100%;
+
+  & > .ui-tooltip {
+    position-anchor: --ui-input-control;
+  }
 }
 
 :host ::ng-deep input {

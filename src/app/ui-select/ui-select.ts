@@ -21,6 +21,7 @@ import { UiInput } from '../ui-input/ui-input';
 import { UiSelectGroup } from './ui-select-group/ui-select-group';
 import { UiSelectOption } from './ui-select-option/ui-select-option';
 import { UiIcon } from '../ui-icon/ui-icon';
+import { syncPopover } from '../ui-popover/sync-popover';
 
 type UiSelectRenderItem = {
   group?: UiSelectGroup;
@@ -40,7 +41,7 @@ type UiSelectRenderItem = {
     UiIcon,
   ],
   templateUrl: './ui-select.html',
-  styleUrl: './ui-select.css',
+  styleUrls: ['../ui-popover/ui-popover.css', './ui-select.css'],
 })
 export class UiSelect implements FormValueControl<string> {
   readonly combobox = viewChild(Combobox);
@@ -117,7 +118,7 @@ export class UiSelect implements FormValueControl<string> {
     });
 
     afterRenderEffect(() => {
-      this.syncPopover(this.popupElement()?.nativeElement, this.popupExpanded());
+      syncPopover(this.popupElement()?.nativeElement, this.popupExpanded());
     });
   }
 
@@ -150,17 +151,5 @@ export class UiSelect implements FormValueControl<string> {
 
   private areSelectedValuesEqual(first: string[], second: string[]) {
     return first.length === second.length && first.every((value, index) => value === second[index]);
-  }
-
-  private syncPopover(element: HTMLElement | undefined, expanded: boolean) {
-    if (!element || !('showPopover' in element) || !('hidePopover' in element)) {
-      return;
-    }
-
-    if (expanded && !element.matches(':popover-open')) {
-      element.showPopover();
-    } else if (!expanded && element.matches(':popover-open')) {
-      element.hidePopover();
-    }
   }
 }

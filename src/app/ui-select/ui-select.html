@@ -5,7 +5,7 @@
     [(expanded)]="popupExpanded"
     [disabled]="disabled()"
     [preserveContent]="true"
-    class="select"
+    class="select ui-popover-trigger"
     (blur)="touch.emit()"
   >
     <span class="combobox-label">
@@ -22,10 +22,16 @@
 
 <ng-template #popupTemplate>
   <ng-template ngComboboxPopup [combobox]="combobox">
-    <div #popupElement class="ui-select-popup" popover="auto" (toggle)="onPopupToggle($event)">
+    <div
+      #popupElement
+      class="ui-popover-surface ui-select-popup"
+      popover="auto"
+      (toggle)="onPopupToggle($event)"
+    >
       <div
         #listbox="ngListbox"
         ngListbox
+        class="ui-popover-list"
         [multi]="false"
         ngComboboxWidget
         [tabindex]="-1"
@@ -44,7 +50,12 @@
               <div class="ui-select-group-label" aria-hidden="true">{{ group.label() }}</div>
 
               @for (option of group.options(); track option) {
-                <div ngOption #ngOption="ngOption" [value]="option.value()">
+                <div
+                  ngOption
+                  #ngOption="ngOption"
+                  class="ui-popover-option"
+                  [value]="option.value()"
+                >
                   <span class="flex-1">{{ option.label() }}</span>
 
                   @if (ngOption.selected()) {
@@ -54,7 +65,7 @@
               }
             </div>
           } @else if (item.option; as option) {
-            <div ngOption #ngOption="ngOption" [value]="option.value()">
+            <div ngOption #ngOption="ngOption" class="ui-popover-option" [value]="option.value()">
               <span class="flex-1">{{ option.label() }}</span>
 
               @if (ngOption.selected()) {

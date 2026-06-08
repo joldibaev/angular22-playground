@@ -7,7 +7,7 @@
     [disabled]="disabled()"
     [inlineSuggestion]="inlineSuggestion()"
     [preserveContent]="true"
-    class="autocomplete-input"
+    class="autocomplete-input ui-popover-trigger"
     type="text"
     placeholder="Search labels"
     (blur)="touch.emit()"
@@ -22,7 +22,7 @@
   <ng-template ngComboboxPopup [combobox]="combobox">
     <div
       #popupElement
-      class="ui-autocomplete-popup"
+      class="ui-popover-surface ui-autocomplete-popup"
       popover="auto"
       (toggle)="onPopupToggle($event)"
     >
@@ -30,6 +30,7 @@
         <div
           #listbox="ngListbox"
           ngListbox
+          class="ui-popover-list"
           [multi]="false"
           ngComboboxWidget
           [tabindex]="-1"
@@ -43,7 +44,13 @@
           (keydown.space)="onCommit()"
         >
           @for (option of filteredOptions(); track option) {
-            <div ngOption #ngOption="ngOption" [value]="option.value()" [label]="option.label()">
+            <div
+              ngOption
+              #ngOption="ngOption"
+              class="ui-popover-option"
+              [value]="option.value()"
+              [label]="option.label()"
+            >
               <span class="flex-1">{{ option.label() }}</span>
 
               @if (ngOption.selected()) {
