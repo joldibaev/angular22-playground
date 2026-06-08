@@ -1,7 +1,32 @@
-<main class="mx-auto w-[min(1120px,calc(100%-2rem))] space-y-20 px-4 py-10 text-slate-950 md:py-16">
+<main class="mx-auto w-[min(1120px,calc(100%-2rem))] space-y-20 px-4 py-10 text-primary md:py-16">
+  <div class="flex justify-end">
+    <fieldset class="inline-flex flex-wrap gap-1 rounded-lg border border-default bg-surface p-1 shadow-lg shadow-slate-950/6">
+      <legend class="sr-only">Theme</legend>
+      @for (option of themeOptions; track option.value) {
+        <label
+          class="inline-flex min-h-9 cursor-pointer items-center gap-2 rounded-md px-3 text-sm font-bold outline-offset-4 has-focus-visible:outline-3 has-focus-visible:outline-(--focus-ring)"
+          [class.bg-primary]="theme.theme() === option.value"
+          [class.text-brand]="theme.theme() === option.value"
+          [class.text-primary]="theme.theme() !== option.value"
+        >
+          <input
+            class="sr-only"
+            type="radio"
+            name="theme"
+            [value]="option.value"
+            [checked]="theme.theme() === option.value"
+            (change)="theme.setTheme(option.value)"
+          />
+          <ui-icon [name]="option.icon" [width]="17" [height]="17" />
+          <span>{{ option.label }}</span>
+        </label>
+      }
+    </fieldset>
+  </div>
+
   <section class="grid min-h-130 gap-6 md:grid-cols-[1.25fr_.75fr]">
     <div
-      class="flex flex-col justify-center rounded-lg border border-slate-200 bg-white/82 p-8 shadow-2xl shadow-slate-950/8 md:p-14"
+      class="flex flex-col justify-center rounded-lg border border-default bg-surface p-8 shadow-2xl shadow-slate-950/8 md:p-14"
     >
       <p class="mb-3 text-xs font-black uppercase tracking-[.08em] text-brand">
         Angular 22 UI primitives
@@ -9,7 +34,7 @@
       <h1 class="max-w-3xl text-5xl font-black leading-[.95] tracking-normal md:text-7xl">
         Select and autocomplete controls for dense product workflows
       </h1>
-      <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+      <p class="mt-6 max-w-2xl text-lg leading-8 text-secondary">
         A polished showcase for composable listbox-based inputs: grouped options, keyboard-first
         navigation, inline suggestions, empty states, and resilient popovers.
       </p>
@@ -20,7 +45,7 @@
           >Explore demo</a
         >
         <a
-          class="rounded-lg border border-slate-200 bg-white px-5 py-3 font-bold outline-offset-4 focus-visible:outline-3 focus-visible:outline-(--focus-ring)"
+          class="rounded-lg border border-default bg-surface px-5 py-3 font-bold outline-offset-4 focus-visible:outline-3 focus-visible:outline-(--focus-ring)"
           href="#patterns"
           >View patterns</a
         >
@@ -45,18 +70,18 @@
         Live composition
       </p>
       <h2 class="text-4xl font-black leading-none md:text-5xl">A realistic command panel</h2>
-      <p class="mt-4 leading-7 text-slate-600">
+      <p class="mt-4 leading-7 text-secondary">
         The controls sit inside the kind of dense surface where predictable focus behavior, grouped
         data, and fast filtering matter.
       </p>
     </div>
 
-    <div class="rounded-lg border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-950/8">
+    <div class="rounded-lg border border-default bg-surface p-6 shadow-2xl shadow-slate-950/8">
       <div
-        class="flex flex-col gap-4 border-b border-slate-200 pb-5 sm:flex-row sm:items-center sm:justify-between"
+        class="flex flex-col gap-4 border-b border-default pb-5 sm:flex-row sm:items-center sm:justify-between"
       >
         <div>
-          <p class="mb-1 text-sm font-bold text-slate-500">Inbox triage</p>
+          <p class="mb-1 text-sm font-bold text-secondary">Inbox triage</p>
           <h3 class="text-xl font-black">Customer operations queue</h3>
         </div>
         <div class="flex flex-wrap items-center gap-3">
@@ -74,7 +99,7 @@
       </div>
 
       <div class="my-5 grid gap-4 md:grid-cols-2">
-        <div class="grid gap-3 rounded-lg bg-slate-50 p-4 text-sm font-bold">
+        <div class="grid gap-3 rounded-lg bg-primary p-4 text-sm font-bold">
           <ui-select label="Priority label">
             <ui-select-group label="Pinned">
               <ui-select-option value="important">Important</ui-select-option>
@@ -89,7 +114,7 @@
           </ui-select>
         </div>
 
-        <div class="grid gap-3 rounded-lg bg-slate-50 p-4 text-sm font-bold">
+        <div class="grid gap-3 rounded-lg bg-primary p-4 text-sm font-bold">
           <ui-autocomplete label="Assign city">
             @for (city of cities; track city) {
               <ui-autocomplete-option [value]="'city_' + city.toLowerCase()">{{
@@ -105,7 +130,7 @@
           <ui-tab-item [value]="insight.value" [label]="insight.label">
             <div class="grid gap-2">
               <h4 class="text-lg font-black">{{ insight.title }}</h4>
-              <p class="leading-7 text-slate-600">{{ insight.description }}</p>
+              <p class="leading-7 text-secondary">{{ insight.description }}</p>
             </div>
           </ui-tab-item>
         }
@@ -114,14 +139,14 @@
       <div class="mt-5 grid gap-3" aria-label="Example tickets">
         @for (ticket of tickets; track ticket.title) {
           <article
-            class="grid grid-cols-[auto_1fr_auto] gap-3 rounded-lg border border-slate-200 p-4"
+            class="grid grid-cols-[auto_1fr_auto] gap-3 rounded-lg border border-default p-4"
           >
             <span class="mt-2 size-2.5 rounded-full {{ ticket.markerClass }}"></span>
             <div>
               <h4 class="font-black">{{ ticket.title }}</h4>
-              <p class="mt-1 leading-6 text-slate-600">{{ ticket.description }}</p>
+              <p class="mt-1 leading-6 text-secondary">{{ ticket.description }}</p>
             </div>
-            <span class="text-sm font-bold text-slate-500">{{ ticket.time }}</span>
+            <span class="text-sm font-bold text-secondary">{{ ticket.time }}</span>
           </article>
         }
       </div>
@@ -134,16 +159,16 @@
         Tab appearances
       </p>
       <h2 class="text-4xl font-black leading-none md:text-5xl">Line, pills, and fluid layouts</h2>
-      <p class="mt-4 leading-7 text-slate-600">
+      <p class="mt-4 leading-7 text-secondary">
         The tab primitive can stay compact by default or stretch across a dense panel when the
         layout needs equal-width triggers.
       </p>
     </div>
 
     <div class="grid gap-4 lg:grid-cols-2">
-      <div class="rounded-lg border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-950/8">
+      <div class="rounded-lg border border-default bg-surface p-6 shadow-2xl shadow-slate-950/8">
         <div class="mb-5">
-          <p class="text-sm font-bold text-slate-500">Compact line</p>
+          <p class="text-sm font-bold text-secondary">Compact line</p>
           <h3 class="text-2xl font-black">Report switcher</h3>
         </div>
 
@@ -154,7 +179,7 @@
                 <span class="text-4xl font-black leading-none">{{ report.metric }}</span>
                 <div>
                   <h4 class="font-black">{{ report.title }}</h4>
-                  <p class="mt-1 leading-7 text-slate-600">{{ report.description }}</p>
+                  <p class="mt-1 leading-7 text-secondary">{{ report.description }}</p>
                 </div>
               </div>
             </ui-tab-item>
@@ -162,9 +187,9 @@
         </ui-tab>
       </div>
 
-      <div class="rounded-lg border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-950/8">
+      <div class="rounded-lg border border-default bg-surface p-6 shadow-2xl shadow-slate-950/8">
         <div class="mb-5">
-          <p class="text-sm font-bold text-slate-500">Fluid pills</p>
+          <p class="text-sm font-bold text-secondary">Fluid pills</p>
           <h3 class="text-2xl font-black">Workspace overview</h3>
         </div>
 
@@ -175,7 +200,7 @@
                 <div class="flex flex-wrap items-end justify-between gap-3">
                   <div>
                     <h4 class="font-black">{{ report.title }}</h4>
-                    <p class="mt-1 leading-7 text-slate-600">{{ report.description }}</p>
+                    <p class="mt-1 leading-7 text-secondary">{{ report.description }}</p>
                   </div>
                   <span class="text-3xl font-black text-brand">{{ report.metric }}</span>
                 </div>
@@ -195,28 +220,28 @@
       <h2 class="text-4xl font-black leading-none md:text-5xl">
         Bound controls with live model state
       </h2>
-      <p class="mt-4 leading-7 text-slate-600">
+      <p class="mt-4 leading-7 text-secondary">
         Select a priority label or owner to update the signal form model.
       </p>
     </div>
 
     <div
-      class="grid gap-4 rounded-lg border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-950/8 md:grid-cols-[1fr_18rem]"
+      class="grid gap-4 rounded-lg border border-default bg-surface p-6 shadow-2xl shadow-slate-950/8 md:grid-cols-[1fr_18rem]"
     >
       <div class="grid gap-4 lg:grid-cols-2">
-        <div class="min-w-0 rounded-lg bg-slate-50 p-4">
+        <div class="min-w-0 rounded-lg bg-primary p-4">
           <ui-input label="Ticket title" showError>
             <input [formField]="signalForm.title" placeholder="Ticket title" />
           </ui-input>
         </div>
 
-        <div class="min-w-0 rounded-lg bg-slate-50 p-4">
+        <div class="min-w-0 rounded-lg bg-primary p-4">
           <ui-input label="Routing note">
             <input [formField]="signalForm.routingNote" placeholder="Routing note" />
           </ui-input>
         </div>
 
-        <div class="grid min-w-0 gap-3 rounded-lg bg-slate-50 p-4 text-sm font-bold">
+        <div class="grid min-w-0 gap-3 rounded-lg bg-primary p-4 text-sm font-bold">
           <ui-select label="Priority label" showError [formField]="signalForm.priorityLabel">
             <ui-select-group label="Pinned">
               <ui-select-option value="important">Important</ui-select-option>
@@ -231,7 +256,7 @@
           </ui-select>
         </div>
 
-        <div class="grid min-w-0 gap-3 rounded-lg bg-slate-50 p-4 text-sm font-bold">
+        <div class="grid min-w-0 gap-3 rounded-lg bg-primary p-4 text-sm font-bold">
           <ui-autocomplete label="Owner" showError [formField]="signalForm.owner">
             @for (owner of owners; track owner) {
               <ui-autocomplete-option [value]="'owner_' + owner.toLowerCase().replaceAll(' ', '_')">
@@ -278,18 +303,18 @@
     <div class="grid gap-4 md:grid-cols-3">
       @for (pattern of patterns; track pattern.title; let index = $index) {
         <article
-          class="rounded-lg border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-950/8"
+          class="rounded-lg border border-default bg-surface p-6 shadow-2xl shadow-slate-950/8"
         >
           <span class="mb-6 block text-xs font-black text-brand">0{{ index + 1 }}</span>
           <h3 class="text-xl font-black">{{ pattern.title }}</h3>
-          <p class="mt-3 leading-7 text-slate-600">{{ pattern.description }}</p>
+          <p class="mt-3 leading-7 text-secondary">{{ pattern.description }}</p>
         </article>
       }
     </div>
   </section>
 
   <section class="grid gap-4 md:grid-cols-2">
-    <div class="rounded-lg border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-950/8">
+    <div class="rounded-lg border border-default bg-surface p-6 shadow-2xl shadow-slate-950/8">
       <h2 class="mb-4 text-2xl font-black">Project labels</h2>
       <ui-select label="Project labels">
         @for (label of labels; track label) {
@@ -298,7 +323,7 @@
       </ui-select>
     </div>
 
-    <div class="rounded-lg border border-slate-200 bg-white p-6 shadow-2xl shadow-slate-950/8">
+    <div class="rounded-lg border border-default bg-surface p-6 shadow-2xl shadow-slate-950/8">
       <h2 class="mb-4 text-2xl font-black">Team lookup</h2>
       <ui-autocomplete label="Team lookup">
         @for (team of teams; track team) {

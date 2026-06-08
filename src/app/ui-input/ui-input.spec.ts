@@ -64,6 +64,16 @@ describe('UiInput', () => {
     expect(label?.textContent).toContain('*');
   });
 
+  it('should associate the label with the projected input without wrapping it', async () => {
+    const hostFixture = await createSignalFormHostFixture();
+    const label = hostFixture.nativeElement.querySelector('.ui-input-label') as HTMLLabelElement;
+    const input = getInputs(hostFixture)[0];
+
+    expect(label.tagName).toBe('LABEL');
+    expect(label.contains(input)).toBe(false);
+    expect(label.htmlFor).toBe(input.id);
+  });
+
   it('should project a native input bound to the same signal form field', async () => {
     const hostFixture = await createSignalFormHostFixture();
     const [titleInput] = getInputs(hostFixture);

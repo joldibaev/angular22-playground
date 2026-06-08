@@ -1,4 +1,39 @@
 :host {
+  --ui-autocomplete-placeholder-color: color-mix(
+    in srgb,
+    var(--color-brand) 45%,
+    var(--text-color-muted)
+  );
+  --ui-autocomplete-popup-background: var(--background-color-surface);
+  --ui-autocomplete-popup-border-color: var(--border-color-default);
+  --ui-autocomplete-popup-radius: 0.5rem;
+  --ui-autocomplete-popup-padding: 0.5rem;
+  --ui-autocomplete-popup-max-height: 12rem;
+
+  --ui-autocomplete-option-radius: 0.5rem;
+  --ui-autocomplete-option-hover-background: color-mix(
+    in srgb,
+    var(--text-color-muted) 5%,
+    transparent
+  );
+  --ui-autocomplete-option-active-ring-color: color-mix(
+    in srgb,
+    var(--color-brand) 50%,
+    transparent
+  );
+  --ui-autocomplete-option-selected-color: var(--color-brand);
+  --ui-autocomplete-option-selected-background: color-mix(
+    in srgb,
+    var(--color-brand) 5%,
+    transparent
+  );
+
+  --ui-autocomplete-empty-state-color: color-mix(
+    in srgb,
+    var(--text-color-muted) 60%,
+    transparent
+  );
+
   anchor-scope: --ui-autocomplete-trigger;
   display: block;
   min-width: 0;
@@ -16,10 +51,10 @@
   display: block;
   position: relative;
   anchor-name: --ui-autocomplete-trigger;
-}
 
-[ngCombobox]::placeholder {
-  color: color-mix(in srgb, var(--color-brand) 45%, var(--text-color-secondary));
+  &::placeholder {
+    color: var(--ui-autocomplete-placeholder-color);
+  }
 }
 
 .ui-autocomplete-popup {
@@ -33,11 +68,12 @@
   z-index: 1000;
   margin: 0;
   border: 0;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  background-color: var(--background-color-secondary);
+  padding: var(--ui-autocomplete-popup-padding);
+  border-radius: var(--ui-autocomplete-popup-radius);
+  background-color: var(--ui-autocomplete-popup-background);
+  border: 1px solid var(--ui-autocomplete-popup-border-color);
   font-size: 0.9rem;
-  max-height: 12rem;
+  max-height: var(--ui-autocomplete-popup-max-height);
   box-sizing: border-box;
   overflow: auto;
   animation: smoothPopupOpen 150ms ease-out forwards;
@@ -62,7 +98,7 @@
     opacity: 1;
   }
   100% {
-    max-height: 12rem;
+    max-height: var(--ui-autocomplete-popup-max-height);
     opacity: 1;
   }
 }
@@ -82,24 +118,24 @@
   margin: 1px;
   padding: 0 1rem;
   min-height: 2.25rem;
-  border-radius: 0.5rem;
-}
+  border-radius: var(--ui-autocomplete-option-radius);
 
-[ngOption]:hover {
-  background-color: color-mix(in srgb, var(--text-color-secondary) 5%, transparent);
-}
+  &:hover {
+    background-color: var(--ui-autocomplete-option-hover-background);
+  }
 
-[ngOption][data-active='true'] {
-  outline-offset: -2px;
-  outline: 2px solid color-mix(in srgb, var(--color-brand) 50%, transparent);
-}
+  &[data-active='true'] {
+    outline-offset: -2px;
+    outline: 2px solid var(--ui-autocomplete-option-active-ring-color);
+  }
 
-[ngOption][aria-selected='true'] {
-  color: var(--color-brand);
-  background-color: color-mix(in srgb, var(--color-brand) 5%, transparent);
+  &[aria-selected='true'] {
+    color: var(--ui-autocomplete-option-selected-color);
+    background-color: var(--ui-autocomplete-option-selected-background);
+  }
 }
 
 .empty-state {
-  color: color-mix(in srgb, var(--text-color-secondary) 60%, transparent);
+  color: var(--ui-autocomplete-empty-state-color);
   padding: 0.75rem 1rem;
 }

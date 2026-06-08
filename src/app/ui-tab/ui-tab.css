@@ -1,53 +1,76 @@
 :host {
+  --ui-tab-border-color: var(--border-color-default);
+  --ui-tab-focus-ring-color: color-mix(in srgb, var(--color-brand) 45%, transparent);
+
+  --ui-tab-list-background: var(--background-color-subtle);
+
+  --ui-tab-indicator-background: var(--background-color-elevated);
+  --ui-tab-indicator-shadow: 0 1px 3px
+    color-mix(in srgb, contrast-color(var(--ui-tab-indicator-background)) 12%, transparent);
+
+  --ui-tab-trigger-color: var(--text-color-muted);
+  --ui-tab-trigger-active-color: contrast-color(var(--ui-tab-indicator-background));
+
+  --ui-tab-line-color: contrast-color(Canvas);
+  --ui-tab-line-indicator-size: 2px;
+  --ui-tab-pill-list-padding: 0.25rem;
+  --ui-tab-pill-list-radius: 0.5rem;
+  --ui-tab-pill-trigger-radius: calc(
+    var(--ui-tab-pill-list-radius) - var(--ui-tab-pill-list-padding)
+  );
+
   display: inline-block;
   anchor-scope: --ui-tab-active;
-}
 
-:host(.ui-tab-fluid) {
-  display: block;
-  width: 100%;
+  &.ui-tab-fluid {
+    display: block;
+    width: 100%;
+  }
 }
 
 [ngTabs] {
   display: grid;
   gap: 0.75rem;
   width: max-content;
-}
 
-:host(.ui-tab-fluid) [ngTabs] {
-  width: 100%;
+  :host(.ui-tab-fluid) & {
+    width: 100%;
+  }
 }
 
 [ngTabList] {
   display: flex;
   position: relative;
+  justify-self: start;
+  width: max-content;
   gap: 0.25rem;
   box-sizing: border-box;
-}
 
-:host(.ui-tab-pills) [ngTabList] {
-  border-radius: 0.5rem;
-  border: 1px solid var(--border-color-primary);
-  background: rgb(248 250 252);
-  padding: 0.25rem;
-}
+  :host(.ui-tab-pills) & {
+    border-radius: var(--ui-tab-pill-list-radius);
+    border: 1px solid var(--ui-tab-border-color);
+    background: var(--ui-tab-list-background);
+    padding: var(--ui-tab-pill-list-padding);
+  }
 
-:host(.ui-tab-line) [ngTabList] {
-  border-bottom: 1px solid var(--border-color-primary);
-  padding: 0;
-}
+  :host(.ui-tab-line) & {
+    border-bottom: 1px solid var(--ui-tab-border-color);
+    padding: 0;
+  }
 
-:host(.ui-tab-fluid) [ngTabList] {
-  width: 100%;
-}
+  :host(.ui-tab-fluid) & {
+    justify-self: stretch;
+    width: 100%;
+  }
 
-[ngTabList][aria-orientation='vertical'] {
-  flex-direction: column;
-  width: max-content;
-}
+  &[aria-orientation='vertical'] {
+    flex-direction: column;
+    width: max-content;
 
-:host(.ui-tab-fluid) [ngTabList][aria-orientation='vertical'] {
-  width: 100%;
+    :host(.ui-tab-fluid) & {
+      width: 100%;
+    }
+  }
 }
 
 [ngTab] {
@@ -58,50 +81,50 @@
   border: 0;
   border-radius: 0.375rem;
   background: transparent;
-  color: rgb(71 85 105);
+  color: var(--ui-tab-trigger-color);
   font: inherit;
   font-size: 0.875rem;
   font-weight: 800;
   line-height: 1.25rem;
   outline: none;
   padding: 0.5rem 0.875rem;
-}
 
-:host(.ui-tab-line) [ngTab] {
-  border-radius: 0;
-  padding-inline: 0;
-}
+  :host(.ui-tab-line) & {
+    border-radius: 0;
+    padding-inline: 0;
+  }
 
-:host(.ui-tab-line) [ngTab] + [ngTab] {
-  margin-left: 1.5rem;
-}
+  :host(.ui-tab-pills) & {
+    border-radius: var(--ui-tab-pill-trigger-radius);
+  }
 
-:host(.ui-tab-line) [ngTabList][aria-orientation='vertical'] [ngTab] + [ngTab] {
-  margin-top: 0.75rem;
-  margin-left: 0;
-}
+  :host(.ui-tab-line) & + & {
+    margin-left: 1.5rem;
+  }
 
-:host(.ui-tab-fluid) [ngTab] {
-  flex: 1;
-}
+  :host(.ui-tab-line) [ngTabList][aria-orientation='vertical'] & + & {
+    margin-top: 0.75rem;
+    margin-left: 0;
+  }
 
-[ngTab][aria-selected='true'] {
-  anchor-name: --ui-tab-active;
-  color: rgb(15 23 42);
-}
+  :host(.ui-tab-fluid) & {
+    flex: 1;
+  }
 
-[ngTab][aria-disabled='true'] {
-  cursor: default;
-  opacity: 0.45;
-}
+  &[aria-selected='true'] {
+    anchor-name: --ui-tab-active;
+    color: var(--ui-tab-trigger-active-color);
+  }
 
-[ngTab][aria-disabled='false']:hover {
-  color: var(--color-brand);
-}
+  &[aria-disabled='true'] {
+    cursor: default;
+    opacity: 0.45;
+  }
 
-[ngTab]:focus-visible {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: -2px;
+  &:focus-visible {
+    outline: 2px solid var(--ui-tab-focus-ring-color);
+    outline-offset: -2px;
+  }
 }
 
 .ui-tab-indicator {
@@ -114,37 +137,37 @@
     width 150ms ease,
     height 150ms ease,
     bottom 150ms ease;
-}
 
-:host(.ui-tab-pills) .ui-tab-indicator {
-  top: anchor(top);
-  left: anchor(left);
-  width: anchor-size(width);
-  height: anchor-size(height);
-  border-radius: 0.375rem;
-  background: #fff;
-  box-shadow: 0 1px 3px rgb(15 23 42 / 12%);
-}
+  :host(.ui-tab-pills) & {
+    top: anchor(top);
+    left: anchor(left);
+    width: anchor-size(width);
+    height: anchor-size(height);
+    border-radius: var(--ui-tab-pill-trigger-radius);
+    background: var(--ui-tab-indicator-background);
+    box-shadow: var(--ui-tab-indicator-shadow);
+  }
 
-:host(.ui-tab-line) .ui-tab-indicator {
-  bottom: 0;
-  left: anchor(left);
-  width: anchor-size(width);
-  height: 2px;
-  border-radius: 999px;
-  background: rgb(15 23 42);
-}
+  :host(.ui-tab-line) & {
+    bottom: 0;
+    left: anchor(left);
+    width: anchor-size(width);
+    height: var(--ui-tab-line-indicator-size);
+    border-radius: 999px;
+    background: var(--ui-tab-line-color);
+  }
 
-:host(.ui-tab-line) [ngTabList][aria-orientation='vertical'] .ui-tab-indicator {
-  top: anchor(top);
-  bottom: auto;
-  left: 0;
-  width: 2px;
-  height: anchor-size(height);
-}
+  :host(.ui-tab-line) [ngTabList][aria-orientation='vertical'] & {
+    top: anchor(top);
+    bottom: auto;
+    left: 0;
+    width: var(--ui-tab-line-indicator-size);
+    height: anchor-size(height);
+  }
 
-[ngTabList][aria-orientation='vertical'] .ui-tab-indicator {
-  inset-block: auto;
+  [ngTabList][aria-orientation='vertical'] & {
+    inset-block: auto;
+  }
 }
 
 @supports not (position-anchor: --ui-tab-active) {
@@ -153,38 +176,37 @@
   }
 
   [ngTab][aria-selected='true'] {
-    background: #fff;
-    box-shadow: 0 1px 3px rgb(15 23 42 / 12%);
+    background: var(--ui-tab-indicator-background);
+    box-shadow: var(--ui-tab-indicator-shadow);
   }
 
   :host(.ui-tab-line) [ngTab][aria-selected='true'] {
     background: transparent;
-    box-shadow: inset 0 -2px 0 rgb(15 23 42);
+    box-shadow: inset 0 calc(-1 * var(--ui-tab-line-indicator-size)) 0 var(--ui-tab-line-color);
   }
 }
 
 .ui-tab-panels {
   border-radius: 0.5rem;
-  border: 1px solid var(--border-color-primary);
-  background: #fff;
-}
+  border: 1px solid var(--ui-tab-border-color);
 
-:host(.ui-tab-fluid) .ui-tab-panels {
-  width: 100%;
-  box-sizing: border-box;
+  :host(.ui-tab-fluid) & {
+    box-sizing: border-box;
+    width: 100%;
+  }
 }
 
 [ngTabPanel] {
   min-height: 8rem;
   outline: none;
   padding: 1rem;
-}
 
-[ngTabPanel]:focus-visible {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: -2px;
-}
+  &:focus-visible {
+    outline: 2px solid var(--ui-tab-focus-ring-color);
+    outline-offset: -2px;
+  }
 
-[ngTabPanel][inert] {
-  display: none;
+  &[inert] {
+    display: none;
+  }
 }

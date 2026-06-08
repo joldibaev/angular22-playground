@@ -1,17 +1,17 @@
 @if (!hidden()) {
-  <label
-    class="ui-input"
+  <div
+    class="ui-input-container"
     [class.ui-input-invalid]="invalid()"
     [class.ui-input-disabled]="disabled()"
   >
     @if (label()) {
-      <span class="ui-input-label">
+      <label class="ui-input-label" [id]="labelId" [attr.for]="controlId">
         {{ label() }}
 
         @if (required()) {
           <span class="ui-input-required" aria-hidden="true">*</span>
         }
-      </span>
+      </label>
     }
 
     <span class="ui-input-control">
@@ -35,5 +35,5 @@
         }
       </span>
     }
-  </label>
+  </div>
 }

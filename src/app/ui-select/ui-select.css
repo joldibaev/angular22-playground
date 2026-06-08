@@ -1,4 +1,22 @@
 :host {
+  --ui-select-popup-background: var(--background-color-surface);
+  --ui-select-popup-border-color: var(--border-color-default);
+  --ui-select-popup-radius: 0.5rem;
+  --ui-select-popup-padding: 0.5rem;
+  --ui-select-popup-max-height: 12rem;
+
+  --ui-select-group-label-color: color-mix(in srgb, var(--text-color-muted) 60%, transparent);
+
+  --ui-select-option-radius: 0.5rem;
+  --ui-select-option-hover-background: color-mix(
+    in srgb,
+    var(--text-color-muted) 5%,
+    transparent
+  );
+  --ui-select-option-active-ring-color: color-mix(in srgb, var(--color-brand) 50%, transparent);
+  --ui-select-option-selected-color: var(--color-brand);
+  --ui-select-option-selected-background: color-mix(in srgb, var(--color-brand) 5%, transparent);
+
   anchor-scope: --ui-select-trigger;
   display: block;
   min-width: 0;
@@ -23,11 +41,17 @@
   padding: 0 1rem;
   user-select: none;
   -webkit-user-select: none;
-}
 
-[ngCombobox] span {
-  user-select: none;
-  -webkit-user-select: none;
+  & span {
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  &[aria-expanded='true'] {
+    & .icon-chevron-down {
+      transform: rotate(180deg);
+    }
+  }
 }
 
 .combobox-label {
@@ -50,10 +74,6 @@
   transition: transform 150ms ease-in-out;
 }
 
-[ngCombobox][aria-expanded='true'] .icon-chevron-down {
-  transform: rotate(180deg);
-}
-
 .ui-select-popup {
   position: fixed;
   inset: auto;
@@ -65,11 +85,12 @@
   z-index: 1000;
   margin: 0;
   border: 0;
-  padding: 0.5rem;
-  border-radius: 0.5rem;
-  background-color: var(--background-color-secondary);
+  padding: var(--ui-select-popup-padding);
+  border-radius: var(--ui-select-popup-radius);
+  background-color: var(--ui-select-popup-background);
+  border: 1px solid var(--ui-select-popup-border-color);
   font-size: 0.9rem;
-  max-height: 12rem;
+  max-height: var(--ui-select-popup-max-height);
   box-sizing: border-box;
   overflow: scroll;
   animation: smoothPopupOpen 150ms ease-out forwards;
@@ -94,7 +115,7 @@
     opacity: 1;
   }
   100% {
-    max-height: 12rem;
+    max-height: var(--ui-select-popup-max-height);
     opacity: 1;
   }
 }
@@ -111,14 +132,14 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-}
 
-.ui-select-group-label {
-  color: color-mix(in srgb, var(--text-color-secondary) 60%, transparent);
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 0.5rem 1rem 0.25rem;
-  text-transform: uppercase;
+  & .ui-select-group-label {
+    color: var(--ui-select-group-label-color);
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.5rem 1rem 0.25rem;
+    text-transform: uppercase;
+  }
 }
 
 [ngOption] {
@@ -128,19 +149,19 @@
   margin: 1px;
   padding: 0 1rem;
   min-height: 2.25rem;
-  border-radius: 0.5rem;
-}
+  border-radius: var(--ui-select-option-radius);
 
-[ngOption]:hover {
-  background-color: color-mix(in srgb, var(--text-color-secondary) 5%, transparent);
-}
+  &:hover {
+    background-color: var(--ui-select-option-hover-background);
+  }
 
-[ngOption][data-active='true'] {
-  outline-offset: -2px;
-  outline: 2px solid color-mix(in srgb, var(--color-brand) 50%, transparent);
-}
+  &[data-active='true'] {
+    outline-offset: -2px;
+    outline: 2px solid var(--ui-select-option-active-ring-color);
+  }
 
-[ngOption][aria-selected='true'] {
-  color: var(--color-brand);
-  background-color: color-mix(in srgb, var(--color-brand) 5%, transparent);
+  &[aria-selected='true'] {
+    color: var(--ui-select-option-selected-color);
+    background-color: var(--ui-select-option-selected-background);
+  }
 }

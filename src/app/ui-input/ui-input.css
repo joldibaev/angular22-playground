@@ -1,30 +1,53 @@
 :host {
+  --ui-input-label-color: var(--text-color-muted);
+  --ui-input-required-color: var(--color-brand);
+
+  --ui-input-border-color: var(--border-color-default);
+  --ui-input-invalid-border-color: var(--border-color-strong);
+  --ui-input-focus-visible-border-color: var(--color-brand);
+  --ui-input-invalid-focus-visible-border-color: var(--ui-input-invalid-border-color);
+
+  --ui-input-background: var(--background-color-elevated);
+  --ui-input-placeholder-color: color-mix(in srgb, var(--text-color-muted) 50%, transparent);
+
+  --ui-input-disabled-reason-color: var(--text-color-muted);
+
   anchor-scope: --ui-input-control;
   display: block;
   min-width: 0;
   width: 100%;
 }
 
-.ui-input {
+.ui-input-container {
   display: grid;
   gap: 0.75rem;
   min-width: 0;
   width: 100%;
+
+  &.ui-input-invalid {
+    & .ui-input-control {
+      --ui-input-current-border-color: var(--ui-input-invalid-border-color);
+      --ui-input-current-focus-visible-border-color: var(
+        --ui-input-invalid-focus-visible-border-color
+      );
+    }
+  }
 }
 
 .ui-input-label {
-  color: var(--text-color-secondary);
+  color: var(--ui-input-label-color);
   font-size: 0.875rem;
   font-weight: 800;
-}
 
-.ui-input-required {
-  color: rgb(190 18 60);
-  margin-left: 0.125rem;
+  & .ui-input-required {
+    color: var(--ui-input-required-color);
+    margin-left: 0.125rem;
+  }
 }
 
 .ui-input-control {
-  --ui-input-border: color-mix(in srgb, var(--color-brand) 80%, transparent);
+  --ui-input-current-border-color: var(--ui-input-border-color);
+  --ui-input-current-focus-visible-border-color: var(--ui-input-focus-visible-border-color);
 
   anchor-name: --ui-input-control;
   display: grid;
@@ -45,25 +68,17 @@
   min-width: 0;
   width: 100%;
   height: 2.5rem;
-  border: 1px solid var(--ui-input-border);
+  border: 1px solid var(--ui-input-current-border-color);
   border-radius: 0.5rem;
-  background-color: color-mix(in srgb, var(--color-brand) 5%, transparent);
-  color: color-mix(in srgb, var(--color-brand) 90%, var(--text-color-secondary));
+  background-color: var(--ui-input-background);
+  color: contrast-color(var(--ui-input-background));
   font: inherit;
   padding: 0 1rem;
   outline: none;
 }
 
 :host ::ng-deep input::placeholder {
-  color: color-mix(in srgb, var(--color-brand) 45%, var(--text-color-secondary));
-}
-
-:host ::ng-deep input:not(:disabled):hover {
-  background-color: color-mix(in srgb, var(--color-brand) 15%, transparent);
-}
-
-:host ::ng-deep [ngCombobox]:hover {
-  background-color: color-mix(in srgb, var(--color-brand) 15%, transparent);
+  color: var(--ui-input-placeholder-color);
 }
 
 :host ::ng-deep input:disabled,
@@ -72,23 +87,21 @@
   opacity: 0.6;
 }
 
-:host ::ng-deep input:focus,
-:host ::ng-deep [ngCombobox]:focus,
-:host ::ng-deep [ngCombobox]:focus-within {
-  outline: 2px solid color-mix(in srgb, var(--color-brand) 50%, transparent);
-}
-
-.ui-input-invalid .ui-input-control {
-  --ui-input-border: rgb(190 18 60);
+:host ::ng-deep input:focus-visible,
+:host ::ng-deep [ngCombobox]:focus-visible,
+:host ::ng-deep [ngCombobox]:has(:focus-visible) {
+  border-color: var(--ui-input-current-focus-visible-border-color);
+  outline: 3px solid
+    color-mix(in srgb, var(--ui-input-current-focus-visible-border-color) 30%, transparent);
 }
 
 .ui-input-disabled-reason {
-  color: rgb(71 85 105);
+  color: var(--ui-input-disabled-reason-color);
   font-size: 0.8125rem;
   font-weight: 700;
   line-height: 1.45;
-}
 
-.ui-input-disabled-reason span {
-  display: block;
+  & span {
+    display: block;
+  }
 }

@@ -4,30 +4,50 @@
 :root {
   --full-contrast: black;
   --focus-ring: color-mix(in srgb, var(--color-brand) 45%, transparent);
+
+  color-scheme: light dark;
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg-image: url(/light.svg);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg-image: url(/dark.svg);
 }
 
 @theme {
   --font-sans:
-    ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-    'Noto Color Emoji';
-  --font-serif: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
+    'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-serif: 'IBM Plex Serif', ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
   --font-mono:
     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
     monospace;
 
-  --background-color-primary: light-dark(var(--color-neutral-50), var(--color-neutral-950));
-  --background-color-secondary: light-dark(var(--color-white), var(--color-neutral-900));
+  --background-color-surface: light-dark(var(--color-white), var(--color-neutral-950));
+  --background-color-elevated: light-dark(var(--color-white), var(--color-neutral-900));
+  --background-color-subtle: light-dark(var(--color-neutral-100), var(--color-neutral-800));
 
-  --text-color-primary: light-dark(var(--color-neutral-900), var(--color-neutral-50));
-  --text-color-secondary: light-dark(var(--color-neutral-500), var(--color-neutral-400));
+  --text-color-muted: light-dark(var(--color-neutral-500), var(--color-neutral-400));
 
-  --border-color-primary: light-dark(var(--color-neutral-200), var(--color-neutral-800));
+  --border-color-default: light-dark(var(--color-neutral-200), var(--color-neutral-800));
+  --border-color-strong: light-dark(var(--color-neutral-300), var(--color-neutral-700));
 
   --color-brand: var(--color-emerald-400);
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+body {
+  background-image: var(--bg-image);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
 }
 
 button[uiMenuTrigger] {
@@ -38,9 +58,8 @@ button[uiMenuTrigger] {
   align-items: center;
   justify-content: center;
   border-radius: 0.5rem;
-  border: 1px solid var(--border-color-primary);
-  background: var(--background-color-secondary);
-  color: var(--text-color-primary);
+  border: 1px solid var(--border-color-default);
+  background: var(--background-color-surface);
   font: inherit;
   font-weight: 800;
   padding: 0.625rem 1rem;
@@ -49,7 +68,7 @@ button[uiMenuTrigger] {
 
 button[uiMenuTrigger]:not(:disabled):hover,
 button[uiMenuTrigger][aria-expanded='true'] {
-  background: var(--background-color-secondary);
+  background: var(--background-color-surface);
 }
 
 button[uiMenuTrigger]:focus-visible {

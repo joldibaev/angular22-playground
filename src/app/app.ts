@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { disabled, FormField, form, required } from '@angular/forms/signals';
 import { UiAutocomplete } from './ui-autocomplete/ui-autocomplete';
 import { UiAutocompleteOption } from './ui-autocomplete/ui-autocomplete-option/ui-autocomplete-option';
@@ -11,6 +11,8 @@ import { UiMenuItem } from './ui-menu/ui-menu-item/ui-menu-item';
 import { UiMenuTrigger } from './ui-menu/ui-menu-trigger/ui-menu-trigger';
 import { UiTab } from './ui-tab/ui-tab';
 import { UiTabItem } from './ui-tab/ui-tab-item/ui-tab-item';
+import { ThemeService, type Theme } from './theme.service';
+import { UiIcon } from './ui-icon/ui-icon';
 
 @Component({
   selector: 'app-root',
@@ -27,11 +29,23 @@ import { UiTabItem } from './ui-tab/ui-tab-item/ui-tab-item';
     UiTabItem,
     FormField,
     UiInput,
+    UiIcon,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
 export class App {
+  readonly theme = inject(ThemeService);
+  readonly themeOptions: {
+    value: Theme;
+    label: string;
+    icon: 'outline-device-desktop' | 'outline-moon' | 'outline-sparkles';
+  }[] = [
+    { value: 'system', label: 'System', icon: 'outline-device-desktop' },
+    { value: 'dark', label: 'Dark', icon: 'outline-moon' },
+    { value: 'light', label: 'Light', icon: 'outline-sparkles' },
+  ];
+
   readonly metrics = [
     { value: '2', label: 'Composed controls' },
     { value: '4', label: 'Interaction states' },

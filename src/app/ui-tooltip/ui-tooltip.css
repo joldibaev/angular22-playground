@@ -1,4 +1,18 @@
 .ui-tooltip {
+  --ui-tooltip-background: color-mix(
+    in srgb,
+    var(--color-brand) 8%,
+    var(--background-color-elevated)
+  );
+  --ui-tooltip-border-color: color-mix(
+    in srgb,
+    var(--color-brand) 35%,
+    var(--border-color-strong)
+  );
+  --ui-tooltip-text-color: contrast-color(var(--ui-tooltip-background));
+  --ui-tooltip-shadow: 0 1rem 2rem
+    color-mix(in srgb, var(--color-brand) 12%, transparent);
+
   position: fixed;
   position-anchor: --ui-input-control;
   position-area: block-start;
@@ -15,6 +29,7 @@
 
 .ui-tooltip-surface {
   --ui-tooltip-radius: 0.5rem;
+
   --ui-tooltip-arrow-position: 50%;
   --ui-tooltip-arrow-height: 0.625rem;
   --ui-tooltip-arrow-width: 0.625rem;
@@ -23,35 +38,37 @@
   display: grid;
   gap: 0.25rem;
   border-radius: var(--ui-tooltip-radius);
-  border: 1px solid rgb(254 205 211);
-  background: rgb(255 241 242);
-  color: rgb(136 19 55);
+  border: 1px solid var(--ui-tooltip-border-color);
+  background: var(--ui-tooltip-background);
+  color: var(--ui-tooltip-text-color);
   font-size: 0.8125rem;
   font-weight: 700;
   line-height: 1.45;
   padding: 0.625rem 0.75rem;
-  box-shadow: 0 1rem 2rem rgb(136 19 55 / 12%);
-}
+  box-shadow: var(--ui-tooltip-shadow);
 
-.ui-tooltip-surface::after {
-  position: absolute;
-  left: calc(var(--ui-tooltip-arrow-position) - var(--ui-tooltip-arrow-width));
-  bottom: calc(-1 * var(--ui-tooltip-arrow-height) + 1px);
-  width: calc(var(--ui-tooltip-arrow-width) * 2);
-  height: var(--ui-tooltip-arrow-height);
-  background: rgb(255 241 242);
-  clip-path: polygon(50% 100%, 0 0, 100% 0);
-  content: '';
-}
+  &::after {
+    position: absolute;
+    left: calc(var(--ui-tooltip-arrow-position) - var(--ui-tooltip-arrow-width));
+    bottom: calc(-1 * var(--ui-tooltip-arrow-height) + 1px);
+    width: calc(var(--ui-tooltip-arrow-width) * 2);
+    height: var(--ui-tooltip-arrow-height);
+    background: var(--ui-tooltip-background);
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+    content: '';
+  }
 
-@supports (clip-path: shape(from 50% 100%, line to 0 0, line to 100% 0, close)) {
-  .ui-tooltip-surface::after {
-    clip-path: shape(from 50% 100%, line to 0 0, line to 100% 0, close);
+  & span {
+    display: block;
   }
 }
 
-.ui-tooltip-surface span {
-  display: block;
+@supports (clip-path: shape(from 50% 100%, line to 0 0, line to 100% 0, close)) {
+  .ui-tooltip-surface {
+    &::after {
+      clip-path: shape(from 50% 100%, line to 0 0, line to 100% 0, close);
+    }
+  }
 }
 
 @supports (
@@ -80,10 +97,10 @@
       vline to var(--ui-tooltip-radius),
       curve to var(--ui-tooltip-radius) top with left top
     );
-  }
 
-  .ui-tooltip-surface::after {
-    content: none;
+    &::after {
+      content: none;
+    }
   }
 }
 
@@ -96,15 +113,19 @@
 }
 
 @container anchored(fallback: flip-block) {
-  .ui-tooltip-surface::after {
-    top: calc(-1 * var(--ui-tooltip-arrow-height) + 1px);
-    bottom: auto;
-    clip-path: polygon(50% 0, 100% 100%, 0 100%);
+  .ui-tooltip-surface {
+    &::after {
+      top: calc(-1 * var(--ui-tooltip-arrow-height) + 1px);
+      bottom: auto;
+      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    }
   }
 
   @supports (clip-path: shape(from 50% 0, line to 100% 100%, line to 0 100%, close)) {
-    .ui-tooltip-surface::after {
-      clip-path: shape(from 50% 0, line to 100% 100%, line to 0 100%, close);
+    .ui-tooltip-surface {
+      &::after {
+        clip-path: shape(from 50% 0, line to 100% 100%, line to 0 100%, close);
+      }
     }
   }
 
