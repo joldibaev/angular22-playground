@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { disabled, FormField, form, required } from '@angular/forms/signals';
+import { disabled, form, FormField, required } from '@angular/forms/signals';
 import { UiAutocomplete } from './ui-autocomplete/ui-autocomplete';
 import { UiAutocompleteOption } from './ui-autocomplete/ui-autocomplete-option/ui-autocomplete-option';
 import { UiInput } from './ui-input/ui-input';
@@ -11,8 +11,10 @@ import { UiMenuItem } from './ui-menu/ui-menu-item/ui-menu-item';
 import { UiMenuTrigger } from './ui-menu/ui-menu-trigger/ui-menu-trigger';
 import { UiTab } from './ui-tab/ui-tab';
 import { UiTabItem } from './ui-tab/ui-tab-item/ui-tab-item';
-import { ThemeService, type Theme } from './theme.service';
+import { type Theme, ThemeService } from './theme.service';
 import { UiIcon } from './ui-icon/ui-icon';
+import { UiSegmented } from './ui-segmented/ui-segmented';
+import { UiSegmentedItem } from './ui-segmented/ui-segmented-item/ui-segmented-item';
 
 @Component({
   selector: 'app-root',
@@ -30,6 +32,8 @@ import { UiIcon } from './ui-icon/ui-icon';
     FormField,
     UiInput,
     UiIcon,
+    UiSegmented,
+    UiSegmentedItem,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',

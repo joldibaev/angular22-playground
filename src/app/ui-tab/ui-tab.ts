@@ -13,10 +13,21 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Tab, TabContent, TabList, TabPanel, Tabs } from '@angular/aria/tabs';
 import { UiTabItem } from './ui-tab-item/ui-tab-item';
+import { UiSegmented } from '../ui-segmented/ui-segmented';
+import { UiSegmentedItem } from '../ui-segmented/ui-segmented-item/ui-segmented-item';
 
 @Component({
   selector: 'ui-tab',
-  imports: [NgTemplateOutlet, Tabs, TabList, Tab, TabPanel, TabContent],
+  imports: [
+    NgTemplateOutlet,
+    Tabs,
+    TabList,
+    Tab,
+    TabPanel,
+    TabContent,
+    UiSegmented,
+    UiSegmentedItem,
+  ],
   templateUrl: './ui-tab.html',
   styleUrl: './ui-tab.css',
   host: {

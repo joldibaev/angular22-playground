@@ -1,27 +1,34 @@
 <div ngTabs class="ui-tab-root">
-  <div
+  <ui-segmented
     ngTabList
     class="ui-tab-list"
     [(selectedTab)]="selectedTab"
+    [appearance]="appearance()"
+    [fluid]="fluid()"
+    [elevated]="false"
+    selection="none"
     [selectionMode]="selectionMode()"
     [orientation]="orientation()"
     [wrap]="wrap()"
     [softDisabled]="softDisabled()"
   >
     @for (item of items(); track item) {
-      <button
-        ngTab
-        class="ui-tab-trigger"
-        type="button"
+      <ui-segmented-item
         [value]="item.value()"
         [disabled]="item.disabled()"
       >
-        {{ item.displayLabel() }}
-      </button>
+        <button
+          ngTab
+          class="ui-tab-trigger"
+          type="button"
+          [value]="item.value()"
+          [disabled]="item.disabled()"
+        >
+          {{ item.displayLabel() }}
+        </button>
+      </ui-segmented-item>
     }
-
-    <span class="ui-tab-indicator" aria-hidden="true"></span>
-  </div>
+  </ui-segmented>
 
   <div class="ui-tab-panels">
     @for (item of items(); track item) {

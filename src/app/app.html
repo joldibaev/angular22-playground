@@ -1,27 +1,13 @@
 <main class="mx-auto w-[min(1120px,calc(100%-2rem))] space-y-20 px-4 py-10 text-primary md:py-16">
   <div class="flex justify-end">
-    <fieldset class="inline-flex flex-wrap gap-1 rounded-lg border border-default bg-surface p-1 shadow-lg shadow-slate-950/6">
-      <legend class="sr-only">Theme</legend>
+    <ui-segmented aria-label="Theme" [(value)]="theme.theme">
       @for (option of themeOptions; track option.value) {
-        <label
-          class="inline-flex min-h-9 cursor-pointer items-center gap-2 rounded-md px-3 text-sm font-bold outline-offset-4 has-focus-visible:outline-3 has-focus-visible:outline-(--focus-ring)"
-          [class.bg-primary]="theme.theme() === option.value"
-          [class.text-brand]="theme.theme() === option.value"
-          [class.text-primary]="theme.theme() !== option.value"
-        >
-          <input
-            class="sr-only"
-            type="radio"
-            name="theme"
-            [value]="option.value"
-            [checked]="theme.theme() === option.value"
-            (change)="theme.setTheme(option.value)"
-          />
+        <ui-segmented-item [value]="option.value">
           <ui-icon [name]="option.icon" [width]="17" [height]="17" />
           <span>{{ option.label }}</span>
-        </label>
+        </ui-segmented-item>
       }
-    </fieldset>
+    </ui-segmented>
   </div>
 
   <section class="grid min-h-130 gap-6 md:grid-cols-[1.25fr_.75fr]">

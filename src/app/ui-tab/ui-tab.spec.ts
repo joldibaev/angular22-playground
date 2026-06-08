@@ -116,6 +116,18 @@ function getPanels(fixture: ComponentFixture<unknown>): HTMLElement[] {
   );
 }
 
+function getSegmentedItems(fixture: ComponentFixture<unknown>): HTMLElement[] {
+  return Array.from(
+    (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLElement>('ui-segmented-item'),
+  );
+}
+
+function getSegmentedIndicator(fixture: ComponentFixture<unknown>): HTMLElement {
+  return (fixture.nativeElement as HTMLElement).querySelector(
+    '.ui-segmented-indicator',
+  ) as HTMLElement;
+}
+
 describe('UiTab', () => {
   let component: UiTab;
   let fixture: ComponentFixture<UiTab>;
@@ -187,17 +199,17 @@ describe('UiTab', () => {
 
   it('should configure the active indicator with css anchor positioning', async () => {
     const hostFixture = await createHostFixture();
-    const selectedTab = getTabs(hostFixture)[0];
-    const indicator = hostFixture.nativeElement.querySelector('.ui-tab-indicator') as HTMLElement;
-    const host = hostFixture.nativeElement.querySelector('ui-tab') as HTMLElement;
-    const selectedTabStyle = getComputedStyle(selectedTab);
+    const selectedItem = getSegmentedItems(hostFixture)[0];
+    const indicator = getSegmentedIndicator(hostFixture);
+    const tabList = getTabList(hostFixture);
+    const selectedItemStyle = getComputedStyle(selectedItem);
     const indicatorStyle = getComputedStyle(indicator);
-    const hostStyle = getComputedStyle(host);
+    const tabListStyle = getComputedStyle(tabList);
 
-    expect(hostStyle.anchorScope).toBe('--ui-tab-active');
-    expect(selectedTabStyle.anchorName).toBe('--ui-tab-active');
+    expect(tabListStyle.anchorScope).toBe('--ui-segmented-active');
+    expect(selectedItemStyle.anchorName).toBe('--ui-segmented-active');
     expect(indicatorStyle.position).toBe('absolute');
-    expect(indicatorStyle.positionAnchor).toBe('--ui-tab-active');
+    expect(indicatorStyle.positionAnchor).toBe('--ui-segmented-active');
   });
 
   it('should use the pills appearance by default', async () => {
@@ -215,11 +227,11 @@ describe('UiTab', () => {
     const hostFixture = await createLineFluidHostFixture();
     const host = getHost(hostFixture);
     const tabList = getTabList(hostFixture);
-    const firstTab = getTabs(hostFixture)[0];
-    const indicator = hostFixture.nativeElement.querySelector('.ui-tab-indicator') as HTMLElement;
+    const firstItem = getSegmentedItems(hostFixture)[0];
+    const indicator = getSegmentedIndicator(hostFixture);
     const hostStyle = getComputedStyle(host);
     const tabListStyle = getComputedStyle(tabList);
-    const firstTabStyle = getComputedStyle(firstTab);
+    const firstItemStyle = getComputedStyle(firstItem);
     const indicatorStyle = getComputedStyle(indicator);
 
     expect(host.classList.contains('ui-tab-line')).toBe(true);
@@ -229,7 +241,7 @@ describe('UiTab', () => {
     expect(hostFixture.componentInstance.tab().fluid()).toBe(true);
     expect(hostStyle.width).toBe('100%');
     expect(tabListStyle.width).toBe('100%');
-    expect(firstTabStyle.flexGrow).toBe('1');
+    expect(firstItemStyle.flexGrow).toBe('1');
     expect(indicatorStyle.height).toBe('2px');
   });
 

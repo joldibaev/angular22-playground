@@ -1,0 +1,209 @@
+ui-segmented {
+  --ui-segmented-border-color: var(--border-color-default);
+  --ui-segmented-focus-ring-color: var(--focus-ring);
+
+  --ui-segmented-list-background: var(--background-color-subtle);
+
+  --ui-segmented-indicator-background: var(--background-color-elevated);
+  --ui-segmented-indicator-shadow: 0 1px 3px
+    color-mix(in srgb, contrast-color(var(--ui-segmented-indicator-background)) 12%, transparent);
+  --ui-segmented-list-shadow: 0 10px 15px -3px
+    color-mix(in srgb, var(--color-slate-950) 6%, transparent);
+
+  --ui-segmented-item-color: var(--text-color-muted);
+  --ui-segmented-item-active-color: contrast-color(var(--ui-segmented-indicator-background));
+
+  --ui-segmented-line-color: contrast-color(Canvas);
+  --ui-segmented-line-indicator-size: 2px;
+  --ui-segmented-pill-list-padding: 0.25rem;
+  --ui-segmented-pill-list-radius: 0.5rem;
+  --ui-segmented-pill-item-radius: calc(
+    var(--ui-segmented-pill-list-radius) - var(--ui-segmented-pill-list-padding)
+  );
+
+  display: flex;
+  position: relative;
+  justify-self: start;
+  min-inline-size: 0;
+  width: max-content;
+  gap: 0.25rem;
+  box-sizing: border-box;
+  margin: 0;
+  anchor-scope: --ui-segmented-active;
+}
+
+ui-segmented.ui-segmented-list-pills {
+  border-radius: var(--ui-segmented-pill-list-radius);
+  border: 1px solid var(--ui-segmented-border-color);
+  background: var(--ui-segmented-list-background);
+  padding: var(--ui-segmented-pill-list-padding);
+}
+
+ui-segmented.ui-segmented-list-pills.ui-segmented-list-elevated {
+  box-shadow: var(--ui-segmented-list-shadow);
+}
+
+ui-segmented.ui-segmented-list-line {
+  border-bottom: 1px solid var(--ui-segmented-border-color);
+  padding: 0;
+}
+
+ui-segmented.ui-segmented-list-fluid {
+  justify-self: stretch;
+  width: 100%;
+}
+
+ui-segmented[aria-orientation='vertical'] {
+  flex-direction: column;
+  width: max-content;
+}
+
+ui-segmented[aria-orientation='vertical'].ui-segmented-list-fluid {
+  width: 100%;
+}
+
+ui-segmented-item {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  min-height: 2.25rem;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 0;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: var(--ui-segmented-item-color);
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 800;
+  line-height: 1.25rem;
+  outline: none;
+  padding: 0.5rem 0.875rem;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.ui-segmented-list-line ui-segmented-item {
+  border-radius: 0;
+  padding-inline: 0;
+}
+
+.ui-segmented-list-pills ui-segmented-item {
+  border-radius: var(--ui-segmented-pill-item-radius);
+}
+
+.ui-segmented-list-line ui-segmented-item + ui-segmented-item {
+  margin-left: 1.5rem;
+}
+
+.ui-segmented-list-line[aria-orientation='vertical'] ui-segmented-item + ui-segmented-item {
+  margin-top: 0.75rem;
+  margin-left: 0;
+}
+
+.ui-segmented-list-fluid ui-segmented-item {
+  flex: 1;
+}
+
+ui-segmented-item[aria-selected='true'],
+ui-segmented-item.ui-segmented-item-active,
+ui-segmented-item[aria-checked='true'],
+ui-segmented-item:has([aria-selected='true']) {
+  anchor-name: --ui-segmented-active;
+  color: var(--ui-segmented-item-active-color);
+}
+
+ui-segmented-item[aria-disabled='true'] {
+  cursor: default;
+  opacity: 0.45;
+}
+
+ui-segmented-item:focus-visible,
+ui-segmented-item:has(:focus-visible) {
+  outline: 2px solid var(--ui-segmented-focus-ring-color);
+  outline-offset: -2px;
+}
+
+ui-segmented-item [ngTab] {
+  appearance: none;
+  display: inline-flex;
+  min-width: 0;
+  cursor: inherit;
+  align-items: center;
+  justify-content: center;
+  gap: inherit;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  outline: none;
+  padding: 0;
+}
+
+.ui-segmented-indicator {
+  position: absolute;
+  position-anchor: --ui-segmented-active;
+  pointer-events: none;
+  transition:
+    top 150ms ease,
+    left 150ms ease,
+    width 150ms ease,
+    height 150ms ease,
+    bottom 150ms ease;
+}
+
+.ui-segmented-list-pills .ui-segmented-indicator {
+  top: anchor(top);
+  left: anchor(left);
+  width: anchor-size(width);
+  height: anchor-size(height);
+  border-radius: var(--ui-segmented-pill-item-radius);
+  background: var(--ui-segmented-indicator-background);
+  box-shadow: var(--ui-segmented-indicator-shadow);
+}
+
+.ui-segmented-list-line .ui-segmented-indicator {
+  bottom: 0;
+  left: anchor(left);
+  width: anchor-size(width);
+  height: var(--ui-segmented-line-indicator-size);
+  border-radius: 999px;
+  background: var(--ui-segmented-line-color);
+}
+
+.ui-segmented-list-line[aria-orientation='vertical'] .ui-segmented-indicator {
+  top: anchor(top);
+  bottom: auto;
+  left: 0;
+  width: var(--ui-segmented-line-indicator-size);
+  height: anchor-size(height);
+}
+
+ui-segmented[aria-orientation='vertical'] .ui-segmented-indicator {
+  inset-block: auto;
+}
+
+@supports not (position-anchor: --ui-segmented-active) {
+  .ui-segmented-indicator {
+    display: none;
+  }
+
+  ui-segmented-item[aria-selected='true'],
+  ui-segmented-item.ui-segmented-item-active,
+  ui-segmented-item[aria-checked='true'],
+  ui-segmented-item:has([aria-selected='true']) {
+    background: var(--ui-segmented-indicator-background);
+    box-shadow: var(--ui-segmented-indicator-shadow);
+  }
+
+  .ui-segmented-list-line ui-segmented-item[aria-selected='true'],
+  .ui-segmented-list-line ui-segmented-item.ui-segmented-item-active,
+  .ui-segmented-list-line ui-segmented-item[aria-checked='true'],
+  .ui-segmented-list-line ui-segmented-item:has([aria-selected='true']) {
+    background: transparent;
+    box-shadow: inset 0 calc(-1 * var(--ui-segmented-line-indicator-size)) 0
+      var(--ui-segmented-line-color);
+  }
+}
