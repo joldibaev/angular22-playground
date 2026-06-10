@@ -53,6 +53,8 @@ export class UiTab {
   queryParam = input<string>();
   appearance = input<'pills' | 'line'>('pills');
   fluid = input(false, { transform: booleanAttribute });
+  ariaLabel = input('', { alias: 'aria-label' });
+  ariaLabelledby = input('', { alias: 'aria-labelledby' });
 
   readonly items = contentChildren(UiTabItem);
 

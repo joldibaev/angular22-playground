@@ -18,14 +18,19 @@ import { UiSegmentedItem } from './ui-segmented-item/ui-segmented-item';
     <ng-content />
     <span class="ui-segmented-indicator" aria-hidden="true"></span>
   `,
+  styleUrl: './ui-segmented.css',
   host: {
     class: 'ui-segmented-list',
     '[class.ui-segmented-list-pills]': "appearance() === 'pills'",
     '[class.ui-segmented-list-line]': "appearance() === 'line'",
     '[class.ui-segmented-list-fluid]': 'fluid()',
     '[class.ui-segmented-list-elevated]': 'elevated()',
+    '[class.ui-segmented-list-selection-none]': 'selection() === "none"',
+    '[class.ui-segmented-list-has-active]': 'hasActiveItem()',
+    '[class.ui-segmented-list-hide-indicator]': 'selection() === "none" && !hasActiveItem()',
     '[attr.role]': 'selection() === "single" ? "radiogroup" : null',
     '[attr.aria-label]': 'ariaLabel() || null',
+    '[attr.aria-orientation]': 'orientation()',
     '(keydown)': 'onKeydown($event)',
   },
 })
@@ -35,7 +40,9 @@ export class UiSegmented {
   readonly appearance = input<'pills' | 'line'>('pills');
   readonly fluid = input(false, { transform: booleanAttribute });
   readonly elevated = input(true, { transform: booleanAttribute });
+  readonly orientation = input<'horizontal' | 'vertical'>('horizontal');
   readonly selection = input<'single' | 'none'>('single');
+  readonly activeValue = input<string | undefined>(undefined);
   readonly ariaLabel = input('', { alias: 'aria-label' });
   readonly value = model<string | undefined>(undefined);
 
@@ -44,9 +51,17 @@ export class UiSegmented {
   );
 
   readonly enabledItems = computed(() => this.items().filter((item) => !item.disabled()));
+  readonly visualValue = computed(() =>
+    this.selection() === 'single' ? this.value() : this.activeValue(),
+  );
+  readonly hasActiveItem = computed(() => this.items().some((item) => this.isActive(item)));
 
   isSelected(item: UiSegmentedItem) {
     return this.selection() === 'single' && this.value() === item.value();
+  }
+
+  isActive(item: UiSegmentedItem) {
+    return this.visualValue() === item.value();
   }
 
   select(item: UiSegmentedItem) {

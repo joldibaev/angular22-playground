@@ -1,0 +1,35 @@
+<article class="grid min-w-0 gap-4 rounded-lg bg-primary p-5">
+  <div class="grid min-w-0 gap-4 md:grid-cols-2">
+    <ui-input label="Required empty" showError>
+      <input [formField]="formState.requiredEmpty" placeholder="name@example.com" type="email" />
+    </ui-input>
+
+    <ui-input label="Required valid" showError>
+      <input [formField]="formState.requiredValid" placeholder="name@example.com" type="email" />
+    </ui-input>
+
+    <ui-input label="Optional empty">
+      <input [formField]="formState.optionalEmpty" placeholder="No value" />
+    </ui-input>
+
+    <ui-input label="Optional filled">
+      <input [formField]="formState.optionalFilled" />
+    </ui-input>
+
+    <ui-input label="Invalid email" showError>
+      <input [formField]="formState.invalidEmail" type="email" />
+    </ui-input>
+
+    <ui-input label="Minimum length" showError>
+      <input [formField]="formState.shortCode" />
+    </ui-input>
+
+    <ui-input label="Signal disabled">
+      <input [formField]="formState.disabledField" />
+    </ui-input>
+
+    <ui-input label="Native disabled">
+      <input value="Native disabled" disabled />
+    </ui-input>
+  </div>
+</article>

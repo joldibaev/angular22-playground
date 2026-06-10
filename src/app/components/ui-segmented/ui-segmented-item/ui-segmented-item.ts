@@ -14,7 +14,7 @@ import { UiSegmented } from '../ui-segmented';
   template: '<ng-content />',
   host: {
     class: 'ui-segmented-item',
-    '[class.ui-segmented-item-active]': 'selected()',
+    '[class.ui-segmented-item-active]': 'active()',
     '[attr.role]': 'segmented.selection() === "single" ? "radio" : null',
     '[attr.aria-checked]': 'segmented.selection() === "single" ? selected() : null',
     '[attr.aria-disabled]': 'disabled() ? "true" : null',
@@ -32,6 +32,7 @@ export class UiSegmentedItem {
   readonly disabled = input(false, { transform: booleanAttribute });
 
   readonly selected = computed(() => this.segmented.isSelected(this));
+  readonly active = computed(() => this.segmented.isActive(this));
   readonly tabIndex = computed(() => {
     if (this.segmented.selection() !== 'single') {
       return null;

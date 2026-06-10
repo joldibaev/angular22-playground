@@ -1,6 +1,4 @@
 @import 'tailwindcss';
-@import './app/ui-tooltip/ui-tooltip.css';
-@import './app/ui-segmented/ui-segmented.css';
 
 :root {
   --full-contrast: black;

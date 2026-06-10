@@ -1,4 +1,4 @@
-ui-segmented {
+:host {
   --ui-segmented-border-color: var(--border-color-default);
   --ui-segmented-focus-ring-color: var(--focus-ring);
 
@@ -23,6 +23,7 @@ ui-segmented {
 
   display: flex;
   position: relative;
+  align-items: center;
   justify-self: start;
   min-inline-size: 0;
   width: max-content;
@@ -32,37 +33,45 @@ ui-segmented {
   anchor-scope: --ui-segmented-active;
 }
 
-ui-segmented.ui-segmented-list-pills {
+:host(.ui-segmented-list-pills) {
   border-radius: var(--ui-segmented-pill-list-radius);
   border: 1px solid var(--ui-segmented-border-color);
   background: var(--ui-segmented-list-background);
   padding: var(--ui-segmented-pill-list-padding);
 }
 
-ui-segmented.ui-segmented-list-pills.ui-segmented-list-elevated {
+:host(.ui-segmented-list-pills.ui-segmented-list-elevated) {
   box-shadow: var(--ui-segmented-list-shadow);
 }
 
-ui-segmented.ui-segmented-list-line {
+:host(.ui-segmented-list-line) {
   border-bottom: 1px solid var(--ui-segmented-border-color);
+  gap: 0;
   padding: 0;
 }
 
-ui-segmented.ui-segmented-list-fluid {
+:host(.ui-segmented-list-line[aria-orientation='vertical']) {
+  border-bottom: 0;
+  border-left: 1px solid var(--ui-segmented-border-color);
+  padding-left: 0.75rem;
+}
+
+:host(.ui-segmented-list-fluid) {
   justify-self: stretch;
   width: 100%;
 }
 
-ui-segmented[aria-orientation='vertical'] {
+:host([aria-orientation='vertical']) {
+  align-items: stretch;
   flex-direction: column;
   width: max-content;
 }
 
-ui-segmented[aria-orientation='vertical'].ui-segmented-list-fluid {
+:host([aria-orientation='vertical'].ui-segmented-list-fluid) {
   width: 100%;
 }
 
-ui-segmented-item {
+:host ::ng-deep ui-segmented-item {
   position: relative;
   z-index: 1;
   display: inline-flex;
@@ -85,61 +94,56 @@ ui-segmented-item {
   -webkit-user-select: none;
 }
 
-.ui-segmented-list-line ui-segmented-item {
+:host(.ui-segmented-list-line) ::ng-deep ui-segmented-item {
   border-radius: 0;
-  padding-inline: 0;
+  padding-inline: 0.75rem;
 }
 
-.ui-segmented-list-pills ui-segmented-item {
+:host(.ui-segmented-list-pills) ::ng-deep ui-segmented-item {
   border-radius: var(--ui-segmented-pill-item-radius);
 }
 
-.ui-segmented-list-line ui-segmented-item + ui-segmented-item {
-  margin-left: 1.5rem;
-}
-
-.ui-segmented-list-line[aria-orientation='vertical'] ui-segmented-item + ui-segmented-item {
-  margin-top: 0.75rem;
+:host(.ui-segmented-list-line) ::ng-deep ui-segmented-item + ui-segmented-item {
   margin-left: 0;
 }
 
-.ui-segmented-list-fluid ui-segmented-item {
+:host(.ui-segmented-list-line[aria-orientation='vertical'])
+  ::ng-deep
+  ui-segmented-item
+  + ui-segmented-item {
+  margin-top: 0;
+  margin-left: 0;
+}
+
+:host(.ui-segmented-list-line[aria-orientation='vertical']) ::ng-deep ui-segmented-item {
+  padding-block: 0.75rem;
+}
+
+:host(.ui-segmented-list-fluid) ::ng-deep ui-segmented-item {
   flex: 1;
 }
 
-ui-segmented-item[aria-selected='true'],
-ui-segmented-item.ui-segmented-item-active,
-ui-segmented-item[aria-checked='true'],
-ui-segmented-item:has([aria-selected='true']) {
+:host([aria-orientation='vertical']) ::ng-deep ui-segmented-item {
+  flex: 1;
+}
+
+:host ::ng-deep ui-segmented-item[aria-selected='true'],
+:host ::ng-deep ui-segmented-item.ui-segmented-item-active,
+:host ::ng-deep ui-segmented-item[aria-checked='true'],
+:host ::ng-deep ui-segmented-item:has([aria-selected='true']) {
   anchor-name: --ui-segmented-active;
   color: var(--ui-segmented-item-active-color);
 }
 
-ui-segmented-item[aria-disabled='true'] {
+:host ::ng-deep ui-segmented-item[aria-disabled='true'] {
   cursor: default;
   opacity: 0.45;
 }
 
-ui-segmented-item:focus-visible,
-ui-segmented-item:has(:focus-visible) {
+:host ::ng-deep ui-segmented-item:focus-visible,
+:host ::ng-deep ui-segmented-item:has(:focus-visible) {
   outline: 2px solid var(--ui-segmented-focus-ring-color);
   outline-offset: -2px;
-}
-
-ui-segmented-item [ngTab] {
-  appearance: none;
-  display: inline-flex;
-  min-width: 0;
-  cursor: inherit;
-  align-items: center;
-  justify-content: center;
-  gap: inherit;
-  border: 0;
-  background: transparent;
-  color: inherit;
-  font: inherit;
-  outline: none;
-  padding: 0;
 }
 
 .ui-segmented-indicator {
@@ -154,7 +158,11 @@ ui-segmented-item [ngTab] {
     bottom 150ms ease;
 }
 
-.ui-segmented-list-pills .ui-segmented-indicator {
+:host(.ui-segmented-list-hide-indicator) .ui-segmented-indicator {
+  display: none;
+}
+
+:host(.ui-segmented-list-pills) .ui-segmented-indicator {
   top: anchor(top);
   left: anchor(left);
   width: anchor-size(width);
@@ -164,7 +172,7 @@ ui-segmented-item [ngTab] {
   box-shadow: var(--ui-segmented-indicator-shadow);
 }
 
-.ui-segmented-list-line .ui-segmented-indicator {
+:host(.ui-segmented-list-line) .ui-segmented-indicator {
   bottom: 0;
   left: anchor(left);
   width: anchor-size(width);
@@ -173,7 +181,7 @@ ui-segmented-item [ngTab] {
   background: var(--ui-segmented-line-color);
 }
 
-.ui-segmented-list-line[aria-orientation='vertical'] .ui-segmented-indicator {
+:host(.ui-segmented-list-line[aria-orientation='vertical']) .ui-segmented-indicator {
   top: anchor(top);
   bottom: auto;
   left: 0;
@@ -181,29 +189,40 @@ ui-segmented-item [ngTab] {
   height: anchor-size(height);
 }
 
-ui-segmented[aria-orientation='vertical'] .ui-segmented-indicator {
-  inset-block: auto;
-}
-
 @supports not (position-anchor: --ui-segmented-active) {
   .ui-segmented-indicator {
     display: none;
   }
 
-  ui-segmented-item[aria-selected='true'],
-  ui-segmented-item.ui-segmented-item-active,
-  ui-segmented-item[aria-checked='true'],
-  ui-segmented-item:has([aria-selected='true']) {
+  :host ::ng-deep ui-segmented-item[aria-selected='true'],
+  :host ::ng-deep ui-segmented-item.ui-segmented-item-active,
+  :host ::ng-deep ui-segmented-item[aria-checked='true'],
+  :host ::ng-deep ui-segmented-item:has([aria-selected='true']) {
     background: var(--ui-segmented-indicator-background);
     box-shadow: var(--ui-segmented-indicator-shadow);
   }
 
-  .ui-segmented-list-line ui-segmented-item[aria-selected='true'],
-  .ui-segmented-list-line ui-segmented-item.ui-segmented-item-active,
-  .ui-segmented-list-line ui-segmented-item[aria-checked='true'],
-  .ui-segmented-list-line ui-segmented-item:has([aria-selected='true']) {
+  :host(.ui-segmented-list-line) ::ng-deep ui-segmented-item[aria-selected='true'],
+  :host(.ui-segmented-list-line) ::ng-deep ui-segmented-item.ui-segmented-item-active,
+  :host(.ui-segmented-list-line) ::ng-deep ui-segmented-item[aria-checked='true'],
+  :host(.ui-segmented-list-line) ::ng-deep ui-segmented-item:has([aria-selected='true']) {
     background: transparent;
     box-shadow: inset 0 calc(-1 * var(--ui-segmented-line-indicator-size)) 0
       var(--ui-segmented-line-color);
+  }
+
+  :host(.ui-segmented-list-line[aria-orientation='vertical'])
+    ::ng-deep
+    ui-segmented-item[aria-selected='true'],
+  :host(.ui-segmented-list-line[aria-orientation='vertical'])
+    ::ng-deep
+    ui-segmented-item.ui-segmented-item-active,
+  :host(.ui-segmented-list-line[aria-orientation='vertical'])
+    ::ng-deep
+    ui-segmented-item[aria-checked='true'],
+  :host(.ui-segmented-list-line[aria-orientation='vertical'])
+    ::ng-deep
+    ui-segmented-item:has([aria-selected='true']) {
+    box-shadow: inset var(--ui-segmented-line-indicator-size) 0 0 var(--ui-segmented-line-color);
   }
 }

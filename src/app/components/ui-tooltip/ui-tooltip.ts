@@ -1,9 +1,11 @@
 import { DOCUMENT } from '@angular/common';
 import {
+  Component,
   DestroyRef,
   Directive,
   ElementRef,
   Renderer2,
+  ViewEncapsulation,
   computed,
   effect,
   inject,
@@ -23,8 +25,11 @@ function optionalBooleanAttribute(value: unknown): boolean | undefined {
   return value !== false && value !== 'false';
 }
 
-@Directive({
+@Component({
   selector: '[uiTooltip]',
+  template: '<ng-content />',
+  styleUrl: './ui-tooltip.css',
+  encapsulation: ViewEncapsulation.None,
   host: {
     '[class.ui-tooltip]': '!hasGeneratedTooltip()',
     '[class.ui-tooltip-trigger]': 'hasGeneratedTooltip()',

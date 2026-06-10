@@ -1,0 +1,29 @@
+<article class="grid min-w-0 gap-4 rounded-lg bg-primary p-5 md:grid-cols-2">
+  <ui-autocomplete label="Empty">
+    @for (team of teams; track team) {
+      <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
+        team
+      }}</ui-autocomplete-option>
+    }
+  </ui-autocomplete>
+
+  <ui-autocomplete label="Preselected" value="team_support">
+    @for (team of teams; track team) {
+      <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
+        team
+      }}</ui-autocomplete-option>
+    }
+  </ui-autocomplete>
+
+  <ui-autocomplete label="Filtered text" value="team_growth">
+    @for (team of teams; track team) {
+      <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
+        team
+      }}</ui-autocomplete-option>
+    }
+  </ui-autocomplete>
+
+  <ui-autocomplete label="Disabled" [disabled]="true">
+    <ui-autocomplete-option value="team_platform">Platform</ui-autocomplete-option>
+  </ui-autocomplete>
+</article>

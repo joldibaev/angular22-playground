@@ -1,0 +1,33 @@
+<article class="grid min-w-0 gap-4 rounded-lg bg-primary p-5 md:grid-cols-2">
+  <ui-select label="Grouped">
+    <ui-select-group label="Pinned">
+      <ui-select-option value="roadmap">Roadmap</ui-select-option>
+      <ui-select-option value="research">Research</ui-select-option>
+    </ui-select-group>
+    <ui-select-group label="Workflow">
+      @for (label of projectLabels; track label) {
+        <ui-select-option [value]="label.toLowerCase().replaceAll(' ', '-')">{{
+          label
+        }}</ui-select-option>
+      }
+    </ui-select-group>
+  </ui-select>
+
+  <ui-select label="Preselected" value="design-review">
+    @for (label of projectLabels; track label) {
+      <ui-select-option [value]="label.toLowerCase().replaceAll(' ', '-')">{{
+        label
+      }}</ui-select-option>
+    }
+  </ui-select>
+
+  <ui-select label="Plain">
+    <ui-select-option value="created">Created</ui-select-option>
+    <ui-select-option value="approved">Approved</ui-select-option>
+    <ui-select-option value="paid">Paid</ui-select-option>
+  </ui-select>
+
+  <ui-select label="Disabled" [disabled]="true">
+    <ui-select-option value="locked">Locked option</ui-select-option>
+  </ui-select>
+</article>
