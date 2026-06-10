@@ -28,8 +28,8 @@ export class UiMenu {
     queueMicrotask(() => this.menu()?.parent()?.close());
   }
 
-  onPopoverToggle(event: Event) {
-    if ((event as { newState?: string }).newState === 'closed') {
+  onPopoverToggle(event: ToggleEvent) {
+    if (event.newState === 'closed') {
       this.menu()?.parent()?.close();
     }
   }

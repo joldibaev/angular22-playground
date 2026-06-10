@@ -20,15 +20,14 @@
       @if (errorMessages().length) {
         <span
           [id]="errorTooltipId"
-          uiTooltip
-          [uiTooltipOpen]="showErrorTooltip()"
-          uiTooltipVariant="red"
+          uiFloatingMessage
+          [uiFloatingMessageOpen]="showErrorTooltip()"
+          uiFloatingMessageVariant="red"
+          role="alert"
         >
-          <span uiTooltipSurface>
-            @for (message of errorMessages(); track message) {
-              <span>{{ message }}</span>
-            }
-          </span>
+          @for (message of errorMessages(); track message) {
+            <span>{{ message }}</span>
+          }
         </span>
       }
     </span>

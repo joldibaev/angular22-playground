@@ -1,6 +1,6 @@
-:host {
+ui-input {
   --ui-input-label-color: var(--text-color-muted);
-  --ui-input-required-color: var(--color-brand);
+  --ui-input-required-color: var(--color-red-400);
 
   --ui-input-border-color: var(--border-color-default);
   --ui-input-invalid-border-color: var(--border-color-strong);
@@ -58,17 +58,17 @@
   position: relative;
   width: 100%;
 
-  & > .ui-tooltip {
+  & > .ui-floating-message {
     position-anchor: --ui-input-control;
   }
 }
 
-:host ::ng-deep input {
+ui-input input {
   display: block;
 }
 
-:host ::ng-deep input,
-:host ::ng-deep [ngCombobox] {
+ui-input input,
+ui-input [ngCombobox] {
   min-width: 0;
   width: 100%;
   height: 2.5rem;
@@ -81,19 +81,19 @@
   outline: none;
 }
 
-:host ::ng-deep input::placeholder {
+ui-input input::placeholder {
   color: var(--ui-input-placeholder-color);
 }
 
-:host ::ng-deep input:disabled,
-:host ::ng-deep [ngCombobox][aria-disabled='true'] {
+ui-input input:disabled,
+ui-input [ngCombobox][aria-disabled='true'] {
   cursor: default;
   opacity: 0.6;
 }
 
-:host ::ng-deep input:focus-visible,
-:host ::ng-deep [ngCombobox]:focus-visible,
-:host ::ng-deep [ngCombobox]:has(:focus-visible) {
+ui-input input:focus-visible,
+ui-input [ngCombobox]:focus-visible,
+ui-input [ngCombobox]:has(:focus-visible) {
   border-color: var(--ui-input-current-focus-visible-border-color);
   outline: 3px solid
     color-mix(in srgb, var(--ui-input-current-focus-visible-border-color) 30%, transparent);

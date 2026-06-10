@@ -7,6 +7,7 @@ import {
   inject,
   input,
   model,
+  signal,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -38,6 +39,8 @@ export class UiTab {
   private readonly queryParamMap = toSignal(this.route.queryParamMap, {
     initialValue: this.route.snapshot.queryParamMap,
   });
+  private readonly tabListInteracted = signal(false);
+  private readonly userSelectedTab = signal(false);
 
   selectedTab = model<string | undefined>(undefined);
 
@@ -63,6 +66,12 @@ export class UiTab {
 
   constructor() {
     afterRenderEffect(() => {
+      const firstEnabledItem = this.enabledItems()[0];
+
+      if (!firstEnabledItem) {
+        return;
+      }
+
       const queryParamValue = this.queryParamValue();
 
       if (queryParamValue && this.isEnabledTabValue(queryParamValue)) {
@@ -74,18 +83,20 @@ export class UiTab {
         return;
       }
 
-      const firstEnabledItem = this.enabledItems()[0];
-
-      if (firstEnabledItem) {
-        this.selectedTab.set(firstEnabledItem.value());
-      }
+      this.selectedTab.set(firstEnabledItem.value());
     });
 
     afterRenderEffect(() => {
       const queryParam = this.queryParam();
       const selectedTab = this.selectedTab();
+      const queryParamValue = this.queryParamValue();
 
-      if (!queryParam || !selectedTab || this.queryParamValue() === selectedTab) {
+      if (
+        !queryParam ||
+        !selectedTab ||
+        !this.userSelectedTab() ||
+        queryParamValue === selectedTab
+      ) {
         return;
       }
 
@@ -96,6 +107,19 @@ export class UiTab {
         replaceUrl: true,
       });
     });
+  }
+
+  onSelectedTabChange(value: string | undefined) {
+    if (!value || !this.tabListInteracted()) {
+      return;
+    }
+
+    this.selectedTab.set(value);
+    this.userSelectedTab.set(true);
+  }
+
+  onTabListInteraction() {
+    this.tabListInteracted.set(true);
   }
 
   private isEnabledTabValue(value: string): boolean {

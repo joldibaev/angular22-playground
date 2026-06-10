@@ -27,6 +27,7 @@ type UiSelectRenderItem = {
   group?: UiSelectGroup;
   option?: UiSelectOption;
 };
+export type UiSelectValue = string | string[];
 
 @Component({
   selector: 'ui-select',
@@ -43,14 +44,16 @@ type UiSelectRenderItem = {
   templateUrl: './ui-select.html',
   styleUrls: ['../ui-popover/ui-popover.css', './ui-select.css'],
 })
-export class UiSelect implements FormValueControl<string> {
+export class UiSelect implements FormValueControl<UiSelectValue> {
   readonly combobox = viewChild(Combobox);
   readonly listbox = viewChild(Listbox);
   readonly popupElement = viewChild<ElementRef<HTMLElement>>('popupElement');
 
-  value = model('');
+  value = model<UiSelectValue>('');
   disabled = input(false);
   label = input('Select');
+  multi = input(false, { transform: booleanAttribute });
+  placeholder = input('Select a label');
   showError = input(false, { transform: booleanAttribute });
   touch = output<void>();
 
@@ -58,14 +61,27 @@ export class UiSelect implements FormValueControl<string> {
   popupExpanded = signal(false);
 
   readonly displayValue = computed(() => {
-    if (this.selectedValues().length) {
-      const options = this.options().filter((option) =>
-        this.selectedValues().includes(option.value()),
-      );
+    const options = this.selectedOptions();
+
+    if (options.length) {
       return options.map((option) => option.label()).join(', ');
     }
 
-    return 'Select a label';
+    return this.placeholder();
+  });
+  readonly isPlaceholderVisible = computed(() => this.selectedOptions().length === 0);
+  private readonly selectedOptions = computed(() => {
+    const optionByValue = new Map<string, UiSelectOption>();
+
+    for (const option of this.options()) {
+      const value = option.value();
+
+      if (!optionByValue.has(value)) {
+        optionByValue.set(value, option);
+      }
+    }
+
+    return this.selectedValues().flatMap((value) => optionByValue.get(value) ?? []);
   });
 
   options = contentChildren(UiSelectOption, { descendants: true });
@@ -97,10 +113,10 @@ export class UiSelect implements FormValueControl<string> {
   constructor() {
     effect(() => {
       const value = this.value();
-      const nextSelectedValues = value ? [value] : [];
+      const nextSelectedValues = this.parseValue(value);
       const selectedValues = untracked(this.selectedValues);
 
-      if (value && selectedValues.includes(value)) {
+      if (value && this.areSelectedValuesEqual(selectedValues, nextSelectedValues)) {
         return;
       }
 
@@ -129,12 +145,15 @@ export class UiSelect implements FormValueControl<string> {
   }
 
   onCommit() {
-    this.value.set(this.selectedValues()[0] ?? '');
-    this.popupExpanded.set(false);
+    this.value.set(this.formatValue(this.selectedValues()));
+
+    if (!this.multi()) {
+      this.popupExpanded.set(false);
+    }
   }
 
-  onPopupToggle(event: Event) {
-    if ((event as { newState?: string }).newState === 'closed') {
+  onPopupToggle(event: ToggleEvent) {
+    if (event.newState === 'closed') {
       this.popupExpanded.set(false);
     }
   }
@@ -144,9 +163,21 @@ export class UiSelect implements FormValueControl<string> {
   }
 
   reset() {
-    this.value.set('');
+    this.value.set(this.multi() ? [] : '');
     this.selectedValues.set([]);
     this.popupExpanded.set(false);
+  }
+
+  private parseValue(value: UiSelectValue): string[] {
+    if (Array.isArray(value)) {
+      return this.multi() ? value : (value[0] ? [value[0]] : []);
+    }
+
+    return this.multi() ? value.split(',').filter(Boolean) : value ? [value] : [];
+  }
+
+  private formatValue(values: string[]): UiSelectValue {
+    return this.multi() ? values : (values[0] ?? '');
   }
 
   private areSelectedValuesEqual(first: string[], second: string[]) {

@@ -8,6 +8,7 @@ import {
   inject,
   input,
   Renderer2,
+  ViewEncapsulation,
 } from '@angular/core';
 import {
   FORM_FIELD,
@@ -15,18 +16,20 @@ import {
   type FieldState,
   type ValidationError,
 } from '@angular/forms/signals';
-import { UiTooltip, UiTooltipSurface } from '../ui-tooltip/ui-tooltip';
+import { UiFloatingMessage } from '../ui-floating-message/ui-floating-message';
 
 let nextInputId = 0;
 
 @Component({
   selector: 'ui-input',
-  imports: [UiTooltip, UiTooltipSurface],
+  imports: [UiFloatingMessage],
   templateUrl: './ui-input.html',
   styleUrl: './ui-input.css',
+  encapsulation: ViewEncapsulation.None,
 })
 export class UiInput {
   readonly label = input('');
+  readonly placeholder = input('');
   readonly showError = input(false, { transform: booleanAttribute });
   private readonly id = nextInputId++;
   readonly labelId = `ui-input-label-${this.id}`;
@@ -37,6 +40,7 @@ export class UiInput {
   private readonly renderer = inject(Renderer2);
   private readonly projectedFormField = contentChild<FormField<string>>(FormField);
   private readonly hostFormField = inject<FormField<string> | null>(FORM_FIELD, { optional: true });
+  private ownsPlaceholder = false;
 
   readonly state = computed<FieldState<string> | undefined>(
     () => this.projectedFormField()?.field()() ?? this.hostFormField?.field()(),
@@ -114,6 +118,7 @@ export class UiInput {
       this.errorTooltipId,
       this.showErrorTooltip(),
     );
+    this.syncPlaceholder(control);
   }
 
   private syncLabelFor(controlId: string) {
@@ -139,6 +144,22 @@ export class UiInput {
       this.renderer.setAttribute(element, attribute, nextTokens.join(' '));
     } else {
       this.renderer.removeAttribute(element, attribute);
+    }
+  }
+
+  private syncPlaceholder(control: HTMLElement): void {
+    if (!(control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement)) {
+      return;
+    }
+
+    const placeholder = this.placeholder();
+
+    if (placeholder) {
+      this.renderer.setAttribute(control, 'placeholder', placeholder);
+      this.ownsPlaceholder = true;
+    } else if (this.ownsPlaceholder) {
+      this.renderer.removeAttribute(control, 'placeholder');
+      this.ownsPlaceholder = false;
     }
   }
 }

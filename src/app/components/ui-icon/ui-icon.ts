@@ -1,5 +1,6 @@
 import { IconName, ICONS } from './data';
 import {
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
@@ -15,9 +16,9 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'flex items-center justify-center',
-    '[attr.aria-hidden]': 'decorative()',
-    '[attr.aria-label]': 'decorative() ? null : label()',
-    '[attr.role]': 'decorative() ? "presentation" : "img"',
+    '[attr.aria-hidden]': 'isDecorative() ? "true" : null',
+    '[attr.aria-label]': 'isDecorative() ? null : accessibleLabel()',
+    '[attr.role]': 'isDecorative() ? "presentation" : "img"',
     '[innerHTML]': 'svgContent()',
   },
 })
@@ -26,16 +27,18 @@ export class UiIcon {
 
   name = input.required<IconName>();
   label = input('');
-  decorative = input(true);
+  decorative = input<boolean | undefined, unknown>(undefined, { transform: booleanAttribute });
   width = input(16, { transform: numberAttribute });
   height = input(16, { transform: numberAttribute });
+
+  readonly accessibleLabel = computed(() => this.label().trim());
+  readonly isDecorative = computed(() => this.decorative() ?? !this.accessibleLabel());
 
   svgContent = computed<SafeHtml | string>(() => {
     const iconName = this.name();
     const svgString = ICONS[iconName];
 
     if (!svgString) {
-      console.warn(`Icon not found: ${iconName}`);
       return '';
     }
 

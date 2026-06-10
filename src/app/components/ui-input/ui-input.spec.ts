@@ -28,6 +28,16 @@ class SignalFormTestHost {
   readonly titleInput = viewChild.required(UiInput);
 }
 
+@Component({
+  imports: [UiInput],
+  template: `
+    <ui-input label="Assignee" placeholder="Search teammates">
+      <input />
+    </ui-input>
+  `,
+})
+class PlaceholderTestHost {}
+
 function dispatchInputEvent(input: HTMLInputElement, value: string): void {
   input.value = value;
   input.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
@@ -74,6 +84,23 @@ describe('UiInput', () => {
     expect(label.htmlFor).toBe(input.id);
   });
 
+  it('should sync placeholder to the projected input', async () => {
+    const hostFixture = TestBed.createComponent(PlaceholderTestHost);
+    hostFixture.detectChanges();
+    await hostFixture.whenStable();
+
+    const input = getInputs(hostFixture)[0];
+
+    expect(input.placeholder).toBe('Search teammates');
+  });
+
+  it('should preserve a native placeholder when ui-input placeholder is not set', async () => {
+    const hostFixture = await createSignalFormHostFixture();
+    const [titleInput] = getInputs(hostFixture);
+
+    expect(titleInput.placeholder).toBe('Ticket title');
+  });
+
   it('should project a native input bound to the same signal form field', async () => {
     const hostFixture = await createSignalFormHostFixture();
     const [titleInput] = getInputs(hostFixture);
@@ -88,13 +115,13 @@ describe('UiInput', () => {
     );
   });
 
-  it('should show validation errors in a tooltip when showError is enabled', async () => {
+  it('should show validation errors in a floating message when showError is enabled', async () => {
     const hostFixture = await createSignalFormHostFixture();
     const firstField = hostFixture.nativeElement.querySelector('ui-input');
-    const tooltip = firstField.querySelector('.ui-tooltip');
+    const message = firstField.querySelector('.ui-floating-message');
 
-    expect(tooltip?.getAttribute('role')).toBe('tooltip');
-    expect(tooltip?.textContent).toContain('Ticket title is required');
+    expect(message?.getAttribute('role')).toBe('alert');
+    expect(message?.textContent).toContain('Ticket title is required');
   });
 
   it('should show disabled reasons below the control', async () => {
@@ -105,7 +132,7 @@ describe('UiInput', () => {
     const reason = disabledField.querySelector('.ui-input-disabled-reason');
 
     expect(input.disabled).toBe(true);
-    expect(disabledField.querySelector('.ui-tooltip')).toBeNull();
+    expect(disabledField.querySelector('.ui-floating-message')).toBeNull();
     expect(reason?.textContent).toContain('Routing note is managed automatically');
   });
 });

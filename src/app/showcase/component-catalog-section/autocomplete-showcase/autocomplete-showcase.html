@@ -1,29 +1,46 @@
-<article class="grid min-w-0 gap-4 rounded-lg bg-primary p-5 md:grid-cols-2">
-  <ui-autocomplete label="Empty">
-    @for (team of teams; track team) {
-      <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
-        team
-      }}</ui-autocomplete-option>
-    }
-  </ui-autocomplete>
+<article class="grid min-w-0 gap-4 rounded-lg bg-primary p-5">
+  <div class="grid min-w-0 gap-4 md:grid-cols-2">
+    <ui-autocomplete label="Empty">
+      @for (team of teams; track team) {
+        <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
+          team
+        }}</ui-autocomplete-option>
+      }
+    </ui-autocomplete>
 
-  <ui-autocomplete label="Preselected" value="team_support">
-    @for (team of teams; track team) {
-      <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
-        team
-      }}</ui-autocomplete-option>
-    }
-  </ui-autocomplete>
+    <ui-autocomplete label="Preselected" value="team_support">
+      @for (team of teams; track team) {
+        <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
+          team
+        }}</ui-autocomplete-option>
+      }
+    </ui-autocomplete>
 
-  <ui-autocomplete label="Filtered text" value="team_growth">
-    @for (team of teams; track team) {
-      <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
-        team
-      }}</ui-autocomplete-option>
-    }
-  </ui-autocomplete>
+    <ui-autocomplete label="Filtered text" value="team_growth">
+      @for (team of teams; track team) {
+        <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
+          team
+        }}</ui-autocomplete-option>
+      }
+    </ui-autocomplete>
 
-  <ui-autocomplete label="Disabled" [disabled]="true">
-    <ui-autocomplete-option value="team_platform">Platform</ui-autocomplete-option>
-  </ui-autocomplete>
+    <ui-autocomplete label="Disabled" [disabled]="true">
+      <ui-autocomplete-option value="team_platform">Platform</ui-autocomplete-option>
+    </ui-autocomplete>
+  </div>
+
+  <div class="grid min-w-0 gap-4 border-t border-default pt-4 md:grid-cols-2">
+    <ui-autocomplete label="Signal form team" [formField]="formState.team">
+      @for (team of teams; track team) {
+        <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
+          team
+        }}</ui-autocomplete-option>
+      }
+    </ui-autocomplete>
+  </div>
+
+  <div class="grid min-w-0 gap-2 rounded-lg border border-default p-4 text-sm">
+    <p class="font-black text-muted">Signal form value</p>
+    <pre class="overflow-auto rounded bg-subtle p-3 text-xs">{{ formModel() | json }}</pre>
+  </div>
 </article>

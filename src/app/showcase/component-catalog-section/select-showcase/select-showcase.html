@@ -1,33 +1,64 @@
-<article class="grid min-w-0 gap-4 rounded-lg bg-primary p-5 md:grid-cols-2">
-  <ui-select label="Grouped">
-    <ui-select-group label="Pinned">
-      <ui-select-option value="roadmap">Roadmap</ui-select-option>
-      <ui-select-option value="research">Research</ui-select-option>
-    </ui-select-group>
-    <ui-select-group label="Workflow">
+<article class="grid min-w-0 gap-4 rounded-lg bg-primary p-5">
+  <div class="grid min-w-0 gap-4 md:grid-cols-2">
+    <ui-select label="Grouped">
+      <ui-select-group label="Pinned">
+        <ui-select-option value="roadmap">Roadmap</ui-select-option>
+        <ui-select-option value="research">Research</ui-select-option>
+      </ui-select-group>
+      <ui-select-group label="Workflow">
+        @for (label of projectLabels; track label) {
+          <ui-select-option [value]="label.toLowerCase().replaceAll(' ', '-')">{{
+            label
+          }}</ui-select-option>
+        }
+      </ui-select-group>
+    </ui-select>
+
+    <ui-select label="Preselected" value="design-review">
       @for (label of projectLabels; track label) {
         <ui-select-option [value]="label.toLowerCase().replaceAll(' ', '-')">{{
           label
         }}</ui-select-option>
       }
-    </ui-select-group>
-  </ui-select>
+    </ui-select>
 
-  <ui-select label="Preselected" value="design-review">
-    @for (label of projectLabels; track label) {
-      <ui-select-option [value]="label.toLowerCase().replaceAll(' ', '-')">{{
-        label
-      }}</ui-select-option>
-    }
-  </ui-select>
+    <ui-select label="Plain">
+      <ui-select-option value="created">Created</ui-select-option>
+      <ui-select-option value="approved">Approved</ui-select-option>
+      <ui-select-option value="paid">Paid</ui-select-option>
+    </ui-select>
 
-  <ui-select label="Plain">
-    <ui-select-option value="created">Created</ui-select-option>
-    <ui-select-option value="approved">Approved</ui-select-option>
-    <ui-select-option value="paid">Paid</ui-select-option>
-  </ui-select>
+    <ui-select label="Multi" multi placeholder="Select labels" [value]="['roadmap', 'research']">
+      @for (label of projectLabels; track label) {
+        <ui-select-option [value]="label.toLowerCase().replaceAll(' ', '-')">{{
+          label
+        }}</ui-select-option>
+      }
+    </ui-select>
 
-  <ui-select label="Disabled" [disabled]="true">
-    <ui-select-option value="locked">Locked option</ui-select-option>
-  </ui-select>
+    <ui-select label="Disabled" [disabled]="true">
+      <ui-select-option value="locked">Locked option</ui-select-option>
+    </ui-select>
+  </div>
+
+  <div class="grid min-w-0 gap-4 border-t border-default pt-4 md:grid-cols-2">
+    <ui-select label="Signal form status" [formField]="formState.status">
+      <ui-select-option value="created">Created</ui-select-option>
+      <ui-select-option value="approved">Approved</ui-select-option>
+      <ui-select-option value="paid">Paid</ui-select-option>
+    </ui-select>
+
+    <ui-select label="Signal form labels" multi [formField]="formState.labels">
+      @for (label of projectLabels; track label) {
+        <ui-select-option [value]="label.toLowerCase().replaceAll(' ', '-')">{{
+          label
+        }}</ui-select-option>
+      }
+    </ui-select>
+  </div>
+
+  <div class="grid min-w-0 gap-2 rounded-lg border border-default p-4 text-sm">
+    <p class="font-black text-muted">Signal form value</p>
+    <pre class="overflow-auto rounded bg-subtle p-3 text-xs">{{ formModel() | json }}</pre>
+  </div>
 </article>

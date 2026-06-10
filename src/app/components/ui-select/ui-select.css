@@ -53,6 +53,10 @@
   white-space: nowrap;
 }
 
+.selected-label-placeholder {
+  color: var(--text-color-muted);
+}
+
 .icon-chevron-down {
   flex: 0 0 auto;
   pointer-events: none;

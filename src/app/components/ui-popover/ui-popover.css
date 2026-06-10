@@ -11,7 +11,6 @@
   --ui-popover-font-size: 0.9rem;
   --ui-popover-overflow: auto;
   --ui-popover-shadow: none;
-  --ui-popover-z-index: 1000;
 
   --ui-popover-list-gap: 2px;
 
@@ -39,7 +38,6 @@
   left: anchor(left);
   width: var(--ui-popover-width);
   min-width: var(--ui-popover-min-width);
-  z-index: var(--ui-popover-z-index);
   box-sizing: border-box;
   max-height: var(--ui-popover-max-height);
   margin: 0;
@@ -72,7 +70,6 @@
 
 @keyframes uiPopoverOpen {
   0% {
-    max-height: 0;
     opacity: 0;
     transform: translateY(-0.25rem);
   }
@@ -80,7 +77,6 @@
     opacity: 1;
   }
   100% {
-    max-height: var(--ui-popover-max-height);
     opacity: 1;
     transform: translateY(0);
   }

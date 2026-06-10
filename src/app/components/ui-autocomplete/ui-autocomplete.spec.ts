@@ -24,6 +24,19 @@ class TestHost {
 }
 
 @Component({
+  imports: [UiAutocomplete, UiAutocompleteOption],
+  template: `
+    <ui-autocomplete placeholder="Find status" emptyText="Nothing found">
+      <ui-autocomplete-option value="created">Created</ui-autocomplete-option>
+      <ui-autocomplete-option value="approved">Approved</ui-autocomplete-option>
+    </ui-autocomplete>
+  `,
+})
+class PlaceholderTestHost {
+  readonly autocomplete = viewChild.required(UiAutocomplete);
+}
+
+@Component({
   imports: [FormField, UiAutocomplete, UiAutocompleteOption],
   template: `
     <ui-autocomplete [formField]="formState.status">
@@ -201,6 +214,26 @@ describe('UiAutocomplete', () => {
     expect(getPopup(hostFixture)).toBeNull();
   });
 
+  it('should support custom placeholder and empty text', async () => {
+    const hostFixture = TestBed.createComponent(PlaceholderTestHost);
+    hostFixture.detectChanges();
+    await hostFixture.whenStable();
+    await hostFixture.whenRenderingDone();
+
+    const combobox = getCombobox(hostFixture);
+    const autocomplete = hostFixture.componentInstance.autocomplete();
+
+    expect(combobox.getAttribute('placeholder')).toBe('Find status');
+
+    autocomplete.inputValue.set('missing');
+    autocomplete.popupExpanded.set(true);
+    hostFixture.detectChanges();
+    await hostFixture.whenStable();
+    await hostFixture.whenRenderingDone();
+
+    expect(getPopup(hostFixture)?.textContent).toContain('Nothing found');
+  });
+
   it('should sync selected value from a signal form field', async () => {
     const hostFixture = await createSignalFormHostFixture();
     const autocomplete = hostFixture.componentInstance.autocomplete();
@@ -237,13 +270,13 @@ describe('UiAutocomplete', () => {
 
     expect(invalidField.querySelector('.ui-input-label')?.textContent).toContain('Status');
     expect(invalidField.querySelector('.ui-input-label')?.textContent).toContain('*');
-    expect(invalidField.querySelector('.ui-tooltip')?.textContent).toContain(
+    expect(invalidField.querySelector('.ui-floating-message')?.textContent).toContain(
       'Status is required',
     );
     expect(disabledField.querySelector('[role="combobox"]')?.getAttribute('aria-disabled')).toBe(
       'true',
     );
-    expect(disabledField.querySelector('.ui-tooltip')).toBeNull();
+    expect(disabledField.querySelector('.ui-floating-message')).toBeNull();
     expect(disabledField.querySelector('.ui-input-disabled-reason')?.textContent).toContain(
       'Status is locked by workflow',
     );
@@ -312,6 +345,23 @@ describe('UiAutocomplete', () => {
     expect(await autocomplete.isOpen()).toBe(false);
     expect(await autocomplete.getValue()).toBe('Approved');
     expect(hostFixture.componentInstance.autocomplete().selectedValues()).toEqual(['approved']);
+  });
+
+  it('should not commit when the listbox padding is clicked', async () => {
+    const hostFixture = await createHostFixture();
+    await openPopup(hostFixture);
+
+    const autocomplete = hostFixture.componentInstance.autocomplete();
+    const listbox = getListbox();
+
+    autocomplete.selectedValues.set(['approved']);
+    listbox.click();
+    hostFixture.detectChanges();
+    await hostFixture.whenStable();
+
+    expect(autocomplete.value()).toBe('');
+    expect(autocomplete.inputValue()).toBe('');
+    expect(autocomplete.popupExpanded()).toBe(true);
   });
 
   it('should show an empty state when no options match', async () => {

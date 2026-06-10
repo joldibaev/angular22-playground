@@ -25,6 +25,19 @@ class TestHost {
 }
 
 @Component({
+  imports: [UiSelect, UiSelectOption],
+  template: `
+    <ui-select placeholder="Choose status">
+      <ui-select-option value="created">Created</ui-select-option>
+      <ui-select-option value="approved">Approved</ui-select-option>
+    </ui-select>
+  `,
+})
+class PlaceholderTestHost {
+  readonly select = viewChild.required(UiSelect);
+}
+
+@Component({
   imports: [UiSelect, UiSelectGroup, UiSelectOption],
   template: `
     <ui-select>
@@ -40,6 +53,51 @@ class TestHost {
   `,
 })
 class GroupedTestHost {
+  readonly select = viewChild.required(UiSelect);
+}
+
+@Component({
+  imports: [UiSelect, UiSelectGroup, UiSelectOption],
+  template: `
+    <ui-select>
+      <ui-select-group label="Pinned">
+        <ui-select-option value="research">Research</ui-select-option>
+      </ui-select-group>
+      <ui-select-group label="Workflow">
+        <ui-select-option value="research">Research</ui-select-option>
+      </ui-select-group>
+    </ui-select>
+  `,
+})
+class DuplicateValueTestHost {
+  readonly select = viewChild.required(UiSelect);
+}
+
+@Component({
+  imports: [UiSelect, UiSelectOption],
+  template: `
+    <ui-select multi [value]="['created', 'paid']">
+      <ui-select-option value="created">Created</ui-select-option>
+      <ui-select-option value="approved">Approved</ui-select-option>
+      <ui-select-option value="paid">Paid</ui-select-option>
+    </ui-select>
+  `,
+})
+class MultiTestHost {
+  readonly select = viewChild.required(UiSelect);
+}
+
+@Component({
+  imports: [UiSelect, UiSelectOption],
+  template: `
+    <ui-select multi value="created,paid">
+      <ui-select-option value="created">Created</ui-select-option>
+      <ui-select-option value="approved">Approved</ui-select-option>
+      <ui-select-option value="paid">Paid</ui-select-option>
+    </ui-select>
+  `,
+})
+class LegacyMultiStringTestHost {
   readonly select = viewChild.required(UiSelect);
 }
 
@@ -108,6 +166,35 @@ async function createHostFixture(): Promise<ComponentFixture<TestHost>> {
 
 async function createGroupedHostFixture(): Promise<ComponentFixture<GroupedTestHost>> {
   const hostFixture = TestBed.createComponent(GroupedTestHost);
+  hostFixture.detectChanges();
+  await hostFixture.whenStable();
+  await hostFixture.whenRenderingDone();
+
+  return hostFixture;
+}
+
+async function createDuplicateValueHostFixture(): Promise<ComponentFixture<DuplicateValueTestHost>> {
+  const hostFixture = TestBed.createComponent(DuplicateValueTestHost);
+  hostFixture.detectChanges();
+  await hostFixture.whenStable();
+  await hostFixture.whenRenderingDone();
+
+  return hostFixture;
+}
+
+async function createMultiHostFixture(): Promise<ComponentFixture<MultiTestHost>> {
+  const hostFixture = TestBed.createComponent(MultiTestHost);
+  hostFixture.detectChanges();
+  await hostFixture.whenStable();
+  await hostFixture.whenRenderingDone();
+
+  return hostFixture;
+}
+
+async function createLegacyMultiStringHostFixture(): Promise<
+  ComponentFixture<LegacyMultiStringTestHost>
+> {
+  const hostFixture = TestBed.createComponent(LegacyMultiStringTestHost);
   hostFixture.detectChanges();
   await hostFixture.whenStable();
   await hostFixture.whenRenderingDone();
@@ -199,6 +286,17 @@ describe('UiSelect', () => {
     const label = hostFixture.nativeElement.querySelector('.selected-label-text');
 
     expect(label?.textContent).toContain('Select a label');
+    expect(label?.classList).toContain('selected-label-placeholder');
+  });
+
+  it('should support a custom placeholder', async () => {
+    const hostFixture = TestBed.createComponent(PlaceholderTestHost);
+    hostFixture.detectChanges();
+    await hostFixture.whenStable();
+
+    const label = hostFixture.nativeElement.querySelector('.selected-label-text');
+
+    expect(label?.textContent).toContain('Choose status');
   });
 
   it('should display the projected option label for the selected value', async () => {
@@ -210,6 +308,19 @@ describe('UiSelect', () => {
     const label = hostFixture.nativeElement.querySelector('.selected-label-text');
 
     expect(label?.textContent).toContain('Approved');
+    expect(label?.classList).not.toContain('selected-label-placeholder');
+  });
+
+  it('should keep placeholder display when the selected value has no matching option', async () => {
+    const hostFixture = await createHostFixture();
+
+    hostFixture.componentInstance.select().selectedValues.set(['missing']);
+    hostFixture.detectChanges();
+
+    const label = hostFixture.nativeElement.querySelector('.selected-label-text');
+
+    expect(label?.textContent).toContain('Select a label');
+    expect(label?.classList).toContain('selected-label-placeholder');
   });
 
   it('should join labels for multiple selected values in option order', async () => {
@@ -257,13 +368,13 @@ describe('UiSelect', () => {
 
     expect(invalidField.querySelector('.ui-input-label')?.textContent).toContain('Status');
     expect(invalidField.querySelector('.ui-input-label')?.textContent).toContain('*');
-    expect(invalidField.querySelector('.ui-tooltip')?.textContent).toContain(
+    expect(invalidField.querySelector('.ui-floating-message')?.textContent).toContain(
       'Status is required',
     );
     expect(disabledField.querySelector('[role="combobox"]')?.getAttribute('aria-disabled')).toBe(
       'true',
     );
-    expect(disabledField.querySelector('.ui-tooltip')).toBeNull();
+    expect(disabledField.querySelector('.ui-floating-message')).toBeNull();
     expect(disabledField.querySelector('.ui-input-disabled-reason')?.textContent).toContain(
       'Status is locked by workflow',
     );
@@ -299,6 +410,52 @@ describe('UiSelect', () => {
     const label = hostFixture.nativeElement.querySelector('.selected-label-text');
 
     expect(label?.textContent).toContain('Approved');
+  });
+
+  it('should display a duplicate selected value only once', async () => {
+    const hostFixture = await createDuplicateValueHostFixture();
+
+    hostFixture.componentInstance.select().selectedValues.set(['research']);
+    hostFixture.detectChanges();
+
+    const label = hostFixture.nativeElement.querySelector('.selected-label-text');
+
+    expect(label?.textContent?.trim()).toBe('Research');
+  });
+
+  it('should support multi selection from an array value', async () => {
+    const hostFixture = await createMultiHostFixture();
+    const select = hostFixture.componentInstance.select();
+
+    expect(select.multi()).toBe(true);
+    expect(select.selectedValues()).toEqual(['created', 'paid']);
+    expect(hostFixture.nativeElement.querySelector('.selected-label-text')?.textContent).toContain(
+      'Created, Paid',
+    );
+  });
+
+  it('should parse legacy comma-delimited values in multi mode', async () => {
+    const hostFixture = await createLegacyMultiStringHostFixture();
+    const select = hostFixture.componentInstance.select();
+
+    expect(select.selectedValues()).toEqual(['created', 'paid']);
+    expect(hostFixture.nativeElement.querySelector('.selected-label-text')?.textContent).toContain(
+      'Created, Paid',
+    );
+  });
+
+  it('should keep a multi select popup open when committing a selection', async () => {
+    const hostFixture = await createMultiHostFixture();
+    const select = hostFixture.componentInstance.select();
+
+    select.popupExpanded.set(true);
+    select.selectedValues.set(['created', 'approved']);
+    hostFixture.detectChanges();
+
+    select.onCommit();
+
+    expect(select.value()).toEqual(['created', 'approved']);
+    expect(select.popupExpanded()).toBe(true);
   });
 
   it('should expose combobox accessibility attributes when collapsed', async () => {

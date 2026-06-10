@@ -9,7 +9,9 @@
     (blur)="touch.emit()"
   >
     <span class="combobox-label">
-      <span class="selected-label-text">{{ displayValue() }}</span>
+      <span class="selected-label-text" [class.selected-label-placeholder]="isPlaceholderVisible()">
+        {{ displayValue() }}
+      </span>
     </span>
 
     <ui-icon name="outline-chevron-down" class="icon-chevron-down"></ui-icon>
@@ -32,7 +34,7 @@
         #listbox="ngListbox"
         ngListbox
         class="ui-popover-list"
-        [multi]="false"
+        [multi]="multi()"
         ngComboboxWidget
         [tabindex]="-1"
         focusMode="activedescendant"

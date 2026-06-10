@@ -44,6 +44,8 @@ export class UiAutocomplete implements FormValueControl<string> {
   value = model('');
   disabled = input(false);
   label = input('Search');
+  placeholder = input('Search labels');
+  emptyText = input('No matches');
   showError = input(false, { transform: booleanAttribute });
   touch = output<void>();
 
@@ -115,8 +117,14 @@ export class UiAutocomplete implements FormValueControl<string> {
     this.popupExpanded.set(false);
   }
 
-  onPopupToggle(event: Event) {
-    if ((event as { newState?: string }).newState === 'closed') {
+  onListboxClick(event: MouseEvent) {
+    if (event.target instanceof Element && event.target.closest('[role="option"]')) {
+      this.onCommit();
+    }
+  }
+
+  onPopupToggle(event: ToggleEvent) {
+    if (event.newState === 'closed') {
       this.popupExpanded.set(false);
     }
   }

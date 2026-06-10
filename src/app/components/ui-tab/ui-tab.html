@@ -2,13 +2,20 @@
   <div
     ngTabList
     class="ui-tab-list"
-    [(selectedTab)]="selectedTab"
+    [class.ui-tab-list-pills]="appearance() === 'pills'"
+    [class.ui-tab-list-line]="appearance() === 'line'"
+    [class.ui-tab-list-fluid]="fluid()"
+    [selectedTab]="selectedTab()"
+    (selectedTabChange)="onSelectedTabChange($event)"
     [aria-label]="ariaLabel()"
     [attr.aria-labelledby]="ariaLabelledby() || null"
     [selectionMode]="selectionMode()"
     [orientation]="orientation()"
     [wrap]="wrap()"
     [softDisabled]="softDisabled()"
+    (pointerdown)="onTabListInteraction()"
+    (click)="onTabListInteraction()"
+    (keydown)="onTabListInteraction()"
   >
     @for (item of items(); track item) {
       <button
@@ -17,6 +24,10 @@
         type="button"
         [value]="item.value()"
         [disabled]="item.disabled()"
+        (pointerdown)="onTabListInteraction()"
+        (mousedown)="onTabListInteraction()"
+        (click)="onTabListInteraction()"
+        (keydown)="onTabListInteraction()"
       >
         {{ item.displayLabel() }}
       </button>

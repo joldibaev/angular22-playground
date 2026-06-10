@@ -1,16 +1,12 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UiTooltip, UiTooltipSurface } from './ui-tooltip';
+import { UiTooltip } from './ui-tooltip';
 
 @Component({
-  imports: [UiTooltip, UiTooltipSurface],
+  imports: [UiTooltip],
   template: `
-    <button uiTooltip="Hello" uiTooltipVariant="inverted">Button</button>
-
-    <span uiTooltip uiTooltipVariant="red" [uiTooltipOpen]="false">
-      <span uiTooltipSurface>Required</span>
-    </span>
+    <button uiTooltip="Hello">Button</button>
   `,
 })
 class TooltipTestHost {}
@@ -25,29 +21,72 @@ describe('UiTooltip', () => {
 
     hostFixture = TestBed.createComponent(TooltipTestHost);
     hostFixture.detectChanges();
+    await hostFixture.whenStable();
+    await hostFixture.whenRenderingDone();
   });
 
-  it('should create a generated tooltip for string content', () => {
+  function getGeneratedTooltip(trigger: HTMLElement): HTMLElement | null {
+    return document.getElementById(trigger.getAttribute('aria-describedby') ?? '');
+  }
+
+  it('should create a generated tooltip for string content after render', () => {
     const trigger = hostFixture.nativeElement.querySelector('button');
-    const tooltipId = trigger.getAttribute('aria-describedby');
-    const tooltip = document.getElementById(tooltipId ?? '');
+    const tooltip = getGeneratedTooltip(trigger);
 
     expect(trigger.classList).toContain('ui-tooltip-trigger');
     expect(trigger.getAttribute('role')).toBeNull();
     expect(tooltip?.getAttribute('role')).toBe('tooltip');
+    expect(tooltip?.getAttribute('popover')).toBe('hint');
     expect(tooltip?.getAttribute('hidden')).toBe('');
-    expect(tooltip?.classList).toContain('ui-tooltip-inverted');
     expect(tooltip?.textContent).toContain('Hello');
   });
 
-  it('should apply custom tooltip semantics and variants', () => {
-    const tooltip = hostFixture.nativeElement.querySelector('span[uiTooltip]');
-    const surface = hostFixture.nativeElement.querySelector('[uiTooltipSurface]');
+  it('should show and hide a generated tooltip from pointer interaction', async () => {
+    const trigger = hostFixture.nativeElement.querySelector('button');
+    const tooltip = getGeneratedTooltip(trigger);
 
-    expect(tooltip.classList).toContain('ui-tooltip');
-    expect(tooltip.classList).toContain('ui-tooltip-red');
-    expect(tooltip.getAttribute('role')).toBe('tooltip');
-    expect(tooltip.getAttribute('hidden')).toBe('');
-    expect(surface.classList).toContain('ui-tooltip-surface');
+    trigger.dispatchEvent(new Event('mouseenter'));
+    hostFixture.detectChanges();
+    await hostFixture.whenStable();
+    await hostFixture.whenRenderingDone();
+
+    expect(tooltip?.hasAttribute('hidden')).toBe(false);
+
+    trigger.dispatchEvent(new Event('mouseleave'));
+    hostFixture.detectChanges();
+    await hostFixture.whenStable();
+    await hostFixture.whenRenderingDone();
+
+    expect(tooltip?.getAttribute('hidden')).toBe('');
+  });
+
+  it('should close a generated tooltip with trigger Escape', async () => {
+    const trigger = hostFixture.nativeElement.querySelector('button');
+    const tooltip = getGeneratedTooltip(trigger);
+
+    trigger.dispatchEvent(new Event('mouseenter'));
+    hostFixture.detectChanges();
+    await hostFixture.whenStable();
+    await hostFixture.whenRenderingDone();
+
+    expect(tooltip?.hasAttribute('hidden')).toBe(false);
+
+    trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    hostFixture.detectChanges();
+    await hostFixture.whenStable();
+    await hostFixture.whenRenderingDone();
+
+    expect(tooltip?.getAttribute('hidden')).toBe('');
+  });
+
+  it('should remove generated tooltip nodes when destroyed', () => {
+    const trigger = hostFixture.nativeElement.querySelector('button');
+    const tooltipId = trigger.getAttribute('aria-describedby');
+
+    expect(document.getElementById(tooltipId ?? '')).toBeTruthy();
+
+    hostFixture.destroy();
+
+    expect(document.getElementById(tooltipId ?? '')).toBeNull();
   });
 });

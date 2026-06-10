@@ -6,6 +6,7 @@
         @for (tab of tabDetails; track tab.value) {
           <ui-tab-item [value]="tab.value" [label]="tab.label" [disabled]="tab.disabled === true">
             <h5 class="font-black">{{ tab.title }}</h5>
+            <p class="mt-2 max-w-prose text-sm font-bold text-secondary">{{ tab.description }}</p>
           </ui-tab-item>
         }
       </ui-tab>
@@ -19,6 +20,7 @@
         @for (tab of tabDetails; track tab.value) {
           <ui-tab-item [value]="tab.value" [label]="tab.label" [disabled]="tab.disabled === true">
             <h5 class="font-black">{{ tab.title }}</h5>
+            <p class="mt-2 max-w-prose text-sm font-bold text-secondary">{{ tab.description }}</p>
           </ui-tab-item>
         }
       </ui-tab>
@@ -32,6 +34,7 @@
         @for (tab of tabDetails; track tab.value) {
           <ui-tab-item [value]="tab.value" [label]="tab.label" [disabled]="tab.disabled === true">
             <h5 class="font-black">{{ tab.title }}</h5>
+            <p class="mt-2 max-w-prose text-sm font-bold text-secondary">{{ tab.description }}</p>
           </ui-tab-item>
         }
       </ui-tab>
@@ -45,6 +48,21 @@
         @for (tab of tabDetails; track tab.value) {
           <ui-tab-item [value]="tab.value" [label]="tab.label" [disabled]="tab.disabled === true">
             <h5 class="font-black">{{ tab.title }}</h5>
+            <p class="mt-2 max-w-prose text-sm font-bold text-secondary">{{ tab.description }}</p>
+          </ui-tab-item>
+        }
+      </ui-tab>
+    </div>
+  </section>
+
+  <section class="grid min-w-0 gap-3" aria-labelledby="tabs-all-enabled">
+    <h4 id="tabs-all-enabled" class="font-black">All enabled tabs</h4>
+    <div class="rounded-lg border border-default bg-surface p-4">
+      <ui-tab fluid aria-labelledby="tabs-all-enabled">
+        @for (tab of enabledTabDetails; track tab.value) {
+          <ui-tab-item [value]="tab.value" [label]="tab.label">
+            <h5 class="font-black">{{ tab.title }}</h5>
+            <p class="mt-2 max-w-prose text-sm font-bold text-secondary">{{ tab.description }}</p>
           </ui-tab-item>
         }
       </ui-tab>

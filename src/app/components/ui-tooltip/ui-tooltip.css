@@ -1,17 +1,15 @@
 .ui-tooltip {
-  --ui-tooltip-background: color-mix(
-    in srgb,
-    var(--color-brand) 8%,
-    var(--background-color-elevated)
-  );
+  --ui-tooltip-background: CanvasText;
   --ui-tooltip-border-color: color-mix(
     in srgb,
-    var(--color-brand) 35%,
+    var(--ui-tooltip-background) 82%,
     var(--border-color-strong)
   );
-  --ui-tooltip-text-color: contrast-color(var(--ui-tooltip-background));
-  --ui-tooltip-shadow: 0 1rem 2rem
-    color-mix(in srgb, var(--color-brand) 12%, transparent);
+  --ui-tooltip-text-color: Canvas;
+  --ui-tooltip-radius: 0.5rem;
+  --ui-tooltip-arrow-position: 50%;
+  --ui-tooltip-arrow-height: 0.625rem;
+  --ui-tooltip-arrow-width: 0.625rem;
 
   position: fixed;
   position-area: block-start;
@@ -24,55 +22,34 @@
   z-index: 1000;
   width: max-content;
   max-width: min(18rem, calc(100vw - 2rem));
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  box-shadow: none;
 
   &[hidden] {
     display: none;
   }
-
-  &.ui-tooltip-inverted {
-    --ui-tooltip-background: light-dark(var(--color-neutral-950), var(--color-neutral-50));
-    --ui-tooltip-border-color: color-mix(
-      in srgb,
-      var(--ui-tooltip-background) 82%,
-      var(--border-color-strong)
-    );
-    --ui-tooltip-text-color: contrast-color(var(--ui-tooltip-background));
-    --ui-tooltip-shadow: 0 1rem 2rem
-      color-mix(in srgb, var(--ui-tooltip-background) 24%, transparent);
-  }
-
-  &.ui-tooltip-red {
-    --ui-tooltip-background: light-dark(var(--color-red-50), var(--color-red-950));
-    --ui-tooltip-border-color: light-dark(var(--color-red-300), var(--color-red-800));
-    --ui-tooltip-text-color: light-dark(var(--color-red-950), var(--color-red-50));
-    --ui-tooltip-shadow: 0 1rem 2rem
-      color-mix(in srgb, var(--color-red-500) 18%, transparent);
-  }
 }
 
-.ui-tooltip-trigger {
+.ui-tooltip-trigger[aria-describedby] {
   cursor: help;
 }
 
 .ui-tooltip-surface {
-  --ui-tooltip-radius: 0.5rem;
-
-  --ui-tooltip-arrow-position: 50%;
-  --ui-tooltip-arrow-height: 0.625rem;
-  --ui-tooltip-arrow-width: 0.625rem;
-
   position: relative;
-  display: grid;
-  gap: 0.25rem;
-  border-radius: var(--ui-tooltip-radius);
+  display: block;
   border: 1px solid var(--ui-tooltip-border-color);
+  border-radius: var(--ui-tooltip-radius);
   background: var(--ui-tooltip-background);
   color: var(--ui-tooltip-text-color);
   font-size: 0.8125rem;
   font-weight: 700;
   line-height: 1.45;
   padding: 0.625rem 0.75rem;
-  box-shadow: var(--ui-tooltip-shadow);
+  box-shadow: none;
 
   &::after {
     position: absolute;
@@ -83,10 +60,6 @@
     background: var(--ui-tooltip-background);
     clip-path: polygon(50% 100%, 0 0, 100% 0);
     content: '';
-  }
-
-  & span {
-    display: block;
   }
 }
 

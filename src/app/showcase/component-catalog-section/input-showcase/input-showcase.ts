@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
+import { JsonPipe } from '@angular/common';
 import { disabled, email, FormField, form, minLength, required } from '@angular/forms/signals';
 import { UiInput } from '../../../components/ui-input/ui-input';
 
 @Component({
   selector: 'app-input-showcase',
-  imports: [FormField, UiInput],
+  imports: [FormField, JsonPipe, UiInput],
   templateUrl: './input-showcase.html',
 })
 export class InputShowcase {

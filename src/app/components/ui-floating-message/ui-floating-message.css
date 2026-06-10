@@ -1,0 +1,177 @@
+.ui-floating-message {
+  --ui-floating-message-background: color-mix(
+    in srgb,
+    var(--color-brand) 8%,
+    var(--background-color-elevated)
+  );
+  --ui-floating-message-border-color: color-mix(
+    in srgb,
+    var(--color-brand) 35%,
+    var(--border-color-strong)
+  );
+  --ui-floating-message-text-color: contrast-color(var(--ui-floating-message-background));
+  --ui-floating-message-radius: 0.5rem;
+  --ui-floating-message-arrow-position: 50%;
+  --ui-floating-message-arrow-height: 0.625rem;
+  --ui-floating-message-arrow-width: 0.625rem;
+
+  position: fixed;
+  position-area: block-start;
+  bottom: anchor(top);
+  justify-self: anchor-center;
+  position-try: flip-block;
+  position-try-fallbacks: flip-block, flip-inline;
+  container-type: anchored;
+  overflow: visible;
+  z-index: 1000;
+  width: max-content;
+  max-width: min(18rem, calc(100vw - 2rem));
+
+  &[hidden] {
+    display: none;
+  }
+
+  &.ui-floating-message-inverted {
+    --ui-floating-message-background: var(--color-neutral-950);
+    --ui-floating-message-border-color: color-mix(
+      in srgb,
+      var(--ui-floating-message-background) 82%,
+      var(--border-color-strong)
+    );
+    --ui-floating-message-text-color: var(--color-neutral-50);
+  }
+
+  &.ui-floating-message-red {
+    --ui-floating-message-background: light-dark(var(--color-red-50), var(--color-red-950));
+    --ui-floating-message-border-color: light-dark(var(--color-red-300), var(--color-red-800));
+    --ui-floating-message-text-color: light-dark(var(--color-red-950), var(--color-red-50));
+  }
+}
+
+.ui-floating-message-surface {
+  position: relative;
+  display: grid;
+  gap: 0.25rem;
+  border: 1px solid var(--ui-floating-message-border-color);
+  border-radius: var(--ui-floating-message-radius);
+  background: var(--ui-floating-message-background);
+  color: var(--ui-floating-message-text-color);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1.45;
+  padding: 0.625rem 0.75rem;
+  box-shadow: none;
+
+  &::after {
+    position: absolute;
+    left: calc(
+      var(--ui-floating-message-arrow-position) - var(--ui-floating-message-arrow-width)
+    );
+    bottom: calc(-1 * var(--ui-floating-message-arrow-height) + 1px);
+    width: calc(var(--ui-floating-message-arrow-width) * 2);
+    height: var(--ui-floating-message-arrow-height);
+    background: var(--ui-floating-message-background);
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+    content: '';
+  }
+
+  & span {
+    display: block;
+  }
+}
+
+@supports (clip-path: shape(from 50% 100%, line to 0 0, line to 100% 0, close)) {
+  .ui-floating-message-surface {
+    &::after {
+      clip-path: shape(from 50% 100%, line to 0 0, line to 100% 0, close);
+    }
+  }
+}
+
+@supports (
+  border-shape:
+    shape(
+      from 0 0,
+      hline to 100%,
+      vline to 100%,
+      hline to 0,
+      close
+    )
+) {
+  .ui-floating-message-surface {
+    padding: 0.625rem 0.75rem calc(0.625rem + var(--ui-floating-message-arrow-height));
+    border-shape: shape(
+      from var(--ui-floating-message-radius) 0,
+      hline to calc(100% - var(--ui-floating-message-radius)),
+      curve to right var(--ui-floating-message-radius) with right top,
+      vline to calc(100% - (var(--ui-floating-message-radius) + var(--ui-floating-message-arrow-height))),
+      curve to calc(100% - var(--ui-floating-message-radius)) calc(100% - var(--ui-floating-message-arrow-height)) with right calc(100% - var(--ui-floating-message-arrow-height)),
+      hline to calc(var(--ui-floating-message-arrow-position) + var(--ui-floating-message-arrow-width)),
+      line by calc(var(--ui-floating-message-arrow-width) * -1) var(--ui-floating-message-arrow-height),
+      line by calc(var(--ui-floating-message-arrow-width) * -1) calc(var(--ui-floating-message-arrow-height) * -1),
+      hline to var(--ui-floating-message-radius),
+      curve to left calc(100% - (var(--ui-floating-message-radius) + var(--ui-floating-message-arrow-height))) with left calc(100% - var(--ui-floating-message-arrow-height)),
+      vline to var(--ui-floating-message-radius),
+      curve to var(--ui-floating-message-radius) top with left top
+    );
+
+    &::after {
+      content: none;
+    }
+  }
+}
+
+@supports not (anchor-name: --ui-floating-message-anchor) {
+  .ui-floating-message {
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 0.5rem);
+  }
+}
+
+@container anchored(fallback: flip-block) {
+  .ui-floating-message-surface {
+    &::after {
+      top: calc(-1 * var(--ui-floating-message-arrow-height) + 1px);
+      bottom: auto;
+      clip-path: polygon(50% 0, 100% 100%, 0 100%);
+    }
+  }
+
+  @supports (clip-path: shape(from 50% 0, line to 100% 100%, line to 0 100%, close)) {
+    .ui-floating-message-surface {
+      &::after {
+        clip-path: shape(from 50% 0, line to 100% 100%, line to 0 100%, close);
+      }
+    }
+  }
+
+  @supports (
+    border-shape:
+      shape(
+        from 0 0,
+        hline to 100%,
+        vline to 100%,
+        hline to 0,
+        close
+      )
+  ) {
+    .ui-floating-message-surface {
+      padding: calc(0.625rem + var(--ui-floating-message-arrow-height)) 0.75rem 0.625rem;
+      border-shape: shape(
+        from var(--ui-floating-message-radius) var(--ui-floating-message-arrow-height),
+        hline to calc(var(--ui-floating-message-arrow-position) - var(--ui-floating-message-arrow-width)),
+        line by var(--ui-floating-message-arrow-width) calc(var(--ui-floating-message-arrow-height) * -1),
+        line by var(--ui-floating-message-arrow-width) var(--ui-floating-message-arrow-height),
+        hline to calc(100% - var(--ui-floating-message-radius)),
+        curve to right calc(var(--ui-floating-message-arrow-height) + var(--ui-floating-message-radius)) with right var(--ui-floating-message-arrow-height),
+        vline to calc(100% - var(--ui-floating-message-radius)),
+        curve to calc(100% - var(--ui-floating-message-radius)) bottom with right bottom,
+        hline to var(--ui-floating-message-radius),
+        curve to left calc(100% - var(--ui-floating-message-radius)) with left bottom,
+        vline to calc(var(--ui-floating-message-arrow-height) + var(--ui-floating-message-radius)),
+        curve to var(--ui-floating-message-radius) var(--ui-floating-message-arrow-height) with left var(--ui-floating-message-arrow-height)
+      );
+    }
+  }
+}

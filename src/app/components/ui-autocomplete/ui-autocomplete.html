@@ -1,4 +1,4 @@
-<ui-input [label]="label()" [showError]="showError()">
+<ui-input [label]="label()" [placeholder]="placeholder()" [showError]="showError()">
   <input
     ngCombobox
     #combobox="ngCombobox"
@@ -9,7 +9,6 @@
     [preserveContent]="true"
     class="autocomplete-input ui-popover-trigger"
     type="text"
-    placeholder="Search labels"
     (blur)="touch.emit()"
   />
 </ui-input>
@@ -39,7 +38,7 @@
           [disabled]="disabled()"
           [(value)]="selectedValues"
           [activeDescendant]="listbox.activeDescendant()"
-          (click)="onCommit()"
+          (click)="onListboxClick($event)"
           (keydown.enter)="onCommit()"
           (keydown.space)="onCommit()"
         >
@@ -60,7 +59,7 @@
           }
         </div>
       } @else {
-        <div class="empty-state" ngComboboxWidget>No matches</div>
+        <div class="empty-state" ngComboboxWidget>{{ emptyText() }}</div>
       }
     </div>
   </ng-template>

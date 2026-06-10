@@ -12,7 +12,6 @@ import { ComponentCatalogSection } from './showcase/component-catalog-section/co
     UiSelectOption,
   ],
   templateUrl: './app.html',
-  styleUrl: './app.css',
 })
 export class App {
   readonly theme = inject(ThemeService);
@@ -25,7 +24,7 @@ export class App {
     { value: 'light', label: 'Light' },
   ];
 
-  setTheme(value: string) {
+  setTheme(value: string | string[]) {
     if (value === 'system' || value === 'dark' || value === 'light') {
       this.theme.setTheme(value);
     }
