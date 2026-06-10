@@ -7,13 +7,11 @@
       <h1 class="text-4xl font-black leading-none md:text-6xl">Component showcase</h1>
     </div>
 
-    <ui-segmented aria-label="Theme" [(value)]="theme.theme">
+    <ui-select label="Theme" [value]="theme.theme()" (valueChange)="setTheme($event)">
       @for (option of themeOptions; track option.value) {
-        <ui-segmented-item [value]="option.value">
-          <span>{{ option.label }}</span>
-        </ui-segmented-item>
+        <ui-select-option [value]="option.value">{{ option.label }}</ui-select-option>
       }
-    </ui-segmented>
+    </ui-select>
   </header>
 
   <app-component-catalog-section />

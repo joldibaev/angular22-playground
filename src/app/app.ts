@@ -1,15 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { UiSegmented } from './components/ui-segmented/ui-segmented';
-import { UiSegmentedItem } from './components/ui-segmented/ui-segmented-item/ui-segmented-item';
+import { UiSelect } from './components/ui-select/ui-select';
+import { UiSelectOption } from './components/ui-select/ui-select-option/ui-select-option';
 import { type Theme, ThemeService } from './theme.service';
 import { ComponentCatalogSection } from './showcase/component-catalog-section/component-catalog-section';
 
 @Component({
   selector: 'app-root',
   imports: [
-    UiSegmented,
-    UiSegmentedItem,
     ComponentCatalogSection,
+    UiSelect,
+    UiSelectOption,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
@@ -24,4 +24,10 @@ export class App {
     { value: 'dark', label: 'Dark' },
     { value: 'light', label: 'Light' },
   ];
+
+  setTheme(value: string) {
+    if (value === 'system' || value === 'dark' || value === 'light') {
+      this.theme.setTheme(value);
+    }
+  }
 }

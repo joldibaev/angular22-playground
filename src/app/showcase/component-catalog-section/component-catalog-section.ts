@@ -4,7 +4,6 @@ import { UiTabItem } from '../../components/ui-tab/ui-tab-item/ui-tab-item';
 import { AutocompleteShowcase } from './autocomplete-showcase/autocomplete-showcase';
 import { InputShowcase } from './input-showcase/input-showcase';
 import { MenuShowcase } from './menu-showcase/menu-showcase';
-import { SegmentedShowcase } from './segmented-showcase/segmented-showcase';
 import { SelectShowcase } from './select-showcase/select-showcase';
 import { SupportShowcase } from './support-showcase/support-showcase';
 import { TabsShowcase } from './tabs-showcase/tabs-showcase';
@@ -15,7 +14,6 @@ import { TabsShowcase } from './tabs-showcase/tabs-showcase';
     AutocompleteShowcase,
     InputShowcase,
     MenuShowcase,
-    SegmentedShowcase,
     SelectShowcase,
     SupportShowcase,
     TabsShowcase,

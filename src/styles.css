@@ -7,11 +7,6 @@
   color-scheme: light dark;
 }
 
-:root[data-theme='light'] {
-  color-scheme: light;
-  --bg-image: url(/light.svg);
-}
-
 :root[data-theme='dark'] {
   color-scheme: dark;
   --bg-image: url(/dark.svg);
@@ -43,7 +38,7 @@ html {
 }
 
 body {
-  background-image: var(--bg-image);
+  background-image: var(--bg-image, url(/light.svg));
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
