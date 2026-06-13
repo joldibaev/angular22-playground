@@ -1,4 +1,4 @@
-export function syncPopover(element: HTMLElement | undefined, expanded: boolean) {
+export function syncPopup(element: HTMLElement | undefined, expanded: boolean) {
   if (!element || !('showPopover' in element) || !('hidePopover' in element)) {
     return;
   }

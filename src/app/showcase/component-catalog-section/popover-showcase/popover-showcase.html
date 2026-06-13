@@ -1,0 +1,79 @@
+<article class="popover-showcase">
+  <div class="popover-showcase-grid">
+    <button
+      uiButton
+      type="button"
+      uiPopover
+      uiPlacement="top"
+      [uiContent]="richContent"
+    >
+      Rich content
+    </button>
+
+    <ng-template #richContent>
+      <strong>Rich content</strong>
+      <span>Supports projected markup</span>
+    </ng-template>
+
+    <button
+      uiButton
+      appearance="secondary"
+      type="button"
+      uiPopover
+      uiPanelId="controlled-popover"
+      uiDescribedby
+      uiPlacement="top"
+      uiTrigger="click"
+      [uiContent]="controlledContent"
+      [uiVisible]="contentOpen()"
+      (uiVisibleChange)="contentOpen.set($event)"
+      [attr.aria-pressed]="contentOpen()"
+    >
+      Toggle content
+    </button>
+
+    <ng-template #controlledContent>
+      <span>Controlled by component state</span>
+    </ng-template>
+  </div>
+
+  <div class="popover-showcase-large">
+    <button
+      uiButton
+      appearance="outline"
+      type="button"
+      uiPopover
+      uiMaxWidth="min(28rem, calc(100vw - 2rem))"
+      uiPlacement="top"
+      uiTrigger="hover"
+      [uiContent]="detailsContent"
+    >
+      Details panel
+    </button>
+
+    <ng-template #detailsContent>
+      <div class="popover-showcase-panel">
+        <div class="popover-showcase-panel-header">
+          <strong>Quarterly review</strong>
+          <span>Draft</span>
+        </div>
+
+        <p>
+          Revenue is tracking ahead of plan, with onboarding friction still concentrated in
+          workspace setup.
+        </p>
+
+        <dl class="popover-showcase-metrics" aria-label="Quarterly review metrics">
+          <div>
+            <dt>ARR</dt>
+            <dd>$2.4M</dd>
+          </div>
+          <div>
+            <dt>Activation</dt>
+            <dd>68%</dd>
+          </div>
+        </dl>
+      </div>
+    </ng-template>
+  </div>
+</article>

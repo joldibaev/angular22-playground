@@ -53,24 +53,3 @@ body {
   background-size: cover;
   background-attachment: fixed;
 }
-
-button[uiMenuTrigger] {
-  display: inline-flex;
-  min-height: 2.5rem;
-  cursor: pointer;
-  position: relative;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.5rem;
-  border: 1px solid var(--border-color-default);
-  background: var(--background-color-surface);
-  font: inherit;
-  font-weight: 800;
-  padding: 0.625rem 1rem;
-  outline-offset: 3px;
-}
-
-button[uiMenuTrigger]:not(:disabled):hover,
-button[uiMenuTrigger][aria-expanded='true'] {
-  background: var(--background-color-surface);
-}

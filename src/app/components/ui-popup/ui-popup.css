@@ -1,0 +1,111 @@
+:host {
+  --ui-popup-background: var(--background-color-surface);
+  --ui-popup-border-color: var(--border-color-default);
+  --ui-popup-border-width: 1px;
+  --ui-popup-radius: 0.5rem;
+  --ui-popup-padding: 0.5rem;
+  --ui-popup-offset: 0.5rem;
+  --ui-popup-width: anchor-size(width);
+  --ui-popup-min-width: auto;
+  --ui-popup-max-height: 12rem;
+  --ui-popup-font-size: 0.9rem;
+  --ui-popup-overflow: auto;
+  --ui-popup-shadow: 0 4px 6px -1px var(--shadow-color-default);
+
+  --ui-popup-list-gap: 2px;
+
+  --ui-popup-option-radius: 0.5rem;
+  --ui-popup-option-min-height: 2.25rem;
+  --ui-popup-option-padding: 0 1rem;
+  --ui-popup-option-hover-background: color-mix(
+    in srgb,
+    var(--text-color-muted) 5%,
+    transparent
+  );
+  --ui-popup-option-active-ring-color: color-mix(in srgb, var(--color-brand) 50%, transparent);
+  --ui-popup-option-selected-color: var(--color-brand);
+  --ui-popup-option-selected-background: color-mix(in srgb, var(--color-brand) 5%, transparent);
+}
+
+.ui-popup-surface {
+  position: fixed;
+  inset: auto;
+  top: calc(anchor(bottom) + var(--ui-popup-offset));
+  left: anchor(left);
+  width: var(--ui-popup-width);
+  min-width: var(--ui-popup-min-width);
+  box-sizing: border-box;
+  max-height: var(--ui-popup-max-height);
+  margin: 0;
+  border: var(--ui-popup-border-width) solid var(--ui-popup-border-color);
+  border-radius: var(--ui-popup-radius);
+  padding: var(--ui-popup-padding);
+  overflow: var(--ui-popup-overflow);
+  background: var(--ui-popup-background);
+  box-shadow: var(--ui-popup-shadow);
+  font-size: var(--ui-popup-font-size);
+  transform-origin: top;
+  position-try-fallbacks: flip-block;
+  animation: uiPopupOpen 150ms ease-out forwards;
+}
+
+@supports not (anchor-name: --ui-popup-trigger) {
+  .ui-popup-surface {
+    position: absolute;
+    top: calc(100% + var(--ui-popup-offset));
+    left: 0;
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-popup-surface {
+    animation-duration: 1ms;
+  }
+}
+
+@keyframes uiPopupOpen {
+  0% {
+    opacity: 0;
+    transform: translateY(-0.25rem);
+  }
+  16.7% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.ui-popup-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-popup-list-gap);
+  height: 100%;
+  overflow: auto;
+}
+
+.ui-popup-option {
+  display: flex;
+  align-items: center;
+  min-height: var(--ui-popup-option-min-height);
+  margin: 1px;
+  border-radius: var(--ui-popup-option-radius);
+  padding: var(--ui-popup-option-padding);
+  cursor: pointer;
+
+  &:not([aria-disabled='true']):hover {
+    background: var(--ui-popup-option-hover-background);
+  }
+
+  &[data-active='true'] {
+    outline: 2px solid var(--ui-popup-option-active-ring-color);
+    outline-offset: -2px;
+  }
+
+  &[aria-selected='true'] {
+    color: var(--ui-popup-option-selected-color);
+    background: var(--ui-popup-option-selected-background);
+  }
+}

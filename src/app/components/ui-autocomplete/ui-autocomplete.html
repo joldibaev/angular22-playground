@@ -7,7 +7,7 @@
     [disabled]="disabled()"
     [inlineSuggestion]="inlineSuggestion()"
     [preserveContent]="true"
-    class="autocomplete-input ui-popover-trigger"
+    class="autocomplete-input ui-popup-trigger"
     type="text"
     (blur)="touch.emit()"
   />
@@ -21,7 +21,7 @@
   <ng-template ngComboboxPopup [combobox]="combobox">
     <div
       #popupElement
-      class="ui-popover-surface ui-autocomplete-popup"
+      class="ui-popup-surface ui-autocomplete-popup"
       popover="auto"
       (toggle)="onPopupToggle($event)"
     >
@@ -29,7 +29,7 @@
         <div
           #listbox="ngListbox"
           ngListbox
-          class="ui-popover-list"
+          class="ui-popup-list"
           [multi]="false"
           ngComboboxWidget
           [tabindex]="-1"
@@ -46,7 +46,7 @@
             <div
               ngOption
               #ngOption="ngOption"
-              class="ui-popover-option"
+              class="ui-popup-option"
               [value]="option.value()"
               [label]="option.label()"
             >

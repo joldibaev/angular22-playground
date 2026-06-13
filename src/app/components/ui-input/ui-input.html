@@ -14,24 +14,13 @@
       </label>
     }
 
-    <ui-floating-content
-      class="ui-input-control"
+    <ui-input-error
       [open]="showErrorTooltip()"
-      variant="destructive"
+      [messages]="errorMessages()"
+      [panelId]="errorTooltipId"
     >
       <ng-content />
-
-      @if (errorMessages().length) {
-        <ui-floating-content-panel
-          [id]="errorTooltipId"
-          role="alert"
-        >
-          @for (message of errorMessages(); track message) {
-            <span>{{ message }}</span>
-          }
-        </ui-floating-content-panel>
-      }
-    </ui-floating-content>
+    </ui-input-error>
 
     @if (disabledReasonMessages().length) {
       <span class="ui-input-disabled-reason">

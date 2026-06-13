@@ -368,13 +368,13 @@ describe('UiSelect', () => {
 
     expect(invalidField.querySelector('.ui-input-label')?.textContent).toContain('Status');
     expect(invalidField.querySelector('.ui-input-label')?.textContent).toContain('*');
-    expect(invalidField.querySelector('.ui-floating-content')?.textContent).toContain(
+    expect(invalidField.querySelector('.ui-input-error-panel')?.textContent).toContain(
       'Status is required',
     );
     expect(disabledField.querySelector('[role="combobox"]')?.getAttribute('aria-disabled')).toBe(
       'true',
     );
-    expect(disabledField.querySelector('.ui-floating-content')).toBeNull();
+    expect(disabledField.querySelector('.ui-input-error-panel')).toBeNull();
     expect(disabledField.querySelector('.ui-input-disabled-reason')?.textContent).toContain(
       'Status is locked by workflow',
     );

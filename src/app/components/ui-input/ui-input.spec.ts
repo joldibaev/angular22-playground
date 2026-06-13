@@ -118,7 +118,7 @@ describe('UiInput', () => {
   it('should show validation errors in a floating message when showError is enabled', async () => {
     const hostFixture = await createSignalFormHostFixture();
     const firstField = hostFixture.nativeElement.querySelector('ui-input');
-    const message = firstField.querySelector('.ui-floating-content');
+    const message = firstField.querySelector('.ui-input-error-panel');
 
     expect(message?.getAttribute('role')).toBe('alert');
     expect(message?.textContent).toContain('Ticket title is required');
@@ -132,7 +132,7 @@ describe('UiInput', () => {
     const reason = disabledField.querySelector('.ui-input-disabled-reason');
 
     expect(input.disabled).toBe(true);
-    expect(disabledField.querySelector('.ui-floating-content')).toBeNull();
+    expect(disabledField.querySelector('.ui-input-error-panel')).toBeNull();
     expect(reason?.textContent).toContain('Routing note is managed automatically');
   });
 });

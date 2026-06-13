@@ -2,14 +2,17 @@ import { Component, signal, viewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MenuHarness } from '@angular/aria/menu/testing';
+import { UiButton } from '../ui-button/ui-button';
 import { UiMenu } from './ui-menu';
 import { UiMenuItem } from './ui-menu-item/ui-menu-item';
 import { UiMenuTrigger } from './ui-menu-trigger/ui-menu-trigger';
 
 @Component({
-  imports: [UiMenu, UiMenuItem, UiMenuTrigger],
+  imports: [UiButton, UiMenu, UiMenuItem, UiMenuTrigger],
   template: `
-    <button uiMenuTrigger [menu]="menu.menu()">Ticket actions</button>
+    <button uiButton uiMenuTrigger appearance="outline" [menu]="menu.menu()">
+      Ticket actions
+    </button>
 
     <ui-menu #menu (itemSelected)="selected.set($event)">
       <ui-menu-item value="assign">Assign owner</ui-menu-item>
@@ -24,14 +27,18 @@ class TestHost {
 }
 
 @Component({
-  imports: [UiMenu, UiMenuItem, UiMenuTrigger],
+  imports: [UiButton, UiMenu, UiMenuItem, UiMenuTrigger],
   template: `
-    <button uiMenuTrigger [menu]="commandMenu.menu()">Command menu</button>
+    <button uiButton uiMenuTrigger appearance="outline" [menu]="commandMenu.menu()">
+      Command menu
+    </button>
     <ui-menu #commandMenu>
       <ui-menu-item value="duplicate">Duplicate</ui-menu-item>
     </ui-menu>
 
-    <button uiMenuTrigger [menu]="statusMenu.menu()">Status menu</button>
+    <button uiButton uiMenuTrigger appearance="outline" [menu]="statusMenu.menu()">
+      Status menu
+    </button>
     <ui-menu #statusMenu>
       <ui-menu-item value="todo">Todo</ui-menu-item>
     </ui-menu>

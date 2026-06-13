@@ -19,7 +19,7 @@ import type { FormValueControl } from '@angular/forms/signals';
 import { UiInput } from '../ui-input/ui-input';
 import { UiAutocompleteOption } from './ui-autocomplete-option/ui-autocomplete-option';
 import { UiIcon } from '../ui-icon/ui-icon';
-import { syncPopover } from '../ui-popover/sync-popover';
+import { syncPopup } from '../ui-popup/sync-popup';
 
 @Component({
   selector: 'ui-autocomplete',
@@ -34,7 +34,7 @@ import { syncPopover } from '../ui-popover/sync-popover';
     UiIcon,
   ],
   templateUrl: './ui-autocomplete.html',
-  styleUrls: ['../ui-popover/ui-popover.css', './ui-autocomplete.css'],
+  styleUrls: ['../ui-popup/ui-popup.css', './ui-autocomplete.css'],
 })
 export class UiAutocomplete implements FormValueControl<string> {
   readonly combobox = viewChild(Combobox);
@@ -101,7 +101,7 @@ export class UiAutocomplete implements FormValueControl<string> {
     });
 
     afterRenderEffect(() => {
-      syncPopover(this.popupElement()?.nativeElement, this.popupExpanded());
+      syncPopup(this.popupElement()?.nativeElement, this.popupExpanded());
     });
   }
 

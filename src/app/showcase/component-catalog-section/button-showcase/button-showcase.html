@@ -1,0 +1,99 @@
+<article class="button-showcase" aria-labelledby="button-showcase-title">
+  <h4 id="button-showcase-title" class="font-black">Appearance</h4>
+
+  <div class="button-showcase-list">
+    <button uiButton type="button">Default</button>
+    <button uiButton type="button" appearance="outline">Outline</button>
+    <button uiButton type="button" appearance="destructive">Destructive</button>
+    <button uiButton type="button" appearance="secondary">Secondary</button>
+    <button uiButton type="button" appearance="ghost">Ghost</button>
+    <button uiButton type="button" appearance="link">Link</button>
+  </div>
+
+  <section class="button-showcase-section" aria-labelledby="button-state-title">
+    <h4 id="button-state-title" class="font-black">States</h4>
+
+    <div class="button-showcase-grid">
+      <button uiButton type="button">Enabled</button>
+      <button uiButton type="button" disabled>Disabled</button>
+      <button uiButton type="button" loading>Loading</button>
+
+      <button uiButton type="button" appearance="outline">Enabled</button>
+      <button uiButton type="button" appearance="outline" disabled>Disabled</button>
+      <button uiButton type="button" appearance="outline" loading>Loading</button>
+
+      <button uiButton type="button" appearance="destructive">Enabled</button>
+      <button uiButton type="button" appearance="destructive" disabled>Disabled</button>
+      <button uiButton type="button" appearance="destructive" loading>Loading</button>
+
+      <button uiButton type="button" appearance="secondary">Enabled</button>
+      <button uiButton type="button" appearance="secondary" disabled>Disabled</button>
+      <button uiButton type="button" appearance="secondary" loading>Loading</button>
+
+      <button uiButton type="button" appearance="ghost">Enabled</button>
+      <button uiButton type="button" appearance="ghost" disabled>Disabled</button>
+      <button uiButton type="button" appearance="ghost" loading>Loading</button>
+
+      <button uiButton type="button" appearance="link">Enabled</button>
+      <button uiButton type="button" appearance="link" disabled>Disabled</button>
+      <button uiButton type="button" appearance="link" loading>Loading</button>
+    </div>
+  </section>
+
+  <section class="button-showcase-section" aria-labelledby="button-link-title">
+    <h4 id="button-link-title" class="font-black">Anchor host</h4>
+
+    <div class="button-showcase-list">
+      <a uiButton href="#component-catalog">Default anchor</a>
+      <a uiButton href="#component-catalog" appearance="outline">Outline anchor</a>
+      <a uiButton href="#component-catalog" appearance="link">Link anchor</a>
+      <a uiButton href="#component-catalog" disabled>Disabled anchor</a>
+      <a uiButton href="#component-catalog" loading>Loading anchor</a>
+    </div>
+  </section>
+
+  <section class="button-showcase-section" aria-labelledby="button-icon-title">
+    <h4 id="button-icon-title" class="font-black">Icons</h4>
+
+    <div class="button-showcase-list">
+      <button uiButton type="button">
+        <ui-icon name="outline-plus" decorative />
+        Create
+      </button>
+
+      <button uiButton type="button" appearance="outline">
+        Export
+        <ui-icon name="outline-arrow-left" decorative />
+      </button>
+
+      <button uiButton type="button" appearance="destructive">
+        <ui-icon name="outline-trash" decorative />
+        Delete
+      </button>
+
+      <button uiButton type="button" appearance="secondary" aria-label="Settings">
+        <ui-icon name="outline-settings" decorative />
+      </button>
+
+      <a uiButton href="#component-catalog" appearance="ghost" aria-label="Open details">
+        <ui-icon name="outline-chevron-right" decorative />
+      </a>
+    </div>
+  </section>
+
+  <section class="button-showcase-section" aria-labelledby="button-variant-api">
+    <h4 id="button-variant-api" class="font-black">Variant input</h4>
+    <p class="text-sm font-bold text-secondary">
+      The component also accepts <code>variant</code>. When both inputs are present, variant wins.
+    </p>
+
+    <div class="button-showcase-list">
+      <button uiButton type="button" appearance="outline" variant="secondary">
+        Secondary variant
+      </button>
+      <button uiButton type="button" appearance="default" variant="destructive">
+        Destructive variant
+      </button>
+    </div>
+  </section>
+</article>

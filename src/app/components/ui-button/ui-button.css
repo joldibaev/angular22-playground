@@ -1,0 +1,130 @@
+:host {
+  --ui-button-background: CanvasText;
+  --ui-button-border-color: var(--ui-button-background);
+  --ui-button-color: Canvas;
+  --ui-button-focus-ring-color: color-mix(in srgb, var(--ui-button-border-color) 45%, transparent);
+  --ui-button-hover-background: color-mix(in srgb, var(--ui-button-background) 88%, Canvas);
+  --ui-button-active-background: color-mix(in srgb, var(--ui-button-background) 80%, Canvas);
+  --ui-button-disabled-opacity: 0.5;
+  --ui-button-min-height: 2.5rem;
+  --ui-button-radius: 0.5rem;
+  --ui-button-padding-inline: 1rem;
+  --ui-button-padding-block: 0.5rem;
+
+  appearance: none;
+  display: inline-flex;
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: var(--ui-button-min-height);
+  max-width: 100%;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid var(--ui-button-border-color);
+  border-radius: var(--ui-button-radius);
+  background: var(--ui-button-background);
+  color: var(--ui-button-color);
+  font: inherit;
+  font-size: 1rem;
+  font-weight: 800;
+  line-height: 1.25rem;
+  outline: none;
+  padding: var(--ui-button-padding-block) var(--ui-button-padding-inline);
+  text-align: center;
+  text-wrap: balance;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  overflow-wrap: anywhere;
+  vertical-align: middle;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+:host(.ui-button-outline) {
+  --ui-button-background: transparent;
+  --ui-button-border-color: var(--border-color-strong);
+  --ui-button-color: contrast-color(Canvas);
+  --ui-button-hover-background: var(--background-color-subtle);
+  --ui-button-active-background: color-mix(in srgb, var(--background-color-subtle) 82%, CanvasText);
+}
+
+:host(.ui-button-destructive) {
+  --ui-button-background: color-mix(in srgb, var(--color-destructive) 12%, Canvas);
+  --ui-button-border-color: transparent;
+  --ui-button-color: var(--color-destructive);
+  --ui-button-hover-background: color-mix(in srgb, var(--color-destructive) 18%, Canvas);
+  --ui-button-active-background: color-mix(in srgb, var(--color-destructive) 24%, Canvas);
+  --ui-button-focus-ring-color: color-mix(in srgb, var(--color-destructive) 35%, transparent);
+}
+
+:host(.ui-button-secondary) {
+  --ui-button-background: var(--background-color-subtle);
+  --ui-button-border-color: transparent;
+  --ui-button-color: contrast-color(var(--ui-button-background));
+  --ui-button-hover-background: color-mix(in srgb, var(--ui-button-background) 86%, CanvasText);
+  --ui-button-active-background: color-mix(in srgb, var(--ui-button-background) 78%, CanvasText);
+}
+
+:host(.ui-button-ghost),
+:host(.ui-button-link) {
+  --ui-button-background: transparent;
+  --ui-button-border-color: transparent;
+  --ui-button-color: contrast-color(Canvas);
+  --ui-button-hover-background: var(--background-color-subtle);
+  --ui-button-active-background: color-mix(in srgb, var(--background-color-subtle) 82%, CanvasText);
+}
+
+:host(.ui-button-link) {
+  --ui-button-min-height: auto;
+  --ui-button-padding-inline: 0;
+  --ui-button-padding-block: 0;
+  --ui-button-radius: 0.25rem;
+  --ui-button-hover-background: transparent;
+  --ui-button-active-background: transparent;
+}
+
+:host(:not(:disabled, [aria-disabled='true']):hover) {
+  background: var(--ui-button-hover-background);
+}
+
+:host(:not(:disabled, [aria-disabled='true']):active) {
+  background: var(--ui-button-active-background);
+}
+
+:host(:focus-visible) {
+  outline: 3px solid var(--ui-button-focus-ring-color);
+  outline-offset: 2px;
+}
+
+:host(:disabled),
+:host([aria-disabled='true']) {
+  cursor: default;
+  opacity: var(--ui-button-disabled-opacity);
+}
+
+:host(.ui-button-link) {
+  text-decoration: underline;
+  text-underline-offset: 0.1875em;
+}
+
+:host(.ui-button-link:not(:disabled, [aria-disabled='true']):hover) {
+  text-decoration-thickness: 0.125em;
+}
+
+.ui-button-content {
+  display: contents;
+}
+
+.ui-button-loading-icon {
+  flex: 0 0 auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-button-loading-icon {
+    opacity: 0.75;
+  }
+}

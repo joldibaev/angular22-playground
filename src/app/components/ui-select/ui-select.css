@@ -1,5 +1,5 @@
 :host {
-  --ui-popover-overflow: scroll;
+  --ui-popup-overflow: scroll;
   --ui-select-group-label-color: color-mix(in srgb, var(--text-color-muted) 60%, transparent);
 
   anchor-scope: --ui-select-trigger;
@@ -70,7 +70,7 @@
 .ui-select-group {
   display: flex;
   flex-direction: column;
-  gap: var(--ui-popover-list-gap);
+  gap: var(--ui-popup-list-gap);
 
   & .ui-select-group-label {
     color: var(--ui-select-group-label-color);

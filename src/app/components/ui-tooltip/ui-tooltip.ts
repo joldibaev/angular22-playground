@@ -1,23 +1,24 @@
 import { DOCUMENT } from '@angular/common';
 import {
+  ApplicationRef,
   afterRenderEffect,
-  Component,
+  ComponentRef,
+  createComponent,
+  Directive,
   DestroyRef,
   ElementRef,
+  EnvironmentInjector,
   Renderer2,
-  ViewEncapsulation,
   computed,
   inject,
   input,
 } from '@angular/core';
+import { UiTooltipPanel } from './ui-tooltip-panel/ui-tooltip-panel';
 
 let nextTooltipId = 0;
 
-@Component({
+@Directive({
   selector: '[uiTooltip]',
-  templateUrl: './ui-tooltip.html',
-  styleUrl: './ui-tooltip.css',
-  encapsulation: ViewEncapsulation.None,
   host: {
     class: 'ui-tooltip-trigger',
     '[attr.aria-describedby]': 'normalizedText() ? tooltipId : null',
@@ -35,11 +36,12 @@ export class UiTooltip {
   private readonly renderer = inject(Renderer2);
   private readonly document = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly appRef = inject(ApplicationRef);
+  private readonly environmentInjector = inject(EnvironmentInjector);
   private readonly id = nextTooltipId++;
   readonly tooltipId = `ui-tooltip-${this.id}`;
   private readonly anchorName = `--ui-tooltip-anchor-${this.id}`;
-  private tooltip: HTMLElement | null = null;
-  private surface: HTMLElement | null = null;
+  private tooltipRef: ComponentRef<UiTooltipPanel> | null = null;
 
   readonly normalizedText = computed(() => this.text().trim());
 
@@ -59,27 +61,33 @@ export class UiTooltip {
 
     this.ensureTooltip();
 
-    if (!this.tooltip) {
+    if (!this.tooltipRef) {
       return;
     }
 
-    this.renderer.removeAttribute(this.tooltip, 'hidden');
+    const tooltip = this.tooltipRef.location.nativeElement;
 
-    if ('showPopover' in this.tooltip && !this.tooltip.matches(':popover-open')) {
-      this.tooltip.showPopover();
+    this.tooltipRef.instance.show();
+    this.tooltipRef.changeDetectorRef.detectChanges();
+
+    if ('showPopover' in tooltip && !tooltip.matches(':popover-open')) {
+      tooltip.showPopover();
     }
   }
 
   hide(): void {
-    if (!this.tooltip) {
+    if (!this.tooltipRef) {
       return;
     }
 
-    if ('hidePopover' in this.tooltip && this.tooltip.matches(':popover-open')) {
-      this.tooltip.hidePopover();
+    const tooltip = this.tooltipRef.location.nativeElement;
+
+    if ('hidePopover' in tooltip && tooltip.matches(':popover-open')) {
+      tooltip.hidePopover();
     }
 
-    this.renderer.setAttribute(this.tooltip, 'hidden', '');
+    this.tooltipRef.instance.hide();
+    this.tooltipRef.changeDetectorRef.detectChanges();
   }
 
   private syncTooltip(): void {
@@ -90,46 +98,47 @@ export class UiTooltip {
 
     this.ensureTooltip();
 
-    if (!this.tooltip || !this.surface) {
+    if (!this.tooltipRef) {
       return;
     }
 
-    this.renderer.setProperty(this.surface, 'textContent', this.normalizedText());
+    this.tooltipRef.setInput('text', this.normalizedText());
+    this.tooltipRef.changeDetectorRef.detectChanges();
   }
 
   private ensureTooltip(): void {
-    if (this.tooltip && this.surface) {
+    if (this.tooltipRef) {
       return;
     }
 
-    const tooltip = this.renderer.createElement('span') as HTMLElement;
-    const surface = this.renderer.createElement('span') as HTMLElement;
+    const tooltipRef = createComponent(UiTooltipPanel, {
+      environmentInjector: this.environmentInjector,
+    });
+    const tooltip = tooltipRef.location.nativeElement;
 
-    this.renderer.setAttribute(tooltip, 'id', this.tooltipId);
-    this.renderer.setAttribute(tooltip, 'role', 'tooltip');
-    this.renderer.setAttribute(tooltip, 'popover', 'hint');
-    this.renderer.setAttribute(tooltip, 'hidden', '');
-    this.renderer.addClass(tooltip, 'ui-tooltip');
-    this.renderer.addClass(surface, 'ui-tooltip-surface');
-    this.renderer.setStyle(tooltip, 'position-anchor', this.anchorName);
-    this.renderer.appendChild(tooltip, surface);
+    tooltipRef.setInput('text', this.normalizedText());
+    tooltipRef.setInput('tooltipId', this.tooltipId);
+    tooltipRef.setInput('anchorName', this.anchorName);
+    this.appRef.attachView(tooltipRef.hostView);
     this.renderer.appendChild(this.document.body, tooltip);
+    tooltipRef.changeDetectorRef.detectChanges();
 
-    this.tooltip = tooltip;
-    this.surface = surface;
+    this.tooltipRef = tooltipRef;
   }
 
   private destroyTooltip(): void {
-    if (!this.tooltip) {
+    if (!this.tooltipRef) {
       return;
     }
 
-    if ('hidePopover' in this.tooltip && this.tooltip.matches(':popover-open')) {
-      this.tooltip.hidePopover();
+    const tooltip = this.tooltipRef.location.nativeElement;
+
+    if ('hidePopover' in tooltip && tooltip.matches(':popover-open')) {
+      tooltip.hidePopover();
     }
 
-    this.renderer.removeChild(this.document.body, this.tooltip);
-    this.tooltip = null;
-    this.surface = null;
+    this.appRef.detachView(this.tooltipRef.hostView);
+    this.tooltipRef.destroy();
+    this.tooltipRef = null;
   }
 }

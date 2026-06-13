@@ -5,7 +5,7 @@
     [(expanded)]="popupExpanded"
     [disabled]="disabled()"
     [preserveContent]="true"
-    class="select ui-popover-trigger"
+    class="select ui-popup-trigger"
     (blur)="touch.emit()"
   >
     <span class="combobox-label">
@@ -26,14 +26,14 @@
   <ng-template ngComboboxPopup [combobox]="combobox">
     <div
       #popupElement
-      class="ui-popover-surface ui-select-popup"
+      class="ui-popup-surface ui-select-popup"
       popover="auto"
       (toggle)="onPopupToggle($event)"
     >
       <div
         #listbox="ngListbox"
         ngListbox
-        class="ui-popover-list"
+        class="ui-popup-list"
         [multi]="multi()"
         ngComboboxWidget
         [tabindex]="-1"
@@ -55,7 +55,7 @@
                 <div
                   ngOption
                   #ngOption="ngOption"
-                  class="ui-popover-option"
+                  class="ui-popup-option"
                   [value]="option.value()"
                 >
                   <span class="flex-1">{{ option.label() }}</span>
@@ -67,7 +67,7 @@
               }
             </div>
           } @else if (item.option; as option) {
-            <div ngOption #ngOption="ngOption" class="ui-popover-option" [value]="option.value()">
+            <div ngOption #ngOption="ngOption" class="ui-popup-option" [value]="option.value()">
               <span class="flex-1">{{ option.label() }}</span>
 
               @if (ngOption.selected()) {

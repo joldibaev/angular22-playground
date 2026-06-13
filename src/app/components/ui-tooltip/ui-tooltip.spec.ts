@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { UiButton } from '../ui-button/ui-button';
 import { UiTooltip } from './ui-tooltip';
 
 @Component({
-  imports: [UiTooltip],
+  imports: [UiButton, UiTooltip],
   template: `
-    <button uiTooltip="Hello">Button</button>
+    <button uiButton uiTooltip="Hello">Button</button>
   `,
 })
 class TooltipTestHost {}

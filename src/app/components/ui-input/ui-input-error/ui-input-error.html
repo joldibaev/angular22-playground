@@ -1,0 +1,18 @@
+<div class="ui-input-control" [style.anchor-name]="anchorName">
+  <ng-content />
+</div>
+
+@if (open() && messages().length) {
+  <div
+    class="ui-input-error-panel"
+    [id]="panelId()"
+    role="alert"
+    [style.position-anchor]="anchorName"
+  >
+    <span class="ui-input-error-surface">
+      @for (message of messages(); track message) {
+        <span>{{ message }}</span>
+      }
+    </span>
+  </div>
+}

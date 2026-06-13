@@ -1,5 +1,9 @@
 <section id="component-catalog" class="space-y-6">
   <ui-tab aria-label="Component catalog" fluid queryParam="component">
+    <ui-tab-item value="button" label="Button">
+      <ui-card><app-button-showcase /></ui-card>
+    </ui-tab-item>
+
     <ui-tab-item value="card" label="Card">
       <ui-card><app-card-showcase /></ui-card>
     </ui-tab-item>
@@ -28,8 +32,8 @@
       <ui-card><app-tooltip-showcase /></ui-card>
     </ui-tab-item>
 
-    <ui-tab-item value="floating-content" label="Floating content">
-      <ui-card><app-floating-content-showcase /></ui-card>
+    <ui-tab-item value="popover" label="Popover">
+      <ui-card><app-popover-showcase /></ui-card>
     </ui-tab-item>
   </ui-tab>
 </section>
