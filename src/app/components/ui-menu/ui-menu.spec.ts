@@ -23,6 +23,22 @@ class TestHost {
   readonly selected = signal('');
 }
 
+@Component({
+  imports: [UiMenu, UiMenuItem, UiMenuTrigger],
+  template: `
+    <button uiMenuTrigger [menu]="commandMenu.menu()">Command menu</button>
+    <ui-menu #commandMenu>
+      <ui-menu-item value="duplicate">Duplicate</ui-menu-item>
+    </ui-menu>
+
+    <button uiMenuTrigger [menu]="statusMenu.menu()">Status menu</button>
+    <ui-menu #statusMenu>
+      <ui-menu-item value="todo">Todo</ui-menu-item>
+    </ui-menu>
+  `,
+})
+class MultipleMenuHost {}
+
 async function createHostFixture(): Promise<ComponentFixture<TestHost>> {
   const hostFixture = TestBed.createComponent(TestHost);
   hostFixture.detectChanges();
@@ -71,7 +87,7 @@ describe('UiMenu', () => {
     expect(trigger.textContent?.trim()).toBe('Ticket actions');
     expect(trigger.getAttribute('aria-haspopup')).toBe('true');
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
-    expect(trigger.style.anchorName).toBe('--ui-menu-trigger');
+    expect(trigger.style.anchorName).toMatch(/^--ui-menu-trigger-\d+$/);
   });
 
   it('should render projected items as Angular Aria menu items when opened', async () => {
@@ -93,7 +109,7 @@ describe('UiMenu', () => {
     expect(menu.getAttribute('popover')).toBe('auto');
     expect(menuStyle.position).toBe('fixed');
     expect(menuStyle.inset).toBe('auto');
-    expect(menuStyle.positionAnchor).toBe('--ui-menu-trigger');
+    expect(menuStyle.positionAnchor).toBe(trigger.style.anchorName);
     expect(menuStyle.top).toContain('anchor(bottom)');
     expect(menuStyle.top).toContain('0.5rem');
     expect(menuStyle.margin).toBe('0px');
@@ -131,5 +147,24 @@ describe('UiMenu', () => {
 
     expect(hostFixture.componentInstance.selected()).toBe('assign');
     expect(getTrigger(hostFixture).getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('should anchor each menu panel to its own trigger when multiple menus render together', async () => {
+    const hostFixture = TestBed.createComponent(MultipleMenuHost);
+    hostFixture.detectChanges();
+    await hostFixture.whenStable();
+    await hostFixture.whenRenderingDone();
+
+    const hostElement = hostFixture.nativeElement as HTMLElement;
+    const triggers = Array.from(
+      hostElement.querySelectorAll<HTMLButtonElement>('button[uiMenuTrigger]'),
+    );
+    const menus = Array.from(document.querySelectorAll<HTMLElement>('[role="menu"]'));
+
+    expect(triggers.length).toBe(2);
+    expect(menus.length).toBe(2);
+    expect(triggers[0].style.anchorName).not.toBe(triggers[1].style.anchorName);
+    expect(getComputedStyle(menus[0]).positionAnchor).toBe(triggers[0].style.anchorName);
+    expect(getComputedStyle(menus[1]).positionAnchor).toBe(triggers[1].style.anchorName);
   });
 });

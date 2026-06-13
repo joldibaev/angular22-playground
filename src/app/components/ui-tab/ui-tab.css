@@ -4,7 +4,7 @@
   --ui-tab-list-background: var(--background-color-subtle);
   --ui-tab-indicator-background: var(--background-color-elevated);
   --ui-tab-indicator-shadow: 0 1px 3px var(--shadow-color-default);
-    --ui-tab-item-color: var(--text-color-muted);
+  --ui-tab-item-color: var(--text-color-muted);
   --ui-tab-item-active-color: contrast-color(var(--ui-tab-indicator-background));
   --ui-tab-line-color: contrast-color(Canvas);
   --ui-tab-line-indicator-size: 2px;
@@ -41,7 +41,7 @@
   box-sizing: border-box;
   width: max-content;
   min-width: 0;
-  align-items: center;
+  align-items: stretch;
   justify-self: start;
   gap: 0.25rem;
   margin: 0;
@@ -70,6 +70,14 @@
 .ui-tab-list-fluid {
   justify-self: stretch;
   width: 100%;
+}
+
+.ui-tab-list:not([aria-orientation='vertical']) {
+  overflow-x: auto;
+  overflow-y: clip;
+  overscroll-behavior-x: contain;
+  scroll-padding-inline: 1rem;
+  scrollbar-gutter: stable;
 }
 
 .ui-tab-list[aria-orientation='vertical'] {
@@ -105,15 +113,23 @@
   padding: 0.5rem 0.875rem;
   user-select: none;
   -webkit-user-select: none;
+  white-space: nowrap;
+}
+
+.ui-tab-list:not([aria-orientation='vertical']) .ui-tab-trigger {
+  flex-shrink: 0;
 }
 
 .ui-tab-list-pills .ui-tab-trigger {
   border-radius: var(--ui-tab-pill-item-radius);
 }
 
-.ui-tab-list-fluid .ui-tab-trigger,
 .ui-tab-list[aria-orientation='vertical'] .ui-tab-trigger {
   flex: 1;
+}
+
+.ui-tab-list-fluid:not([aria-orientation='vertical']) .ui-tab-trigger {
+  flex: 1 0 max-content;
 }
 
 .ui-tab-list-line .ui-tab-trigger {
@@ -163,6 +179,17 @@
   box-shadow: var(--ui-tab-indicator-shadow);
 }
 
+.ui-tab-list-pills:not([aria-orientation='vertical']) .ui-tab-indicator {
+  top: var(--ui-tab-pill-list-padding);
+  bottom: var(--ui-tab-pill-list-padding);
+  height: auto;
+}
+
+.ui-tab-list-pills[aria-orientation='vertical'] .ui-tab-indicator {
+  top: anchor(top);
+  height: anchor-size(height);
+}
+
 .ui-tab-list-line .ui-tab-indicator {
   bottom: 0;
   left: anchor(left);
@@ -178,11 +205,6 @@
   left: 0;
   width: var(--ui-tab-line-indicator-size);
   height: anchor-size(height);
-}
-
-.ui-tab-panels {
-  border-radius: 0.5rem;
-  border: 1px solid var(--ui-tab-border-color);
 }
 
 :host(.ui-tab-fluid) .ui-tab-panels {
@@ -211,9 +233,7 @@
 }
 
 [ngTabPanel] {
-  min-height: 8rem;
   outline: none;
-  padding: 1rem;
 
   &:focus-visible {
     outline: 2px solid var(--ui-tab-focus-ring-color);

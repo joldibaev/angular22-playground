@@ -1,0 +1,8 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.card-showcase-compact {
+  --ui-card-padding: 0.875rem;
+}

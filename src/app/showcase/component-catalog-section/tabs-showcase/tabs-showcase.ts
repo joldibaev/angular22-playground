@@ -94,4 +94,86 @@ export class TabsShowcase {
       description: 'Invoices, plan details, and payment method management.',
     },
   ];
+
+  readonly manyTabDetails: TabDemo[] = [
+    {
+      value: 'summary',
+      label: 'Summary',
+      title: 'Summary',
+      description: 'A short tab used as a baseline next to longer labels.',
+    },
+    {
+      value: 'workspace',
+      label: 'Workspace access',
+      title: 'Workspace access',
+      description: 'Access controls, role assignment, and invite state for the workspace.',
+    },
+    {
+      value: 'permissions',
+      label: 'Permissions matrix',
+      title: 'Permissions matrix',
+      description: 'Dense permission groups with labels long enough to wrap in narrow layouts.',
+    },
+    {
+      value: 'notifications',
+      label: 'Notifications',
+      title: 'Notifications',
+      description: 'Email, product, and escalation notification preferences.',
+    },
+    {
+      value: 'automations',
+      label: 'Automation rules',
+      title: 'Automation rules',
+      description: 'Rule configuration, trigger states, and recent automation runs.',
+    },
+    {
+      value: 'integrations',
+      label: 'Connected integrations',
+      title: 'Connected integrations',
+      description: 'Provider connections, sync status, and authorization health.',
+    },
+    {
+      value: 'imports',
+      label: 'Imports',
+      title: 'Imports',
+      description: 'Queued uploads, mapping rules, and import validation output.',
+    },
+    {
+      value: 'exports',
+      label: 'Scheduled exports',
+      title: 'Scheduled exports',
+      description: 'Recurring exports, destinations, and delivery history.',
+    },
+    {
+      value: 'audit',
+      label: 'Audit trail',
+      title: 'Audit trail',
+      description: 'Recent events, actor details, and affected resource references.',
+    },
+    {
+      value: 'security',
+      label: 'Security posture',
+      title: 'Security posture',
+      description: 'Security checks, policy coverage, and account-level recommendations.',
+    },
+    {
+      value: 'experiments',
+      label: 'Experiments',
+      title: 'Experiments',
+      description: 'Feature flags, rollout cohorts, and experiment status.',
+    },
+    {
+      value: 'advanced',
+      label: 'Advanced configuration',
+      title: 'Advanced configuration',
+      description: 'Low-frequency settings that should remain reachable in crowded tab lists.',
+    },
+    {
+      value: 'deprecated',
+      label: 'Legacy options',
+      title: 'Legacy options',
+      description: 'Disabled legacy settings stay visible but cannot be selected.',
+      disabled: true,
+    },
+  ];
 }

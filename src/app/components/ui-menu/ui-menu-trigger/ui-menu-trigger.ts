@@ -1,5 +1,7 @@
-import { Directive } from '@angular/core';
+import { Directive, effect, inject } from '@angular/core';
 import { MenuTrigger } from '@angular/aria/menu';
+
+let nextMenuTriggerId = 0;
 
 @Directive({
   selector: 'button[uiMenuTrigger]',
@@ -11,7 +13,29 @@ import { MenuTrigger } from '@angular/aria/menu';
   ],
   host: {
     class: 'ui-menu-trigger',
-    '[style.anchor-name]': "'--ui-menu-trigger'",
+    '[style.anchor-name]': 'anchorName',
   },
 })
-export class UiMenuTrigger {}
+export class UiMenuTrigger {
+  readonly anchorName = `--ui-menu-trigger-${nextMenuTriggerId++}`;
+
+  private readonly menuTrigger = inject<MenuTrigger<string>>(MenuTrigger);
+
+  constructor() {
+    effect((onCleanup) => {
+      const menuElement = this.menuTrigger.menu()?.element;
+
+      if (!menuElement) {
+        return;
+      }
+
+      menuElement.style.setProperty('position-anchor', this.anchorName);
+
+      onCleanup(() => {
+        if (menuElement.style.getPropertyValue('position-anchor') === this.anchorName) {
+          menuElement.style.removeProperty('position-anchor');
+        }
+      });
+    });
+  }
+}
