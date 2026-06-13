@@ -5,7 +5,7 @@
     [class.ui-tab-list-pills]="appearance() === 'pills'"
     [class.ui-tab-list-line]="appearance() === 'line'"
     [class.ui-tab-list-fluid]="fluid()"
-    [selectedTab]="selectedTab()"
+    [selectedTab]="tabListSelectedTab()"
     (selectedTabChange)="onSelectedTabChange($event)"
     [aria-label]="ariaLabel()"
     [attr.aria-labelledby]="ariaLabelledby() || null"

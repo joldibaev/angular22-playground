@@ -9,7 +9,7 @@ import {
   model,
   signal,
 } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
+import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Tab, TabContent, TabList, TabPanel, Tabs } from '@angular/aria/tabs';
@@ -34,6 +34,7 @@ import { UiTabItem } from './ui-tab-item/ui-tab-item';
   },
 })
 export class UiTab {
+  private readonly document = inject(DOCUMENT);
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly queryParamMap = toSignal(this.route.queryParamMap, {
@@ -61,7 +62,16 @@ export class UiTab {
   private readonly queryParamValue = computed(() => {
     const queryParam = this.queryParam();
 
-    return queryParam ? (this.queryParamMap().get(queryParam) ?? undefined) : undefined;
+    return queryParam
+      ? (this.queryParamMap().get(queryParam) ??
+          new URLSearchParams(this.document.location.search).get(queryParam) ??
+          undefined)
+      : undefined;
+  });
+  readonly tabListSelectedTab = computed(() => {
+    const selectedTab = this.selectedTab();
+
+    return this.userSelectedTab() ? selectedTab : (this.queryParamValue() ?? selectedTab);
   });
 
   constructor() {
@@ -76,6 +86,10 @@ export class UiTab {
 
       if (queryParamValue && this.isEnabledTabValue(queryParamValue)) {
         this.selectedTab.set(queryParamValue);
+        return;
+      }
+
+      if (queryParamValue) {
         return;
       }
 
