@@ -1,10 +1,12 @@
 @import 'tailwindcss';
 
 :root {
-  --full-contrast: black;
-  --focus-ring: color-mix(in srgb, var(--color-brand) 45%, transparent);
-
   color-scheme: light dark;
+
+  --bg-image: url(/light.svg);
+  @media (prefers-color-scheme: dark) {
+    --bg-image: url(/dark.svg);
+  }
 }
 
 :root[data-theme='light'] {
@@ -35,7 +37,10 @@
   --border-color-default: light-dark(var(--color-neutral-200), var(--color-neutral-800));
   --border-color-strong: light-dark(var(--color-neutral-300), var(--color-neutral-700));
 
-  --color-brand: var(--color-emerald-400);
+  --color-brand: light-dark(var(--color-emerald-400), var(--color-emerald-600));
+  --color-destructive: var(--color-red-600);
+
+  --shadow-color-default: light-dark(color-mix(in srgb, contrast-color(Canvas) 8%, transparent), transparent);
 }
 
 html {
@@ -68,8 +73,4 @@ button[uiMenuTrigger] {
 button[uiMenuTrigger]:not(:disabled):hover,
 button[uiMenuTrigger][aria-expanded='true'] {
   background: var(--background-color-surface);
-}
-
-button[uiMenuTrigger]:focus-visible {
-  outline: 3px solid var(--focus-ring);
 }

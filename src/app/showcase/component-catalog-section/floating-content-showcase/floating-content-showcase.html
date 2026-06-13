@@ -1,0 +1,72 @@
+<article class="floating-content-showcase">
+  <div class="floating-content-showcase-grid">
+    <ui-floating-content class="floating-content-showcase-anchor" [open]="true">
+      Rich content
+      <ui-floating-content-panel>
+        <strong>Rich content</strong>
+        <span>Supports projected markup</span>
+      </ui-floating-content-panel>
+    </ui-floating-content>
+
+    <ui-floating-content class="floating-content-showcase-anchor" variant="destructive" [open]="true">
+      Error state
+      <ui-floating-content-panel role="alert">
+        <span>Required</span>
+        <span>Invalid email</span>
+      </ui-floating-content-panel>
+    </ui-floating-content>
+
+    <ui-floating-content
+      class="floating-content-showcase-anchor controlled-content-anchor"
+      [open]="contentOpen()"
+    >
+      <button
+        class="floating-content-showcase-button"
+        type="button"
+        [attr.aria-describedby]="contentOpen() ? 'floating-controlled-content' : null"
+        [attr.aria-pressed]="contentOpen()"
+        (click)="contentOpen.set(!contentOpen())"
+      >
+        Toggle content
+      </button>
+
+      <ui-floating-content-panel id="floating-controlled-content">
+        <span>Controlled by component state</span>
+      </ui-floating-content-panel>
+    </ui-floating-content>
+  </div>
+
+  <div class="floating-content-showcase-large">
+    <ui-floating-content
+      class="floating-content-showcase-anchor"
+      style="--ui-floating-content-max-width: min(28rem, calc(100vw - 2rem))"
+      [open]="true"
+    >
+      Details panel
+      <ui-floating-content-panel>
+        <div class="floating-content-showcase-panel">
+          <div class="floating-content-showcase-panel-header">
+            <strong>Quarterly review</strong>
+            <span>Draft</span>
+          </div>
+
+          <p>
+            Revenue is tracking ahead of plan, with onboarding friction still concentrated in
+            workspace setup.
+          </p>
+
+          <dl class="floating-content-showcase-metrics" aria-label="Quarterly review metrics">
+            <div>
+              <dt>ARR</dt>
+              <dd>$2.4M</dd>
+            </div>
+            <div>
+              <dt>Activation</dt>
+              <dd>68%</dd>
+            </div>
+          </dl>
+        </div>
+      </ui-floating-content-panel>
+    </ui-floating-content>
+  </div>
+</article>

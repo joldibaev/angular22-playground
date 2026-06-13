@@ -12,7 +12,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'ui-icon',
-  template: '',
+  templateUrl: './ui-icon.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'flex items-center justify-center',

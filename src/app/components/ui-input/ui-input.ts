@@ -16,13 +16,14 @@ import {
   type FieldState,
   type ValidationError,
 } from '@angular/forms/signals';
-import { UiFloatingMessage } from '../ui-floating-message/ui-floating-message';
+import { UiFloatingContent } from '../ui-floating-content/ui-floating-content';
+import { UiFloatingContentPanel } from '../ui-floating-content/ui-floating-content-panel/ui-floating-content-panel';
 
 let nextInputId = 0;
 
 @Component({
   selector: 'ui-input',
-  imports: [UiFloatingMessage],
+  imports: [UiFloatingContent, UiFloatingContentPanel],
   templateUrl: './ui-input.html',
   styleUrl: './ui-input.css',
   encapsulation: ViewEncapsulation.None,

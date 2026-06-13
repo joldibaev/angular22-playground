@@ -3,17 +3,14 @@
   --ui-tab-focus-ring-color: color-mix(in srgb, var(--color-brand) 45%, transparent);
   --ui-tab-list-background: var(--background-color-subtle);
   --ui-tab-indicator-background: var(--background-color-elevated);
-  --ui-tab-indicator-shadow: 0 1px 3px
-    color-mix(in srgb, contrast-color(var(--ui-tab-indicator-background)) 12%, transparent);
-  --ui-tab-item-color: var(--text-color-muted);
+  --ui-tab-indicator-shadow: 0 1px 3px var(--shadow-color-default);
+    --ui-tab-item-color: var(--text-color-muted);
   --ui-tab-item-active-color: contrast-color(var(--ui-tab-indicator-background));
   --ui-tab-line-color: contrast-color(Canvas);
   --ui-tab-line-indicator-size: 2px;
   --ui-tab-pill-list-padding: 0.25rem;
   --ui-tab-pill-list-radius: 0.5rem;
-  --ui-tab-pill-item-radius: calc(
-    var(--ui-tab-pill-list-radius) - var(--ui-tab-pill-list-padding)
-  );
+  --ui-tab-pill-item-radius: calc(var(--ui-tab-pill-list-radius) - var(--ui-tab-pill-list-padding));
 
   display: inline-block;
 

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { UiTab } from '../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../components/ui-tab/ui-tab-item/ui-tab-item';
 import { AutocompleteShowcase } from './autocomplete-showcase/autocomplete-showcase';
-import { FloatingMessageShowcase } from './floating-message-showcase/floating-message-showcase';
+import { FloatingContentShowcase } from './floating-content-showcase/floating-content-showcase';
 import { InputShowcase } from './input-showcase/input-showcase';
 import { MenuShowcase } from './menu-showcase/menu-showcase';
 import { SelectShowcase } from './select-showcase/select-showcase';
@@ -13,7 +13,7 @@ import { TooltipShowcase } from './tooltip-showcase/tooltip-showcase';
   selector: 'app-component-catalog-section',
   imports: [
     AutocompleteShowcase,
-    FloatingMessageShowcase,
+    FloatingContentShowcase,
     InputShowcase,
     MenuShowcase,
     SelectShowcase,

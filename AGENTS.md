@@ -9,3 +9,8 @@
 - When nested rounded UI surfaces have an outer container with padding and inner controls or indicators with their own radius, derive the radii from the formula `outerR = innerR + padding`. For example, pill tabs, segmented controls, button groups, chips, and similar patterns should compute or document the inner radius as `innerR = outerR - padding` instead of choosing unrelated radius values.
 - Accessibility is required, not optional. Every UI change must carefully account for semantic HTML, keyboard navigation, visible focus states, ARIA only when needed, accessible names/descriptions, color contrast, reduced-motion preferences, and screen-reader behavior.
 - Keep Angular components and templates small and focused. When a component or template starts to grow, split it into smaller feature, section, showcase, or presentational components instead of continuing to add markup to a large file such as `src/app/app.html`.
+- Use `destructive` for destructive/error UI variants instead of color names such as `red` or `error`.
+- Keep Angular declarations one per file: one component per file, one directive per file, one pipe per file, and so on.
+- Prefer external Angular templates with `templateUrl`; do not use inline `template` metadata for components.
+- When one UI component folder contains multiple related components, keep the main/root component directly in that folder and place secondary components in their own subfolders.
+- When creating UI components, optimize the public API for convenient developer experience. Implementation details such as generated anchor names, positioning styles, or wiring attributes should be handled by the component whenever practical.

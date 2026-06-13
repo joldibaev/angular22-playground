@@ -1,9 +1,9 @@
 ui-input {
   --ui-input-label-color: var(--text-color-muted);
-  --ui-input-required-color: var(--color-red-400);
+  --ui-input-required-color: var(--color-destructive);
 
   --ui-input-border-color: var(--border-color-default);
-  --ui-input-invalid-border-color: var(--border-color-strong);
+  --ui-input-invalid-border-color: var(--color-destructive);
   --ui-input-focus-visible-border-color: var(--color-brand);
   --ui-input-invalid-focus-visible-border-color: var(--ui-input-invalid-border-color);
 
@@ -49,7 +49,6 @@ ui-input {
   --ui-input-current-border-color: var(--ui-input-border-color);
   --ui-input-current-focus-visible-border-color: var(--ui-input-focus-visible-border-color);
 
-  anchor-name: --ui-input-control;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-items: center;
@@ -57,10 +56,6 @@ ui-input {
   min-width: 0;
   position: relative;
   width: 100%;
-
-  & > .ui-floating-message {
-    position-anchor: --ui-input-control;
-  }
 }
 
 ui-input input {

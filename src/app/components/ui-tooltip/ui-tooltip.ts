@@ -15,7 +15,7 @@ let nextTooltipId = 0;
 
 @Component({
   selector: '[uiTooltip]',
-  template: '<ng-content />',
+  templateUrl: './ui-tooltip.html',
   styleUrl: './ui-tooltip.css',
   encapsulation: ViewEncapsulation.None,
   host: {

@@ -10,7 +10,7 @@
   --ui-popover-max-height: 12rem;
   --ui-popover-font-size: 0.9rem;
   --ui-popover-overflow: auto;
-  --ui-popover-shadow: none;
+  --ui-popover-shadow: 0 4px 6px -1px var(--shadow-color-default);
 
   --ui-popover-list-gap: 2px;
 
