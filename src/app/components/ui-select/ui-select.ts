@@ -21,7 +21,7 @@ import { UiInput } from '../ui-input/ui-input';
 import { UiSelectGroup } from './ui-select-group/ui-select-group';
 import { UiSelectOption } from './ui-select-option/ui-select-option';
 import { UiIcon } from '../ui-icon/ui-icon';
-import { syncPopup } from '../ui-popup/sync-popup';
+import { syncPopover } from '../../shared/sync-popover';
 
 type UiSelectRenderItem = {
   group?: UiSelectGroup;
@@ -42,7 +42,7 @@ export type UiSelectValue = string | string[];
     UiIcon,
   ],
   templateUrl: './ui-select.html',
-  styleUrls: ['../ui-popup/ui-popup.css', './ui-select.css'],
+  styleUrls: ['../../shared/ui-popup.css', './ui-select.css'],
 })
 export class UiSelect implements FormValueControl<UiSelectValue> {
   readonly combobox = viewChild(Combobox);
@@ -134,7 +134,7 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
     });
 
     afterRenderEffect(() => {
-      syncPopup(this.popupElement()?.nativeElement, this.popupExpanded());
+      syncPopover(this.popupElement()?.nativeElement, this.popupExpanded());
     });
   }
 

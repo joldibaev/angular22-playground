@@ -1,144 +1,95 @@
 import { DOCUMENT } from '@angular/common';
 import {
-  ApplicationRef,
   afterRenderEffect,
+  ApplicationRef,
+  booleanAttribute,
   ComponentRef,
-  createComponent,
-  Directive,
-  DestroyRef,
-  ElementRef,
-  EnvironmentInjector,
-  Renderer2,
   computed,
+  createComponent,
+  DestroyRef,
+  Directive,
+  EnvironmentInjector,
   inject,
   input,
+  Renderer2,
 } from '@angular/core';
+import { type UiPanelPlacement } from '../../shared/arrow-panel';
+import { nextId } from '../../shared/unique-id';
 import { UiTooltipPanel } from './ui-tooltip-panel/ui-tooltip-panel';
 
-let nextTooltipId = 0;
-
+/**
+ * Attaches a hover/focus/long-press tooltip to a `button` or `a` using the
+ * native Interest Invokers API. The browser handles intent timing, light
+ * dismiss, `Escape`, and the accessible description (`aria-describedby`), so the
+ * directive only has to render the panel and point `interestfor` at it.
+ */
 @Directive({
-  selector: '[uiTooltip]',
+  selector: 'button[uiTooltip], a[uiTooltip]',
   host: {
     class: 'ui-tooltip-trigger',
-    '[attr.aria-describedby]': 'normalizedText() ? tooltipId : null',
-    '(mouseenter)': 'show()',
-    '(mouseleave)': 'hide()',
-    '(focusin)': 'show()',
-    '(focusout)': 'hide()',
-    '(keydown.escape)': 'hide()',
+    '[attr.interestfor]': 'normalizedText() ? tooltipId : null',
   },
 })
 export class UiTooltip {
   readonly text = input('', { alias: 'uiTooltip' });
+  readonly placement = input<UiPanelPlacement>('top', { alias: 'uiPlacement' });
+  readonly fallback = input(true, { alias: 'uiFallback', transform: booleanAttribute });
 
-  private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly renderer = inject(Renderer2);
   private readonly document = inject(DOCUMENT);
   private readonly destroyRef = inject(DestroyRef);
   private readonly appRef = inject(ApplicationRef);
   private readonly environmentInjector = inject(EnvironmentInjector);
-  private readonly id = nextTooltipId++;
-  readonly tooltipId = `ui-tooltip-${this.id}`;
-  private readonly anchorName = `--ui-tooltip-anchor-${this.id}`;
-  private tooltipRef: ComponentRef<UiTooltipPanel> | null = null;
+
+  readonly tooltipId = `ui-tooltip-${nextId()}`;
+  private panelRef: ComponentRef<UiTooltipPanel> | null = null;
 
   readonly normalizedText = computed(() => this.text().trim());
 
   constructor() {
-    this.renderer.setStyle(this.element.nativeElement, 'anchor-name', this.anchorName);
-    this.destroyRef.onDestroy(() => this.destroyTooltip());
-
-    afterRenderEffect(() => {
-      this.syncTooltip();
-    });
+    this.destroyRef.onDestroy(() => this.destroyPanel());
+    afterRenderEffect(() => this.syncPanel());
   }
 
-  show(): void {
-    if (!this.normalizedText()) {
+  private syncPanel(): void {
+    const text = this.normalizedText();
+
+    if (!text) {
+      this.destroyPanel();
       return;
     }
 
-    this.ensureTooltip();
-
-    if (!this.tooltipRef) {
-      return;
-    }
-
-    const tooltip = this.tooltipRef.location.nativeElement;
-
-    this.tooltipRef.instance.show();
-    this.tooltipRef.changeDetectorRef.detectChanges();
-
-    if ('showPopover' in tooltip && !tooltip.matches(':popover-open')) {
-      tooltip.showPopover();
-    }
+    this.ensurePanel();
+    this.panelRef!.setInput('text', text);
+    this.panelRef!.setInput('placement', this.placement());
+    this.panelRef!.setInput('fallback', this.fallback());
+    this.panelRef!.changeDetectorRef.detectChanges();
   }
 
-  hide(): void {
-    if (!this.tooltipRef) {
+  private ensurePanel(): void {
+    if (this.panelRef) {
       return;
     }
 
-    const tooltip = this.tooltipRef.location.nativeElement;
-
-    if ('hidePopover' in tooltip && tooltip.matches(':popover-open')) {
-      tooltip.hidePopover();
-    }
-
-    this.tooltipRef.instance.hide();
-    this.tooltipRef.changeDetectorRef.detectChanges();
-  }
-
-  private syncTooltip(): void {
-    if (!this.normalizedText()) {
-      this.destroyTooltip();
-      return;
-    }
-
-    this.ensureTooltip();
-
-    if (!this.tooltipRef) {
-      return;
-    }
-
-    this.tooltipRef.setInput('text', this.normalizedText());
-    this.tooltipRef.changeDetectorRef.detectChanges();
-  }
-
-  private ensureTooltip(): void {
-    if (this.tooltipRef) {
-      return;
-    }
-
-    const tooltipRef = createComponent(UiTooltipPanel, {
+    const panelRef = createComponent(UiTooltipPanel, {
       environmentInjector: this.environmentInjector,
     });
-    const tooltip = tooltipRef.location.nativeElement;
 
-    tooltipRef.setInput('text', this.normalizedText());
-    tooltipRef.setInput('tooltipId', this.tooltipId);
-    tooltipRef.setInput('anchorName', this.anchorName);
-    this.appRef.attachView(tooltipRef.hostView);
-    this.renderer.appendChild(this.document.body, tooltip);
-    tooltipRef.changeDetectorRef.detectChanges();
+    panelRef.setInput('tooltipId', this.tooltipId);
+    panelRef.setInput('text', this.normalizedText());
+    this.appRef.attachView(panelRef.hostView);
+    this.renderer.appendChild(this.document.body, panelRef.location.nativeElement);
 
-    this.tooltipRef = tooltipRef;
+    this.panelRef = panelRef;
   }
 
-  private destroyTooltip(): void {
-    if (!this.tooltipRef) {
+  private destroyPanel(): void {
+    if (!this.panelRef) {
       return;
     }
 
-    const tooltip = this.tooltipRef.location.nativeElement;
-
-    if ('hidePopover' in tooltip && tooltip.matches(':popover-open')) {
-      tooltip.hidePopover();
-    }
-
-    this.appRef.detachView(this.tooltipRef.hostView);
-    this.tooltipRef.destroy();
-    this.tooltipRef = null;
+    this.appRef.detachView(this.panelRef.hostView);
+    this.panelRef.destroy();
+    this.panelRef = null;
   }
 }

@@ -1,7 +1,6 @@
 import { Directive, effect, inject } from '@angular/core';
 import { MenuTrigger } from '@angular/aria/menu';
-
-let nextMenuTriggerId = 0;
+import { nextId } from '../../../shared/unique-id';
 
 @Directive({
   selector: 'button[uiMenuTrigger]',
@@ -17,7 +16,7 @@ let nextMenuTriggerId = 0;
   },
 })
 export class UiMenuTrigger {
-  readonly anchorName = `--ui-menu-trigger-${nextMenuTriggerId++}`;
+  readonly anchorName = `--ui-menu-trigger-${nextId()}`;
 
   private readonly menuTrigger = inject<MenuTrigger<string>>(MenuTrigger);
 

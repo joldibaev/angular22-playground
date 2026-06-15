@@ -4,12 +4,12 @@
 
 @if (open() && messages().length) {
   <div
-    class="ui-input-error-panel"
+    class="ui-input-error-panel arrow-panel arrow-panel--top arrow-panel--fallback"
     [id]="panelId()"
     role="alert"
     [style.position-anchor]="anchorName"
   >
-    <span class="ui-input-error-surface">
+    <span class="ui-input-error-surface arrow-panel-surface">
       @for (message of messages(); track message) {
         <span>{{ message }}</span>
       }

@@ -34,7 +34,7 @@
 
   &[aria-expanded='true'] {
     & .icon-chevron-down {
-      transform: rotate(180deg);
+      rotate: 180deg;
     }
   }
 }
@@ -60,7 +60,7 @@
 .icon-chevron-down {
   flex: 0 0 auto;
   pointer-events: none;
-  transition: transform 150ms ease-in-out;
+  transition: rotate 150ms ease-in-out;
 }
 
 .ui-select-popup {

@@ -1,129 +1,18 @@
+/* Hover popovers use Interest Invokers, whose default show delay (~0.5s) feels
+   sluggish next to the instant click (command) popovers. Tighten it. */
+.ui-popover-trigger[interestfor] {
+  interest-delay-start: 0.15s;
+  interest-delay-end: 0.1s;
+}
+
 ui-popover-panel {
-  --ui-popover-background: Canvas;
-  --ui-popover-text-color: contrast-color(var(--ui-popover-background));
-  --ui-popover-radius: 0.5rem;
-  --ui-popover-arrow-position: 50%;
-  --ui-popover-arrow-height: 0.625rem;
-  --ui-popover-arrow-width: 0.625rem;
-
-  position: fixed;
-  inset: auto;
-  justify-self: anchor-center;
-  position-try: flip-block;
-  position-try-fallbacks: flip-block, flip-inline;
-  container-type: anchored;
-  overflow: visible;
-  z-index: 1000;
-  width: max-content;
-  max-width: var(--ui-popover-max-width, min(18rem, calc(100vw - 2rem)));
-  margin: 0;
-  border: 0;
-  padding: 0;
-  background: transparent;
-  color: inherit;
-  box-shadow: none;
-
-  &[hidden] {
-    display: none;
-  }
-
-  &.ui-popover-panel-top {
-    position-area: block-start;
-    margin-bottom: 0.5rem;
-  }
-
-  &.ui-popover-panel-bottom {
-    position-area: block-end;
-    margin-top: 0.5rem;
-  }
-
+  --panel-background: Canvas;
+  --panel-text-color: contrast-color(var(--panel-background));
+  --panel-gap: 0.25rem;
+  --panel-shadow: 0 4px 6px -1px var(--shadow-color-default);
+  --panel-max-width: var(--ui-popover-max-width, min(18rem, calc(100vw - 2rem)));
 }
 
-.ui-popover-panel-surface {
-  position: relative;
-  display: grid;
-  gap: 0.25rem;
-  border-radius: var(--ui-popover-radius);
-  background: var(--ui-popover-background);
-  color: var(--ui-popover-text-color);
-  font-size: 0.8125rem;
-  font-weight: 700;
-  line-height: 1.45;
-  padding: 0.625rem 0.75rem;
-  box-shadow: 0 4px 6px -1px var(--shadow-color-default);
-
-  &::after {
-    position: absolute;
-    left: calc(var(--ui-popover-arrow-position) - var(--ui-popover-arrow-width));
-    width: calc(var(--ui-popover-arrow-width) * 2);
-    height: var(--ui-popover-arrow-height);
-    background: var(--ui-popover-background);
-    content: '';
-  }
-
-  & span {
-    display: block;
-  }
-}
-
-.ui-popover-panel-top .ui-popover-panel-surface::after {
-  bottom: calc(-1 * var(--ui-popover-arrow-height) + 1px);
-  clip-path: polygon(50% 100%, 0 0, 100% 0);
-}
-
-.ui-popover-panel-bottom .ui-popover-panel-surface::after {
-  top: calc(-1 * var(--ui-popover-arrow-height) + 1px);
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
-}
-
-@supports (clip-path: shape(from 50% 100%, line to 0 0, line to 100% 0, close)) {
-  .ui-popover-panel-top .ui-popover-panel-surface::after {
-    clip-path: shape(from 50% 100%, line to 0 0, line to 100% 0, close);
-  }
-
-  .ui-popover-panel-bottom .ui-popover-panel-surface::after {
-    clip-path: shape(from 50% 0, line to 100% 100%, line to 0 100%, close);
-  }
-}
-
-@supports (border-shape: shape(from 0 0, hline to 100%, vline to 100%, hline to 0, close)) {
-  .ui-popover-panel-top .ui-popover-panel-surface {
-    padding: 0.625rem 0.75rem calc(0.625rem + var(--ui-popover-arrow-height));
-    border-shape: shape(
-      from var(--ui-popover-radius) 0,
-      hline to calc(100% - var(--ui-popover-radius)),
-      curve to right var(--ui-popover-radius) with right top,
-      vline to calc(100% - (var(--ui-popover-radius) + var(--ui-popover-arrow-height))),
-      curve to calc(100% - var(--ui-popover-radius)) calc(100% - var(--ui-popover-arrow-height)) with right calc(100% - var(--ui-popover-arrow-height)),
-      hline to calc(var(--ui-popover-arrow-position) + var(--ui-popover-arrow-width)),
-      line by calc(var(--ui-popover-arrow-width) * -1) var(--ui-popover-arrow-height),
-      line by calc(var(--ui-popover-arrow-width) * -1) calc(var(--ui-popover-arrow-height) * -1),
-      hline to var(--ui-popover-radius),
-      curve to left calc(100% - (var(--ui-popover-radius) + var(--ui-popover-arrow-height))) with left calc(100% - var(--ui-popover-arrow-height)),
-      vline to var(--ui-popover-radius),
-      curve to var(--ui-popover-radius) top with left top
-    );
-  }
-
-  .ui-popover-panel-bottom .ui-popover-panel-surface {
-    padding: calc(0.625rem + var(--ui-popover-arrow-height)) 0.75rem 0.625rem;
-    border-shape: shape(
-      from var(--ui-popover-radius) var(--ui-popover-arrow-height),
-      hline to calc(var(--ui-popover-arrow-position) - var(--ui-popover-arrow-width)),
-      line by var(--ui-popover-arrow-width) calc(var(--ui-popover-arrow-height) * -1),
-      line by var(--ui-popover-arrow-width) var(--ui-popover-arrow-height),
-      hline to calc(100% - var(--ui-popover-radius)),
-      curve to right calc(var(--ui-popover-arrow-height) + var(--ui-popover-radius)) with right var(--ui-popover-arrow-height),
-      vline to calc(100% - var(--ui-popover-radius)),
-      curve to calc(100% - var(--ui-popover-radius)) bottom with right bottom,
-      hline to var(--ui-popover-radius),
-      curve to left calc(100% - var(--ui-popover-radius)) with left bottom,
-      vline to calc(var(--ui-popover-arrow-height) + var(--ui-popover-radius)),
-      curve to var(--ui-popover-radius) var(--ui-popover-arrow-height) with left var(--ui-popover-arrow-height)
-    );
-  }
-
-  .ui-popover-panel-surface::after {
-    content: none;
-  }
+.ui-popover-panel-surface span {
+  display: block;
 }

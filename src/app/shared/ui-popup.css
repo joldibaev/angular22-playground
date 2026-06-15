@@ -44,9 +44,28 @@
   background: var(--ui-popup-background);
   box-shadow: var(--ui-popup-shadow);
   font-size: var(--ui-popup-font-size);
-  transform-origin: top;
   position-try-fallbacks: flip-block;
-  animation: uiPopupOpen 150ms ease-out forwards;
+
+  /* Symmetric open/close animation while in the top layer. */
+  opacity: 0;
+  translate: 0 -0.25rem;
+  transition:
+    opacity 150ms ease-out,
+    translate 150ms ease-out,
+    overlay 150ms ease-out allow-discrete,
+    display 150ms ease-out allow-discrete;
+}
+
+.ui-popup-surface:popover-open {
+  opacity: 1;
+  translate: 0;
+}
+
+@starting-style {
+  .ui-popup-surface:popover-open {
+    opacity: 0;
+    translate: 0 -0.25rem;
+  }
 }
 
 @supports not (anchor-name: --ui-popup-trigger) {
@@ -60,22 +79,22 @@
 
 @media (prefers-reduced-motion: reduce) {
   .ui-popup-surface {
-    animation-duration: 1ms;
+    transition: none;
   }
 }
 
-@keyframes uiPopupOpen {
-  0% {
-    opacity: 0;
-    transform: translateY(-0.25rem);
-  }
-  16.7% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* Drives the scroll-position edge fade below; 0/0 means "no fade" so a list
+   that does not overflow (inactive scroll timeline) renders unmasked. */
+@property --ui-popup-fade-start {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
+}
+
+@property --ui-popup-fade-end {
+  syntax: '<number>';
+  inherits: false;
+  initial-value: 0;
 }
 
 .ui-popup-list {
@@ -84,6 +103,39 @@
   gap: var(--ui-popup-list-gap);
   height: 100%;
   overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--text-color-muted) 32%, transparent) transparent;
+}
+
+@supports (animation-timeline: scroll()) {
+  .ui-popup-list {
+    --ui-popup-fade-size: 0.75rem;
+
+    mask: linear-gradient(
+      to bottom,
+      transparent 0,
+      black calc(var(--ui-popup-fade-size) * var(--ui-popup-fade-start)),
+      black calc(100% - var(--ui-popup-fade-size) * var(--ui-popup-fade-end)),
+      transparent 100%
+    );
+    animation: uiPopupEdgeFade linear;
+    animation-timeline: scroll(self block);
+  }
+
+  @keyframes uiPopupEdgeFade {
+    from {
+      --ui-popup-fade-start: 0;
+      --ui-popup-fade-end: 1;
+    }
+    50% {
+      --ui-popup-fade-start: 1;
+      --ui-popup-fade-end: 1;
+    }
+    to {
+      --ui-popup-fade-start: 1;
+      --ui-popup-fade-end: 0;
+    }
+  }
 }
 
 .ui-popup-option {

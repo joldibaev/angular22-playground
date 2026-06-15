@@ -5,121 +5,12 @@ ui-input-error {
 }
 
 .ui-input-error-panel {
-  --ui-input-error-background: var(--color-destructive);
-  --ui-input-error-text-color: contrast-color(var(--ui-input-error-background));
-  --ui-input-error-radius: 0.5rem;
-  --ui-input-error-arrow-position: 50%;
-  --ui-input-error-arrow-height: 0.625rem;
-  --ui-input-error-arrow-width: 0.625rem;
-
-  position: fixed;
-  position-area: block-start;
-  bottom: anchor(top);
-  justify-self: anchor-center;
-  position-try: flip-block;
-  position-try-fallbacks: flip-block, flip-inline;
-  container-type: anchored;
-  overflow: visible;
-  z-index: 1000;
-  width: max-content;
-  max-width: min(18rem, calc(100vw - 2rem));
+  --panel-background: var(--color-destructive);
+  --panel-text-color: contrast-color(var(--panel-background));
+  --panel-gap: 0.25rem;
+  --panel-shadow: 0 4px 6px -1px var(--shadow-color-default);
 }
 
-.ui-input-error-surface {
-  position: relative;
-  display: grid;
-  gap: 0.25rem;
-  border-radius: var(--ui-input-error-radius);
-  background: var(--ui-input-error-background);
-  color: var(--ui-input-error-text-color);
-  font-size: 0.8125rem;
-  font-weight: 700;
-  line-height: 1.45;
-  padding: 0.625rem 0.75rem;
-  box-shadow: 0 4px 6px -1px var(--shadow-color-default);
-
-  &::after {
-    position: absolute;
-    left: calc(var(--ui-input-error-arrow-position) - var(--ui-input-error-arrow-width));
-    bottom: calc(-1 * var(--ui-input-error-arrow-height) + 1px);
-    width: calc(var(--ui-input-error-arrow-width) * 2);
-    height: var(--ui-input-error-arrow-height);
-    background: var(--ui-input-error-background);
-    clip-path: polygon(50% 100%, 0 0, 100% 0);
-    content: '';
-  }
-
-  & span {
-    display: block;
-  }
-}
-
-@supports (clip-path: shape(from 50% 100%, line to 0 0, line to 100% 0, close)) {
-  .ui-input-error-surface {
-    &::after {
-      clip-path: shape(from 50% 100%, line to 0 0, line to 100% 0, close);
-    }
-  }
-}
-
-@supports (border-shape: shape(from 0 0, hline to 100%, vline to 100%, hline to 0, close)) {
-  .ui-input-error-surface {
-    padding: 0.625rem 0.75rem calc(0.625rem + var(--ui-input-error-arrow-height));
-    border-shape: shape(
-      from var(--ui-input-error-radius) 0,
-      hline to calc(100% - var(--ui-input-error-radius)),
-      curve to right var(--ui-input-error-radius) with right top,
-      vline to calc(100% - (var(--ui-input-error-radius) + var(--ui-input-error-arrow-height))),
-      curve to calc(100% - var(--ui-input-error-radius)) calc(100% - var(--ui-input-error-arrow-height)) with right calc(100% - var(--ui-input-error-arrow-height)),
-      hline to calc(var(--ui-input-error-arrow-position) + var(--ui-input-error-arrow-width)),
-      line by calc(var(--ui-input-error-arrow-width) * -1) var(--ui-input-error-arrow-height),
-      line by calc(var(--ui-input-error-arrow-width) * -1) calc(var(--ui-input-error-arrow-height) * -1),
-      hline to var(--ui-input-error-radius),
-      curve to left calc(100% - (var(--ui-input-error-radius) + var(--ui-input-error-arrow-height))) with left calc(100% - var(--ui-input-error-arrow-height)),
-      vline to var(--ui-input-error-radius),
-      curve to var(--ui-input-error-radius) top with left top
-    );
-
-    &::after {
-      content: none;
-    }
-  }
-}
-
-@container anchored(fallback: flip-block) {
-  .ui-input-error-surface {
-    &::after {
-      top: calc(-1 * var(--ui-input-error-arrow-height) + 1px);
-      bottom: auto;
-      clip-path: polygon(50% 0, 100% 100%, 0 100%);
-    }
-  }
-
-  @supports (clip-path: shape(from 50% 0, line to 100% 100%, line to 0 100%, close)) {
-    .ui-input-error-surface {
-      &::after {
-        clip-path: shape(from 50% 0, line to 100% 100%, line to 0 100%, close);
-      }
-    }
-  }
-
-  @supports (border-shape: shape(from 0 0, hline to 100%, vline to 100%, hline to 0, close)) {
-    .ui-input-error-surface {
-      padding: calc(0.625rem + var(--ui-input-error-arrow-height)) 0.75rem 0.625rem;
-      border-shape: shape(
-        from var(--ui-input-error-radius) var(--ui-input-error-arrow-height),
-        hline to calc(var(--ui-input-error-arrow-position) - var(--ui-input-error-arrow-width)),
-        line by var(--ui-input-error-arrow-width) calc(var(--ui-input-error-arrow-height) * -1),
-        line by var(--ui-input-error-arrow-width) var(--ui-input-error-arrow-height),
-        hline to calc(100% - var(--ui-input-error-radius)),
-        curve to right calc(var(--ui-input-error-arrow-height) + var(--ui-input-error-radius)) with right var(--ui-input-error-arrow-height),
-        vline to calc(100% - var(--ui-input-error-radius)),
-        curve to calc(100% - var(--ui-input-error-radius)) bottom with right bottom,
-        hline to var(--ui-input-error-radius),
-        curve to left calc(100% - var(--ui-input-error-radius)) with left bottom,
-        vline to calc(var(--ui-input-error-arrow-height) + var(--ui-input-error-radius)),
-        curve to var(--ui-input-error-radius) var(--ui-input-error-arrow-height) with left var(--ui-input-error-arrow-height)
-      );
-    }
-  }
+.ui-input-error-surface span {
+  display: block;
 }

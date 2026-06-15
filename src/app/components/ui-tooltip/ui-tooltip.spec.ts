@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UiButton } from '../ui-button/ui-button';
@@ -7,10 +7,12 @@ import { UiTooltip } from './ui-tooltip';
 @Component({
   imports: [UiButton, UiTooltip],
   template: `
-    <button uiButton uiTooltip="Hello">Button</button>
+    <button uiButton [uiTooltip]="text()">Button</button>
   `,
 })
-class TooltipTestHost {}
+class TooltipTestHost {
+  readonly text = signal('Hello');
+}
 
 describe('UiTooltip', () => {
   let hostFixture: ComponentFixture<TooltipTestHost>;
@@ -26,63 +28,53 @@ describe('UiTooltip', () => {
     await hostFixture.whenRenderingDone();
   });
 
-  function getGeneratedTooltip(trigger: HTMLElement): HTMLElement | null {
-    return document.getElementById(trigger.getAttribute('aria-describedby') ?? '');
+  function getTrigger(): HTMLElement {
+    return hostFixture.nativeElement.querySelector('button');
   }
 
-  it('should create a generated tooltip for string content after render', () => {
-    const trigger = hostFixture.nativeElement.querySelector('button');
-    const tooltip = getGeneratedTooltip(trigger);
+  function getInterestTarget(trigger: HTMLElement): HTMLElement | null {
+    return document.getElementById(trigger.getAttribute('interestfor') ?? '');
+  }
+
+  it('wires the trigger to a generated `popover="hint"` panel via interestfor', () => {
+    const trigger = getTrigger();
+    const tooltip = getInterestTarget(trigger);
 
     expect(trigger.classList).toContain('ui-tooltip-trigger');
-    expect(trigger.getAttribute('role')).toBeNull();
-    expect(tooltip?.getAttribute('role')).toBe('tooltip');
+    expect(trigger.getAttribute('interestfor')).toBeTruthy();
     expect(tooltip?.getAttribute('popover')).toBe('hint');
-    expect(tooltip?.getAttribute('hidden')).toBe('');
     expect(tooltip?.textContent).toContain('Hello');
   });
 
-  it('should show and hide a generated tooltip from pointer interaction', async () => {
-    const trigger = hostFixture.nativeElement.querySelector('button');
-    const tooltip = getGeneratedTooltip(trigger);
+  it('keeps the panel text in sync with the input', async () => {
+    const trigger = getTrigger();
 
-    trigger.dispatchEvent(new Event('mouseenter'));
+    hostFixture.componentInstance.text.set('Updated');
     hostFixture.detectChanges();
     await hostFixture.whenStable();
     await hostFixture.whenRenderingDone();
 
-    expect(tooltip?.hasAttribute('hidden')).toBe(false);
-
-    trigger.dispatchEvent(new Event('mouseleave'));
-    hostFixture.detectChanges();
-    await hostFixture.whenStable();
-    await hostFixture.whenRenderingDone();
-
-    expect(tooltip?.getAttribute('hidden')).toBe('');
+    expect(getInterestTarget(trigger)?.textContent).toContain('Updated');
   });
 
-  it('should close a generated tooltip with trigger Escape', async () => {
-    const trigger = hostFixture.nativeElement.querySelector('button');
-    const tooltip = getGeneratedTooltip(trigger);
+  it('removes the panel and interestfor link when the text is cleared', async () => {
+    const trigger = getTrigger();
+    const tooltipId = trigger.getAttribute('interestfor');
 
-    trigger.dispatchEvent(new Event('mouseenter'));
+    expect(document.getElementById(tooltipId ?? '')).toBeTruthy();
+
+    hostFixture.componentInstance.text.set('');
     hostFixture.detectChanges();
     await hostFixture.whenStable();
     await hostFixture.whenRenderingDone();
 
-    expect(tooltip?.hasAttribute('hidden')).toBe(false);
-
-    trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
-    hostFixture.detectChanges();
-    await hostFixture.whenStable();
-    await hostFixture.whenRenderingDone();
-
-    expect(tooltip?.getAttribute('hidden')).toBe('');
+    expect(trigger.getAttribute('interestfor')).toBeNull();
+    expect(document.getElementById(tooltipId ?? '')).toBeNull();
   });
 
-  it('should remove generated tooltip nodes when destroyed', () => {
-    const trigger = hostFixture.nativeElement.querySelector('button');
-    const tooltipId = trigger.getAttribute('aria-describedby');
+  it('removes generated tooltip nodes when destroyed', () => {
+    const trigger = getTrigger();
+    const tooltipId = trigger.getAttribute('interestfor');
 
     expect(document.getElementById(tooltipId ?? '')).toBeTruthy();
 

@@ -99,6 +99,7 @@ ui-input [ngCombobox]:has(:focus-visible) {
   font-size: 0.8125rem;
   font-weight: 700;
   line-height: 1.45;
+  text-wrap: pretty;
 
   & span {
     display: block;

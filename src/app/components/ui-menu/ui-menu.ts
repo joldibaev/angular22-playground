@@ -2,13 +2,13 @@ import { NgTemplateOutlet } from '@angular/common';
 import { afterRenderEffect, Component, contentChildren, output, viewChild } from '@angular/core';
 import { Menu, MenuContent, MenuItem } from '@angular/aria/menu';
 import { UiMenuItem } from './ui-menu-item/ui-menu-item';
-import { syncPopup } from '../ui-popup/sync-popup';
+import { syncPopover } from '../../shared/sync-popover';
 
 @Component({
   selector: 'ui-menu',
   imports: [NgTemplateOutlet, Menu, MenuContent, MenuItem],
   templateUrl: './ui-menu.html',
-  styleUrls: ['../ui-popup/ui-popup.css', './ui-menu.css'],
+  styleUrls: ['../../shared/ui-popup.css', './ui-menu.css'],
 })
 export class UiMenu {
   readonly menu = viewChild<Menu<string>>('menuPanel');
@@ -19,7 +19,7 @@ export class UiMenu {
   constructor() {
     afterRenderEffect(() => {
       const menu = this.menu();
-      syncPopup(menu?.element, menu?.visible() ?? false);
+      syncPopover(menu?.element, menu?.visible() ?? false);
     });
   }
 

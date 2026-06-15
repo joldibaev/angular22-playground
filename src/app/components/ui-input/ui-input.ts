@@ -16,9 +16,8 @@ import {
   type FieldState,
   type ValidationError,
 } from '@angular/forms/signals';
+import { nextId } from '../../shared/unique-id';
 import { UiInputError } from './ui-input-error/ui-input-error';
-
-let nextInputId = 0;
 
 @Component({
   selector: 'ui-input',
@@ -31,7 +30,7 @@ export class UiInput {
   readonly label = input('');
   readonly placeholder = input('');
   readonly showError = input(false, { transform: booleanAttribute });
-  private readonly id = nextInputId++;
+  private readonly id = nextId();
   readonly labelId = `ui-input-label-${this.id}`;
   readonly controlId = `ui-input-control-${this.id}`;
   readonly errorTooltipId = `ui-input-error-${this.id}`;

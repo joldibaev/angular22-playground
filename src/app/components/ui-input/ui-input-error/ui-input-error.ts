@@ -1,16 +1,15 @@
 import { Component, input, ViewEncapsulation } from '@angular/core';
-
-let nextInputErrorId = 0;
+import { nextId } from '../../../shared/unique-id';
 
 @Component({
   selector: 'ui-input-error',
   templateUrl: './ui-input-error.html',
-  styleUrl: './ui-input-error.css',
+  styleUrls: ['../../../shared/arrow-panel.css', './ui-input-error.css'],
   encapsulation: ViewEncapsulation.None,
 })
 export class UiInputError {
   readonly open = input(false);
   readonly messages = input<readonly string[]>([]);
   readonly panelId = input.required<string>();
-  readonly anchorName = `--ui-input-error-${nextInputErrorId++}`;
+  readonly anchorName = `--ui-input-error-${nextId()}`;
 }
