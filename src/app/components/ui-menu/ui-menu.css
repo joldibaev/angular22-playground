@@ -6,7 +6,7 @@
   --ui-popup-option-radius: 0.375rem;
   --ui-popup-option-min-height: auto;
   --ui-popup-option-padding: 0.625rem 0.75rem;
-  --ui-popup-option-active-ring-color: color-mix(in srgb, var(--color-brand) 45%, transparent);
+  --ui-popup-option-focus-visible-border-color: var(--color-brand);
 
   display: inline-block;
   position: relative;
@@ -21,6 +21,10 @@
   &[data-visible='false'] {
     display: none;
   }
+}
+
+.ui-menu-trigger:not(.ui-button):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-brand) 30%, transparent);
 }
 
 @supports not (anchor-name: --ui-menu-trigger) {
@@ -49,8 +53,8 @@
   }
 
   &:focus-visible {
-    outline: 2px solid var(--ui-popup-option-active-ring-color);
-    outline-offset: -2px;
+    outline: 3px solid
+      color-mix(in srgb, var(--ui-popup-option-focus-visible-border-color) 30%, transparent);
   }
 
   &[aria-disabled='true'] {

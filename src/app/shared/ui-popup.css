@@ -22,7 +22,7 @@
     var(--text-color-muted) 5%,
     transparent
   );
-  --ui-popup-option-active-ring-color: color-mix(in srgb, var(--color-brand) 50%, transparent);
+  --ui-popup-option-active-border-color: var(--color-brand);
   --ui-popup-option-selected-color: var(--color-brand);
   --ui-popup-option-selected-background: color-mix(in srgb, var(--color-brand) 5%, transparent);
 }
@@ -152,8 +152,8 @@
   }
 
   &[data-active='true'] {
-    outline: 2px solid var(--ui-popup-option-active-ring-color);
-    outline-offset: -2px;
+    outline: 3px solid
+      color-mix(in srgb, var(--ui-popup-option-active-border-color) 30%, transparent);
   }
 
   &[aria-selected='true'] {

@@ -1,0 +1,38 @@
+<article class="grid min-w-0 gap-5 rounded-lg bg-primary p-5">
+  <div class="grid min-w-0 gap-5 md:grid-cols-2">
+    <div class="grid min-w-0 content-start gap-4 rounded-lg border border-default p-4">
+      <ui-checkbox
+        label="Required empty"
+        description="Accept the workspace terms before continuing."
+        showError
+        [formField]="formState.requiredEmpty"
+      />
+
+      <ui-checkbox
+        label="Selected"
+        description="Send weekly workspace summary."
+        [formField]="formState.selected"
+      />
+    </div>
+
+    <div class="grid min-w-0 content-start gap-4 rounded-lg border border-default p-4">
+      <ui-checkbox
+        label="Indeterminate"
+        description="Some team members are selected."
+        indeterminate
+        [formField]="formState.indeterminate"
+      />
+
+      <ui-checkbox
+        label="Signal disabled"
+        description="Controlled by workspace policy."
+        [formField]="formState.disabled"
+      />
+    </div>
+  </div>
+
+  <div class="grid min-w-0 gap-2 rounded-lg border border-default p-4 text-sm">
+    <p class="font-black text-muted">Signal form value</p>
+    <pre class="overflow-auto rounded bg-subtle p-3 text-xs">{{ model() | json }}</pre>
+  </div>
+</article>

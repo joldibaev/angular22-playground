@@ -5,7 +5,14 @@ ui-tooltip-panel {
 }
 
 .ui-tooltip-trigger[interestfor] {
-  cursor: help;
   interest-delay-start: 0.3s;
   interest-delay-end: 0.1s;
+}
+
+.ui-tooltip-trigger:not(.ui-button)[interestfor] {
+  cursor: help;
+}
+
+.ui-tooltip-trigger:not(.ui-button):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-brand) 30%, transparent);
 }

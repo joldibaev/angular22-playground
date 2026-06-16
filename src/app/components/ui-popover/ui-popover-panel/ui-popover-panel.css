@@ -5,6 +5,10 @@
   interest-delay-end: 0.1s;
 }
 
+.ui-popover-trigger:not(.ui-button):focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--color-brand) 30%, transparent);
+}
+
 ui-popover-panel {
   --panel-background: Canvas;
   --panel-text-color: contrast-color(var(--panel-background));

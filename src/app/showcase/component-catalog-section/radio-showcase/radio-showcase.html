@@ -1,0 +1,43 @@
+<article class="grid min-w-0 gap-5 rounded-lg bg-primary p-5">
+  <div class="grid min-w-0 gap-5 md:grid-cols-2">
+    <div class="grid min-w-0 content-start gap-4 rounded-lg border border-default p-4">
+      <ui-radio-group
+        label="Required empty"
+        description="Choose the plan for this workspace."
+        showError
+        [formField]="formState.plan"
+      >
+        <ui-radio value="starter">Starter</ui-radio>
+        <ui-radio value="growth">Growth</ui-radio>
+        <ui-radio value="enterprise">Enterprise</ui-radio>
+      </ui-radio-group>
+    </div>
+
+    <div class="grid min-w-0 content-start gap-4 rounded-lg border border-default p-4">
+      <ui-radio-group
+        label="Density"
+        description="Choose how compact repeated lists should feel."
+        [formField]="formState.density"
+      >
+        <ui-radio value="compact">Compact</ui-radio>
+        <ui-radio value="comfortable">Comfortable</ui-radio>
+      </ui-radio-group>
+    </div>
+
+    <div class="grid min-w-0 content-start gap-4 rounded-lg border border-default p-4 md:col-span-2">
+      <ui-radio-group
+        label="Signal disabled"
+        description="Controlled by workspace policy."
+        [formField]="formState.approvalFlow"
+      >
+        <ui-radio value="manual">Manual review</ui-radio>
+        <ui-radio value="automatic">Automatic approval</ui-radio>
+      </ui-radio-group>
+    </div>
+  </div>
+
+  <div class="grid min-w-0 gap-2 rounded-lg border border-default p-4 text-sm">
+    <p class="font-black text-muted">Signal form value</p>
+    <pre class="overflow-auto rounded bg-subtle p-3 text-xs">{{ model() | json }}</pre>
+  </div>
+</article>

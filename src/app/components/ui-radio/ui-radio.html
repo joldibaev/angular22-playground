@@ -1,0 +1,26 @@
+<label class="ui-radio-label" [class.ui-radio-disabled]="isDisabled()" [for]="controlId">
+  <input
+    #control
+    class="ui-radio-input"
+    type="radio"
+    [id]="controlId"
+    [name]="group.name()"
+    [value]="value()"
+    [checked]="checked()"
+    [disabled]="isDisabled()"
+    [required]="group.required()"
+    [attr.aria-describedby]="group.describedBy()"
+    (change)="onChange($event)"
+    (blur)="group.markTouched()"
+  />
+
+  <span class="ui-radio-control" aria-hidden="true"></span>
+
+  <span class="ui-radio-title">
+    @if (label()) {
+      {{ label() }}
+    } @else {
+      <ng-content />
+    }
+  </span>
+</label>

@@ -1,6 +1,6 @@
 :host {
   --ui-tab-border-color: var(--border-color-default);
-  --ui-tab-focus-ring-color: color-mix(in srgb, var(--color-brand) 45%, transparent);
+  --ui-tab-focus-visible-border-color: var(--color-brand);
   --ui-tab-list-background: var(--background-color-subtle);
   --ui-tab-indicator-background: var(--background-color-elevated);
   --ui-tab-indicator-shadow: 0 1px 3px var(--shadow-color-default);
@@ -153,8 +153,8 @@
 }
 
 .ui-tab-trigger:focus-visible {
-  outline: 2px solid var(--ui-tab-focus-ring-color);
-  outline-offset: -2px;
+  outline: 3px solid
+    color-mix(in srgb, var(--ui-tab-focus-visible-border-color) 30%, transparent);
 }
 
 .ui-tab-indicator {
@@ -236,8 +236,8 @@
   outline: none;
 
   &:focus-visible {
-    outline: 2px solid var(--ui-tab-focus-ring-color);
-    outline-offset: -2px;
+    outline: 3px solid
+      color-mix(in srgb, var(--ui-tab-focus-visible-border-color) 30%, transparent);
   }
 
   &[inert] {

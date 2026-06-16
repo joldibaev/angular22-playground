@@ -1,0 +1,98 @@
+:host {
+  --ui-radio-control-size: 1.25rem;
+  --ui-radio-border-color: var(--border-color-strong);
+  --ui-radio-focus-visible-border-color: var(--color-brand);
+  --ui-radio-checked-color: var(--color-brand);
+  --ui-radio-background: var(--background-color-surface);
+  --ui-radio-label-color: contrast-color(var(--background-color-surface));
+
+  display: block;
+  min-width: 0;
+}
+
+.ui-radio-label {
+  display: grid;
+  grid-template-columns: var(--ui-radio-control-size) minmax(0, 1fr);
+  align-items: start;
+  gap: 0.75rem;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.ui-radio-disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+.ui-radio-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.ui-radio-control {
+  display: grid;
+  place-items: center;
+  width: var(--ui-radio-control-size);
+  height: var(--ui-radio-control-size);
+  margin-top: 0.0625rem;
+  border: 1px solid var(--ui-radio-current-border-color, var(--ui-radio-border-color));
+  border-radius: 50%;
+  background: var(--ui-radio-background);
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.ui-radio-control::before {
+  content: '';
+  width: 0.6rem;
+  height: 0.6rem;
+  border-radius: 50%;
+  background: white;
+  opacity: 0;
+  scale: 0.5;
+  box-shadow:
+    0 1px 2px rgb(15 23 42 / 0.18),
+    0 0 0 1px rgb(15 23 42 / 0.05);
+  transition:
+    opacity 200ms ease,
+    scale 200ms ease;
+}
+
+.ui-radio-input:checked + .ui-radio-control {
+  border-color: var(--ui-radio-checked-color);
+  background-color: var(--ui-radio-checked-color);
+}
+
+.ui-radio-input:checked + .ui-radio-control::before {
+  opacity: 1;
+  scale: 1;
+}
+
+.ui-radio-input:focus-visible + .ui-radio-control {
+  border-color: var(
+    --ui-radio-current-focus-visible-border-color,
+    var(--ui-radio-focus-visible-border-color)
+  );
+  outline: 3px solid
+    color-mix(
+      in srgb,
+      var(--ui-radio-current-focus-visible-border-color, var(--ui-radio-focus-visible-border-color))
+        30%,
+      transparent
+    );
+}
+
+.ui-radio-title {
+  color: var(--ui-radio-label-color);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.35;
+  text-wrap: pretty;
+}

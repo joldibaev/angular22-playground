@@ -1,0 +1,58 @@
+@if (!hidden()) {
+  <div
+    class="ui-checkbox-container"
+    [class.ui-checkbox-invalid]="invalid()"
+    [class.ui-checkbox-disabled]="disabled()"
+  >
+    <label class="ui-checkbox-label" [for]="controlId">
+      <input
+        #control
+        class="ui-checkbox-input"
+        type="checkbox"
+        [id]="controlId"
+        [checked]="checked()"
+        [disabled]="disabled()"
+        [required]="required()"
+        [attr.aria-describedby]="describedBy()"
+        (change)="onChange($event)"
+        (blur)="touch.emit()"
+      />
+
+      <span class="ui-checkbox-control" aria-hidden="true"></span>
+
+      <span class="ui-checkbox-copy">
+        <span class="ui-checkbox-title">
+          @if (label()) {
+            {{ label() }}
+          } @else {
+            <ng-content />
+          }
+
+          @if (required()) {
+            <span class="ui-checkbox-required" aria-hidden="true">*</span>
+          }
+        </span>
+
+        @if (description()) {
+          <span class="ui-checkbox-description" [id]="descriptionId">{{ description() }}</span>
+        }
+      </span>
+    </label>
+
+    @if (showErrorMessage()) {
+      <span class="ui-checkbox-error" [id]="errorId" role="alert">
+        @for (message of errorMessages(); track message) {
+          <span>{{ message }}</span>
+        }
+      </span>
+    }
+
+    @if (disabledReasonMessages().length) {
+      <span class="ui-checkbox-disabled-reason" [id]="disabledReasonId">
+        @for (message of disabledReasonMessages(); track message) {
+          <span>{{ message }}</span>
+        }
+      </span>
+    }
+  </div>
+}

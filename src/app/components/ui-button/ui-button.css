@@ -2,7 +2,7 @@
   --ui-button-background: CanvasText;
   --ui-button-border-color: var(--ui-button-background);
   --ui-button-color: Canvas;
-  --ui-button-focus-ring-color: color-mix(in srgb, var(--ui-button-border-color) 45%, transparent);
+  --ui-button-focus-visible-border-color: var(--color-brand);
   --ui-button-hover-background: color-mix(in srgb, var(--ui-button-background) 88%, Canvas);
   --ui-button-active-background: color-mix(in srgb, var(--ui-button-background) 80%, Canvas);
   --ui-button-disabled-opacity: 0.5;
@@ -27,7 +27,7 @@
   color: var(--ui-button-color);
   font: inherit;
   font-size: 1rem;
-  font-weight: 800;
+  font-weight: 500;
   line-height: 1.25rem;
   outline: none;
   padding: var(--ui-button-padding-block) var(--ui-button-padding-inline);
@@ -58,7 +58,7 @@
   --ui-button-color: var(--color-destructive);
   --ui-button-hover-background: color-mix(in srgb, var(--color-destructive) 18%, Canvas);
   --ui-button-active-background: color-mix(in srgb, var(--color-destructive) 24%, Canvas);
-  --ui-button-focus-ring-color: color-mix(in srgb, var(--color-destructive) 35%, transparent);
+  --ui-button-focus-visible-border-color: var(--color-destructive);
 }
 
 :host(.ui-button-secondary) {
@@ -85,6 +85,7 @@
   --ui-button-radius: 0.25rem;
   --ui-button-hover-background: transparent;
   --ui-button-active-background: transparent;
+  --ui-button-color: var(--color-brand);
 }
 
 :host(:not(:disabled, [aria-disabled='true']):hover) {
@@ -96,8 +97,9 @@
 }
 
 :host(:focus-visible) {
-  outline: 3px solid var(--ui-button-focus-ring-color);
-  outline-offset: 2px;
+  border-color: var(--ui-button-focus-visible-border-color);
+  outline: 3px solid
+    color-mix(in srgb, var(--ui-button-focus-visible-border-color) 30%, transparent);
 }
 
 :host(:disabled),
@@ -107,12 +109,17 @@
 }
 
 :host(.ui-button-link) {
-  text-decoration: underline;
+  text-decoration: none;
   text-underline-offset: 0.1875em;
 }
 
-:host(.ui-button-link:not(:disabled, [aria-disabled='true']):hover) {
+:host(.ui-button-link:not(:disabled, [aria-disabled='true']):is(:hover, :active, :focus-visible)) {
+  text-decoration: underline;
   text-decoration-thickness: 0.125em;
+}
+
+:host(.ui-button-link:focus-visible) {
+  border-color: transparent;
 }
 
 .ui-button-content {
