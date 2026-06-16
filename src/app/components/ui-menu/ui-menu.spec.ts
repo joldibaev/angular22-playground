@@ -118,7 +118,7 @@ describe('UiMenu', () => {
     expect(menuStyle.inset).toBe('auto');
     expect(menuStyle.positionAnchor).toBe(trigger.style.anchorName);
     expect(menuStyle.top).toContain('anchor(bottom)');
-    expect(menuStyle.top).toContain('0.5rem');
+    expect(menuStyle.top).toContain('var(--ui-popup-offset)');
     expect(menuStyle.margin).toBe('0px');
     expect(menuStyle.positionTryFallbacks).toContain('flip-block');
     expect(items.map((item) => item.textContent?.trim())).toEqual([

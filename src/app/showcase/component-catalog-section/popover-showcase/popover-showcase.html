@@ -1,41 +1,82 @@
 <article class="popover-showcase">
-  <div class="popover-showcase-grid">
-    <button
-      uiButton
-      type="button"
-      uiPopover
-      uiPlacement="top"
-      [uiContent]="richContent"
-    >
-      Rich content
-    </button>
+  <section class="popover-showcase-section" aria-label="Click placement examples">
+    <div class="popover-showcase-section-label">Click trigger</div>
 
-    <ng-template #richContent>
-      <strong>Rich content</strong>
-      <span>Supports projected markup</span>
-    </ng-template>
+    @for (state of fallbackStates; track state.label) {
+      <div class="popover-showcase-group" [attr.aria-label]="state.label">
+        <div class="popover-showcase-group-label">{{ state.label }}</div>
 
-    <button
-      uiButton
-      appearance="secondary"
-      type="button"
-      uiPopover
-      uiPanelId="controlled-popover"
-      uiDescribedby
-      uiPlacement="top"
-      uiTrigger="click"
-      [uiContent]="controlledContent"
-      [uiVisible]="contentOpen()"
-      (uiVisibleChange)="contentOpen.set($event)"
-      [attr.aria-pressed]="contentOpen()"
-    >
-      Toggle content
-    </button>
+        <div class="popover-showcase-grid">
+          @for (placement of placements; track placement) {
+            <button
+              uiButton
+              type="button"
+              uiPopover
+              uiTrigger="click"
+              [uiPlacement]="placement"
+              [uiFallback]="state.value"
+              [uiContent]="placementContent"
+            >
+              {{ placement }}
+            </button>
+          }
+        </div>
+      </div>
+    }
+  </section>
 
-    <ng-template #controlledContent>
-      <span>Controlled by component state</span>
-    </ng-template>
-  </div>
+  <section class="popover-showcase-section" aria-label="Hover placement examples">
+    <div class="popover-showcase-section-label">Hover trigger</div>
+
+    <div class="popover-showcase-grid popover-showcase-grid--compact">
+      @for (placement of placements; track placement) {
+        <button
+          uiButton
+          appearance="secondary"
+          type="button"
+          uiPopover
+          uiTrigger="hover"
+          [uiPlacement]="placement"
+          [uiContent]="hoverContent"
+        >
+          {{ placement }}
+        </button>
+      }
+    </div>
+  </section>
+
+  <section class="popover-showcase-section" aria-label="State and rich content examples">
+    <div class="popover-showcase-section-label">Content patterns</div>
+
+    <div class="popover-showcase-grid popover-showcase-grid--compact">
+      <button
+        uiButton
+        type="button"
+        uiPopover
+        uiPlacement="top"
+        [uiContent]="richContent"
+      >
+        Rich content
+      </button>
+
+      <button
+        uiButton
+        appearance="secondary"
+        type="button"
+        uiPopover
+        uiPanelId="controlled-popover"
+        uiDescribedby
+        uiPlacement="right"
+        uiTrigger="click"
+        [uiContent]="controlledContent"
+        [uiVisible]="contentOpen()"
+        (uiVisibleChange)="contentOpen.set($event)"
+        [attr.aria-pressed]="contentOpen()"
+      >
+        Toggle content
+      </button>
+    </div>
+  </section>
 
   <div class="popover-showcase-large">
     <button
@@ -76,4 +117,23 @@
       </div>
     </ng-template>
   </div>
+
+  <ng-template #placementContent>
+    <strong>Milestone</strong>
+    <span>Ready for design review</span>
+  </ng-template>
+
+  <ng-template #hoverContent>
+    <strong>Status update</strong>
+    <span>Workspace setup is complete</span>
+  </ng-template>
+
+  <ng-template #richContent>
+    <strong>Rich content</strong>
+    <span>Supports projected markup</span>
+  </ng-template>
+
+  <ng-template #controlledContent>
+    <span>Controlled by component state</span>
+  </ng-template>
 </article>

@@ -240,7 +240,7 @@ describe('UiTab', () => {
     expect(hostStyle.width).toBe('100%');
     expect(tabListStyle.width).toBe('100%');
     expect(firstItemStyle.flexGrow).toBe('1');
-    expect(indicatorStyle.height).toBe('2px');
+    expect(indicatorStyle.height).toBe('var(--ui-tab-line-indicator-size)');
   });
 
   it('should initialize the selected tab from a query param', async () => {

@@ -71,17 +71,20 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
   });
   readonly isPlaceholderVisible = computed(() => this.selectedOptions().length === 0);
   private readonly selectedOptions = computed(() => {
-    const optionByValue = new Map<string, UiSelectOption>();
+    const selectedValues = new Set(this.selectedValues());
+    const emittedValues = new Set<string>();
+    const selectedOptions: UiSelectOption[] = [];
 
     for (const option of this.options()) {
       const value = option.value();
 
-      if (!optionByValue.has(value)) {
-        optionByValue.set(value, option);
+      if (selectedValues.has(value) && !emittedValues.has(value)) {
+        selectedOptions.push(option);
+        emittedValues.add(value);
       }
     }
 
-    return this.selectedValues().flatMap((value) => optionByValue.get(value) ?? []);
+    return selectedOptions;
   });
 
   options = contentChildren(UiSelectOption, { descendants: true });
@@ -147,9 +150,7 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
   onCommit() {
     this.value.set(this.formatValue(this.selectedValues()));
 
-    if (!this.multi()) {
-      this.popupExpanded.set(false);
-    }
+    this.popupExpanded.set(this.multi());
   }
 
   onPopupToggle(event: ToggleEvent) {

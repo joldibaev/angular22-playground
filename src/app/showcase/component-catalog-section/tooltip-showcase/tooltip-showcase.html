@@ -1,11 +1,21 @@
-<article class="grid min-w-0 gap-4 rounded-lg bg-primary p-5">
-  <div class="flex flex-wrap items-center gap-4">
-    <button
-      uiButton
-      type="button"
-      uiTooltip="Hover and focus"
-    >
-      Default
-    </button>
-  </div>
+<article class="tooltip-showcase">
+  @for (state of fallbackStates; track state.label) {
+    <section class="tooltip-showcase-section" [attr.aria-label]="state.label">
+      <div class="tooltip-showcase-section-label">{{ state.label }}</div>
+
+      <div class="tooltip-showcase-grid">
+        @for (placement of placements; track placement) {
+          <button
+            uiButton
+            type="button"
+            uiTooltip="Saved changes are available"
+            [uiPlacement]="placement"
+            [uiFallback]="state.value"
+          >
+            {{ placement }}
+          </button>
+        }
+      </div>
+    </section>
+  }
 </article>

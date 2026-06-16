@@ -569,7 +569,7 @@ describe('UiSelect', () => {
     expect(style.inset).toBe('auto');
     expect(style.positionAnchor).toBe('--ui-select-trigger');
     expect(style.top).toContain('anchor(bottom)');
-    expect(style.top).toContain('0.5rem');
+    expect(style.top).toContain('var(--ui-popup-offset)');
     expect(style.margin).toBe('0px');
     expect(style.positionTryFallbacks).toContain('flip-block');
   });

@@ -225,8 +225,8 @@ describe('UiAutocomplete', () => {
 
     expect(combobox.getAttribute('placeholder')).toBe('Find status');
 
-    autocomplete.inputValue.set('missing');
-    autocomplete.popupExpanded.set(true);
+    combobox.focus();
+    dispatchInputEvent(combobox, 'missing');
     hostFixture.detectChanges();
     await hostFixture.whenStable();
     await hostFixture.whenRenderingDone();
@@ -397,7 +397,7 @@ describe('UiAutocomplete', () => {
     expect(style.inset).toBe('auto');
     expect(style.positionAnchor).toBe('--ui-autocomplete-trigger');
     expect(style.top).toContain('anchor(bottom)');
-    expect(style.top).toContain('0.5rem');
+    expect(style.top).toContain('var(--ui-popup-offset)');
     expect(style.margin).toBe('0px');
     expect(style.positionTryFallbacks).toContain('flip-block');
   });
