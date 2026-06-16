@@ -41,6 +41,24 @@
   --color-destructive: var(--color-red-600);
 
   --shadow-color-default: light-dark(color-mix(in srgb, contrast-color(Canvas) 8%, transparent), transparent);
+
+  /* One dim level for every disabled control, so they read consistently. */
+  --opacity-disabled: 0.5;
+
+  /* ---------------------------------------------------------------------------
+     Motion tokens — the shared vocabulary behind every transition. Components
+     read these as plain `var(--…)`, like the colors above. The easing is named
+     `--ease-snappy` (not `--ease-out`) so it does not override Tailwind's
+     built-in `ease-out` utility. UI motion stays under 300ms; close < open.
+     --------------------------------------------------------------------------- */
+  --ease-snappy: cubic-bezier(0.22, 1, 0.36, 1); /* strong ease-out: enter/exit, press, position */
+
+  --dur-press: 130ms; /* button/press feedback */
+  --dur-quick: 150ms; /* dropdown/panel close, swaps */
+  --dur-fast: 250ms; /* dropdown/panel open, control state */
+  --dur-slow: 400ms; /* larger surfaces */
+
+  --press-scale: 0.97;
 }
 
 html {

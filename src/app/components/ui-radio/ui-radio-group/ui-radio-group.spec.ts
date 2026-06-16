@@ -12,14 +12,13 @@ import { UiRadioGroup } from './ui-radio-group';
       [formField]="formState.priority"
       label="Priority"
       description="Used by the queue"
-      name="priority"
       showError
     >
       <ui-radio value="low" label="Low" />
       <ui-radio value="high" label="High" />
     </ui-radio-group>
 
-    <ui-radio-group [formField]="formState.routing" label="Routing" name="routing">
+    <ui-radio-group [formField]="formState.routing" label="Routing">
       <ui-radio value="manual" label="Manual" />
       <ui-radio value="automatic" label="Automatic" />
     </ui-radio-group>
@@ -84,8 +83,13 @@ describe('UiRadioGroup', () => {
     const description = hostFixture.nativeElement.querySelector('.ui-radio-group-description');
     const error = hostFixture.nativeElement.querySelector('.ui-radio-group-error');
 
-    expect(lowRadio.name).toBe('priority');
-    expect(highRadio.name).toBe('priority');
+    // The group's name (auto-generated; it can't be set as an attribute on a
+    // [formField] node) must propagate to every child radio so native grouping
+    // works.
+    const groupName = hostFixture.componentInstance.radioGroup().name();
+    expect(groupName).toBeTruthy();
+    expect(lowRadio.name).toBe(groupName);
+    expect(highRadio.name).toBe(groupName);
     expect(lowRadio.getAttribute('aria-describedby')).toContain(description?.id);
     expect(lowRadio.getAttribute('aria-describedby')).toContain(error?.id);
   });

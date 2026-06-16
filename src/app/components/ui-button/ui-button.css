@@ -5,7 +5,7 @@
   --ui-button-focus-visible-border-color: var(--color-brand);
   --ui-button-hover-background: color-mix(in srgb, var(--ui-button-background) 88%, Canvas);
   --ui-button-active-background: color-mix(in srgb, var(--ui-button-background) 80%, Canvas);
-  --ui-button-disabled-opacity: 0.5;
+  --ui-button-disabled-opacity: var(--opacity-disabled);
   --ui-button-min-height: 2.5rem;
   --ui-button-radius: 0.5rem;
   --ui-button-padding-inline: 1rem;
@@ -38,6 +38,11 @@
   -webkit-user-select: none;
   overflow-wrap: anywhere;
   vertical-align: middle;
+
+  /* Press feedback: the button physically responds to the press. */
+  transition:
+    background-color var(--dur-press) var(--ease-snappy),
+    transform var(--dur-press) var(--ease-snappy);
 }
 
 :host([hidden]) {
@@ -94,6 +99,20 @@
 
 :host(:not(:disabled, [aria-disabled='true']):active) {
   background: var(--ui-button-active-background);
+  transform: scale(var(--press-scale));
+}
+
+/* The link variant is inline text, not a surface — scaling it reads as a glitch. */
+:host(.ui-button-link:active) {
+  transform: none;
+}
+
+/* Open state: when this button is a trigger for a menu/popover, it holds the
+   active fill for as long as the surface it controls is open. The toggle
+   (uiMenuTrigger / commandfor) sets aria-expanded on the button. No press
+   scale here — a persistent squash would read as stuck. */
+:host([aria-expanded='true']:not(:disabled, [aria-disabled='true'])) {
+  background: var(--ui-button-active-background);
 }
 
 :host(:focus-visible) {
@@ -131,6 +150,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  :host {
+    transition: none;
+  }
+
+  /* Drop the press movement; color feedback stays. */
+  :host(:not(:disabled, [aria-disabled='true']):active) {
+    transform: none;
+  }
+
   .ui-button-loading-icon {
     opacity: 0.75;
   }

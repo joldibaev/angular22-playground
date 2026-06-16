@@ -30,6 +30,11 @@
       popover="auto"
       (toggle)="onPopupToggle($event)"
     >
+      <!-- focusMode="activedescendant": DOM focus stays on the listbox and
+           @angular/aria marks the active option with [data-active]. The option
+           hover/focus/selected styling lives in ui-popup.css (.ui-popup-option)
+           and keys off [data-active] / [aria-selected] — do not add manual
+           focus, tabindex, or keyboard handling to the options. -->
       <div
         #listbox="ngListbox"
         ngListbox

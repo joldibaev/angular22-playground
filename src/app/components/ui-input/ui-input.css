@@ -83,12 +83,17 @@ ui-input input::placeholder {
 ui-input input:disabled,
 ui-input [ngCombobox][aria-disabled='true'] {
   cursor: default;
-  opacity: 0.6;
+  opacity: var(--opacity-disabled);
 }
 
+/* The open state of a combobox trigger reads the same as a focused field. This
+   matters for the select trigger especially: it's a <div ngCombobox>, so a
+   mouse click opens it without ever matching :focus-visible — [aria-expanded]
+   (set by @angular/aria) is what marks it active while the popup is open. */
 ui-input input:focus-visible,
 ui-input [ngCombobox]:focus-visible,
-ui-input [ngCombobox]:has(:focus-visible) {
+ui-input [ngCombobox]:has(:focus-visible),
+ui-input [ngCombobox][aria-expanded='true'] {
   border-color: var(--ui-input-current-focus-visible-border-color);
   outline: 3px solid
     color-mix(in srgb, var(--ui-input-current-focus-visible-border-color) 30%, transparent);

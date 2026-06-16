@@ -5,6 +5,7 @@
   --ui-tab-indicator-background: var(--background-color-elevated);
   --ui-tab-indicator-shadow: 0 1px 3px var(--shadow-color-default);
   --ui-tab-item-color: var(--text-color-muted);
+  --ui-tab-item-hover-color: color-mix(in srgb, var(--ui-tab-item-color) 45%, contrast-color(Canvas));
   --ui-tab-item-active-color: contrast-color(var(--ui-tab-indicator-background));
   --ui-tab-line-color: contrast-color(Canvas);
   --ui-tab-line-indicator-size: 2px;
@@ -114,6 +115,15 @@
   user-select: none;
   -webkit-user-select: none;
   white-space: nowrap;
+  /* Tracks the muted → active color shift so the label change stays in step
+     with the sliding indicator instead of snapping. */
+  transition: color var(--dur-fast) var(--ease-snappy);
+}
+
+/* Hover affordance for the tabs you can move to (not the active or disabled
+   ones): the label warms toward the foreground. */
+.ui-tab-trigger:not([aria-selected='true'], :disabled, [aria-disabled='true']):hover {
+  color: var(--ui-tab-item-hover-color);
 }
 
 .ui-tab-list:not([aria-orientation='vertical']) .ui-tab-trigger {
@@ -149,7 +159,7 @@
 .ui-tab-trigger:disabled,
 .ui-tab-trigger[aria-disabled='true'] {
   cursor: default;
-  opacity: 0.45;
+  opacity: var(--opacity-disabled);
 }
 
 .ui-tab-trigger:focus-visible {
@@ -161,12 +171,21 @@
   position: absolute;
   position-anchor: --ui-tab-active;
   pointer-events: none;
+  /* Anchor-driven, so the slide rides on inset/size props rather than transform.
+     Smooth ease-out gives the pill a confident glide between triggers. */
   transition:
-    top 150ms ease,
-    left 150ms ease,
-    width 150ms ease,
-    height 150ms ease,
-    bottom 150ms ease;
+    top var(--dur-fast) var(--ease-snappy),
+    left var(--dur-fast) var(--ease-snappy),
+    width var(--dur-fast) var(--ease-snappy),
+    height var(--dur-fast) var(--ease-snappy),
+    bottom var(--dur-fast) var(--ease-snappy);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-tab-indicator,
+  .ui-tab-trigger {
+    transition: none;
+  }
 }
 
 .ui-tab-list-pills .ui-tab-indicator {

@@ -32,7 +32,7 @@
   &.ui-checkbox-disabled {
     & .ui-checkbox-label {
       cursor: default;
-      opacity: 0.6;
+      opacity: var(--opacity-disabled);
     }
   }
 }
@@ -67,25 +67,45 @@
   background: var(--ui-checkbox-background);
   color: contrast-color(var(--ui-checkbox-checked-color));
   transition:
-    background-color 200ms ease,
-    border-color 200ms ease,
-    box-shadow 200ms ease;
+    background-color var(--dur-fast) var(--ease-snappy),
+    border-color var(--dur-fast) var(--ease-snappy),
+    box-shadow var(--dur-fast) var(--ease-snappy),
+    scale var(--dur-press) var(--ease-snappy);
 }
 
-.ui-checkbox-control::before {
-  content: '';
+/* Press feedback: the box gives a little under the press (stronger than a
+   button's --press-scale since the control is small). */
+.ui-checkbox-container:not(.ui-checkbox-disabled) .ui-checkbox-label:active .ui-checkbox-control {
+  scale: 0.92;
+}
+
+/* The checkmark is a real SVG path so it can draw itself on, rather than a
+   background-image that can only fade. --check-length is a hair over the path's
+   geometric length so dashoffset fully hides it when unchecked. */
+.ui-checkbox-mark {
+  --check-length: 14;
+
   width: 0.75rem;
   height: 0.75rem;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='none' stroke='%23ffffff' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M3.5 8.5 6.5 11.5 12.5 4.5'/%3E%3C/svg%3E");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: 1rem;
-  opacity: 0;
-  scale: 0.8;
+  overflow: visible;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
   filter: drop-shadow(0 1px 2px rgb(15 23 42 / 0.18));
-  transition:
-    opacity 200ms ease,
-    scale 200ms ease;
+}
+
+.ui-checkbox-mark-check {
+  stroke-dasharray: var(--check-length);
+  stroke-dashoffset: var(--check-length); /* hidden: nothing drawn yet */
+  transition: stroke-dashoffset var(--dur-fast) var(--ease-snappy);
+}
+
+/* Indeterminate bar grows from its center. */
+.ui-checkbox-mark-dash {
+  scale: 0 1;
+  transform-origin: center;
+  transition: scale var(--dur-quick) var(--ease-snappy);
 }
 
 .ui-checkbox-input:checked + .ui-checkbox-control,
@@ -94,18 +114,12 @@
   background-color: var(--ui-checkbox-checked-color);
 }
 
-.ui-checkbox-input:checked + .ui-checkbox-control::before {
-  opacity: 1;
-  scale: 1;
+.ui-checkbox-input:checked + .ui-checkbox-control .ui-checkbox-mark-check {
+  stroke-dashoffset: 0; /* draw the check on */
 }
 
-.ui-checkbox-input:indeterminate + .ui-checkbox-control::before {
-  width: 0.625rem;
-  height: 2px;
-  background: currentColor;
-  border-radius: 999px;
-  opacity: 1;
-  scale: 1;
+.ui-checkbox-input:indeterminate + .ui-checkbox-control .ui-checkbox-mark-dash {
+  scale: 1 1;
 }
 
 .ui-checkbox-input:focus-visible + .ui-checkbox-control {
@@ -159,4 +173,16 @@
 
 .ui-checkbox-disabled-reason {
   padding-left: calc(var(--ui-checkbox-control-size) + 0.75rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-checkbox-control,
+  .ui-checkbox-mark-check,
+  .ui-checkbox-mark-dash {
+    transition: none;
+  }
+
+  .ui-checkbox-container:not(.ui-checkbox-disabled) .ui-checkbox-label:active .ui-checkbox-control {
+    scale: 1;
+  }
 }

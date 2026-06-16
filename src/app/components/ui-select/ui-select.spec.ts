@@ -374,7 +374,9 @@ describe('UiSelect', () => {
     expect(disabledField.querySelector('[role="combobox"]')?.getAttribute('aria-disabled')).toBe(
       'true',
     );
-    expect(disabledField.querySelector('.ui-input-error-panel')).toBeNull();
+    // The error panel is always in the DOM (a manual popover), so "no error"
+    // means it renders no message rather than being absent.
+    expect(disabledField.querySelector('.ui-input-error-panel')?.textContent?.trim()).toBe('');
     expect(disabledField.querySelector('.ui-input-disabled-reason')?.textContent).toContain(
       'Status is locked by workflow',
     );

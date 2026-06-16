@@ -2,17 +2,20 @@
   <ng-content />
 </div>
 
-@if (open() && messages().length) {
-  <div
-    class="ui-input-error-panel arrow-panel arrow-panel--top arrow-panel--fallback"
-    [id]="panelId()"
-    role="alert"
-    [style.position-anchor]="anchorName"
-  >
-    <span class="ui-input-error-surface arrow-panel-surface">
-      @for (message of messages(); track message) {
-        <span>{{ message }}</span>
-      }
-    </span>
-  </div>
-}
+<!-- Always rendered as a manual popover; visibility is driven imperatively so
+     the shared arrow-panel popover animation plays on both enter and leave
+     (an @if would tear the element out before the leave transition runs). -->
+<div
+  #panel
+  class="ui-input-error-panel arrow-panel arrow-panel--top arrow-panel--fallback"
+  popover="manual"
+  [id]="panelId()"
+  role="alert"
+  [style.position-anchor]="anchorName"
+>
+  <span class="ui-input-error-surface arrow-panel-surface">
+    @for (message of messages(); track message) {
+      <span>{{ message }}</span>
+    }
+  </span>
+</div>

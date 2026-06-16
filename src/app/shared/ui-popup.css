@@ -22,7 +22,6 @@
     var(--text-color-muted) 5%,
     transparent
   );
-  --ui-popup-option-active-border-color: var(--color-brand);
   --ui-popup-option-selected-color: var(--color-brand);
   --ui-popup-option-selected-background: color-mix(in srgb, var(--color-brand) 5%, transparent);
 }
@@ -46,25 +45,39 @@
   font-size: var(--ui-popup-font-size);
   position-try-fallbacks: flip-block;
 
-  /* Symmetric open/close animation while in the top layer. */
+  /* Origin-aware open/close: the surface grows from the trigger edge. The close
+     transition lives on this base state, the open transition on :popover-open —
+     so close (quick) is faster than open (fast), the system getting out of the
+     way without dawdling. */
+  transform-origin: top center;
   opacity: 0;
   translate: 0 -0.25rem;
+  scale: 0.98;
   transition:
-    opacity 150ms ease-out,
-    translate 150ms ease-out,
-    overlay 150ms ease-out allow-discrete,
-    display 150ms ease-out allow-discrete;
+    opacity var(--dur-quick) var(--ease-snappy),
+    translate var(--dur-quick) var(--ease-snappy),
+    scale var(--dur-quick) var(--ease-snappy),
+    overlay var(--dur-quick) var(--ease-snappy) allow-discrete,
+    display var(--dur-quick) var(--ease-snappy) allow-discrete;
 }
 
 .ui-popup-surface:popover-open {
   opacity: 1;
   translate: 0;
+  scale: 1;
+  transition:
+    opacity var(--dur-fast) var(--ease-snappy),
+    translate var(--dur-fast) var(--ease-snappy),
+    scale var(--dur-fast) var(--ease-snappy),
+    overlay var(--dur-fast) var(--ease-snappy) allow-discrete,
+    display var(--dur-fast) var(--ease-snappy) allow-discrete;
 }
 
 @starting-style {
   .ui-popup-surface:popover-open {
     opacity: 0;
     translate: 0 -0.25rem;
+    scale: 0.98;
   }
 }
 
@@ -147,15 +160,37 @@
   padding: var(--ui-popup-option-padding);
   cursor: pointer;
 
+  /* ---------------------------------------------------------------------------
+     Option states — shared by all three popups (menu, select, autocomplete).
+     Two @angular/aria focus models converge here, DO NOT add manual focus
+     handling in the components:
+       • menu          → roving DOM focus   → :focus-visible matches the option
+       • select / auto → activedescendant   → the library sets [data-active] on
+                                               the option; the listbox keeps focus
+     Keep `hover` (fill) and `focus` (ring) and `selected` (fill) as three
+     separate states — collapsing them is what usually breaks these popups.
+     --------------------------------------------------------------------------- */
+
+  /* Mouse hover: subtle fill, pointer affordance only. */
   &:not([aria-disabled='true']):hover {
     background: var(--ui-popup-option-hover-background);
   }
 
-  &[data-active='true'] {
-    outline: 3px solid
-      color-mix(in srgb, var(--ui-popup-option-active-border-color) 30%, transparent);
+  /* Keyboard focus indicator. Mirrors the official Angular aria examples:
+     an INSET outline (negative offset) so the scrolling list never clips it on
+     the edge options, and an outline rather than a fill so it stays distinct
+     from the selected state. */
+  &:not([aria-disabled='true']):is(:focus-visible, [data-active='true']) {
+    outline: 2px solid
+      color-mix(
+        in srgb,
+        var(--ui-popup-option-focus-visible-border-color, var(--color-brand)) 50%,
+        transparent
+      );
+    outline-offset: -2px;
   }
 
+  /* Selected value: a fill, kept visually distinct from the focus ring above. */
   &[aria-selected='true'] {
     color: var(--ui-popup-option-selected-color);
     background: var(--ui-popup-option-selected-background);

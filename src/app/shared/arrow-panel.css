@@ -45,29 +45,35 @@
   box-shadow: none;
 }
 
-/* Placement: which side of the anchor the panel sits on. */
+/* Placement: which side of the anchor the panel sits on. `transform-origin`
+   points back at the anchor so the open/close scale grows from the trigger
+   (origin-aware) instead of from the panel's center. */
 .arrow-panel--top {
   position-area: block-start;
   justify-self: anchor-center;
   margin-bottom: var(--panel-offset);
+  transform-origin: center bottom;
 }
 
 .arrow-panel--bottom {
   position-area: block-end;
   justify-self: anchor-center;
   margin-top: var(--panel-offset);
+  transform-origin: center top;
 }
 
 .arrow-panel--left {
   position-area: inline-start;
   align-self: anchor-center;
   margin-right: var(--panel-offset);
+  transform-origin: right center;
 }
 
 .arrow-panel--right {
   position-area: inline-end;
   align-self: anchor-center;
   margin-left: var(--panel-offset);
+  transform-origin: left center;
 }
 
 /* Fallback: allow the panel to flip to the opposite side when it doesn't fit. */
@@ -83,21 +89,28 @@
   position-try-fallbacks: flip-inline, flip-block;
 }
 
-/* Entry/exit animation — only for panels that live in the top layer (popovers).
-   The non-popover consumer (input error) must stay visible, so it is excluded. */
+/* Entry/exit animation — scoped to panels in the top layer ([popover]). Every
+   consumer (tooltip, popover, input error) is a popover, so the `:where`
+   guard simply keeps the rule inert for any future non-popover use. */
 .arrow-panel:where([popover]) {
   opacity: 0;
   scale: 0.97;
+  /* Close transition lives here (quick); open transition on :popover-open (fast). */
   transition:
-    opacity 150ms ease,
-    scale 150ms ease,
-    overlay 150ms ease allow-discrete,
-    display 150ms ease allow-discrete;
+    opacity var(--dur-quick) var(--ease-snappy),
+    scale var(--dur-quick) var(--ease-snappy),
+    overlay var(--dur-quick) var(--ease-snappy) allow-discrete,
+    display var(--dur-quick) var(--ease-snappy) allow-discrete;
 }
 
 .arrow-panel:where([popover]):popover-open {
   opacity: 1;
   scale: 1;
+  transition:
+    opacity var(--dur-fast) var(--ease-snappy),
+    scale var(--dur-fast) var(--ease-snappy),
+    overlay var(--dur-fast) var(--ease-snappy) allow-discrete,
+    display var(--dur-fast) var(--ease-snappy) allow-discrete;
 }
 
 @starting-style {

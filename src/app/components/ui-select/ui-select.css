@@ -60,7 +60,13 @@
 .icon-chevron-down {
   flex: 0 0 auto;
   pointer-events: none;
-  transition: rotate 150ms ease-in-out;
+  transition: rotate var(--dur-quick) var(--ease-snappy);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .icon-chevron-down {
+    transition: none;
+  }
 }
 
 .ui-select-popup {

@@ -41,24 +41,15 @@
   outline: none;
   padding: 0.625rem 0.75rem;
 
-  &:not([aria-disabled='true']) {
-    &:hover,
-    &:focus {
-      background: var(--ui-popup-option-hover-background);
-    }
-  }
-
+  /* Hover / focus / data-active / focus-visible highlight all come from the
+     shared .ui-popup-option rule. Only submenu-open and disabled are
+     menu-specific. */
   &[aria-expanded='true'] {
     background: var(--ui-popup-option-hover-background);
   }
 
-  &:focus-visible {
-    outline: 3px solid
-      color-mix(in srgb, var(--ui-popup-option-focus-visible-border-color) 30%, transparent);
-  }
-
   &[aria-disabled='true'] {
     cursor: default;
-    opacity: 0.5;
+    opacity: var(--opacity-disabled);
   }
 }
