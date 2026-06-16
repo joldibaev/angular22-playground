@@ -11,6 +11,13 @@ ui-input-error {
   --panel-shadow: 0 4px 6px -1px var(--shadow-color-default);
 }
 
+/* Validation messages are removed as soon as the field becomes valid. If the
+   native popover exit transition runs after that, the empty surface and arrow
+   remain visible for a frame, so this panel only animates on entry. */
+.ui-input-error-panel:where([popover]) {
+  transition: none;
+}
+
 .ui-input-error-surface span {
   display: block;
 }
