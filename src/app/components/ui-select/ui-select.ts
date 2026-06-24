@@ -5,12 +5,11 @@ import {
   computed,
   contentChildren,
   ElementRef,
-  effect,
   input,
+  linkedSignal,
   model,
   output,
   signal,
-  untracked,
   viewChild,
 } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
@@ -57,7 +56,11 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
   withErrorMessage = input(false, { transform: booleanAttribute });
   touch = output<void>();
 
-  selectedValues = signal<string[]>([]);
+  // Local selection mirror. `linkedSignal` recomputes from `value` whenever the
+  // bound value changes, but still accepts direct writes from the listbox
+  // two-way binding / `onCommit` until the next `value` change — no manual
+  // effect-based reconciliation or equality guards needed.
+  selectedValues = linkedSignal<string[]>(() => this.parseValue(this.value()));
   popupExpanded = signal(false);
 
   readonly displayValue = computed(() => {
@@ -114,24 +117,6 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
   });
 
   constructor() {
-    effect(() => {
-      const value = this.value();
-      const nextSelectedValues = this.parseValue(value);
-      const selectedValues = untracked(this.selectedValues);
-
-      if (value && this.areSelectedValuesEqual(selectedValues, nextSelectedValues)) {
-        return;
-      }
-
-      if (!value && selectedValues.length === 0) {
-        return;
-      }
-
-      if (!this.areSelectedValuesEqual(selectedValues, nextSelectedValues)) {
-        this.selectedValues.set(nextSelectedValues);
-      }
-    });
-
     afterRenderEffect(() => {
       this.listbox()?.scrollActiveItemIntoView();
     });
@@ -171,17 +156,26 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
 
   private parseValue(value: UiSelectValue): string[] {
     if (Array.isArray(value)) {
-      return this.multi() ? value : (value[0] ? [value[0]] : []);
+      return this.multi() ? value : value[0] ? [value[0]] : [];
     }
 
-    return this.multi() ? value.split(',').filter(Boolean) : value ? [value] : [];
+    if (!this.multi()) {
+      return value ? [value] : [];
+    }
+
+    if (!value) {
+      return [];
+    }
+
+    // A whole string that matches a real option value wins over comma-splitting,
+    // so an option value may legitimately contain a comma. Otherwise fall back
+    // to legacy comma-delimited parsing.
+    const optionValues = new Set(this.options().map((option) => option.value()));
+
+    return optionValues.has(value) ? [value] : value.split(',').filter(Boolean);
   }
 
   private formatValue(values: string[]): UiSelectValue {
     return this.multi() ? values : (values[0] ?? '');
-  }
-
-  private areSelectedValuesEqual(first: string[], second: string[]) {
-    return first.length === second.length && first.every((value, index) => value === second[index]);
   }
 }

@@ -35,11 +35,15 @@ import { UiTabItem } from './ui-tab-item/ui-tab-item';
 })
 export class UiTab {
   private readonly document = inject(DOCUMENT);
-  private readonly route = inject(ActivatedRoute);
-  private readonly router = inject(Router);
-  private readonly queryParamMap = toSignal(this.route.queryParamMap, {
-    initialValue: this.route.snapshot.queryParamMap,
-  });
+  // Router is optional: the query-param sync is an opt-in feature (`queryParam`),
+  // so the component must still work when used outside a routing context.
+  private readonly route = inject(ActivatedRoute, { optional: true });
+  private readonly router = inject(Router, { optional: true });
+  private readonly queryParamMap = this.route
+    ? toSignal(this.route.queryParamMap, {
+        initialValue: this.route.snapshot.queryParamMap,
+      })
+    : undefined;
   private readonly tabListInteracted = signal(false);
   private readonly userSelectedTab = signal(false);
 
@@ -63,7 +67,7 @@ export class UiTab {
     const queryParam = this.queryParam();
 
     return queryParam
-      ? (this.queryParamMap().get(queryParam) ??
+      ? (this.queryParamMap?.().get(queryParam) ??
           new URLSearchParams(this.document.location.search).get(queryParam) ??
           undefined)
       : undefined;
@@ -106,6 +110,7 @@ export class UiTab {
       const queryParamValue = this.queryParamValue();
 
       if (
+        !this.router ||
         !queryParam ||
         !selectedTab ||
         !this.userSelectedTab() ||

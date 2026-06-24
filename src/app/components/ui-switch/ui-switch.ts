@@ -1,7 +1,6 @@
 import {
   booleanAttribute,
   Component,
-  computed,
   ElementRef,
   input,
   model,
@@ -14,7 +13,7 @@ import {
   type ValidationError,
   type WithOptionalFieldTree,
 } from '@angular/forms/signals';
-import { nextId } from '../../shared/unique-id';
+import { createFieldMessages } from '../../shared/field-messages';
 
 @Component({
   selector: 'ui-switch',
@@ -34,47 +33,17 @@ export class UiSwitch implements FormCheckboxControl {
   readonly withErrorMessage = input(false, { transform: booleanAttribute });
   touch = output<void>();
 
-  private readonly id = nextId();
-  readonly controlId = `ui-switch-control-${this.id}`;
-  readonly descriptionId = `ui-switch-description-${this.id}`;
-  readonly errorId = `ui-switch-error-${this.id}`;
-  readonly disabledReasonId = `ui-switch-disabled-reason-${this.id}`;
+  private readonly messages = createFieldMessages('ui-switch', this);
+  readonly controlId = `ui-switch-control-${this.messages.id}`;
+  readonly descriptionId = this.messages.descriptionId;
+  readonly errorId = this.messages.errorId;
+  readonly disabledReasonId = this.messages.disabledReasonId;
+  readonly errorMessages = this.messages.errorMessages;
+  readonly disabledReasonMessages = this.messages.disabledReasonMessages;
+  readonly showErrorMessage = this.messages.showErrorMessage;
+  readonly describedBy = this.messages.describedBy;
 
   private readonly control = viewChild<ElementRef<HTMLInputElement>>('control');
-
-  readonly errorMessages = computed(() => {
-    return this.errors()
-      .map((error) => error.message ?? `Invalid value: ${error.kind}`)
-      .filter((message) => message.length > 0);
-  });
-
-  readonly disabledReasonMessages = computed(() => {
-    return this.disabledReasons()
-      .map((reason) => reason.message ?? 'This field is disabled')
-      .filter((message) => message.length > 0);
-  });
-
-  readonly showErrorMessage = computed(
-    () => this.withErrorMessage() && this.invalid() && this.errorMessages().length > 0,
-  );
-
-  readonly describedBy = computed(() => {
-    const ids: string[] = [];
-
-    if (this.description()) {
-      ids.push(this.descriptionId);
-    }
-
-    if (this.showErrorMessage()) {
-      ids.push(this.errorId);
-    }
-
-    if (this.disabledReasonMessages().length) {
-      ids.push(this.disabledReasonId);
-    }
-
-    return ids.join(' ') || null;
-  });
 
   onChange(event: Event): void {
     const control = event.target as HTMLInputElement;

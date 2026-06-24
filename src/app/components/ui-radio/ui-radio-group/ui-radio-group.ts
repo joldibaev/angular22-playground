@@ -1,7 +1,6 @@
 import {
   booleanAttribute,
   Component,
-  computed,
   ElementRef,
   forwardRef,
   inject,
@@ -15,6 +14,7 @@ import {
   type ValidationError,
   type WithOptionalFieldTree,
 } from '@angular/forms/signals';
+import { createFieldMessages } from '../../../shared/field-messages';
 import { nextId } from '../../../shared/unique-id';
 import { UI_RADIO_GROUP, type UiRadioGroupControl } from './ui-radio-group.token';
 
@@ -38,46 +38,16 @@ export class UiRadioGroup implements FormValueControl<string>, UiRadioGroupContr
   readonly withErrorMessage = input(false, { transform: booleanAttribute });
   touch = output<void>();
 
-  private readonly id = nextId();
-  readonly descriptionId = `ui-radio-group-description-${this.id}`;
-  readonly errorId = `ui-radio-group-error-${this.id}`;
-  readonly disabledReasonId = `ui-radio-group-disabled-reason-${this.id}`;
+  private readonly messages = createFieldMessages('ui-radio-group', this);
+  readonly descriptionId = this.messages.descriptionId;
+  readonly errorId = this.messages.errorId;
+  readonly disabledReasonId = this.messages.disabledReasonId;
+  readonly errorMessages = this.messages.errorMessages;
+  readonly disabledReasonMessages = this.messages.disabledReasonMessages;
+  readonly showErrorMessage = this.messages.showErrorMessage;
+  readonly describedBy = this.messages.describedBy;
 
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
-
-  readonly errorMessages = computed(() => {
-    return this.errors()
-      .map((error) => error.message ?? `Invalid value: ${error.kind}`)
-      .filter((message) => message.length > 0);
-  });
-
-  readonly disabledReasonMessages = computed(() => {
-    return this.disabledReasons()
-      .map((reason) => reason.message ?? 'This field is disabled')
-      .filter((message) => message.length > 0);
-  });
-
-  readonly showErrorMessage = computed(
-    () => this.withErrorMessage() && this.invalid() && this.errorMessages().length > 0,
-  );
-
-  readonly describedBy = computed(() => {
-    const ids: string[] = [];
-
-    if (this.description()) {
-      ids.push(this.descriptionId);
-    }
-
-    if (this.showErrorMessage()) {
-      ids.push(this.errorId);
-    }
-
-    if (this.disabledReasonMessages().length) {
-      ids.push(this.disabledReasonId);
-    }
-
-    return ids.join(' ') || null;
-  });
 
   select(value: string): void {
     this.value.set(value);

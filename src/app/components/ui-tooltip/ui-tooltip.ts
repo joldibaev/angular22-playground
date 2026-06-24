@@ -24,6 +24,16 @@ import { UiTooltipPanel } from './ui-tooltip-panel/ui-tooltip-panel';
  * directive only has to render the panel and point `interestfor` at it.
  */
 @Directive({
+  // INTENTIONAL — do NOT broaden this selector to `[uiTooltip]` or any
+  // non-interactive element (div/span/icon wrapper/table header/etc.).
+  // This tooltip is driven entirely by the native Interest Invokers API
+  // (`interestfor`), which the browser only honors on `<button>` and
+  // `<a href>` invoker elements. On any other element `interestfor` is
+  // silently ignored and the tooltip simply never appears. Supporting
+  // arbitrary elements would mean reintroducing a manual JS
+  // hover/focus/long-press/timer path (the legacy Tray3 approach) — that is a
+  // deliberate non-goal. To attach a tooltip to something else, wrap it in a
+  // `<button>`/`<a>` instead of widening this selector.
   selector: 'button[uiTooltip], a[uiTooltip]',
   host: {
     class: 'ui-tooltip-trigger',

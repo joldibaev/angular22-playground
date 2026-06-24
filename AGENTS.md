@@ -20,3 +20,5 @@
 - Prefer external Angular templates with `templateUrl`; do not use inline `template` metadata for components.
 - When one UI component folder contains multiple related components, keep the main/root component directly in that folder and place secondary components in their own subfolders.
 - When creating UI components, optimize the public API for convenient developer experience. Implementation details such as generated anchor names, positioning styles, or wiring attributes should be handled by the component whenever practical.
+- The project must have no dependency on a secure context (SSL/HTTPS). Do not use the Web Crypto API — `crypto.randomUUID()`, `crypto.subtle`, `crypto.getRandomValues()` — or any other secure-context-only Web API, because it only works under HTTPS and therefore forces an SSL dependency. The app must run fully over plain HTTP.
+- Generate stable element ids and CSS anchor names with the app-scoped `nextId()` counter (`shared/unique-id`), called from an injection context. Keep them deterministic — do not derive ids from a uuid library or `Math.random()` — so they stay identical between the server and the client and SSR hydration matches.

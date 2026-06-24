@@ -2,7 +2,6 @@ import {
   afterRenderEffect,
   booleanAttribute,
   Component,
-  computed,
   ElementRef,
   input,
   model,
@@ -15,7 +14,7 @@ import {
   type ValidationError,
   type WithOptionalFieldTree,
 } from '@angular/forms/signals';
-import { nextId } from '../../shared/unique-id';
+import { createFieldMessages } from '../../shared/field-messages';
 
 @Component({
   selector: 'ui-checkbox',
@@ -36,47 +35,17 @@ export class UiCheckbox implements FormCheckboxControl {
   readonly withErrorMessage = input(false, { transform: booleanAttribute });
   touch = output<void>();
 
-  private readonly id = nextId();
-  readonly controlId = `ui-checkbox-control-${this.id}`;
-  readonly descriptionId = `ui-checkbox-description-${this.id}`;
-  readonly errorId = `ui-checkbox-error-${this.id}`;
-  readonly disabledReasonId = `ui-checkbox-disabled-reason-${this.id}`;
+  private readonly messages = createFieldMessages('ui-checkbox', this);
+  readonly controlId = `ui-checkbox-control-${this.messages.id}`;
+  readonly descriptionId = this.messages.descriptionId;
+  readonly errorId = this.messages.errorId;
+  readonly disabledReasonId = this.messages.disabledReasonId;
+  readonly errorMessages = this.messages.errorMessages;
+  readonly disabledReasonMessages = this.messages.disabledReasonMessages;
+  readonly showErrorMessage = this.messages.showErrorMessage;
+  readonly describedBy = this.messages.describedBy;
 
   private readonly control = viewChild<ElementRef<HTMLInputElement>>('control');
-
-  readonly errorMessages = computed(() => {
-    return this.errors()
-      .map((error) => error.message ?? `Invalid value: ${error.kind}`)
-      .filter((message) => message.length > 0);
-  });
-
-  readonly disabledReasonMessages = computed(() => {
-    return this.disabledReasons()
-      .map((reason) => reason.message ?? 'This field is disabled')
-      .filter((message) => message.length > 0);
-  });
-
-  readonly showErrorMessage = computed(
-    () => this.withErrorMessage() && this.invalid() && this.errorMessages().length > 0,
-  );
-
-  readonly describedBy = computed(() => {
-    const ids: string[] = [];
-
-    if (this.description()) {
-      ids.push(this.descriptionId);
-    }
-
-    if (this.showErrorMessage()) {
-      ids.push(this.errorId);
-    }
-
-    if (this.disabledReasonMessages().length) {
-      ids.push(this.disabledReasonId);
-    }
-
-    return ids.join(' ') || null;
-  });
 
   constructor() {
     afterRenderEffect(() => {
