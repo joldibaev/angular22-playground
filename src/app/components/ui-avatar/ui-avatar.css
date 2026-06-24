@@ -1,0 +1,45 @@
+:host {
+  --ui-avatar-size: 2.5rem;
+  --ui-avatar-background: var(--background-color-subtle);
+
+  display: inline-flex;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  inline-size: var(--ui-avatar-size);
+  block-size: var(--ui-avatar-size);
+  overflow: clip;
+  border-radius: 999px;
+  background: var(--ui-avatar-background);
+  color: var(--text-color-muted);
+  font: inherit;
+  font-weight: 600;
+  line-height: 1;
+  user-select: none;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+:host(.ui-avatar-sm) {
+  --ui-avatar-size: 1.75rem;
+  font-size: 0.6875rem;
+}
+
+:host(.ui-avatar-md) {
+  --ui-avatar-size: 2.5rem;
+  font-size: 0.875rem;
+}
+
+:host(.ui-avatar-lg) {
+  --ui-avatar-size: 3.5rem;
+  font-size: 1.125rem;
+}
+
+.ui-avatar-image {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+}

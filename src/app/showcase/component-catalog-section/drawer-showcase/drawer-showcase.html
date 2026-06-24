@@ -1,0 +1,30 @@
+<div class="grid min-w-0 gap-3">
+  <div class="flex flex-wrap items-center gap-3">
+    <button uiButton variant="outline" command="show-modal" [attr.commandfor]="endDrawer.drawerId()">
+      Open filters (end)
+    </button>
+    <button uiButton variant="outline" command="show-modal" [attr.commandfor]="startDrawer.drawerId()">
+      Open nav (start)
+    </button>
+  </div>
+
+  <ui-drawer #endDrawer="uiDrawer" title="Filters" side="end">
+    <p class="max-w-prose text-sm text-secondary">
+      A drawer slides in from the inline end. Dismiss it with the close button, the backdrop, or
+      Escape.
+    </p>
+
+    <div uiDrawerFooter class="flex justify-end gap-2">
+      <button uiButton variant="outline" command="close" [attr.commandfor]="endDrawer.drawerId()">
+        Reset
+      </button>
+      <button uiButton command="close" [attr.commandfor]="endDrawer.drawerId()">Apply</button>
+    </div>
+  </ui-drawer>
+
+  <ui-drawer #startDrawer="uiDrawer" title="Navigation" side="start" size="sm">
+    <p class="max-w-prose text-sm text-secondary">
+      A compact drawer anchored to the inline start, handy for navigation panels.
+    </p>
+  </ui-drawer>
+</div>

@@ -1,0 +1,13 @@
+@if (showImage()) {
+  <img class="ui-avatar-image" [src]="src()" alt="" (error)="onError()" />
+} @else if (initials()) {
+  <span class="ui-avatar-initials" aria-hidden="true">{{ initials() }}</span>
+} @else {
+  <ui-icon
+    class="ui-avatar-placeholder"
+    name="outline-user"
+    decorative
+    [width]="iconSize()"
+    [height]="iconSize()"
+  />
+}

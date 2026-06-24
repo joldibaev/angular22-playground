@@ -1,0 +1,16 @@
+<ui-dialog [title]="title()" size="sm" [(open)]="open">
+  @if (message()) {
+    <p class="ui-dialog-confirm-message">{{ message() }}</p>
+  }
+
+  <div uiDialogFooter class="ui-dialog-confirm-actions">
+    <button uiButton variant="outline" (click)="onCancel()">{{ cancelLabel() }}</button>
+    <button
+      uiButton
+      [variant]="tone() === 'destructive' ? 'destructive' : 'default'"
+      (click)="onConfirm()"
+    >
+      {{ confirmLabel() }}
+    </button>
+  </div>
+</ui-dialog>

@@ -1,0 +1,13 @@
+<span class="ui-chip-label"><ng-content /></span>
+
+@if (withRemove()) {
+  <button
+    type="button"
+    class="ui-chip-remove"
+    [disabled]="disabled()"
+    [attr.aria-label]="removeLabel()"
+    (click)="onRemove()"
+  >
+    <ui-icon name="outline-x" decorative [width]="removeIconSize()" [height]="removeIconSize()" />
+  </button>
+}

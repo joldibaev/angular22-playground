@@ -1,0 +1,20 @@
+<div class="grid min-w-0 gap-4">
+  <div class="flex flex-wrap items-center gap-2">
+    <ui-chip variant="neutral">Neutral</ui-chip>
+    <ui-chip variant="brand">Brand</ui-chip>
+    <ui-chip variant="brand" size="sm">Small</ui-chip>
+    <ui-chip disabled withRemove>Disabled</ui-chip>
+  </div>
+
+  <div class="flex flex-wrap items-center gap-2">
+    @for (tag of tags(); track tag) {
+      <ui-chip variant="brand" withRemove [removeLabel]="'Remove ' + tag" (remove)="removeTag(tag)">
+        {{ tag }}
+      </ui-chip>
+    } @empty {
+      <button type="button" class="text-sm font-bold text-secondary underline" (click)="reset()">
+        Reset tags
+      </button>
+    }
+  </div>
+</div>

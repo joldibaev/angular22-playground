@@ -2,9 +2,14 @@ import { Component } from '@angular/core';
 import { UiTab } from '../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../components/ui-tab/ui-tab-item/ui-tab-item';
 import { AutocompleteShowcase } from './autocomplete-showcase/autocomplete-showcase';
+import { AvatarShowcase } from './avatar-showcase/avatar-showcase';
+import { BadgeShowcase } from './badge-showcase/badge-showcase';
 import { ButtonShowcase } from './button-showcase/button-showcase';
 import { CardShowcase } from './card-showcase/card-showcase';
 import { CheckboxShowcase } from './checkbox-showcase/checkbox-showcase';
+import { ChipShowcase } from './chip-showcase/chip-showcase';
+import { DialogShowcase } from './dialog-showcase/dialog-showcase';
+import { DrawerShowcase } from './drawer-showcase/drawer-showcase';
 import { InputShowcase } from './input-showcase/input-showcase';
 import { MenuShowcase } from './menu-showcase/menu-showcase';
 import { PopoverShowcase } from './popover-showcase/popover-showcase';
@@ -19,9 +24,14 @@ import { UiCard } from '../../components/ui-card/ui-card';
   selector: 'app-component-catalog-section',
   imports: [
     AutocompleteShowcase,
+    AvatarShowcase,
+    BadgeShowcase,
     ButtonShowcase,
     CardShowcase,
     CheckboxShowcase,
+    ChipShowcase,
+    DialogShowcase,
+    DrawerShowcase,
     InputShowcase,
     MenuShowcase,
     PopoverShowcase,

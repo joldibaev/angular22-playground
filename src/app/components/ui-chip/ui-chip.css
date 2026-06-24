@@ -1,0 +1,90 @@
+:host {
+  --ui-chip-background: var(--background-color-subtle);
+  --ui-chip-color: contrast-color(var(--ui-chip-background));
+  --ui-chip-border-color: transparent;
+
+  display: inline-flex;
+  box-sizing: border-box;
+  width: fit-content;
+  max-width: 100%;
+  align-items: center;
+  gap: 0.25rem;
+  border: 1px solid var(--ui-chip-border-color);
+  border-radius: 999px;
+  background: var(--ui-chip-background);
+  color: var(--ui-chip-color);
+  font: inherit;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+:host(.ui-chip-disabled) {
+  cursor: default;
+  opacity: var(--opacity-disabled);
+}
+
+:host(.ui-chip-sm) {
+  padding-block: 0.1875rem;
+  padding-inline: 0.5rem;
+  font-size: 0.75rem;
+}
+
+:host(.ui-chip-md) {
+  padding-block: 0.3125rem;
+  padding-inline: 0.6875rem;
+  font-size: 0.8125rem;
+}
+
+:host(.ui-chip-brand) {
+  --ui-chip-background: color-mix(in srgb, var(--color-brand) 18%, Canvas);
+  --ui-chip-color: color-mix(in srgb, var(--color-brand) 78%, CanvasText);
+}
+
+.ui-chip-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ui-chip-remove {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  margin-inline-end: -0.125rem;
+  padding: 0.0625rem;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  opacity: 0.7;
+  transition:
+    background-color var(--dur-press) var(--ease-snappy),
+    opacity var(--dur-press) var(--ease-snappy);
+}
+
+.ui-chip-remove:hover {
+  background: color-mix(in srgb, currentColor 16%, transparent);
+  opacity: 1;
+}
+
+.ui-chip-remove:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--color-brand) 60%, transparent);
+  outline-offset: 1px;
+  opacity: 1;
+}
+
+.ui-chip-remove:disabled {
+  cursor: default;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-chip-remove {
+    transition: none;
+  }
+}

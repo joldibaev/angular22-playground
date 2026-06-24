@@ -1,0 +1,46 @@
+<div class="grid min-w-0 gap-5">
+  <section class="grid min-w-0 gap-3">
+    <h4 class="font-black">Modal dialog</h4>
+    <div class="flex flex-wrap items-center gap-3">
+      <button uiButton command="show-modal" [attr.commandfor]="inviteDialog.dialogId()">
+        Invite teammates
+      </button>
+    </div>
+
+    <ui-dialog #inviteDialog="uiDialog" title="Invite teammates">
+      <p class="max-w-prose text-sm text-secondary">
+        Send an invitation link to a teammate. They will get access to this workspace once they
+        accept.
+      </p>
+
+      <div uiDialogFooter class="flex justify-end gap-2">
+        <button uiButton variant="outline" command="close" [attr.commandfor]="inviteDialog.dialogId()">
+          Cancel
+        </button>
+        <button uiButton command="close" [attr.commandfor]="inviteDialog.dialogId()">
+          Send invites
+        </button>
+      </div>
+    </ui-dialog>
+  </section>
+
+  <section class="grid min-w-0 gap-3">
+    <h4 class="font-black">Confirmation</h4>
+    <div class="flex flex-wrap items-center gap-3">
+      <button uiButton variant="destructive" (click)="confirmOpen.set(true)">Delete item</button>
+      @if (lastAction()) {
+        <span class="text-sm font-bold text-secondary">Last action: {{ lastAction() }}</span>
+      }
+    </div>
+
+    <ui-dialog-confirm
+      [(open)]="confirmOpen"
+      tone="destructive"
+      title="Delete item?"
+      message="This permanently removes the item. This action cannot be undone."
+      confirmLabel="Delete"
+      (confirm)="onConfirm()"
+      (cancel)="onCancel()"
+    />
+  </section>
+</div>

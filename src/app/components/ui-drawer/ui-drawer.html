@@ -1,0 +1,43 @@
+<dialog
+  #dialog
+  [id]="drawerId()"
+  class="ui-drawer"
+  [class.ui-drawer-start]="side() === 'start'"
+  [class.ui-drawer-end]="side() === 'end'"
+  [class.ui-drawer-sm]="size() === 'sm'"
+  [class.ui-drawer-md]="size() === 'md'"
+  [class.ui-drawer-lg]="size() === 'lg'"
+  [attr.closedby]="dismiss()"
+  [attr.aria-labelledby]="title() ? titleId : null"
+  (toggle)="onToggle($event)"
+>
+  <div class="ui-drawer-surface">
+    @if (title() || withCloseButton()) {
+      <header class="ui-drawer-header">
+        @if (title()) {
+          <h2 [id]="titleId" class="ui-drawer-title">{{ title() }}</h2>
+        } @else {
+          <span></span>
+        }
+
+        @if (withCloseButton()) {
+          <button
+            type="button"
+            class="ui-drawer-close"
+            command="close"
+            [attr.commandfor]="drawerId()"
+            aria-label="Close"
+          >
+            <ui-icon name="outline-x" decorative width="18" height="18" />
+          </button>
+        }
+      </header>
+    }
+
+    <div class="ui-drawer-body">
+      <ng-content />
+    </div>
+
+    <footer class="ui-drawer-footer"><ng-content select="[uiDrawerFooter]" /></footer>
+  </div>
+</dialog>
