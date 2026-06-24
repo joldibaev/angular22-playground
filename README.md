@@ -1,59 +1,23 @@
-# Angular22
+# UI Components (Angular 22)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.0.
+A UI component library. The goal: **rebuild the UI components from the `trade3` app from scratch — cleaner, more modern, better.**
 
-## Development server
+`trade3` was built before Angular 22. Its components lean on the Angular CDK and hand-wired JavaScript. This project re-implements the same set on the current platform:
 
-To start a local development server, run:
+- **Angular 22** — signal-based components, signal forms, zoneless.
+- **`@angular/aria`** — headless primitives own roles, keyboard, and focus; CSS reacts to ARIA/state.
+- **Native platform over JS** — Popover API, Interest Invokers (`interestfor`), Invoker Commands (`command`/`commandfor`), native `<dialog>`, CSS Anchor Positioning — instead of CDK overlays and manual event wiring.
+- **Modern CSS** — `@starting-style`, `color-mix()`, `contrast-color()`, `light-dark()`, `:has()`, design tokens; no Tailwind in components.
+- **Chrome 149+ only** — no cross-browser fallbacks.
 
-```bash
-ng serve
-```
+Components live in `src/app/components/*`; each is demoed in the showcase (`src/app/showcase`).
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+> **Conventions and constraints are in [AGENTS.md](./AGENTS.md) — read it before contributing.**
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Develop
 
 ```bash
-ng generate --help
+ng serve     # dev server at http://localhost:4200/
+ng build     # production build to dist/
+ng test      # unit tests (Vitest)
 ```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
