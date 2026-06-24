@@ -1,10 +1,10 @@
 <article class="grid min-w-0 gap-4 rounded-lg bg-primary p-5">
   <div class="grid min-w-0 gap-4 md:grid-cols-2">
-    <ui-input label="Required empty" showError>
+    <ui-input label="Required empty" withErrorMessage>
       <input [formField]="formState.requiredEmpty" placeholder="name@example.com" type="email" />
     </ui-input>
 
-    <ui-input label="Required valid" showError>
+    <ui-input label="Required valid" withErrorMessage>
       <input [formField]="formState.requiredValid" placeholder="name@example.com" type="email" />
     </ui-input>
 
@@ -16,11 +16,11 @@
       <input [formField]="formState.optionalFilled" />
     </ui-input>
 
-    <ui-input label="Invalid email" showError>
+    <ui-input label="Invalid email" withErrorMessage>
       <input [formField]="formState.invalidEmail" type="email" />
     </ui-input>
 
-    <ui-input label="Minimum length" showError>
+    <ui-input label="Minimum length" withErrorMessage>
       <input [formField]="formState.shortCode" />
     </ui-input>
 
@@ -30,6 +30,25 @@
 
     <ui-input label="Native disabled">
       <input value="Native disabled" disabled />
+    </ui-input>
+
+    <ui-input class="md:col-span-2" label="Textarea">
+      <textarea [formField]="formState.notes" placeholder="Add escalation notes"></textarea>
+    </ui-input>
+
+    <ui-input
+      class="md:col-span-2"
+      label="Required textarea"
+      withErrorMessage
+    >
+      <textarea
+        [formField]="formState.requiredNotes"
+        placeholder="Describe the handoff context"
+      ></textarea>
+    </ui-input>
+
+    <ui-input class="md:col-span-2" label="Native disabled textarea">
+      <textarea disabled>Native disabled notes</textarea>
     </ui-input>
   </div>
 

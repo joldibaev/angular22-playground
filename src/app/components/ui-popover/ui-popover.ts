@@ -55,7 +55,7 @@ export class UiPopover {
   readonly content = input.required<TemplateRef<unknown>>({ alias: 'uiContent' });
   readonly trigger = input<UiPopoverTrigger>('click', { alias: 'uiTrigger' });
   readonly placement = input<UiPopoverPlacement>('bottom', { alias: 'uiPlacement' });
-  readonly fallback = input(true, { alias: 'uiFallback', transform: booleanAttribute });
+  readonly withFallback = input(false, { alias: 'uiWithFallback', transform: booleanAttribute });
   readonly panelId = input(`ui-popover-${this.id}`, { alias: 'uiPanelId' });
   readonly role = input<string | null>(null, { alias: 'uiRole' });
   readonly maxWidth = input('', { alias: 'uiMaxWidth' });
@@ -145,7 +145,7 @@ export class UiPopover {
     this.panelRef.setInput('panelId', this.panelId());
     this.panelRef.setInput('anchorName', this.anchorName);
     this.panelRef.setInput('placement', this.placement());
-    this.panelRef.setInput('fallback', this.fallback());
+    this.panelRef.setInput('withFallback', this.withFallback());
     this.panelRef.setInput('role', this.role());
     this.panelRef.setInput('maxWidth', this.maxWidth());
   }

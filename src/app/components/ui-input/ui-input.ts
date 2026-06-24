@@ -28,8 +28,7 @@ import { UiInputError } from './ui-input-error/ui-input-error';
 })
 export class UiInput {
   readonly label = input('');
-  readonly placeholder = input('');
-  readonly showError = input(false, { transform: booleanAttribute });
+  readonly withErrorMessage = input(false, { transform: booleanAttribute });
   private readonly id = nextId();
   readonly labelId = `ui-input-label-${this.id}`;
   readonly controlId = `ui-input-control-${this.id}`;
@@ -39,7 +38,6 @@ export class UiInput {
   private readonly renderer = inject(Renderer2);
   private readonly projectedFormField = contentChild<FormField<string>>(FormField);
   private readonly hostFormField = inject<FormField<string> | null>(FORM_FIELD, { optional: true });
-  private ownsPlaceholder = false;
 
   readonly state = computed<FieldState<string> | undefined>(
     () => this.projectedFormField()?.field()() ?? this.hostFormField?.field()(),
@@ -72,7 +70,7 @@ export class UiInput {
   });
 
   readonly showErrorTooltip = computed(
-    () => this.showError() && this.invalid() && this.errorMessages().length > 0,
+    () => this.withErrorMessage() && this.invalid() && this.errorMessages().length > 0,
   );
 
   constructor() {
@@ -86,7 +84,9 @@ export class UiInput {
   }
 
   private syncLabelledControl() {
-    const control = this.element.nativeElement.querySelector<HTMLElement>('input, [ngCombobox]');
+    const control = this.element.nativeElement.querySelector<HTMLElement>(
+      'input, textarea, [ngCombobox]',
+    );
 
     if (!control) {
       return;
@@ -117,7 +117,6 @@ export class UiInput {
       this.errorTooltipId,
       this.showErrorTooltip(),
     );
-    this.syncPlaceholder(control);
   }
 
   private syncLabelFor(controlId: string) {
@@ -143,22 +142,6 @@ export class UiInput {
       this.renderer.setAttribute(element, attribute, nextTokens.join(' '));
     } else {
       this.renderer.removeAttribute(element, attribute);
-    }
-  }
-
-  private syncPlaceholder(control: HTMLElement): void {
-    if (!(control instanceof HTMLInputElement || control instanceof HTMLTextAreaElement)) {
-      return;
-    }
-
-    const placeholder = this.placeholder();
-
-    if (placeholder) {
-      this.renderer.setAttribute(control, 'placeholder', placeholder);
-      this.ownsPlaceholder = true;
-    } else if (this.ownsPlaceholder) {
-      this.renderer.removeAttribute(control, 'placeholder');
-      this.ownsPlaceholder = false;
     }
   }
 }

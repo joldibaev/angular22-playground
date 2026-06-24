@@ -11,7 +11,7 @@ import { UiSwitch } from './ui-switch';
       [formField]="formState.notifications"
       label="Notifications"
       description="Send workflow updates"
-      showError
+      withErrorMessage
     />
 
     <ui-switch [formField]="formState.auditMode" label="Audit mode" />
@@ -107,7 +107,7 @@ describe('UiSwitch', () => {
     expect(hostFixture.componentInstance.formState.notifications().value()).toBe(false);
   });
 
-  it('should show validation errors when showError is enabled', async () => {
+  it('should show validation errors when withErrorMessage is enabled', async () => {
     const hostFixture = await createSignalFormHostFixture();
     const switchField = hostFixture.nativeElement.querySelector('ui-switch');
     const message = switchField.querySelector('.ui-switch-error');

@@ -42,11 +42,11 @@ export class UiAutocomplete implements FormValueControl<string> {
   readonly popupElement = viewChild<ElementRef<HTMLElement>>('popupElement');
 
   value = model('');
-  disabled = input(false);
+  disabled = input(false, { transform: booleanAttribute });
   label = input('Search');
   placeholder = input('Search labels');
   emptyText = input('No matches');
-  showError = input(false, { transform: booleanAttribute });
+  withErrorMessage = input(false, { transform: booleanAttribute });
   touch = output<void>();
 
   inputValue = signal('');

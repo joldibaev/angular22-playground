@@ -1,4 +1,13 @@
-import { Component, computed, ElementRef, inject, input, TemplateRef, viewChild } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  input,
+  TemplateRef,
+  viewChild,
+} from '@angular/core';
 
 @Component({
   selector: 'ui-menu-item',
@@ -11,7 +20,7 @@ export class UiMenuItem {
   readonly template = viewChild.required<TemplateRef<unknown>>('content');
 
   value = input.required<string>();
-  disabled = input(false);
+  disabled = input(false, { transform: booleanAttribute });
 
   label = computed(() => {
     const element = this.element.nativeElement;

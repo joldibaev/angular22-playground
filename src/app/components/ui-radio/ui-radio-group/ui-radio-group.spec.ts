@@ -12,7 +12,7 @@ import { UiRadioGroup } from './ui-radio-group';
       [formField]="formState.priority"
       label="Priority"
       description="Used by the queue"
-      showError
+      withErrorMessage
     >
       <ui-radio value="low" label="Low" />
       <ui-radio value="high" label="High" />
@@ -106,7 +106,7 @@ describe('UiRadioGroup', () => {
     expect(hostFixture.componentInstance.formState.priority().value()).toBe('high');
   });
 
-  it('should show validation errors when showError is enabled', async () => {
+  it('should show validation errors when withErrorMessage is enabled', async () => {
     const hostFixture = await createSignalFormHostFixture();
     const group = hostFixture.nativeElement.querySelector('ui-radio-group');
     const message = group.querySelector('.ui-radio-group-error');

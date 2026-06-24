@@ -1,4 +1,5 @@
 import {
+  booleanAttribute,
   Component,
   computed,
   ElementRef,
@@ -19,7 +20,7 @@ export class UiTabItem {
   readonly template = viewChild.required<TemplateRef<unknown>>('content');
 
   value = input.required<string>();
-  disabled = input(false);
+  disabled = input(false, { transform: booleanAttribute });
 
   label = input<string>();
 

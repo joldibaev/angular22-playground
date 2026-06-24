@@ -16,6 +16,8 @@ export class InputShowcase {
     optionalFilled: 'platform-team',
     invalidEmail: 'not-an-email',
     shortCode: 'ab',
+    notes: 'Escalate if the customer has no fallback owner.',
+    requiredNotes: '',
     disabledField: 'Managed by SSO',
   });
 
@@ -26,6 +28,8 @@ export class InputShowcase {
     email(path.requiredValid, { message: 'Use a valid email' });
     email(path.invalidEmail, { message: 'Use a valid email' });
     minLength(path.shortCode, 4, { message: 'Use at least 4 characters' });
+    required(path.requiredNotes, { message: 'Notes are required' });
+    minLength(path.requiredNotes, 12, { message: 'Use at least 12 characters' });
     disabled(path.disabledField, { when: 'Locked by identity provider' });
   });
 }

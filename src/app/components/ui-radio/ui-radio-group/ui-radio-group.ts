@@ -35,7 +35,7 @@ export class UiRadioGroup implements FormValueControl<string>, UiRadioGroupContr
   readonly label = input('');
   readonly name = input(`ui-radio-group-${nextId()}`);
   readonly description = input('');
-  readonly showError = input(false, { transform: booleanAttribute });
+  readonly withErrorMessage = input(false, { transform: booleanAttribute });
   touch = output<void>();
 
   private readonly id = nextId();
@@ -58,7 +58,7 @@ export class UiRadioGroup implements FormValueControl<string>, UiRadioGroupContr
   });
 
   readonly showErrorMessage = computed(
-    () => this.showError() && this.invalid() && this.errorMessages().length > 0,
+    () => this.withErrorMessage() && this.invalid() && this.errorMessages().length > 0,
   );
 
   readonly describedBy = computed(() => {

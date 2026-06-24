@@ -102,6 +102,19 @@ class LegacyMultiStringTestHost {
 }
 
 @Component({
+  imports: [UiSelect, UiSelectOption],
+  template: `
+    <ui-select multi value="created,paid">
+      <ui-select-option value="created,paid">Created and paid together</ui-select-option>
+      <ui-select-option value="approved">Approved</ui-select-option>
+    </ui-select>
+  `,
+})
+class CommaValueMultiStringTestHost {
+  readonly select = viewChild.required(UiSelect);
+}
+
+@Component({
   imports: [FormField, UiSelect, UiSelectOption],
   template: `
     <ui-select [formField]="formState.status">
@@ -120,7 +133,7 @@ class SignalFormTestHost {
 @Component({
   imports: [FormField, UiSelect, UiSelectOption],
   template: `
-    <ui-select label="Status" showError [formField]="formState.status">
+    <ui-select label="Status" withErrorMessage [formField]="formState.status">
       <ui-select-option value="created">Created</ui-select-option>
       <ui-select-option value="approved">Approved</ui-select-option>
     </ui-select>
@@ -195,6 +208,17 @@ async function createLegacyMultiStringHostFixture(): Promise<
   ComponentFixture<LegacyMultiStringTestHost>
 > {
   const hostFixture = TestBed.createComponent(LegacyMultiStringTestHost);
+  hostFixture.detectChanges();
+  await hostFixture.whenStable();
+  await hostFixture.whenRenderingDone();
+
+  return hostFixture;
+}
+
+async function createCommaValueMultiStringHostFixture(): Promise<
+  ComponentFixture<CommaValueMultiStringTestHost>
+> {
+  const hostFixture = TestBed.createComponent(CommaValueMultiStringTestHost);
   hostFixture.detectChanges();
   await hostFixture.whenStable();
   await hostFixture.whenRenderingDone();
@@ -443,6 +467,16 @@ describe('UiSelect', () => {
     expect(select.selectedValues()).toEqual(['created', 'paid']);
     expect(hostFixture.nativeElement.querySelector('.selected-label-text')?.textContent).toContain(
       'Created, Paid',
+    );
+  });
+
+  it('should support a multi option value that contains a comma', async () => {
+    const hostFixture = await createCommaValueMultiStringHostFixture();
+    const select = hostFixture.componentInstance.select();
+
+    expect(select.selectedValues()).toEqual(['created,paid']);
+    expect(hostFixture.nativeElement.querySelector('.selected-label-text')?.textContent).toContain(
+      'Created and paid together',
     );
   });
 

@@ -14,7 +14,7 @@
               uiPopover
               uiTrigger="click"
               [uiPlacement]="placement"
-              [uiFallback]="state.value"
+              [uiWithFallback]="state.value"
               [uiContent]="placementContent"
             >
               {{ placement }}
@@ -32,7 +32,7 @@
       @for (placement of placements; track placement) {
         <button
           uiButton
-          appearance="secondary"
+          variant="secondary"
           type="button"
           uiPopover
           uiTrigger="hover"
@@ -61,7 +61,7 @@
 
       <button
         uiButton
-        appearance="secondary"
+        variant="secondary"
         type="button"
         uiPopover
         uiPanelId="controlled-popover"
@@ -81,7 +81,7 @@
   <div class="popover-showcase-large">
     <button
       uiButton
-      appearance="outline"
+      variant="outline"
       type="button"
       uiPopover
       uiMaxWidth="min(28rem, calc(100vw - 2rem))"

@@ -7,7 +7,7 @@ import { UiInput } from './ui-input';
 @Component({
   imports: [FormField, UiInput],
   template: `
-    <ui-input label="Ticket title" showError>
+    <ui-input label="Ticket title" withErrorMessage>
       <input [formField]="formState.title" placeholder="Ticket title" />
     </ui-input>
 
@@ -31,12 +31,12 @@ class SignalFormTestHost {
 @Component({
   imports: [UiInput],
   template: `
-    <ui-input label="Assignee" placeholder="Search teammates">
-      <input />
+    <ui-input label="Notes">
+      <textarea placeholder="Add notes"></textarea>
     </ui-input>
   `,
 })
-class PlaceholderTestHost {}
+class TextareaTestHost {}
 
 function dispatchInputEvent(input: HTMLInputElement, value: string): void {
   input.value = value;
@@ -53,6 +53,10 @@ async function createSignalFormHostFixture(): Promise<ComponentFixture<SignalFor
 
 function getInputs(fixture: ComponentFixture<unknown>): HTMLInputElement[] {
   return Array.from(fixture.nativeElement.querySelectorAll('input'));
+}
+
+function getTextareas(fixture: ComponentFixture<unknown>): HTMLTextAreaElement[] {
+  return Array.from(fixture.nativeElement.querySelectorAll('textarea'));
 }
 
 describe('UiInput', () => {
@@ -84,14 +88,16 @@ describe('UiInput', () => {
     expect(label.htmlFor).toBe(input.id);
   });
 
-  it('should sync placeholder to the projected input', async () => {
-    const hostFixture = TestBed.createComponent(PlaceholderTestHost);
+  it('should associate the label with a projected textarea', async () => {
+    const hostFixture = TestBed.createComponent(TextareaTestHost);
     hostFixture.detectChanges();
     await hostFixture.whenStable();
 
-    const input = getInputs(hostFixture)[0];
+    const label = hostFixture.nativeElement.querySelector('.ui-input-label') as HTMLLabelElement;
+    const textarea = getTextareas(hostFixture)[0];
 
-    expect(input.placeholder).toBe('Search teammates');
+    expect(label.htmlFor).toBe(textarea.id);
+    expect(textarea.placeholder).toBe('Add notes');
   });
 
   it('should preserve a native placeholder when ui-input placeholder is not set', async () => {
@@ -115,7 +121,7 @@ describe('UiInput', () => {
     );
   });
 
-  it('should show validation errors in a floating message when showError is enabled', async () => {
+  it('should show validation errors in a floating message when withErrorMessage is enabled', async () => {
     const hostFixture = await createSignalFormHostFixture();
     const firstField = hostFixture.nativeElement.querySelector('ui-input');
     const message = firstField.querySelector('.ui-input-error-panel');

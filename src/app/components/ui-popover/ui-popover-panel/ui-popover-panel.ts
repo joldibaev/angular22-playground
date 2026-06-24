@@ -1,5 +1,5 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, input, TemplateRef, ViewEncapsulation } from '@angular/core';
+import { booleanAttribute, Component, input, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { type UiPanelPlacement } from '../../../shared/arrow-panel';
 
 @Component({
@@ -19,7 +19,7 @@ import { type UiPanelPlacement } from '../../../shared/arrow-panel';
     '[class.arrow-panel--bottom]': "placement() === 'bottom'",
     '[class.arrow-panel--left]': "placement() === 'left'",
     '[class.arrow-panel--right]': "placement() === 'right'",
-    '[class.arrow-panel--fallback]': 'fallback()',
+    '[class.arrow-panel--fallback]': 'withFallback()',
     '[style.position-anchor]': 'anchorName()',
     '[style.--ui-popover-max-width]': 'maxWidth() || null',
   },
@@ -29,7 +29,7 @@ export class UiPopoverPanel {
   readonly panelId = input.required<string>();
   readonly anchorName = input.required<string>();
   readonly placement = input<UiPanelPlacement>('top');
-  readonly fallback = input(true);
+  readonly withFallback = input(false, { transform: booleanAttribute });
   readonly role = input<string | null>(null);
   readonly maxWidth = input('');
 }

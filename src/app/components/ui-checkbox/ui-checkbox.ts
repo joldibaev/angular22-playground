@@ -33,7 +33,7 @@ export class UiCheckbox implements FormCheckboxControl {
   readonly indeterminate = input(false, { transform: booleanAttribute });
   readonly label = input('');
   readonly description = input('');
-  readonly showError = input(false, { transform: booleanAttribute });
+  readonly withErrorMessage = input(false, { transform: booleanAttribute });
   touch = output<void>();
 
   private readonly id = nextId();
@@ -57,7 +57,7 @@ export class UiCheckbox implements FormCheckboxControl {
   });
 
   readonly showErrorMessage = computed(
-    () => this.showError() && this.invalid() && this.errorMessages().length > 0,
+    () => this.withErrorMessage() && this.invalid() && this.errorMessages().length > 0,
   );
 
   readonly describedBy = computed(() => {

@@ -29,8 +29,8 @@ import { UiTabItem } from './ui-tab-item/ui-tab-item';
   styleUrl: './ui-tab.css',
   host: {
     '[class.ui-tab-fluid]': 'fluid()',
-    '[class.ui-tab-line]': "appearance() === 'line'",
-    '[class.ui-tab-pills]': "appearance() === 'pills'",
+    '[class.ui-tab-line]': "variant() === 'line'",
+    '[class.ui-tab-pills]': "variant() === 'pills'",
   },
 })
 export class UiTab {
@@ -47,11 +47,11 @@ export class UiTab {
 
   selectionMode = input<'follow' | 'explicit'>('follow');
   orientation = input<'horizontal' | 'vertical'>('horizontal');
-  wrap = input(true);
-  softDisabled = input(true);
-  preserveContent = input(true);
+  wrap = input(true, { transform: booleanAttribute });
+  softDisabled = input(true, { transform: booleanAttribute });
+  preserveContent = input(true, { transform: booleanAttribute });
   queryParam = input<string>();
-  appearance = input<'pills' | 'line'>('pills');
+  variant = input<'pills' | 'line'>('pills');
   fluid = input(false, { transform: booleanAttribute });
   ariaLabel = input('', { alias: 'aria-label' });
   ariaLabelledby = input('', { alias: 'aria-labelledby' });

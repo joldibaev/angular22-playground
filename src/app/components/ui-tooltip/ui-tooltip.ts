@@ -33,7 +33,7 @@ import { UiTooltipPanel } from './ui-tooltip-panel/ui-tooltip-panel';
 export class UiTooltip {
   readonly text = input('', { alias: 'uiTooltip' });
   readonly placement = input<UiPanelPlacement>('top', { alias: 'uiPlacement' });
-  readonly fallback = input(true, { alias: 'uiFallback', transform: booleanAttribute });
+  readonly withFallback = input(false, { alias: 'uiWithFallback', transform: booleanAttribute });
 
   private readonly renderer = inject(Renderer2);
   private readonly document = inject(DOCUMENT);
@@ -62,7 +62,7 @@ export class UiTooltip {
     this.ensurePanel();
     this.panelRef!.setInput('text', text);
     this.panelRef!.setInput('placement', this.placement());
-    this.panelRef!.setInput('fallback', this.fallback());
+    this.panelRef!.setInput('withFallback', this.withFallback());
     this.panelRef!.changeDetectorRef.detectChanges();
   }
 

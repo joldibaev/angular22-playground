@@ -1,4 +1,4 @@
-<ui-input [label]="label()" [placeholder]="placeholder()" [showError]="showError()">
+<ui-input [label]="label()" [withErrorMessage]="withErrorMessage()">
   <input
     ngCombobox
     #combobox="ngCombobox"
@@ -6,6 +6,7 @@
     [(expanded)]="popupExpanded"
     [disabled]="disabled()"
     [inlineSuggestion]="inlineSuggestion()"
+    [placeholder]="placeholder()"
     [preserveContent]="true"
     class="autocomplete-input ui-popup-trigger"
     type="text"

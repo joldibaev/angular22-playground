@@ -50,7 +50,7 @@ class QueryParamTestHost {
 @Component({
   imports: [UiTab, UiTabItem],
   template: `
-    <ui-tab appearance="line" fluid>
+    <ui-tab variant="line" fluid>
       <ui-tab-item value="overview" label="Overview">Overview panel</ui-tab-item>
       <ui-tab-item value="activity" label="Activity">Activity panel</ui-tab-item>
     </ui-tab>
@@ -210,18 +210,18 @@ describe('UiTab', () => {
     expect(indicatorStyle.positionAnchor).toBe('--ui-tab-active');
   });
 
-  it('should use the pills appearance by default', async () => {
+  it('should use the pills variant by default', async () => {
     const hostFixture = await createHostFixture();
     const host = getHost(hostFixture);
 
     expect(host.classList.contains('ui-tab-pills')).toBe(true);
     expect(host.classList.contains('ui-tab-line')).toBe(false);
     expect(host.classList.contains('ui-tab-fluid')).toBe(false);
-    expect(hostFixture.componentInstance.tab().appearance()).toBe('pills');
+    expect(hostFixture.componentInstance.tab().variant()).toBe('pills');
     expect(hostFixture.componentInstance.tab().fluid()).toBe(false);
   });
 
-  it('should support line appearance and fluid layout', async () => {
+  it('should support line variant and fluid layout', async () => {
     const hostFixture = await createLineFluidHostFixture();
     const host = getHost(hostFixture);
     const tabList = getTabList(hostFixture);
@@ -235,7 +235,7 @@ describe('UiTab', () => {
     expect(host.classList.contains('ui-tab-line')).toBe(true);
     expect(host.classList.contains('ui-tab-pills')).toBe(false);
     expect(host.classList.contains('ui-tab-fluid')).toBe(true);
-    expect(hostFixture.componentInstance.tab().appearance()).toBe('line');
+    expect(hostFixture.componentInstance.tab().variant()).toBe('line');
     expect(hostFixture.componentInstance.tab().fluid()).toBe(true);
     expect(hostStyle.width).toBe('100%');
     expect(tabListStyle.width).toBe('100%');

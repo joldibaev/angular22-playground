@@ -2,8 +2,8 @@
   <div
     ngTabList
     class="ui-tab-list"
-    [class.ui-tab-list-pills]="appearance() === 'pills'"
-    [class.ui-tab-list-line]="appearance() === 'line'"
+    [class.ui-tab-list-pills]="variant() === 'pills'"
+    [class.ui-tab-list-line]="variant() === 'line'"
     [class.ui-tab-list-fluid]="fluid()"
     [selectedTab]="tabListSelectedTab()"
     (selectedTabChange)="onSelectedTabChange($event)"

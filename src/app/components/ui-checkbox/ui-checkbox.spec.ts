@@ -11,7 +11,7 @@ import { UiCheckbox } from './ui-checkbox';
       [formField]="formState.acceptTerms"
       label="Accept terms"
       description="Required for onboarding"
-      showError
+      withErrorMessage
     />
 
     <ui-checkbox [formField]="formState.archived" label="Archived" />
@@ -115,7 +115,7 @@ describe('UiCheckbox', () => {
     expect(hostFixture.componentInstance.formState.acceptTerms().value()).toBe(false);
   });
 
-  it('should show validation errors when showError is enabled', async () => {
+  it('should show validation errors when withErrorMessage is enabled', async () => {
     const hostFixture = await createSignalFormHostFixture();
     const checkbox = hostFixture.nativeElement.querySelector('ui-checkbox');
     const message = checkbox.querySelector('.ui-checkbox-error');

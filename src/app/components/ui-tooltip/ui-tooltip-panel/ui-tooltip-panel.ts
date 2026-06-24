@@ -1,4 +1,4 @@
-import { Component, input, ViewEncapsulation } from '@angular/core';
+import { booleanAttribute, Component, input, ViewEncapsulation } from '@angular/core';
 import { type UiPanelPlacement } from '../../../shared/arrow-panel';
 
 @Component({
@@ -16,12 +16,12 @@ import { type UiPanelPlacement } from '../../../shared/arrow-panel';
     '[class.arrow-panel--bottom]': "placement() === 'bottom'",
     '[class.arrow-panel--left]': "placement() === 'left'",
     '[class.arrow-panel--right]': "placement() === 'right'",
-    '[class.arrow-panel--fallback]': 'fallback()',
+    '[class.arrow-panel--fallback]': 'withFallback()',
   },
 })
 export class UiTooltipPanel {
   readonly text = input.required<string>();
   readonly tooltipId = input.required<string>();
   readonly placement = input<UiPanelPlacement>('top');
-  readonly fallback = input(true);
+  readonly withFallback = input(false, { transform: booleanAttribute });
 }

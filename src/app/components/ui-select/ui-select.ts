@@ -50,11 +50,11 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
   readonly popupElement = viewChild<ElementRef<HTMLElement>>('popupElement');
 
   value = model<UiSelectValue>('');
-  disabled = input(false);
+  disabled = input(false, { transform: booleanAttribute });
   label = input('Select');
   multi = input(false, { transform: booleanAttribute });
   placeholder = input('Select a label');
-  showError = input(false, { transform: booleanAttribute });
+  withErrorMessage = input(false, { transform: booleanAttribute });
   touch = output<void>();
 
   selectedValues = signal<string[]>([]);

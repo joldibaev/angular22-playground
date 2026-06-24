@@ -55,7 +55,7 @@ class SignalFormTestHost {
 @Component({
   imports: [FormField, UiAutocomplete, UiAutocompleteOption],
   template: `
-    <ui-autocomplete label="Status" showError [formField]="formState.status">
+    <ui-autocomplete label="Status" withErrorMessage [formField]="formState.status">
       <ui-autocomplete-option value="created">Created</ui-autocomplete-option>
       <ui-autocomplete-option value="approved">Approved</ui-autocomplete-option>
     </ui-autocomplete>

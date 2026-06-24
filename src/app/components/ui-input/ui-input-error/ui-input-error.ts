@@ -1,5 +1,6 @@
 import {
   afterRenderEffect,
+  booleanAttribute,
   Component,
   ElementRef,
   input,
@@ -16,7 +17,7 @@ import { syncPopover } from '../../../shared/sync-popover';
   encapsulation: ViewEncapsulation.None,
 })
 export class UiInputError {
-  readonly open = input(false);
+  readonly open = input(false, { transform: booleanAttribute });
   readonly messages = input<readonly string[]>([]);
   readonly panelId = input.required<string>();
   readonly anchorName = `--ui-input-error-${nextId()}`;

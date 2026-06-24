@@ -10,7 +10,7 @@ import { UiMenuTrigger } from './ui-menu-trigger/ui-menu-trigger';
 @Component({
   imports: [UiButton, UiMenu, UiMenuItem, UiMenuTrigger],
   template: `
-    <button uiButton uiMenuTrigger appearance="outline" [menu]="menu.menu()">
+    <button uiButton uiMenuTrigger variant="outline" [menu]="menu.menu()">
       Ticket actions
     </button>
 
@@ -29,14 +29,14 @@ class TestHost {
 @Component({
   imports: [UiButton, UiMenu, UiMenuItem, UiMenuTrigger],
   template: `
-    <button uiButton uiMenuTrigger appearance="outline" [menu]="commandMenu.menu()">
+    <button uiButton uiMenuTrigger variant="outline" [menu]="commandMenu.menu()">
       Command menu
     </button>
     <ui-menu #commandMenu>
       <ui-menu-item value="duplicate">Duplicate</ui-menu-item>
     </ui-menu>
 
-    <button uiButton uiMenuTrigger appearance="outline" [menu]="statusMenu.menu()">
+    <button uiButton uiMenuTrigger variant="outline" [menu]="statusMenu.menu()">
       Status menu
     </button>
     <ui-menu #statusMenu>

@@ -58,11 +58,13 @@ ui-input {
   width: 100%;
 }
 
-ui-input input {
+ui-input input,
+ui-input textarea {
   display: block;
 }
 
 ui-input input,
+ui-input textarea,
 ui-input [ngCombobox] {
   min-width: 0;
   width: 100%;
@@ -76,11 +78,20 @@ ui-input [ngCombobox] {
   outline: none;
 }
 
-ui-input input::placeholder {
+ui-input textarea {
+  min-height: 6rem;
+  height: auto;
+  padding-block: 0.75rem;
+  resize: vertical;
+}
+
+ui-input input::placeholder,
+ui-input textarea::placeholder {
   color: var(--ui-input-placeholder-color);
 }
 
 ui-input input:disabled,
+ui-input textarea:disabled,
 ui-input [ngCombobox][aria-disabled='true'] {
   cursor: default;
   opacity: var(--opacity-disabled);
@@ -91,6 +102,7 @@ ui-input [ngCombobox][aria-disabled='true'] {
    mouse click opens it without ever matching :focus-visible — [aria-expanded]
    (set by @angular/aria) is what marks it active while the popup is open. */
 ui-input input:focus-visible,
+ui-input textarea:focus-visible,
 ui-input [ngCombobox]:focus-visible,
 ui-input [ngCombobox]:has(:focus-visible),
 ui-input [ngCombobox][aria-expanded='true'] {
