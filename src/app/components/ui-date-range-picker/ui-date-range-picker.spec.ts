@@ -1,0 +1,283 @@
+import { Component, signal, viewChild } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
+import { GridCellHarness, GridHarness } from '@angular/aria/grid/testing';
+import { FormField, form } from '@angular/forms/signals';
+import { vi } from 'vitest';
+
+import { UiDateRangePicker } from './ui-date-range-picker';
+
+@Component({
+  imports: [UiDateRangePicker],
+  template: `
+    <ui-date-range-picker
+      label="Billing period"
+      [value]="range()"
+      (valueChange)="range.set($event)"
+      minDate="2026-06-05"
+      maxDate="2026-07-25"
+    />
+  `,
+})
+class TestHost {
+  readonly range = signal({ start: '2026-06-15', end: '2026-06-20' });
+  readonly rangePicker = viewChild.required(UiDateRangePicker);
+}
+
+@Component({
+  imports: [FormField, UiDateRangePicker],
+  template: `<ui-date-range-picker label="Report range" [formField]="formState.range" />`,
+})
+class SignalFormTestHost {
+  readonly model = signal({ range: { start: '2026-06-15', end: '2026-06-20' } });
+  readonly formState = form(this.model);
+  readonly rangePicker = viewChild.required(UiDateRangePicker);
+}
+
+async function createHostFixture(): Promise<ComponentFixture<TestHost>> {
+  const fixture = TestBed.createComponent(TestHost);
+
+  await fixture.whenStable();
+  await fixture.whenRenderingDone();
+
+  return fixture;
+}
+
+async function openRangePicker(fixture: ComponentFixture<TestHost | SignalFormTestHost>) {
+  fixture.componentInstance.rangePicker().open();
+
+  await fixture.whenStable();
+  await fixture.whenRenderingDone();
+}
+
+function getTrigger(fixture: ComponentFixture<unknown>): HTMLButtonElement {
+  return fixture.nativeElement.querySelector('.ui-date-range-trigger');
+}
+
+function getPanel(fixture: ComponentFixture<unknown>): HTMLElement | null {
+  return fixture.nativeElement.querySelector('.ui-date-range-panel');
+}
+
+describe('UiDateRangePicker', () => {
+  beforeAll(() => {
+    HTMLElement.prototype.scrollIntoView ??= () => {};
+  });
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [UiDateRangePicker],
+    }).compileComponents();
+  });
+
+  it('should create', async () => {
+    const fixture = TestBed.createComponent(UiDateRangePicker);
+
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance).toBeTruthy();
+  });
+
+  it('should render the selected range in the trigger', async () => {
+    const fixture = await createHostFixture();
+    const trigger = getTrigger(fixture);
+
+    expect(trigger.textContent).toContain('Jun 15, 2026 - Jun 20, 2026');
+    expect(trigger.getAttribute('aria-haspopup')).toBe('dialog');
+    expect(trigger.getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('should wire ui-input label to the button trigger', async () => {
+    const fixture = await createHostFixture();
+    const label = fixture.nativeElement.querySelector('.ui-input-label') as HTMLLabelElement;
+    const trigger = getTrigger(fixture);
+
+    expect(trigger.hasAttribute('uiInputControl')).toBe(true);
+    expect(label.textContent).toContain('Billing period');
+    expect(label.htmlFor).toBe(trigger.id);
+    expect(trigger.getAttribute('aria-labelledby')).toContain(label.id);
+  });
+
+  it('should open a native popover dialog containing two aria grids', async () => {
+    const fixture = await createHostFixture();
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+
+    await openRangePicker(fixture);
+
+    const panel = getPanel(fixture);
+    const grids = await loader.getAllHarnesses(GridHarness);
+
+    expect(panel?.getAttribute('popover')).toBe('auto');
+    expect(panel?.getAttribute('role')).toBe('dialog');
+    expect(panel?.getAttribute('aria-labelledby')).toBeTruthy();
+    expect(grids).toHaveLength(2);
+    expect(await grids[0].getCellTextByIndex()).toContainEqual(['1', '2', '3', '4', '5', '6', '7']);
+    expect(getTrigger(fixture).getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('should expose selected range edges through the Angular Aria grid harness', async () => {
+    const fixture = await createHostFixture();
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+
+    await openRangePicker(fixture);
+
+    const grids = await loader.getAllHarnesses(GridHarness);
+    const selected = [
+      ...(await grids[0].getCells({ selected: true })),
+      ...(await grids[1].getCells({ selected: true })),
+    ];
+
+    expect(selected).toHaveLength(2);
+  });
+
+  it('should mark both range edges with stable visual classes', async () => {
+    const fixture = await createHostFixture();
+
+    await openRangePicker(fixture);
+
+    const edges = [...fixture.nativeElement.querySelectorAll('.ui-date-range-edge')].map(
+      (edge) => edge.textContent.trim(),
+    );
+
+    expect(edges).toEqual(['15', '20']);
+  });
+
+  it('should keep day clicks in draft until apply', async () => {
+    const fixture = await createHostFixture();
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+
+    await openRangePicker(fixture);
+
+    await (await loader.getHarness(GridCellHarness.with({ text: '16' }))).click();
+    await (await loader.getHarness(GridCellHarness.with({ text: '18' }))).click();
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.rangePicker().value()).toEqual({
+      start: '2026-06-15',
+      end: '2026-06-20',
+    });
+
+    const apply = fixture.nativeElement.querySelector(
+      '.ui-date-range-action-accent',
+    ) as HTMLButtonElement;
+
+    apply.click();
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.range()).toEqual({
+      start: '2026-06-16',
+      end: '2026-06-18',
+    });
+    expect(getPanel(fixture)).toBeNull();
+  });
+
+  it('should write the applied range back to a signal form field', async () => {
+    const fixture = TestBed.createComponent(SignalFormTestHost);
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    await openRangePicker(fixture);
+
+    await (await loader.getHarness(GridCellHarness.with({ text: '16' }))).click();
+    await (await loader.getHarness(GridCellHarness.with({ text: '18' }))).click();
+
+    const apply = fixture.nativeElement.querySelector(
+      '.ui-date-range-action-accent',
+    ) as HTMLButtonElement;
+
+    apply.click();
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.model().range).toEqual({
+      start: '2026-06-16',
+      end: '2026-06-18',
+    });
+    expect(fixture.componentInstance.formState.range().value()).toEqual({
+      start: '2026-06-16',
+      end: '2026-06-18',
+    });
+  });
+
+  it('should mark dates outside min and max as disabled', async () => {
+    const fixture = await createHostFixture();
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+
+    await openRangePicker(fixture);
+
+    expect(
+      await loader.getHarness(GridCellHarness.with({ text: '1', disabled: true })),
+    ).toBeTruthy();
+    expect(
+      await loader.getHarness(GridCellHarness.with({ text: '15', disabled: false })),
+    ).toBeTruthy();
+  });
+
+  it('should configure the panel with css anchor positioning', async () => {
+    const fixture = await createHostFixture();
+
+    await openRangePicker(fixture);
+
+    const host = fixture.nativeElement.querySelector('ui-date-range-picker') as HTMLElement;
+    const trigger = getTrigger(fixture);
+    const panel = getPanel(fixture) as HTMLElement;
+    const hostStyle = getComputedStyle(host);
+    const triggerStyle = getComputedStyle(trigger);
+    const panelStyle = getComputedStyle(panel);
+
+    expect(hostStyle.anchorScope).toContain('--ui-date-range-trigger-');
+    expect(triggerStyle.anchorName).toContain('--ui-date-range-trigger-');
+    expect(panelStyle.position).toBe('fixed');
+    expect(panelStyle.positionAnchor).toContain('--ui-date-range-trigger-');
+    expect(panelStyle.top).toContain('anchor(bottom)');
+  });
+
+  it('should keep range fill continuous and animate panel entry', async () => {
+    const fixture = await createHostFixture();
+
+    await openRangePicker(fixture);
+
+    const grid = fixture.nativeElement.querySelector('.ui-date-range-grid') as HTMLElement;
+    const panel = getPanel(fixture) as HTMLElement;
+    const gridStyle = getComputedStyle(grid);
+    const panelStyle = getComputedStyle(panel);
+
+    expect(gridStyle.borderSpacing).toBe('0px');
+    expect(panelStyle.transitionProperty).toContain('opacity');
+    expect(panelStyle.transitionProperty).toContain('scale');
+  });
+
+  it('should clear the draft without committing until apply', async () => {
+    const fixture = await createHostFixture();
+
+    await openRangePicker(fixture);
+
+    const clear = fixture.nativeElement.querySelector('.ui-date-range-action') as HTMLButtonElement;
+    const apply = fixture.nativeElement.querySelector(
+      '.ui-date-range-action-accent',
+    ) as HTMLButtonElement;
+
+    clear.click();
+    await fixture.whenStable();
+
+    expect(apply.disabled).toBe(false);
+
+    apply.click();
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.range()).toEqual({ start: '', end: '' });
+  });
+
+  it('should not emit touch twice when a programmatic close is followed by native toggle', async () => {
+    const fixture = await createHostFixture();
+    const touch = vi.fn();
+
+    fixture.componentInstance.rangePicker().touch.subscribe(touch);
+
+    await openRangePicker(fixture);
+
+    fixture.componentInstance.rangePicker().cancel();
+    fixture.componentInstance.rangePicker().onPanelToggle({ newState: 'closed' } as ToggleEvent);
+
+    expect(touch).toHaveBeenCalledTimes(1);
+  });
+});

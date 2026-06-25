@@ -1,0 +1,367 @@
+:host {
+  --ui-date-range-background: var(--background-color-surface);
+  --ui-date-range-border-color: var(--border-color-default);
+  --ui-date-range-hover-background: color-mix(in srgb, var(--text-color-muted) 7%, transparent);
+  --ui-date-range-selected-background: var(--color-brand);
+  --ui-date-range-selected-color: contrast-color(var(--ui-date-range-selected-background));
+  --ui-date-range-preview-background: color-mix(in srgb, var(--color-brand) 16%, transparent);
+  --ui-date-range-muted-color: color-mix(in srgb, var(--text-color-muted) 68%, transparent);
+  --ui-date-range-shadow: 0 4px 6px -1px var(--shadow-color-default);
+  --ui-date-range-offset: 0.5rem;
+
+  display: block;
+  min-width: 0;
+  width: 100%;
+}
+
+.ui-date-range-trigger {
+  appearance: none;
+  display: flex;
+  position: relative;
+  align-items: center;
+  gap: 0.625rem;
+  width: 100%;
+  min-width: 0;
+  height: 2.5rem;
+  cursor: pointer;
+  border: 1px solid var(--ui-input-current-border-color, var(--border-color-default));
+  border-radius: 0.5rem;
+  background: var(--ui-input-background, var(--background-color-elevated));
+  color: contrast-color(var(--ui-input-background, var(--background-color-elevated)));
+  font: inherit;
+  padding: 0 0.75rem;
+  text-align: start;
+  outline: none;
+
+  &:disabled {
+    cursor: default;
+    opacity: var(--opacity-disabled);
+  }
+
+  &:focus-visible,
+  &[aria-expanded='true'] {
+    border-color: var(--ui-input-current-focus-visible-border-color, var(--color-brand));
+    outline: 3px solid
+      color-mix(
+        in srgb,
+        var(--ui-input-current-focus-visible-border-color, var(--color-brand)) 30%,
+        transparent
+      );
+  }
+
+  &[aria-expanded='true'] .ui-date-range-chevron {
+    rotate: 180deg;
+  }
+}
+
+.ui-date-range-trigger-icon,
+.ui-date-range-chevron {
+  flex: 0 0 auto;
+  color: var(--text-color-muted);
+  pointer-events: none;
+}
+
+.ui-date-range-chevron {
+  margin-left: auto;
+  transition: rotate var(--dur-quick) var(--ease-snappy);
+}
+
+.ui-date-range-trigger-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ui-date-range-placeholder {
+  color: var(
+    --ui-input-placeholder-color,
+    color-mix(in srgb, var(--text-color-muted) 50%, transparent)
+  );
+}
+
+.ui-date-range-panel {
+  display: flex;
+  position: fixed;
+  inset: auto;
+  top: calc(anchor(bottom) + var(--ui-date-range-offset));
+  left: anchor(left);
+  width: min(46rem, calc(100vw - 1rem));
+  max-height: min(38rem, calc(100vh - 1rem));
+  margin: 0;
+  border: 1px solid var(--ui-date-range-border-color);
+  border-radius: 0.5rem;
+  padding: 0;
+  overflow: clip;
+  background: var(--ui-date-range-background);
+  color: contrast-color(var(--ui-date-range-background));
+  box-shadow: var(--ui-date-range-shadow);
+  position-try-fallbacks: flip-block, flip-inline;
+  opacity: 0;
+  translate: 0 -0.25rem;
+  scale: 0.98;
+  transition-property: opacity, translate, scale;
+  transition-duration: var(--dur-fast);
+  transition-timing-function: var(--ease-snappy);
+
+  &:popover-open {
+    opacity: 1;
+    translate: 0;
+    scale: 1;
+  }
+}
+
+@starting-style {
+  .ui-date-range-panel:popover-open {
+    opacity: 0;
+    translate: 0 -0.25rem;
+    scale: 0.98;
+  }
+}
+
+.ui-date-range-presets {
+  display: flex;
+  flex: 0 0 9.5rem;
+  flex-direction: column;
+  gap: 0.25rem;
+  border-right: 1px solid var(--ui-date-range-border-color);
+  padding: 0.75rem;
+}
+
+.ui-date-range-preset,
+.ui-date-range-nav,
+.ui-date-range-action {
+  appearance: none;
+  cursor: pointer;
+  border: 0;
+  border-radius: 0.375rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  outline: none;
+
+  &:not(:disabled):hover {
+    background: var(--ui-date-range-hover-background);
+  }
+
+  &:focus-visible {
+    outline: 2px solid color-mix(in srgb, var(--color-brand) 50%, transparent);
+    outline-offset: -2px;
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: var(--opacity-disabled);
+  }
+}
+
+.ui-date-range-preset {
+  min-height: 2rem;
+  padding: 0 0.625rem;
+  text-align: start;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.ui-date-range-calendar {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
+.ui-date-range-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0.75rem 0.5rem;
+}
+
+.ui-date-range-title {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  flex: 1 1 auto;
+  gap: 0.75rem;
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 800;
+  line-height: 1.25rem;
+  text-align: center;
+}
+
+.ui-date-range-nav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+}
+
+.ui-date-range-grids {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  padding: 0.25rem 0.75rem 0.75rem;
+}
+
+.ui-date-range-grid {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.ui-date-range-weekday {
+  height: 2rem;
+  color: var(--ui-date-range-muted-color);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.ui-date-range-cell {
+  width: calc(100% / 7);
+  height: 2.25rem;
+  cursor: pointer;
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
+  outline: none;
+
+  &[aria-disabled='true'] {
+    cursor: default;
+
+    .ui-date-range-day {
+      color: var(--ui-date-range-muted-color);
+      opacity: 0.55;
+    }
+  }
+
+  &.ui-date-range-outside {
+    pointer-events: none;
+  }
+
+  &[aria-current='date'] .ui-date-range-day {
+    color: var(--color-brand);
+    font-weight: 900;
+  }
+
+  &.ui-date-range-in-range,
+  &.ui-date-range-pending-range {
+    background: var(--ui-date-range-preview-background);
+  }
+
+  &[data-edge='start'] {
+    background: linear-gradient(to right, transparent 50%, var(--ui-date-range-preview-background) 50%);
+  }
+
+  &[data-edge='end'] {
+    background: linear-gradient(to right, var(--ui-date-range-preview-background) 50%, transparent 50%);
+  }
+
+  &[data-edge='single'] {
+    background: transparent;
+  }
+
+  &.ui-date-range-edge .ui-date-range-day,
+  &.ui-date-range-pending-start .ui-date-range-day {
+    background: var(--ui-date-range-selected-background);
+    color: var(--ui-date-range-selected-color);
+    font-weight: 900;
+  }
+
+  &:not(.ui-date-range-edge, [aria-disabled='true'], .ui-date-range-pending-start):hover
+    .ui-date-range-day {
+    background: var(--ui-date-range-hover-background);
+  }
+
+  &:focus-visible .ui-date-range-day,
+  &[data-active='true'] .ui-date-range-day {
+    outline: 2px solid color-mix(in srgb, var(--color-brand) 50%, transparent);
+    outline-offset: -2px;
+  }
+}
+
+.ui-date-range-day {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.375rem;
+  margin: 0.0625rem;
+  font-size: 0.875rem;
+  pointer-events: none;
+}
+
+.ui-date-range-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-top: 1px solid var(--ui-date-range-border-color);
+  padding: 0.5rem 0.75rem;
+}
+
+.ui-date-range-draft {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  color: var(--text-color-muted);
+  font-size: 0.875rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  span {
+    color: inherit;
+    font-weight: 900;
+  }
+}
+
+.ui-date-range-actions {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.ui-date-range-action {
+  min-height: 2rem;
+  padding: 0 0.625rem;
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+
+.ui-date-range-action-accent {
+  background: var(--ui-date-range-selected-background);
+  color: var(--ui-date-range-selected-color);
+
+  &:not(:disabled):hover {
+    background: color-mix(in srgb, var(--ui-date-range-selected-background) 88%, black);
+  }
+}
+
+@media (max-width: 44rem) {
+  .ui-date-range-panel {
+    flex-direction: column;
+    width: min(23rem, calc(100vw - 1rem));
+    overflow: auto;
+  }
+
+  .ui-date-range-title,
+  .ui-date-range-grids {
+    grid-template-columns: 1fr;
+  }
+
+  .ui-date-range-title span:last-child,
+  .ui-date-range-grids table:last-child {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-date-range-panel,
+  .ui-date-range-chevron {
+    transition: none;
+  }
+}

@@ -8,6 +8,7 @@ import { ButtonShowcase } from './button-showcase/button-showcase';
 import { CardShowcase } from './card-showcase/card-showcase';
 import { CheckboxShowcase } from './checkbox-showcase/checkbox-showcase';
 import { ChipShowcase } from './chip-showcase/chip-showcase';
+import { DatepickerShowcase } from './datepicker-showcase/datepicker-showcase';
 import { DialogShowcase } from './dialog-showcase/dialog-showcase';
 import { DrawerShowcase } from './drawer-showcase/drawer-showcase';
 import { InputShowcase } from './input-showcase/input-showcase';
@@ -30,6 +31,7 @@ import { UiCard } from '../../components/ui-card/ui-card';
     CardShowcase,
     CheckboxShowcase,
     ChipShowcase,
+    DatepickerShowcase,
     DialogShowcase,
     DrawerShowcase,
     InputShowcase,
