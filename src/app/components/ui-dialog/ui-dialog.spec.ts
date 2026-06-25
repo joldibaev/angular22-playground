@@ -7,8 +7,12 @@ import { UiDialog } from './ui-dialog';
   template: `
     <ui-dialog
       [title]="title()"
-      size="lg"
+      caption="A short description"
+      role="alertdialog"
+      size="xl"
       dismiss="closerequest"
+      [ariaDescribedBy]="'external-description'"
+      [closeLabel]="'Dismiss invite dialog'"
       [withCloseButton]="withClose()"
       (openChange)="lastOpen.set($event)"
     >
@@ -43,12 +47,17 @@ describe('UiDialog', () => {
     return fixture.nativeElement.querySelector('dialog');
   }
 
-  it('should render the title, link it via aria-labelledby, and reflect size', () => {
+  it('should render accessible labels, description, role, and size', () => {
     const title = dialog().querySelector('.ui-dialog-title');
 
-    expect(dialog().classList.contains('ui-dialog-lg')).toBe(true);
+    expect(dialog().classList.contains('ui-dialog-xl')).toBe(true);
+    expect(dialog().getAttribute('role')).toBe('alertdialog');
     expect(title?.textContent?.trim()).toBe('Invite');
+    expect(dialog().querySelector('.ui-dialog-caption')?.textContent?.trim()).toBe(
+      'A short description',
+    );
     expect(dialog().getAttribute('aria-labelledby')).toBe(title?.id);
+    expect(dialog().getAttribute('aria-describedby')).toBe('external-description');
   });
 
   it('should generate a dialog id and map dismiss to the closedby attribute', () => {
@@ -61,6 +70,7 @@ describe('UiDialog', () => {
 
     expect(close.getAttribute('command')).toBe('close');
     expect(close.getAttribute('commandfor')).toBe(dialog().id);
+    expect(close.getAttribute('aria-label')).toBe('Dismiss invite dialog');
   });
 
   it('should hide the close button when withCloseButton is false', () => {

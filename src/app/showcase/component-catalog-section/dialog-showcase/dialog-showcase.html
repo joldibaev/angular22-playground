@@ -7,14 +7,26 @@
       </button>
     </div>
 
-    <ui-dialog #inviteDialog="uiDialog" title="Invite teammates">
+    <ui-dialog
+      #inviteDialog="uiDialog"
+      title="Invite teammates"
+      caption="Workspace access"
+      [ariaDescribedBy]="'invite-dialog-description'"
+    >
       <p class="max-w-prose text-sm text-secondary">
-        Send an invitation link to a teammate. They will get access to this workspace once they
-        accept.
+        <span id="invite-dialog-description">
+          Send an invitation link to a teammate. They will get access to this workspace once they
+          accept.
+        </span>
       </p>
 
       <div uiDialogFooter class="flex justify-end gap-2">
-        <button uiButton variant="outline" command="close" [attr.commandfor]="inviteDialog.dialogId()">
+        <button
+          uiButton
+          variant="outline"
+          command="close"
+          [attr.commandfor]="inviteDialog.dialogId()"
+        >
           Cancel
         </button>
         <button uiButton command="close" [attr.commandfor]="inviteDialog.dialogId()">
@@ -25,16 +37,125 @@
   </section>
 
   <section class="grid min-w-0 gap-3">
+    <h4 class="font-black">Nested dialog</h4>
+    <div class="flex flex-wrap items-center gap-3">
+      <button uiButton command="show-modal" [attr.commandfor]="parentDialog.dialogId()">
+        Open parent
+      </button>
+    </div>
+
+    <ui-dialog #parentDialog="uiDialog" title="Parent dialog" caption="Stacked native modals">
+      <p class="max-w-prose text-sm text-secondary">
+        The child dialog enters the browser top layer above this parent dialog and closes
+        independently.
+      </p>
+
+      <button uiButton command="show-modal" [attr.commandfor]="childDialog.dialogId()">
+        Open nested dialog
+      </button>
+
+      <ui-dialog
+        #childDialog="uiDialog"
+        title="Nested confirmation"
+        role="alertdialog"
+        size="sm"
+        dismiss="closerequest"
+        [ariaDescribedBy]="'nested-dialog-description'"
+      >
+        <p id="nested-dialog-description" class="max-w-prose text-sm text-secondary">
+          This alert dialog keeps the parent in place while asking for a focused confirmation.
+        </p>
+
+        <div uiDialogFooter class="flex justify-end gap-2">
+          <button
+            uiButton
+            variant="outline"
+            command="close"
+            [attr.commandfor]="childDialog.dialogId()"
+          >
+            Keep editing
+          </button>
+          <button uiButton command="close" [attr.commandfor]="childDialog.dialogId()">
+            Confirm
+          </button>
+        </div>
+      </ui-dialog>
+    </ui-dialog>
+  </section>
+
+  <section class="grid min-w-0 gap-3">
+    <h4 class="font-black">Scrollable content</h4>
+    <div class="flex flex-wrap items-center gap-3">
+      <button uiButton command="show-modal" [attr.commandfor]="scrollDialog.dialogId()">
+        Open long dialog
+      </button>
+    </div>
+
+    <ui-dialog #scrollDialog="uiDialog" title="Review changes" caption="Body scrolls inside">
+      <div class="grid max-w-prose gap-3 text-sm text-secondary">
+        @for (item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; track item) {
+          <p>
+            Change {{ item }} updates inventory, pricing, or checkout behavior. The header and
+            footer stay visible while the dialog body takes the scroll.
+          </p>
+        }
+      </div>
+
+      <div uiDialogFooter class="flex justify-end gap-2">
+        <button uiButton variant="outline" command="close" [attr.commandfor]="scrollDialog.dialogId()">
+          Close
+        </button>
+        <button uiButton command="close" [attr.commandfor]="scrollDialog.dialogId()">
+          Apply
+        </button>
+      </div>
+    </ui-dialog>
+  </section>
+
+  <section class="grid min-w-0 gap-3">
+    <h4 class="font-black">Large dialog</h4>
+    <div class="flex flex-wrap items-center gap-3">
+      <button uiButton command="show-modal" [attr.commandfor]="largeDialog.dialogId()">
+        Open large dialog
+      </button>
+    </div>
+
+    <ui-dialog #largeDialog="uiDialog" title="Product picker" size="xl">
+      <div class="grid gap-3 md:grid-cols-3">
+        @for (product of ['Barcode scanner', 'Receipt printer', 'Cash drawer', 'Scale']; track product) {
+          <article class="rounded-md border border-primary p-3">
+            <h5 class="font-bold">{{ product }}</h5>
+            <p class="mt-1 text-sm text-secondary">
+              Select this item and continue configuring the sale workflow.
+            </p>
+          </article>
+        }
+      </div>
+
+      <div uiDialogFooter class="flex justify-end gap-2">
+        <button uiButton variant="outline" command="close" [attr.commandfor]="largeDialog.dialogId()">
+          Cancel
+        </button>
+        <button uiButton command="close" [attr.commandfor]="largeDialog.dialogId()">
+          Add selected
+        </button>
+      </div>
+    </ui-dialog>
+  </section>
+
+  <section class="grid min-w-0 gap-3">
     <h4 class="font-black">Confirmation</h4>
     <div class="flex flex-wrap items-center gap-3">
-      <button uiButton variant="destructive" (click)="confirmOpen.set(true)">Delete item</button>
+      <button uiButton variant="destructive" command="show-modal" [attr.commandfor]="deleteConfirm.dialogId()">
+        Delete item
+      </button>
       @if (lastAction()) {
         <span class="text-sm font-bold text-secondary">Last action: {{ lastAction() }}</span>
       }
     </div>
 
     <ui-dialog-confirm
-      [(open)]="confirmOpen"
+      #deleteConfirm="uiDialogConfirm"
       tone="destructive"
       title="Delete item?"
       message="This permanently removes the item. This action cannot be undone."

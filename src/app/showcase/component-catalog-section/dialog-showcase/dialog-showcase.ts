@@ -9,7 +9,6 @@ import { UiDialogConfirm } from '../../../components/ui-dialog-confirm/ui-dialog
   templateUrl: './dialog-showcase.html',
 })
 export class DialogShowcase {
-  protected readonly confirmOpen = signal(false);
   protected readonly lastAction = signal('');
 
   protected onConfirm(): void {

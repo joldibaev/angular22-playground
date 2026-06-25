@@ -5,15 +5,26 @@
   [class.ui-dialog-sm]="size() === 'sm'"
   [class.ui-dialog-md]="size() === 'md'"
   [class.ui-dialog-lg]="size() === 'lg'"
+  [class.ui-dialog-xl]="size() === 'xl'"
+  [attr.role]="role()"
   [attr.closedby]="dismiss()"
   [attr.aria-labelledby]="title() ? titleId : null"
+  [attr.aria-describedby]="describedBy()"
   (toggle)="onToggle($event)"
 >
   <div class="ui-dialog-surface">
-    @if (title() || withCloseButton()) {
+    @if (title() || caption() || withCloseButton()) {
       <header class="ui-dialog-header">
-        @if (title()) {
-          <h2 [id]="titleId" class="ui-dialog-title">{{ title() }}</h2>
+        @if (title() || caption()) {
+          <div class="ui-dialog-title-group">
+            @if (title()) {
+              <h2 [id]="titleId" class="ui-dialog-title">{{ title() }}</h2>
+            }
+
+            @if (caption()) {
+              <p [id]="captionId" class="ui-dialog-caption">{{ caption() }}</p>
+            }
+          </div>
         } @else {
           <span></span>
         }
@@ -24,7 +35,7 @@
             class="ui-dialog-close"
             command="close"
             [attr.commandfor]="dialogId()"
-            aria-label="Close"
+            [attr.aria-label]="closeLabel()"
           >
             <ui-icon name="outline-x" decorative width="18" height="18" />
           </button>

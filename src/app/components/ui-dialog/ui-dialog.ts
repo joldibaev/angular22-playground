@@ -2,6 +2,7 @@ import {
   afterRenderEffect,
   booleanAttribute,
   Component,
+  computed,
   ElementRef,
   input,
   output,
@@ -10,7 +11,8 @@ import {
 import { UiIcon } from '../ui-icon/ui-icon';
 import { nextId } from '../../shared/unique-id';
 
-export type UiDialogSize = 'sm' | 'md' | 'lg';
+export type UiDialogRole = 'dialog' | 'alertdialog';
+export type UiDialogSize = 'sm' | 'md' | 'lg' | 'xl';
 /** Maps to the native `<dialog closedby>` light-dismiss attribute. */
 export type UiDialogDismiss = 'any' | 'closerequest' | 'none';
 
@@ -21,6 +23,10 @@ export type UiDialogDismiss = 'any' | 'closerequest' | 'none';
  * backdrop/Escape light dismiss. The browser handles the top layer, focus trap,
  * and `::backdrop`; this component only renders the surface and keeps the
  * optional `open` two-way binding in sync via the dialog's `toggle` event.
+ *
+ * Keep this component command/template driven. A general `dialog.open(Component)`
+ * service was rejected because dynamic hosts made animation cleanup, focus
+ * policy, SSR, tests, and nested dialogs drift back toward the old overlay model.
  */
 @Component({
   selector: 'ui-dialog',
@@ -34,8 +40,12 @@ export class UiDialog {
 
   readonly dialogId = input(`ui-dialog-${this.id}`);
   readonly title = input('');
+  readonly caption = input('');
+  readonly role = input<UiDialogRole>('dialog');
   readonly size = input<UiDialogSize>('md');
   readonly dismiss = input<UiDialogDismiss>('any');
+  readonly ariaDescribedBy = input<string | null>(null);
+  readonly closeLabel = input('Close');
   readonly withCloseButton = input(true, { transform: booleanAttribute });
   readonly open = input<boolean | undefined, unknown>(undefined, {
     transform: (value) => (value === undefined ? undefined : booleanAttribute(value)),
@@ -43,6 +53,10 @@ export class UiDialog {
   readonly openChange = output<boolean>();
 
   protected readonly titleId = `ui-dialog-title-${this.id}`;
+  protected readonly captionId = `ui-dialog-caption-${this.id}`;
+  protected readonly describedBy = computed(
+    () => this.ariaDescribedBy() ?? (this.caption() ? this.captionId : null),
+  );
   private readonly dialog = viewChild<ElementRef<HTMLDialogElement>>('dialog');
   private visible = false;
 

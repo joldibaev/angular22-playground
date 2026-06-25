@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UiDialogConfirm } from './ui-dialog-confirm';
 
@@ -6,21 +6,19 @@ import { UiDialogConfirm } from './ui-dialog-confirm';
   imports: [UiDialogConfirm],
   template: `
     <ui-dialog-confirm
-      [(open)]="open"
       tone="destructive"
       title="Delete?"
       message="Cannot be undone"
       confirmLabel="Delete"
       cancelLabel="Keep"
-      (confirm)="confirmed.set(confirmed() + 1)"
-      (cancel)="cancelled.set(cancelled() + 1)"
+      (confirm)="confirmed = confirmed + 1"
+      (cancel)="cancelled = cancelled + 1"
     />
   `,
 })
 class TestHost {
-  readonly open = signal(false);
-  readonly confirmed = signal(0);
-  readonly cancelled = signal(0);
+  confirmed = 0;
+  cancelled = 0;
 }
 
 describe('UiDialogConfirm', () => {
@@ -37,14 +35,27 @@ describe('UiDialogConfirm', () => {
     return Array.from(fixture.nativeElement.querySelectorAll('.ui-dialog-confirm-actions button'));
   }
 
-  it('should render the message and the custom action labels', () => {
+  it('should render the message, custom action labels, and alertdialog metadata', () => {
     const [cancel, confirm] = actionButtons();
+    const dialog = fixture.nativeElement.querySelector('dialog');
+    const message = fixture.nativeElement.querySelector('.ui-dialog-confirm-message');
 
-    expect(fixture.nativeElement.querySelector('.ui-dialog-confirm-message')?.textContent).toContain(
-      'Cannot be undone',
-    );
+    expect(message?.textContent).toContain('Cannot be undone');
+    expect(dialog?.getAttribute('role')).toBe('alertdialog');
+    expect(dialog?.getAttribute('aria-describedby')).toBe(message?.id);
     expect(cancel.textContent?.trim()).toBe('Keep');
     expect(confirm.textContent?.trim()).toBe('Delete');
+  });
+
+  it('should expose and forward a stable dialog id for command triggers', () => {
+    const dialog = fixture.nativeElement.querySelector('dialog');
+    const [cancel, confirm] = actionButtons();
+
+    expect(dialog.id).toMatch(/^ui-dialog-confirm-\d+$/);
+    expect(cancel.getAttribute('command')).toBe('close');
+    expect(cancel.getAttribute('commandfor')).toBe(dialog.id);
+    expect(confirm.getAttribute('command')).toBe('close');
+    expect(confirm.getAttribute('commandfor')).toBe(dialog.id);
   });
 
   it('should style the confirm action with the destructive tone', () => {
@@ -59,8 +70,7 @@ describe('UiDialogConfirm', () => {
     confirm.click();
     fixture.detectChanges();
 
-    expect(fixture.componentInstance.confirmed()).toBe(1);
-    expect(fixture.componentInstance.open()).toBe(false);
+    expect(fixture.componentInstance.confirmed).toBe(1);
   });
 
   it('should emit cancel and close on the cancel action', () => {
@@ -69,7 +79,6 @@ describe('UiDialogConfirm', () => {
     cancel.click();
     fixture.detectChanges();
 
-    expect(fixture.componentInstance.cancelled()).toBe(1);
-    expect(fixture.componentInstance.open()).toBe(false);
+    expect(fixture.componentInstance.cancelled).toBe(1);
   });
 });

@@ -1,13 +1,29 @@
-<ui-dialog [title]="title()" size="sm" [(open)]="open">
+<ui-dialog
+  [dialogId]="dialogId()"
+  [title]="title()"
+  role="alertdialog"
+  size="sm"
+  [ariaDescribedBy]="message() ? messageId : null"
+>
   @if (message()) {
-    <p class="ui-dialog-confirm-message">{{ message() }}</p>
+    <p [id]="messageId" class="ui-dialog-confirm-message">{{ message() }}</p>
   }
 
   <div uiDialogFooter class="ui-dialog-confirm-actions">
-    <button uiButton variant="outline" (click)="onCancel()">{{ cancelLabel() }}</button>
+    <button
+      uiButton
+      variant="outline"
+      command="close"
+      [attr.commandfor]="dialogId()"
+      (click)="onCancel()"
+    >
+      {{ cancelLabel() }}
+    </button>
     <button
       uiButton
       [variant]="tone() === 'destructive' ? 'destructive' : 'default'"
+      command="close"
+      [attr.commandfor]="dialogId()"
       (click)="onConfirm()"
     >
       {{ confirmLabel() }}

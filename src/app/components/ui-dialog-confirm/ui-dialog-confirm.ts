@@ -1,46 +1,41 @@
-import { Component, input, model, output } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { UiButton } from '../ui-button/ui-button';
 import { UiDialog } from '../ui-dialog/ui-dialog';
+import { nextId } from '../../shared/unique-id';
 
 export type UiDialogConfirmTone = 'default' | 'destructive';
 
 /**
- * Confirmation dialog: a thin layer over {@link UiDialog} that renders a message
- * plus confirm/cancel actions. Open it programmatically via the `open` two-way
- * binding or `show()`. Dismissing with Escape/backdrop just closes (no `confirm`
- * is emitted); the explicit buttons drive `confirm`/`cancel`.
+ * Declarative confirmation dialog. Open it with native `show-modal` commands
+ * and handle `confirm`/`cancel`; do not replace it with a programmatic
+ * `confirm()` service unless a future requirement cannot be modeled in HTML.
  */
 @Component({
   selector: 'ui-dialog-confirm',
+  exportAs: 'uiDialogConfirm',
   imports: [UiDialog, UiButton],
   templateUrl: './ui-dialog-confirm.html',
   styleUrl: './ui-dialog-confirm.css',
 })
 export class UiDialogConfirm {
+  private readonly id = nextId();
+
+  readonly dialogId = input(`ui-dialog-confirm-${this.id}`);
   readonly title = input('Are you sure?');
   readonly message = input('');
   readonly confirmLabel = input('Confirm');
   readonly cancelLabel = input('Cancel');
   readonly tone = input<UiDialogConfirmTone>('default');
-  readonly open = model(false);
   readonly confirm = output<void>();
   readonly cancel = output<void>();
 
-  show(): void {
-    this.open.set(true);
-  }
-
-  close(): void {
-    this.open.set(false);
-  }
+  protected readonly messageId = `ui-dialog-confirm-message-${this.id}`;
 
   protected onConfirm(): void {
     this.confirm.emit();
-    this.open.set(false);
   }
 
   protected onCancel(): void {
     this.cancel.emit();
-    this.open.set(false);
   }
 }

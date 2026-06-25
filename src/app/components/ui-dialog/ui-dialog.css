@@ -30,6 +30,10 @@
   --ui-dialog-width: 44rem;
 }
 
+.ui-dialog-xl {
+  --ui-dialog-width: 64rem;
+}
+
 .ui-dialog:open {
   opacity: 1;
   scale: 1;
@@ -77,16 +81,29 @@
 
 .ui-dialog-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
   padding: 1rem 1.25rem;
+}
+
+.ui-dialog-title-group {
+  min-inline-size: 0;
 }
 
 .ui-dialog-title {
   margin: 0;
   font-size: 1.0625rem;
   font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.ui-dialog-caption {
+  margin: 0.25rem 0 0;
+  color: var(--text-color-muted);
+  font-size: 0.875rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
 }
 
 .ui-dialog-close {
@@ -94,7 +111,9 @@
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
-  padding: 0.25rem;
+  inline-size: 2rem;
+  block-size: 2rem;
+  padding: 0;
   border: none;
   border-radius: 0.5rem;
   background: transparent;
@@ -123,6 +142,11 @@
 }
 
 .ui-dialog-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
   padding: 1rem 1.25rem;
   border-top: 1px solid color-mix(in srgb, var(--border-color-default) 50%, transparent);
 }
