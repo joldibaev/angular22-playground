@@ -1,0 +1,225 @@
+:host {
+  /* `allow-keywords` lets the expand/collapse animation interpolate to and from
+     `height: auto`, so a branch animates to its true content height instead of
+     the old grid `0fr → 1fr` workaround. It inherits to every group below. */
+  interpolate-size: allow-keywords;
+
+  --ui-tree-item-height: 2.25rem;
+  --ui-tree-radius: 0.625rem;
+  --ui-tree-gap: 0.25rem;
+
+  --ui-tree-guide-color: var(--border-color-strong);
+  --ui-tree-hover-background: color-mix(in srgb, var(--text-color-muted) 8%, transparent);
+  --ui-tree-selected-background: color-mix(in srgb, var(--color-brand) 12%, transparent);
+  --ui-tree-selected-color: var(--color-brand);
+  --ui-tree-focus-ring: color-mix(in srgb, var(--color-brand) 50%, transparent);
+
+  display: block;
+}
+
+.ui-tree {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-tree-gap);
+}
+
+.ui-tree-node {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-tree-gap);
+}
+
+/* ---------------------------------------------------------------------------
+   Row
+   --------------------------------------------------------------------------- */
+.ui-tree-item {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  min-height: var(--ui-tree-item-height);
+  padding-inline: 0.625rem;
+  border: 1px solid transparent;
+  border-radius: var(--ui-tree-radius);
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  text-align: start;
+  cursor: pointer;
+  outline: none;
+  transition: background-color var(--dur-quick) var(--ease-snappy);
+
+  &:hover,
+  &[data-active='true'] {
+    background: var(--ui-tree-hover-background);
+  }
+
+  /* Roving DOM focus (the tree's default focus mode) lands on the row itself,
+     so the keyboard ring is a plain inset outline — inset so a scrolled
+     container never clips it. */
+  &:focus-visible {
+    outline: 2px solid var(--ui-tree-focus-ring);
+    outline-offset: -2px;
+  }
+
+  /* Selection (explicit) and current (nav mode) are deliberately distinct: a
+     selected row gets a fill, a current row only a brand-colored label. */
+  &[aria-selected='true'] {
+    background: var(--ui-tree-selected-background);
+    color: var(--ui-tree-selected-color);
+  }
+
+  &[aria-current='page'] {
+    color: var(--color-brand);
+    font-weight: 700;
+  }
+
+  &[aria-disabled='true'] {
+    cursor: default;
+    pointer-events: none;
+    opacity: var(--opacity-disabled);
+  }
+}
+
+.ui-tree-twisty,
+.ui-tree-twisty-spacer {
+  flex: none;
+  inline-size: 1rem;
+  block-size: 1rem;
+}
+
+.ui-tree-twisty {
+  color: var(--text-color-muted);
+  /* Base glyph points down (expanded). Collapsed rotates it to point along the
+     inline axis; `:dir(rtl)` flips the rest direction so it always points
+     "into" the tree. */
+  rotate: -90deg;
+  transition: rotate var(--dur-quick) var(--ease-snappy);
+}
+
+:host(:dir(rtl)) .ui-tree-twisty {
+  rotate: 90deg;
+}
+
+.ui-tree-item[aria-expanded='true'] .ui-tree-twisty {
+  rotate: 0deg;
+}
+
+.ui-tree-icon {
+  flex: none;
+  color: var(--text-color-muted);
+}
+
+.ui-tree-label {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------------------------------------------------------------------------
+   Nested group + connector guides
+
+   The guides are drawn per child node (not as one trunk on the group) so the
+   vertical line can stop cleanly at the last child: each node paints a full-
+   height segment (`::before`) plus an elbow into its own row (`::after`), and
+   the last child drops the segment. Logical properties keep the whole guide
+   system mirrored under RTL.
+   --------------------------------------------------------------------------- */
+.ui-tree-group-host {
+  position: relative;
+  margin-inline-start: 0.625rem;
+  padding-inline-start: 0.5rem;
+}
+
+.ui-tree-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-tree-gap);
+  overflow: clip;
+}
+
+.ui-tree-group > .ui-tree-node {
+  padding-inline-start: 1rem;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    inset-block-start: calc(-1 * var(--ui-tree-gap));
+    inset-inline-start: 0;
+    border-inline-start: 1px solid var(--ui-tree-guide-color);
+  }
+
+  /* Sibling connector: spans the row plus both gaps to meet the next node. */
+  &::before {
+    inset-block-end: calc(-1 * var(--ui-tree-gap));
+  }
+
+  /* Elbow into this row, curving from the trunk to the row's vertical center. */
+  &::after {
+    block-size: calc(var(--ui-tree-item-height) / 2 + var(--ui-tree-gap));
+    inline-size: 0.875rem;
+    border-block-end: 1px solid var(--ui-tree-guide-color);
+    border-end-start-radius: 0.75rem;
+  }
+
+  &:last-child::before {
+    display: none;
+  }
+}
+
+:host(.ui-tree-flush) {
+  .ui-tree-group-host {
+    margin-inline-start: 0;
+    padding-inline-start: 0.75rem;
+  }
+
+  .ui-tree-group > .ui-tree-node {
+    padding-inline-start: 0;
+
+    &::before,
+    &::after {
+      display: none;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Expand / collapse. One keyframe drives both directions; the leave class plays
+   it reversed and shorter (close < open). `overflow: clip` on the group hides
+   the rows while the height collapses.
+   --------------------------------------------------------------------------- */
+@keyframes ui-tree-group-toggle {
+  from {
+    height: 0;
+    opacity: 0;
+  }
+}
+
+.ui-tree-group-enter {
+  animation: ui-tree-group-toggle var(--dur-fast) var(--ease-snappy);
+}
+
+.ui-tree-group-leave {
+  pointer-events: none;
+  animation: ui-tree-group-toggle var(--dur-quick) var(--ease-snappy) reverse;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-tree-item,
+  .ui-tree-twisty {
+    transition: none;
+  }
+
+  .ui-tree-group-enter,
+  .ui-tree-group-leave {
+    animation-duration: 1ms;
+  }
+}

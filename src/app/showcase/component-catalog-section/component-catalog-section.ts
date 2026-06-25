@@ -19,6 +19,7 @@ import { SelectShowcase } from './select-showcase/select-showcase';
 import { SwitchShowcase } from './switch-showcase/switch-showcase';
 import { TabsShowcase } from './tabs-showcase/tabs-showcase';
 import { TooltipShowcase } from './tooltip-showcase/tooltip-showcase';
+import { TreeShowcase } from './tree-showcase/tree-showcase';
 import { UiCard } from '../../components/ui-card/ui-card';
 
 @Component({
@@ -42,6 +43,7 @@ import { UiCard } from '../../components/ui-card/ui-card';
     SwitchShowcase,
     TabsShowcase,
     TooltipShowcase,
+    TreeShowcase,
     UiTab,
     UiTabItem,
     UiCard,

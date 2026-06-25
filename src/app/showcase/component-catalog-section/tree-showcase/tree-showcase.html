@@ -1,0 +1,20 @@
+<article class="grid min-w-0 gap-4 rounded-lg bg-primary p-5">
+  <ui-tree
+    class="max-w-sm"
+    aria-label="Project files"
+    [items]="files"
+    [multi]="true"
+    [(selected)]="selected"
+  />
+
+  <output
+    class="rounded-lg border border-default bg-surface p-3 text-sm font-bold text-secondary"
+    aria-label="Selected files"
+  >
+    @if (selected().length) {
+      {{ selected().join(', ') }}
+    } @else {
+      Nothing selected
+    }
+  </output>
+</article>
