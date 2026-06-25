@@ -22,6 +22,8 @@ export interface RangeDay {
   isInRange: boolean;
   isPendingStart: boolean;
   isPendingInRange: boolean;
+  isPendingRangeStart: boolean;
+  isPendingRangeEnd: boolean;
   isFocusTarget: boolean;
   disabled: boolean;
 }
@@ -113,6 +115,8 @@ export function buildRangeMonthGrid(
       isInRange: isBetween(inputDate, options.range),
       isPendingStart: options.pending.selectingEnd && inputDate === options.pending.start,
       isPendingInRange: pendingRange ? isBetween(inputDate, pendingRange, true) : false,
+      isPendingRangeStart: inputDate === pendingRange?.start,
+      isPendingRangeEnd: inputDate === pendingRange?.end,
       isFocusTarget: inputDate === focusTargetDate,
       disabled,
     };

@@ -141,6 +141,56 @@ describe('UiDateRangePicker', () => {
     expect(edges).toEqual(['15', '20']);
   });
 
+  it('should layer range preview fill behind selected days', async () => {
+    const fixture = await createHostFixture();
+
+    await openRangePicker(fixture);
+
+    const start = fixture.nativeElement.querySelector('[data-edge="start"]') as HTMLElement;
+    const day = start.querySelector('.ui-date-range-day') as HTMLElement;
+    const startStyle = getComputedStyle(start);
+    const dayStyle = getComputedStyle(day);
+
+    expect(startStyle.position).toBe('relative');
+    expect(dayStyle.position).toBe('relative');
+    expect(dayStyle.zIndex).toBe('1');
+  });
+
+  it('should not show range preview fill before an end date is previewed', async () => {
+    const fixture = await createHostFixture();
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+
+    await openRangePicker(fixture);
+
+    await (await loader.getHarness(GridCellHarness.with({ text: '9' }))).click();
+
+    const pendingStart = [...fixture.nativeElement.querySelectorAll('.ui-date-range-cell')].find(
+      (cell) => cell.textContent.trim() === '9',
+    ) as HTMLElement;
+
+    expect(pendingStart.classList.contains('ui-date-range-pending-range')).toBe(false);
+  });
+
+  it('should add edge metadata to pending range preview endpoints', async () => {
+    const fixture = await createHostFixture();
+    const loader = TestbedHarnessEnvironment.loader(fixture);
+
+    await openRangePicker(fixture);
+
+    await (await loader.getHarness(GridCellHarness.with({ text: '9' }))).click();
+
+    const cells = [...fixture.nativeElement.querySelectorAll('.ui-date-range-cell')];
+    const hoverCell = cells.find((cell) => cell.textContent.trim() === '12') as HTMLElement;
+
+    hoverCell.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
+    await fixture.whenStable();
+
+    const pendingStart = cells.find((cell) => cell.textContent.trim() === '9') as HTMLElement;
+
+    expect(pendingStart.getAttribute('data-edge')).toBe('start');
+    expect(hoverCell.getAttribute('data-edge')).toBe('end');
+  });
+
   it('should keep day clicks in draft until apply', async () => {
     const fixture = await createHostFixture();
     const loader = TestbedHarnessEnvironment.loader(fixture);
@@ -243,6 +293,7 @@ describe('UiDateRangePicker', () => {
 
     expect(gridStyle.borderSpacing).toBe('0px');
     expect(panelStyle.transitionProperty).toContain('opacity');
+    expect(panelStyle.transitionProperty).toContain('translate');
     expect(panelStyle.transitionProperty).toContain('scale');
   });
 

@@ -220,6 +220,7 @@
 }
 
 .ui-date-range-cell {
+  position: relative;
   width: calc(100% / 7);
   height: 2.25rem;
   cursor: pointer;
@@ -246,31 +247,50 @@
     font-weight: 900;
   }
 
-  &.ui-date-range-in-range,
-  &.ui-date-range-pending-range {
+  /* Range fill is a full-height track behind the day pills (z-index 1).
+     Endpoint cells fill only the inner half (from the pill centre): the cut
+     edge stays hidden under the opaque solid pill, and nothing shows on the
+     outer side of the range. */
+  &::before {
+    position: absolute;
+    inset: 0.0625rem 0;
+    content: '';
+  }
+
+  &.ui-date-range-in-range::before,
+  &.ui-date-range-pending-range::before {
     background: var(--ui-date-range-preview-background);
   }
 
-  &[data-edge='start'] {
-    background: linear-gradient(to right, transparent 50%, var(--ui-date-range-preview-background) 50%);
-  }
-
-  &[data-edge='end'] {
-    background: linear-gradient(to right, var(--ui-date-range-preview-background) 50%, transparent 50%);
-  }
-
-  &[data-edge='single'] {
+  &.ui-date-range-pending-start:not(.ui-date-range-pending-range)::before {
     background: transparent;
   }
 
-  &.ui-date-range-edge .ui-date-range-day,
+  &[data-edge='start']::before {
+    left: 50%;
+    background: var(--ui-date-range-preview-background);
+  }
+
+  &[data-edge='end']::before {
+    right: 50%;
+    background: var(--ui-date-range-preview-background);
+  }
+
+  &[data-edge='single']::before {
+    background: transparent;
+  }
+
+  /* Solid pill on every endpoint: committed edges and `single` carry a
+     `data-edge`; the lone pending start (before an end is hovered) has no
+     `data-edge` yet, so it is matched by its class. */
+  &[data-edge] .ui-date-range-day,
   &.ui-date-range-pending-start .ui-date-range-day {
     background: var(--ui-date-range-selected-background);
     color: var(--ui-date-range-selected-color);
     font-weight: 900;
   }
 
-  &:not(.ui-date-range-edge, [aria-disabled='true'], .ui-date-range-pending-start):hover
+  &:not(.ui-date-range-edge, [aria-disabled='true'], .ui-date-range-pending-start, [data-edge]):hover
     .ui-date-range-day {
     background: var(--ui-date-range-hover-background);
   }
@@ -284,6 +304,8 @@
 
 .ui-date-range-day {
   display: inline-flex;
+  position: relative;
+  z-index: 1;
   align-items: center;
   justify-content: center;
   width: 2.25rem;
@@ -348,6 +370,16 @@
     overflow: auto;
   }
 
+  /* Stacked layout: presets become a wrapping top row with auto height,
+     otherwise the column flex-basis pins them to a fixed height and the
+     buttons overflow onto the calendar. */
+  .ui-date-range-presets {
+    flex: 0 0 auto;
+    flex-flow: row wrap;
+    border-right: 0;
+    border-bottom: 1px solid var(--ui-date-range-border-color);
+  }
+
   .ui-date-range-title,
   .ui-date-range-grids {
     grid-template-columns: 1fr;
@@ -356,6 +388,21 @@
   .ui-date-range-title span:last-child,
   .ui-date-range-grids table:last-child {
     display: none;
+  }
+}
+
+/* Comfortable 44px tap targets on touch for the standalone controls. The day
+   cells stay 36px (still WCAG 2.5.8 AA): their height is tied to the range
+   fill geometry, so growing them would reopen the vertical fill overflow. */
+@media (pointer: coarse) {
+  .ui-date-range-nav {
+    width: 2.75rem;
+    height: 2.75rem;
+  }
+
+  .ui-date-range-preset,
+  .ui-date-range-action {
+    min-height: 2.75rem;
   }
 }
 

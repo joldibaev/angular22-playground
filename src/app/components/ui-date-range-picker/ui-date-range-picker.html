@@ -125,11 +125,12 @@
                       [attr.data-edge]="
                         !day.inCurrentMonth
                           ? null
-                          : day.isStart && day.isEnd
+                          : (day.isStart && day.isEnd) ||
+                              (day.isPendingRangeStart && day.isPendingRangeEnd)
                             ? 'single'
-                            : day.isStart
+                            : day.isStart || day.isPendingRangeStart
                               ? 'start'
-                              : day.isEnd
+                              : day.isEnd || day.isPendingRangeEnd
                                 ? 'end'
                                 : null
                       "
@@ -161,7 +162,7 @@
       </div>
 
       <footer class="ui-date-range-footer">
-        <p class="ui-date-range-draft">
+        <p class="ui-date-range-draft" aria-live="polite" aria-atomic="true">
           <span>Range</span>
           {{ draftDisplayValue() }}
         </p>
