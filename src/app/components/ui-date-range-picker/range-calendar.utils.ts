@@ -190,7 +190,16 @@ function pendingPreviewRange(pending: {
   hover: string;
   selectingEnd: boolean;
 }): UiDateRangeValue | null {
-  if (!pending.selectingEnd || !pending.start || !pending.hover) {
+  // A preview needs two distinct endpoints. When the hover lands back on the
+  // start (e.g. the start cell takes focus right after the first click, firing
+  // focusin), skip the degenerate one-day range so the lone start pill shows no
+  // trailing fill.
+  if (
+    !pending.selectingEnd ||
+    !pending.start ||
+    !pending.hover ||
+    pending.start === pending.hover
+  ) {
     return null;
   }
 
