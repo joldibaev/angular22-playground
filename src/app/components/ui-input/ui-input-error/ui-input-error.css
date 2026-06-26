@@ -5,10 +5,10 @@ ui-input-error {
 }
 
 .ui-input-error-panel {
-  --panel-background: var(--color-destructive);
-  --panel-text-color: contrast-color(var(--panel-background));
-  --panel-gap: 0.25rem;
-  --panel-shadow: 0 4px 6px -1px var(--shadow-color-default);
+  --ui-panel-background: var(--color-destructive);
+  --ui-panel-text-color: contrast-color(var(--ui-panel-background));
+  --ui-panel-gap: 0.25rem;
+  --ui-panel-shadow: 0 4px 6px -1px var(--shadow-color-default);
 }
 
 /* Validation messages are removed as soon as the field becomes valid. If the

@@ -1,7 +1,7 @@
 /* =============================================================================
    arrow-panel — shared "tethered panel with a directional arrow" primitive.
 
-   Consumers (tooltip, popover, input error) set the `--panel-*` custom
+   Consumers (tooltip, popover, input error) set the `--ui-panel-*` custom
    properties and add structural classes on the positioned element:
      `.arrow-panel` + a placement modifier (`--top`/`--bottom`/`--left`/`--right`)
      and optionally `--fallback`. The inner content element gets
@@ -12,22 +12,22 @@
    ============================================================================= */
 
 /* Token defaults live at zero specificity (`:where`) so a consumer can override
-   them with a plain type selector, e.g. `ui-tooltip-panel { --panel-*: … }`.
+   them with a plain type selector, e.g. `ui-tooltip-panel { --ui-panel-*: … }`.
    Declaring them on `.arrow-panel` (a class) would out-specify those overrides. */
 :where(.arrow-panel) {
-  --panel-radius: 0.5rem;
-  --panel-arrow-position: 50%;
-  --panel-arrow-width: 0.625rem;
-  --panel-arrow-height: 0.625rem;
-  --panel-offset: 0.5rem;
-  --panel-max-width: min(18rem, calc(100vw - 2rem));
-  --panel-padding-block: 0.625rem;
-  --panel-padding-inline: 0.75rem;
-  --panel-gap: 0;
-  --panel-background: Canvas;
-  --panel-text-color: inherit;
-  --panel-border-color: transparent;
-  --panel-shadow: none;
+  --ui-panel-radius: 0.5rem;
+  --ui-panel-arrow-position: 50%;
+  --ui-panel-arrow-width: 0.625rem;
+  --ui-panel-arrow-height: 0.625rem;
+  --ui-panel-offset: 0.5rem;
+  --ui-panel-max-width: min(18rem, calc(100vw - 2rem));
+  --ui-panel-padding-block: 0.625rem;
+  --ui-panel-padding-inline: 0.75rem;
+  --ui-panel-gap: 0;
+  --ui-panel-background: Canvas;
+  --ui-panel-text-color: inherit;
+  --ui-panel-border-color: transparent;
+  --ui-panel-shadow: none;
 }
 
 .arrow-panel {
@@ -36,7 +36,7 @@
   overflow: visible;
   z-index: 1000;
   width: max-content;
-  max-width: var(--panel-max-width);
+  max-width: var(--ui-panel-max-width);
   margin: 0;
   border: 0;
   padding: 0;
@@ -51,28 +51,28 @@
 .arrow-panel--top {
   position-area: block-start;
   justify-self: anchor-center;
-  margin-bottom: var(--panel-offset);
+  margin-bottom: var(--ui-panel-offset);
   transform-origin: center bottom;
 }
 
 .arrow-panel--bottom {
   position-area: block-end;
   justify-self: anchor-center;
-  margin-top: var(--panel-offset);
+  margin-top: var(--ui-panel-offset);
   transform-origin: center top;
 }
 
 .arrow-panel--left {
   position-area: inline-start;
   align-self: anchor-center;
-  margin-right: var(--panel-offset);
+  margin-right: var(--ui-panel-offset);
   transform-origin: right center;
 }
 
 .arrow-panel--right {
   position-area: inline-end;
   align-self: anchor-center;
-  margin-left: var(--panel-offset);
+  margin-left: var(--ui-panel-offset);
   transform-origin: left center;
 }
 
@@ -130,89 +130,89 @@
 .arrow-panel-surface {
   position: relative;
   display: grid;
-  gap: var(--panel-gap);
-  border: 1px solid var(--panel-border-color);
-  border-radius: var(--panel-radius);
-  padding: var(--panel-padding-block) var(--panel-padding-inline);
-  background: var(--panel-background);
-  color: var(--panel-text-color);
+  gap: var(--ui-panel-gap);
+  border: 1px solid var(--ui-panel-border-color);
+  border-radius: var(--ui-panel-radius);
+  padding: var(--ui-panel-padding-block) var(--ui-panel-padding-inline);
+  background: var(--ui-panel-background);
+  color: var(--ui-panel-text-color);
   font-size: 0.8125rem;
   font-weight: 700;
   line-height: 1.45;
   text-wrap: pretty;
-  box-shadow: var(--panel-shadow);
+  box-shadow: var(--ui-panel-shadow);
 }
 
 /* --- Arrow: integrated border-shape ----------------------------------------- */
 .arrow-panel--top .arrow-panel-surface {
-  padding-bottom: calc(var(--panel-padding-block) + var(--panel-arrow-height));
+  padding-bottom: calc(var(--ui-panel-padding-block) + var(--ui-panel-arrow-height));
   border-shape: shape(
-    from var(--panel-radius) 0,
-    hline to calc(100% - var(--panel-radius)),
-    curve to right var(--panel-radius) with right top,
-    vline to calc(100% - (var(--panel-radius) + var(--panel-arrow-height))),
-    curve to calc(100% - var(--panel-radius)) calc(100% - var(--panel-arrow-height)) with right calc(100% - var(--panel-arrow-height)),
-    hline to calc(var(--panel-arrow-position) + var(--panel-arrow-width)),
-    line by calc(var(--panel-arrow-width) * -1) var(--panel-arrow-height),
-    line by calc(var(--panel-arrow-width) * -1) calc(var(--panel-arrow-height) * -1),
-    hline to var(--panel-radius),
-    curve to left calc(100% - (var(--panel-radius) + var(--panel-arrow-height))) with left calc(100% - var(--panel-arrow-height)),
-    vline to var(--panel-radius),
-    curve to var(--panel-radius) top with left top
+    from var(--ui-panel-radius) 0,
+    hline to calc(100% - var(--ui-panel-radius)),
+    curve to right var(--ui-panel-radius) with right top,
+    vline to calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))),
+    curve to calc(100% - var(--ui-panel-radius)) calc(100% - var(--ui-panel-arrow-height)) with right calc(100% - var(--ui-panel-arrow-height)),
+    hline to calc(var(--ui-panel-arrow-position) + var(--ui-panel-arrow-width)),
+    line by calc(var(--ui-panel-arrow-width) * -1) var(--ui-panel-arrow-height),
+    line by calc(var(--ui-panel-arrow-width) * -1) calc(var(--ui-panel-arrow-height) * -1),
+    hline to var(--ui-panel-radius),
+    curve to left calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))) with left calc(100% - var(--ui-panel-arrow-height)),
+    vline to var(--ui-panel-radius),
+    curve to var(--ui-panel-radius) top with left top
   );
 }
 
 .arrow-panel--bottom .arrow-panel-surface {
-  padding-top: calc(var(--panel-padding-block) + var(--panel-arrow-height));
+  padding-top: calc(var(--ui-panel-padding-block) + var(--ui-panel-arrow-height));
   border-shape: shape(
-    from var(--panel-radius) var(--panel-arrow-height),
-    hline to calc(var(--panel-arrow-position) - var(--panel-arrow-width)),
-    line by var(--panel-arrow-width) calc(var(--panel-arrow-height) * -1),
-    line by var(--panel-arrow-width) var(--panel-arrow-height),
-    hline to calc(100% - var(--panel-radius)),
-    curve to right calc(var(--panel-arrow-height) + var(--panel-radius)) with right var(--panel-arrow-height),
-    vline to calc(100% - var(--panel-radius)),
-    curve to calc(100% - var(--panel-radius)) bottom with right bottom,
-    hline to var(--panel-radius),
-    curve to left calc(100% - var(--panel-radius)) with left bottom,
-    vline to calc(var(--panel-arrow-height) + var(--panel-radius)),
-    curve to var(--panel-radius) var(--panel-arrow-height) with left var(--panel-arrow-height)
+    from var(--ui-panel-radius) var(--ui-panel-arrow-height),
+    hline to calc(var(--ui-panel-arrow-position) - var(--ui-panel-arrow-width)),
+    line by var(--ui-panel-arrow-width) calc(var(--ui-panel-arrow-height) * -1),
+    line by var(--ui-panel-arrow-width) var(--ui-panel-arrow-height),
+    hline to calc(100% - var(--ui-panel-radius)),
+    curve to right calc(var(--ui-panel-arrow-height) + var(--ui-panel-radius)) with right var(--ui-panel-arrow-height),
+    vline to calc(100% - var(--ui-panel-radius)),
+    curve to calc(100% - var(--ui-panel-radius)) bottom with right bottom,
+    hline to var(--ui-panel-radius),
+    curve to left calc(100% - var(--ui-panel-radius)) with left bottom,
+    vline to calc(var(--ui-panel-arrow-height) + var(--ui-panel-radius)),
+    curve to var(--ui-panel-radius) var(--ui-panel-arrow-height) with left var(--ui-panel-arrow-height)
   );
 }
 
 .arrow-panel--left .arrow-panel-surface {
-  padding-right: calc(var(--panel-padding-inline) + var(--panel-arrow-height));
+  padding-right: calc(var(--ui-panel-padding-inline) + var(--ui-panel-arrow-height));
   border-shape: shape(
-    from var(--panel-radius) 0,
-    hline to calc(100% - (var(--panel-radius) + var(--panel-arrow-height))),
-    curve to calc(100% - var(--panel-arrow-height)) var(--panel-radius) with calc(100% - var(--panel-arrow-height)) top,
-    vline to calc(var(--panel-arrow-position) - var(--panel-arrow-width)),
-    line by var(--panel-arrow-height) var(--panel-arrow-width),
-    line by calc(var(--panel-arrow-height) * -1) var(--panel-arrow-width),
-    vline to calc(100% - var(--panel-radius)),
-    curve to calc(100% - (var(--panel-radius) + var(--panel-arrow-height))) bottom with calc(100% - var(--panel-arrow-height)) bottom,
-    hline to var(--panel-radius),
-    curve to left calc(100% - var(--panel-radius)) with left bottom,
-    vline to var(--panel-radius),
-    curve to var(--panel-radius) top with left top
+    from var(--ui-panel-radius) 0,
+    hline to calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))),
+    curve to calc(100% - var(--ui-panel-arrow-height)) var(--ui-panel-radius) with calc(100% - var(--ui-panel-arrow-height)) top,
+    vline to calc(var(--ui-panel-arrow-position) - var(--ui-panel-arrow-width)),
+    line by var(--ui-panel-arrow-height) var(--ui-panel-arrow-width),
+    line by calc(var(--ui-panel-arrow-height) * -1) var(--ui-panel-arrow-width),
+    vline to calc(100% - var(--ui-panel-radius)),
+    curve to calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))) bottom with calc(100% - var(--ui-panel-arrow-height)) bottom,
+    hline to var(--ui-panel-radius),
+    curve to left calc(100% - var(--ui-panel-radius)) with left bottom,
+    vline to var(--ui-panel-radius),
+    curve to var(--ui-panel-radius) top with left top
   );
 }
 
 .arrow-panel--right .arrow-panel-surface {
-  padding-left: calc(var(--panel-padding-inline) + var(--panel-arrow-height));
+  padding-left: calc(var(--ui-panel-padding-inline) + var(--ui-panel-arrow-height));
   border-shape: shape(
-    from calc(var(--panel-radius) + var(--panel-arrow-height)) 0,
-    hline to calc(100% - var(--panel-radius)),
-    curve to right var(--panel-radius) with right top,
-    vline to calc(100% - var(--panel-radius)),
-    curve to calc(100% - var(--panel-radius)) bottom with right bottom,
-    hline to calc(var(--panel-radius) + var(--panel-arrow-height)),
-    curve to var(--panel-arrow-height) calc(100% - var(--panel-radius)) with var(--panel-arrow-height) bottom,
-    vline to calc(var(--panel-arrow-position) + var(--panel-arrow-width)),
-    line by calc(var(--panel-arrow-height) * -1) calc(var(--panel-arrow-width) * -1),
-    line by var(--panel-arrow-height) calc(var(--panel-arrow-width) * -1),
-    vline to var(--panel-radius),
-    curve to calc(var(--panel-radius) + var(--panel-arrow-height)) top with var(--panel-arrow-height) top
+    from calc(var(--ui-panel-radius) + var(--ui-panel-arrow-height)) 0,
+    hline to calc(100% - var(--ui-panel-radius)),
+    curve to right var(--ui-panel-radius) with right top,
+    vline to calc(100% - var(--ui-panel-radius)),
+    curve to calc(100% - var(--ui-panel-radius)) bottom with right bottom,
+    hline to calc(var(--ui-panel-radius) + var(--ui-panel-arrow-height)),
+    curve to var(--ui-panel-arrow-height) calc(100% - var(--ui-panel-radius)) with var(--ui-panel-arrow-height) bottom,
+    vline to calc(var(--ui-panel-arrow-position) + var(--ui-panel-arrow-width)),
+    line by calc(var(--ui-panel-arrow-height) * -1) calc(var(--ui-panel-arrow-width) * -1),
+    line by var(--ui-panel-arrow-height) calc(var(--ui-panel-arrow-width) * -1),
+    vline to var(--ui-panel-radius),
+    curve to calc(var(--ui-panel-radius) + var(--ui-panel-arrow-height)) top with var(--ui-panel-arrow-height) top
   );
 }
 
@@ -220,41 +220,41 @@
 @container anchored(fallback: flip-block) {
   /* A top-placed panel that flipped now sits below the anchor → arrow points up. */
   .arrow-panel--top .arrow-panel-surface {
-    padding-top: calc(var(--panel-padding-block) + var(--panel-arrow-height));
-    padding-bottom: var(--panel-padding-block);
+    padding-top: calc(var(--ui-panel-padding-block) + var(--ui-panel-arrow-height));
+    padding-bottom: var(--ui-panel-padding-block);
     border-shape: shape(
-      from var(--panel-radius) var(--panel-arrow-height),
-      hline to calc(var(--panel-arrow-position) - var(--panel-arrow-width)),
-      line by var(--panel-arrow-width) calc(var(--panel-arrow-height) * -1),
-      line by var(--panel-arrow-width) var(--panel-arrow-height),
-      hline to calc(100% - var(--panel-radius)),
-      curve to right calc(var(--panel-arrow-height) + var(--panel-radius)) with right var(--panel-arrow-height),
-      vline to calc(100% - var(--panel-radius)),
-      curve to calc(100% - var(--panel-radius)) bottom with right bottom,
-      hline to var(--panel-radius),
-      curve to left calc(100% - var(--panel-radius)) with left bottom,
-      vline to calc(var(--panel-arrow-height) + var(--panel-radius)),
-      curve to var(--panel-radius) var(--panel-arrow-height) with left var(--panel-arrow-height)
+      from var(--ui-panel-radius) var(--ui-panel-arrow-height),
+      hline to calc(var(--ui-panel-arrow-position) - var(--ui-panel-arrow-width)),
+      line by var(--ui-panel-arrow-width) calc(var(--ui-panel-arrow-height) * -1),
+      line by var(--ui-panel-arrow-width) var(--ui-panel-arrow-height),
+      hline to calc(100% - var(--ui-panel-radius)),
+      curve to right calc(var(--ui-panel-arrow-height) + var(--ui-panel-radius)) with right var(--ui-panel-arrow-height),
+      vline to calc(100% - var(--ui-panel-radius)),
+      curve to calc(100% - var(--ui-panel-radius)) bottom with right bottom,
+      hline to var(--ui-panel-radius),
+      curve to left calc(100% - var(--ui-panel-radius)) with left bottom,
+      vline to calc(var(--ui-panel-arrow-height) + var(--ui-panel-radius)),
+      curve to var(--ui-panel-radius) var(--ui-panel-arrow-height) with left var(--ui-panel-arrow-height)
     );
   }
 
   /* A bottom-placed panel that flipped now sits above → arrow points down. */
   .arrow-panel--bottom .arrow-panel-surface {
-    padding-top: var(--panel-padding-block);
-    padding-bottom: calc(var(--panel-padding-block) + var(--panel-arrow-height));
+    padding-top: var(--ui-panel-padding-block);
+    padding-bottom: calc(var(--ui-panel-padding-block) + var(--ui-panel-arrow-height));
     border-shape: shape(
-      from var(--panel-radius) 0,
-      hline to calc(100% - var(--panel-radius)),
-      curve to right var(--panel-radius) with right top,
-      vline to calc(100% - (var(--panel-radius) + var(--panel-arrow-height))),
-      curve to calc(100% - var(--panel-radius)) calc(100% - var(--panel-arrow-height)) with right calc(100% - var(--panel-arrow-height)),
-      hline to calc(var(--panel-arrow-position) + var(--panel-arrow-width)),
-      line by calc(var(--panel-arrow-width) * -1) var(--panel-arrow-height),
-      line by calc(var(--panel-arrow-width) * -1) calc(var(--panel-arrow-height) * -1),
-      hline to var(--panel-radius),
-      curve to left calc(100% - (var(--panel-radius) + var(--panel-arrow-height))) with left calc(100% - var(--panel-arrow-height)),
-      vline to var(--panel-radius),
-      curve to var(--panel-radius) top with left top
+      from var(--ui-panel-radius) 0,
+      hline to calc(100% - var(--ui-panel-radius)),
+      curve to right var(--ui-panel-radius) with right top,
+      vline to calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))),
+      curve to calc(100% - var(--ui-panel-radius)) calc(100% - var(--ui-panel-arrow-height)) with right calc(100% - var(--ui-panel-arrow-height)),
+      hline to calc(var(--ui-panel-arrow-position) + var(--ui-panel-arrow-width)),
+      line by calc(var(--ui-panel-arrow-width) * -1) var(--ui-panel-arrow-height),
+      line by calc(var(--ui-panel-arrow-width) * -1) calc(var(--ui-panel-arrow-height) * -1),
+      hline to var(--ui-panel-radius),
+      curve to left calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))) with left calc(100% - var(--ui-panel-arrow-height)),
+      vline to var(--ui-panel-radius),
+      curve to var(--ui-panel-radius) top with left top
     );
   }
 }
@@ -262,41 +262,41 @@
 @container anchored(fallback: flip-inline) {
   /* A left-placed panel that flipped now sits to the right → arrow points left. */
   .arrow-panel--left .arrow-panel-surface {
-    padding-right: var(--panel-padding-inline);
-    padding-left: calc(var(--panel-padding-inline) + var(--panel-arrow-height));
+    padding-right: var(--ui-panel-padding-inline);
+    padding-left: calc(var(--ui-panel-padding-inline) + var(--ui-panel-arrow-height));
     border-shape: shape(
-      from calc(var(--panel-radius) + var(--panel-arrow-height)) 0,
-      hline to calc(100% - var(--panel-radius)),
-      curve to right var(--panel-radius) with right top,
-      vline to calc(100% - var(--panel-radius)),
-      curve to calc(100% - var(--panel-radius)) bottom with right bottom,
-      hline to calc(var(--panel-radius) + var(--panel-arrow-height)),
-      curve to var(--panel-arrow-height) calc(100% - var(--panel-radius)) with var(--panel-arrow-height) bottom,
-      vline to calc(var(--panel-arrow-position) + var(--panel-arrow-width)),
-      line by calc(var(--panel-arrow-height) * -1) calc(var(--panel-arrow-width) * -1),
-      line by var(--panel-arrow-height) calc(var(--panel-arrow-width) * -1),
-      vline to var(--panel-radius),
-      curve to calc(var(--panel-radius) + var(--panel-arrow-height)) top with var(--panel-arrow-height) top
+      from calc(var(--ui-panel-radius) + var(--ui-panel-arrow-height)) 0,
+      hline to calc(100% - var(--ui-panel-radius)),
+      curve to right var(--ui-panel-radius) with right top,
+      vline to calc(100% - var(--ui-panel-radius)),
+      curve to calc(100% - var(--ui-panel-radius)) bottom with right bottom,
+      hline to calc(var(--ui-panel-radius) + var(--ui-panel-arrow-height)),
+      curve to var(--ui-panel-arrow-height) calc(100% - var(--ui-panel-radius)) with var(--ui-panel-arrow-height) bottom,
+      vline to calc(var(--ui-panel-arrow-position) + var(--ui-panel-arrow-width)),
+      line by calc(var(--ui-panel-arrow-height) * -1) calc(var(--ui-panel-arrow-width) * -1),
+      line by var(--ui-panel-arrow-height) calc(var(--ui-panel-arrow-width) * -1),
+      vline to var(--ui-panel-radius),
+      curve to calc(var(--ui-panel-radius) + var(--ui-panel-arrow-height)) top with var(--ui-panel-arrow-height) top
     );
   }
 
   /* A right-placed panel that flipped now sits to the left → arrow points right. */
   .arrow-panel--right .arrow-panel-surface {
-    padding-right: calc(var(--panel-padding-inline) + var(--panel-arrow-height));
-    padding-left: var(--panel-padding-inline);
+    padding-right: calc(var(--ui-panel-padding-inline) + var(--ui-panel-arrow-height));
+    padding-left: var(--ui-panel-padding-inline);
     border-shape: shape(
-      from var(--panel-radius) 0,
-      hline to calc(100% - (var(--panel-radius) + var(--panel-arrow-height))),
-      curve to calc(100% - var(--panel-arrow-height)) var(--panel-radius) with calc(100% - var(--panel-arrow-height)) top,
-      vline to calc(var(--panel-arrow-position) - var(--panel-arrow-width)),
-      line by var(--panel-arrow-height) var(--panel-arrow-width),
-      line by calc(var(--panel-arrow-height) * -1) var(--panel-arrow-width),
-      vline to calc(100% - var(--panel-radius)),
-      curve to calc(100% - (var(--panel-radius) + var(--panel-arrow-height))) bottom with calc(100% - var(--panel-arrow-height)) bottom,
-      hline to var(--panel-radius),
-      curve to left calc(100% - var(--panel-radius)) with left bottom,
-      vline to var(--panel-radius),
-      curve to var(--panel-radius) top with left top
+      from var(--ui-panel-radius) 0,
+      hline to calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))),
+      curve to calc(100% - var(--ui-panel-arrow-height)) var(--ui-panel-radius) with calc(100% - var(--ui-panel-arrow-height)) top,
+      vline to calc(var(--ui-panel-arrow-position) - var(--ui-panel-arrow-width)),
+      line by var(--ui-panel-arrow-height) var(--ui-panel-arrow-width),
+      line by calc(var(--ui-panel-arrow-height) * -1) var(--ui-panel-arrow-width),
+      vline to calc(100% - var(--ui-panel-radius)),
+      curve to calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))) bottom with calc(100% - var(--ui-panel-arrow-height)) bottom,
+      hline to var(--ui-panel-radius),
+      curve to left calc(100% - var(--ui-panel-radius)) with left bottom,
+      vline to var(--ui-panel-radius),
+      curve to var(--ui-panel-radius) top with left top
     );
   }
 }

@@ -80,10 +80,10 @@
 }
 
 /* The checkmark is a real SVG path so it can draw itself on, rather than a
-   background-image that can only fade. --check-length is a hair over the path's
+   background-image that can only fade. --ui-checkbox-check-length is a hair over the path's
    geometric length so dashoffset fully hides it when unchecked. */
 .ui-checkbox-mark {
-  --check-length: 14;
+  --ui-checkbox-check-length: 14;
 
   width: 0.75rem;
   height: 0.75rem;
@@ -96,8 +96,8 @@
 }
 
 .ui-checkbox-mark-check {
-  stroke-dasharray: var(--check-length);
-  stroke-dashoffset: var(--check-length); /* hidden: nothing drawn yet */
+  stroke-dasharray: var(--ui-checkbox-check-length);
+  stroke-dashoffset: var(--ui-checkbox-check-length); /* hidden: nothing drawn yet */
   transition: stroke-dashoffset var(--dur-fast) var(--ease-snappy);
 }
 

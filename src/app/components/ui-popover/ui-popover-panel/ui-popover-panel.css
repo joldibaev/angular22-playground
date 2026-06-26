@@ -10,11 +10,11 @@
 }
 
 ui-popover-panel {
-  --panel-background: Canvas;
-  --panel-text-color: contrast-color(var(--panel-background));
-  --panel-gap: 0.25rem;
-  --panel-shadow: 0 4px 6px -1px var(--shadow-color-default);
-  --panel-max-width: var(--ui-popover-max-width, min(18rem, calc(100vw - 2rem)));
+  --ui-panel-background: Canvas;
+  --ui-panel-text-color: contrast-color(var(--ui-panel-background));
+  --ui-panel-gap: 0.25rem;
+  --ui-panel-shadow: 0 4px 6px -1px var(--shadow-color-default);
+  --ui-panel-max-width: var(--ui-popover-max-width, min(18rem, calc(100vw - 2rem)));
 }
 
 .ui-popover-panel-surface span {

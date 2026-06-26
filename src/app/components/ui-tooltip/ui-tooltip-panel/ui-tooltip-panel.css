@@ -1,7 +1,7 @@
 ui-tooltip-panel {
-  --panel-background: CanvasText;
-  --panel-border-color: color-mix(in srgb, var(--panel-background) 82%, var(--border-color-strong));
-  --panel-text-color: Canvas;
+  --ui-panel-background: CanvasText;
+  --ui-panel-border-color: color-mix(in srgb, var(--ui-panel-background) 82%, var(--border-color-strong));
+  --ui-panel-text-color: Canvas;
 }
 
 .ui-tooltip-trigger[interestfor] {

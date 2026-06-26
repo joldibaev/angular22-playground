@@ -27,11 +27,11 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  border: 1px solid var(--normal-border);
+  border: 1px solid var(--ui-sonner-border-color);
   border-radius: 0.5rem;
-  background: var(--normal-bg);
-  color: var(--normal-text);
-  box-shadow: var(--toast-shadow);
+  background: var(--ui-sonner-background);
+  color: var(--ui-sonner-color);
+  box-shadow: var(--ui-sonner-shadow);
   padding: 1rem;
   font-size: 0.875rem;
   line-height: 1.35;
@@ -43,7 +43,7 @@
 
 [data-sonner-toast]:focus-visible {
   box-shadow:
-    var(--toast-shadow),
+    var(--ui-sonner-shadow),
     0 0 0 3px color-mix(in srgb, var(--color-brand) 30%, transparent);
 }
 
@@ -95,8 +95,8 @@
   --ui-button-radius: 0.25rem;
 
   flex-shrink: 0;
-  margin-left: var(--toast-button-margin-left, auto);
-  margin-right: var(--toast-button-margin-right, 0);
+  margin-left: var(--ui-sonner-button-margin-left, auto);
+  margin-right: var(--ui-sonner-button-margin-right, 0);
   font-size: 0.75rem;
 }
 
@@ -112,12 +112,12 @@
 
   position: absolute;
   inset-block-start: 0.75rem;
-  left: var(--toast-close-button-left, 0);
-  right: var(--toast-close-button-right, auto);
+  left: var(--ui-sonner-close-button-left, 0);
+  right: var(--ui-sonner-close-button-right, auto);
   z-index: 1;
   width: 1.5rem;
   height: 1.5rem;
-  transform: var(--toast-close-button-transform, translate(-35%, -35%));
+  transform: var(--ui-sonner-close-button-transform, translate(-35%, -35%));
 }
 
 [data-sonner-toast] [data-close-button]::before {
