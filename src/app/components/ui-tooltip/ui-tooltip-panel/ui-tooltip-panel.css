@@ -1,6 +1,6 @@
 ui-tooltip-panel {
   --ui-panel-background: CanvasText;
-  --ui-panel-border-color: color-mix(in srgb, var(--ui-panel-background) 82%, var(--border-color-strong));
+  --ui-panel-border-color: color-mix(in oklab, var(--ui-panel-background) 82%, var(--border-color-strong));
   --ui-panel-text-color: Canvas;
 }
 
@@ -14,5 +14,5 @@ ui-tooltip-panel {
 }
 
 .ui-tooltip-trigger:not(.ui-button):focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--color-brand) 30%, transparent);
+  outline: 3px solid var(--focus-ring-color);
 }

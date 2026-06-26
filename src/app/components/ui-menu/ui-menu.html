@@ -6,18 +6,20 @@
   (itemSelected)="onItemSelected($event)"
   (toggle)="onPopoverToggle($event)"
 >
-  <ng-template ngMenuContent>
-    @for (item of items(); track item) {
-      <div
-        ngMenuItem
-        class="ui-popup-option ui-menu-item"
-        [value]="item.value()"
-        [disabled]="item.disabled()"
-      >
-        <ng-container [ngTemplateOutlet]="item.template()" />
-      </div>
-    }
-  </ng-template>
+  <div class="ui-popup-box">
+    <ng-template ngMenuContent>
+      @for (item of items(); track item) {
+        <div
+          ngMenuItem
+          class="ui-popup-option ui-menu-item"
+          [value]="item.value()"
+          [disabled]="item.disabled()"
+        >
+          <ng-container [ngTemplateOutlet]="item.template()" />
+        </div>
+      }
+    </ng-template>
+  </div>
 </div>
 
 <ng-content />

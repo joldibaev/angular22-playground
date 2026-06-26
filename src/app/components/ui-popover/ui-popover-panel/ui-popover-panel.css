@@ -6,7 +6,7 @@
 }
 
 .ui-popover-trigger:not(.ui-button):focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--color-brand) 30%, transparent);
+  outline: 3px solid var(--focus-ring-color);
 }
 
 ui-popover-panel {

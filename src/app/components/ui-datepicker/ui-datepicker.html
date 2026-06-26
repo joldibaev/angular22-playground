@@ -39,85 +39,87 @@
     (toggle)="onPanelToggle($event)"
     (keydown)="onPanelKeydown($event)"
   >
-    <header class="ui-datepicker-header">
-      <button
-        type="button"
-        class="ui-datepicker-nav"
-        aria-label="Previous month"
-        [disabled]="!canGoPrev()"
-        (click)="previousMonth()"
+    <div class="ui-datepicker-box">
+      <header class="ui-datepicker-header">
+        <button
+          type="button"
+          class="ui-datepicker-nav"
+          aria-label="Previous month"
+          [disabled]="!canGoPrev()"
+          (click)="previousMonth()"
+        >
+          <ui-icon name="outline-chevron-left" />
+        </button>
+
+        <h2 [id]="titleId" class="ui-datepicker-title" aria-live="polite">{{ monthLabel() }}</h2>
+
+        <button
+          type="button"
+          class="ui-datepicker-nav"
+          aria-label="Next month"
+          [disabled]="!canGoNext()"
+          (click)="nextMonth()"
+        >
+          <ui-icon name="outline-chevron-right" />
+        </button>
+      </header>
+
+      <table
+        ngGrid
+        #grid="ngGrid"
+        class="ui-datepicker-grid"
+        colWrap="continuous"
+        rowWrap="nowrap"
+        selectionMode="explicit"
+        [enableSelection]="true"
+        [softDisabled]="false"
+        [attr.aria-label]="monthLabel()"
       >
-        <ui-icon name="outline-chevron-left" />
-      </button>
-
-      <h2 [id]="titleId" class="ui-datepicker-title" aria-live="polite">{{ monthLabel() }}</h2>
-
-      <button
-        type="button"
-        class="ui-datepicker-nav"
-        aria-label="Next month"
-        [disabled]="!canGoNext()"
-        (click)="nextMonth()"
-      >
-        <ui-icon name="outline-chevron-right" />
-      </button>
-    </header>
-
-    <table
-      ngGrid
-      #grid="ngGrid"
-      class="ui-datepicker-grid"
-      colWrap="continuous"
-      rowWrap="nowrap"
-      selectionMode="explicit"
-      [enableSelection]="true"
-      [softDisabled]="false"
-      [attr.aria-label]="monthLabel()"
-    >
-      <thead>
-        <tr>
-          @for (weekday of weekdays; track weekday) {
-            <th scope="col" class="ui-datepicker-weekday">{{ weekday }}</th>
-          }
-        </tr>
-      </thead>
-
-      <tbody>
-        @for (week of weeks(); track week[0].date) {
-          <tr ngGridRow>
-            @for (day of week; track day.date) {
-              <td
-                ngGridCell
-                class="ui-datepicker-cell"
-                [disabled]="day.disabled || !day.inCurrentMonth"
-                [selected]="day.isSelected"
-                [attr.data-focus-target]="day.isFocusTarget ? 'true' : null"
-                [attr.aria-current]="day.isToday && day.inCurrentMonth ? 'date' : null"
-                [attr.aria-label]="day.inCurrentMonth ? day.ariaLabel : null"
-                [attr.aria-hidden]="day.inCurrentMonth ? null : 'true'"
-                [class.ui-datepicker-outside]="!day.inCurrentMonth"
-                (selectedChange)="onDaySelectionChange(day, $event)"
-              >
-                @if (day.inCurrentMonth) {
-                  <span class="ui-datepicker-day">{{ day.day }}</span>
-                }
-              </td>
+        <thead>
+          <tr>
+            @for (weekday of weekdays; track weekday) {
+              <th scope="col" class="ui-datepicker-weekday">{{ weekday }}</th>
             }
           </tr>
-        }
-      </tbody>
-    </table>
+        </thead>
 
-    <footer class="ui-datepicker-footer">
-      <button type="button" class="ui-datepicker-action" (click)="reset()">Clear</button>
-      <button
-        type="button"
-        class="ui-datepicker-action ui-datepicker-action-accent"
-        [disabled]="!isTodayAllowed()"
-        (click)="setToday()"
-      >
-        Today
-      </button>
-    </footer>
+        <tbody>
+          @for (week of weeks(); track week[0].date) {
+            <tr ngGridRow>
+              @for (day of week; track day.date) {
+                <td
+                  ngGridCell
+                  class="ui-datepicker-cell"
+                  [disabled]="day.disabled || !day.inCurrentMonth"
+                  [selected]="day.isSelected"
+                  [attr.data-focus-target]="day.isFocusTarget ? 'true' : null"
+                  [attr.aria-current]="day.isToday && day.inCurrentMonth ? 'date' : null"
+                  [attr.aria-label]="day.inCurrentMonth ? day.ariaLabel : null"
+                  [attr.aria-hidden]="day.inCurrentMonth ? null : 'true'"
+                  [class.ui-datepicker-outside]="!day.inCurrentMonth"
+                  (selectedChange)="onDaySelectionChange(day, $event)"
+                >
+                  @if (day.inCurrentMonth) {
+                    <span class="ui-datepicker-day">{{ day.day }}</span>
+                  }
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <footer class="ui-datepicker-footer">
+        <button type="button" class="ui-datepicker-action" (click)="reset()">Clear</button>
+        <button
+          type="button"
+          class="ui-datepicker-action ui-datepicker-action-accent"
+          [disabled]="!isTodayAllowed()"
+          (click)="setToday()"
+        >
+          Today
+        </button>
+      </footer>
+    </div>
   </div>
 }

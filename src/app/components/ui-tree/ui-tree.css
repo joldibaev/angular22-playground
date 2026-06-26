@@ -9,10 +9,10 @@
   --ui-tree-gap: 0.25rem;
 
   --ui-tree-guide-color: var(--border-color-strong);
-  --ui-tree-hover-background: color-mix(in srgb, var(--text-color-muted) 8%, transparent);
-  --ui-tree-selected-background: color-mix(in srgb, var(--color-brand) 12%, transparent);
+  --ui-tree-hover-background: color-mix(in oklab, var(--text-color-muted) 8%, transparent);
+  --ui-tree-selected-background: color-mix(in oklab, var(--color-brand) 12%, transparent);
   --ui-tree-selected-color: var(--color-brand);
-  --ui-tree-focus-ring: color-mix(in srgb, var(--color-brand) 50%, transparent);
+  --ui-tree-focus-ring: var(--focus-ring-color);
 
   display: block;
 }
@@ -52,11 +52,18 @@
   text-align: start;
   cursor: pointer;
   outline: none;
-  transition: background-color var(--dur-quick) var(--ease-snappy);
+  transition:
+    background-color var(--dur-quick) var(--ease-snappy),
+    scale var(--dur-press) var(--ease-snappy);
 
   &:hover,
   &[data-active='true'] {
     background: var(--ui-tree-hover-background);
+  }
+
+  /* Press feedback: the row dips under the press. */
+  &:not([aria-disabled='true']):active {
+    scale: var(--press-scale);
   }
 
   /* Roving DOM focus (the tree's default focus mode) lands on the row itself,
@@ -213,9 +220,18 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ui-tree-item,
+  /* Item keeps its hover-background fade; drop the twisty rotation and the
+     row press-scale. */
   .ui-tree-twisty {
     transition: none;
+  }
+
+  .ui-tree-item {
+    transition: background-color var(--dur-quick) var(--ease-snappy);
+
+    &:not([aria-disabled='true']):active {
+      scale: none;
+    }
   }
 
   .ui-tree-group-enter,

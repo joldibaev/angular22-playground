@@ -5,7 +5,7 @@
   --ui-tab-indicator-background: var(--background-color-elevated);
   --ui-tab-indicator-shadow: 0 1px 3px var(--shadow-color-default);
   --ui-tab-item-color: var(--text-color-muted);
-  --ui-tab-item-hover-color: color-mix(in srgb, var(--ui-tab-item-color) 45%, contrast-color(Canvas));
+  --ui-tab-item-hover-color: color-mix(in oklab, var(--ui-tab-item-color) 45%, contrast-color(Canvas));
   --ui-tab-item-active-color: contrast-color(var(--ui-tab-indicator-background));
   --ui-tab-line-color: contrast-color(Canvas);
   --ui-tab-line-indicator-size: 2px;
@@ -118,6 +118,11 @@
   /* Tracks the muted → active color shift so the label change stays in step
      with the sliding indicator instead of snapping. */
   transition: color var(--dur-fast) var(--ease-snappy);
+
+  /* No `:active` press-scale here, by decision: the tab's feedback is the
+     sliding pill indicator gliding to the trigger, and a scale dip would fight
+     that motion (the indicator is anchored to the trigger's box). Pressable
+     surfaces elsewhere take a scale dip; tabs deliberately do not. */
 }
 
 /* Hover affordance for the tabs you can move to (not the active or disabled
@@ -164,7 +169,7 @@
 
 .ui-tab-trigger:focus-visible {
   outline: 3px solid
-    color-mix(in srgb, var(--ui-tab-focus-visible-border-color) 30%, transparent);
+    color-mix(in oklab, var(--ui-tab-focus-visible-border-color) 50%, transparent);
 }
 
 .ui-tab-indicator {
@@ -182,8 +187,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ui-tab-indicator,
-  .ui-tab-trigger {
+  /* Drop the sliding pill; the trigger's color fade stays. */
+  .ui-tab-indicator {
     transition: none;
   }
 }
@@ -256,7 +261,7 @@
 
   &:focus-visible {
     outline: 3px solid
-      color-mix(in srgb, var(--ui-tab-focus-visible-border-color) 30%, transparent);
+      color-mix(in oklab, var(--ui-tab-focus-visible-border-color) 50%, transparent);
   }
 
   &[inert] {

@@ -18,14 +18,21 @@
   --ui-popup-option-min-height: 2.25rem;
   --ui-popup-option-padding: 0 1rem;
   --ui-popup-option-hover-background: color-mix(
-    in srgb,
+    in oklab,
     var(--text-color-muted) 5%,
     transparent
   );
   --ui-popup-option-selected-color: var(--color-brand);
-  --ui-popup-option-selected-background: color-mix(in srgb, var(--color-brand) 5%, transparent);
+  --ui-popup-option-selected-background: color-mix(in oklab, var(--color-brand) 5%, transparent);
 }
 
+/* The popover is a transparent positioning SHELL; the visible card is the inner
+   `.ui-popup-box`. The split exists so the open/close scale can be origin-aware
+   on an upward flip: an anchored element cannot react to its OWN `position-try`
+   fallback — `@container anchored()` only styles descendants — so the box (a
+   descendant of the shell) is what flips its `transform-origin` to keep growing
+   from the trigger edge. Mirrors the arrow-panel shell + surface architecture.
+   Do not collapse the box back into the surface, or the flip below breaks. */
 .ui-popup-surface {
   position: fixed;
   inset: auto;
@@ -33,22 +40,36 @@
   left: anchor(left);
   width: var(--ui-popup-width);
   min-width: var(--ui-popup-min-width);
+  margin: 0;
+  border: 0;
+  padding: 0;
+  background: transparent;
+  container-type: anchored;
+  position-try-fallbacks: flip-block;
+
+  /* The discrete top-layer transitions stay on the popover itself so the shell
+     lingers in the top layer long enough for the box to animate out. */
+  transition:
+    overlay var(--dur-quick) var(--ease-snappy) allow-discrete,
+    display var(--dur-quick) var(--ease-snappy) allow-discrete;
+}
+
+.ui-popup-box {
   box-sizing: border-box;
   max-height: var(--ui-popup-max-height);
-  margin: 0;
+  overflow: var(--ui-popup-overflow);
   border: var(--ui-popup-border-width) solid var(--ui-popup-border-color);
   border-radius: var(--ui-popup-radius);
   padding: var(--ui-popup-padding);
-  overflow: var(--ui-popup-overflow);
   background: var(--ui-popup-background);
   box-shadow: var(--ui-popup-shadow);
   font-size: var(--ui-popup-font-size);
-  position-try-fallbacks: flip-block;
 
-  /* Origin-aware open/close: the surface grows from the trigger edge. The close
-     transition lives on this base state, the open transition on :popover-open —
-     so close (quick) is faster than open (fast), the system getting out of the
-     way without dawdling. */
+  /* Origin-aware open/close: the box grows from the trigger edge. The close
+     transition lives on this base state, the open transition on the
+     `:popover-open` rule below — so close (quick) is faster than open (fast),
+     the system getting out of the way without dawdling. Default placement is
+     below the trigger, so the box grows down from its top edge. */
   transform-origin: top center;
   opacity: 0;
   translate: 0 -0.25rem;
@@ -56,28 +77,41 @@
   transition:
     opacity var(--dur-quick) var(--ease-snappy),
     translate var(--dur-quick) var(--ease-snappy),
-    scale var(--dur-quick) var(--ease-snappy),
-    overlay var(--dur-quick) var(--ease-snappy) allow-discrete,
-    display var(--dur-quick) var(--ease-snappy) allow-discrete;
+    scale var(--dur-quick) var(--ease-snappy);
 }
 
-.ui-popup-surface:popover-open {
+.ui-popup-surface:popover-open .ui-popup-box {
   opacity: 1;
   translate: 0;
   scale: 1;
   transition:
     opacity var(--dur-fast) var(--ease-snappy),
     translate var(--dur-fast) var(--ease-snappy),
-    scale var(--dur-fast) var(--ease-snappy),
-    overlay var(--dur-fast) var(--ease-snappy) allow-discrete,
-    display var(--dur-fast) var(--ease-snappy) allow-discrete;
+    scale var(--dur-fast) var(--ease-snappy);
 }
 
 @starting-style {
-  .ui-popup-surface:popover-open {
+  .ui-popup-surface:popover-open .ui-popup-box {
     opacity: 0;
     translate: 0 -0.25rem;
     scale: 0.98;
+  }
+}
+
+/* Upward flip (`flip-block` fallback active): the popover now sits ABOVE the
+   trigger, so the box must grow from its bottom edge and slide up into place.
+   Placed after the default rules so it wins the cascade while the flip is
+   active. */
+@container anchored(fallback: flip-block) {
+  .ui-popup-box {
+    transform-origin: bottom center;
+    translate: 0 0.25rem;
+  }
+
+  @starting-style {
+    .ui-popup-surface:popover-open .ui-popup-box {
+      translate: 0 0.25rem;
+    }
   }
 }
 
@@ -91,8 +125,20 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ui-popup-surface {
+  /* Keep the opacity fade; drop the translate/scale movement (both placements). */
+  .ui-popup-box {
+    translate: none;
+    scale: none;
+    transition: opacity var(--dur-fast) var(--ease-snappy);
+  }
+
+  /* Drop the option press-scale; the hover/selected fills still convey state. */
+  .ui-popup-option {
     transition: none;
+
+    &:not([aria-disabled='true']):active {
+      scale: none;
+    }
   }
 }
 
@@ -117,7 +163,7 @@
   height: 100%;
   overflow: auto;
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--text-color-muted) 32%, transparent) transparent;
+  scrollbar-color: color-mix(in oklab, var(--text-color-muted) 32%, transparent) transparent;
 }
 
 @supports (animation-timeline: scroll()) {
@@ -159,6 +205,13 @@
   border-radius: var(--ui-popup-option-radius);
   padding: var(--ui-popup-option-padding);
   cursor: pointer;
+  transition: scale var(--dur-press) var(--ease-snappy);
+
+  /* Press feedback: the row gives a little under the press, so a tap registers
+     even before the selection commits. */
+  &:not([aria-disabled='true']):active {
+    scale: var(--press-scale);
+  }
 
   /* ---------------------------------------------------------------------------
      Option states — shared by all three popups (menu, select, autocomplete).
@@ -183,7 +236,7 @@
   &:not([aria-disabled='true']):is(:focus-visible, [data-active='true']) {
     outline: 2px solid
       color-mix(
-        in srgb,
+        in oklab,
         var(--ui-popup-option-focus-visible-border-color, var(--color-brand)) 50%,
         transparent
       );

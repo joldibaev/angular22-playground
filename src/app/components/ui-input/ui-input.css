@@ -8,7 +8,7 @@ ui-input {
   --ui-input-invalid-focus-visible-border-color: var(--ui-input-invalid-border-color);
 
   --ui-input-background: var(--background-color-elevated);
-  --ui-input-placeholder-color: color-mix(in srgb, var(--text-color-muted) 50%, transparent);
+  --ui-input-placeholder-color: color-mix(in oklab, var(--text-color-muted) 50%, transparent);
 
   --ui-input-disabled-reason-color: var(--text-color-muted);
 
@@ -108,7 +108,7 @@ ui-input [ngCombobox]:has(:focus-visible),
 ui-input [ngCombobox][aria-expanded='true'] {
   border-color: var(--ui-input-current-focus-visible-border-color);
   outline: 3px solid
-    color-mix(in srgb, var(--ui-input-current-focus-visible-border-color) 30%, transparent);
+    color-mix(in oklab, var(--ui-input-current-focus-visible-border-color) 50%, transparent);
 }
 
 .ui-input-disabled-reason {

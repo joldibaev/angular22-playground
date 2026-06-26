@@ -35,12 +35,12 @@
 }
 
 :host(.ui-badge-brand) {
-  --ui-badge-background: color-mix(in srgb, var(--color-brand) 18%, Canvas);
-  --ui-badge-color: color-mix(in srgb, var(--color-brand) 78%, CanvasText);
+  --ui-badge-background: color-mix(in oklab, var(--color-brand) 18%, Canvas);
+  --ui-badge-color: color-mix(in oklab, var(--color-brand) 78%, CanvasText);
 }
 
 :host(.ui-badge-destructive) {
-  --ui-badge-background: color-mix(in srgb, var(--color-destructive) 14%, Canvas);
+  --ui-badge-background: color-mix(in oklab, var(--color-destructive) 14%, Canvas);
   --ui-badge-color: var(--color-destructive);
 }
 

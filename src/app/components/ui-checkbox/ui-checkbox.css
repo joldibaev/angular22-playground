@@ -125,7 +125,7 @@
 .ui-checkbox-input:focus-visible + .ui-checkbox-control {
   border-color: var(--ui-checkbox-current-focus-visible-border-color);
   outline: 3px solid
-    color-mix(in srgb, var(--ui-checkbox-current-focus-visible-border-color) 30%, transparent);
+    color-mix(in oklab, var(--ui-checkbox-current-focus-visible-border-color) 50%, transparent);
 }
 
 .ui-checkbox-input:disabled + .ui-checkbox-control {
@@ -176,7 +176,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ui-checkbox-control,
+  /* Keep the color/box-shadow fades; drop the press scale and the mark draw. */
+  .ui-checkbox-control {
+    transition:
+      background-color var(--dur-fast) var(--ease-snappy),
+      border-color var(--dur-fast) var(--ease-snappy),
+      box-shadow var(--dur-fast) var(--ease-snappy);
+  }
+
   .ui-checkbox-mark-check,
   .ui-checkbox-mark-dash {
     transition: none;

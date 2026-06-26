@@ -124,7 +124,7 @@
 .ui-switch-input:focus-visible + .ui-switch-control {
   border-color: var(--ui-switch-current-focus-visible-border-color);
   outline: 3px solid
-    color-mix(in srgb, var(--ui-switch-current-focus-visible-border-color) 30%, transparent);
+    color-mix(in oklab, var(--ui-switch-current-focus-visible-border-color) 50%, transparent);
 }
 
 .ui-switch-copy {
@@ -171,12 +171,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ui-switch-control,
+  /* Track is pure color, so it keeps its fade. The thumb keeps color but drops
+     the slide/stretch. */
   .ui-switch-thumb {
-    transition: none;
+    transition:
+      background-color var(--dur-fast) var(--ease-snappy),
+      box-shadow var(--dur-fast) var(--ease-snappy);
   }
 
-  /* No press-stretch without motion. */
   .ui-switch-label:active .ui-switch-thumb {
     width: var(--ui-switch-thumb-size);
   }

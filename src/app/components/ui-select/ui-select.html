@@ -30,57 +30,59 @@
       popover="auto"
       (toggle)="onPopupToggle($event)"
     >
-      <!-- focusMode="activedescendant": DOM focus stays on the listbox and
-           @angular/aria marks the active option with [data-active]. The option
-           hover/focus/selected styling lives in ui-popup.css (.ui-popup-option)
-           and keys off [data-active] / [aria-selected] — do not add manual
-           focus, tabindex, or keyboard handling to the options. -->
-      <div
-        #listbox="ngListbox"
-        ngListbox
-        class="ui-popup-list"
-        [multi]="multi()"
-        ngComboboxWidget
-        [tabindex]="-1"
-        focusMode="activedescendant"
-        selectionMode="explicit"
-        [disabled]="disabled()"
-        [(value)]="selectedValues"
-        [activeDescendant]="listbox.activeDescendant()"
-        (click)="onListboxClick($event)"
-        (keydown.enter)="onCommit()"
-        (keydown.space)="onCommit()"
-      >
-        @for (item of renderItems(); track item.group ?? item.option) {
-          @if (item.group; as group) {
-            <div class="ui-select-group" role="group" [attr.aria-label]="group.label()">
-              <div class="ui-select-group-label" aria-hidden="true">{{ group.label() }}</div>
+      <div class="ui-popup-box">
+        <!-- focusMode="activedescendant": DOM focus stays on the listbox and
+             @angular/aria marks the active option with [data-active]. The option
+             hover/focus/selected styling lives in ui-popup.css (.ui-popup-option)
+             and keys off [data-active] / [aria-selected] — do not add manual
+             focus, tabindex, or keyboard handling to the options. -->
+        <div
+          #listbox="ngListbox"
+          ngListbox
+          class="ui-popup-list"
+          [multi]="multi()"
+          ngComboboxWidget
+          [tabindex]="-1"
+          focusMode="activedescendant"
+          selectionMode="explicit"
+          [disabled]="disabled()"
+          [(value)]="selectedValues"
+          [activeDescendant]="listbox.activeDescendant()"
+          (click)="onListboxClick($event)"
+          (keydown.enter)="onCommit()"
+          (keydown.space)="onCommit()"
+        >
+          @for (item of renderItems(); track item.group ?? item.option) {
+            @if (item.group; as group) {
+              <div class="ui-select-group" role="group" [attr.aria-label]="group.label()">
+                <div class="ui-select-group-label" aria-hidden="true">{{ group.label() }}</div>
 
-              @for (option of group.options(); track option) {
-                <div
-                  ngOption
-                  #ngOption="ngOption"
-                  class="ui-popup-option"
-                  [value]="option.value()"
-                >
-                  <span class="flex-1">{{ option.label() }}</span>
+                @for (option of group.options(); track option) {
+                  <div
+                    ngOption
+                    #ngOption="ngOption"
+                    class="ui-popup-option"
+                    [value]="option.value()"
+                  >
+                    <span class="flex-1">{{ option.label() }}</span>
 
-                  @if (ngOption.selected()) {
-                    <ui-icon name="outline-check" class="icon-check" />
-                  }
-                </div>
-              }
-            </div>
-          } @else if (item.option; as option) {
-            <div ngOption #ngOption="ngOption" class="ui-popup-option" [value]="option.value()">
-              <span class="flex-1">{{ option.label() }}</span>
+                    @if (ngOption.selected()) {
+                      <ui-icon name="outline-check" class="icon-check" />
+                    }
+                  </div>
+                }
+              </div>
+            } @else if (item.option; as option) {
+              <div ngOption #ngOption="ngOption" class="ui-popup-option" [value]="option.value()">
+                <span class="flex-1">{{ option.label() }}</span>
 
-              @if (ngOption.selected()) {
-                <ui-icon name="outline-check" class="icon-check" />
-              }
-            </div>
+                @if (ngOption.selected()) {
+                  <ui-icon name="outline-check" class="icon-check" />
+                }
+              </div>
+            }
           }
-        }
+        </div>
       </div>
     </div>
   </ng-template>

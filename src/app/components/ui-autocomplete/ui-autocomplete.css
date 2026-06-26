@@ -1,5 +1,5 @@
 :host {
-  --ui-autocomplete-empty-state-color: color-mix(in srgb, var(--text-color-muted) 60%, transparent);
+  --ui-autocomplete-empty-state-color: color-mix(in oklab, var(--text-color-muted) 60%, transparent);
 
   anchor-scope: --ui-autocomplete-trigger;
   display: block;

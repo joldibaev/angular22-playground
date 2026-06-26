@@ -3,8 +3,8 @@
   --ui-button-border-color: var(--ui-button-background);
   --ui-button-color: Canvas;
   --ui-button-focus-visible-border-color: var(--color-brand);
-  --ui-button-hover-background: color-mix(in srgb, var(--ui-button-background) 88%, Canvas);
-  --ui-button-active-background: color-mix(in srgb, var(--ui-button-background) 80%, Canvas);
+  --ui-button-hover-background: color-mix(in oklab, var(--ui-button-background) 88%, Canvas);
+  --ui-button-active-background: color-mix(in oklab, var(--ui-button-background) 80%, Canvas);
   --ui-button-disabled-opacity: var(--opacity-disabled);
   --ui-button-min-height: 2.5rem;
   --ui-button-radius: 0.5rem;
@@ -39,10 +39,13 @@
   overflow-wrap: anywhere;
   vertical-align: middle;
 
-  /* Press feedback: the button physically responds to the press. */
+  /* Press feedback: the button physically responds to the press. Driven through
+     the individual `scale` property (not `transform: scale()`) so a consumer
+     that positions the button with `transform` — e.g. the sonner close button's
+     corner translate — keeps its placement while still getting the press dip. */
   transition:
     background-color var(--dur-press) var(--ease-snappy),
-    transform var(--dur-press) var(--ease-snappy);
+    scale var(--dur-press) var(--ease-snappy);
 }
 
 :host([hidden]) {
@@ -54,15 +57,15 @@
   --ui-button-border-color: var(--border-color-strong);
   --ui-button-color: contrast-color(Canvas);
   --ui-button-hover-background: var(--background-color-subtle);
-  --ui-button-active-background: color-mix(in srgb, var(--background-color-subtle) 82%, CanvasText);
+  --ui-button-active-background: color-mix(in oklab, var(--background-color-subtle) 82%, CanvasText);
 }
 
 :host(.ui-button-destructive) {
-  --ui-button-background: color-mix(in srgb, var(--color-destructive) 12%, Canvas);
+  --ui-button-background: color-mix(in oklab, var(--color-destructive) 12%, Canvas);
   --ui-button-border-color: transparent;
   --ui-button-color: var(--color-destructive);
-  --ui-button-hover-background: color-mix(in srgb, var(--color-destructive) 18%, Canvas);
-  --ui-button-active-background: color-mix(in srgb, var(--color-destructive) 24%, Canvas);
+  --ui-button-hover-background: color-mix(in oklab, var(--color-destructive) 18%, Canvas);
+  --ui-button-active-background: color-mix(in oklab, var(--color-destructive) 24%, Canvas);
   --ui-button-focus-visible-border-color: var(--color-destructive);
 }
 
@@ -70,8 +73,8 @@
   --ui-button-background: var(--background-color-subtle);
   --ui-button-border-color: transparent;
   --ui-button-color: contrast-color(var(--ui-button-background));
-  --ui-button-hover-background: color-mix(in srgb, var(--ui-button-background) 86%, CanvasText);
-  --ui-button-active-background: color-mix(in srgb, var(--ui-button-background) 78%, CanvasText);
+  --ui-button-hover-background: color-mix(in oklab, var(--ui-button-background) 86%, CanvasText);
+  --ui-button-active-background: color-mix(in oklab, var(--ui-button-background) 78%, CanvasText);
 }
 
 :host(.ui-button-ghost),
@@ -80,7 +83,7 @@
   --ui-button-border-color: transparent;
   --ui-button-color: contrast-color(Canvas);
   --ui-button-hover-background: var(--background-color-subtle);
-  --ui-button-active-background: color-mix(in srgb, var(--background-color-subtle) 82%, CanvasText);
+  --ui-button-active-background: color-mix(in oklab, var(--background-color-subtle) 82%, CanvasText);
 }
 
 :host(.ui-button-link) {
@@ -99,12 +102,12 @@
 
 :host(:not(:disabled, [aria-disabled='true']):active) {
   background: var(--ui-button-active-background);
-  transform: scale(var(--press-scale));
+  scale: var(--press-scale);
 }
 
 /* The link variant is inline text, not a surface — scaling it reads as a glitch. */
 :host(.ui-button-link:active) {
-  transform: none;
+  scale: none;
 }
 
 /* Open state: when this button is a trigger for a menu/popover, it holds the
@@ -118,7 +121,7 @@
 :host(:focus-visible) {
   border-color: var(--ui-button-focus-visible-border-color);
   outline: 3px solid
-    color-mix(in srgb, var(--ui-button-focus-visible-border-color) 30%, transparent);
+    color-mix(in oklab, var(--ui-button-focus-visible-border-color) 50%, transparent);
 }
 
 :host(:disabled),
@@ -150,13 +153,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* Keep the background-color feedback; drop the press scale. */
   :host {
-    transition: none;
+    transition: background-color var(--dur-press) var(--ease-snappy);
   }
 
-  /* Drop the press movement; color feedback stays. */
   :host(:not(:disabled, [aria-disabled='true']):active) {
-    transform: none;
+    scale: none;
   }
 
   .ui-button-loading-icon {

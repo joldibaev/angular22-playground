@@ -121,8 +121,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* Keep the opacity fade; drop the scale movement. */
   .arrow-panel:where([popover]) {
-    transition: none;
+    transition:
+      opacity var(--dur-fast) var(--ease-snappy),
+      overlay var(--dur-fast) allow-discrete,
+      display var(--dur-fast) allow-discrete;
   }
 }
 

@@ -49,7 +49,7 @@
 }
 
 .ui-dialog::backdrop {
-  background: color-mix(in srgb, black 45%, transparent);
+  background: color-mix(in oklab, black 45%, transparent);
   opacity: 0;
   transition:
     opacity var(--dur-fast) var(--ease-snappy),
@@ -72,7 +72,7 @@
   grid-template-rows: auto 1fr auto;
   max-block-size: 85dvh;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--border-color-default) 62%, transparent);
+  border: 1px solid color-mix(in oklab, var(--border-color-default) 62%, transparent);
   border-radius: 0.75rem;
   background: var(--background-color-elevated);
   color: contrast-color(var(--background-color-elevated));
@@ -119,7 +119,9 @@
   background: transparent;
   color: var(--text-color-muted);
   cursor: pointer;
-  transition: background-color var(--dur-press) var(--ease-snappy);
+  transition:
+    background-color var(--dur-press) var(--ease-snappy),
+    scale var(--dur-press) var(--ease-snappy);
 }
 
 .ui-dialog-close:hover {
@@ -127,8 +129,13 @@
   color: contrast-color(Canvas);
 }
 
+/* Press feedback: small icon button dips like the checkbox. */
+.ui-dialog-close:active {
+  scale: 0.92;
+}
+
 .ui-dialog-close:focus-visible {
-  outline: 2px solid color-mix(in srgb, var(--color-brand) 55%, transparent);
+  outline: 2px solid var(--focus-ring-color);
   outline-offset: 1px;
 }
 
@@ -148,7 +155,7 @@
   justify-content: flex-end;
   gap: 0.5rem;
   padding: 1rem 1.25rem;
-  border-top: 1px solid color-mix(in srgb, var(--border-color-default) 50%, transparent);
+  border-top: 1px solid color-mix(in oklab, var(--border-color-default) 50%, transparent);
 }
 
 .ui-dialog-footer:empty {
@@ -156,8 +163,20 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ui-dialog,
-  .ui-dialog::backdrop {
-    transition: none;
+  /* Keep the opacity fade (dialog + its backdrop); drop the scale/translate. */
+  .ui-dialog {
+    transition:
+      opacity var(--dur-fast) var(--ease-snappy),
+      overlay var(--dur-fast) allow-discrete,
+      display var(--dur-fast) allow-discrete;
+  }
+
+  /* Drop the close-button press-scale; the hover fill still conveys state. */
+  .ui-dialog-close {
+    transition: background-color var(--dur-press) var(--ease-snappy);
+  }
+
+  .ui-dialog-close:active {
+    scale: none;
   }
 }

@@ -1,11 +1,11 @@
 :host {
   --ui-date-range-background: var(--background-color-surface);
   --ui-date-range-border-color: var(--border-color-default);
-  --ui-date-range-hover-background: color-mix(in srgb, var(--text-color-muted) 7%, transparent);
+  --ui-date-range-hover-background: color-mix(in oklab, var(--text-color-muted) 7%, transparent);
   --ui-date-range-selected-background: var(--color-brand);
   --ui-date-range-selected-color: contrast-color(var(--ui-date-range-selected-background));
-  --ui-date-range-preview-background: color-mix(in srgb, var(--color-brand) 16%, transparent);
-  --ui-date-range-muted-color: color-mix(in srgb, var(--text-color-muted) 68%, transparent);
+  --ui-date-range-preview-background: color-mix(in oklab, var(--color-brand) 16%, transparent);
+  --ui-date-range-muted-color: color-mix(in oklab, var(--text-color-muted) 68%, transparent);
   --ui-date-range-shadow: 0 4px 6px -1px var(--shadow-color-default);
   --ui-date-range-offset: 0.5rem;
 
@@ -43,8 +43,8 @@
     border-color: var(--ui-input-current-focus-visible-border-color, var(--color-brand));
     outline: 3px solid
       color-mix(
-        in srgb,
-        var(--ui-input-current-focus-visible-border-color, var(--color-brand)) 30%,
+        in oklab,
+        var(--ui-input-current-focus-visible-border-color, var(--color-brand)) 50%,
         transparent
       );
   }
@@ -76,7 +76,7 @@
 .ui-date-range-placeholder {
   color: var(
     --ui-input-placeholder-color,
-    color-mix(in srgb, var(--text-color-muted) 50%, transparent)
+    color-mix(in oklab, var(--text-color-muted) 50%, transparent)
   );
 }
 
@@ -139,13 +139,22 @@
   color: inherit;
   font: inherit;
   outline: none;
+  transition:
+    background-color var(--dur-press) var(--ease-snappy),
+    scale var(--dur-press) var(--ease-snappy);
 
   &:not(:disabled):hover {
     background: var(--ui-date-range-hover-background);
   }
 
+  /* Press feedback. Wide text buttons (preset / footer action) take the gentle
+     button dip; the small icon nav overrides to a stronger one below. */
+  &:not(:disabled):active {
+    scale: var(--press-scale);
+  }
+
   &:focus-visible {
-    outline: 2px solid color-mix(in srgb, var(--color-brand) 50%, transparent);
+    outline: 2px solid var(--focus-ring-color);
     outline-offset: -2px;
   }
 
@@ -196,6 +205,11 @@
   width: 2rem;
   height: 2rem;
   padding: 0;
+
+  /* Small icon target: stronger dip than the wide text buttons. */
+  &:not(:disabled):active {
+    scale: 0.92;
+  }
 }
 
 .ui-date-range-grids {
@@ -297,8 +311,14 @@
 
   &:focus-visible .ui-date-range-day,
   &[data-active='true'] .ui-date-range-day {
-    outline: 2px solid color-mix(in srgb, var(--color-brand) 50%, transparent);
+    outline: 2px solid var(--focus-ring-color);
     outline-offset: -2px;
+  }
+
+  /* Press feedback: stronger dip than a button so the small day target reads
+     (mirrors the checkbox / datepicker press). */
+  &:not([aria-disabled='true']):active .ui-date-range-day {
+    scale: 0.92;
   }
 }
 
@@ -314,6 +334,7 @@
   margin: 0.0625rem;
   font-size: 0.875rem;
   pointer-events: none;
+  transition: scale var(--dur-press) var(--ease-snappy);
 }
 
 .ui-date-range-footer {
@@ -359,7 +380,7 @@
   color: var(--ui-date-range-selected-color);
 
   &:not(:disabled):hover {
-    background: color-mix(in srgb, var(--ui-date-range-selected-background) 88%, black);
+    background: color-mix(in oklab, var(--ui-date-range-selected-background) 88%, black);
   }
 }
 
@@ -407,8 +428,36 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ui-date-range-panel,
+  /* Panel keeps its opacity fade; drop the panel translate/scale and the
+     chevron rotation. */
+  .ui-date-range-panel {
+    transition:
+      opacity var(--dur-fast) var(--ease-snappy),
+      overlay var(--dur-fast) allow-discrete,
+      display var(--dur-fast) allow-discrete;
+  }
+
   .ui-date-range-chevron {
     transition: none;
+  }
+
+  /* Drop the day press-scale. */
+  .ui-date-range-day {
+    transition: none;
+  }
+
+  .ui-date-range-cell:not([aria-disabled='true']):active .ui-date-range-day {
+    scale: none;
+  }
+
+  /* Preset / nav / action buttons keep their hover fade; drop the press-scale. */
+  .ui-date-range-preset,
+  .ui-date-range-nav,
+  .ui-date-range-action {
+    transition: background-color var(--dur-press) var(--ease-snappy);
+
+    &:not(:disabled):active {
+      scale: none;
+    }
   }
 }

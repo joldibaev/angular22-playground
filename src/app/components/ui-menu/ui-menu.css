@@ -13,18 +13,22 @@
 }
 
 .ui-menu-panel {
-  display: flex;
   position-anchor: --ui-menu-trigger;
-  flex-direction: column;
-  gap: 0.125rem;
 
   &[data-visible='false'] {
     display: none;
   }
+
+  /* The item column lives on the inner box (the shell only positions). */
+  & .ui-popup-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+  }
 }
 
 .ui-menu-trigger:not(.ui-button):focus-visible {
-  outline: 3px solid color-mix(in srgb, var(--color-brand) 30%, transparent);
+  outline: 3px solid var(--focus-ring-color);
 }
 
 @supports not (anchor-name: --ui-menu-trigger) {

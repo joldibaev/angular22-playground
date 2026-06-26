@@ -52,7 +52,7 @@
 }
 
 .ui-drawer::backdrop {
-  background: color-mix(in srgb, black 45%, transparent);
+  background: color-mix(in oklab, black 45%, transparent);
   opacity: 0;
   transition:
     opacity var(--dur-fast) var(--ease-snappy),
@@ -113,7 +113,9 @@
   background: transparent;
   color: var(--text-color-muted);
   cursor: pointer;
-  transition: background-color var(--dur-press) var(--ease-snappy);
+  transition:
+    background-color var(--dur-press) var(--ease-snappy),
+    scale var(--dur-press) var(--ease-snappy);
 }
 
 .ui-drawer-close:hover {
@@ -121,8 +123,13 @@
   color: contrast-color(Canvas);
 }
 
+/* Press feedback: small icon button dips like the checkbox. */
+.ui-drawer-close:active {
+  scale: 0.92;
+}
+
 .ui-drawer-close:focus-visible {
-  outline: 2px solid color-mix(in srgb, var(--color-brand) 55%, transparent);
+  outline: 2px solid var(--focus-ring-color);
   outline-offset: 1px;
 }
 
@@ -137,7 +144,7 @@
 
 .ui-drawer-footer {
   padding: 1rem 1.25rem;
-  border-top: 1px solid color-mix(in srgb, var(--border-color-default) 50%, transparent);
+  border-top: 1px solid color-mix(in oklab, var(--border-color-default) 50%, transparent);
 }
 
 .ui-drawer-footer:empty {
@@ -145,8 +152,32 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ui-drawer,
-  .ui-drawer::backdrop {
-    transition: none;
+  /* Replace the slide-in with a plain opacity fade; backdrop keeps its own fade. */
+  .ui-drawer {
+    translate: 0 0;
+    opacity: 0;
+    transition:
+      opacity var(--dur-fast) var(--ease-snappy),
+      overlay var(--dur-fast) allow-discrete,
+      display var(--dur-fast) allow-discrete;
+  }
+
+  .ui-drawer:open {
+    opacity: 1;
+  }
+
+  @starting-style {
+    .ui-drawer:open {
+      opacity: 0;
+    }
+  }
+
+  /* Drop the close-button press-scale; the hover fill still conveys state. */
+  .ui-drawer-close {
+    transition: background-color var(--dur-press) var(--ease-snappy);
+  }
+
+  .ui-drawer-close:active {
+    scale: none;
   }
 }

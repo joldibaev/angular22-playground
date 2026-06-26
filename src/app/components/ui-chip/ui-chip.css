@@ -41,8 +41,8 @@
 }
 
 :host(.ui-chip-brand) {
-  --ui-chip-background: color-mix(in srgb, var(--color-brand) 18%, Canvas);
-  --ui-chip-color: color-mix(in srgb, var(--color-brand) 78%, CanvasText);
+  --ui-chip-background: color-mix(in oklab, var(--color-brand) 18%, Canvas);
+  --ui-chip-color: color-mix(in oklab, var(--color-brand) 78%, CanvasText);
 }
 
 .ui-chip-label {
@@ -65,16 +65,22 @@
   opacity: 0.7;
   transition:
     background-color var(--dur-press) var(--ease-snappy),
-    opacity var(--dur-press) var(--ease-snappy);
+    opacity var(--dur-press) var(--ease-snappy),
+    scale var(--dur-press) var(--ease-snappy);
 }
 
 .ui-chip-remove:hover {
-  background: color-mix(in srgb, currentColor 16%, transparent);
+  background: color-mix(in oklab, currentColor 16%, transparent);
   opacity: 1;
 }
 
+/* Press feedback: the tiny remove target dips noticeably so a tap registers. */
+.ui-chip-remove:not(:disabled):active {
+  scale: 0.9;
+}
+
 .ui-chip-remove:focus-visible {
-  outline: 2px solid color-mix(in srgb, var(--color-brand) 60%, transparent);
+  outline: 2px solid var(--focus-ring-color);
   outline-offset: 1px;
   opacity: 1;
 }
@@ -84,7 +90,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* Keep the background/opacity fade; drop the press-scale. */
   .ui-chip-remove {
-    transition: none;
+    transition:
+      background-color var(--dur-press) var(--ease-snappy),
+      opacity var(--dur-press) var(--ease-snappy);
+  }
+
+  .ui-chip-remove:not(:disabled):active {
+    scale: none;
   }
 }

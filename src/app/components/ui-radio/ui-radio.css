@@ -88,9 +88,9 @@
   );
   outline: 3px solid
     color-mix(
-      in srgb,
+      in oklab,
       var(--ui-radio-current-focus-visible-border-color, var(--ui-radio-focus-visible-border-color))
-        30%,
+        50%,
       transparent
     );
 }
@@ -104,9 +104,16 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ui-radio-control,
+  /* Keep the color/box-shadow and the dot's opacity fade; drop the scales. */
+  .ui-radio-control {
+    transition:
+      background-color var(--dur-fast) var(--ease-snappy),
+      border-color var(--dur-fast) var(--ease-snappy),
+      box-shadow var(--dur-fast) var(--ease-snappy);
+  }
+
   .ui-radio-control::before {
-    transition: none;
+    transition: opacity var(--dur-fast) var(--ease-snappy);
   }
 
   .ui-radio-label:not(.ui-radio-disabled):active .ui-radio-control {
