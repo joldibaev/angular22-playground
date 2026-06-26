@@ -1,0 +1,43 @@
+@for (group of groups(); track group.position) {
+  @if (group.toasts.length > 0) {
+    <ol
+      #listRef
+      tabindex="-1"
+      data-sonner-toaster
+      [class]="listClass()"
+      [attr.aria-label]="label() + ' ' + hotKeyLabel()"
+      [attr.data-theme]="themeAttribute()"
+      [attr.data-y-position]="group.y"
+      [attr.data-x-position]="group.x"
+      [attr.data-offset]="offsetAttribute()"
+      [attr.data-width]="widthAttribute()"
+      [style]="toasterStyles()"
+      (blur)="handleBlur($event)"
+      (focus)="handleFocus($event)"
+      (mouseenter)="expanded.set(true)"
+      (mousemove)="expanded.set(true)"
+      (mouseleave)="handleMouseLeave()"
+      (pointerdown)="handlePointerDown($event)"
+      (pointerup)="interacting.set(false)"
+    >
+      @for (toast of group.toasts; track toast.id) {
+        <ui-sonner-toast
+          [index]="$index"
+          [toast]="toast"
+          [invert]="invert()"
+          [position]="position()"
+          [visibleToasts]="visibleToasts()"
+          [expandByDefault]="expand()"
+          [expanded]="expanded()"
+          [interacting]="interacting()"
+          [duration]="toastOptions().duration ?? duration()"
+          [closeButton]="closeButton()"
+          [gap]="gap()"
+          [frontToastHeight]="frontToastHeightAttribute()"
+          [width]="widthAttribute()"
+          [descriptionClass]="toastOptions().descriptionClass ?? ''"
+        />
+      }
+    </ol>
+  }
+}

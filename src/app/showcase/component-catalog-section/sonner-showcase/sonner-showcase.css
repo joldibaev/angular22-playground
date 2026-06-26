@@ -1,0 +1,28 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.sonner-showcase {
+  display: grid;
+  min-width: 0;
+  gap: 1rem;
+}
+
+.sonner-showcase-header {
+  display: grid;
+  gap: 0.25rem;
+
+  p {
+    margin: 0;
+    color: var(--text-color-muted);
+    text-wrap: pretty;
+  }
+}
+
+.sonner-showcase-grid {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}

@@ -1,0 +1,96 @@
+<li
+  #toastRef
+  data-sonner-toast
+  aria-atomic="true"
+  role="status"
+  [attr.aria-hidden]="isVisible() ? null : 'true'"
+  [attr.tabindex]="isVisible() ? 0 : -1"
+  [attr.aria-live]="toast().important ? 'assertive' : 'polite'"
+  [attr.data-styled]="!(toast().component)"
+  [attr.data-mounted]="mounted()"
+  [attr.data-promise]="!!toast().promise"
+  [attr.data-removed]="removed()"
+  [attr.data-visible]="isVisible()"
+  [attr.data-y-position]="coords()[0]"
+  [attr.data-x-position]="coords()[1]"
+  [attr.data-index]="index()"
+  [attr.data-offset]="offsetAttribute()"
+  [attr.data-z-index]="zIndexAttribute()"
+  [attr.data-measured-height]="measuredHeightAttribute()"
+  [attr.data-front-toast-height]="frontToastHeight()"
+  [attr.data-width]="width()"
+  [attr.data-gap]="gapAttribute()"
+  [attr.data-front]="isFront()"
+  [attr.data-swiping]="swiping()"
+  [attr.data-dismissible]="toast().dismissible"
+  [attr.data-close-button]="resolvedCloseButton()"
+  [attr.data-type]="toastType()"
+  [attr.data-invert]="resolvedInvert()"
+  [attr.data-swipe-out]="swipeOut()"
+  [attr.data-expanded]="expanded() || (expandByDefault() && mounted())"
+  (keydown)="onKeydown($event)"
+  (pointerdown)="onPointerDown($event)"
+  (pointerup)="onPointerUp()"
+  (pointermove)="onPointerMove($event)"
+>
+  @if (resolvedCloseButton()) {
+    <button
+      uiButton
+      type="button"
+      variant="ghost"
+      data-close-button
+      aria-label="Close toast"
+      [attr.data-disabled]="disabled()"
+      [disabled]="disabled()"
+      (click)="onCloseButtonClick()"
+    >
+      <ui-icon name="outline-x" decorative width="12" height="12" />
+    </button>
+  }
+
+  @if (toast().component; as component) {
+    <ng-container *ngComponentOutlet="component; inputs: toast().componentProps" />
+  } @else {
+    @if (toastType() !== 'default' || iconName() || toast().promise) {
+      <div data-icon>
+        @if (iconName(); as icon) {
+          <ui-icon [name]="icon" decorative />
+        }
+      </div>
+    }
+
+    <div data-content>
+      @if (toast().title; as title) {
+        <div data-title>
+          @if (isString(title)) {
+            {{ title }}
+          } @else {
+            <ng-container *ngComponentOutlet="asComponent(title); inputs: toast().componentProps" />
+          }
+        </div>
+      }
+
+      @if (toast().description; as description) {
+        <div data-description [class]="descriptionClass()">
+          @if (isString(description)) {
+            {{ description }}
+          } @else {
+            <ng-container *ngComponentOutlet="asComponent(description); inputs: toast().componentProps" />
+          }
+        </div>
+      }
+    </div>
+
+    @if (toast().cancel; as cancel) {
+      <button uiButton type="button" variant="ghost" data-button data-cancel (click)="onCancelClick()">
+        {{ cancel.label }}
+      </button>
+    }
+
+    @if (toast().action; as action) {
+      <button uiButton type="button" variant="secondary" data-button (click)="onActionClick($event)">
+        {{ action.label }}
+      </button>
+    }
+  }
+</li>

@@ -1,0 +1,33 @@
+<article class="sonner-showcase" aria-labelledby="sonner-showcase-title">
+  <div class="sonner-showcase-header">
+    <h4 id="sonner-showcase-title" class="font-black">Sonner</h4>
+    <p>Stacked status notifications with actions, promise states, and polite live regions.</p>
+  </div>
+
+  <div class="sonner-showcase-grid">
+    <button uiButton type="button" (click)="showSuccess()">
+      <ui-icon name="outline-circle-check" decorative />
+      Success
+    </button>
+
+    <button uiButton type="button" variant="secondary" (click)="showInfo()">
+      <ui-icon name="outline-info-circle" decorative />
+      Info
+    </button>
+
+    <button uiButton type="button" variant="outline" (click)="showWarning()">
+      <ui-icon name="outline-alert-triangle" decorative />
+      Warning
+    </button>
+
+    <button uiButton type="button" variant="destructive" (click)="showDestructive()">
+      <ui-icon name="outline-alert-circle" decorative />
+      Destructive
+    </button>
+
+    <button uiButton type="button" variant="outline" (click)="showAction()">Action</button>
+    <button uiButton type="button" variant="ghost" (click)="showPromise()">Promise</button>
+  </div>
+
+  <ui-sonner position="bottom-right" closeButton />
+</article>
