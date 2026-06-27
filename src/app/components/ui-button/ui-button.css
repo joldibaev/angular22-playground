@@ -107,6 +107,12 @@
   --ui-button-color: var(--color-brand);
 }
 
+/* Pill shape: an oversized radius the box clamps to a full semicircle on the
+   short axis, so it stays a pill at any height (and a circle when icon-only). */
+:host(.ui-button-rounded) {
+  --ui-button-radius: 999rem;
+}
+
 :host(.ui-button-icon-only) {
   width: var(--ui-button-icon-only-size);
   height: var(--ui-button-icon-only-size);

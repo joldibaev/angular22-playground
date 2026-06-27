@@ -27,6 +27,7 @@ export type UiButtonType = 'button' | 'submit' | 'reset';
     '[class.ui-button-link]': "variant() === 'link'",
     '[class.ui-button-loading]': 'loading()',
     '[class.ui-button-icon-only]': 'iconOnly()',
+    '[class.ui-button-rounded]': 'rounded()',
     '[attr.type]': 'isButton() ? type() : null',
     '[attr.disabled]': 'isButton() && unavailable() ? "" : null',
     '[attr.aria-disabled]': '!isButton() && unavailable() ? "true" : null',
@@ -44,6 +45,8 @@ export class UiButton {
   // Keep this explicit instead of inspecting projected DOM: arbitrary icon content stays valid,
   // and the server and client derive the same layout without a MutationObserver.
   readonly iconOnly = input(false, { transform: booleanAttribute });
+  // Shape mode (pill corners), not an optional part — named like `disabled`/`loading`, not `with...`.
+  readonly rounded = input(false, { transform: booleanAttribute });
   // Unlike passive field loading, an action in flight is unavailable: repeated activation can
   // duplicate a submission or side effect, so loading participates in the disabled behavior.
   readonly loading = input(false, { transform: booleanAttribute });

@@ -8,6 +8,7 @@ import { UiButton } from './ui-button';
     <button uiButton type="submit" loading>Save</button>
     <a uiButton href="/docs" disabled>Docs</a>
     <button uiButton type="button" variant="brand" iconOnly aria-label="Add">+</button>
+    <button uiButton type="button" rounded>Pill</button>
   `,
 })
 class TestHost {}
@@ -52,5 +53,13 @@ describe('UiButton', () => {
 
     expect(button.classList.contains('ui-button-brand')).toBe(true);
     expect(button.classList.contains('ui-button-icon-only')).toBe(true);
+  });
+
+  it('should apply the rounded (pill) shape mode', () => {
+    const button = fixture.nativeElement.querySelector(
+      'button[rounded]',
+    ) as HTMLButtonElement;
+
+    expect(button.classList.contains('ui-button-rounded')).toBe(true);
   });
 });
