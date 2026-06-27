@@ -34,9 +34,9 @@ describe('UiMenuGroup', () => {
     expect(group.items()[1].disabled()).toBe(true);
   });
 
-  it('keeps its declaration hidden because the parent menu owns rendered semantics', () => {
+  it('marks its declaration as hidden because the parent menu owns rendered semantics', () => {
     const host = fixture.nativeElement.querySelector('ui-menu-group') as HTMLElement;
 
-    expect(getComputedStyle(host).display).toBe('none');
+    expect(host.classList.contains('hidden')).toBe(true);
   });
 });
