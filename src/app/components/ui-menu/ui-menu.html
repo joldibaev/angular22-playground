@@ -8,14 +8,32 @@
 >
   <div class="ui-popup-box">
     <ng-template ngMenuContent>
-      @for (item of items(); track item) {
+      @for (section of sections(); track section.group ?? section.items[0]) {
+        @if (!$first) {
+          <hr class="ui-menu-separator" />
+        }
+
         <div
-          ngMenuItem
-          class="ui-popup-option ui-menu-item"
-          [value]="item.value()"
-          [disabled]="item.disabled()"
+          class="ui-menu-section"
+          [attr.aria-label]="section.group?.label() || null"
+          [attr.role]="section.group ? 'group' : null"
         >
-          <ng-container [ngTemplateOutlet]="item.template()" />
+          @if (section.group; as group) {
+            @if (group.label(); as label) {
+              <div class="ui-menu-group-label" aria-hidden="true">{{ label }}</div>
+            }
+          }
+
+          @for (item of section.items; track item) {
+            <div
+              ngMenuItem
+              class="ui-popup-option ui-menu-item"
+              [value]="item.value()"
+              [disabled]="item.disabled()"
+            >
+              <ng-container [ngTemplateOutlet]="item.template()" />
+            </div>
+          }
         </div>
       }
     </ng-template>

@@ -1,4 +1,14 @@
 :host {
+  --ui-menu-group-label-color: color-mix(
+    in oklab,
+    var(--text-color-muted) 68%,
+    transparent
+  );
+  --ui-menu-separator-color: color-mix(
+    in oklab,
+    var(--border-color-default) 72%,
+    transparent
+  );
   --ui-popup-width: max-content;
   --ui-popup-min-width: 12rem;
   --ui-popup-max-height: calc(100vh - 2rem);
@@ -10,6 +20,32 @@
 
   display: inline-block;
   position: relative;
+}
+
+.ui-menu-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ui-popup-list-gap);
+}
+
+.ui-menu-group-label {
+  overflow: clip;
+  padding-block: 0.5rem 0.25rem;
+  padding-inline: 0.75rem;
+  color: var(--ui-menu-group-label-color);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: 1rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ui-menu-separator {
+  inline-size: auto;
+  margin-block: 0.25rem;
+  margin-inline: 0.5rem;
+  border: 0;
+  border-block-start: 1px solid var(--ui-menu-separator-color);
 }
 
 .ui-menu-panel {

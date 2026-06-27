@@ -4,6 +4,7 @@ import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
 import { MenuHarness } from '@angular/aria/menu/testing';
 import { UiButton } from '../ui-button/ui-button';
 import { UiMenu } from './ui-menu';
+import { UiMenuGroup } from './ui-menu-group/ui-menu-group';
 import { UiMenuItem } from './ui-menu-item/ui-menu-item';
 import { UiMenuTrigger } from './ui-menu-trigger/ui-menu-trigger';
 
@@ -45,6 +46,31 @@ class TestHost {
   `,
 })
 class MultipleMenuHost {}
+
+@Component({
+  imports: [UiButton, UiMenu, UiMenuGroup, UiMenuItem, UiMenuTrigger],
+  template: `
+    <button uiButton uiMenuTrigger variant="outline" [menu]="groupedMenu.menu()">
+      Grouped actions
+    </button>
+
+    <ui-menu #groupedMenu (itemSelected)="selected.set($event)">
+      <ui-menu-item value="inspect">Inspect</ui-menu-item>
+
+      <ui-menu-group label="Editing">
+        <ui-menu-item value="duplicate">Duplicate</ui-menu-item>
+        <ui-menu-item value="archive" disabled>Archive</ui-menu-item>
+      </ui-menu-group>
+
+      <ui-menu-group>
+        <ui-menu-item value="delete">Delete</ui-menu-item>
+      </ui-menu-group>
+    </ui-menu>
+  `,
+})
+class GroupedMenuHost {
+  readonly selected = signal('');
+}
 
 async function createHostFixture(): Promise<ComponentFixture<TestHost>> {
   const hostFixture = TestBed.createComponent(TestHost);
@@ -173,5 +199,38 @@ describe('UiMenu', () => {
     expect(triggers[0].style.anchorName).not.toBe(triggers[1].style.anchorName);
     expect(getComputedStyle(menus[0]).positionAnchor).toBe(triggers[0].style.anchorName);
     expect(getComputedStyle(menus[1]).positionAnchor).toBe(triggers[1].style.anchorName);
+  });
+
+  it('should preserve item order and expose labelled menu groups with separators', async () => {
+    const hostFixture = TestBed.createComponent(GroupedMenuHost);
+    const loader = TestbedHarnessEnvironment.loader(hostFixture);
+
+    await hostFixture.whenStable();
+    await hostFixture.whenRenderingDone();
+
+    const menu = await loader.getHarness(MenuHarness.with({ triggerText: 'Grouped actions' }));
+    await menu.open();
+
+    const panel = document.querySelector<HTMLElement>('[role="menu"][data-visible="true"]');
+    const groups = Array.from(panel?.querySelectorAll<HTMLElement>('[role="group"]') ?? []);
+    const separators = panel?.querySelectorAll('hr.ui-menu-separator') ?? [];
+    const items = await menu.getItems();
+
+    expect(groups).toHaveLength(2);
+    expect(groups[0].getAttribute('aria-label')).toBe('Editing');
+    expect(groups[0].querySelector('.ui-menu-group-label')?.textContent?.trim()).toBe('Editing');
+    expect(groups[1].hasAttribute('aria-label')).toBe(false);
+    expect(separators).toHaveLength(2);
+    expect(await Promise.all(items.map((item) => item.getText()))).toEqual([
+      'Inspect',
+      'Duplicate',
+      'Archive',
+      'Delete',
+    ]);
+
+    await items[1].click();
+    await hostFixture.whenStable();
+
+    expect(hostFixture.componentInstance.selected()).toBe('duplicate');
   });
 });
