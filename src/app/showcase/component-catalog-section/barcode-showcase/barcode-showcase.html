@@ -1,0 +1,40 @@
+<div class="grid min-w-0 gap-6">
+  <section class="grid min-w-0 gap-4 md:grid-cols-2" aria-labelledby="barcode-linear-title">
+    <h3 id="barcode-linear-title" class="sr-only">Linear barcodes</h3>
+
+    <figure class="grid min-w-0 place-items-center gap-3 rounded-lg bg-subtle p-4">
+      <ui-barcode value="4006381333931" format="EAN13" label="EAN-13 example" />
+      <figcaption class="text-sm text-muted">EAN-13 with checksum validation</figcaption>
+    </figure>
+
+    <figure class="grid min-w-0 place-items-center gap-3 rounded-lg bg-subtle p-4">
+      <ui-barcode value="55123457" format="EAN8" label="EAN-8 example" />
+      <figcaption class="text-sm text-muted">EAN-8 with checksum validation</figcaption>
+    </figure>
+
+    <figure class="grid min-w-0 place-items-center gap-3 rounded-lg bg-subtle p-4 md:col-span-2">
+      <ui-barcode value="ITEM-42-A" format="CODE128" label="Code 128 example" />
+      <figcaption class="text-sm text-muted">Code 128-B for printable ASCII data</figcaption>
+    </figure>
+  </section>
+
+  <section class="grid min-w-0 gap-4 md:grid-cols-2" aria-labelledby="barcode-other-title">
+    <h3 id="barcode-other-title" class="sr-only">QR and invalid states</h3>
+
+    <figure class="grid min-w-0 place-items-center gap-3 rounded-lg bg-subtle p-4">
+      <ui-barcode
+        value="BC-123"
+        format="QR"
+        label="QR example"
+        [width]="144"
+        [height]="144"
+      />
+      <figcaption class="text-sm text-muted">QR version 1-L with a four-module quiet zone</figcaption>
+    </figure>
+
+    <figure class="grid min-w-0 place-items-center gap-3 rounded-lg bg-subtle p-4">
+      <ui-barcode value="12345678" format="EAN8" label="Invalid EAN-8 example" />
+      <figcaption class="text-sm text-muted">Invalid data stays explicit and accessible</figcaption>
+    </figure>
+  </section>
+</div>

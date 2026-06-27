@@ -1,0 +1,40 @@
+@if (encoding(); as result) {
+  @if (result.state === 'ready') {
+    <svg
+      focusable="false"
+      preserveAspectRatio="xMidYMid meet"
+      shape-rendering="crispEdges"
+      [attr.aria-hidden]="decorative() ? 'true' : null"
+      [attr.aria-label]="decorative() ? null : accessibleLabel()"
+      [attr.height]="height()"
+      [attr.role]="decorative() ? null : 'img'"
+      [attr.viewBox]="result.graphic.viewBox"
+      [attr.width]="width()"
+    >
+      <rect class="ui-barcode-surface" width="100%" height="100%" />
+      <path class="ui-barcode-mark" [attr.d]="result.graphic.path" />
+
+      @if (withText() && result.graphic.text) {
+        <text
+          class="ui-barcode-text"
+          dominant-baseline="alphabetic"
+          text-anchor="middle"
+          [attr.x]="result.graphic.textX"
+          [attr.y]="result.graphic.textY"
+        >
+          {{ result.graphic.text }}
+        </text>
+      }
+    </svg>
+  } @else {
+    <span
+      class="ui-barcode-fallback"
+      [attr.aria-hidden]="decorative() ? 'true' : null"
+      [attr.aria-label]="decorative() ? null : invalidLabel(result.message)"
+      [attr.role]="decorative() ? null : 'img'"
+    >
+      <span class="ui-barcode-fallback-value" aria-hidden="true">{{ value() || '—' }}</span>
+      <span class="ui-barcode-fallback-reason" aria-hidden="true">{{ result.message }}</span>
+    </span>
+  }
+}

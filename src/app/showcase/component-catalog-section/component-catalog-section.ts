@@ -4,6 +4,7 @@ import { UiTabItem } from '../../components/ui-tab/ui-tab-item/ui-tab-item';
 import { AutocompleteShowcase } from './autocomplete-showcase/autocomplete-showcase';
 import { AvatarShowcase } from './avatar-showcase/avatar-showcase';
 import { BadgeShowcase } from './badge-showcase/badge-showcase';
+import { BarcodeShowcase } from './barcode-showcase/barcode-showcase';
 import { ButtonShowcase } from './button-showcase/button-showcase';
 import { CardShowcase } from './card-showcase/card-showcase';
 import { CheckboxShowcase } from './checkbox-showcase/checkbox-showcase';
@@ -29,6 +30,7 @@ import { UiCard } from '../../components/ui-card/ui-card';
     AutocompleteShowcase,
     AvatarShowcase,
     BadgeShowcase,
+    BarcodeShowcase,
     ButtonShowcase,
     CardShowcase,
     CheckboxShowcase,

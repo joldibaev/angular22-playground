@@ -1,0 +1,80 @@
+:host {
+  --ui-barcode-width: 240px;
+  --ui-barcode-height: 96px;
+  --ui-barcode-background: Canvas;
+  --ui-barcode-color: CanvasText;
+  --ui-barcode-fallback-background: var(--background-color-elevated);
+  --ui-barcode-fallback-border-color: var(--border-color-default);
+
+  /* Standard barcodes need a stable dark-on-light palette to remain scanner-friendly. */
+  color-scheme: light;
+  display: inline-block;
+  inline-size: min(100%, var(--ui-barcode-width));
+  max-inline-size: 100%;
+  color: var(--ui-barcode-color);
+  vertical-align: middle;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+svg,
+.ui-barcode-fallback {
+  display: block;
+  box-sizing: border-box;
+  inline-size: 100%;
+  block-size: 100%;
+}
+
+svg {
+  overflow: visible;
+}
+
+.ui-barcode-surface {
+  fill: var(--ui-barcode-background);
+}
+
+.ui-barcode-mark,
+.ui-barcode-text {
+  fill: var(--ui-barcode-color);
+}
+
+.ui-barcode-text,
+.ui-barcode-fallback {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
+  font-weight: 700;
+}
+
+.ui-barcode-text {
+  font-size: 10px;
+  letter-spacing: 0;
+}
+
+.ui-barcode-fallback {
+  display: grid;
+  place-content: center;
+  gap: 0.25rem;
+  overflow: clip;
+  border: 1px solid var(--ui-barcode-fallback-border-color);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  background: var(--ui-barcode-fallback-background);
+  color: contrast-color(var(--ui-barcode-fallback-background));
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.ui-barcode-fallback-value,
+.ui-barcode-fallback-reason {
+  overflow: clip;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ui-barcode-fallback-reason {
+  color: var(--text-color-muted);
+  font-family: inherit;
+  font-size: 0.6875rem;
+  font-weight: 400;
+}
