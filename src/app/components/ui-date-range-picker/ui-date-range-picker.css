@@ -100,14 +100,24 @@
   opacity: 0;
   translate: 0 -0.25rem;
   scale: 0.98;
-  transition-property: opacity, translate, scale;
-  transition-duration: var(--dur-fast);
+  /* Close transition (quick) lives here, open (fast) on :popover-open, so the
+     exit is shorter than the entrance. transition-behavior keeps overlay/display
+     discrete so the panel stays in the top layer through the close and animates
+     out instead of popping (the panel stays mounted — see the template comment).
+     Written as longhand rather than the shorthand on purpose: the shorthand's
+     `allow-discrete` keyword is unparseable in jsdom, which collapses the whole
+     declaration to `transition: all` and breaks the spec that reads the
+     transition-property list. */
+  transition-property: opacity, translate, scale, overlay, display;
+  transition-duration: var(--dur-quick);
   transition-timing-function: var(--ease-snappy);
+  transition-behavior: allow-discrete;
 
   &:popover-open {
     opacity: 1;
     translate: 0;
     scale: 1;
+    transition-duration: var(--dur-fast);
   }
 }
 
@@ -431,10 +441,10 @@
   /* Panel keeps its opacity fade; drop the panel translate/scale and the
      chevron rotation. */
   .ui-date-range-panel {
-    transition:
-      opacity var(--dur-fast) var(--ease-snappy),
-      overlay var(--dur-fast) allow-discrete,
-      display var(--dur-fast) allow-discrete;
+    transition-property: opacity, overlay, display;
+    transition-duration: var(--dur-fast);
+    transition-timing-function: var(--ease-snappy);
+    transition-behavior: allow-discrete;
   }
 
   .ui-date-range-chevron {

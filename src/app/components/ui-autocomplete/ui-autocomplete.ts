@@ -12,7 +12,6 @@ import {
   untracked,
   viewChild,
 } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
 import { Combobox, ComboboxPopup, ComboboxWidget } from '@angular/aria/combobox';
 import { Listbox, Option } from '@angular/aria/listbox';
 import type { FormValueControl } from '@angular/forms/signals';
@@ -23,16 +22,7 @@ import { syncPopover } from '../../shared/sync-popover';
 
 @Component({
   selector: 'ui-autocomplete',
-  imports: [
-    NgTemplateOutlet,
-    Combobox,
-    ComboboxPopup,
-    ComboboxWidget,
-    Listbox,
-    Option,
-    UiInput,
-    UiIcon,
-  ],
+  imports: [Combobox, ComboboxPopup, ComboboxWidget, Listbox, Option, UiInput, UiIcon],
   templateUrl: './ui-autocomplete.html',
   styleUrls: ['../../shared/ui-popup.css', './ui-autocomplete.css'],
 })

@@ -12,7 +12,6 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
-import { NgTemplateOutlet } from '@angular/common';
 import { Listbox, Option } from '@angular/aria/listbox';
 import { Combobox, ComboboxPopup, ComboboxWidget } from '@angular/aria/combobox';
 import type { FormValueControl } from '@angular/forms/signals';
@@ -30,16 +29,7 @@ export type UiSelectValue = string | string[];
 
 @Component({
   selector: 'ui-select',
-  imports: [
-    NgTemplateOutlet,
-    Combobox,
-    ComboboxPopup,
-    Listbox,
-    ComboboxWidget,
-    Option,
-    UiInput,
-    UiIcon,
-  ],
+  imports: [Combobox, ComboboxPopup, Listbox, ComboboxWidget, Option, UiInput, UiIcon],
   templateUrl: './ui-select.html',
   styleUrls: ['../../shared/ui-popup.css', './ui-select.css'],
 })

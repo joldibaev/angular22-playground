@@ -209,7 +209,12 @@ describe('UiAutocomplete', () => {
     expect(combobox).toBeTruthy();
     expect(combobox.getAttribute('tabindex')).toBe('0');
     expect(combobox.getAttribute('aria-expanded')).toBe('false');
-    expect(combobox.getAttribute('aria-autocomplete')).toBe('none');
+    // The listbox popup directive is always present now (its content stays
+    // mounted after first open so the exit can animate), so the combobox reports
+    // its stable aria-autocomplete='list' instead of flipping to 'none' while
+    // collapsed. The popup *content* is still lazy — getPopup is null until the
+    // first open.
+    expect(combobox.getAttribute('aria-autocomplete')).toBe('list');
     expect(combobox.getAttribute('placeholder')).toBe('Search labels');
     expect(getPopup(hostFixture)).toBeNull();
   });
@@ -446,7 +451,8 @@ describe('UiAutocomplete', () => {
     expect(autocomplete.selectedValues()).toEqual(['approved']);
     expect(autocomplete.inputValue()).toBe('Approved');
     expect(autocomplete.popupExpanded()).toBe(false);
-    expect(getPopup(hostFixture)).toBeNull();
+    // Popup persists after close (preserveContent) so its exit can animate.
+    expect(getPopup(hostFixture)).not.toBeNull();
   });
 
   it('should close the popup with Escape', async () => {
@@ -472,7 +478,8 @@ describe('UiAutocomplete', () => {
 
     expect(hostFixture.componentInstance.autocomplete().popupExpanded()).toBe(false);
     expect(combobox.getAttribute('aria-expanded')).toBe('false');
-    expect(getPopup(hostFixture)).toBeNull();
+    // Popup persists after close (preserveContent) so its exit can animate.
+    expect(getPopup(hostFixture)).not.toBeNull();
     expect(document.activeElement).toBe(combobox);
   });
 });

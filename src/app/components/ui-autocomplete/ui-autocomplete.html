@@ -14,61 +14,61 @@
   />
 </ui-input>
 
-@if (popupExpanded()) {
-  <ng-container [ngTemplateOutlet]="popupTemplate" />
-}
+<!-- The popup stays mounted after its first open: @angular/aria's ComboboxPopup
+     (DeferredContent) renders it lazily from the combobox's expanded state and,
+     because preserveContent is true above, keeps it in the DOM on close. That is
+     what lets the popover's allow-discrete exit animation play. Do NOT re-wrap
+     this in @if (popupExpanded()) — destroying the node on close pops it out
+     instantly and kills the exit (syncPopover drives show/hide on the live node). -->
+<ng-template ngComboboxPopup [combobox]="combobox">
+  <div
+    #popupElement
+    class="ui-popup-surface ui-autocomplete-popup"
+    popover="auto"
+    (toggle)="onPopupToggle($event)"
+  >
+    <div class="ui-popup-box">
+      @if (hasOptions()) {
+        <!-- focusMode="activedescendant": DOM focus stays on the listbox and
+             @angular/aria marks the active option with [data-active]. The option
+             hover/focus/selected styling lives in ui-popup.css (.ui-popup-option)
+             and keys off [data-active] / [aria-selected] — do not add manual
+             focus, tabindex, or keyboard handling to the options. -->
+        <div
+          #listbox="ngListbox"
+          ngListbox
+          class="ui-popup-list"
+          [multi]="false"
+          ngComboboxWidget
+          [tabindex]="-1"
+          focusMode="activedescendant"
+          selectionMode="explicit"
+          [disabled]="disabled()"
+          [(value)]="selectedValues"
+          [activeDescendant]="listbox.activeDescendant()"
+          (click)="onListboxClick($event)"
+          (keydown.enter)="onCommit()"
+          (keydown.space)="onCommit()"
+        >
+          @for (option of filteredOptions(); track option) {
+            <div
+              ngOption
+              #ngOption="ngOption"
+              class="ui-popup-option"
+              [value]="option.value()"
+              [label]="option.label()"
+            >
+              <span class="flex-1">{{ option.label() }}</span>
 
-<ng-template #popupTemplate>
-  <ng-template ngComboboxPopup [combobox]="combobox">
-    <div
-      #popupElement
-      class="ui-popup-surface ui-autocomplete-popup"
-      popover="auto"
-      (toggle)="onPopupToggle($event)"
-    >
-      <div class="ui-popup-box">
-        @if (hasOptions()) {
-          <!-- focusMode="activedescendant": DOM focus stays on the listbox and
-               @angular/aria marks the active option with [data-active]. The option
-               hover/focus/selected styling lives in ui-popup.css (.ui-popup-option)
-               and keys off [data-active] / [aria-selected] — do not add manual
-               focus, tabindex, or keyboard handling to the options. -->
-          <div
-            #listbox="ngListbox"
-            ngListbox
-            class="ui-popup-list"
-            [multi]="false"
-            ngComboboxWidget
-            [tabindex]="-1"
-            focusMode="activedescendant"
-            selectionMode="explicit"
-            [disabled]="disabled()"
-            [(value)]="selectedValues"
-            [activeDescendant]="listbox.activeDescendant()"
-            (click)="onListboxClick($event)"
-            (keydown.enter)="onCommit()"
-            (keydown.space)="onCommit()"
-          >
-            @for (option of filteredOptions(); track option) {
-              <div
-                ngOption
-                #ngOption="ngOption"
-                class="ui-popup-option"
-                [value]="option.value()"
-                [label]="option.label()"
-              >
-                <span class="flex-1">{{ option.label() }}</span>
-
-                @if (ngOption.selected()) {
-                  <ui-icon name="outline-check" class="icon-check" />
-                }
-              </div>
-            }
-          </div>
-        } @else {
-          <div class="empty-state" ngComboboxWidget>{{ emptyText() }}</div>
-        }
-      </div>
+              @if (ngOption.selected()) {
+                <ui-icon name="outline-check" class="icon-check" />
+              }
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="empty-state" ngComboboxWidget>{{ emptyText() }}</div>
+      }
     </div>
-  </ng-template>
+  </div>
 </ng-template>

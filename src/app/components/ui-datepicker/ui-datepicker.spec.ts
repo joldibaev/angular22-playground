@@ -144,7 +144,9 @@ describe('UiDatepicker', () => {
 
     expect(fixture.componentInstance.model().date).toBe('2026-06-16');
     expect(fixture.componentInstance.formState.date().value()).toBe('2026-06-16');
-    expect(getPanel(fixture)).toBeNull();
+    // The panel stays mounted (so its exit can animate); a closed picker is
+    // expressed by aria-expanded, not by removing the node.
+    expect(getTrigger(fixture).getAttribute('aria-expanded')).toBe('false');
   });
 
   it('should mark dates outside min and max as disabled', async () => {
@@ -196,7 +198,9 @@ describe('UiDatepicker', () => {
     await fixture.whenStable();
 
     expect(fixture.componentInstance.datepicker().value()).toBe('');
-    expect(getPanel(fixture)).toBeNull();
+    // The panel stays mounted (so its exit can animate); a closed picker is
+    // expressed by aria-expanded, not by removing the node.
+    expect(getTrigger(fixture).getAttribute('aria-expanded')).toBe('false');
   });
 
   it('should disable today action when today is outside the allowed range', async () => {

@@ -27,158 +27,154 @@
   </button>
 </ui-input>
 
-@if (popupExpanded()) {
-  <div
-    #panel
-    class="ui-date-range-panel"
-    popover="auto"
-    role="dialog"
-    [id]="panelId"
-    [attr.aria-labelledby]="titleId"
-    [style.position-anchor]="anchorName"
-    (toggle)="onPanelToggle($event)"
-    (keydown)="onPanelKeydown($event)"
-    (mouseleave)="onPanelLeave()"
-  >
-    @if (withPresets()) {
-      <aside class="ui-date-range-presets" aria-label="Quick ranges">
-        @for (preset of presets; track preset.label) {
-          <button
-            type="button"
-            class="ui-date-range-preset"
-            [disabled]="!isPresetAllowed(preset)"
-            (click)="applyPreset(preset)"
-          >
-            {{ preset.label }}
-          </button>
-        }
-      </aside>
-    }
-
-    <section class="ui-date-range-calendar" [attr.aria-label]="panelLabel()">
-      <header class="ui-date-range-header">
+<!-- The panel stays mounted and is shown/hidden through the popover API
+     (syncPopover), like ui-menu — not gated by @if (popupExpanded()). Removing
+     the node on close would pop it out instantly and kill the panel's
+     allow-discrete exit animation. -->
+<div
+  #panel
+  class="ui-date-range-panel"
+  popover="auto"
+  role="dialog"
+  [id]="panelId"
+  [attr.aria-labelledby]="titleId"
+  [style.position-anchor]="anchorName"
+  (toggle)="onPanelToggle($event)"
+  (keydown)="onPanelKeydown($event)"
+  (mouseleave)="onPanelLeave()"
+>
+  @if (withPresets()) {
+    <aside class="ui-date-range-presets" aria-label="Quick ranges">
+      @for (preset of presets; track preset.label) {
         <button
           type="button"
-          class="ui-date-range-nav"
-          aria-label="Previous month"
-          [disabled]="!canGoPrev()"
-          (click)="previousMonth()"
+          class="ui-date-range-preset"
+          [disabled]="!isPresetAllowed(preset)"
+          (click)="applyPreset(preset)"
         >
-          <ui-icon name="outline-chevron-left" />
+          {{ preset.label }}
         </button>
+      }
+    </aside>
+  }
 
-        <h2 [id]="titleId" class="ui-date-range-title">
-          <span>{{ leftMonthLabel() }}</span>
-          <span>{{ rightMonthLabel() }}</span>
-        </h2>
+  <section class="ui-date-range-calendar" [attr.aria-label]="panelLabel()">
+    <header class="ui-date-range-header">
+      <button
+        type="button"
+        class="ui-date-range-nav"
+        aria-label="Previous month"
+        [disabled]="!canGoPrev()"
+        (click)="previousMonth()"
+      >
+        <ui-icon name="outline-chevron-left" />
+      </button>
 
-        <button
-          type="button"
-          class="ui-date-range-nav"
-          aria-label="Next month"
-          [disabled]="!canGoNext()"
-          (click)="nextMonth()"
+      <h2 [id]="titleId" class="ui-date-range-title">
+        <span>{{ leftMonthLabel() }}</span>
+        <span>{{ rightMonthLabel() }}</span>
+      </h2>
+
+      <button
+        type="button"
+        class="ui-date-range-nav"
+        aria-label="Next month"
+        [disabled]="!canGoNext()"
+        (click)="nextMonth()"
+      >
+        <ui-icon name="outline-chevron-right" />
+      </button>
+    </header>
+
+    <div class="ui-date-range-grids">
+      @for (
+        block of [
+          { weeks: leftWeeks(), label: leftMonthLabel() },
+          { weeks: rightWeeks(), label: rightMonthLabel() },
+        ];
+        track block.label
+      ) {
+        <table
+          ngGrid
+          class="ui-date-range-grid"
+          colWrap="continuous"
+          rowWrap="nowrap"
+          selectionMode="explicit"
+          [enableSelection]="true"
+          [softDisabled]="false"
+          [attr.aria-label]="block.label"
         >
-          <ui-icon name="outline-chevron-right" />
-        </button>
-      </header>
+          <thead>
+            <tr>
+              @for (weekday of weekdays; track weekday) {
+                <th scope="col" class="ui-date-range-weekday">{{ weekday }}</th>
+              }
+            </tr>
+          </thead>
 
-      <div class="ui-date-range-grids">
-        @for (
-          block of [
-            { weeks: leftWeeks(), label: leftMonthLabel() },
-            { weeks: rightWeeks(), label: rightMonthLabel() },
-          ];
-          track block.label
-        ) {
-          <table
-            ngGrid
-            class="ui-date-range-grid"
-            colWrap="continuous"
-            rowWrap="nowrap"
-            selectionMode="explicit"
-            [enableSelection]="true"
-            [softDisabled]="false"
-            [attr.aria-label]="block.label"
-          >
-            <thead>
-              <tr>
-                @for (weekday of weekdays; track weekday) {
-                  <th scope="col" class="ui-date-range-weekday">{{ weekday }}</th>
+          <tbody>
+            @for (week of block.weeks; track week[0].date) {
+              <tr ngGridRow>
+                @for (day of week; track day.date) {
+                  <td
+                    ngGridCell
+                    class="ui-date-range-cell"
+                    [disabled]="day.disabled || !day.inCurrentMonth"
+                    [selected]="day.inCurrentMonth && (day.isStart || day.isEnd)"
+                    [attr.data-focus-target]="day.isFocusTarget ? 'true' : null"
+                    [attr.aria-current]="day.isToday && day.inCurrentMonth ? 'date' : null"
+                    [attr.aria-label]="day.inCurrentMonth ? day.ariaLabel : null"
+                    [attr.aria-hidden]="day.inCurrentMonth ? null : 'true'"
+                    [attr.data-edge]="
+                      !day.inCurrentMonth
+                        ? null
+                        : (day.isStart && day.isEnd) ||
+                            (day.isPendingRangeStart && day.isPendingRangeEnd)
+                          ? 'single'
+                          : day.isStart || day.isPendingRangeStart
+                            ? 'start'
+                            : day.isEnd || day.isPendingRangeEnd
+                              ? 'end'
+                              : null
+                    "
+                    [class.ui-date-range-in-range]="day.inCurrentMonth && day.isInRange"
+                    [class.ui-date-range-edge]="day.inCurrentMonth && (day.isStart || day.isEnd)"
+                    [class.ui-date-range-pending-start]="day.inCurrentMonth && day.isPendingStart"
+                    [class.ui-date-range-pending-range]="day.inCurrentMonth && day.isPendingInRange"
+                    [class.ui-date-range-outside]="!day.inCurrentMonth"
+                    (selectedChange)="onDaySelectionChange(day, $event)"
+                    (mouseenter)="onCellHover(day)"
+                    (focusin)="onCellHover(day)"
+                  >
+                    @if (day.inCurrentMonth) {
+                      <span class="ui-date-range-day">{{ day.day }}</span>
+                    }
+                  </td>
                 }
               </tr>
-            </thead>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
 
-            <tbody>
-              @for (week of block.weeks; track week[0].date) {
-                <tr ngGridRow>
-                  @for (day of week; track day.date) {
-                    <td
-                      ngGridCell
-                      class="ui-date-range-cell"
-                      [disabled]="day.disabled || !day.inCurrentMonth"
-                      [selected]="day.inCurrentMonth && (day.isStart || day.isEnd)"
-                      [attr.data-focus-target]="day.isFocusTarget ? 'true' : null"
-                      [attr.aria-current]="day.isToday && day.inCurrentMonth ? 'date' : null"
-                      [attr.aria-label]="day.inCurrentMonth ? day.ariaLabel : null"
-                      [attr.aria-hidden]="day.inCurrentMonth ? null : 'true'"
-                      [attr.data-edge]="
-                        !day.inCurrentMonth
-                          ? null
-                          : (day.isStart && day.isEnd) ||
-                              (day.isPendingRangeStart && day.isPendingRangeEnd)
-                            ? 'single'
-                            : day.isStart || day.isPendingRangeStart
-                              ? 'start'
-                              : day.isEnd || day.isPendingRangeEnd
-                                ? 'end'
-                                : null
-                      "
-                      [class.ui-date-range-in-range]="day.inCurrentMonth && day.isInRange"
-                      [class.ui-date-range-edge]="
-                        day.inCurrentMonth && (day.isStart || day.isEnd)
-                      "
-                      [class.ui-date-range-pending-start]="
-                        day.inCurrentMonth && day.isPendingStart
-                      "
-                      [class.ui-date-range-pending-range]="
-                        day.inCurrentMonth && day.isPendingInRange
-                      "
-                      [class.ui-date-range-outside]="!day.inCurrentMonth"
-                      (selectedChange)="onDaySelectionChange(day, $event)"
-                      (mouseenter)="onCellHover(day)"
-                      (focusin)="onCellHover(day)"
-                    >
-                      @if (day.inCurrentMonth) {
-                        <span class="ui-date-range-day">{{ day.day }}</span>
-                      }
-                    </td>
-                  }
-                </tr>
-              }
-            </tbody>
-          </table>
-        }
+    <footer class="ui-date-range-footer">
+      <p class="ui-date-range-draft" aria-live="polite" aria-atomic="true">
+        <span>Range</span>
+        {{ draftDisplayValue() }}
+      </p>
+
+      <div class="ui-date-range-actions">
+        <button type="button" class="ui-date-range-action" (click)="reset()">Clear</button>
+        <button
+          type="button"
+          class="ui-date-range-action ui-date-range-action-accent"
+          [disabled]="!canApplyDraft()"
+          (click)="applyDraft()"
+        >
+          Apply
+        </button>
       </div>
-
-      <footer class="ui-date-range-footer">
-        <p class="ui-date-range-draft" aria-live="polite" aria-atomic="true">
-          <span>Range</span>
-          {{ draftDisplayValue() }}
-        </p>
-
-        <div class="ui-date-range-actions">
-          <button type="button" class="ui-date-range-action" (click)="reset()">Clear</button>
-          <button
-            type="button"
-            class="ui-date-range-action ui-date-range-action-accent"
-            [disabled]="!canApplyDraft()"
-            (click)="applyDraft()"
-          >
-            Apply
-          </button>
-        </div>
-      </footer>
-    </section>
-  </div>
-}
+    </footer>
+  </section>
+</div>

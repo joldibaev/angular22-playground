@@ -501,7 +501,12 @@ describe('UiSelect', () => {
     expect(combobox).toBeTruthy();
     expect(combobox.getAttribute('tabindex')).toBe('0');
     expect(combobox.getAttribute('aria-expanded')).toBe('false');
-    expect(combobox.getAttribute('aria-autocomplete')).toBe('none');
+    // The listbox popup directive is always present now (its content stays
+    // mounted after first open so the exit can animate), so the combobox reports
+    // its stable aria-autocomplete='list' instead of flipping to 'none' while
+    // collapsed. The popup *content* is still lazy — getPopup is null until the
+    // first open.
+    expect(combobox.getAttribute('aria-autocomplete')).toBe('list');
     expect(combobox.textContent).toContain('Select a label');
     expect(getPopup(hostFixture)).toBeNull();
   });
@@ -641,7 +646,9 @@ describe('UiSelect', () => {
 
     expect(hostFixture.componentInstance.select().popupExpanded()).toBe(false);
     expect(combobox.getAttribute('aria-expanded')).toBe('false');
-    expect(getPopup(hostFixture)).toBeNull();
+    // The popup stays mounted after its first open (preserveContent) so its exit
+    // can animate; collapse is reflected by popupExpanded()/aria-expanded above.
+    expect(getPopup(hostFixture)).not.toBeNull();
     expect(document.activeElement).toBe(combobox);
   });
 
@@ -704,7 +711,8 @@ describe('UiSelect', () => {
 
     expect(hostFixture.componentInstance.select().selectedValues()).toEqual(['approved']);
     expect(hostFixture.componentInstance.select().popupExpanded()).toBe(false);
-    expect(getPopup(hostFixture)).toBeNull();
+    // Popup persists after close (preserveContent) so its exit can animate.
+    expect(getPopup(hostFixture)).not.toBeNull();
     expect(hostFixture.nativeElement.querySelector('.selected-label-text')?.textContent).toContain(
       'Approved',
     );
@@ -726,6 +734,7 @@ describe('UiSelect', () => {
 
     expect(hostFixture.componentInstance.select().selectedValues()).toEqual(['paid']);
     expect(hostFixture.componentInstance.select().popupExpanded()).toBe(false);
-    expect(getPopup(hostFixture)).toBeNull();
+    // Popup persists after close (preserveContent) so its exit can animate.
+    expect(getPopup(hostFixture)).not.toBeNull();
   });
 });

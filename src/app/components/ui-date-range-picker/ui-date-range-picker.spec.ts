@@ -217,7 +217,9 @@ describe('UiDateRangePicker', () => {
       start: '2026-06-16',
       end: '2026-06-18',
     });
-    expect(getPanel(fixture)).toBeNull();
+    // The panel stays mounted (so its exit can animate); a closed picker is
+    // expressed by aria-expanded, not by removing the node.
+    expect(getTrigger(fixture).getAttribute('aria-expanded')).toBe('false');
   });
 
   it('should write the applied range back to a signal form field', async () => {
