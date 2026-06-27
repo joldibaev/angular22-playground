@@ -109,9 +109,7 @@
 }
 
 [data-sonner-toast] [data-close-button] {
-  --ui-button-min-height: 1.5rem;
-  --ui-button-padding-inline: 0.25rem;
-  --ui-button-padding-block: 0.25rem;
+  --ui-button-icon-only-size: 1.5rem;
   --ui-button-radius: 999px;
 
   position: absolute;
@@ -119,8 +117,6 @@
   left: var(--ui-sonner-close-button-left, 0);
   right: var(--ui-sonner-close-button-right, auto);
   z-index: 1;
-  width: 1.5rem;
-  height: 1.5rem;
   transform: var(--ui-sonner-close-button-transform, translate(-35%, -35%));
 }
 

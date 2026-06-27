@@ -3,6 +3,7 @@
 
   <div class="button-showcase-list">
     <button uiButton type="button">Default</button>
+    <button uiButton type="button" variant="brand">Brand</button>
     <button uiButton type="button" variant="outline">Outline</button>
     <button uiButton type="button" variant="destructive">Destructive</button>
     <button uiButton type="button" variant="secondary">Secondary</button>
@@ -17,6 +18,10 @@
       <button uiButton type="button">Enabled</button>
       <button uiButton type="button" disabled>Disabled</button>
       <button uiButton type="button" loading>Loading</button>
+
+      <button uiButton type="button" variant="brand">Enabled</button>
+      <button uiButton type="button" variant="brand" disabled>Disabled</button>
+      <button uiButton type="button" variant="brand" loading>Loading</button>
 
       <button uiButton type="button" variant="outline">Enabled</button>
       <button uiButton type="button" variant="outline" disabled>Disabled</button>
@@ -71,11 +76,15 @@
         Delete
       </button>
 
-      <button uiButton type="button" variant="secondary" aria-label="Settings">
+      <button uiButton type="button" variant="secondary" iconOnly aria-label="Settings">
         <ui-icon name="outline-settings" decorative />
       </button>
 
-      <a uiButton href="#component-catalog" variant="ghost" aria-label="Open details">
+      <button uiButton type="button" variant="brand" iconOnly loading aria-label="Creating">
+        <ui-icon name="outline-plus" decorative />
+      </button>
+
+      <a uiButton href="#component-catalog" variant="ghost" iconOnly aria-label="Open details">
         <ui-icon name="outline-chevron-right" decorative />
       </a>
     </div>
@@ -84,6 +93,7 @@
   <section class="button-showcase-section" aria-labelledby="button-variant-api">
     <h4 id="button-variant-api" class="font-black">Variant input</h4>
     <div class="button-showcase-list">
+      <button uiButton type="button" variant="brand">Brand variant</button>
       <button uiButton type="button" variant="secondary">
         Secondary variant
       </button>

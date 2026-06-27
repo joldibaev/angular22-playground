@@ -7,6 +7,7 @@
   --ui-button-active-background: color-mix(in oklab, var(--ui-button-background) 80%, Canvas);
   --ui-button-disabled-opacity: var(--opacity-disabled);
   --ui-button-min-height: 2.5rem;
+  --ui-button-icon-only-size: 2.5rem;
   --ui-button-radius: 0.5rem;
   --ui-button-padding-inline: 1rem;
   --ui-button-padding-block: 0.5rem;
@@ -54,6 +55,14 @@
   display: none;
 }
 
+:host(.ui-button-brand) {
+  --ui-button-background: var(--color-brand);
+  --ui-button-border-color: var(--ui-button-background);
+  --ui-button-color: contrast-color(var(--ui-button-background));
+  --ui-button-hover-background: color-mix(in oklab, var(--ui-button-background) 88%, CanvasText);
+  --ui-button-active-background: color-mix(in oklab, var(--ui-button-background) 80%, CanvasText);
+}
+
 :host(.ui-button-outline) {
   --ui-button-background: transparent;
   --ui-button-border-color: var(--border-color-strong);
@@ -96,6 +105,13 @@
   --ui-button-hover-background: transparent;
   --ui-button-active-background: transparent;
   --ui-button-color: var(--color-brand);
+}
+
+:host(.ui-button-icon-only) {
+  width: var(--ui-button-icon-only-size);
+  height: var(--ui-button-icon-only-size);
+  min-height: var(--ui-button-icon-only-size);
+  padding: 0;
 }
 
 :host(:not(:disabled, [aria-disabled='true']):hover) {
@@ -152,6 +168,10 @@
 
 .ui-button-content {
   display: contents;
+}
+
+:host(.ui-button-icon-only.ui-button-loading) .ui-button-content {
+  display: none;
 }
 
 .ui-button-loading-indicator {

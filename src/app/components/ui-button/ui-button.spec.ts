@@ -7,6 +7,7 @@ import { UiButton } from './ui-button';
   template: `
     <button uiButton type="submit" loading>Save</button>
     <a uiButton href="/docs" disabled>Docs</a>
+    <button uiButton type="button" variant="brand" iconOnly aria-label="Add">+</button>
   `,
 })
 class TestHost {}
@@ -42,5 +43,14 @@ describe('UiButton', () => {
     expect(anchor.classList.contains('ui-button')).toBe(true);
     expect(anchor.getAttribute('aria-disabled')).toBe('true');
     expect(clickEvent.defaultPrevented).toBe(true);
+  });
+
+  it('should apply brand and icon-only presentation modes', () => {
+    const button = fixture.nativeElement.querySelector(
+      'button[aria-label="Add"]',
+    ) as HTMLButtonElement;
+
+    expect(button.classList.contains('ui-button-brand')).toBe(true);
+    expect(button.classList.contains('ui-button-icon-only')).toBe(true);
   });
 });

@@ -123,6 +123,8 @@ describe('UiSonner', () => {
       'button[aria-label="Close toast"]',
     ) as HTMLButtonElement;
 
+    expect(close.classList.contains('ui-button-icon-only')).toBe(true);
+
     close.click();
     await fixture.whenStable();
 
