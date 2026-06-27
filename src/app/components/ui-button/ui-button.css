@@ -100,7 +100,11 @@
   background: var(--ui-button-hover-background);
 }
 
-:host(:not(:disabled, [aria-disabled='true']):active) {
+/* Press feedback. Excludes an open trigger (`aria-expanded='true'`): a popover/
+   menu/select anchored to this button tracks its border-box, so squashing the
+   button on press would drag the open surface's position/scale with it — and the
+   open-state rule below already holds the active fill. */
+:host(:not(:disabled, [aria-disabled='true'], [aria-expanded='true']):active) {
   background: var(--ui-button-active-background);
   scale: var(--press-scale);
 }

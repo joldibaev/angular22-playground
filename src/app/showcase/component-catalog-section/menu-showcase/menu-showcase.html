@@ -17,6 +17,25 @@
       <ui-menu-item value="doing">Doing</ui-menu-item>
       <ui-menu-item value="done">Done</ui-menu-item>
     </ui-menu>
+
+    <!-- Icon-only (kebab) trigger: a tiny anchor, so the menu opens at its own
+         min-width (12rem) rather than the trigger's width — handy for eyeballing
+         how the popup sizes itself against a narrow trigger. -->
+    <button
+      uiButton
+      uiMenuTrigger
+      variant="secondary"
+      aria-label="More actions"
+      [menu]="moreMenu.menu()"
+    >
+      <ui-icon name="outline-dots-vertical" decorative />
+    </button>
+    <ui-menu #moreMenu (itemSelected)="selectedCommand.set($event)">
+      <ui-menu-item value="rename">Rename</ui-menu-item>
+      <ui-menu-item value="move">Move to…</ui-menu-item>
+      <ui-menu-item value="share">Share</ui-menu-item>
+      <ui-menu-item value="remove">Remove</ui-menu-item>
+    </ui-menu>
   </div>
 
   <output

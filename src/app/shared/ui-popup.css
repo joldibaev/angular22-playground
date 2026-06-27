@@ -232,14 +232,35 @@
   /* Keyboard focus indicator. Mirrors the official Angular aria examples:
      an INSET outline (negative offset) so the scrolling list never clips it on
      the edge options, and an outline rather than a fill so it stays distinct
-     from the selected state. */
-  &:not([aria-disabled='true']):is(:focus-visible, [data-active='true']) {
+     from the selected state.
+
+     Intentionally NOT gated on `:not([aria-disabled='true'])`: @angular/aria
+     defaults `softDisabled` to true, so roving focus / activedescendant still
+     lands on a disabled option (WAI-ARIA: focusable but not invokable). It must
+     therefore show a ring, or the focus vanishes on it. The item's dimmed
+     opacity already signals it can't be activated; hover-fill and press-scale
+     stay disabled-excluded above/below.
+
+     Two triggers, kept consistent so the ring is ALWAYS a keyboard affordance
+     (hover stays fill-only) across all three popups:
+       • `:focus-visible` — the menu uses roving DOM focus, so keyboard nav lands
+         real focus on the option; mouse hover never matches :focus-visible.
+       • `[data-active]` — select/autocomplete keep DOM focus on the listbox
+         (activedescendant), so the option can't match :focus-visible; the
+         library marks the keyboard-active option with [data-active], and it
+         does NOT set it on hover.
+     The menu is excluded from the [data-active] branch (`:not(.ui-menu-item)`)
+     because it ALSO sets [data-active] on `mouseover` (pointer and keyboard
+     share the active item) — without the exclusion the ring would ride along
+     with the mouse there, unlike the other two. Its keyboard ring is already
+     covered by :focus-visible above. */
+  &:is(:focus-visible, [data-active='true']:not(.ui-menu-item)) {
     outline: 2px solid
-      color-mix(
-        in oklab,
-        var(--ui-popup-option-focus-visible-border-color, var(--color-brand)) 50%,
-        transparent
-      );
+    color-mix(
+      in oklab,
+      var(--ui-popup-option-focus-visible-border-color, var(--color-brand)) 50%,
+      transparent
+    );
     outline-offset: -2px;
   }
 
