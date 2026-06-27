@@ -30,10 +30,15 @@
 <!-- The panel stays mounted and is shown/hidden through the popover API
      (syncPopover), like ui-menu — not gated by @if (popupExpanded()). Removing
      the node on close would pop it out instantly and kill the box's
-     allow-discrete exit animation. -->
+     allow-discrete exit animation.
+
+     ui-popup-surface/ui-popup-box come from the shared ui-popup.css: the surface
+     is the transparent positioning shell, the box is the visible card. The
+     ui-datepicker-panel class only carries the calendar-specific flip-inline
+     fallback. -->
 <div
   #panel
-  class="ui-datepicker-panel"
+  class="ui-popup-surface ui-datepicker-panel"
   popover="auto"
   role="dialog"
   [id]="panelId"
@@ -42,7 +47,7 @@
   (toggle)="onPanelToggle($event)"
   (keydown)="onPanelKeydown($event)"
 >
-  <div class="ui-datepicker-box">
+  <div class="ui-popup-box">
     <header class="ui-datepicker-header">
       <button
         type="button"

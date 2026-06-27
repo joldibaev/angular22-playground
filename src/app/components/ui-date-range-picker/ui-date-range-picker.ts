@@ -42,7 +42,11 @@ import {
   selector: 'ui-date-range-picker',
   imports: [Grid, GridCell, GridRow, UiIcon, UiInput],
   templateUrl: './ui-date-range-picker.html',
-  styleUrl: './ui-date-range-picker.css',
+  // Shares the popover surface/box + open/close/flip animation with the menu,
+  // select, and single datepicker popups (ui-popup.css). The range picker
+  // overrides only the structural tokens it needs in its own stylesheet, which
+  // loads second so its overrides win.
+  styleUrls: ['../../shared/ui-popup.css', './ui-date-range-picker.css'],
   host: {
     '[style.anchor-scope]': 'anchorName',
   },

@@ -1,5 +1,5 @@
 :host {
-  --ui-popup-background: var(--background-color-surface);
+  --ui-popup-background: var(--background-color-elevated);
   --ui-popup-border-color: var(--border-color-default);
   --ui-popup-border-width: 1px;
   --ui-popup-radius: 0.5rem;

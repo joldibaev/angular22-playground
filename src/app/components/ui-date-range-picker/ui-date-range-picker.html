@@ -29,11 +29,16 @@
 
 <!-- The panel stays mounted and is shown/hidden through the popover API
      (syncPopover), like ui-menu — not gated by @if (popupExpanded()). Removing
-     the node on close would pop it out instantly and kill the panel's
-     allow-discrete exit animation. -->
+     the node on close would pop it out instantly and kill the box's
+     allow-discrete exit animation.
+
+     ui-popup-surface/ui-popup-box come from the shared ui-popup.css: the surface
+     is the transparent positioning shell, the box is the visible card (here a
+     flex row of presets + calendar). The ui-date-range-panel class only carries
+     the wide layout's flip-inline fallback and the box's flex display. -->
 <div
   #panel
-  class="ui-date-range-panel"
+  class="ui-popup-surface ui-date-range-panel"
   popover="auto"
   role="dialog"
   [id]="panelId"
@@ -43,6 +48,7 @@
   (keydown)="onPanelKeydown($event)"
   (mouseleave)="onPanelLeave()"
 >
+ <div class="ui-popup-box">
   @if (withPresets()) {
     <aside class="ui-date-range-presets" aria-label="Quick ranges">
       @for (preset of presets; track preset.label) {
@@ -177,4 +183,5 @@
       </div>
     </footer>
   </section>
+ </div>
 </div>

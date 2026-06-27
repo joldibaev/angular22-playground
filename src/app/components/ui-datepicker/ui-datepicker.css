@@ -1,17 +1,25 @@
 :host {
-  --ui-datepicker-background: var(--background-color-surface);
+  /* Only the structural deltas from the shared popup (ui-popup.css) live here;
+     background, border, shadow, overflow, and the whole open/close/flip
+     animation come from the shared defaults so the calendar stays in sync with
+     the menu and select popups. A calendar is not a dropdown list, so it must:
+       - set its own fixed width (the default tracks the trigger width)
+       - drop the inner padding (header/grid/footer own their spacing and the
+         footer divider is full-bleed)
+       - lift the 12rem max-height (the default would crop it into a scrollbox) */
+  --ui-popup-width: min(20rem, calc(100vw - 1rem));
+  --ui-popup-padding: 0;
+  --ui-popup-max-height: none;
+
   --ui-datepicker-border-color: var(--border-color-default);
   --ui-datepicker-hover-background: color-mix(in oklab, var(--text-color-muted) 7%, transparent);
   --ui-datepicker-selected-background: var(--color-brand);
   --ui-datepicker-selected-color: contrast-color(var(--ui-datepicker-selected-background));
   --ui-datepicker-today-color: var(--color-brand);
   --ui-datepicker-muted-color: color-mix(in oklab, var(--text-color-muted) 68%, transparent);
-  --ui-datepicker-shadow: 0 4px 6px -1px var(--shadow-color-default);
-  --ui-datepicker-offset: 0.5rem;
-  --ui-datepicker-open-duration: var(--dur-fast);
-  --ui-datepicker-close-duration: var(--dur-quick);
   --ui-datepicker-state-duration: var(--dur-quick);
   --ui-datepicker-press-duration: var(--dur-press);
+  --ui-datepicker-close-duration: var(--dur-quick);
   --ui-datepicker-motion-easing: var(--ease-snappy);
 
   display: block;
@@ -85,86 +93,14 @@
   );
 }
 
-/* The popover is a transparent positioning SHELL; the visible calendar card is
-   the inner `.ui-datepicker-box`. The split lets the open/close scale stay
-   origin-aware on an upward flip — an anchored element cannot react to its own
-   `position-try` fallback, so the box (a descendant) flips its transform-origin.
-   Same architecture as the shared ui-popup surface + box. */
+/* The shared .ui-popup-surface only flips block-ward (it anchors to the
+   trigger's width). The calendar is a fixed 20rem card that can sit near the
+   inline viewport edge, so it additionally flips inline. The shared box's
+   origin-aware open/close still works: flip-inline keeps the panel below the
+   trigger, so only the block flip needs to swap the transform-origin (which the
+   shared @container rule already handles). */
 .ui-datepicker-panel {
-  position: fixed;
-  inset: auto;
-  top: calc(anchor(bottom) + var(--ui-datepicker-offset));
-  left: anchor(left);
-  width: min(20rem, calc(100vw - 1rem));
-  margin: 0;
-  border: 0;
-  padding: 0;
-  background: transparent;
-  container-type: anchored;
   position-try-fallbacks: flip-block, flip-inline;
-
-  /* Discrete top-layer transitions stay on the popover so the shell lingers in
-     the top layer long enough for the box to animate out. */
-  transition:
-    overlay var(--ui-datepicker-close-duration) var(--ui-datepicker-motion-easing) allow-discrete,
-    display var(--ui-datepicker-close-duration) var(--ui-datepicker-motion-easing) allow-discrete;
-}
-
-.ui-datepicker-box {
-  box-sizing: border-box;
-  width: 100%;
-  border: 1px solid var(--ui-datepicker-border-color);
-  border-radius: 0.5rem;
-  overflow: hidden;
-  background: var(--ui-datepicker-background);
-  color: contrast-color(var(--ui-datepicker-background));
-  box-shadow: var(--ui-datepicker-shadow);
-
-  /* Origin-aware open/close: the card grows down from its top edge when the
-     panel sits below the trigger (default). Close (quick) is faster than open. */
-  transform-origin: top center;
-  opacity: 0;
-  translate: 0 -0.25rem;
-  scale: 0.98;
-  transition:
-    opacity var(--ui-datepicker-close-duration) var(--ui-datepicker-motion-easing),
-    translate var(--ui-datepicker-close-duration) var(--ui-datepicker-motion-easing),
-    scale var(--ui-datepicker-close-duration) var(--ui-datepicker-motion-easing);
-}
-
-.ui-datepicker-panel:popover-open .ui-datepicker-box {
-  opacity: 1;
-  translate: 0;
-  scale: 1;
-  transition:
-    opacity var(--ui-datepicker-open-duration) var(--ui-datepicker-motion-easing),
-    translate var(--ui-datepicker-open-duration) var(--ui-datepicker-motion-easing),
-    scale var(--ui-datepicker-open-duration) var(--ui-datepicker-motion-easing);
-}
-
-@starting-style {
-  .ui-datepicker-panel:popover-open .ui-datepicker-box {
-    opacity: 0;
-    translate: 0 -0.25rem;
-    scale: 0.98;
-  }
-}
-
-/* Upward flip (`flip-block`): the panel sits ABOVE the trigger, so the card must
-   grow from its bottom edge and slide up. `flip-inline` keeps growing downward,
-   so only the block flip swaps the origin. Placed last so it wins the cascade
-   while the block flip is active. */
-@container anchored(fallback: flip-block) {
-  .ui-datepicker-box {
-    transform-origin: bottom center;
-    translate: 0 0.25rem;
-  }
-
-  @starting-style {
-    .ui-datepicker-panel:popover-open .ui-datepicker-box {
-      translate: 0 0.25rem;
-    }
-  }
 }
 
 .ui-datepicker-header {
@@ -328,24 +264,10 @@
   color: var(--color-brand);
 }
 
-@supports not (anchor-name: --ui-datepicker-trigger) {
-  .ui-datepicker-panel {
-    position: absolute;
-    top: calc(100% + var(--ui-datepicker-offset));
-    left: 0;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  /* Box keeps its opacity fade, day keeps its color fade; drop the box
-     translate/scale and the chevron rotation. */
-  .ui-datepicker-box,
-  .ui-datepicker-panel:popover-open .ui-datepicker-box {
-    translate: none;
-    scale: none;
-    transition: opacity var(--ui-datepicker-open-duration) var(--ui-datepicker-motion-easing);
-  }
-
+  /* The box's reduced-motion handling (drop translate/scale, keep the opacity
+     fade) comes from the shared .ui-popup-box rule. Here we only quiet the
+     calendar-specific motion: chevron rotation, day color/press, nav presses. */
   .ui-datepicker-chevron {
     transition: none;
   }

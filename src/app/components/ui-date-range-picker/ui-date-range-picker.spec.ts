@@ -289,14 +289,17 @@ describe('UiDateRangePicker', () => {
     await openRangePicker(fixture);
 
     const grid = fixture.nativeElement.querySelector('.ui-date-range-grid') as HTMLElement;
-    const panel = getPanel(fixture) as HTMLElement;
+    // The open/close transition lives on the inner shared .ui-popup-box (the
+    // visible card), not the surface shell — the shell only transitions overlay/
+    // display so it lingers in the top layer while the box animates out.
+    const box = fixture.nativeElement.querySelector('.ui-popup-box') as HTMLElement;
     const gridStyle = getComputedStyle(grid);
-    const panelStyle = getComputedStyle(panel);
+    const boxStyle = getComputedStyle(box);
 
     expect(gridStyle.borderSpacing).toBe('0px');
-    expect(panelStyle.transitionProperty).toContain('opacity');
-    expect(panelStyle.transitionProperty).toContain('translate');
-    expect(panelStyle.transitionProperty).toContain('scale');
+    expect(boxStyle.transitionProperty).toContain('opacity');
+    expect(boxStyle.transitionProperty).toContain('translate');
+    expect(boxStyle.transitionProperty).toContain('scale');
   });
 
   it('should clear the draft without committing until apply', async () => {

@@ -1,14 +1,23 @@
 :host {
-  --ui-date-range-background: var(--background-color-surface);
+  /* Only the structural deltas from the shared popup (ui-popup.css) live here;
+     background, border, shadow, overflow, and the whole open/close/flip
+     animation come from the shared defaults so the range picker stays in sync
+     with the menu, select, and single datepicker popups. A dual-calendar panel
+     is not a dropdown list, so it must:
+       - set its own wide fixed width (the default tracks the trigger width)
+       - drop the inner padding (presets/calendar own their spacing and the
+         dividers are full-bleed)
+       - raise the 12rem max-height (the default would crop it into a scrollbox) */
+  --ui-popup-width: min(46rem, calc(100vw - 1rem));
+  --ui-popup-max-height: min(38rem, calc(100vh - 1rem));
+  --ui-popup-padding: 0;
+
   --ui-date-range-border-color: var(--border-color-default);
   --ui-date-range-hover-background: color-mix(in oklab, var(--text-color-muted) 7%, transparent);
   --ui-date-range-selected-background: var(--color-brand);
   --ui-date-range-selected-color: contrast-color(var(--ui-date-range-selected-background));
   --ui-date-range-preview-background: color-mix(in oklab, var(--color-brand) 16%, transparent);
   --ui-date-range-muted-color: color-mix(in oklab, var(--text-color-muted) 68%, transparent);
-  --ui-date-range-shadow: 0 4px 6px -1px var(--shadow-color-default);
-  --ui-date-range-offset: 0.5rem;
-  --ui-date-range-open-duration: var(--dur-fast);
   --ui-date-range-close-duration: var(--dur-quick);
   --ui-date-range-press-duration: var(--dur-press);
   --ui-date-range-motion-easing: var(--ease-snappy);
@@ -84,52 +93,16 @@
   );
 }
 
+/* The shared .ui-popup-surface only flips block-ward (it anchors to the
+   trigger's width). The wide dual-calendar card can sit near the inline viewport
+   edge, so it additionally flips inline; the shared box's origin-aware open/close
+   still works since flip-inline keeps the panel below the trigger. The visible
+   card (the shared .ui-popup-box) is a flex row of presets + calendar. */
 .ui-date-range-panel {
-  display: flex;
-  position: fixed;
-  inset: auto;
-  top: calc(anchor(bottom) + var(--ui-date-range-offset));
-  left: anchor(left);
-  width: min(46rem, calc(100vw - 1rem));
-  max-height: min(38rem, calc(100vh - 1rem));
-  margin: 0;
-  border: 1px solid var(--ui-date-range-border-color);
-  border-radius: 0.5rem;
-  padding: 0;
-  overflow: clip;
-  background: var(--ui-date-range-background);
-  color: contrast-color(var(--ui-date-range-background));
-  box-shadow: var(--ui-date-range-shadow);
   position-try-fallbacks: flip-block, flip-inline;
-  opacity: 0;
-  translate: 0 -0.25rem;
-  scale: 0.98;
-  /* Close transition (quick) lives here, open (fast) on :popover-open, so the
-     exit is shorter than the entrance. transition-behavior keeps overlay/display
-     discrete so the panel stays in the top layer through the close and animates
-     out instead of popping (the panel stays mounted — see the template comment).
-     Written as longhand rather than the shorthand on purpose: the shorthand's
-     `allow-discrete` keyword is unparseable in jsdom, which collapses the whole
-     declaration to `transition: all` and breaks the spec that reads the
-     transition-property list. */
-  transition-property: opacity, translate, scale, overlay, display;
-  transition-duration: var(--ui-date-range-close-duration);
-  transition-timing-function: var(--ui-date-range-motion-easing);
-  transition-behavior: allow-discrete;
 
-  &:popover-open {
-    opacity: 1;
-    translate: 0;
-    scale: 1;
-    transition-duration: var(--ui-date-range-open-duration);
-  }
-}
-
-@starting-style {
-  .ui-date-range-panel:popover-open {
-    opacity: 0;
-    translate: 0 -0.25rem;
-    scale: 0.98;
+  & .ui-popup-box {
+    display: flex;
   }
 }
 
@@ -399,10 +372,12 @@
 }
 
 @media (max-width: 44rem) {
-  .ui-date-range-panel {
+  :host {
+    --ui-popup-width: min(23rem, calc(100vw - 1rem));
+  }
+
+  .ui-date-range-panel .ui-popup-box {
     flex-direction: column;
-    width: min(23rem, calc(100vw - 1rem));
-    overflow: auto;
   }
 
   /* Stacked layout: presets become a wrapping top row with auto height,
@@ -442,15 +417,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* Panel keeps its opacity fade; drop the panel translate/scale and the
-     chevron rotation. */
-  .ui-date-range-panel {
-    transition-property: opacity, overlay, display;
-    transition-duration: var(--ui-date-range-open-duration);
-    transition-timing-function: var(--ui-date-range-motion-easing);
-    transition-behavior: allow-discrete;
-  }
-
+  /* The box's reduced-motion handling (drop translate/scale, keep the opacity
+     fade) comes from the shared .ui-popup-box rule. Here we only quiet the
+     range-specific motion: chevron rotation, day press, preset/nav/action. */
   .ui-date-range-chevron {
     transition: none;
   }

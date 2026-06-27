@@ -34,7 +34,10 @@ import {
   selector: 'ui-datepicker',
   imports: [Grid, GridCell, GridRow, UiIcon, UiInput],
   templateUrl: './ui-datepicker.html',
-  styleUrl: './ui-datepicker.css',
+  // Shares the popover surface/box + open/close/flip animation with the menu and
+  // select popups (ui-popup.css). The calendar overrides only the visual tokens
+  // it needs in ui-datepicker.css, which loads second so its overrides win.
+  styleUrls: ['../../shared/ui-popup.css', './ui-datepicker.css'],
   host: {
     '[style.anchor-scope]': 'anchorName',
   },
