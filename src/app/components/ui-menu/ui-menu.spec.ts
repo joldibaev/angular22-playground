@@ -18,7 +18,7 @@ import { UiMenuTrigger } from './ui-menu-trigger/ui-menu-trigger';
     <ui-menu #menu (itemSelected)="selected.set($event)">
       <ui-menu-item value="assign">Assign owner</ui-menu-item>
       <ui-menu-item value="snooze">Snooze</ui-menu-item>
-      <ui-menu-item value="delete" [disabled]="true">Delete</ui-menu-item>
+      <ui-menu-item value="delete" variant="destructive" [disabled]="true">Delete</ui-menu-item>
     </ui-menu>
   `,
 })
@@ -153,6 +153,8 @@ describe('UiMenu', () => {
       'Delete',
     ]);
     expect(items[2].getAttribute('aria-disabled')).toBe('true');
+    expect(items[0].dataset['variant']).toBe('default');
+    expect(items[2].dataset['variant']).toBe('destructive');
   });
 
   it('should emit the selected item value and close through Angular Aria harnesses', async () => {

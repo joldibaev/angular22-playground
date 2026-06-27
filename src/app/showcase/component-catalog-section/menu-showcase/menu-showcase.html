@@ -49,10 +49,22 @@
       <ui-icon name="outline-dots-vertical" decorative />
     </button>
     <ui-menu #moreMenu (itemSelected)="selectedCommand.set($event)">
-      <ui-menu-item value="rename">Rename</ui-menu-item>
-      <ui-menu-item value="move">Move to…</ui-menu-item>
-      <ui-menu-item value="share">Share</ui-menu-item>
-      <ui-menu-item value="remove">Remove</ui-menu-item>
+      <ui-menu-item value="rename">
+        <ui-icon name="outline-edit" decorative />
+        Rename
+      </ui-menu-item>
+      <ui-menu-item value="move">
+        <ui-icon name="outline-hand-move" decorative />
+        Move to…
+      </ui-menu-item>
+      <ui-menu-item value="share">
+        <ui-icon name="outline-share-3" decorative />
+        Share
+      </ui-menu-item>
+      <ui-menu-item value="remove" [variant]="'destructive'">
+        <ui-icon name="outline-trash" decorative />
+        Remove
+      </ui-menu-item>
     </ui-menu>
   </div>
 

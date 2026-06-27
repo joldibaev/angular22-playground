@@ -28,6 +28,7 @@
             <div
               ngMenuItem
               class="ui-popup-option ui-menu-item"
+              [attr.data-variant]="item.variant()"
               [value]="item.value()"
               [disabled]="item.disabled()"
             >
