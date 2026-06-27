@@ -38,6 +38,18 @@ class SignalFormTestHost {
 })
 class TextareaTestHost {}
 
+@Component({
+  imports: [UiInput],
+  template: `
+    <ui-input label="Search" [loading]="loading()">
+      <input type="search" />
+    </ui-input>
+  `,
+})
+class LoadingTestHost {
+  readonly loading = signal(true);
+}
+
 function dispatchInputEvent(input: HTMLInputElement, value: string): void {
   input.value = value;
   input.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
@@ -105,6 +117,23 @@ describe('UiInput', () => {
     const [titleInput] = getInputs(hostFixture);
 
     expect(titleInput.placeholder).toBe('Ticket title');
+  });
+
+  it('should expose a passive loading state without disabling the control', async () => {
+    const hostFixture = TestBed.createComponent(LoadingTestHost);
+    await hostFixture.whenStable();
+
+    const input = hostFixture.nativeElement.querySelector('input') as HTMLInputElement;
+
+    expect(input.getAttribute('aria-busy')).toBe('true');
+    expect(input.disabled).toBe(false);
+    expect(hostFixture.nativeElement.querySelector('ui-loading')).toBeTruthy();
+
+    hostFixture.componentInstance.loading.set(false);
+    await hostFixture.whenStable();
+
+    expect(input.getAttribute('aria-busy')).toBeNull();
+    expect(hostFixture.nativeElement.querySelector('ui-loading')).toBeNull();
   });
 
   it('should project a native input bound to the same signal form field', async () => {

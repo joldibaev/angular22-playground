@@ -38,6 +38,14 @@ class PlaceholderTestHost {
 }
 
 @Component({
+  imports: [UiSelect],
+  template: `<ui-select loading loadingText="Fetching statuses" />`,
+})
+class LoadingTestHost {
+  readonly select = viewChild.required(UiSelect);
+}
+
+@Component({
   imports: [UiSelect, UiSelectGroup, UiSelectOption],
   template: `
     <ui-select>
@@ -246,7 +254,7 @@ async function createSignalFormStateHostFixture(): Promise<
   return hostFixture;
 }
 
-function getCombobox(fixture: ComponentFixture<SelectHost>): HTMLElement {
+function getCombobox<T extends SelectHost>(fixture: ComponentFixture<T>): HTMLElement {
   return fixture.nativeElement.querySelector('[role="combobox"]');
 }
 
@@ -266,7 +274,7 @@ function getListbox(): HTMLElement {
   return document.body.querySelector('[role="listbox"]') as HTMLElement;
 }
 
-function getPopup(fixture: ComponentFixture<SelectHost>): HTMLElement | null {
+function getPopup(fixture: ComponentFixture<unknown>): HTMLElement | null {
   return fixture.nativeElement.querySelector('.ui-select-popup');
 }
 
@@ -321,6 +329,26 @@ describe('UiSelect', () => {
     const label = hostFixture.nativeElement.querySelector('.selected-label-text');
 
     expect(label?.textContent).toContain('Choose status');
+  });
+
+  it('should expose a passive loading state and a popup status when options are absent', async () => {
+    const hostFixture = TestBed.createComponent(LoadingTestHost);
+    await hostFixture.whenStable();
+
+    const combobox = getCombobox(hostFixture);
+
+    expect(combobox.getAttribute('aria-busy')).toBe('true');
+    expect(combobox.getAttribute('aria-disabled')).not.toBe('true');
+    expect(hostFixture.nativeElement.querySelector('.ui-input-loading')).toBeTruthy();
+    expect(combobox.querySelector('.icon-chevron-down')).toBeNull();
+
+    hostFixture.componentInstance.select().popupExpanded.set(true);
+    await hostFixture.whenStable();
+    await hostFixture.whenRenderingDone();
+
+    expect(getPopup(hostFixture)?.querySelector('.ui-popup-status')?.textContent).toContain(
+      'Fetching statuses',
+    );
   });
 
   it('should display the projected option label for the selected value', async () => {

@@ -38,6 +38,8 @@ export class UiButton {
   readonly variant = input<UiButtonVariant>('default');
   readonly type = input<UiButtonType>('button');
   readonly disabled = input(false, { transform: booleanAttribute });
+  // Unlike passive field loading, an action in flight is unavailable: repeated activation can
+  // duplicate a submission or side effect, so loading participates in the disabled behavior.
   readonly loading = input(false, { transform: booleanAttribute });
 
   readonly unavailable = computed(() => this.disabled() || this.loading());

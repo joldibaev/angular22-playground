@@ -1,4 +1,8 @@
-<ui-input [label]="label()" [withErrorMessage]="withErrorMessage()">
+<ui-input
+  [label]="label()"
+  [loading]="loading()"
+  [withErrorMessage]="withErrorMessage()"
+>
   <input
     ngCombobox
     #combobox="ngCombobox"
@@ -28,7 +32,12 @@
     (toggle)="onPopupToggle($event)"
   >
     <div class="ui-popup-box">
-      @if (hasOptions()) {
+      @if (loading() && !hasOptions()) {
+        <div class="ui-popup-status" ngComboboxWidget>
+          <ui-loading decorative />
+          <span>{{ loadingText() }}</span>
+        </div>
+      } @else if (hasOptions()) {
         <!-- focusMode="activedescendant": DOM focus stays on the listbox and
              @angular/aria marks the active option with [data-active]. The option
              hover/focus/selected styling lives in ui-popup.css (.ui-popup-option)

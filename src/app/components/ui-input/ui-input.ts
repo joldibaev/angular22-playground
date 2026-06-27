@@ -17,17 +17,21 @@ import {
   type ValidationError,
 } from '@angular/forms/signals';
 import { nextId } from '../../shared/unique-id';
+import { UiLoading } from '../ui-loading/ui-loading';
 import { UiInputError } from './ui-input-error/ui-input-error';
 
 @Component({
   selector: 'ui-input',
-  imports: [UiInputError],
+  imports: [UiInputError, UiLoading],
   templateUrl: './ui-input.html',
   styleUrl: './ui-input.css',
   encapsulation: ViewEncapsulation.None,
 })
 export class UiInput {
   readonly label = input('');
+  // `aria-busy` and `disabled` are deliberately separate: remote validation/search
+  // must not steal focus or stop typing. Consumers can bind both when input is truly unavailable.
+  readonly loading = input(false, { transform: booleanAttribute });
   readonly withErrorMessage = input(false, { transform: booleanAttribute });
   private readonly id = nextId();
   readonly labelId = `ui-input-label-${this.id}`;
@@ -117,6 +121,12 @@ export class UiInput {
       this.errorTooltipId,
       this.showErrorTooltip(),
     );
+
+    if (this.loading()) {
+      this.renderer.setAttribute(control, 'aria-busy', 'true');
+    } else {
+      this.renderer.removeAttribute(control, 'aria-busy');
+    }
   }
 
   private syncLabelFor(controlId: string) {

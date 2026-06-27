@@ -56,6 +56,28 @@ ui-input {
   min-width: 0;
   position: relative;
   width: 100%;
+
+  &:has(> .ui-input-loading) > :is(input, textarea, [ngCombobox], [uiInputControl]) {
+    padding-inline-end: 3rem;
+  }
+}
+
+.ui-input-loading {
+  position: absolute;
+  inset-block-start: 1.25rem;
+  inset-inline-end: 1rem;
+  z-index: 1;
+  pointer-events: none;
+  translate: 0 -50%;
+}
+
+.ui-input-disabled .ui-input-loading,
+.ui-input-control:has(
+    > :is(input, textarea, [uiInputControl]):disabled,
+    > [ngCombobox][aria-disabled='true']
+  )
+  > .ui-input-loading {
+  opacity: var(--opacity-disabled);
 }
 
 ui-input input,

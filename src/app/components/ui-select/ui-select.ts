@@ -19,6 +19,7 @@ import { UiInput } from '../ui-input/ui-input';
 import { UiSelectGroup } from './ui-select-group/ui-select-group';
 import { UiSelectOption } from './ui-select-option/ui-select-option';
 import { UiIcon } from '../ui-icon/ui-icon';
+import { UiLoading } from '../ui-loading/ui-loading';
 import { syncPopover } from '../../shared/sync-popover';
 
 type UiSelectRenderItem = {
@@ -29,7 +30,7 @@ export type UiSelectValue = string | string[];
 
 @Component({
   selector: 'ui-select',
-  imports: [Combobox, ComboboxPopup, Listbox, ComboboxWidget, Option, UiInput, UiIcon],
+  imports: [Combobox, ComboboxPopup, Listbox, ComboboxWidget, Option, UiInput, UiIcon, UiLoading],
   templateUrl: './ui-select.html',
   styleUrls: ['../../shared/ui-popup.css', './ui-select.css'],
 })
@@ -40,7 +41,12 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
 
   value = model<UiSelectValue>('');
   disabled = input(false, { transform: booleanAttribute });
+  // Loading does not imply disabled: previously loaded options remain useful during a refresh,
+  // and an empty popup can explain that options are pending. Consumers may bind both for a
+  // strictly unavailable initial load.
+  loading = input(false, { transform: booleanAttribute });
   label = input('Select');
+  loadingText = input('Loading');
   multi = input(false, { transform: booleanAttribute });
   placeholder = input('Select a label');
   withErrorMessage = input(false, { transform: booleanAttribute });

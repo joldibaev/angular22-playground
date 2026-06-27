@@ -18,11 +18,12 @@ import type { FormValueControl } from '@angular/forms/signals';
 import { UiInput } from '../ui-input/ui-input';
 import { UiAutocompleteOption } from './ui-autocomplete-option/ui-autocomplete-option';
 import { UiIcon } from '../ui-icon/ui-icon';
+import { UiLoading } from '../ui-loading/ui-loading';
 import { syncPopover } from '../../shared/sync-popover';
 
 @Component({
   selector: 'ui-autocomplete',
-  imports: [Combobox, ComboboxPopup, ComboboxWidget, Listbox, Option, UiInput, UiIcon],
+  imports: [Combobox, ComboboxPopup, ComboboxWidget, Listbox, Option, UiInput, UiIcon, UiLoading],
   templateUrl: './ui-autocomplete.html',
   styleUrls: ['../../shared/ui-popup.css', './ui-autocomplete.css'],
 })
@@ -33,9 +34,13 @@ export class UiAutocomplete implements FormValueControl<string> {
 
   value = model('');
   disabled = input(false, { transform: booleanAttribute });
+  // Keep the combobox operable while loading: continued typing refines or replaces the pending
+  // request. Disabling here would drop focus and prevent the interaction that drives async search.
+  loading = input(false, { transform: booleanAttribute });
   label = input('Search');
   placeholder = input('Search labels');
   emptyText = input('No matches');
+  loadingText = input('Loading');
   withErrorMessage = input(false, { transform: booleanAttribute });
   touch = output<void>();
 

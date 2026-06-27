@@ -20,6 +20,10 @@
       [panelId]="errorTooltipId"
     >
       <ng-content />
+
+      @if (loading()) {
+        <ui-loading class="ui-input-loading" decorative />
+      }
     </ui-input-error>
 
     @if (disabledReasonMessages().length) {

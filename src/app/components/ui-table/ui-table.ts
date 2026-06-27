@@ -52,6 +52,8 @@ export class UiTable<T> {
   });
   readonly headerRows = input(1, { transform: numberAttribute });
   readonly density = input<UiTableDensity>('comfortable');
+  // Refreshing does not make already-rendered rows unavailable. Loading marks the table busy and
+  // suppresses duplicate pagination requests while preserving reading, scrolling, and selection.
   readonly loading = input(false, { transform: booleanAttribute });
   readonly hasMore = input(true, { transform: booleanAttribute });
   readonly withRowHover = input(false, { transform: booleanAttribute });

@@ -37,6 +37,14 @@ class PlaceholderTestHost {
 }
 
 @Component({
+  imports: [UiAutocomplete],
+  template: `<ui-autocomplete loading loadingText="Fetching statuses" />`,
+})
+class LoadingTestHost {
+  readonly autocomplete = viewChild.required(UiAutocomplete);
+}
+
+@Component({
   imports: [FormField, UiAutocomplete, UiAutocompleteOption],
   template: `
     <ui-autocomplete [formField]="formState.status">
@@ -140,7 +148,7 @@ function getListbox(): HTMLElement {
   return document.body.querySelector('[role="listbox"]') as HTMLElement;
 }
 
-function getPopup(fixture: ComponentFixture<TestHost>): HTMLElement | null {
+function getPopup(fixture: ComponentFixture<unknown>): HTMLElement | null {
   return fixture.nativeElement.querySelector('.ui-autocomplete-popup');
 }
 
@@ -237,6 +245,27 @@ describe('UiAutocomplete', () => {
     await hostFixture.whenRenderingDone();
 
     expect(getPopup(hostFixture)?.textContent).toContain('Nothing found');
+  });
+
+  it('should expose a passive loading state instead of an empty result', async () => {
+    const hostFixture = TestBed.createComponent(LoadingTestHost);
+    await hostFixture.whenStable();
+
+    const combobox = getCombobox(hostFixture);
+
+    expect(combobox.getAttribute('aria-busy')).toBe('true');
+    expect(combobox.disabled).toBe(false);
+    expect(hostFixture.nativeElement.querySelector('.ui-input-loading')).toBeTruthy();
+
+    combobox.focus();
+    dispatchInputEvent(combobox, 'pending');
+    await hostFixture.whenStable();
+    await hostFixture.whenRenderingDone();
+
+    const popup = getPopup(hostFixture);
+
+    expect(popup?.querySelector('.ui-popup-status')?.textContent).toContain('Fetching statuses');
+    expect(popup?.textContent).not.toContain('No matches');
   });
 
   it('should sync selected value from a signal form field', async () => {

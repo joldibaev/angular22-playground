@@ -30,6 +30,7 @@
   );
   --ui-popup-option-selected-color: var(--color-brand);
   --ui-popup-option-selected-background: color-mix(in oklab, var(--color-brand) 5%, transparent);
+  --ui-popup-status-color: var(--text-color-muted);
 }
 
 /* The popover is a transparent positioning SHELL; the visible card is the inner
@@ -171,6 +172,16 @@
   overflow: auto;
   scrollbar-width: thin;
   scrollbar-color: color-mix(in oklab, var(--text-color-muted) 32%, transparent) transparent;
+}
+
+.ui-popup-status {
+  display: flex;
+  min-height: var(--ui-popup-option-min-height);
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: var(--ui-popup-option-padding);
+  color: var(--ui-popup-status-color);
 }
 
 @supports (animation-timeline: scroll()) {
