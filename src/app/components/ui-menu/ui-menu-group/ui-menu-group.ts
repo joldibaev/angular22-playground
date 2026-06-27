@@ -5,7 +5,7 @@ import { UiMenuItem } from '../ui-menu-item/ui-menu-item';
   selector: 'ui-menu-group',
   imports: [],
   templateUrl: './ui-menu-group.html',
-  styleUrl: './ui-menu-group.css',
+  host: { class: 'hidden' },
 })
 export class UiMenuGroup {
   readonly element = inject(ElementRef<HTMLElement>);

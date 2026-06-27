@@ -13,7 +13,7 @@ import {
   selector: 'ui-menu-item',
   imports: [],
   templateUrl: './ui-menu-item.html',
-  styleUrl: './ui-menu-item.css',
+  host: { class: 'hidden' },
 })
 export class UiMenuItem {
   readonly element = inject(ElementRef<HTMLElement>);

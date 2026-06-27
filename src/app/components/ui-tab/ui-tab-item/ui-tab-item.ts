@@ -13,7 +13,7 @@ import {
   selector: 'ui-tab-item',
   imports: [],
   templateUrl: './ui-tab-item.html',
-  styleUrl: './ui-tab-item.css',
+  host: { class: 'hidden' },
 })
 export class UiTabItem {
   readonly element = inject(ElementRef<HTMLElement>);

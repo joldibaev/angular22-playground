@@ -4,7 +4,7 @@ import { Component, computed, ElementRef, inject, input } from '@angular/core';
   selector: 'ui-autocomplete-option',
   imports: [],
   templateUrl: './ui-autocomplete-option.html',
-  styleUrl: './ui-autocomplete-option.css',
+  host: { class: 'hidden' },
 })
 export class UiAutocompleteOption {
   private element = inject(ElementRef<HTMLElement>);
