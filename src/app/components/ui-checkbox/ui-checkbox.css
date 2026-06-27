@@ -5,8 +5,8 @@
   --ui-checkbox-checked-color: var(--color-brand);
   --ui-checkbox-invalid-color: var(--color-destructive);
   --ui-checkbox-invalid-focus-visible-border-color: var(--ui-checkbox-invalid-color);
-  --ui-checkbox-background: var(--background-color-surface);
-  --ui-checkbox-label-color: contrast-color(var(--background-color-surface));
+  --ui-checkbox-background: var(--background-color-subtle);
+  --ui-checkbox-label-color: CanvasText;
   --ui-checkbox-muted-color: var(--text-color-muted);
   --ui-checkbox-state-duration: var(--dur-fast);
   --ui-checkbox-mark-duration: var(--dur-fast);

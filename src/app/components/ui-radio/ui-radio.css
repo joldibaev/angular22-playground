@@ -3,8 +3,8 @@
   --ui-radio-border-color: var(--border-color-strong);
   --ui-radio-focus-visible-border-color: var(--color-brand);
   --ui-radio-checked-color: var(--color-brand);
-  --ui-radio-background: var(--background-color-surface);
-  --ui-radio-label-color: contrast-color(var(--background-color-surface));
+  --ui-radio-background: var(--background-color-subtle);
+  --ui-radio-label-color: CanvasText;
   --ui-radio-state-duration: var(--dur-fast);
   --ui-radio-press-duration: var(--dur-press);
   --ui-radio-motion-easing: var(--ease-snappy);

@@ -11,7 +11,7 @@
   --ui-switch-invalid-color: var(--color-destructive);
   --ui-switch-invalid-focus-visible-border-color: var(--ui-switch-invalid-color);
   --ui-switch-background: var(--background-color-subtle);
-  --ui-switch-label-color: contrast-color(var(--background-color-surface));
+  --ui-switch-label-color: CanvasText;
   --ui-switch-muted-color: var(--text-color-muted);
   --ui-switch-state-duration: var(--dur-fast);
   --ui-switch-motion-duration: var(--dur-quick);
