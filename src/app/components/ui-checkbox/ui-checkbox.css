@@ -8,6 +8,11 @@
   --ui-checkbox-background: var(--background-color-surface);
   --ui-checkbox-label-color: contrast-color(var(--background-color-surface));
   --ui-checkbox-muted-color: var(--text-color-muted);
+  --ui-checkbox-state-duration: var(--dur-fast);
+  --ui-checkbox-mark-duration: var(--dur-fast);
+  --ui-checkbox-indeterminate-duration: var(--dur-quick);
+  --ui-checkbox-press-duration: var(--dur-press);
+  --ui-checkbox-motion-easing: var(--ease-snappy);
 
   display: block;
   min-width: 0;
@@ -67,10 +72,10 @@
   background: var(--ui-checkbox-background);
   color: contrast-color(var(--ui-checkbox-checked-color));
   transition:
-    background-color var(--dur-fast) var(--ease-snappy),
-    border-color var(--dur-fast) var(--ease-snappy),
-    box-shadow var(--dur-fast) var(--ease-snappy),
-    scale var(--dur-press) var(--ease-snappy);
+    background-color var(--ui-checkbox-state-duration) var(--ui-checkbox-motion-easing),
+    border-color var(--ui-checkbox-state-duration) var(--ui-checkbox-motion-easing),
+    box-shadow var(--ui-checkbox-state-duration) var(--ui-checkbox-motion-easing),
+    scale var(--ui-checkbox-press-duration) var(--ui-checkbox-motion-easing);
 }
 
 /* Press feedback: the box gives a little under the press (stronger than a
@@ -98,14 +103,14 @@
 .ui-checkbox-mark-check {
   stroke-dasharray: var(--ui-checkbox-check-length);
   stroke-dashoffset: var(--ui-checkbox-check-length); /* hidden: nothing drawn yet */
-  transition: stroke-dashoffset var(--dur-fast) var(--ease-snappy);
+  transition: stroke-dashoffset var(--ui-checkbox-mark-duration) var(--ui-checkbox-motion-easing);
 }
 
 /* Indeterminate bar grows from its center. */
 .ui-checkbox-mark-dash {
   scale: 0 1;
   transform-origin: center;
-  transition: scale var(--dur-quick) var(--ease-snappy);
+  transition: scale var(--ui-checkbox-indeterminate-duration) var(--ui-checkbox-motion-easing);
 }
 
 .ui-checkbox-input:checked + .ui-checkbox-control,
@@ -179,9 +184,9 @@
   /* Keep the color/box-shadow fades; drop the press scale and the mark draw. */
   .ui-checkbox-control {
     transition:
-      background-color var(--dur-fast) var(--ease-snappy),
-      border-color var(--dur-fast) var(--ease-snappy),
-      box-shadow var(--dur-fast) var(--ease-snappy);
+      background-color var(--ui-checkbox-state-duration) var(--ui-checkbox-motion-easing),
+      border-color var(--ui-checkbox-state-duration) var(--ui-checkbox-motion-easing),
+      box-shadow var(--ui-checkbox-state-duration) var(--ui-checkbox-motion-easing);
   }
 
   .ui-checkbox-mark-check,

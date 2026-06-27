@@ -8,6 +8,11 @@
   --ui-datepicker-muted-color: color-mix(in oklab, var(--text-color-muted) 68%, transparent);
   --ui-datepicker-shadow: 0 4px 6px -1px var(--shadow-color-default);
   --ui-datepicker-offset: 0.5rem;
+  --ui-datepicker-open-duration: var(--dur-fast);
+  --ui-datepicker-close-duration: var(--dur-quick);
+  --ui-datepicker-state-duration: var(--dur-quick);
+  --ui-datepicker-press-duration: var(--dur-press);
+  --ui-datepicker-motion-easing: var(--ease-snappy);
 
   display: block;
   min-width: 0;
@@ -63,7 +68,7 @@
 
 .ui-datepicker-chevron {
   margin-left: auto;
-  transition: rotate var(--dur-quick) var(--ease-snappy);
+  transition: rotate var(--ui-datepicker-close-duration) var(--ui-datepicker-motion-easing);
 }
 
 .ui-datepicker-trigger-label {
@@ -101,8 +106,8 @@
   /* Discrete top-layer transitions stay on the popover so the shell lingers in
      the top layer long enough for the box to animate out. */
   transition:
-    overlay var(--dur-quick) var(--ease-snappy) allow-discrete,
-    display var(--dur-quick) var(--ease-snappy) allow-discrete;
+    overlay var(--ui-datepicker-close-duration) var(--ui-datepicker-motion-easing) allow-discrete,
+    display var(--ui-datepicker-close-duration) var(--ui-datepicker-motion-easing) allow-discrete;
 }
 
 .ui-datepicker-box {
@@ -122,9 +127,9 @@
   translate: 0 -0.25rem;
   scale: 0.98;
   transition:
-    opacity var(--dur-quick) var(--ease-snappy),
-    translate var(--dur-quick) var(--ease-snappy),
-    scale var(--dur-quick) var(--ease-snappy);
+    opacity var(--ui-datepicker-close-duration) var(--ui-datepicker-motion-easing),
+    translate var(--ui-datepicker-close-duration) var(--ui-datepicker-motion-easing),
+    scale var(--ui-datepicker-close-duration) var(--ui-datepicker-motion-easing);
 }
 
 .ui-datepicker-panel:popover-open .ui-datepicker-box {
@@ -132,9 +137,9 @@
   translate: 0;
   scale: 1;
   transition:
-    opacity var(--dur-fast) var(--ease-snappy),
-    translate var(--dur-fast) var(--ease-snappy),
-    scale var(--dur-fast) var(--ease-snappy);
+    opacity var(--ui-datepicker-open-duration) var(--ui-datepicker-motion-easing),
+    translate var(--ui-datepicker-open-duration) var(--ui-datepicker-motion-easing),
+    scale var(--ui-datepicker-open-duration) var(--ui-datepicker-motion-easing);
 }
 
 @starting-style {
@@ -190,8 +195,8 @@
   font: inherit;
   outline: none;
   transition:
-    background-color var(--dur-press) var(--ease-snappy),
-    scale var(--dur-press) var(--ease-snappy);
+    background-color var(--ui-datepicker-press-duration) var(--ui-datepicker-motion-easing),
+    scale var(--ui-datepicker-press-duration) var(--ui-datepicker-motion-easing);
 
   &:not(:disabled):hover {
     background: var(--ui-datepicker-hover-background);
@@ -298,9 +303,9 @@
   line-height: 1;
   pointer-events: none;
   transition:
-    background-color var(--dur-quick) var(--ease-snappy),
-    color var(--dur-quick) var(--ease-snappy),
-    scale var(--dur-press) var(--ease-snappy);
+    background-color var(--ui-datepicker-state-duration) var(--ui-datepicker-motion-easing),
+    color var(--ui-datepicker-state-duration) var(--ui-datepicker-motion-easing),
+    scale var(--ui-datepicker-press-duration) var(--ui-datepicker-motion-easing);
 }
 
 .ui-datepicker-footer {
@@ -334,10 +339,11 @@
 @media (prefers-reduced-motion: reduce) {
   /* Box keeps its opacity fade, day keeps its color fade; drop the box
      translate/scale and the chevron rotation. */
-  .ui-datepicker-box {
+  .ui-datepicker-box,
+  .ui-datepicker-panel:popover-open .ui-datepicker-box {
     translate: none;
     scale: none;
-    transition: opacity var(--dur-fast) var(--ease-snappy);
+    transition: opacity var(--ui-datepicker-open-duration) var(--ui-datepicker-motion-easing);
   }
 
   .ui-datepicker-chevron {
@@ -347,8 +353,8 @@
   /* Day keeps its color fade; drop the press-scale. */
   .ui-datepicker-day {
     transition:
-      background-color var(--dur-quick) var(--ease-snappy),
-      color var(--dur-quick) var(--ease-snappy);
+      background-color var(--ui-datepicker-state-duration) var(--ui-datepicker-motion-easing),
+      color var(--ui-datepicker-state-duration) var(--ui-datepicker-motion-easing);
   }
 
   .ui-datepicker-cell:not([aria-disabled='true']):active .ui-datepicker-day {
@@ -358,7 +364,7 @@
   /* Nav / action buttons keep their hover fade; drop the press-scale. */
   .ui-datepicker-nav,
   .ui-datepicker-action {
-    transition: background-color var(--dur-press) var(--ease-snappy);
+    transition: background-color var(--ui-datepicker-press-duration) var(--ui-datepicker-motion-easing);
   }
 
   .ui-datepicker-nav:not(:disabled):active,

@@ -1,12 +1,21 @@
 ui-tooltip-panel {
+  --ui-tooltip-open-duration: var(--dur-fast);
+  --ui-tooltip-close-duration: var(--dur-quick);
+  --ui-tooltip-motion-easing: var(--ease-snappy);
+  --ui-panel-open-duration: var(--ui-tooltip-open-duration);
+  --ui-panel-close-duration: var(--ui-tooltip-close-duration);
+  --ui-panel-easing: var(--ui-tooltip-motion-easing);
   --ui-panel-background: CanvasText;
   --ui-panel-border-color: color-mix(in oklab, var(--ui-panel-background) 82%, var(--border-color-strong));
   --ui-panel-text-color: Canvas;
 }
 
 .ui-tooltip-trigger[interestfor] {
-  interest-delay-start: 0.3s;
-  interest-delay-end: 0.1s;
+  --ui-tooltip-show-delay: calc(var(--dur-quick) * 2);
+  --ui-tooltip-hide-delay: calc(var(--dur-fast) * 0.4);
+
+  interest-delay-start: var(--ui-tooltip-show-delay);
+  interest-delay-end: var(--ui-tooltip-hide-delay);
 }
 
 .ui-tooltip-trigger:not(.ui-button)[interestfor] {

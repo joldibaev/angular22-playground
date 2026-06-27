@@ -28,6 +28,9 @@
   --ui-panel-text-color: inherit;
   --ui-panel-border-color: transparent;
   --ui-panel-shadow: none;
+  --ui-panel-open-duration: var(--dur-fast);
+  --ui-panel-close-duration: var(--dur-quick);
+  --ui-panel-easing: var(--ease-snappy);
 }
 
 .arrow-panel {
@@ -97,20 +100,20 @@
   scale: 0.97;
   /* Close transition lives here (quick); open transition on :popover-open (fast). */
   transition:
-    opacity var(--dur-quick) var(--ease-snappy),
-    scale var(--dur-quick) var(--ease-snappy),
-    overlay var(--dur-quick) var(--ease-snappy) allow-discrete,
-    display var(--dur-quick) var(--ease-snappy) allow-discrete;
+    opacity var(--ui-panel-close-duration) var(--ui-panel-easing),
+    scale var(--ui-panel-close-duration) var(--ui-panel-easing),
+    overlay var(--ui-panel-close-duration) var(--ui-panel-easing) allow-discrete,
+    display var(--ui-panel-close-duration) var(--ui-panel-easing) allow-discrete;
 }
 
 .arrow-panel:where([popover]):popover-open {
   opacity: 1;
   scale: 1;
   transition:
-    opacity var(--dur-fast) var(--ease-snappy),
-    scale var(--dur-fast) var(--ease-snappy),
-    overlay var(--dur-fast) var(--ease-snappy) allow-discrete,
-    display var(--dur-fast) var(--ease-snappy) allow-discrete;
+    opacity var(--ui-panel-open-duration) var(--ui-panel-easing),
+    scale var(--ui-panel-open-duration) var(--ui-panel-easing),
+    overlay var(--ui-panel-open-duration) var(--ui-panel-easing) allow-discrete,
+    display var(--ui-panel-open-duration) var(--ui-panel-easing) allow-discrete;
 }
 
 @starting-style {
@@ -122,11 +125,12 @@
 
 @media (prefers-reduced-motion: reduce) {
   /* Keep the opacity fade; drop the scale movement. */
-  .arrow-panel:where([popover]) {
+  .arrow-panel:where([popover]),
+  .arrow-panel:where([popover]):popover-open {
     transition:
-      opacity var(--dur-fast) var(--ease-snappy),
-      overlay var(--dur-fast) allow-discrete,
-      display var(--dur-fast) allow-discrete;
+      opacity var(--ui-panel-open-duration) var(--ui-panel-easing),
+      overlay var(--ui-panel-open-duration) allow-discrete,
+      display var(--ui-panel-open-duration) allow-discrete;
   }
 }
 

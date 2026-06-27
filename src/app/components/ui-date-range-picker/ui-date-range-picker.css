@@ -8,6 +8,10 @@
   --ui-date-range-muted-color: color-mix(in oklab, var(--text-color-muted) 68%, transparent);
   --ui-date-range-shadow: 0 4px 6px -1px var(--shadow-color-default);
   --ui-date-range-offset: 0.5rem;
+  --ui-date-range-open-duration: var(--dur-fast);
+  --ui-date-range-close-duration: var(--dur-quick);
+  --ui-date-range-press-duration: var(--dur-press);
+  --ui-date-range-motion-easing: var(--ease-snappy);
 
   display: block;
   min-width: 0;
@@ -63,7 +67,7 @@
 
 .ui-date-range-chevron {
   margin-left: auto;
-  transition: rotate var(--dur-quick) var(--ease-snappy);
+  transition: rotate var(--ui-date-range-close-duration) var(--ui-date-range-motion-easing);
 }
 
 .ui-date-range-trigger-label {
@@ -109,15 +113,15 @@
      declaration to `transition: all` and breaks the spec that reads the
      transition-property list. */
   transition-property: opacity, translate, scale, overlay, display;
-  transition-duration: var(--dur-quick);
-  transition-timing-function: var(--ease-snappy);
+  transition-duration: var(--ui-date-range-close-duration);
+  transition-timing-function: var(--ui-date-range-motion-easing);
   transition-behavior: allow-discrete;
 
   &:popover-open {
     opacity: 1;
     translate: 0;
     scale: 1;
-    transition-duration: var(--dur-fast);
+    transition-duration: var(--ui-date-range-open-duration);
   }
 }
 
@@ -150,8 +154,8 @@
   font: inherit;
   outline: none;
   transition:
-    background-color var(--dur-press) var(--ease-snappy),
-    scale var(--dur-press) var(--ease-snappy);
+    background-color var(--ui-date-range-press-duration) var(--ui-date-range-motion-easing),
+    scale var(--ui-date-range-press-duration) var(--ui-date-range-motion-easing);
 
   &:not(:disabled):hover {
     background: var(--ui-date-range-hover-background);
@@ -344,7 +348,7 @@
   margin: 0.0625rem;
   font-size: 0.875rem;
   pointer-events: none;
-  transition: scale var(--dur-press) var(--ease-snappy);
+  transition: scale var(--ui-date-range-press-duration) var(--ui-date-range-motion-easing);
 }
 
 .ui-date-range-footer {
@@ -442,8 +446,8 @@
      chevron rotation. */
   .ui-date-range-panel {
     transition-property: opacity, overlay, display;
-    transition-duration: var(--dur-fast);
-    transition-timing-function: var(--ease-snappy);
+    transition-duration: var(--ui-date-range-open-duration);
+    transition-timing-function: var(--ui-date-range-motion-easing);
     transition-behavior: allow-discrete;
   }
 
@@ -464,7 +468,7 @@
   .ui-date-range-preset,
   .ui-date-range-nav,
   .ui-date-range-action {
-    transition: background-color var(--dur-press) var(--ease-snappy);
+    transition: background-color var(--ui-date-range-press-duration) var(--ui-date-range-motion-easing);
 
     &:not(:disabled):active {
       scale: none;

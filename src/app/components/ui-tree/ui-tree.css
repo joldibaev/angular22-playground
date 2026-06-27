@@ -13,6 +13,11 @@
   --ui-tree-selected-background: color-mix(in oklab, var(--color-brand) 12%, transparent);
   --ui-tree-selected-color: var(--color-brand);
   --ui-tree-focus-ring: var(--focus-ring-color);
+  --ui-tree-state-duration: var(--dur-quick);
+  --ui-tree-press-duration: var(--dur-press);
+  --ui-tree-expand-duration: var(--dur-fast);
+  --ui-tree-collapse-duration: var(--dur-quick);
+  --ui-tree-motion-easing: var(--ease-snappy);
 
   display: block;
 }
@@ -53,8 +58,8 @@
   cursor: pointer;
   outline: none;
   transition:
-    background-color var(--dur-quick) var(--ease-snappy),
-    scale var(--dur-press) var(--ease-snappy);
+    background-color var(--ui-tree-state-duration) var(--ui-tree-motion-easing),
+    scale var(--ui-tree-press-duration) var(--ui-tree-motion-easing);
 
   &:hover,
   &[data-active='true'] {
@@ -106,7 +111,7 @@
      inline axis; `:dir(rtl)` flips the rest direction so it always points
      "into" the tree. */
   rotate: -90deg;
-  transition: rotate var(--dur-quick) var(--ease-snappy);
+  transition: rotate var(--ui-tree-state-duration) var(--ui-tree-motion-easing);
 }
 
 :host(:dir(rtl)) .ui-tree-twisty {
@@ -211,12 +216,13 @@
 }
 
 .ui-tree-group-enter {
-  animation: ui-tree-group-toggle var(--dur-fast) var(--ease-snappy);
+  animation: ui-tree-group-toggle var(--ui-tree-expand-duration) var(--ui-tree-motion-easing);
 }
 
 .ui-tree-group-leave {
   pointer-events: none;
-  animation: ui-tree-group-toggle var(--dur-quick) var(--ease-snappy) reverse;
+  animation:
+    ui-tree-group-toggle var(--ui-tree-collapse-duration) var(--ui-tree-motion-easing) reverse;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -227,7 +233,7 @@
   }
 
   .ui-tree-item {
-    transition: background-color var(--dur-quick) var(--ease-snappy);
+    transition: background-color var(--ui-tree-state-duration) var(--ui-tree-motion-easing);
 
     &:not([aria-disabled='true']):active {
       scale: none;
@@ -236,6 +242,12 @@
 
   .ui-tree-group-enter,
   .ui-tree-group-leave {
-    animation-duration: 1ms;
+    animation-name: ui-tree-group-fade;
+  }
+}
+
+@keyframes ui-tree-group-fade {
+  from {
+    opacity: 0;
   }
 }

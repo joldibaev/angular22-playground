@@ -12,6 +12,8 @@
   --ui-tab-pill-list-padding: 0.25rem;
   --ui-tab-pill-list-radius: 0.5rem;
   --ui-tab-pill-item-radius: calc(var(--ui-tab-pill-list-radius) - var(--ui-tab-pill-list-padding));
+  --ui-tab-motion-duration: var(--dur-fast);
+  --ui-tab-motion-easing: var(--ease-snappy);
 
   display: inline-block;
 
@@ -117,7 +119,7 @@
   white-space: nowrap;
   /* Tracks the muted → active color shift so the label change stays in step
      with the sliding indicator instead of snapping. */
-  transition: color var(--dur-fast) var(--ease-snappy);
+  transition: color var(--ui-tab-motion-duration) var(--ui-tab-motion-easing);
 
   /* No `:active` press-scale here, by decision: the tab's feedback is the
      sliding pill indicator gliding to the trigger, and a scale dip would fight
@@ -179,11 +181,11 @@
   /* Anchor-driven, so the slide rides on inset/size props rather than transform.
      Smooth ease-out gives the pill a confident glide between triggers. */
   transition:
-    top var(--dur-fast) var(--ease-snappy),
-    left var(--dur-fast) var(--ease-snappy),
-    width var(--dur-fast) var(--ease-snappy),
-    height var(--dur-fast) var(--ease-snappy),
-    bottom var(--dur-fast) var(--ease-snappy);
+    top var(--ui-tab-motion-duration) var(--ui-tab-motion-easing),
+    left var(--ui-tab-motion-duration) var(--ui-tab-motion-easing),
+    width var(--ui-tab-motion-duration) var(--ui-tab-motion-easing),
+    height var(--ui-tab-motion-duration) var(--ui-tab-motion-easing),
+    bottom var(--ui-tab-motion-duration) var(--ui-tab-motion-easing);
 }
 
 @media (prefers-reduced-motion: reduce) {

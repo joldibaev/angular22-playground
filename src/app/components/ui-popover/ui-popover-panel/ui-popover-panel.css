@@ -1,8 +1,11 @@
 /* Hover popovers use Interest Invokers, whose default show delay (~0.5s) feels
    sluggish next to the instant click (command) popovers. Tighten it. */
 .ui-popover-trigger[interestfor] {
-  interest-delay-start: 0.15s;
-  interest-delay-end: 0.1s;
+  --ui-popover-show-delay: var(--dur-quick);
+  --ui-popover-hide-delay: calc(var(--dur-fast) * 0.4);
+
+  interest-delay-start: var(--ui-popover-show-delay);
+  interest-delay-end: var(--ui-popover-hide-delay);
 }
 
 .ui-popover-trigger:not(.ui-button):focus-visible {
@@ -10,6 +13,12 @@
 }
 
 ui-popover-panel {
+  --ui-popover-open-duration: var(--dur-fast);
+  --ui-popover-close-duration: var(--dur-quick);
+  --ui-popover-motion-easing: var(--ease-snappy);
+  --ui-panel-open-duration: var(--ui-popover-open-duration);
+  --ui-panel-close-duration: var(--ui-popover-close-duration);
+  --ui-panel-easing: var(--ui-popover-motion-easing);
   --ui-panel-background: Canvas;
   --ui-panel-text-color: contrast-color(var(--ui-panel-background));
   --ui-panel-gap: 0.25rem;

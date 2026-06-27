@@ -2,6 +2,8 @@
   --ui-chip-background: var(--background-color-subtle);
   --ui-chip-color: contrast-color(var(--ui-chip-background));
   --ui-chip-border-color: transparent;
+  --ui-chip-motion-duration: var(--dur-press);
+  --ui-chip-motion-easing: var(--ease-snappy);
 
   display: inline-flex;
   box-sizing: border-box;
@@ -64,9 +66,9 @@
   cursor: pointer;
   opacity: 0.7;
   transition:
-    background-color var(--dur-press) var(--ease-snappy),
-    opacity var(--dur-press) var(--ease-snappy),
-    scale var(--dur-press) var(--ease-snappy);
+    background-color var(--ui-chip-motion-duration) var(--ui-chip-motion-easing),
+    opacity var(--ui-chip-motion-duration) var(--ui-chip-motion-easing),
+    scale var(--ui-chip-motion-duration) var(--ui-chip-motion-easing);
 }
 
 .ui-chip-remove:hover {
@@ -93,8 +95,8 @@
   /* Keep the background/opacity fade; drop the press-scale. */
   .ui-chip-remove {
     transition:
-      background-color var(--dur-press) var(--ease-snappy),
-      opacity var(--dur-press) var(--ease-snappy);
+      background-color var(--ui-chip-motion-duration) var(--ui-chip-motion-easing),
+      opacity var(--ui-chip-motion-duration) var(--ui-chip-motion-easing);
   }
 
   .ui-chip-remove:not(:disabled):active {

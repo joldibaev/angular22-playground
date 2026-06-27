@@ -13,6 +13,9 @@
   --ui-switch-background: var(--background-color-subtle);
   --ui-switch-label-color: contrast-color(var(--background-color-surface));
   --ui-switch-muted-color: var(--text-color-muted);
+  --ui-switch-state-duration: var(--dur-fast);
+  --ui-switch-motion-duration: var(--dur-quick);
+  --ui-switch-motion-easing: var(--ease-snappy);
 
   display: block;
   min-width: 0;
@@ -72,9 +75,9 @@
   margin-top: 0.0625rem;
   position: relative;
   transition:
-    background-color var(--dur-fast) var(--ease-snappy),
-    border-color var(--dur-fast) var(--ease-snappy),
-    box-shadow var(--dur-fast) var(--ease-snappy);
+    background-color var(--ui-switch-state-duration) var(--ui-switch-motion-easing),
+    border-color var(--ui-switch-state-duration) var(--ui-switch-motion-easing),
+    box-shadow var(--ui-switch-state-duration) var(--ui-switch-motion-easing);
 }
 
 .ui-switch-thumb {
@@ -92,10 +95,10 @@
   /* Travel (`left`) and press-stretch (`width`) ride the same property timing,
      so they stay in lock-step — no cross-property desync, no origin flip. */
   transition:
-    background-color var(--dur-fast) var(--ease-snappy),
-    box-shadow var(--dur-fast) var(--ease-snappy),
-    left var(--dur-quick) var(--ease-snappy),
-    width var(--dur-quick) var(--ease-snappy);
+    background-color var(--ui-switch-state-duration) var(--ui-switch-motion-easing),
+    box-shadow var(--ui-switch-state-duration) var(--ui-switch-motion-easing),
+    left var(--ui-switch-motion-duration) var(--ui-switch-motion-easing),
+    width var(--ui-switch-motion-duration) var(--ui-switch-motion-easing);
 }
 
 .ui-switch-input:checked + .ui-switch-control {
@@ -109,13 +112,13 @@
 
 /* Press feedback: the thumb stretches into a pill toward its travel direction.
    Off → grows rightward from its fixed left edge. */
-.ui-switch-label:active .ui-switch-thumb {
+.ui-switch-label:active .ui-switch-input:not(:disabled) + .ui-switch-control .ui-switch-thumb {
   width: calc(var(--ui-switch-thumb-size) + var(--ui-switch-thumb-squash));
 }
 
 /* On → pull `left` back by the same amount it grows, so the right edge stays
    pinned and the pill extends leftward instead. */
-.ui-switch-label:active .ui-switch-input:checked + .ui-switch-control .ui-switch-thumb {
+.ui-switch-label:active .ui-switch-input:checked:not(:disabled) + .ui-switch-control .ui-switch-thumb {
   left: calc(
     var(--ui-switch-thumb-offset) + var(--ui-switch-thumb-translate) - var(--ui-switch-thumb-squash)
   );
@@ -175,11 +178,11 @@
      the slide/stretch. */
   .ui-switch-thumb {
     transition:
-      background-color var(--dur-fast) var(--ease-snappy),
-      box-shadow var(--dur-fast) var(--ease-snappy);
+      background-color var(--ui-switch-state-duration) var(--ui-switch-motion-easing),
+      box-shadow var(--ui-switch-state-duration) var(--ui-switch-motion-easing);
   }
 
-  .ui-switch-label:active .ui-switch-thumb {
+  .ui-switch-label:active .ui-switch-input:not(:disabled) + .ui-switch-control .ui-switch-thumb {
     width: var(--ui-switch-thumb-size);
   }
 }

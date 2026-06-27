@@ -13,9 +13,11 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 @Component({
   selector: 'ui-icon',
   templateUrl: './ui-icon.html',
+  styleUrl: './ui-icon.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'flex items-center justify-center',
+    '[class.ui-icon-loading]': 'name() === "loading"',
     '[attr.aria-hidden]': 'isDecorative() ? "true" : null',
     '[attr.aria-label]': 'isDecorative() ? null : accessibleLabel()',
     '[attr.role]': 'isDecorative() ? "presentation" : "img"',

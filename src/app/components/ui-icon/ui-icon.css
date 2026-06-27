@@ -1,0 +1,20 @@
+:host {
+  --ui-icon-loading-duration: calc(var(--dur-slow) * 2);
+  --ui-icon-loading-easing: linear;
+}
+
+:host(.ui-icon-loading) {
+  animation: ui-icon-spin var(--ui-icon-loading-duration) var(--ui-icon-loading-easing) infinite;
+}
+
+@keyframes ui-icon-spin {
+  to {
+    rotate: 1turn;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host(.ui-icon-loading) {
+    animation: none;
+  }
+}

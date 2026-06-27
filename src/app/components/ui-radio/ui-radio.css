@@ -5,6 +5,9 @@
   --ui-radio-checked-color: var(--color-brand);
   --ui-radio-background: var(--background-color-surface);
   --ui-radio-label-color: contrast-color(var(--background-color-surface));
+  --ui-radio-state-duration: var(--dur-fast);
+  --ui-radio-press-duration: var(--dur-press);
+  --ui-radio-motion-easing: var(--ease-snappy);
 
   display: block;
   min-width: 0;
@@ -44,10 +47,10 @@
   border-radius: 50%;
   background: var(--ui-radio-background);
   transition:
-    background-color var(--dur-fast) var(--ease-snappy),
-    border-color var(--dur-fast) var(--ease-snappy),
-    box-shadow var(--dur-fast) var(--ease-snappy),
-    scale var(--dur-press) var(--ease-snappy);
+    background-color var(--ui-radio-state-duration) var(--ui-radio-motion-easing),
+    border-color var(--ui-radio-state-duration) var(--ui-radio-motion-easing),
+    box-shadow var(--ui-radio-state-duration) var(--ui-radio-motion-easing),
+    scale var(--ui-radio-press-duration) var(--ui-radio-motion-easing);
 }
 
 /* Press feedback: the control gives a little under the press. */
@@ -67,8 +70,8 @@
     0 1px 2px rgb(15 23 42 / 0.18),
     0 0 0 1px rgb(15 23 42 / 0.05);
   transition:
-    opacity var(--dur-fast) var(--ease-snappy),
-    scale var(--dur-fast) var(--ease-snappy);
+    opacity var(--ui-radio-state-duration) var(--ui-radio-motion-easing),
+    scale var(--ui-radio-state-duration) var(--ui-radio-motion-easing);
 }
 
 .ui-radio-input:checked + .ui-radio-control {
@@ -107,13 +110,13 @@
   /* Keep the color/box-shadow and the dot's opacity fade; drop the scales. */
   .ui-radio-control {
     transition:
-      background-color var(--dur-fast) var(--ease-snappy),
-      border-color var(--dur-fast) var(--ease-snappy),
-      box-shadow var(--dur-fast) var(--ease-snappy);
+      background-color var(--ui-radio-state-duration) var(--ui-radio-motion-easing),
+      border-color var(--ui-radio-state-duration) var(--ui-radio-motion-easing),
+      box-shadow var(--ui-radio-state-duration) var(--ui-radio-motion-easing);
   }
 
   .ui-radio-control::before {
-    transition: opacity var(--dur-fast) var(--ease-snappy);
+    transition: opacity var(--ui-radio-state-duration) var(--ui-radio-motion-easing);
   }
 
   .ui-radio-label:not(.ui-radio-disabled):active .ui-radio-control {

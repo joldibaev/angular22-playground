@@ -1,5 +1,13 @@
+:host {
+  --ui-dialog-open-duration: var(--dur-fast);
+  --ui-dialog-close-duration: var(--dur-quick);
+  --ui-dialog-press-duration: var(--dur-press);
+  --ui-dialog-motion-easing: var(--ease-snappy);
+}
+
 .ui-dialog {
   --ui-dialog-width: 32rem;
+  --ui-dialog-current-duration: var(--ui-dialog-close-duration);
 
   margin: auto;
   max-inline-size: min(92vw, var(--ui-dialog-width));
@@ -11,11 +19,11 @@
   scale: 0.98;
   translate: 0 8px;
   transition:
-    opacity var(--dur-fast) var(--ease-snappy),
-    scale var(--dur-fast) var(--ease-snappy),
-    translate var(--dur-fast) var(--ease-snappy),
-    overlay var(--dur-fast) allow-discrete,
-    display var(--dur-fast) allow-discrete;
+    opacity var(--ui-dialog-current-duration) var(--ui-dialog-motion-easing),
+    scale var(--ui-dialog-current-duration) var(--ui-dialog-motion-easing),
+    translate var(--ui-dialog-current-duration) var(--ui-dialog-motion-easing),
+    overlay var(--ui-dialog-current-duration) allow-discrete,
+    display var(--ui-dialog-current-duration) allow-discrete;
 }
 
 .ui-dialog-sm {
@@ -35,6 +43,8 @@
 }
 
 .ui-dialog:open {
+  --ui-dialog-current-duration: var(--ui-dialog-open-duration);
+
   opacity: 1;
   scale: 1;
   translate: 0 0;
@@ -52,9 +62,9 @@
   background: color-mix(in oklab, black 45%, transparent);
   opacity: 0;
   transition:
-    opacity var(--dur-fast) var(--ease-snappy),
-    overlay var(--dur-fast) allow-discrete,
-    display var(--dur-fast) allow-discrete;
+    opacity var(--ui-dialog-current-duration) var(--ui-dialog-motion-easing),
+    overlay var(--ui-dialog-current-duration) allow-discrete,
+    display var(--ui-dialog-current-duration) allow-discrete;
 }
 
 .ui-dialog:open::backdrop {
@@ -120,8 +130,8 @@
   color: var(--text-color-muted);
   cursor: pointer;
   transition:
-    background-color var(--dur-press) var(--ease-snappy),
-    scale var(--dur-press) var(--ease-snappy);
+    background-color var(--ui-dialog-press-duration) var(--ui-dialog-motion-easing),
+    scale var(--ui-dialog-press-duration) var(--ui-dialog-motion-easing);
 }
 
 .ui-dialog-close:hover {
@@ -166,14 +176,14 @@
   /* Keep the opacity fade (dialog + its backdrop); drop the scale/translate. */
   .ui-dialog {
     transition:
-      opacity var(--dur-fast) var(--ease-snappy),
-      overlay var(--dur-fast) allow-discrete,
-      display var(--dur-fast) allow-discrete;
+      opacity var(--ui-dialog-current-duration) var(--ui-dialog-motion-easing),
+      overlay var(--ui-dialog-current-duration) allow-discrete,
+      display var(--ui-dialog-current-duration) allow-discrete;
   }
 
   /* Drop the close-button press-scale; the hover fill still conveys state. */
   .ui-dialog-close {
-    transition: background-color var(--dur-press) var(--ease-snappy);
+    transition: background-color var(--ui-dialog-press-duration) var(--ui-dialog-motion-easing);
   }
 
   .ui-dialog-close:active {

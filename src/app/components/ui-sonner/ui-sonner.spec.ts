@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SonnerService } from './sonner.service';
 import { UiSonner } from './ui-sonner';
+import { UiSonnerToast } from './ui-sonner-toast/ui-sonner-toast';
 
 @Component({
   imports: [UiSonner],
@@ -21,6 +22,9 @@ describe('UiSonner', () => {
   let sonner: SonnerService;
 
   beforeEach(async () => {
+    // jsdom cannot parse Chrome's typed attr() expressions; these tests assert DOM behavior only.
+    TestBed.overrideComponent(UiSonner, { set: { styles: [] } });
+    TestBed.overrideComponent(UiSonnerToast, { set: { styles: [] } });
     await TestBed.configureTestingModule({ imports: [TestHost] }).compileComponents();
 
     sonner = TestBed.inject(SonnerService);

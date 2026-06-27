@@ -1,4 +1,9 @@
 :host {
+  --ui-sonner-toast-motion-duration: var(--dur-slow);
+  --ui-sonner-toast-exit-duration: var(--dur-quick);
+  --ui-sonner-toast-swipe-duration: var(--dur-quick);
+  --ui-sonner-toast-motion-easing: var(--ease-snappy);
+
   display: contents;
 }
 
@@ -18,9 +23,9 @@
   overflow-wrap: anywhere;
   touch-action: none;
   transition:
-    transform var(--dur-slow) var(--ease-snappy),
-    opacity var(--dur-slow) var(--ease-snappy),
-    height var(--dur-slow) var(--ease-snappy);
+    transform var(--ui-sonner-toast-motion-duration) var(--ui-sonner-toast-motion-easing),
+    opacity var(--ui-sonner-toast-motion-duration) var(--ui-sonner-toast-motion-easing),
+    height var(--ui-sonner-toast-motion-duration) var(--ui-sonner-toast-motion-easing);
 }
 
 [data-sonner-toast][data-styled='true'] {
@@ -165,7 +170,7 @@
 }
 
 [data-sonner-toast] > * {
-  transition: opacity var(--dur-slow) var(--ease-snappy);
+  transition: opacity var(--ui-sonner-toast-motion-duration) var(--ui-sonner-toast-motion-easing);
 }
 
 [data-sonner-toast][data-expanded='false'][data-front='false'][data-styled='true'] > * {
@@ -196,8 +201,8 @@
   --y: translateY(40%);
   opacity: 0;
   transition:
-    transform var(--dur-slow) var(--ease-snappy),
-    opacity var(--dur-quick) var(--ease-snappy);
+    transform var(--ui-sonner-toast-motion-duration) var(--ui-sonner-toast-motion-easing),
+    opacity var(--ui-sonner-toast-exit-duration) var(--ui-sonner-toast-motion-easing);
 }
 
 [data-sonner-toast][data-removed='true'][data-front='false']::before {
@@ -211,7 +216,9 @@
 
 [data-sonner-toast][data-swipe-out='true'][data-y-position='bottom'],
 [data-sonner-toast][data-swipe-out='true'][data-y-position='top'] {
-  animation: ui-sonner-swipe-out var(--dur-quick) var(--ease-snappy) forwards;
+  animation:
+    ui-sonner-swipe-out var(--ui-sonner-toast-swipe-duration)
+    var(--ui-sonner-toast-motion-easing) forwards;
 }
 
 @keyframes ui-sonner-swipe-out {
@@ -240,7 +247,7 @@
   /* Keep the opacity fade in/out; drop the slide, height tween, and swipe-out. */
   [data-sonner-toast],
   [data-sonner-toast] > * {
-    transition: opacity var(--dur-slow) var(--ease-snappy);
+    transition: opacity var(--ui-sonner-toast-motion-duration) var(--ui-sonner-toast-motion-easing);
     animation: none;
   }
 }

@@ -1,5 +1,13 @@
+:host {
+  --ui-drawer-open-duration: var(--dur-fast);
+  --ui-drawer-close-duration: var(--dur-quick);
+  --ui-drawer-press-duration: var(--dur-press);
+  --ui-drawer-motion-easing: var(--ease-snappy);
+}
+
 .ui-drawer {
   --ui-drawer-width: 24rem;
+  --ui-drawer-current-duration: var(--ui-drawer-close-duration);
 
   max-inline-size: 92vw;
   inline-size: var(--ui-drawer-width);
@@ -10,9 +18,9 @@
   padding: 0;
   background: transparent;
   transition:
-    translate var(--dur-fast) var(--ease-snappy),
-    overlay var(--dur-fast) allow-discrete,
-    display var(--dur-fast) allow-discrete;
+    translate var(--ui-drawer-current-duration) var(--ui-drawer-motion-easing),
+    overlay var(--ui-drawer-current-duration) allow-discrete,
+    display var(--ui-drawer-current-duration) allow-discrete;
 }
 
 .ui-drawer-sm {
@@ -38,6 +46,8 @@
 }
 
 .ui-drawer:open {
+  --ui-drawer-current-duration: var(--ui-drawer-open-duration);
+
   translate: 0 0;
 }
 
@@ -55,9 +65,9 @@
   background: color-mix(in oklab, black 45%, transparent);
   opacity: 0;
   transition:
-    opacity var(--dur-fast) var(--ease-snappy),
-    overlay var(--dur-fast) allow-discrete,
-    display var(--dur-fast) allow-discrete;
+    opacity var(--ui-drawer-current-duration) var(--ui-drawer-motion-easing),
+    overlay var(--ui-drawer-current-duration) allow-discrete,
+    display var(--ui-drawer-current-duration) allow-discrete;
 }
 
 .ui-drawer:open::backdrop {
@@ -114,8 +124,8 @@
   color: var(--text-color-muted);
   cursor: pointer;
   transition:
-    background-color var(--dur-press) var(--ease-snappy),
-    scale var(--dur-press) var(--ease-snappy);
+    background-color var(--ui-drawer-press-duration) var(--ui-drawer-motion-easing),
+    scale var(--ui-drawer-press-duration) var(--ui-drawer-motion-easing);
 }
 
 .ui-drawer-close:hover {
@@ -157,9 +167,9 @@
     translate: 0 0;
     opacity: 0;
     transition:
-      opacity var(--dur-fast) var(--ease-snappy),
-      overlay var(--dur-fast) allow-discrete,
-      display var(--dur-fast) allow-discrete;
+      opacity var(--ui-drawer-current-duration) var(--ui-drawer-motion-easing),
+      overlay var(--ui-drawer-current-duration) allow-discrete,
+      display var(--ui-drawer-current-duration) allow-discrete;
   }
 
   .ui-drawer:open {
@@ -174,7 +184,7 @@
 
   /* Drop the close-button press-scale; the hover fill still conveys state. */
   .ui-drawer-close {
-    transition: background-color var(--dur-press) var(--ease-snappy);
+    transition: background-color var(--ui-drawer-press-duration) var(--ui-drawer-motion-easing);
   }
 
   .ui-drawer-close:active {

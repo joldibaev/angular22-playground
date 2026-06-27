@@ -10,6 +10,8 @@
   --ui-button-radius: 0.5rem;
   --ui-button-padding-inline: 1rem;
   --ui-button-padding-block: 0.5rem;
+  --ui-button-motion-duration: var(--dur-press);
+  --ui-button-motion-easing: var(--ease-snappy);
 
   appearance: none;
   display: inline-flex;
@@ -44,8 +46,8 @@
      that positions the button with `transform` — e.g. the sonner close button's
      corner translate — keeps its placement while still getting the press dip. */
   transition:
-    background-color var(--dur-press) var(--ease-snappy),
-    scale var(--dur-press) var(--ease-snappy);
+    background-color var(--ui-button-motion-duration) var(--ui-button-motion-easing),
+    scale var(--ui-button-motion-duration) var(--ui-button-motion-easing);
 }
 
 :host([hidden]) {
@@ -159,7 +161,7 @@
 @media (prefers-reduced-motion: reduce) {
   /* Keep the background-color feedback; drop the press scale. */
   :host {
-    transition: background-color var(--dur-press) var(--ease-snappy);
+    transition: background-color var(--ui-button-motion-duration) var(--ui-button-motion-easing);
   }
 
   :host(:not(:disabled, [aria-disabled='true']):active) {

@@ -10,6 +10,7 @@ import { UiIcon } from './ui-icon';
     <ui-icon name="outline-search" label="Search" />
     <ui-icon name="outline-x" label="Dismiss" [decorative]="true" />
     <ui-icon name="outline-plus" [width]="20" [height]="24" />
+    <ui-icon name="loading" />
   `,
 })
 class IconTestHost {}
@@ -72,5 +73,16 @@ describe('UiIcon', () => {
 
     expect(svg?.getAttribute('width')).toBe('20');
     expect(svg?.getAttribute('height')).toBe('24');
+  });
+
+  it('should expose the loading motion through the host class instead of SMIL', async () => {
+    const fixture = TestBed.createComponent(IconTestHost);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    const [, , , , icon] = getIcons(fixture);
+
+    expect(icon.classList.contains('ui-icon-loading')).toBe(true);
+    expect(icon.querySelector('animateTransform')).toBeNull();
   });
 });
