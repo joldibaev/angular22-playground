@@ -15,6 +15,7 @@ import {
 } from '@angular/core';
 import { UiButton } from '../../ui-button/ui-button';
 import { UiIcon } from '../../ui-icon/ui-icon';
+import { UiLoading } from '../../ui-loading/ui-loading';
 import { uiSonnerState } from '../ui-sonner.state';
 import {
   UiSonnerPosition,
@@ -29,7 +30,7 @@ const TIME_BEFORE_UNMOUNT = 200;
 
 @Component({
   selector: 'ui-sonner-toast',
-  imports: [NgComponentOutlet, UiButton, UiIcon],
+  imports: [NgComponentOutlet, UiButton, UiIcon, UiLoading],
   templateUrl: './ui-sonner-toast.html',
   styleUrl: './ui-sonner-toast.css',
 })
@@ -120,8 +121,6 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
         return 'outline-alert-triangle';
       case 'destructive':
         return 'outline-alert-circle';
-      case 'loading':
-        return 'loading';
       default:
         return null;
     }

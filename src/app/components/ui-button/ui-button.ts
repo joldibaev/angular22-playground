@@ -1,5 +1,5 @@
 import { booleanAttribute, Component, computed, ElementRef, inject, input } from '@angular/core';
-import { UiIcon } from '../ui-icon/ui-icon';
+import { UiLoading } from '../ui-loading/ui-loading';
 
 export type UiButtonVariant =
   | 'default'
@@ -12,7 +12,7 @@ export type UiButtonType = 'button' | 'submit' | 'reset';
 
 @Component({
   selector: 'button[uiButton], a[uiButton]',
-  imports: [UiIcon],
+  imports: [UiLoading],
   templateUrl: './ui-button.html',
   styleUrl: './ui-button.css',
   host: {

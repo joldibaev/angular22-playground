@@ -1,0 +1,29 @@
+:host {
+  --ui-loading-duration: calc(var(--dur-slow) * 2);
+  --ui-loading-easing: linear;
+
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
+  vertical-align: middle;
+}
+
+svg {
+  display: block;
+  fill: currentColor;
+  animation: ui-loading-spin var(--ui-loading-duration) var(--ui-loading-easing) infinite;
+}
+
+@keyframes ui-loading-spin {
+  to {
+    rotate: 1turn;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  svg {
+    animation: none;
+  }
+}

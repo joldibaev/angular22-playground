@@ -55,6 +55,8 @@
       <div data-icon>
         @if (iconName(); as icon) {
           <ui-icon [name]="icon" decorative />
+        } @else if (toastType() === 'loading') {
+          <ui-loading decorative />
         }
       </div>
     }

@@ -129,6 +129,15 @@ describe('UiSonner', () => {
     expect(toasts()[0].getAttribute('data-removed')).toBe('true');
   });
 
+  it('should render loading toasts with the dedicated loading indicator', async () => {
+    sonner.loading('Submitting order');
+    await fixture.whenStable();
+
+    const icon = toasts()[0].querySelector('[data-icon]');
+
+    expect(icon?.querySelector('ui-loading')).toBeTruthy();
+  });
+
   it('should dismiss a focused toast with Escape or Delete', async () => {
     sonner.info('Dismiss me');
     await fixture.whenStable();

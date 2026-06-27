@@ -154,7 +154,7 @@
   display: contents;
 }
 
-.ui-button-loading-icon {
+.ui-button-loading-indicator {
   flex: 0 0 auto;
 }
 
@@ -168,7 +168,7 @@
     scale: none;
   }
 
-  .ui-button-loading-icon {
+  .ui-button-loading-indicator {
     opacity: 0.75;
   }
 }

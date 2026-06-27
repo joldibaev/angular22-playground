@@ -13,6 +13,7 @@ import { DatepickerShowcase } from './datepicker-showcase/datepicker-showcase';
 import { DialogShowcase } from './dialog-showcase/dialog-showcase';
 import { DrawerShowcase } from './drawer-showcase/drawer-showcase';
 import { InputShowcase } from './input-showcase/input-showcase';
+import { LoadingShowcase } from './loading-showcase/loading-showcase';
 import { MenuShowcase } from './menu-showcase/menu-showcase';
 import { PopoverShowcase } from './popover-showcase/popover-showcase';
 import { RadioShowcase } from './radio-showcase/radio-showcase';
@@ -40,6 +41,7 @@ import { UiCard } from '../../components/ui-card/ui-card';
     DialogShowcase,
     DrawerShowcase,
     InputShowcase,
+    LoadingShowcase,
     MenuShowcase,
     PopoverShowcase,
     RadioShowcase,

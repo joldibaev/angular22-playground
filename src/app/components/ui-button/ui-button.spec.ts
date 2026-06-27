@@ -30,6 +30,7 @@ describe('UiButton', () => {
     expect(button.type).toBe('submit');
     expect(button.disabled).toBe(true);
     expect(button.getAttribute('aria-busy')).toBe('true');
+    expect(button.querySelector('ui-loading')).toBeTruthy();
   });
 
   it('should apply disabled state to anchor hosts accessibly', () => {
