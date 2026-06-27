@@ -1,0 +1,117 @@
+<div class="grid min-w-0 gap-8">
+  <section class="grid min-w-0 gap-3" aria-labelledby="table-standard-title">
+    <div>
+      <h3 id="table-standard-title" class="font-semibold">Backend sorting and row actions</h3>
+      <p class="text-muted text-sm">
+        Header buttons request a newly sorted page from the data source. Actions remain explicit controls
+        inside their row.
+      </p>
+    </div>
+
+    <div uiTableViewport>
+      <table
+        uiTable
+        withRowHover
+        [data]="previewRows()"
+        [sort]="sort()"
+        [loading]="sorting()"
+        (sortChange)="requestSortedPage($event)"
+      >
+        <caption class="sr-only">Inventory preview</caption>
+        <thead>
+          <tr>
+            <th scope="col" uiTableSort="sku">SKU</th>
+            <th scope="col" uiTableSort="product">Product</th>
+            <th scope="col" uiTableSort="warehouse">Warehouse</th>
+            <th scope="col" uiTableSort="stock">Stock</th>
+            <th scope="col" uiTableSort="reserved">Reserved</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of previewRows(); track row.id) {
+            <tr>
+              <td>{{ row.sku }}</td>
+              <th scope="row">{{ row.product }}</th>
+              <td>{{ row.warehouse }}</td>
+              <td>{{ row.stock }}</td>
+              <td>{{ row.reserved }}</td>
+              <td>
+                <button uiButton variant="ghost" (click)="openProduct(row)">
+                  Open <span class="sr-only">{{ row.product }}</span>
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (lastAction(); as product) {
+      <p class="text-muted text-xs" aria-live="polite">Action: open {{ product }}</p>
+    }
+  </section>
+
+  <section class="grid min-w-0 gap-3" aria-labelledby="table-virtual-title">
+    <div>
+      <h3 id="table-virtual-title" class="font-semibold">Virtual + incremental loading</h3>
+      <p class="text-muted text-sm">
+        Only the visible fixed-height window is rendered. Near the end, the showcase appends the next
+        page through <code>endReached</code>; request state remains outside the table.
+      </p>
+    </div>
+
+    <div uiTableViewport [height]="384">
+      <table
+        #table="uiTable"
+        uiTable
+        density="compact"
+        virtualScroll
+        withRowHover
+        [data]="loadedRows()"
+        [rowHeight]="40"
+        [totalRows]="allRows.length"
+        [loading]="loading()"
+        [hasMore]="loadedRows().length < allRows.length"
+        (endReached)="loadMore()"
+      >
+        <caption class="sr-only">Virtual inventory table</caption>
+        <colgroup>
+          <col style="width: 8rem" />
+          <col style="width: 18rem" />
+          <col style="width: 10rem" />
+          <col style="width: 7rem" />
+          <col style="width: 7rem" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th scope="col">SKU</th>
+            <th scope="col">Product</th>
+            <th scope="col">Warehouse</th>
+            <th scope="col">Stock</th>
+            <th scope="col">Reserved</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr uiTableSpacer="start" [columns]="5"></tr>
+
+          @for (row of table.renderedRows(); track row.id; let index = $index) {
+            <tr [attr.aria-rowindex]="table.rowAriaIndex(index)">
+              <td>{{ row.sku }}</td>
+              <th scope="row">{{ row.product }}</th>
+              <td>{{ row.warehouse }}</td>
+              <td>{{ row.stock }}</td>
+              <td>{{ row.reserved }}</td>
+            </tr>
+          }
+
+          <tr uiTableSpacer="end" [columns]="5"></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="text-muted text-xs" aria-live="polite">
+      Loaded {{ loadedRows().length }} of {{ allRows.length }} rows
+    </p>
+  </section>
+</div>

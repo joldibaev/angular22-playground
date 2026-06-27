@@ -1,0 +1,172 @@
+.ui-table-viewport {
+  --ui-table-background: var(--background-color-elevated);
+  --ui-table-foreground: contrast-color(var(--ui-table-background));
+  --ui-table-border-color: var(--border-color-default);
+  --ui-table-border-color-strong: var(--border-color-strong);
+  --ui-table-header-background: color-mix(
+    in oklab,
+    var(--background-color-subtle) 88%,
+    var(--ui-table-background)
+  );
+  --ui-table-header-foreground: var(--text-color-muted);
+  --ui-table-row-hover-background: color-mix(
+    in oklab,
+    var(--color-brand) 8%,
+    var(--ui-table-background)
+  );
+  --ui-table-row-selected-background: color-mix(
+    in oklab,
+    var(--color-brand) 14%,
+    var(--ui-table-background)
+  );
+  --ui-table-radius: 0.5rem;
+  --ui-table-cell-padding-block: 0.75rem;
+  --ui-table-cell-padding-inline: 1rem;
+  --ui-table-font-size: 0.875rem;
+  --ui-table-header-font-size: 0.75rem;
+  --ui-table-header-line-height: 1rem;
+  --ui-table-header-padding-block: 0.875rem;
+  --ui-table-row-height: 48px;
+
+  display: block;
+  min-inline-size: 0;
+  max-inline-size: 100%;
+  block-size: var(--ui-table-viewport-height, auto);
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--ui-table-border-color);
+  border-radius: var(--ui-table-radius);
+  background: var(--ui-table-background);
+  color: var(--ui-table-foreground);
+  scrollbar-color: var(--ui-table-border-color-strong) transparent;
+  scrollbar-width: thin;
+
+  &:focus-visible {
+    outline: 3px solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+}
+
+.ui-table {
+  inline-size: max-content;
+  min-inline-size: 100%;
+  border: 1px solid var(--border-color-default);
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 0.5rem;
+  background: var(--background-color-elevated);
+  color: contrast-color(var(--background-color-elevated));
+  font-size: var(--ui-table-font-size, 0.875rem);
+  text-align: start;
+
+  & caption {
+    padding-block: 0.75rem;
+    padding-inline: 1rem;
+    color: var(--text-color-muted);
+    text-align: start;
+  }
+
+  & :is(th, td) {
+    box-sizing: border-box;
+    max-inline-size: 32rem;
+    padding-block: var(--ui-table-cell-padding-block, 0.75rem);
+    padding-inline: var(--ui-table-cell-padding-inline, 1rem);
+    overflow: hidden;
+    border-block-end: 1px solid var(--ui-table-border-color, var(--border-color-default));
+    background: var(--ui-table-background, var(--background-color-elevated));
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+  }
+
+  & thead th {
+    padding-block: var(--ui-table-header-padding-block, 0.875rem);
+    border-block-end-color: var(--ui-table-border-color-strong, var(--border-color-strong));
+    background: var(--ui-table-header-background, var(--background-color-subtle));
+    color: var(--ui-table-header-foreground, var(--text-color-muted));
+    font-size: var(--ui-table-header-font-size, 0.75rem);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    line-height: var(--ui-table-header-line-height, 1rem);
+    text-align: start;
+    text-transform: uppercase;
+  }
+
+  & tbody tr:last-child > :is(th, td),
+  & tfoot tr:last-child > :is(th, td) {
+    border-block-end: 0;
+  }
+
+  & tfoot :is(th, td) {
+    background: var(--ui-table-header-background, var(--background-color-subtle));
+    font-weight: 700;
+  }
+
+  & tbody tr[aria-selected='true'] > :is(th, td) {
+    background: var(
+      --ui-table-row-selected-background,
+      color-mix(in oklab, var(--color-brand) 14%, var(--background-color-elevated))
+    );
+  }
+
+  & tbody tr[aria-disabled='true'] {
+    opacity: var(--opacity-disabled);
+  }
+
+  & tbody > tr > th[scope='row'] {
+    text-align: start;
+  }
+}
+
+.ui-table-viewport > .ui-table {
+  border: 0;
+  border-radius: 0;
+}
+
+.ui-table th.ui-table-sort {
+  padding: 0;
+}
+
+.ui-table-compact {
+  --ui-table-cell-padding-block: 0.5rem;
+  --ui-table-cell-padding-inline: 0.75rem;
+  --ui-table-row-height: 40px;
+}
+
+.ui-table-virtual {
+  table-layout: fixed;
+
+  & tbody tr:not(.ui-table-spacer) {
+    height: var(--ui-table-row-height);
+  }
+}
+
+.ui-table-with-sticky-header thead {
+  position: sticky;
+  z-index: 2;
+  inset-block-start: 0;
+}
+
+.ui-table-with-row-hover tbody tr:not(.ui-table-spacer) > :is(th, td) {
+  transition: background-color var(--dur-fast) var(--ease-snappy);
+}
+
+.ui-table-with-row-hover tbody tr:not(.ui-table-spacer):is(:hover, :focus-within) > :is(th, td) {
+  background: var(
+    --ui-table-row-hover-background,
+    color-mix(in oklab, var(--color-brand) 8%, var(--background-color-elevated))
+  );
+}
+
+.ui-table-spacer {
+  &[hidden] {
+    display: none;
+  }
+
+  & > td {
+    height: 0;
+    padding: 0;
+    border: 0;
+    background: var(--ui-table-background, var(--background-color-elevated));
+  }
+}

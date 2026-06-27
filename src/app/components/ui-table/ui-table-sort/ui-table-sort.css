@@ -1,0 +1,85 @@
+.ui-table-sort-trigger {
+  box-sizing: border-box;
+  display: flex;
+  inline-size: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-block: var(--ui-table-header-padding-block, 0.875rem);
+  padding-inline: var(--ui-table-cell-padding-inline, 1rem);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-align: start;
+  text-transform: inherit;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-fast) var(--ease-snappy),
+    transform var(--dur-press) var(--ease-snappy);
+
+  &:hover {
+    background: color-mix(in oklab, var(--color-brand) 8%, transparent);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--focus-ring-color);
+    outline-offset: -2px;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(var(--press-scale));
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: var(--opacity-disabled);
+  }
+}
+
+.ui-table-sort-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ui-table-sort-indicator {
+  flex: 0 0 auto;
+  inline-size: 1rem;
+  block-size: 1rem;
+  opacity: 0.38;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+  transition:
+    color var(--dur-fast) var(--ease-snappy),
+    opacity var(--dur-fast) var(--ease-snappy),
+    transform var(--dur-fast) var(--ease-snappy);
+
+  &.ui-table-sort-indicator-active {
+    color: var(--color-brand);
+    opacity: 1;
+  }
+
+  &.ui-table-sort-indicator-descending {
+    transform: rotate(180deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-table-sort-trigger {
+    transition: background-color var(--dur-fast) var(--ease-snappy);
+
+    &:active:not(:disabled) {
+      transform: none;
+    }
+  }
+
+  .ui-table-sort-indicator {
+    transition:
+      color var(--dur-fast) var(--ease-snappy),
+      opacity var(--dur-fast) var(--ease-snappy);
+  }
+}

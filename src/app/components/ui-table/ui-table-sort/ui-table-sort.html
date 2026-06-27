@@ -1,0 +1,18 @@
+<button
+  type="button"
+  class="ui-table-sort-trigger"
+  [disabled]="disabled()"
+  [attr.aria-label]="ariaLabel()"
+  (click)="toggle()"
+>
+  <span class="ui-table-sort-label"><ng-content /></span>
+  <svg
+    class="ui-table-sort-indicator"
+    [class.ui-table-sort-indicator-active]="active()"
+    [class.ui-table-sort-indicator-descending]="direction() === 'desc'"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <path d="M12 19V5m0 0-5 5m5-5 5 5" />
+  </svg>
+</button>
