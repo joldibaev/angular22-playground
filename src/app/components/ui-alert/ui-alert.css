@@ -1,0 +1,32 @@
+:host {
+  --ui-alert-background: var(--background-color-elevated);
+  --ui-alert-border-color: var(--border-color-default);
+  --ui-alert-color: contrast-color(var(--ui-alert-background));
+  --ui-alert-radius: 0.5rem;
+  --ui-alert-padding: 1rem;
+  --ui-alert-gap: 0.75rem;
+
+  display: grid;
+  box-sizing: border-box;
+  min-width: 0;
+  gap: var(--ui-alert-gap);
+  border: 1px solid var(--ui-alert-border-color);
+  border-radius: var(--ui-alert-radius);
+  background: var(--ui-alert-background);
+  color: var(--ui-alert-color);
+  padding: var(--ui-alert-padding);
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+:host(.ui-alert-destructive) {
+  --ui-alert-background: color-mix(
+    in oklab,
+    var(--color-destructive) 10%,
+    var(--background-color-elevated)
+  );
+  --ui-alert-border-color: color-mix(in oklab, var(--color-destructive) 35%, transparent);
+  --ui-alert-color: contrast-color(var(--ui-alert-background));
+}

@@ -1,0 +1,57 @@
+:host {
+  display: block;
+}
+
+.skeleton-showcase {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.shape-examples {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+}
+
+.short-line {
+  --ui-skeleton-width: 8rem;
+}
+
+.thumbnail {
+  --ui-skeleton-width: 8rem;
+  --ui-skeleton-height: 4.5rem;
+}
+
+.profile-placeholder {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+  max-inline-size: 28rem;
+  margin: 0;
+}
+
+.profile-avatar {
+  --ui-skeleton-width: 4rem;
+  --ui-skeleton-height: 4rem;
+}
+
+.profile-copy {
+  display: grid;
+  gap: 0.625rem;
+}
+
+.name-line {
+  --ui-skeleton-width: min(12rem, 65%);
+  --ui-skeleton-height: 1.125rem;
+}
+
+.detail-line {
+  --ui-skeleton-height: 0.75rem;
+}
+
+.detail-line-short {
+  --ui-skeleton-width: 72%;
+  --ui-skeleton-height: 0.75rem;
+}

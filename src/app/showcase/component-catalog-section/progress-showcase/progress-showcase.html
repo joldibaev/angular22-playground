@@ -1,0 +1,16 @@
+<div class="grid max-w-md gap-6">
+  <div class="grid gap-2">
+    <span class="text-sm text-muted">Indeterminate</span>
+    <ui-progress label="Loading content" />
+  </div>
+
+  <div class="grid gap-2">
+    <span class="text-sm text-muted">35%</span>
+    <ui-progress label="Upload progress" [value]="35" />
+  </div>
+
+  <div class="grid gap-2">
+    <span class="text-sm text-muted">72 of 120</span>
+    <ui-progress label="Import progress" [value]="72" [max]="120" />
+  </div>
+</div>

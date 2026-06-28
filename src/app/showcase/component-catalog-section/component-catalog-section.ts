@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UiTab } from '../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../components/ui-tab/ui-tab-item/ui-tab-item';
+import { AlertShowcase } from './alert-showcase/alert-showcase';
 import { AutocompleteShowcase } from './autocomplete-showcase/autocomplete-showcase';
 import { AvatarShowcase } from './avatar-showcase/avatar-showcase';
 import { BadgeShowcase } from './badge-showcase/badge-showcase';
@@ -19,6 +20,7 @@ import { PopoverShowcase } from './popover-showcase/popover-showcase';
 import { ProgressShowcase } from './progress-showcase/progress-showcase';
 import { RadioShowcase } from './radio-showcase/radio-showcase';
 import { SelectShowcase } from './select-showcase/select-showcase';
+import { SkeletonShowcase } from './skeleton-showcase/skeleton-showcase';
 import { SonnerShowcase } from './sonner-showcase/sonner-showcase';
 import { SwitchShowcase } from './switch-showcase/switch-showcase';
 import { TableShowcase } from './table-showcase/table-showcase';
@@ -30,6 +32,7 @@ import { UiCard } from '../../components/ui-card/ui-card';
 @Component({
   selector: 'app-component-catalog-section',
   imports: [
+    AlertShowcase,
     AutocompleteShowcase,
     AvatarShowcase,
     BadgeShowcase,
@@ -48,6 +51,7 @@ import { UiCard } from '../../components/ui-card/ui-card';
     ProgressShowcase,
     RadioShowcase,
     SelectShowcase,
+    SkeletonShowcase,
     SonnerShowcase,
     SwitchShowcase,
     TableShowcase,

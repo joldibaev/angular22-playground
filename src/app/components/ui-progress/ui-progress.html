@@ -1,0 +1,14 @@
+<progress
+  [attr.aria-hidden]="isDecorative() ? 'true' : null"
+  [attr.aria-label]="isDecorative() ? null : accessibleLabel()"
+  [attr.max]="normalizedMax()"
+  [attr.value]="normalizedValue()"
+>
+  @if (normalizedValue() !== undefined) {
+    {{ percentage() }}%
+  }
+</progress>
+
+<span class="ui-progress-track" aria-hidden="true">
+  <span class="ui-progress-indicator"></span>
+</span>

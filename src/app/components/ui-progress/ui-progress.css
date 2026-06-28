@@ -1,0 +1,66 @@
+:host {
+  --ui-progress-track-background: color-mix(in oklab, CanvasText 12%, transparent);
+  --ui-progress-indicator-background: var(--color-brand);
+  --ui-progress-height: 0.5rem;
+  --ui-progress-radius: calc(var(--ui-progress-height) / 2);
+  --ui-progress-indeterminate-duration: calc(var(--dur-slow) * 3);
+  --ui-progress-indeterminate-easing: linear;
+
+  position: relative;
+  display: block;
+  inline-size: 100%;
+}
+
+/* Keep native progress semantics while the sibling owns the stable themed rendering. */
+progress {
+  position: absolute;
+  inline-size: 1px;
+  block-size: 1px;
+  overflow: clip;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.ui-progress-track {
+  position: relative;
+  display: block;
+  overflow: clip;
+  block-size: var(--ui-progress-height);
+  border-radius: var(--ui-progress-radius);
+  background: var(--ui-progress-track-background);
+}
+
+.ui-progress-indicator {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--ui-progress-indicator-background);
+  transform: scaleX(var(--ui-progress-ratio));
+  transform-origin: left center;
+  transition:
+    background-color var(--dur-fast) var(--ease-snappy),
+    transform var(--dur-fast) var(--ease-snappy);
+}
+
+:host(.ui-progress-indeterminate) .ui-progress-indicator {
+  transform: translateX(-35%) scaleX(0.35);
+  animation: ui-progress-indeterminate var(--ui-progress-indeterminate-duration)
+    var(--ui-progress-indeterminate-easing) infinite;
+}
+
+@keyframes ui-progress-indeterminate {
+  to {
+    transform: translateX(100%) scaleX(0.35);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-progress-indicator {
+    transition: background-color var(--dur-fast) var(--ease-snappy);
+  }
+
+  :host(.ui-progress-indeterminate) .ui-progress-indicator {
+    transform: translateX(32.5%) scaleX(0.35);
+    animation: none;
+  }
+}
