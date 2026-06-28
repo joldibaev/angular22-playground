@@ -1,4 +1,9 @@
-<ui-input [label]="label()" [size]="size()" [withErrorMessage]="withErrorMessage()">
+<ui-input
+  [label]="label()"
+  [loading]="loading()"
+  [size]="size()"
+  [withErrorMessage]="withErrorMessage()"
+>
   <button
     #trigger
     uiInputControl
@@ -23,7 +28,9 @@
       {{ displayValue() || placeholder() }}
     </span>
 
-    <ui-icon name="outline-chevron-down" class="ui-date-range-chevron" />
+    @if (!loading()) {
+      <ui-icon name="outline-chevron-down" class="ui-date-range-chevron" />
+    }
   </button>
 </ui-input>
 

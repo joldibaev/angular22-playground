@@ -53,6 +53,9 @@ export class UiDatepicker implements FormValueControl<string> {
 
   readonly value = model('');
   readonly disabled = input(false, { transform: booleanAttribute });
+  // Loading is passive, like ui-input/select/autocomplete: existing dates remain usable while
+  // availability or metadata refreshes. Consumers can bind disabled as well when truly unavailable.
+  readonly loading = input(false, { transform: booleanAttribute });
   readonly label = input('Date');
   // Forwarded to the wrapped <ui-input>; the trigger reads its control-size tokens.
   readonly size = input<UiDatepickerSize>('md');

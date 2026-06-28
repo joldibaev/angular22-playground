@@ -10,6 +10,7 @@ import { UiButton } from './ui-button';
     <button uiButton type="button" variant="brand" iconOnly aria-label="Add">+</button>
     <button uiButton type="button" rounded>Pill</button>
     <button uiButton type="button" size="sm">Small</button>
+    <button uiButton type="button" fluid>Fluid</button>
   `,
 })
 class TestHost {}
@@ -68,5 +69,12 @@ describe('UiButton', () => {
     const button = fixture.nativeElement.querySelector('button[size="sm"]') as HTMLButtonElement;
 
     expect(button.classList.contains('ui-button-sm')).toBe(true);
+  });
+
+  it('should apply the fluid width modifier', () => {
+    const button = fixture.nativeElement.querySelector('button[fluid]') as HTMLButtonElement;
+
+    expect(button.classList.contains('ui-button-fluid')).toBe(true);
+    expect(getComputedStyle(button).width).toBe('100%');
   });
 });

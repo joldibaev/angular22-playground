@@ -62,6 +62,9 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
 
   readonly value = model<UiDateRangeValue>(emptyRange());
   readonly disabled = input(false, { transform: booleanAttribute });
+  // Loading is passive, like ui-input/select/autocomplete: an existing range remains usable while
+  // availability or metadata refreshes. Consumers can bind disabled as well when truly unavailable.
+  readonly loading = input(false, { transform: booleanAttribute });
   readonly label = input('Date range');
   // Forwarded to the wrapped <ui-input>; the trigger reads its control-size tokens.
   readonly size = input<UiDateRangePickerSize>('md');

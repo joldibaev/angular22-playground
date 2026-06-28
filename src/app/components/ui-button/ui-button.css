@@ -134,6 +134,10 @@
   padding: 0;
 }
 
+:host(.ui-button-fluid) {
+  width: 100%;
+}
+
 :host(:not(:disabled, [aria-disabled='true']):hover) {
   background: var(--ui-button-hover-background);
 }

@@ -13,6 +13,8 @@
 
     <ui-datepicker label="Disabled" value="2026-06-15" [disabled]="true" />
 
+    <ui-datepicker label="Loading" value="2026-06-15" loading />
+
     <ui-datepicker label="Small (sm)" size="sm" value="2026-06-15" />
 
     <ui-datepicker label="Medium (md)" value="2026-06-15" />
@@ -42,6 +44,8 @@
       [value]="preselectedRange"
       [withPresets]="false"
     />
+
+    <ui-date-range-picker label="Loading" [value]="preselectedRange" loading />
 
     <ui-date-range-picker label="Signal form range" [formField]="formState.reportRange" />
 

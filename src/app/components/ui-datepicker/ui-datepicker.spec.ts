@@ -91,6 +91,20 @@ describe('UiDatepicker', () => {
     ).toBe(true);
   });
 
+  it('should expose a passive loading state without disabling the trigger', async () => {
+    const fixture = TestBed.createComponent(UiDatepicker);
+    fixture.componentRef.setInput('loading', true);
+
+    await fixture.whenStable();
+
+    const trigger = getTrigger(fixture);
+
+    expect(trigger.getAttribute('aria-busy')).toBe('true');
+    expect(trigger.disabled).toBe(false);
+    expect(fixture.nativeElement.querySelector('.ui-input-loading')).toBeTruthy();
+    expect(trigger.querySelector('.ui-datepicker-chevron')).toBeNull();
+  });
+
   it('should render the selected value in the trigger', async () => {
     const fixture = await createHostFixture();
     const trigger = getTrigger(fixture);

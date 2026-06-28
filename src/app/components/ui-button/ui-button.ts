@@ -29,6 +29,7 @@ export type UiButtonSize = 'sm' | 'md';
     '[class.ui-button-loading]': 'loading()',
     '[class.ui-button-icon-only]': 'iconOnly()',
     '[class.ui-button-rounded]': 'rounded()',
+    '[class.ui-button-fluid]': 'fluid()',
     '[class.ui-button-sm]': "size() === 'sm'",
     '[attr.type]': 'isButton() ? type() : null',
     '[attr.disabled]': 'isButton() && unavailable() ? "" : null',
@@ -52,6 +53,7 @@ export class UiButton {
   readonly iconOnly = input(false, { transform: booleanAttribute });
   // Shape mode (pill corners), not an optional part — named like `disabled`/`loading`, not `with...`.
   readonly rounded = input(false, { transform: booleanAttribute });
+  readonly fluid = input(false, { transform: booleanAttribute });
   // Unlike passive field loading, an action in flight is unavailable: repeated activation can
   // duplicate a submission or side effect, so loading participates in the disabled behavior.
   readonly loading = input(false, { transform: booleanAttribute });
