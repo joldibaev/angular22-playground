@@ -10,7 +10,7 @@
   --ui-popup-max-height: 12rem;
   --ui-popup-font-size: 0.9rem;
   --ui-popup-overflow-y: auto;
-  --ui-popup-shadow: 0 4px 6px -1px var(--shadow-color-default);
+  --ui-popup-shadow: var(--shadow-lg);
 
   --ui-popup-open-duration: var(--dur-fast);
   --ui-popup-close-duration: var(--dur-quick);
@@ -51,6 +51,9 @@
   border: 0;
   padding: 0;
   background-color: transparent;
+  /* Override the popover UA `overflow: auto`; the transparent positioning
+     shell must not clip the inner card's shadow. Scrolling belongs to the box/list. */
+  overflow: visible;
   container-type: anchored;
   position-try-fallbacks: flip-block;
 

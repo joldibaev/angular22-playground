@@ -4,11 +4,7 @@
     var(--text-color-muted) 68%,
     transparent
   );
-  --ui-menu-separator-color: color-mix(
-    in oklab,
-    var(--border-color-default) 72%,
-    transparent
-  );
+  --ui-menu-separator-color: var(--border-color-default);
   --ui-popup-max-height: calc(100vh - 2rem);
   --ui-popup-padding: 0.25rem;
   --ui-popup-option-radius: 0.375rem;
@@ -39,9 +35,6 @@
 }
 
 .ui-menu-separator {
-  inline-size: auto;
-  margin-block: 0.25rem;
-  margin-inline: 0.5rem;
   border: 0;
   border-block-start: 1px solid var(--ui-menu-separator-color);
 }

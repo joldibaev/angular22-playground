@@ -85,9 +85,8 @@
   grid-template-rows: auto 1fr auto;
   block-size: 100dvh;
   overflow: hidden;
-  background-color: var(--background-color-elevated);
-  color: contrast-color(var(--background-color-elevated));
-  box-shadow: 0 0 40px var(--shadow-color-default);
+  background-color: var(--background-color-surface);
+  color: contrast-color(var(--background-color-surface));
 }
 
 .ui-drawer-start .ui-drawer-surface {

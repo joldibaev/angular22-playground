@@ -84,9 +84,8 @@
   overflow: hidden;
   border: 1px solid color-mix(in oklab, var(--border-color-default) 62%, transparent);
   border-radius: 0.75rem;
-  background-color: var(--background-color-elevated);
-  color: contrast-color(var(--background-color-elevated));
-  box-shadow: 0 12px 40px var(--shadow-color-default);
+  background-color: var(--background-color-surface);
+  color: contrast-color(var(--background-color-surface));
 }
 
 .ui-dialog-header {

@@ -3,7 +3,7 @@
   --ui-barcode-height: 96px;
   --ui-barcode-background: Canvas;
   --ui-barcode-color: CanvasText;
-  --ui-barcode-fallback-background: var(--background-color-elevated);
+  --ui-barcode-fallback-background: var(--background-color-surface);
   --ui-barcode-fallback-border-color: var(--border-color-default);
 
   /* Standard barcodes need a stable dark-on-light palette to remain scanner-friendly. */

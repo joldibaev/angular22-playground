@@ -27,7 +27,6 @@
   --ui-panel-background: Canvas;
   --ui-panel-text-color: inherit;
   --ui-panel-border-color: transparent;
-  --ui-panel-shadow: none;
   --ui-panel-open-duration: var(--dur-fast);
   --ui-panel-close-duration: var(--dur-quick);
   --ui-panel-easing: var(--ease-snappy);
@@ -148,7 +147,7 @@
   font-weight: 700;
   line-height: 1.45;
   text-wrap: pretty;
-  box-shadow: var(--ui-panel-shadow);
+  box-shadow: var(--shadow-lg);
 }
 
 /* --- Arrow: integrated border-shape ----------------------------------------- */

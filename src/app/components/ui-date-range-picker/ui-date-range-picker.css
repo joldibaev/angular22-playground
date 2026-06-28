@@ -49,8 +49,8 @@
   cursor: pointer;
   border: 1px solid var(--ui-input-current-border-color, var(--border-color-default));
   border-radius: 0.5rem;
-  background-color: var(--ui-input-background, var(--background-color-elevated));
-  color: contrast-color(var(--ui-input-background, var(--background-color-elevated)));
+  background-color: var(--ui-input-background, var(--background-color-surface));
+  color: contrast-color(var(--ui-input-background, var(--background-color-surface)));
   font: inherit;
   font-size: var(--ui-input-control-font-size, 1rem);
   padding: 0 0.75rem;

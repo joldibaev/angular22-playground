@@ -1,7 +1,8 @@
 :host {
-  --ui-progress-track-background: color-mix(in oklab, CanvasText 12%, transparent);
+  --ui-progress-track-background: var(--background-color-subtle);
   --ui-progress-indicator-background: var(--color-brand);
   --ui-progress-height: 0.5rem;
+  --ui-progress-border-width: 1px;
   --ui-progress-radius: calc(var(--ui-progress-height) / 2);
   --ui-progress-indeterminate-duration: calc(var(--dur-slow) * 3);
   --ui-progress-indeterminate-easing: linear;
@@ -24,15 +25,20 @@ progress {
 .ui-progress-track {
   position: relative;
   display: block;
+  box-sizing: border-box;
   overflow: clip;
   block-size: var(--ui-progress-height);
   border-radius: var(--ui-progress-radius);
+  border: var(--ui-progress-border-width) solid var(--border-color-default);
   background-color: var(--ui-progress-track-background);
 }
 
 .ui-progress-indicator {
   position: absolute;
-  inset: 0;
+  /* The fill covers the track's vertical border area; the track clips it back
+     to the outer pill curve while inline sizing keeps progress math exact. */
+  inset-block: calc(-1 * var(--ui-progress-border-width));
+  inset-inline: 0;
   border-radius: inherit;
   background-color: var(--ui-progress-indicator-background);
   transform: scaleX(var(--ui-progress-ratio));

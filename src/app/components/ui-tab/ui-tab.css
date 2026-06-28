@@ -1,9 +1,9 @@
 :host {
   --ui-tab-border-color: var(--border-color-default);
   --ui-tab-focus-visible-border-color: var(--color-brand);
-  --ui-tab-list-background: var(--background-color-subtle);
+  --ui-tab-list-background: light-dark(var(--color-neutral-100), var(--color-neutral-900));
   --ui-tab-indicator-background: var(--background-color-elevated);
-  --ui-tab-indicator-shadow: 0 1px 3px var(--shadow-color-default);
+  --ui-tab-indicator-shadow: var(--shadow-sm);
   --ui-tab-item-color: var(--text-color-muted);
   --ui-tab-item-hover-color: color-mix(in oklab, var(--ui-tab-item-color) 45%, contrast-color(Canvas));
   --ui-tab-item-active-color: contrast-color(var(--ui-tab-indicator-background));

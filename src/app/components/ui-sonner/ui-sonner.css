@@ -11,7 +11,7 @@
   --ui-sonner-close-button-left: auto;
   --ui-sonner-close-button-right: 0.75rem;
   --ui-sonner-close-button-transform: none;
-  --ui-sonner-shadow: 0 4px 6px -1px var(--shadow-color-default);
+  --ui-sonner-shadow: var(--shadow-lg);
 
   position: fixed;
   z-index: 100;

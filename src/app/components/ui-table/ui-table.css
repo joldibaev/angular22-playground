@@ -1,5 +1,5 @@
 .ui-table-viewport {
-  --ui-table-background: var(--background-color-elevated);
+  --ui-table-background: var(--background-color-surface);
   --ui-table-foreground: contrast-color(var(--ui-table-background));
   --ui-table-border-color: var(--border-color-default);
   --ui-table-border-color-strong: var(--border-color-strong);
@@ -54,8 +54,8 @@
   border-collapse: separate;
   border-spacing: 0;
   border-radius: 0.5rem;
-  background-color: var(--background-color-elevated);
-  color: contrast-color(var(--background-color-elevated));
+  background-color: var(--background-color-surface);
+  color: contrast-color(var(--background-color-surface));
   font-size: var(--ui-table-font-size, 0.875rem);
   text-align: start;
 
@@ -73,7 +73,7 @@
     padding-inline: var(--ui-table-cell-padding-inline, 1rem);
     overflow: hidden;
     border-block-end: 1px solid var(--ui-table-border-color, var(--border-color-default));
-    background-color: var(--ui-table-background, var(--background-color-elevated));
+    background-color: var(--ui-table-background, var(--background-color-surface));
     text-overflow: ellipsis;
     vertical-align: middle;
     white-space: nowrap;
@@ -105,7 +105,7 @@
   & tbody tr[aria-selected='true'] > :is(th, td) {
     background-color: var(
       --ui-table-row-selected-background,
-      color-mix(in oklab, var(--color-brand) 14%, var(--background-color-elevated))
+      color-mix(in oklab, var(--color-brand) 14%, var(--background-color-surface))
     );
   }
 
@@ -154,7 +154,7 @@
 .ui-table-with-row-hover tbody tr:not(.ui-table-spacer):is(:hover, :focus-within) > :is(th, td) {
   background-color: var(
     --ui-table-row-hover-background,
-    color-mix(in oklab, var(--color-brand) 8%, var(--background-color-elevated))
+    color-mix(in oklab, var(--color-brand) 8%, var(--background-color-surface))
   );
 }
 
@@ -167,6 +167,6 @@
     height: 0;
     padding: 0;
     border: 0;
-    background-color: var(--ui-table-background, var(--background-color-elevated));
+    background-color: var(--ui-table-background, var(--background-color-surface));
   }
 }

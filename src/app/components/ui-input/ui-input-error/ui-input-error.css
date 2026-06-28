@@ -8,7 +8,6 @@ ui-input-error {
   --ui-panel-background: var(--color-destructive);
   --ui-panel-text-color: contrast-color(var(--ui-panel-background));
   --ui-panel-gap: 0.25rem;
-  --ui-panel-shadow: 0 4px 6px -1px var(--shadow-color-default);
 }
 
 /* This panel deliberately has NO open/close animation. The message text is
