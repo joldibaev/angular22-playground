@@ -45,6 +45,7 @@
     --ui-switch-current-focus-visible-border-color: var(
       --ui-switch-invalid-focus-visible-border-color
     );
+    --focus-ring-color: --alpha(var(--ui-switch-invalid-focus-visible-border-color) / 50%);
     --ui-switch-checked-color: var(--ui-switch-invalid-color);
   }
 
@@ -137,8 +138,7 @@
 
 .ui-switch-input:focus-visible + .ui-switch-control {
   border-color: var(--ui-switch-current-focus-visible-border-color);
-  outline: 3px solid
-    color-mix(in oklab, var(--ui-switch-current-focus-visible-border-color) 50%, transparent);
+  outline: 3px solid var(--focus-ring-color);
 }
 
 .ui-switch-copy {

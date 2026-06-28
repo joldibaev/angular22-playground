@@ -9,8 +9,8 @@
   --ui-tree-gap: 0.25rem;
 
   --ui-tree-guide-color: var(--border-color-strong);
-  --ui-tree-hover-background: color-mix(in oklab, var(--text-color-muted) 8%, transparent);
-  --ui-tree-selected-background: color-mix(in oklab, var(--color-brand) 12%, transparent);
+  --ui-tree-hover-background: --alpha(var(--text-color-muted) / 8%);
+  --ui-tree-selected-background: --alpha(var(--color-brand) / 12%);
   --ui-tree-selected-color: var(--color-brand);
   --ui-tree-focus-ring: var(--focus-ring-color);
   --ui-tree-state-duration: var(--dur-quick);

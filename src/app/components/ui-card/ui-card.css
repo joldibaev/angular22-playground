@@ -19,11 +19,11 @@
 }
 
 :host(.ui-card-elevated) {
-  border: 1px solid color-mix(in oklab, var(--ui-card-border-color) 62%, transparent);
+  border: 1px solid var(--ui-card-border-color);
   box-shadow: var(--ui-card-shadow);
 }
 
-:host(.ui-card-outlined) {
+:host(.ui-card-outline) {
   border: 1px solid var(--ui-card-border-color);
   box-shadow: none;
 }

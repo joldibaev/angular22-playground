@@ -7,11 +7,19 @@
       <h1 class="text-4xl font-black leading-none md:text-6xl">Component showcase</h1>
     </div>
 
-    <ui-select label="Theme" [value]="theme.theme()" (valueChange)="setTheme($event)">
+    <div class="flex flex-wrap justify-end gap-2" role="group" aria-label="Theme">
       @for (option of themeOptions; track option.value) {
-        <ui-select-option [value]="option.value">{{ option.label }}</ui-select-option>
+        <button
+          uiButton
+          size="sm"
+          [variant]="theme.theme() === option.value ? 'brand' : 'outline'"
+          [attr.aria-pressed]="theme.theme() === option.value"
+          (click)="setTheme(option.value)"
+        >
+          {{ option.label }}
+        </button>
       }
-    </ui-select>
+    </div>
   </header>
 
   <app-component-catalog-section />

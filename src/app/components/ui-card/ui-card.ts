@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 
-export type UiCardVariant = 'elevated' | 'outlined';
+export type UiCardVariant = 'elevated' | 'outline';
 
 @Component({
   selector: 'ui-card',
@@ -8,7 +8,7 @@ export type UiCardVariant = 'elevated' | 'outlined';
   styleUrl: './ui-card.css',
   host: {
     '[class.ui-card-elevated]': "variant() === 'elevated'",
-    '[class.ui-card-outlined]': "variant() === 'outlined'",
+    '[class.ui-card-outline]': "variant() === 'outline'",
   },
 })
 export class UiCard {

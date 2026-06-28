@@ -72,7 +72,7 @@
 }
 
 [data-sonner-toast] [data-description] {
-  color: color-mix(in oklab, currentColor 70%, transparent);
+  color: --alpha(currentColor / 70%);
   font-weight: 400;
   line-height: 1.4;
 }
@@ -83,7 +83,7 @@
   place-items: center;
   width: 1.25rem;
   height: 1.25rem;
-  color: color-mix(in oklab, currentColor 88%, transparent);
+  color: --alpha(currentColor / 88%);
 }
 
 [data-sonner-toast] [data-content] {

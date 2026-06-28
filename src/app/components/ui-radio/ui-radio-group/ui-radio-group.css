@@ -24,6 +24,7 @@
       --ui-radio-current-focus-visible-border-color: var(
         --ui-radio-group-invalid-focus-visible-border-color
       );
+      --focus-ring-color: --alpha(var(--ui-radio-group-invalid-focus-visible-border-color) / 50%);
     }
   }
 }

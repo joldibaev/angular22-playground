@@ -23,13 +23,9 @@
   --ui-popup-option-radius: 0.5rem;
   --ui-popup-option-min-height: 2.25rem;
   --ui-popup-option-padding: 0 1rem;
-  --ui-popup-option-hover-background: color-mix(
-    in oklab,
-    var(--text-color-muted) 5%,
-    transparent
-  );
+  --ui-popup-option-hover-background: --alpha(var(--text-color-muted) / 5%);
   --ui-popup-option-selected-color: var(--color-brand);
-  --ui-popup-option-selected-background: color-mix(in oklab, var(--color-brand) 5%, transparent);
+  --ui-popup-option-selected-background: --alpha(var(--color-brand) / 5%);
   --ui-popup-status-color: var(--text-color-muted);
 }
 
@@ -174,7 +170,7 @@
   height: 100%;
   overflow: auto;
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in oklab, var(--text-color-muted) 32%, transparent) transparent;
+  scrollbar-color: --alpha(var(--text-color-muted) / 32%) transparent;
 }
 
 .ui-popup-status {
@@ -276,12 +272,7 @@
      with the mouse there, unlike the other two. Its keyboard ring is already
      covered by :focus-visible above. */
   &:is(:focus-visible, [data-active='true']:not(.ui-menu-item)) {
-    outline: 2px solid
-    color-mix(
-      in oklab,
-      var(--ui-popup-option-focus-visible-border-color, var(--color-brand)) 50%,
-      transparent
-    );
+    outline: 2px solid var(--focus-ring-color);
     outline-offset: -2px;
   }
 

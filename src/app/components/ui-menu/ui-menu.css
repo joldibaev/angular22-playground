@@ -1,16 +1,11 @@
 :host {
-  --ui-menu-group-label-color: color-mix(
-    in oklab,
-    var(--text-color-muted) 68%,
-    transparent
-  );
+  --ui-menu-group-label-color: --alpha(var(--text-color-muted) / 68%);
   --ui-menu-separator-color: var(--border-color-default);
   --ui-popup-max-height: calc(100vh - 2rem);
   --ui-popup-padding: 0.25rem;
   --ui-popup-option-radius: 0.375rem;
   --ui-popup-option-min-height: auto;
   --ui-popup-option-padding: 0.625rem 0.75rem;
-  --ui-popup-option-focus-visible-border-color: var(--color-brand);
 
   display: inline-block;
   position: relative;
@@ -75,7 +70,7 @@
       var(--color-destructive) 12%,
       Canvas
     );
-    --ui-popup-option-focus-visible-border-color: var(--color-destructive);
+    --focus-ring-color: --alpha(var(--color-destructive) / 50%);
 
     color: var(--color-destructive);
   }

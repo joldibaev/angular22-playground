@@ -40,10 +40,9 @@
   --color-brand: light-dark(var(--color-emerald-400), var(--color-emerald-600));
   --color-destructive: var(--color-red-600);
 
-  /* Shared focus ring: every `:focus-visible` outline reads its color from here
-     so the ring lives in one place. Stateful controls swap the source color
-     (e.g. `--color-destructive` while invalid) but keep the same formula. */
-  --focus-ring-color: color-mix(in oklab, var(--color-brand) 50%, transparent);
+  /* Shared brand focus ring. Stateful controls locally re-scope this token to
+     their state color (for example, destructive while invalid). */
+  --focus-ring-color: --alpha(var(--color-brand) / 50%);
 
   /* One dim level for every disabled control, so they read consistently. */
   --opacity-disabled: 0.5;
@@ -64,6 +63,7 @@
   --press-scale: 0.97;
 }
 
+/*todo color-mix, subtle*/
 html {
   scroll-behavior: smooth;
 }

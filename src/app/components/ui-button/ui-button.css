@@ -79,6 +79,7 @@
   --ui-button-hover-background: color-mix(in oklab, var(--color-destructive) 18%, Canvas);
   --ui-button-active-background: color-mix(in oklab, var(--color-destructive) 24%, Canvas);
   --ui-button-focus-visible-border-color: var(--color-destructive);
+  --focus-ring-color: --alpha(var(--color-destructive) / 50%);
 }
 
 :host(.ui-button-secondary) {
@@ -166,8 +167,7 @@
 
 :host(:focus-visible) {
   border-color: var(--ui-button-focus-visible-border-color);
-  outline: 3px solid
-    color-mix(in oklab, var(--ui-button-focus-visible-border-color) 50%, transparent);
+  outline: 3px solid var(--focus-ring-color);
 }
 
 :host(:disabled),
