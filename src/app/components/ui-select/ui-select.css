@@ -1,5 +1,4 @@
 :host {
-  --ui-popup-overflow: scroll;
   --ui-select-group-label-color: color-mix(in oklab, var(--text-color-muted) 60%, transparent);
   --ui-select-chevron-duration: var(--dur-quick);
   --ui-select-motion-easing: var(--ease-snappy);

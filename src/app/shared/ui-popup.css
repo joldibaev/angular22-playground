@@ -9,7 +9,7 @@
   --ui-popup-min-width: auto;
   --ui-popup-max-height: 12rem;
   --ui-popup-font-size: 0.9rem;
-  --ui-popup-overflow: auto;
+  --ui-popup-overflow-y: auto;
   --ui-popup-shadow: 0 4px 6px -1px var(--shadow-color-default);
 
   --ui-popup-open-duration: var(--dur-fast);
@@ -64,7 +64,7 @@
 .ui-popup-box {
   box-sizing: border-box;
   max-height: var(--ui-popup-max-height);
-  overflow: var(--ui-popup-overflow);
+  overflow-y: var(--ui-popup-overflow-y);
   border: var(--ui-popup-border-width) solid var(--ui-popup-border-color);
   border-radius: var(--ui-popup-radius);
   padding: var(--ui-popup-padding);
