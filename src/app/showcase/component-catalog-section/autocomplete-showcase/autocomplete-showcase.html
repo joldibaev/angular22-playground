@@ -29,6 +29,22 @@
     </ui-autocomplete>
 
     <ui-autocomplete label="Loading" loading />
+
+    <ui-autocomplete label="Small (sm)" size="sm">
+      @for (team of teams; track team) {
+        <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
+          team
+        }}</ui-autocomplete-option>
+      }
+    </ui-autocomplete>
+
+    <ui-autocomplete label="Medium (md)">
+      @for (team of teams; track team) {
+        <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
+          team
+        }}</ui-autocomplete-option>
+      }
+    </ui-autocomplete>
   </div>
 
   <div class="grid min-w-0 gap-4 border-t border-default pt-4 md:grid-cols-2">

@@ -77,6 +77,17 @@ describe('UiDateRangePicker', () => {
     expect(fixture.componentInstance).toBeTruthy();
   });
 
+  it('should forward the compact size to the wrapped ui-input', async () => {
+    const fixture = TestBed.createComponent(UiDateRangePicker);
+    fixture.componentRef.setInput('size', 'sm');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(
+      fixture.nativeElement.querySelector('ui-input')?.classList.contains('ui-input-sm'),
+    ).toBe(true);
+  });
+
   it('should render the selected range in the trigger', async () => {
     const fixture = await createHostFixture();
     const trigger = getTrigger(fixture);
@@ -283,7 +294,7 @@ describe('UiDateRangePicker', () => {
     expect(panelStyle.top).toContain('anchor(bottom)');
   });
 
-  it('should keep range fill continuous and animate panel entry', async () => {
+  it('should space day tiles via the gap tokens and animate panel entry', async () => {
     const fixture = await createHostFixture();
 
     await openRangePicker(fixture);
@@ -296,10 +307,17 @@ describe('UiDateRangePicker', () => {
     const gridStyle = getComputedStyle(grid);
     const boxStyle = getComputedStyle(box);
 
-    expect(gridStyle.borderSpacing).toBe('0px');
-    expect(boxStyle.transitionProperty).toContain('opacity');
-    expect(boxStyle.transitionProperty).toContain('translate');
-    expect(boxStyle.transitionProperty).toContain('scale');
+    // The day tiles are separated through the grid's border-spacing, driven by
+    // the --ui-date-range-day-gap(-inline) tokens (jsdom leaves the var() refs
+    // unresolved, so assert the wiring rather than a resolved length).
+    expect(gridStyle.borderSpacing).toContain('--ui-date-range-day-gap');
+    // Entry animation: the box sits at its hidden base state until the popover
+    // opens. jsdom has no top layer, so :popover-open never matches and the box
+    // stays hidden here — assert that closed base state plus the presence of a
+    // transition (jsdom collapses the var()-timed shorthand to "all", so we
+    // can't match the individual opacity/translate/scale property names).
+    expect(boxStyle.opacity).toBe('0');
+    expect(boxStyle.transitionProperty).not.toBe('none');
   });
 
   it('should clear the draft without committing until apply', async () => {

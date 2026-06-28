@@ -36,6 +36,17 @@ class SignalFormTestHost {
   readonly radioGroup = viewChild.required(UiRadioGroup);
 }
 
+@Component({
+  imports: [UiRadio, UiRadioGroup],
+  template: `
+    <ui-radio-group size="sm" label="Density">
+      <ui-radio value="inherit" label="Inherits group size" />
+      <ui-radio value="override" label="Overrides to md" size="md" />
+    </ui-radio-group>
+  `,
+})
+class SizeTestHost {}
+
 function changeRadio(input: HTMLInputElement): void {
   input.checked = true;
   input.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
@@ -56,7 +67,7 @@ function getRadios(fixture: ComponentFixture<unknown>): HTMLInputElement[] {
 describe('UiRadioGroup', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SignalFormTestHost],
+      imports: [SignalFormTestHost, SizeTestHost],
     }).compileComponents();
   });
 
@@ -64,6 +75,18 @@ describe('UiRadioGroup', () => {
     const hostFixture = await createSignalFormHostFixture();
 
     expect(hostFixture.componentInstance.radioGroup()).toBeTruthy();
+  });
+
+  it('should cascade size to radios and let an individual radio override it', async () => {
+    const hostFixture = TestBed.createComponent(SizeTestHost);
+    hostFixture.detectChanges();
+    await hostFixture.whenStable();
+
+    const radios = hostFixture.nativeElement.querySelectorAll('ui-radio');
+
+    // First radio inherits the group's sm; the second overrides back to md.
+    expect(radios[0].classList.contains('ui-radio-sm')).toBe(true);
+    expect(radios[1].classList.contains('ui-radio-sm')).toBe(false);
   });
 
   it('should render legend, description, and required marker from field state', async () => {

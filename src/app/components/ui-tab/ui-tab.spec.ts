@@ -145,6 +145,14 @@ describe('UiTab', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should apply the compact size class for sm', async () => {
+    fixture.componentRef.setInput('size', 'sm');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect((fixture.nativeElement as HTMLElement).classList.contains('ui-tab-sm')).toBe(true);
+  });
+
   it('should render projected items as Angular Aria tabs and panels', async () => {
     const hostFixture = await createHostFixture();
     const tabList = getTabList(hostFixture);

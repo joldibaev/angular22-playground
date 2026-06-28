@@ -16,7 +16,7 @@ import {
 } from '@angular/forms/signals';
 import { createFieldMessages } from '../../../shared/field-messages';
 import { nextId } from '../../../shared/unique-id';
-import { UI_RADIO_GROUP, type UiRadioGroupControl } from './ui-radio-group.token';
+import { UI_RADIO_GROUP, type UiRadioGroupControl, type UiRadioSize } from './ui-radio-group.token';
 
 @Component({
   selector: 'ui-radio-group',
@@ -26,6 +26,7 @@ import { UI_RADIO_GROUP, type UiRadioGroupControl } from './ui-radio-group.token
 })
 export class UiRadioGroup implements FormValueControl<string>, UiRadioGroupControl {
   value = model('');
+  readonly size = input<UiRadioSize>('md');
   disabled = input(false, { transform: booleanAttribute });
   disabledReasons = input<readonly WithOptionalFieldTree<DisabledReason>[]>([]);
   hidden = input(false, { transform: booleanAttribute });

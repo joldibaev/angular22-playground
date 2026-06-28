@@ -16,13 +16,19 @@ import {
 } from '@angular/forms/signals';
 import { createFieldMessages } from '../../shared/field-messages';
 
+export type UiCheckboxSize = 'sm' | 'md';
+
 @Component({
   selector: 'ui-checkbox',
   templateUrl: './ui-checkbox.html',
   styleUrl: './ui-checkbox.css',
+  host: {
+    '[class.ui-checkbox-sm]': "size() === 'sm'",
+  },
 })
 export class UiCheckbox implements FormCheckboxControl {
   checked = model(false);
+  readonly size = input<UiCheckboxSize>('md');
   disabled = input(false, { transform: booleanAttribute });
   disabledReasons = input<readonly WithOptionalFieldTree<DisabledReason>[]>([]);
   hidden = input(false, { transform: booleanAttribute });

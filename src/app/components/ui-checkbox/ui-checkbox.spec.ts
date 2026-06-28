@@ -67,6 +67,14 @@ describe('UiCheckbox', () => {
     expect(fixture.componentInstance).toBeTruthy();
   });
 
+  it('should apply the compact size class for sm', () => {
+    const fixture = TestBed.createComponent(UiCheckbox);
+    fixture.componentRef.setInput('size', 'sm');
+    fixture.detectChanges();
+
+    expect((fixture.nativeElement as HTMLElement).classList.contains('ui-checkbox-sm')).toBe(true);
+  });
+
   it('should render label, description, and required marker from field state', async () => {
     const hostFixture = await createSignalFormHostFixture();
     const checkbox = hostFixture.nativeElement.querySelector('ui-checkbox');

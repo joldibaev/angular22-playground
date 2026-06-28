@@ -1,5 +1,6 @@
 :host {
   --ui-radio-control-size: 1.25rem;
+  --ui-radio-dot-size: 0.6rem;
   --ui-radio-border-color: var(--border-color-strong);
   --ui-radio-focus-visible-border-color: var(--color-brand);
   --ui-radio-checked-color: var(--color-brand);
@@ -11,6 +12,11 @@
 
   display: block;
   min-width: 0;
+}
+
+:host(.ui-radio-sm) {
+  --ui-radio-control-size: 1rem;
+  --ui-radio-dot-size: 0.5rem;
 }
 
 .ui-radio-label {
@@ -60,8 +66,8 @@
 
 .ui-radio-control::before {
   content: '';
-  width: 0.6rem;
-  height: 0.6rem;
+  width: var(--ui-radio-dot-size);
+  height: var(--ui-radio-dot-size);
   border-radius: 50%;
   background: white;
   opacity: 0;

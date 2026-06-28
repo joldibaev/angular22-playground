@@ -9,6 +9,7 @@ import { UiButton } from './ui-button';
     <a uiButton href="/docs" disabled>Docs</a>
     <button uiButton type="button" variant="brand" iconOnly aria-label="Add">+</button>
     <button uiButton type="button" rounded>Pill</button>
+    <button uiButton type="button" size="sm">Small</button>
   `,
 })
 class TestHost {}
@@ -61,5 +62,11 @@ describe('UiButton', () => {
     ) as HTMLButtonElement;
 
     expect(button.classList.contains('ui-button-rounded')).toBe(true);
+  });
+
+  it('should apply the compact size modifier', () => {
+    const button = fixture.nativeElement.querySelector('button[size="sm"]') as HTMLButtonElement;
+
+    expect(button.classList.contains('ui-button-sm')).toBe(true);
   });
 });

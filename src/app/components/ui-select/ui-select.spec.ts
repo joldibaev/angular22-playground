@@ -312,6 +312,16 @@ describe('UiSelect', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should forward the compact size to the wrapped ui-input', async () => {
+    fixture.componentRef.setInput('size', 'sm');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(
+      fixture.nativeElement.querySelector('ui-input')?.classList.contains('ui-input-sm'),
+    ).toBe(true);
+  });
+
   it('should render placeholder when no value is selected', async () => {
     const hostFixture = await createHostFixture();
 
@@ -333,7 +343,9 @@ describe('UiSelect', () => {
 
   it('should expose a passive loading state and a popup status when options are absent', async () => {
     const hostFixture = TestBed.createComponent(LoadingTestHost);
+    hostFixture.detectChanges();
     await hostFixture.whenStable();
+    await hostFixture.whenRenderingDone();
 
     const combobox = getCombobox(hostFixture);
 
@@ -342,7 +354,11 @@ describe('UiSelect', () => {
     expect(hostFixture.nativeElement.querySelector('.ui-input-loading')).toBeTruthy();
     expect(combobox.querySelector('.icon-chevron-down')).toBeNull();
 
+    // Mirror openPopup(): the deferred ngComboboxPopup only materialises the
+    // popup content after a change detection pass following the expand.
+    combobox.focus();
     hostFixture.componentInstance.select().popupExpanded.set(true);
+    hostFixture.detectChanges();
     await hostFixture.whenStable();
     await hostFixture.whenRenderingDone();
 

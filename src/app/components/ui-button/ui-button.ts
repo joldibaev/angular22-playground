@@ -10,6 +10,7 @@ export type UiButtonVariant =
   | 'ghost'
   | 'link';
 export type UiButtonType = 'button' | 'submit' | 'reset';
+export type UiButtonSize = 'sm' | 'md';
 
 @Component({
   selector: 'button[uiButton], a[uiButton]',
@@ -28,6 +29,7 @@ export type UiButtonType = 'button' | 'submit' | 'reset';
     '[class.ui-button-loading]': 'loading()',
     '[class.ui-button-icon-only]': 'iconOnly()',
     '[class.ui-button-rounded]': 'rounded()',
+    '[class.ui-button-sm]': "size() === 'sm'",
     '[attr.type]': 'isButton() ? type() : null',
     '[attr.disabled]': 'isButton() && unavailable() ? "" : null',
     '[attr.aria-disabled]': '!isButton() && unavailable() ? "true" : null',
@@ -40,6 +42,9 @@ export class UiButton {
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
 
   readonly variant = input<UiButtonVariant>('default');
+  // Shared control-size scale ('md' default, 'sm' compact) — same axis as the
+  // ui-input family so a button lines up with inputs/selects in a form row.
+  readonly size = input<UiButtonSize>('md');
   readonly type = input<UiButtonType>('button');
   readonly disabled = input(false, { transform: booleanAttribute });
   // Keep this explicit instead of inspecting projected DOM: arbitrary icon content stays valid,

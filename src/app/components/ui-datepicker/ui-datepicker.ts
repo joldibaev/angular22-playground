@@ -28,6 +28,8 @@ import {
   WEEKDAYS_MON_FIRST,
 } from './calendar.utils';
 
+export type UiDatepickerSize = 'sm' | 'md';
+
 // Keep the public picker single-value focused. Range picking has different
 // draft/commit behavior, but both variants can share the calendar math here.
 @Component({
@@ -52,6 +54,8 @@ export class UiDatepicker implements FormValueControl<string> {
   readonly value = model('');
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly label = input('Date');
+  // Forwarded to the wrapped <ui-input>; the trigger reads its control-size tokens.
+  readonly size = input<UiDatepickerSize>('md');
   readonly placeholder = input('Select date');
   readonly min = input<string | undefined>(undefined);
   readonly max = input<string | undefined>(undefined);

@@ -21,6 +21,8 @@ import { UiIcon } from '../ui-icon/ui-icon';
 import { UiLoading } from '../ui-loading/ui-loading';
 import { syncPopover } from '../../shared/sync-popover';
 
+export type UiAutocompleteSize = 'sm' | 'md';
+
 @Component({
   selector: 'ui-autocomplete',
   imports: [Combobox, ComboboxPopup, ComboboxWidget, Listbox, Option, UiInput, UiIcon, UiLoading],
@@ -38,6 +40,8 @@ export class UiAutocomplete implements FormValueControl<string> {
   // request. Disabling here would drop focus and prevent the interaction that drives async search.
   loading = input(false, { transform: booleanAttribute });
   label = input('Search');
+  // Forwarded to the wrapped <ui-input>, which owns the control-size scale.
+  size = input<UiAutocompleteSize>('md');
   placeholder = input('Search labels');
   emptyText = input('No matches');
   loadingText = input('Loading');

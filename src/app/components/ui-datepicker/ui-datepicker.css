@@ -35,13 +35,15 @@
   gap: 0.625rem;
   width: 100%;
   min-width: 0;
-  height: 2.5rem;
+  /* Tracks the wrapped ui-input's control-size scale (inherited tokens). */
+  height: var(--ui-input-control-height, 2.5rem);
   cursor: pointer;
   border: 1px solid var(--ui-input-current-border-color, var(--border-color-default));
   border-radius: 0.5rem;
   background: var(--ui-input-background, var(--background-color-elevated));
   color: contrast-color(var(--ui-input-background, var(--background-color-elevated)));
   font: inherit;
+  font-size: var(--ui-input-control-font-size, 1rem);
   padding: 0 0.75rem;
   text-align: start;
   outline: none;

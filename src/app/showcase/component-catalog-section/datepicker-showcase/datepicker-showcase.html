@@ -12,6 +12,10 @@
     />
 
     <ui-datepicker label="Disabled" value="2026-06-15" [disabled]="true" />
+
+    <ui-datepicker label="Small (sm)" size="sm" value="2026-06-15" />
+
+    <ui-datepicker label="Medium (md)" value="2026-06-15" />
   </div>
 
   <div class="grid min-w-0 gap-4 border-t border-default pt-4 md:grid-cols-2">
@@ -40,6 +44,10 @@
     />
 
     <ui-date-range-picker label="Signal form range" [formField]="formState.reportRange" />
+
+    <ui-date-range-picker label="Small (sm)" size="sm" [value]="preselectedRange" />
+
+    <ui-date-range-picker label="Medium (md)" [value]="preselectedRange" />
   </div>
 
   <div class="grid min-w-0 gap-2 rounded-lg border border-default p-4 text-sm">

@@ -27,6 +27,7 @@ type UiSelectRenderItem = {
   option?: UiSelectOption;
 };
 export type UiSelectValue = string | string[];
+export type UiSelectSize = 'sm' | 'md';
 
 @Component({
   selector: 'ui-select',
@@ -46,6 +47,8 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
   // strictly unavailable initial load.
   loading = input(false, { transform: booleanAttribute });
   label = input('Select');
+  // Forwarded to the wrapped <ui-input>, which owns the control-size scale.
+  size = input<UiSelectSize>('md');
   loadingText = input('Loading');
   multi = input(false, { transform: booleanAttribute });
   placeholder = input('Select a label');

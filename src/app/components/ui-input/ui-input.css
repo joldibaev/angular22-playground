@@ -1,4 +1,10 @@
 ui-input {
+  /* Control-size scale, inherited by the projected control and any
+     [uiInputControl] trigger (date pickers). 'md' is the default row height. */
+  --ui-input-control-height: 2.5rem;
+  --ui-input-control-padding-inline: 1rem;
+  --ui-input-control-font-size: 1rem;
+
   --ui-input-label-color: var(--text-color-muted);
   --ui-input-required-color: var(--color-destructive);
 
@@ -16,6 +22,17 @@ ui-input {
   display: block;
   min-width: 0;
   width: 100%;
+}
+
+/* Compact scale for the whole input family. 2rem (32px) still clears WCAG 2.5.8
+   (AA, 24px min), so sm is a pointer-dense / desktop affordance and is
+   deliberately NOT bumped back up under (pointer: coarse) — that would just make
+   it look like md. Reach for the default md when a control is a primary touch
+   target. */
+ui-input.ui-input-sm {
+  --ui-input-control-height: 2rem;
+  --ui-input-control-padding-inline: 0.75rem;
+  --ui-input-control-font-size: 0.875rem;
 }
 
 .ui-input-container {
@@ -64,7 +81,8 @@ ui-input {
 
 .ui-input-loading {
   position: absolute;
-  inset-block-start: 1.25rem;
+  /* Centre on the control regardless of size (half the control height). */
+  inset-block-start: calc(var(--ui-input-control-height) / 2);
   inset-inline-end: 1rem;
   z-index: 1;
   pointer-events: none;
@@ -90,13 +108,14 @@ ui-input textarea,
 ui-input [ngCombobox] {
   min-width: 0;
   width: 100%;
-  height: 2.5rem;
+  height: var(--ui-input-control-height);
   border: 1px solid var(--ui-input-current-border-color);
   border-radius: 0.5rem;
   background-color: var(--ui-input-background);
   color: contrast-color(var(--ui-input-background));
   font: inherit;
-  padding: 0 1rem;
+  font-size: var(--ui-input-control-font-size);
+  padding: 0 var(--ui-input-control-padding-inline);
   outline: none;
 }
 

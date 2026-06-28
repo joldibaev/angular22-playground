@@ -1,5 +1,6 @@
 :host {
   --ui-checkbox-control-size: 1.25rem;
+  --ui-checkbox-mark-size: 0.75rem;
   --ui-checkbox-border-color: var(--border-color-strong);
   --ui-checkbox-focus-visible-border-color: var(--color-brand);
   --ui-checkbox-checked-color: var(--color-brand);
@@ -16,6 +17,11 @@
 
   display: block;
   min-width: 0;
+}
+
+:host(.ui-checkbox-sm) {
+  --ui-checkbox-control-size: 1rem;
+  --ui-checkbox-mark-size: 0.625rem;
 }
 
 .ui-checkbox-container {
@@ -90,8 +96,8 @@
 .ui-checkbox-mark {
   --ui-checkbox-check-length: 14;
 
-  width: 0.75rem;
-  height: 0.75rem;
+  width: var(--ui-checkbox-mark-size);
+  height: var(--ui-checkbox-mark-size);
   overflow: visible;
   stroke: currentColor;
   stroke-width: 2;

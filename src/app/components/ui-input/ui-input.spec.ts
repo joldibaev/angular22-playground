@@ -82,6 +82,16 @@ describe('UiInput', () => {
     expect(fixture.componentInstance).toBeTruthy();
   });
 
+  it('should apply the compact size class for sm', async () => {
+    await TestBed.configureTestingModule({ imports: [UiInput] }).compileComponents();
+
+    const fixture = TestBed.createComponent(UiInput);
+    fixture.componentRef.setInput('size', 'sm');
+    fixture.detectChanges();
+
+    expect((fixture.nativeElement as HTMLElement).classList.contains('ui-input-sm')).toBe(true);
+  });
+
   it('should render label and required marker from field state', async () => {
     const hostFixture = await createSignalFormHostFixture();
     const label = hostFixture.nativeElement.querySelector('.ui-input-label');

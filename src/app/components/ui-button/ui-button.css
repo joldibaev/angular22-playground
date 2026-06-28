@@ -11,6 +11,7 @@
   --ui-button-radius: 0.5rem;
   --ui-button-padding-inline: 1rem;
   --ui-button-padding-block: 0.5rem;
+  --ui-button-font-size: 1rem;
   --ui-button-motion-duration: var(--dur-press);
   --ui-button-motion-easing: var(--ease-snappy);
 
@@ -29,7 +30,7 @@
   background: var(--ui-button-background);
   color: var(--ui-button-color);
   font: inherit;
-  font-size: 1rem;
+  font-size: var(--ui-button-font-size);
   font-weight: 500;
   line-height: 1.25rem;
   outline: none;
@@ -111,6 +112,19 @@
    short axis, so it stays a pill at any height (and a circle when icon-only). */
 :host(.ui-button-rounded) {
   --ui-button-radius: 999rem;
+}
+
+/* Compact size — same height scale as the ui-input control family (2rem) so a
+   small button aligns with small inputs/selects in a form row. 2rem (32px) still
+   clears WCAG 2.5.8 (AA, 24px min); sm is a pointer-dense / desktop affordance
+   and is intentionally not enlarged under (pointer: coarse) — use md for primary
+   touch targets. */
+:host(.ui-button-sm) {
+  --ui-button-min-height: 2rem;
+  --ui-button-icon-only-size: 2rem;
+  --ui-button-padding-inline: 0.75rem;
+  --ui-button-padding-block: 0.25rem;
+  --ui-button-font-size: 0.875rem;
 }
 
 :host(.ui-button-icon-only) {

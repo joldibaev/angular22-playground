@@ -36,6 +36,8 @@ import {
   type UiDateRangeValue,
 } from './range-calendar.utils';
 
+export type UiDateRangePickerSize = 'sm' | 'md';
+
 // Range picking keeps a draft until Apply, unlike the single picker which can
 // commit immediately. Keep it as a separate public control and share calendar math.
 @Component({
@@ -61,6 +63,8 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
   readonly value = model<UiDateRangeValue>(emptyRange());
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly label = input('Date range');
+  // Forwarded to the wrapped <ui-input>; the trigger reads its control-size tokens.
+  readonly size = input<UiDateRangePickerSize>('md');
   readonly placeholder = input('Select date range');
   // Boundaries are named `minDate`/`maxDate`, not `min`/`max` like the single
   // `ui-datepicker`. The signal-forms `FormUiControl<TValue>` contract reserves

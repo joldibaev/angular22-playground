@@ -15,6 +15,8 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { Tab, TabContent, TabList, TabPanel, Tabs } from '@angular/aria/tabs';
 import { UiTabItem } from './ui-tab-item/ui-tab-item';
 
+export type UiTabSize = 'sm' | 'md';
+
 @Component({
   selector: 'ui-tab',
   imports: [
@@ -31,6 +33,7 @@ import { UiTabItem } from './ui-tab-item/ui-tab-item';
     '[class.ui-tab-fluid]': 'fluid()',
     '[class.ui-tab-line]': "variant() === 'line'",
     '[class.ui-tab-pills]': "variant() === 'pills'",
+    '[class.ui-tab-sm]': "size() === 'sm'",
   },
 })
 export class UiTab {
@@ -56,6 +59,7 @@ export class UiTab {
   preserveContent = input(true, { transform: booleanAttribute });
   queryParam = input<string>();
   variant = input<'pills' | 'line'>('pills');
+  size = input<UiTabSize>('md');
   fluid = input(false, { transform: booleanAttribute });
   ariaLabel = input('', { alias: 'aria-label' });
   ariaLabelledby = input('', { alias: 'aria-labelledby' });

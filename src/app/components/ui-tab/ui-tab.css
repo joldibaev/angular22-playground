@@ -127,6 +127,14 @@
      surfaces elsewhere take a scale dip; tabs deliberately do not. */
 }
 
+/* Compact tabs: shorter triggers and tighter padding. The pill indicator is
+   anchored to the trigger box, so it follows the smaller size automatically. */
+:host(.ui-tab-sm) .ui-tab-trigger {
+  min-height: 2rem;
+  font-size: 0.8125rem;
+  padding: 0.375rem 0.625rem;
+}
+
 /* Hover affordance for the tabs you can move to (not the active or disabled
    ones): the label warms toward the foreground. */
 .ui-tab-trigger:not([aria-selected='true'], :disabled, [aria-disabled='true']):hover {

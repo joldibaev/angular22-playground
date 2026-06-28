@@ -21,6 +21,17 @@
   min-width: 0;
 }
 
+/* Compact track/thumb. translate = track-width − thumb-size − 2×thumb-offset,
+   so the thumb still lands flush against the far edge at the smaller scale. */
+:host(.ui-switch-sm) {
+  --ui-switch-track-width: 2.25rem;
+  --ui-switch-track-height: 1.25rem;
+  --ui-switch-thumb-size: 0.875rem;
+  --ui-switch-thumb-offset: 0.1875rem;
+  --ui-switch-thumb-translate: 1rem;
+  --ui-switch-thumb-squash: 0.375rem;
+}
+
 .ui-switch-container {
   --ui-switch-current-border-color: var(--ui-switch-border-color);
   --ui-switch-current-focus-visible-border-color: var(--ui-switch-focus-visible-border-color);

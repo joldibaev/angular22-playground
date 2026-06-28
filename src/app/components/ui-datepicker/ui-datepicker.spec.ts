@@ -80,6 +80,17 @@ describe('UiDatepicker', () => {
     expect(fixture.componentInstance).toBeTruthy();
   });
 
+  it('should forward the compact size to the wrapped ui-input', async () => {
+    const fixture = TestBed.createComponent(UiDatepicker);
+    fixture.componentRef.setInput('size', 'sm');
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(
+      fixture.nativeElement.querySelector('ui-input')?.classList.contains('ui-input-sm'),
+    ).toBe(true);
+  });
+
   it('should render the selected value in the trigger', async () => {
     const fixture = await createHostFixture();
     const trigger = getTrigger(fixture);

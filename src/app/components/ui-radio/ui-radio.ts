@@ -8,15 +8,23 @@ import {
   viewChild,
 } from '@angular/core';
 import { nextId } from '../../shared/unique-id';
-import { UI_RADIO_GROUP } from './ui-radio-group/ui-radio-group.token';
+import {
+  UI_RADIO_GROUP,
+  type UiRadioSize,
+} from './ui-radio-group/ui-radio-group.token';
 
 @Component({
   selector: 'ui-radio',
   templateUrl: './ui-radio.html',
   styleUrl: './ui-radio.css',
+  host: {
+    '[class.ui-radio-sm]': "effectiveSize() === 'sm'",
+  },
 })
 export class UiRadio {
   readonly value = input.required<string>();
+  // Undefined inherits the group's size; a set value overrides it for this radio.
+  readonly size = input<UiRadioSize | undefined>(undefined);
   readonly disabled = input(false, { transform: booleanAttribute });
   readonly label = input('');
 
@@ -28,6 +36,7 @@ export class UiRadio {
 
   readonly checked = computed(() => this.group.value() === this.value());
   readonly isDisabled = computed(() => this.disabled() || this.group.disabled());
+  readonly effectiveSize = computed(() => this.size() ?? this.group.size());
 
   onChange(event: Event): void {
     const control = event.target as HTMLInputElement;
