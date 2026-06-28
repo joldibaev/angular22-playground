@@ -16,6 +16,7 @@ import { InputShowcase } from './input-showcase/input-showcase';
 import { LoadingShowcase } from './loading-showcase/loading-showcase';
 import { MenuShowcase } from './menu-showcase/menu-showcase';
 import { PopoverShowcase } from './popover-showcase/popover-showcase';
+import { ProgressShowcase } from './progress-showcase/progress-showcase';
 import { RadioShowcase } from './radio-showcase/radio-showcase';
 import { SelectShowcase } from './select-showcase/select-showcase';
 import { SonnerShowcase } from './sonner-showcase/sonner-showcase';
@@ -44,6 +45,7 @@ import { UiCard } from '../../components/ui-card/ui-card';
     LoadingShowcase,
     MenuShowcase,
     PopoverShowcase,
+    ProgressShowcase,
     RadioShowcase,
     SelectShowcase,
     SonnerShowcase,
