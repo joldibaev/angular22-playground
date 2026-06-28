@@ -27,14 +27,14 @@ progress {
   overflow: clip;
   block-size: var(--ui-progress-height);
   border-radius: var(--ui-progress-radius);
-  background: var(--ui-progress-track-background);
+  background-color: var(--ui-progress-track-background);
 }
 
 .ui-progress-indicator {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  background: var(--ui-progress-indicator-background);
+  background-color: var(--ui-progress-indicator-background);
   transform: scaleX(var(--ui-progress-ratio));
   transform-origin: left center;
   transition:

@@ -14,7 +14,7 @@
   max-block-size: 85dvh;
   border: none;
   padding: 0;
-  background: transparent;
+  background-color: transparent;
   opacity: 0;
   scale: 0.98;
   translate: 0 8px;
@@ -59,7 +59,7 @@
 }
 
 .ui-dialog::backdrop {
-  background: color-mix(in oklab, black 45%, transparent);
+  background-color: color-mix(in oklab, black 45%, transparent);
   opacity: 0;
   transition:
     opacity var(--ui-dialog-current-duration) var(--ui-dialog-motion-easing),
@@ -84,7 +84,7 @@
   overflow: hidden;
   border: 1px solid color-mix(in oklab, var(--border-color-default) 62%, transparent);
   border-radius: 0.75rem;
-  background: var(--background-color-elevated);
+  background-color: var(--background-color-elevated);
   color: contrast-color(var(--background-color-elevated));
   box-shadow: 0 12px 40px var(--shadow-color-default);
 }
@@ -126,7 +126,7 @@
   padding: 0;
   border: none;
   border-radius: 0.5rem;
-  background: transparent;
+  background-color: transparent;
   color: var(--text-color-muted);
   cursor: pointer;
   transition:
@@ -135,7 +135,7 @@
 }
 
 .ui-dialog-close:hover {
-  background: var(--background-color-subtle);
+  background-color: var(--background-color-subtle);
   color: contrast-color(Canvas);
 }
 

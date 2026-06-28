@@ -43,7 +43,7 @@
   margin: 0;
   border: 0;
   padding: 0;
-  background: transparent;
+  background-color: transparent;
   color: inherit;
   box-shadow: none;
 }
@@ -142,7 +142,7 @@
   border: 1px solid var(--ui-panel-border-color);
   border-radius: var(--ui-panel-radius);
   padding: var(--ui-panel-padding-block) var(--ui-panel-padding-inline);
-  background: var(--ui-panel-background);
+  background-color: var(--ui-panel-background);
   color: var(--ui-panel-text-color);
   font-size: 0.8125rem;
   font-weight: 700;

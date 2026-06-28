@@ -59,7 +59,7 @@ svg {
   border: 1px solid var(--ui-barcode-fallback-border-color);
   border-radius: 0.5rem;
   padding: 0.75rem;
-  background: var(--ui-barcode-fallback-background);
+  background-color: var(--ui-barcode-fallback-background);
   color: contrast-color(var(--ui-barcode-fallback-background));
   font-size: 0.75rem;
   text-align: center;

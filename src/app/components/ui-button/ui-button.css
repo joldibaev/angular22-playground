@@ -27,7 +27,7 @@
   gap: 0.5rem;
   border: 1px solid var(--ui-button-border-color);
   border-radius: var(--ui-button-radius);
-  background: var(--ui-button-background);
+  background-color: var(--ui-button-background);
   color: var(--ui-button-color);
   font: inherit;
   font-size: var(--ui-button-font-size);
@@ -139,7 +139,7 @@
 }
 
 :host(:not(:disabled, [aria-disabled='true']):hover) {
-  background: var(--ui-button-hover-background);
+  background-color: var(--ui-button-hover-background);
 }
 
 /* Press feedback. Excludes an open trigger (`aria-expanded='true'`): a popover/
@@ -147,7 +147,7 @@
    button on press would drag the open surface's position/scale with it — and the
    open-state rule below already holds the active fill. */
 :host(:not(:disabled, [aria-disabled='true'], [aria-expanded='true']):active) {
-  background: var(--ui-button-active-background);
+  background-color: var(--ui-button-active-background);
   scale: var(--press-scale);
 }
 
@@ -161,7 +161,7 @@
    (uiMenuTrigger / commandfor) sets aria-expanded on the button. No press
    scale here — a persistent squash would read as stuck. */
 :host([aria-expanded='true']:not(:disabled, [aria-disabled='true'])) {
-  background: var(--ui-button-active-background);
+  background-color: var(--ui-button-active-background);
 }
 
 :host(:focus-visible) {

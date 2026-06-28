@@ -91,7 +91,7 @@
      shared .ui-popup-option rule. Only submenu-open and disabled are
      menu-specific. */
   &[aria-expanded='true'] {
-    background: var(--ui-popup-option-hover-background);
+    background-color: var(--ui-popup-option-hover-background);
   }
 
   &[aria-disabled='true'] {

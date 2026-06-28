@@ -40,7 +40,7 @@
   cursor: pointer;
   border: 1px solid var(--ui-input-current-border-color, var(--border-color-default));
   border-radius: 0.5rem;
-  background: var(--ui-input-background, var(--background-color-elevated));
+  background-color: var(--ui-input-background, var(--background-color-elevated));
   color: contrast-color(var(--ui-input-background, var(--background-color-elevated)));
   font: inherit;
   font-size: var(--ui-input-control-font-size, 1rem);
@@ -128,7 +128,7 @@
   cursor: pointer;
   border: 0;
   border-radius: 0.375rem;
-  background: transparent;
+  background-color: transparent;
   color: inherit;
   font: inherit;
   outline: none;
@@ -137,7 +137,7 @@
     scale var(--ui-datepicker-press-duration) var(--ui-datepicker-motion-easing);
 
   &:not(:disabled):hover {
-    background: var(--ui-datepicker-hover-background);
+    background-color: var(--ui-datepicker-hover-background);
   }
 
   /* Press feedback for the month nav / footer actions. */
@@ -208,13 +208,13 @@
   }
 
   &[aria-selected='true'] .ui-datepicker-day {
-    background: var(--ui-datepicker-selected-background);
+    background-color: var(--ui-datepicker-selected-background);
     color: var(--ui-datepicker-selected-color);
     font-weight: 900;
   }
 
   &:not([aria-selected='true'], [aria-disabled='true']):hover .ui-datepicker-day {
-    background: var(--ui-datepicker-hover-background);
+    background-color: var(--ui-datepicker-hover-background);
   }
 
   &:focus-visible .ui-datepicker-day,

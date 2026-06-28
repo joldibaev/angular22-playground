@@ -49,7 +49,7 @@
   cursor: pointer;
   border: 1px solid var(--ui-input-current-border-color, var(--border-color-default));
   border-radius: 0.5rem;
-  background: var(--ui-input-background, var(--background-color-elevated));
+  background-color: var(--ui-input-background, var(--background-color-elevated));
   color: contrast-color(var(--ui-input-background, var(--background-color-elevated)));
   font: inherit;
   font-size: var(--ui-input-control-font-size, 1rem);
@@ -133,7 +133,7 @@
   cursor: pointer;
   border: 0;
   border-radius: 0.375rem;
-  background: transparent;
+  background-color: transparent;
   color: inherit;
   font: inherit;
   outline: none;
@@ -142,7 +142,7 @@
     scale var(--ui-date-range-press-duration) var(--ui-date-range-motion-easing);
 
   &:not(:disabled):hover {
-    background: var(--ui-date-range-hover-background);
+    background-color: var(--ui-date-range-hover-background);
   }
 
   /* Press feedback. Wide text buttons (preset / footer action) take the gentle
@@ -275,25 +275,25 @@
 
   &.ui-date-range-in-range::before,
   &.ui-date-range-pending-range::before {
-    background: var(--ui-date-range-preview-background);
+    background-color: var(--ui-date-range-preview-background);
   }
 
   &.ui-date-range-pending-start:not(.ui-date-range-pending-range)::before {
-    background: transparent;
+    background-color: transparent;
   }
 
   &[data-edge='start']::before {
     left: 50%;
-    background: var(--ui-date-range-preview-background);
+    background-color: var(--ui-date-range-preview-background);
   }
 
   &[data-edge='end']::before {
     right: 50%;
-    background: var(--ui-date-range-preview-background);
+    background-color: var(--ui-date-range-preview-background);
   }
 
   &[data-edge='single']::before {
-    background: transparent;
+    background-color: transparent;
   }
 
   /* Solid pill on every endpoint: committed edges and `single` carry a
@@ -301,14 +301,14 @@
      `data-edge` yet, so it is matched by its class. */
   &[data-edge] .ui-date-range-day,
   &.ui-date-range-pending-start .ui-date-range-day {
-    background: var(--ui-date-range-selected-background);
+    background-color: var(--ui-date-range-selected-background);
     color: var(--ui-date-range-selected-color);
     font-weight: 900;
   }
 
   &:not(.ui-date-range-edge, [aria-disabled='true'], .ui-date-range-pending-start, [data-edge]):hover
     .ui-date-range-day {
-    background: var(--ui-date-range-hover-background);
+    background-color: var(--ui-date-range-hover-background);
   }
 
   &:focus-visible .ui-date-range-day,
@@ -377,11 +377,11 @@
 }
 
 .ui-date-range-action-accent {
-  background: var(--ui-date-range-selected-background);
+  background-color: var(--ui-date-range-selected-background);
   color: var(--ui-date-range-selected-color);
 
   &:not(:disabled):hover {
-    background: color-mix(in oklab, var(--ui-date-range-selected-background) 88%, black);
+    background-color: color-mix(in oklab, var(--ui-date-range-selected-background) 88%, black);
   }
 }
 

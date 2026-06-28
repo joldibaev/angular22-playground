@@ -10,7 +10,7 @@
   inline-size: var(--ui-skeleton-width, 100%);
   block-size: var(--ui-skeleton-height, 1rem);
   border-radius: var(--ui-skeleton-radius);
-  background: var(--ui-skeleton-background);
+  background-color: var(--ui-skeleton-background);
 }
 
 :host([hidden]) {
@@ -59,7 +59,7 @@
 
 @media (forced-colors: active) {
   :host {
-    background: GrayText;
+    background-color: GrayText;
   }
 
   :host::after {

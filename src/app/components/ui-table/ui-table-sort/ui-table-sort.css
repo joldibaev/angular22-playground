@@ -8,7 +8,7 @@
   padding-block: var(--ui-table-header-padding-block, 0.875rem);
   padding-inline: var(--ui-table-cell-padding-inline, 1rem);
   border: 0;
-  background: transparent;
+  background-color: transparent;
   color: inherit;
   font: inherit;
   letter-spacing: inherit;
@@ -20,7 +20,7 @@
     transform var(--dur-press) var(--ease-snappy);
 
   &:hover {
-    background: color-mix(in oklab, var(--color-brand) 8%, transparent);
+    background-color: color-mix(in oklab, var(--color-brand) 8%, transparent);
   }
 
   &:focus-visible {

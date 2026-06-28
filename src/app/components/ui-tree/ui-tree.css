@@ -48,7 +48,7 @@
   padding-inline: 0.625rem;
   border: 1px solid transparent;
   border-radius: var(--ui-tree-radius);
-  background: transparent;
+  background-color: transparent;
   color: inherit;
   font: inherit;
   font-weight: 500;
@@ -63,7 +63,7 @@
 
   &:hover,
   &[data-active='true'] {
-    background: var(--ui-tree-hover-background);
+    background-color: var(--ui-tree-hover-background);
   }
 
   /* Press feedback: the row dips under the press. */
@@ -82,7 +82,7 @@
   /* Selection (explicit) and current (nav mode) are deliberately distinct: a
      selected row gets a fill, a current row only a brand-colored label. */
   &[aria-selected='true'] {
-    background: var(--ui-tree-selected-background);
+    background-color: var(--ui-tree-selected-background);
     color: var(--ui-tree-selected-color);
   }
 

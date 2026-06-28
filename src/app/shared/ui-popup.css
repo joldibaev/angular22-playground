@@ -50,7 +50,7 @@
   margin: 0;
   border: 0;
   padding: 0;
-  background: transparent;
+  background-color: transparent;
   container-type: anchored;
   position-try-fallbacks: flip-block;
 
@@ -68,7 +68,7 @@
   border: var(--ui-popup-border-width) solid var(--ui-popup-border-color);
   border-radius: var(--ui-popup-radius);
   padding: var(--ui-popup-padding);
-  background: var(--ui-popup-background);
+  background-color: var(--ui-popup-background);
   box-shadow: var(--ui-popup-shadow);
   font-size: var(--ui-popup-font-size);
 
@@ -244,7 +244,7 @@
 
   /* Mouse hover: subtle fill, pointer affordance only. */
   &:not([aria-disabled='true']):hover {
-    background: var(--ui-popup-option-hover-background);
+    background-color: var(--ui-popup-option-hover-background);
   }
 
   /* Keyboard focus indicator. Mirrors the official Angular aria examples:
@@ -285,6 +285,6 @@
   /* Selected value: a fill, kept visually distinct from the focus ring above. */
   &[aria-selected='true'] {
     color: var(--ui-popup-option-selected-color);
-    background: var(--ui-popup-option-selected-background);
+    background-color: var(--ui-popup-option-selected-background);
   }
 }

@@ -10,7 +10,7 @@
   box-sizing: border-box;
   min-width: 0;
   border-radius: var(--ui-card-radius);
-  background: var(--ui-card-background);
+  background-color: var(--ui-card-background);
   color: contrast-color(var(--ui-card-background));
 }
 

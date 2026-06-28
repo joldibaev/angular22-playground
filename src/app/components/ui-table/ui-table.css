@@ -36,7 +36,7 @@
   overscroll-behavior: contain;
   border: 1px solid var(--ui-table-border-color);
   border-radius: var(--ui-table-radius);
-  background: var(--ui-table-background);
+  background-color: var(--ui-table-background);
   color: var(--ui-table-foreground);
   scrollbar-color: var(--ui-table-border-color-strong) transparent;
   scrollbar-width: thin;
@@ -54,7 +54,7 @@
   border-collapse: separate;
   border-spacing: 0;
   border-radius: 0.5rem;
-  background: var(--background-color-elevated);
+  background-color: var(--background-color-elevated);
   color: contrast-color(var(--background-color-elevated));
   font-size: var(--ui-table-font-size, 0.875rem);
   text-align: start;
@@ -73,7 +73,7 @@
     padding-inline: var(--ui-table-cell-padding-inline, 1rem);
     overflow: hidden;
     border-block-end: 1px solid var(--ui-table-border-color, var(--border-color-default));
-    background: var(--ui-table-background, var(--background-color-elevated));
+    background-color: var(--ui-table-background, var(--background-color-elevated));
     text-overflow: ellipsis;
     vertical-align: middle;
     white-space: nowrap;
@@ -82,7 +82,7 @@
   & thead th {
     padding-block: var(--ui-table-header-padding-block, 0.875rem);
     border-block-end-color: var(--ui-table-border-color-strong, var(--border-color-strong));
-    background: var(--ui-table-header-background, var(--background-color-subtle));
+    background-color: var(--ui-table-header-background, var(--background-color-subtle));
     color: var(--ui-table-header-foreground, var(--text-color-muted));
     font-size: var(--ui-table-header-font-size, 0.75rem);
     font-weight: 700;
@@ -98,12 +98,12 @@
   }
 
   & tfoot :is(th, td) {
-    background: var(--ui-table-header-background, var(--background-color-subtle));
+    background-color: var(--ui-table-header-background, var(--background-color-subtle));
     font-weight: 700;
   }
 
   & tbody tr[aria-selected='true'] > :is(th, td) {
-    background: var(
+    background-color: var(
       --ui-table-row-selected-background,
       color-mix(in oklab, var(--color-brand) 14%, var(--background-color-elevated))
     );
@@ -152,7 +152,7 @@
 }
 
 .ui-table-with-row-hover tbody tr:not(.ui-table-spacer):is(:hover, :focus-within) > :is(th, td) {
-  background: var(
+  background-color: var(
     --ui-table-row-hover-background,
     color-mix(in oklab, var(--color-brand) 8%, var(--background-color-elevated))
   );
@@ -167,6 +167,6 @@
     height: 0;
     padding: 0;
     border: 0;
-    background: var(--ui-table-background, var(--background-color-elevated));
+    background-color: var(--ui-table-background, var(--background-color-elevated));
   }
 }

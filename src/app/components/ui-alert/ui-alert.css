@@ -12,7 +12,7 @@
   gap: var(--ui-alert-gap);
   border: 1px solid var(--ui-alert-border-color);
   border-radius: var(--ui-alert-radius);
-  background: var(--ui-alert-background);
+  background-color: var(--ui-alert-background);
   color: var(--ui-alert-color);
   padding: var(--ui-alert-padding);
 }

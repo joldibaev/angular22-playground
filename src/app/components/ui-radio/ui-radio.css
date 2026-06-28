@@ -51,7 +51,7 @@
   margin-top: 0.0625rem;
   border: 1px solid var(--ui-radio-current-border-color, var(--ui-radio-border-color));
   border-radius: 50%;
-  background: var(--ui-radio-background);
+  background-color: var(--ui-radio-background);
   transition:
     background-color var(--ui-radio-state-duration) var(--ui-radio-motion-easing),
     border-color var(--ui-radio-state-duration) var(--ui-radio-motion-easing),
@@ -69,7 +69,7 @@
   width: var(--ui-radio-dot-size);
   height: var(--ui-radio-dot-size);
   border-radius: 50%;
-  background: white;
+  background-color: white;
   opacity: 0;
   scale: 0.5;
   box-shadow:

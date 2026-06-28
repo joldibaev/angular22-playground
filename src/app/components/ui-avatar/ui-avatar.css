@@ -11,7 +11,7 @@
   block-size: var(--ui-avatar-size);
   overflow: clip;
   border-radius: 999px;
-  background: var(--ui-avatar-background);
+  background-color: var(--ui-avatar-background);
   color: var(--text-color-muted);
   font: inherit;
   font-weight: 600;

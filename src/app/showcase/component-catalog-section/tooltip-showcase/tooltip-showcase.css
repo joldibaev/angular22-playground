@@ -3,7 +3,7 @@
   gap: 1.5rem;
   min-width: 0;
   border-radius: 0.5rem;
-  background: var(--background-color-subtle);
+  background-color: var(--background-color-subtle);
   padding: 1.25rem;
 }
 

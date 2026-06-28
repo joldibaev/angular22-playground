@@ -34,7 +34,7 @@
   gap: 0.5rem;
   border: 1px solid var(--ui-sonner-border-color);
   border-radius: 0.5rem;
-  background: var(--ui-sonner-background);
+  background-color: var(--ui-sonner-background);
   color: var(--ui-sonner-color);
   box-shadow: var(--ui-sonner-shadow);
   padding: 1rem;
