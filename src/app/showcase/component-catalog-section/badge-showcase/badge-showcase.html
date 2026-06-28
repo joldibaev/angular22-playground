@@ -1,13 +1,65 @@
-<div class="grid min-w-0 gap-4">
-  <div class="flex flex-wrap items-center gap-2">
-    <ui-badge variant="neutral">Neutral</ui-badge>
-    <ui-badge variant="brand">Brand</ui-badge>
-    <ui-badge variant="destructive">Destructive</ui-badge>
-    <ui-badge variant="outline">Outline</ui-badge>
-  </div>
+<article class="grid min-w-0 gap-5" aria-labelledby="badge-showcase-title">
+  <h4 id="badge-showcase-title" class="font-black">Variants</h4>
 
   <div class="flex flex-wrap items-center gap-2">
-    <ui-badge size="sm" variant="brand">Small</ui-badge>
-    <ui-badge size="md" variant="brand">Medium</ui-badge>
+    <ui-badge>Default</ui-badge>
+    <ui-badge variant="brand">Brand</ui-badge>
+    <ui-badge variant="outline">Outline</ui-badge>
+    <ui-badge variant="destructive">Destructive</ui-badge>
+    <ui-badge variant="secondary">Secondary</ui-badge>
   </div>
-</div>
+
+  <section class="grid min-w-0 gap-3" aria-labelledby="badge-detail-title">
+    <h4 id="badge-detail-title" class="font-black">Dots and icons</h4>
+
+    <div class="flex flex-wrap items-center gap-2">
+      <ui-badge withDot>Processing</ui-badge>
+      <ui-badge variant="secondary" withDot>Queued</ui-badge>
+      <ui-badge variant="destructive" withDot>Blocked</ui-badge>
+
+      <ui-badge variant="brand">
+        <ui-icon name="outline-circle-check" decorative [width]="14" [height]="14" />
+        Verified
+      </ui-badge>
+
+      <ui-badge variant="outline">
+        <ui-icon name="outline-sparkles" decorative [width]="14" [height]="14" />
+        AI assisted
+      </ui-badge>
+
+      <ui-badge variant="destructive">
+        <ui-icon name="outline-alert-circle" decorative [width]="14" [height]="14" />
+        Rejected
+      </ui-badge>
+    </div>
+  </section>
+
+  <section class="grid min-w-0 gap-3" aria-labelledby="badge-size-title">
+    <h4 id="badge-size-title" class="font-black">Sizes and rounded</h4>
+
+    <div class="flex flex-wrap items-center gap-2">
+      <ui-badge size="sm">Small</ui-badge>
+      <ui-badge>Medium</ui-badge>
+      <ui-badge size="sm" rounded>Small rounded</ui-badge>
+      <ui-badge rounded>Medium rounded</ui-badge>
+    </div>
+  </section>
+
+  <section class="grid min-w-0 gap-3" aria-labelledby="badge-combination-title">
+    <h4 id="badge-combination-title" class="font-black">Combinations</h4>
+
+    <div class="flex flex-wrap items-center gap-2">
+      <ui-badge rounded>
+        <ui-icon name="outline-check" decorative [width]="14" [height]="14" />
+        Completed
+      </ui-badge>
+
+      <ui-badge variant="outline" rounded withDot>Awaiting confirmation</ui-badge>
+
+      <ui-badge variant="destructive" size="sm">
+        <ui-icon name="outline-alert-triangle" decorative [width]="12" [height]="12" />
+        Needs review
+      </ui-badge>
+    </div>
+  </section>
+</article>

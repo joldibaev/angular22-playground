@@ -1,20 +1,32 @@
 :host {
-  --ui-badge-background: var(--background-color-subtle);
-  --ui-badge-color: contrast-color(var(--ui-badge-background));
-  --ui-badge-border-color: transparent;
+  --ui-badge-background: CanvasText;
+  --ui-badge-border-color: var(--ui-badge-background);
+  --ui-badge-color: Canvas;
+  --ui-badge-radius: 0.375rem;
+  --ui-badge-min-height: 1.5rem;
+  --ui-badge-padding-block: 0.1875rem;
+  --ui-badge-padding-inline: 0.625rem;
+  --ui-badge-font-size: 0.75rem;
+  --ui-badge-line-height: 1rem;
+  --ui-badge-dot-size: 0.375rem;
 
   display: inline-flex;
   box-sizing: border-box;
+  min-width: 0;
+  min-height: var(--ui-badge-min-height);
   width: fit-content;
+  max-width: 100%;
   align-items: center;
   gap: 0.25rem;
   border: 1px solid var(--ui-badge-border-color);
-  border-radius: 999px;
+  border-radius: var(--ui-badge-radius);
   background: var(--ui-badge-background);
   color: var(--ui-badge-color);
   font: inherit;
-  font-weight: 600;
-  line-height: 1;
+  font-size: var(--ui-badge-font-size);
+  font-weight: 700;
+  line-height: var(--ui-badge-line-height);
+  padding: var(--ui-badge-padding-block) var(--ui-badge-padding-inline);
   white-space: nowrap;
 }
 
@@ -22,30 +34,51 @@
   display: none;
 }
 
-:host(.ui-badge-sm) {
-  padding-block: 0.125rem;
-  padding-inline: 0.5rem;
-  font-size: 0.6875rem;
-}
-
-:host(.ui-badge-md) {
-  padding-block: 0.25rem;
-  padding-inline: 0.625rem;
-  font-size: 0.75rem;
-}
-
 :host(.ui-badge-brand) {
-  --ui-badge-background: color-mix(in oklab, var(--color-brand) 18%, Canvas);
-  --ui-badge-color: color-mix(in oklab, var(--color-brand) 78%, CanvasText);
-}
-
-:host(.ui-badge-destructive) {
-  --ui-badge-background: color-mix(in oklab, var(--color-destructive) 14%, Canvas);
-  --ui-badge-color: var(--color-destructive);
+  --ui-badge-background: var(--color-brand);
+  --ui-badge-border-color: var(--ui-badge-background);
+  --ui-badge-color: contrast-color(var(--ui-badge-background));
 }
 
 :host(.ui-badge-outline) {
   --ui-badge-background: transparent;
   --ui-badge-border-color: var(--border-color-strong);
   --ui-badge-color: contrast-color(Canvas);
+}
+
+:host(.ui-badge-destructive) {
+  --ui-badge-background: color-mix(in oklab, var(--color-destructive) 12%, Canvas);
+  --ui-badge-border-color: transparent;
+  --ui-badge-color: var(--color-destructive);
+}
+
+:host(.ui-badge-secondary) {
+  --ui-badge-background: var(--background-color-subtle);
+  --ui-badge-border-color: transparent;
+  --ui-badge-color: contrast-color(var(--ui-badge-background));
+}
+
+:host(.ui-badge-rounded) {
+  --ui-badge-radius: 999rem;
+}
+
+:host(.ui-badge-sm) {
+  --ui-badge-min-height: 1.25rem;
+  --ui-badge-padding-block: 0.125rem;
+  --ui-badge-padding-inline: 0.5rem;
+  --ui-badge-font-size: 0.6875rem;
+  --ui-badge-line-height: 0.875rem;
+  --ui-badge-dot-size: 0.3125rem;
+}
+
+.ui-badge-dot {
+  flex: 0 0 auto;
+  width: var(--ui-badge-dot-size);
+  height: var(--ui-badge-dot-size);
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.ui-badge-content {
+  display: contents;
 }

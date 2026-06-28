@@ -1,1 +1,5 @@
-<ng-content />
+@if (withDot()) {
+  <span class="ui-badge-dot" aria-hidden="true"></span>
+}
+
+<span class="ui-badge-content"><ng-content /></span>
