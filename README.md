@@ -8,7 +8,7 @@ A UI component library. The goal: **rebuild the UI components from the `trade3` 
 - **`@angular/aria`** — headless primitives own roles, keyboard, and focus; CSS reacts to ARIA/state.
 - **Native platform over JS** — Popover API, Interest Invokers (`interestfor`), Invoker Commands (`command`/`commandfor`), native `<dialog>`, CSS Anchor Positioning — instead of CDK overlays and manual event wiring.
 - **Modern CSS** — `@starting-style`, `color-mix()`, `contrast-color()`, `light-dark()`, `:has()`, design tokens; no Tailwind in components.
-- **Chrome 149+ only** — no cross-browser fallbacks.
+- **Chrome 150+ only** — no cross-browser fallbacks.
 
 Components live in `src/app/components/*`; each is demoed in the showcase (`src/app/showcase`).
 
