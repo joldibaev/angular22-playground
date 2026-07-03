@@ -6,8 +6,9 @@ import { UiChip } from './ui-chip';
   imports: [UiChip],
   template: `
     <ui-chip
-      variant="brand"
+      variant="destructive"
       size="sm"
+      withDot
       withRemove
       [disabled]="disabled()"
       removeLabel="Remove tag"
@@ -28,7 +29,7 @@ describe('UiChip', () => {
     await TestBed.configureTestingModule({ imports: [TestHost] }).compileComponents();
 
     fixture = TestBed.createComponent(TestHost);
-    fixture.detectChanges();
+    await fixture.whenStable();
   });
 
   function host(): HTMLElement {
@@ -40,9 +41,10 @@ describe('UiChip', () => {
   }
 
   it('should reflect variant/size classes and project the label', () => {
-    expect(host().classList.contains('ui-chip-brand')).toBe(true);
+    expect(host().classList.contains('ui-chip-destructive')).toBe(true);
     expect(host().classList.contains('ui-chip-sm')).toBe(true);
     expect(host().querySelector('.ui-chip-label')?.textContent?.trim()).toBe('Angular');
+    expect(host().querySelector('.ui-chip-dot')?.getAttribute('aria-hidden')).toBe('true');
   });
 
   it('should render an accessible remove button and emit on click', () => {
@@ -55,9 +57,9 @@ describe('UiChip', () => {
     expect(fixture.componentInstance.removed()).toBe(1);
   });
 
-  it('should not emit remove when disabled', () => {
+  it('should not emit remove when disabled', async () => {
     fixture.componentInstance.disabled.set(true);
-    fixture.detectChanges();
+    await fixture.whenStable();
 
     expect(host().classList.contains('ui-chip-disabled')).toBe(true);
     expect(removeButton().disabled).toBe(true);

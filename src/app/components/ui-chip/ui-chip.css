@@ -1,20 +1,31 @@
 :host {
+  --ui-chip-min-height: 1.75rem;
+  --ui-chip-padding-inline: 0.6875rem;
+  --ui-chip-font-size: 0.8125rem;
+  --ui-chip-line-height: 1rem;
+  --ui-chip-dot-size: 0.375rem;
+  --ui-chip-remove-size: 1.25rem;
+  --ui-chip-remove-icon-size: 0.875rem;
   --ui-chip-motion-duration: var(--dur-press);
   --ui-chip-motion-easing: var(--ease-snappy);
 
   display: inline-flex;
   box-sizing: border-box;
+  min-width: 0;
+  min-height: var(--ui-chip-min-height);
   width: fit-content;
   max-width: 100%;
   align-items: center;
   gap: 0.25rem;
+  padding-inline: var(--ui-chip-padding-inline);
   border: 1px solid var(--ui-chip-border-color);
-  border-radius: 999px;
+  border-radius: 999rem;
   background-color: var(--ui-chip-background);
   color: var(--ui-chip-color);
   font: inherit;
+  font-size: var(--ui-chip-font-size);
   font-weight: 500;
-  line-height: 1;
+  line-height: var(--ui-chip-line-height);
   white-space: nowrap;
 }
 
@@ -23,87 +34,117 @@
 }
 
 :host(.ui-chip-disabled) {
-  cursor: default;
   opacity: var(--opacity-disabled);
 }
 
-:host(.ui-chip-sm) {
-  padding-block: 0.1875rem;
-  padding-inline: 0.5rem;
-  font-size: 0.75rem;
+:host(.ui-chip-default) {
+  --ui-chip-background: CanvasText;
+  --ui-chip-border-color: var(--ui-chip-background);
+  --ui-chip-color: Canvas;
 }
 
-:host(.ui-chip-md) {
-  padding-block: 0.3125rem;
-  padding-inline: 0.6875rem;
-  font-size: 0.8125rem;
+:host(.ui-chip-brand) {
+  --ui-chip-background: var(--color-brand);
+  --ui-chip-border-color: var(--ui-chip-background);
+  --ui-chip-color: contrast-color(var(--ui-chip-background));
 }
 
-:host(.ui-chip-neutral) {
+:host(.ui-chip-outline) {
+  --ui-chip-background: transparent;
+  --ui-chip-border-color: var(--border-color-strong);
+  --ui-chip-color: contrast-color(Canvas);
+}
+
+:host(.ui-chip-destructive) {
+  --ui-chip-background: var(--color-destructive-subtle);
+  --ui-chip-border-color: transparent;
+  --ui-chip-color: var(--color-destructive);
+}
+
+:host(.ui-chip-secondary) {
   --ui-chip-background: var(--background-color-subtle);
   --ui-chip-border-color: transparent;
   --ui-chip-color: contrast-color(var(--ui-chip-background));
 }
 
-:host(.ui-chip-brand) {
-  --ui-chip-background: color-mix(in oklab, var(--color-brand) 18%, Canvas);
-  --ui-chip-border-color: transparent;
-  --ui-chip-color: color-mix(in oklab, var(--color-brand) 78%, CanvasText);
+:host(.ui-chip-sm) {
+  --ui-chip-min-height: 1.5rem;
+  --ui-chip-padding-inline: 0.5rem;
+  --ui-chip-font-size: 0.75rem;
+  --ui-chip-line-height: 0.875rem;
+  --ui-chip-dot-size: 0.3125rem;
+  --ui-chip-remove-size: 1.125rem;
+  --ui-chip-remove-icon-size: 0.75rem;
+}
+
+.ui-chip-dot {
+  flex: 0 0 auto;
+  width: var(--ui-chip-dot-size);
+  height: var(--ui-chip-dot-size);
+  border-radius: 50%;
+  background-color: currentColor;
 }
 
 .ui-chip-label {
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .ui-chip-remove {
+  appearance: none;
   display: inline-flex;
   flex: 0 0 auto;
+  width: var(--ui-chip-remove-size);
+  height: var(--ui-chip-remove-size);
   align-items: center;
   justify-content: center;
-  margin-inline-end: -0.125rem;
-  padding: 0.0625rem;
-  border: none;
-  border-radius: 999px;
+  margin-inline-end: calc((var(--ui-chip-padding-inline) - 0.125rem) * -1);
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
   background-color: transparent;
   color: inherit;
   cursor: pointer;
-  opacity: 0.7;
+  opacity: 0.72;
   transition:
     background-color var(--ui-chip-motion-duration) var(--ui-chip-motion-easing),
     opacity var(--ui-chip-motion-duration) var(--ui-chip-motion-easing),
     scale var(--ui-chip-motion-duration) var(--ui-chip-motion-easing);
-}
 
-.ui-chip-remove:hover {
-  background-color: color-mix(in oklab, currentColor 16%, transparent);
-  opacity: 1;
-}
+  ui-icon {
+    width: var(--ui-chip-remove-icon-size);
+    height: var(--ui-chip-remove-icon-size);
+  }
 
-/* Press feedback: the tiny remove target dips noticeably so a tap registers. */
-.ui-chip-remove:not(:disabled):active {
-  scale: 0.9;
-}
+  &:not(:disabled):hover {
+    background-color: color-mix(in oklab, currentColor 16%, transparent);
+    opacity: 1;
+  }
 
-.ui-chip-remove:focus-visible {
-  outline: 2px solid var(--focus-ring-color);
-  outline-offset: 1px;
-  opacity: 1;
-}
+  &:not(:disabled):active {
+    scale: var(--press-scale);
+  }
 
-.ui-chip-remove:disabled {
-  cursor: default;
+  &:focus-visible {
+    outline: 2px solid color-mix(in oklab, currentColor 50%, transparent);
+    outline-offset: 1px;
+    opacity: 1;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* Keep the background/opacity fade; drop the press-scale. */
   .ui-chip-remove {
     transition:
       background-color var(--ui-chip-motion-duration) var(--ui-chip-motion-easing),
       opacity var(--ui-chip-motion-duration) var(--ui-chip-motion-easing);
-  }
 
-  .ui-chip-remove:not(:disabled):active {
-    scale: none;
+    &:not(:disabled):active {
+      scale: none;
+    }
   }
 }
