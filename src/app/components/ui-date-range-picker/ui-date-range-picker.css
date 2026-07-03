@@ -13,11 +13,11 @@
   --ui-popup-padding: 0;
 
   --ui-date-range-border-color: var(--border-color-default);
-  --ui-date-range-hover-background: --alpha(var(--text-color-muted) / 7%);
+  --ui-date-range-hover-background: color-mix(in oklab, var(--text-color-muted) 7%, transparent);
   --ui-date-range-selected-background: var(--color-brand);
   --ui-date-range-selected-color: contrast-color(var(--ui-date-range-selected-background));
-  --ui-date-range-preview-background: --alpha(var(--color-brand) / 16%);
-  --ui-date-range-muted-color: --alpha(var(--text-color-muted) / 68%);
+  --ui-date-range-preview-background: color-mix(in oklab, var(--color-brand) 16%, transparent);
+  --ui-date-range-muted-color: color-mix(in oklab, var(--text-color-muted) 68%, transparent);
   /* Gaps between adjacent day cells, set as the grid's border-spacing
      (inline = columns 8 ↔ 9, block = rows 8 ↔ 15). The range fill (::before) stays
      inside its own cell, so the spacing shows as a real gap on both axes — the
@@ -65,7 +65,12 @@
   &:focus-visible,
   &[aria-expanded='true'] {
     border-color: var(--ui-input-current-focus-visible-border-color, var(--color-brand));
-    outline: 3px solid var(--focus-ring-color);
+    outline: 3px solid
+      color-mix(
+        in oklab,
+        var(--ui-input-current-focus-visible-border-color, var(--color-brand)) 50%,
+        transparent
+      );
   }
 
   &[aria-expanded='true'] .ui-date-range-chevron {
@@ -95,7 +100,7 @@
 .ui-date-range-placeholder {
   color: var(
     --ui-input-placeholder-color,
-    --alpha(var(--text-color-muted) / 50%)
+    color-mix(in oklab, var(--text-color-muted) 50%, transparent)
   );
 }
 

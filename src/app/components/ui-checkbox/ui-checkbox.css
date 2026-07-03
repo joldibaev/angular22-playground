@@ -37,7 +37,6 @@
     --ui-checkbox-current-focus-visible-border-color: var(
       --ui-checkbox-invalid-focus-visible-border-color
     );
-    --focus-ring-color: --alpha(var(--ui-checkbox-invalid-focus-visible-border-color) / 50%);
     --ui-checkbox-checked-color: var(--ui-checkbox-invalid-color);
   }
 
@@ -136,7 +135,8 @@
 
 .ui-checkbox-input:focus-visible + .ui-checkbox-control {
   border-color: var(--ui-checkbox-current-focus-visible-border-color);
-  outline: 3px solid var(--focus-ring-color);
+  outline: 3px solid
+    color-mix(in oklab, var(--ui-checkbox-current-focus-visible-border-color) 50%, transparent);
 }
 
 .ui-checkbox-input:disabled + .ui-checkbox-control {

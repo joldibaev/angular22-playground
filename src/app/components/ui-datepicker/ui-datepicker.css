@@ -12,11 +12,11 @@
   --ui-popup-max-height: none;
 
   --ui-datepicker-border-color: var(--border-color-default);
-  --ui-datepicker-hover-background: --alpha(var(--text-color-muted) / 7%);
+  --ui-datepicker-hover-background: color-mix(in oklab, var(--text-color-muted) 7%, transparent);
   --ui-datepicker-selected-background: var(--color-brand);
   --ui-datepicker-selected-color: contrast-color(var(--ui-datepicker-selected-background));
   --ui-datepicker-today-color: var(--color-brand);
-  --ui-datepicker-muted-color: --alpha(var(--text-color-muted) / 68%);
+  --ui-datepicker-muted-color: color-mix(in oklab, var(--text-color-muted) 68%, transparent);
   --ui-datepicker-state-duration: var(--dur-quick);
   --ui-datepicker-press-duration: var(--dur-press);
   --ui-datepicker-close-duration: var(--dur-quick);
@@ -56,7 +56,12 @@
   &:focus-visible,
   &[aria-expanded='true'] {
     border-color: var(--ui-input-current-focus-visible-border-color, var(--color-brand));
-    outline: 3px solid var(--focus-ring-color);
+    outline: 3px solid
+      color-mix(
+        in oklab,
+        var(--ui-input-current-focus-visible-border-color, var(--color-brand)) 50%,
+        transparent
+      );
   }
 
   &[aria-expanded='true'] .ui-datepicker-chevron {
@@ -86,7 +91,7 @@
 .ui-datepicker-placeholder {
   color: var(
     --ui-input-placeholder-color,
-    --alpha(var(--text-color-muted) / 50%)
+    color-mix(in oklab, var(--text-color-muted) 50%, transparent)
   );
 }
 

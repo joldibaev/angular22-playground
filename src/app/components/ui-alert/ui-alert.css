@@ -21,12 +21,13 @@
   display: none;
 }
 
+/*todo css function subtle*/
 :host(.ui-alert-destructive) {
   --ui-alert-background: color-mix(
     in oklab,
     var(--color-destructive) 10%,
     var(--background-color-surface)
   );
-  --ui-alert-border-color: --alpha(var(--color-destructive) / 35%);
+  --ui-alert-border-color: color-mix(in oklab, var(--color-destructive) 35%, transparent);
   --ui-alert-color: contrast-color(var(--ui-alert-background));
 }

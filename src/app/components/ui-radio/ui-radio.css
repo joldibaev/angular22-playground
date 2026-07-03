@@ -95,7 +95,13 @@
     --ui-radio-current-focus-visible-border-color,
     var(--ui-radio-focus-visible-border-color)
   );
-  outline: 3px solid var(--focus-ring-color);
+  outline: 3px solid
+    color-mix(
+      in oklab,
+      var(--ui-radio-current-focus-visible-border-color, var(--ui-radio-focus-visible-border-color))
+        50%,
+      transparent
+    );
 }
 
 .ui-radio-title {

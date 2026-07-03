@@ -20,7 +20,7 @@
     transform var(--dur-press) var(--ease-snappy);
 
   &:hover {
-    background-color: --alpha(var(--color-brand) / 8%);
+    background-color: color-mix(in oklab, var(--color-brand) 8%, transparent);
   }
 
   &:focus-visible {

@@ -14,7 +14,7 @@ ui-input {
   --ui-input-invalid-focus-visible-border-color: var(--ui-input-invalid-border-color);
 
   --ui-input-background: var(--background-color-elevated);
-  --ui-input-placeholder-color: --alpha(var(--text-color-muted) / 50%);
+  --ui-input-placeholder-color: color-mix(in oklab, var(--text-color-muted) 50%, transparent);
 
   --ui-input-disabled-reason-color: var(--text-color-muted);
 
@@ -47,7 +47,6 @@ ui-input.ui-input-sm {
       --ui-input-current-focus-visible-border-color: var(
         --ui-input-invalid-focus-visible-border-color
       );
-      --focus-ring-color: --alpha(var(--ui-input-invalid-focus-visible-border-color) / 50%);
     }
   }
 }
@@ -149,7 +148,8 @@ ui-input [ngCombobox]:focus-visible,
 ui-input [ngCombobox]:has(:focus-visible),
 ui-input [ngCombobox][aria-expanded='true'] {
   border-color: var(--ui-input-current-focus-visible-border-color);
-  outline: 3px solid var(--focus-ring-color);
+  outline: 3px solid
+    color-mix(in oklab, var(--ui-input-current-focus-visible-border-color) 50%, transparent);
 }
 
 .ui-input-disabled-reason {

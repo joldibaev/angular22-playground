@@ -62,7 +62,7 @@
 }
 
 .ui-drawer::backdrop {
-  background-color: --alpha(black / 45%);
+  background-color: color-mix(in oklab, black 45%, transparent);
   opacity: 0;
   transition:
     opacity var(--ui-drawer-current-duration) var(--ui-drawer-motion-easing),
@@ -153,7 +153,7 @@
 
 .ui-drawer-footer {
   padding: 1rem 1.25rem;
-  border-top: 1px solid --alpha(var(--border-color-default) / 50%);
+  border-top: 1px solid color-mix(in oklab, var(--border-color-default) 50%, transparent);
 }
 
 .ui-drawer-footer:empty {

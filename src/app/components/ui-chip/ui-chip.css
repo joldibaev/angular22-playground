@@ -72,7 +72,7 @@
 }
 
 .ui-chip-remove:hover {
-  background-color: --alpha(currentColor / 16%);
+  background-color: color-mix(in oklab, currentColor 16%, transparent);
   opacity: 1;
 }
 
