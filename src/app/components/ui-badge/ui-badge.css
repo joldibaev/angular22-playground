@@ -50,7 +50,7 @@
 }
 
 :host(.ui-badge-destructive) {
-  --ui-badge-background: color-mix(in oklab, var(--color-destructive) 12%, Canvas);
+  --ui-badge-background: var(--color-destructive-subtle);
   --ui-badge-border-color: transparent;
   --ui-badge-color: var(--color-destructive);
 }

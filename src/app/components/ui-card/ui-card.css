@@ -1,10 +1,8 @@
 :host {
   --ui-card-background: var(--background-color-surface);
-  --ui-card-border-color: var(--border-color-default);
   --ui-card-radius: 0.5rem;
   --ui-card-padding: 1rem;
   --ui-card-gap: 0.75rem;
-  --ui-card-shadow: var(--shadow-xs);
 
   display: block;
   box-sizing: border-box;
@@ -19,12 +17,11 @@
 }
 
 :host(.ui-card-elevated) {
-  border: 1px solid color-mix(in oklab, var(--ui-card-border-color) 62%, transparent);
-  box-shadow: var(--ui-card-shadow);
+  box-shadow: var(--shadow-popup), var(--shadow-xs);
 }
 
 :host(.ui-card-outlined) {
-  border: 1px solid var(--ui-card-border-color);
+  border: 1px solid var(--border-color-default);
   box-shadow: none;
 }
 

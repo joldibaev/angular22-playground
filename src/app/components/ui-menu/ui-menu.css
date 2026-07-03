@@ -1,9 +1,5 @@
 :host {
-  --ui-menu-group-label-color: color-mix(
-    in oklab,
-    var(--text-color-muted) 68%,
-    transparent
-  );
+  --ui-menu-group-label-color: var(--text-color-subtle);
   --ui-menu-separator-color: var(--border-color-default);
   --ui-popup-max-height: calc(100vh - 2rem);
   --ui-popup-padding: 0.25rem;
@@ -73,11 +69,7 @@
   }
 
   &[data-variant='destructive'] {
-    --ui-popup-option-hover-background: color-mix(
-      in oklab,
-      var(--color-destructive) 12%,
-      Canvas
-    );
+    --ui-popup-option-hover-background: var(--color-destructive-subtle);
     --ui-popup-option-focus-visible-border-color: var(--color-destructive);
 
     color: var(--color-destructive);

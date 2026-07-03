@@ -78,7 +78,7 @@
 }
 
 :host(.ui-button-destructive) {
-  --ui-button-background: color-mix(in oklab, var(--color-destructive) 12%, Canvas);
+  --ui-button-background: var(--color-destructive-subtle);
   --ui-button-border-color: transparent;
   --ui-button-color: var(--color-destructive);
   --ui-button-hover-background: color-mix(in oklab, var(--color-destructive) 18%, Canvas);

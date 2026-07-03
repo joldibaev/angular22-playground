@@ -31,14 +31,22 @@
   --background-color-surface: light-dark(var(--color-white), var(--color-neutral-900));
   --background-color-elevated: light-dark(var(--color-white), var(--color-neutral-800));
   --background-color-subtle: light-dark(var(--color-neutral-100), var(--color-neutral-800));
+  --background-color-backdrop: color-mix(in oklab, black 45%, transparent);
 
   --text-color-muted: light-dark(var(--color-neutral-500), var(--color-neutral-400));
+  --text-color-subtle: color-mix(in oklab, var(--text-color-muted) 68%, transparent);
+  --text-color-placeholder: color-mix(in oklab, var(--text-color-muted) 50%, transparent);
 
   --border-color-default: light-dark(var(--color-neutral-200), var(--color-neutral-800));
   --border-color-strong: light-dark(var(--color-neutral-300), var(--color-neutral-700));
+  --border-color-subtle: color-mix(in oklab, var(--border-color-default) 50%, transparent);
 
   --color-brand: light-dark(var(--color-emerald-400), var(--color-emerald-600));
+
   --color-destructive: var(--color-red-600);
+  --color-destructive-subtle: color-mix(in oklab, var(--color-destructive) 12%, Canvas);
+
+  --shadow-popup: 0 0 0 1px color-mix(in oklab, black 5%, transparent);
 
   /* Shared focus ring: every `:focus-visible` outline reads its color from here
      so the ring lives in one place. Stateful controls swap the source color

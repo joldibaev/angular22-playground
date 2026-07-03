@@ -16,7 +16,7 @@
   --ui-datepicker-selected-background: var(--color-brand);
   --ui-datepicker-selected-color: contrast-color(var(--ui-datepicker-selected-background));
   --ui-datepicker-today-color: var(--color-brand);
-  --ui-datepicker-muted-color: color-mix(in oklab, var(--text-color-muted) 68%, transparent);
+  --ui-datepicker-muted-color: var(--text-color-subtle);
   --ui-datepicker-state-duration: var(--dur-quick);
   --ui-datepicker-press-duration: var(--dur-press);
   --ui-datepicker-close-duration: var(--dur-quick);
@@ -89,10 +89,7 @@
 }
 
 .ui-datepicker-placeholder {
-  color: var(
-    --ui-input-placeholder-color,
-    color-mix(in oklab, var(--text-color-muted) 50%, transparent)
-  );
+  color: var(--ui-input-placeholder-color, var(--text-color-placeholder));
 }
 
 /* The shared .ui-popup-surface only flips block-ward (it anchors to the

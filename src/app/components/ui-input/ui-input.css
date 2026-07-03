@@ -14,7 +14,7 @@ ui-input {
   --ui-input-invalid-focus-visible-border-color: var(--ui-input-invalid-border-color);
 
   --ui-input-background: var(--background-color-elevated);
-  --ui-input-placeholder-color: color-mix(in oklab, var(--text-color-muted) 50%, transparent);
+  --ui-input-placeholder-color: var(--text-color-placeholder);
 
   --ui-input-disabled-reason-color: var(--text-color-muted);
 

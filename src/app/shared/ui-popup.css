@@ -1,7 +1,5 @@
 :host {
   --ui-popup-background: var(--background-color-elevated);
-  --ui-popup-border-color: var(--border-color-default);
-  --ui-popup-border-width: 1px;
   --ui-popup-radius: 0.5rem;
   --ui-popup-padding: 0.5rem;
   --ui-popup-offset: 0.5rem;
@@ -10,7 +8,7 @@
   --ui-popup-max-height: 12rem;
   --ui-popup-font-size: 0.9rem;
   --ui-popup-overflow-y: auto;
-  --ui-popup-shadow: var(--shadow-lg);
+  --ui-popup-shadow: var(--shadow-popup), var(--shadow-md);
 
   --ui-popup-open-duration: var(--dur-fast);
   --ui-popup-close-duration: var(--dur-quick);
@@ -68,7 +66,6 @@
   box-sizing: border-box;
   max-height: var(--ui-popup-max-height);
   overflow-y: var(--ui-popup-overflow-y);
-  border: var(--ui-popup-border-width) solid var(--ui-popup-border-color);
   border-radius: var(--ui-popup-radius);
   padding: var(--ui-popup-padding);
   background-color: var(--ui-popup-background);
