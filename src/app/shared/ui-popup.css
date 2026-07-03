@@ -63,7 +63,6 @@
 }
 
 .ui-popup-box {
-  box-sizing: border-box;
   max-height: var(--ui-popup-max-height);
   overflow-y: var(--ui-popup-overflow-y);
   border-radius: var(--ui-popup-radius);

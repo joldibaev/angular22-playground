@@ -22,7 +22,6 @@
 svg,
 .ui-barcode-fallback {
   display: block;
-  box-sizing: border-box;
   inline-size: 100%;
   block-size: 100%;
 }

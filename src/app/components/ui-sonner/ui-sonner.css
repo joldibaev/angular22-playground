@@ -15,7 +15,6 @@
 
   position: fixed;
   z-index: 100;
-  box-sizing: border-box;
   width: attr(data-width type(<length>), 356px);
   margin: 0;
   padding: 0;

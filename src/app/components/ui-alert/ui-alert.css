@@ -4,7 +4,6 @@
   --ui-alert-gap: 0.75rem;
 
   display: grid;
-  box-sizing: border-box;
   min-width: 0;
   gap: var(--ui-alert-gap);
   border-radius: var(--ui-alert-radius);

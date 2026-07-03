@@ -67,7 +67,6 @@
   }
 
   & :is(th, td) {
-    box-sizing: border-box;
     max-inline-size: 32rem;
     padding-block: var(--ui-table-cell-padding-block, 0.75rem);
     padding-inline: var(--ui-table-cell-padding-inline, 1rem);

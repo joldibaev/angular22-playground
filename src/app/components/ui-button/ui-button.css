@@ -11,7 +11,6 @@
 
   appearance: none;
   display: inline-flex;
-  box-sizing: border-box;
   min-width: 0;
   min-height: var(--ui-button-min-height);
   max-width: 100%;

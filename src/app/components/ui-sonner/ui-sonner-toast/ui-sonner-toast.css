@@ -14,7 +14,6 @@
   interpolate-size: allow-keywords;
   position: absolute;
   z-index: attr(data-z-index type(<integer>), 1);
-  box-sizing: border-box;
   width: attr(data-width type(<length>), 356px);
   min-height: 3.5rem;
   opacity: 0;

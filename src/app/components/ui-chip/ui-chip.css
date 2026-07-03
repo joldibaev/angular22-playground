@@ -10,7 +10,6 @@
   --ui-chip-motion-easing: var(--ease-snappy);
 
   display: inline-flex;
-  box-sizing: border-box;
   min-width: 0;
   min-height: var(--ui-chip-min-height);
   width: fit-content;

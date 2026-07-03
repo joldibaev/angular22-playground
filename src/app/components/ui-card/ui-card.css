@@ -5,7 +5,6 @@
   --ui-card-gap: 0.75rem;
 
   display: block;
-  box-sizing: border-box;
   min-width: 0;
   border-radius: var(--ui-card-radius);
   background-color: var(--ui-card-background);

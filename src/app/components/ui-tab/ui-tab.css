@@ -41,7 +41,6 @@
 .ui-tab-list {
   position: relative;
   display: flex;
-  box-sizing: border-box;
   width: max-content;
   min-width: 0;
   align-items: stretch;
@@ -242,7 +241,6 @@
 }
 
 :host(.ui-tab-fluid) .ui-tab-panels {
-  box-sizing: border-box;
   width: 100%;
 }
 

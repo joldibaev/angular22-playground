@@ -25,7 +25,6 @@ progress {
 .ui-progress-track {
   position: relative;
   display: block;
-  box-sizing: border-box;
   overflow: clip;
   block-size: var(--ui-progress-height);
   border-radius: var(--ui-progress-radius);

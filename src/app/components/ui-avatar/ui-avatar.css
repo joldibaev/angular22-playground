@@ -3,7 +3,6 @@
   --ui-avatar-background: var(--background-color-subtle);
 
   display: inline-flex;
-  box-sizing: border-box;
   flex: 0 0 auto;
   align-items: center;
   justify-content: center;
