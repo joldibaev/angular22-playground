@@ -1,7 +1,4 @@
 :host {
-  --ui-badge-background: CanvasText;
-  --ui-badge-border-color: var(--ui-badge-background);
-  --ui-badge-color: Canvas;
   --ui-badge-radius: 0.375rem;
   --ui-badge-min-height: 1.5rem;
   --ui-badge-padding-block: 0.1875rem;
@@ -32,6 +29,12 @@
 
 :host([hidden]) {
   display: none;
+}
+
+:host(.ui-badge-default) {
+  --ui-badge-background: CanvasText;
+  --ui-badge-border-color: var(--ui-badge-background);
+  --ui-badge-color: Canvas;
 }
 
 :host(.ui-badge-brand) {

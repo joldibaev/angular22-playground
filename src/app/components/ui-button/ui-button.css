@@ -1,10 +1,4 @@
 :host {
-  --ui-button-background: CanvasText;
-  --ui-button-border-color: var(--ui-button-background);
-  --ui-button-color: Canvas;
-  --ui-button-focus-visible-border-color: var(--color-brand);
-  --ui-button-hover-background: color-mix(in oklab, var(--ui-button-background) 88%, Canvas);
-  --ui-button-active-background: color-mix(in oklab, var(--ui-button-background) 80%, Canvas);
   --ui-button-disabled-opacity: var(--opacity-disabled);
   --ui-button-min-height: 2.5rem;
   --ui-button-icon-only-size: 2.5rem;
@@ -56,10 +50,20 @@
   display: none;
 }
 
+:host(.ui-button-default) {
+  --ui-button-background: CanvasText;
+  --ui-button-border-color: var(--ui-button-background);
+  --ui-button-color: Canvas;
+  --ui-button-focus-visible-border-color: var(--color-brand);
+  --ui-button-hover-background: color-mix(in oklab, var(--ui-button-background) 88%, Canvas);
+  --ui-button-active-background: color-mix(in oklab, var(--ui-button-background) 80%, Canvas);
+}
+
 :host(.ui-button-brand) {
   --ui-button-background: var(--color-brand);
   --ui-button-border-color: var(--ui-button-background);
   --ui-button-color: contrast-color(var(--ui-button-background));
+  --ui-button-focus-visible-border-color: var(--color-brand);
   --ui-button-hover-background: color-mix(in oklab, var(--ui-button-background) 88%, CanvasText);
   --ui-button-active-background: color-mix(in oklab, var(--ui-button-background) 80%, CanvasText);
 }
@@ -68,6 +72,7 @@
   --ui-button-background: transparent;
   --ui-button-border-color: var(--border-color-strong);
   --ui-button-color: contrast-color(Canvas);
+  --ui-button-focus-visible-border-color: var(--color-brand);
   --ui-button-hover-background: var(--background-color-subtle);
   --ui-button-active-background: color-mix(in oklab, var(--background-color-subtle) 82%, CanvasText);
 }
@@ -85,27 +90,31 @@
   --ui-button-background: var(--background-color-subtle);
   --ui-button-border-color: transparent;
   --ui-button-color: contrast-color(var(--ui-button-background));
+  --ui-button-focus-visible-border-color: var(--color-brand);
   --ui-button-hover-background: color-mix(in oklab, var(--ui-button-background) 86%, CanvasText);
   --ui-button-active-background: color-mix(in oklab, var(--ui-button-background) 78%, CanvasText);
 }
 
-:host(.ui-button-ghost),
-:host(.ui-button-link) {
+:host(.ui-button-ghost) {
   --ui-button-background: transparent;
   --ui-button-border-color: transparent;
   --ui-button-color: contrast-color(Canvas);
+  --ui-button-focus-visible-border-color: var(--color-brand);
   --ui-button-hover-background: var(--background-color-subtle);
   --ui-button-active-background: color-mix(in oklab, var(--background-color-subtle) 82%, CanvasText);
 }
 
 :host(.ui-button-link) {
+  --ui-button-background: transparent;
+  --ui-button-border-color: transparent;
+  --ui-button-color: var(--color-brand);
+  --ui-button-focus-visible-border-color: var(--color-brand);
+  --ui-button-hover-background: transparent;
+  --ui-button-active-background: transparent;
   --ui-button-min-height: auto;
   --ui-button-padding-inline: 0;
   --ui-button-padding-block: 0;
   --ui-button-radius: 0.25rem;
-  --ui-button-hover-background: transparent;
-  --ui-button-active-background: transparent;
-  --ui-button-color: var(--color-brand);
 }
 
 /* Pill shape: an oversized radius the box clamps to a full semicircle on the

@@ -10,7 +10,6 @@
   --ui-popup-option-radius: 0.375rem;
   --ui-popup-option-min-height: auto;
   --ui-popup-option-padding: 0.625rem 0.75rem;
-  --ui-popup-option-focus-visible-border-color: var(--color-brand);
 
   display: inline-block;
   position: relative;
@@ -68,6 +67,10 @@
   line-height: 1.25rem;
   outline: none;
   padding: 0.625rem 0.75rem;
+
+  &[data-variant='default'] {
+    --ui-popup-option-focus-visible-border-color: var(--color-brand);
+  }
 
   &[data-variant='destructive'] {
     --ui-popup-option-hover-background: color-mix(

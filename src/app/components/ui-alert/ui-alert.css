@@ -1,7 +1,4 @@
 :host {
-  --ui-alert-background: var(--background-color-elevated);
-  --ui-alert-border-color: var(--border-color-default);
-  --ui-alert-color: contrast-color(var(--ui-alert-background));
   --ui-alert-radius: 0.5rem;
   --ui-alert-padding: 1rem;
   --ui-alert-gap: 0.75rem;
@@ -19,6 +16,12 @@
 
 :host([hidden]) {
   display: none;
+}
+
+:host(.ui-alert-default) {
+  --ui-alert-background: var(--background-color-elevated);
+  --ui-alert-border-color: var(--border-color-default);
+  --ui-alert-color: contrast-color(var(--ui-alert-background));
 }
 
 /*todo css function subtle*/

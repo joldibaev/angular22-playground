@@ -1,7 +1,4 @@
 :host {
-  --ui-chip-background: var(--background-color-subtle);
-  --ui-chip-color: contrast-color(var(--ui-chip-background));
-  --ui-chip-border-color: transparent;
   --ui-chip-motion-duration: var(--dur-press);
   --ui-chip-motion-easing: var(--ease-snappy);
 
@@ -42,8 +39,15 @@
   font-size: 0.8125rem;
 }
 
+:host(.ui-chip-neutral) {
+  --ui-chip-background: var(--background-color-subtle);
+  --ui-chip-border-color: transparent;
+  --ui-chip-color: contrast-color(var(--ui-chip-background));
+}
+
 :host(.ui-chip-brand) {
   --ui-chip-background: color-mix(in oklab, var(--color-brand) 18%, Canvas);
+  --ui-chip-border-color: transparent;
   --ui-chip-color: color-mix(in oklab, var(--color-brand) 78%, CanvasText);
 }
 
