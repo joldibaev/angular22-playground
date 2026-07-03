@@ -10,7 +10,7 @@ import { type UiPanelPlacement } from '../../../shared/arrow-panel';
   encapsulation: ViewEncapsulation.None,
   host: {
     // `popover="auto"` gives native light dismiss, `Escape`, and top-layer
-    // focus handling; visibility is driven by the trigger (command/interestfor).
+    // focus handling; visibility is driven by the trigger's command.
     class: 'ui-popover-panel arrow-panel',
     popover: 'auto',
     '[id]': 'panelId()',

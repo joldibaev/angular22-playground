@@ -18,27 +18,27 @@ import { syncPopover } from '../../shared/sync-popover';
 import { nextId } from '../../shared/unique-id';
 import { UiPopoverPanel } from './ui-popover-panel/ui-popover-panel';
 
-export type UiPopoverTrigger = 'click' | 'hover' | null;
 export type UiPopoverPlacement = 'top' | 'bottom' | 'left' | 'right';
 
 /**
- * Tethers a templated popover panel to a `button`/`a`. Visibility is delegated
- * to the platform: a `click` trigger uses the Invoker Commands API
- * (`command="toggle-popover"`), a `hover` trigger uses Interest Invokers
- * (`interestfor`), and the `popover="auto"` panel provides light dismiss,
- * `Escape`, and focus handling. The panel's `toggle` event is the single source
- * of truth, which also makes the optional `uiVisible` two-way binding work.
+ * Tethers a templated popover panel to a `button`. The click-only contract
+ * deliberately keeps rich popover content distinct from passive hover/focus
+ * tooltips. The Invoker Commands API controls the `popover="auto"` panel,
+ * which provides light dismiss, `Escape`, and focus handling. The panel's
+ * `toggle` event is the single source of truth, which also makes the optional
+ * `uiVisible` two-way binding work.
  */
 @Directive({
-  selector: 'button[uiPopover], a[uiPopover]',
+  // Invoker Commands are button actions. Keeping the selector narrow avoids an
+  // anchor that looks wired but cannot toggle its panel natively.
+  selector: 'button[uiPopover]',
   exportAs: 'uiPopover',
   host: {
     class: 'ui-popover-trigger',
     '[attr.aria-describedby]': 'describedby() ? panelId() : null',
     '[style.anchor-name]': 'anchorName',
-    '[attr.command]': "trigger() === 'click' ? 'toggle-popover' : null",
-    '[attr.commandfor]': "trigger() === 'click' ? panelId() : null",
-    '[attr.interestfor]': "trigger() === 'hover' ? panelId() : null",
+    command: 'toggle-popover',
+    '[attr.commandfor]': 'panelId()',
   },
 })
 export class UiPopover {
@@ -53,7 +53,6 @@ export class UiPopover {
   private visible = false;
 
   readonly content = input.required<TemplateRef<unknown>>({ alias: 'uiContent' });
-  readonly trigger = input<UiPopoverTrigger>('click', { alias: 'uiTrigger' });
   readonly placement = input<UiPopoverPlacement>('bottom', { alias: 'uiPlacement' });
   readonly withFallback = input(false, { alias: 'uiWithFallback', transform: booleanAttribute });
   readonly panelId = input(`ui-popover-${this.id}`, { alias: 'uiPanelId' });
@@ -75,8 +74,8 @@ export class UiPopover {
     this.destroyRef.onDestroy(() => this.destroyPanel());
 
     afterRenderEffect(() => {
-      // The panel must exist before the first interaction so that `command`/
-      // `interestfor` can resolve it by id.
+      // The panel must exist before the first interaction so that `commandfor`
+      // can resolve it by id.
       this.ensurePanel();
       this.syncPanelInputs();
       this.panelRef?.changeDetectorRef.detectChanges();

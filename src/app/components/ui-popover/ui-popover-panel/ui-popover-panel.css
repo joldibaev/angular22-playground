@@ -1,13 +1,3 @@
-/* Hover popovers use Interest Invokers, whose default show delay (~0.5s) feels
-   sluggish next to the instant click (command) popovers. Tighten it. */
-.ui-popover-trigger[interestfor] {
-  --ui-popover-show-delay: var(--dur-quick);
-  --ui-popover-hide-delay: calc(var(--dur-fast) * 0.4);
-
-  interest-delay-start: var(--ui-popover-show-delay);
-  interest-delay-end: var(--ui-popover-hide-delay);
-}
-
 .ui-popover-trigger:not(.ui-button):focus-visible {
   outline: 3px solid var(--focus-ring-color);
 }
@@ -16,13 +6,26 @@ ui-popover-panel {
   --ui-popover-open-duration: var(--dur-fast);
   --ui-popover-close-duration: var(--dur-quick);
   --ui-popover-motion-easing: var(--ease-snappy);
+  --ui-popover-shadow: var(--shadow-popup), var(--shadow-lg);
   --ui-panel-open-duration: var(--ui-popover-open-duration);
   --ui-panel-close-duration: var(--ui-popover-close-duration);
   --ui-panel-easing: var(--ui-popover-motion-easing);
   --ui-panel-background: Canvas;
   --ui-panel-text-color: contrast-color(var(--ui-panel-background));
-  --ui-panel-gap: 0.25rem;
+  --ui-panel-radius: 0.75rem;
+  --ui-panel-padding-block: 0.875rem;
+  --ui-panel-padding-inline: 1rem;
+  --ui-panel-gap: 0.375rem;
   --ui-panel-max-width: var(--ui-popover-max-width, min(18rem, calc(100vw - 2rem)));
+}
+
+.ui-popover-panel-surface {
+  font-weight: 500;
+  box-shadow: var(--ui-popover-shadow);
+}
+
+.ui-popover-panel-surface strong {
+  font-weight: 750;
 }
 
 .ui-popover-panel-surface span {

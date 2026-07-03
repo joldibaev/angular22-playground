@@ -6,7 +6,6 @@ ui-tooltip-panel {
   --ui-panel-close-duration: var(--ui-tooltip-close-duration);
   --ui-panel-easing: var(--ui-tooltip-motion-easing);
   --ui-panel-background: CanvasText;
-  --ui-panel-border-color: color-mix(in oklab, var(--ui-panel-background) 82%, var(--border-color-strong));
   --ui-panel-text-color: Canvas;
 }
 

@@ -26,7 +26,6 @@
   --ui-panel-gap: 0;
   --ui-panel-background: Canvas;
   --ui-panel-text-color: inherit;
-  --ui-panel-border-color: transparent;
   --ui-panel-open-duration: var(--dur-fast);
   --ui-panel-close-duration: var(--dur-quick);
   --ui-panel-easing: var(--ease-snappy);
@@ -138,7 +137,6 @@
   position: relative;
   display: grid;
   gap: var(--ui-panel-gap);
-  border: 1px solid var(--ui-panel-border-color);
   border-radius: var(--ui-panel-radius);
   padding: var(--ui-panel-padding-block) var(--ui-panel-padding-inline);
   background-color: var(--ui-panel-background);
