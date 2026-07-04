@@ -6,7 +6,6 @@ ui-popover-panel {
   --ui-popover-open-duration: var(--dur-fast);
   --ui-popover-close-duration: var(--dur-quick);
   --ui-popover-motion-easing: var(--ease-snappy);
-  --ui-popover-shadow: var(--shadow-popup), var(--shadow-lg);
   --ui-panel-open-duration: var(--ui-popover-open-duration);
   --ui-panel-close-duration: var(--ui-popover-close-duration);
   --ui-panel-easing: var(--ui-popover-motion-easing);
@@ -21,7 +20,6 @@ ui-popover-panel {
 
 .ui-popover-panel-surface {
   font-weight: 500;
-  box-shadow: var(--ui-popover-shadow);
 }
 
 .ui-popover-panel-surface strong {

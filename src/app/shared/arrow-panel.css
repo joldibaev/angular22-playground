@@ -26,6 +26,7 @@
   --ui-panel-gap: 0;
   --ui-panel-background: Canvas;
   --ui-panel-text-color: inherit;
+  --ui-panel-shadow: var(--shadow-popup), var(--shadow-lg);
   --ui-panel-open-duration: var(--dur-fast);
   --ui-panel-close-duration: var(--dur-quick);
   --ui-panel-easing: var(--ease-snappy);
@@ -145,7 +146,7 @@
   font-weight: 700;
   line-height: 1.45;
   text-wrap: pretty;
-  box-shadow: var(--shadow-lg);
+  box-shadow: var(--ui-panel-shadow);
 }
 
 /* --- Arrow: integrated border-shape ----------------------------------------- */
@@ -156,12 +157,14 @@
     hline to calc(100% - var(--ui-panel-radius)),
     curve to right var(--ui-panel-radius) with right top,
     vline to calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))),
-    curve to calc(100% - var(--ui-panel-radius)) calc(100% - var(--ui-panel-arrow-height)) with right calc(100% - var(--ui-panel-arrow-height)),
+    curve to calc(100% - var(--ui-panel-radius)) calc(100% - var(--ui-panel-arrow-height)) with
+      right calc(100% - var(--ui-panel-arrow-height)),
     hline to calc(var(--ui-panel-arrow-position) + var(--ui-panel-arrow-width)),
     line by calc(var(--ui-panel-arrow-width) * -1) var(--ui-panel-arrow-height),
     line by calc(var(--ui-panel-arrow-width) * -1) calc(var(--ui-panel-arrow-height) * -1),
     hline to var(--ui-panel-radius),
-    curve to left calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))) with left calc(100% - var(--ui-panel-arrow-height)),
+    curve to left calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))) with left
+      calc(100% - var(--ui-panel-arrow-height)),
     vline to var(--ui-panel-radius),
     curve to var(--ui-panel-radius) top with left top
   );
@@ -175,13 +178,15 @@
     line by var(--ui-panel-arrow-width) calc(var(--ui-panel-arrow-height) * -1),
     line by var(--ui-panel-arrow-width) var(--ui-panel-arrow-height),
     hline to calc(100% - var(--ui-panel-radius)),
-    curve to right calc(var(--ui-panel-arrow-height) + var(--ui-panel-radius)) with right var(--ui-panel-arrow-height),
+    curve to right calc(var(--ui-panel-arrow-height) + var(--ui-panel-radius)) with right
+      var(--ui-panel-arrow-height),
     vline to calc(100% - var(--ui-panel-radius)),
     curve to calc(100% - var(--ui-panel-radius)) bottom with right bottom,
     hline to var(--ui-panel-radius),
     curve to left calc(100% - var(--ui-panel-radius)) with left bottom,
     vline to calc(var(--ui-panel-arrow-height) + var(--ui-panel-radius)),
-    curve to var(--ui-panel-radius) var(--ui-panel-arrow-height) with left var(--ui-panel-arrow-height)
+    curve to var(--ui-panel-radius) var(--ui-panel-arrow-height) with left
+      var(--ui-panel-arrow-height)
   );
 }
 
@@ -190,12 +195,14 @@
   border-shape: shape(
     from var(--ui-panel-radius) 0,
     hline to calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))),
-    curve to calc(100% - var(--ui-panel-arrow-height)) var(--ui-panel-radius) with calc(100% - var(--ui-panel-arrow-height)) top,
+    curve to calc(100% - var(--ui-panel-arrow-height)) var(--ui-panel-radius) with
+      calc(100% - var(--ui-panel-arrow-height)) top,
     vline to calc(var(--ui-panel-arrow-position) - var(--ui-panel-arrow-width)),
     line by var(--ui-panel-arrow-height) var(--ui-panel-arrow-width),
     line by calc(var(--ui-panel-arrow-height) * -1) var(--ui-panel-arrow-width),
     vline to calc(100% - var(--ui-panel-radius)),
-    curve to calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))) bottom with calc(100% - var(--ui-panel-arrow-height)) bottom,
+    curve to calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))) bottom with
+      calc(100% - var(--ui-panel-arrow-height)) bottom,
     hline to var(--ui-panel-radius),
     curve to left calc(100% - var(--ui-panel-radius)) with left bottom,
     vline to var(--ui-panel-radius),
@@ -212,12 +219,14 @@
     vline to calc(100% - var(--ui-panel-radius)),
     curve to calc(100% - var(--ui-panel-radius)) bottom with right bottom,
     hline to calc(var(--ui-panel-radius) + var(--ui-panel-arrow-height)),
-    curve to var(--ui-panel-arrow-height) calc(100% - var(--ui-panel-radius)) with var(--ui-panel-arrow-height) bottom,
+    curve to var(--ui-panel-arrow-height) calc(100% - var(--ui-panel-radius)) with
+      var(--ui-panel-arrow-height) bottom,
     vline to calc(var(--ui-panel-arrow-position) + var(--ui-panel-arrow-width)),
     line by calc(var(--ui-panel-arrow-height) * -1) calc(var(--ui-panel-arrow-width) * -1),
     line by var(--ui-panel-arrow-height) calc(var(--ui-panel-arrow-width) * -1),
     vline to var(--ui-panel-radius),
-    curve to calc(var(--ui-panel-radius) + var(--ui-panel-arrow-height)) top with var(--ui-panel-arrow-height) top
+    curve to calc(var(--ui-panel-radius) + var(--ui-panel-arrow-height)) top with
+      var(--ui-panel-arrow-height) top
   );
 }
 
@@ -233,13 +242,15 @@
       line by var(--ui-panel-arrow-width) calc(var(--ui-panel-arrow-height) * -1),
       line by var(--ui-panel-arrow-width) var(--ui-panel-arrow-height),
       hline to calc(100% - var(--ui-panel-radius)),
-      curve to right calc(var(--ui-panel-arrow-height) + var(--ui-panel-radius)) with right var(--ui-panel-arrow-height),
+      curve to right calc(var(--ui-panel-arrow-height) + var(--ui-panel-radius)) with right
+        var(--ui-panel-arrow-height),
       vline to calc(100% - var(--ui-panel-radius)),
       curve to calc(100% - var(--ui-panel-radius)) bottom with right bottom,
       hline to var(--ui-panel-radius),
       curve to left calc(100% - var(--ui-panel-radius)) with left bottom,
       vline to calc(var(--ui-panel-arrow-height) + var(--ui-panel-radius)),
-      curve to var(--ui-panel-radius) var(--ui-panel-arrow-height) with left var(--ui-panel-arrow-height)
+      curve to var(--ui-panel-radius) var(--ui-panel-arrow-height) with left
+        var(--ui-panel-arrow-height)
     );
   }
 
@@ -252,12 +263,14 @@
       hline to calc(100% - var(--ui-panel-radius)),
       curve to right var(--ui-panel-radius) with right top,
       vline to calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))),
-      curve to calc(100% - var(--ui-panel-radius)) calc(100% - var(--ui-panel-arrow-height)) with right calc(100% - var(--ui-panel-arrow-height)),
+      curve to calc(100% - var(--ui-panel-radius)) calc(100% - var(--ui-panel-arrow-height)) with
+        right calc(100% - var(--ui-panel-arrow-height)),
       hline to calc(var(--ui-panel-arrow-position) + var(--ui-panel-arrow-width)),
       line by calc(var(--ui-panel-arrow-width) * -1) var(--ui-panel-arrow-height),
       line by calc(var(--ui-panel-arrow-width) * -1) calc(var(--ui-panel-arrow-height) * -1),
       hline to var(--ui-panel-radius),
-      curve to left calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))) with left calc(100% - var(--ui-panel-arrow-height)),
+      curve to left calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))) with left
+        calc(100% - var(--ui-panel-arrow-height)),
       vline to var(--ui-panel-radius),
       curve to var(--ui-panel-radius) top with left top
     );
@@ -276,12 +289,14 @@
       vline to calc(100% - var(--ui-panel-radius)),
       curve to calc(100% - var(--ui-panel-radius)) bottom with right bottom,
       hline to calc(var(--ui-panel-radius) + var(--ui-panel-arrow-height)),
-      curve to var(--ui-panel-arrow-height) calc(100% - var(--ui-panel-radius)) with var(--ui-panel-arrow-height) bottom,
+      curve to var(--ui-panel-arrow-height) calc(100% - var(--ui-panel-radius)) with
+        var(--ui-panel-arrow-height) bottom,
       vline to calc(var(--ui-panel-arrow-position) + var(--ui-panel-arrow-width)),
       line by calc(var(--ui-panel-arrow-height) * -1) calc(var(--ui-panel-arrow-width) * -1),
       line by var(--ui-panel-arrow-height) calc(var(--ui-panel-arrow-width) * -1),
       vline to var(--ui-panel-radius),
-      curve to calc(var(--ui-panel-radius) + var(--ui-panel-arrow-height)) top with var(--ui-panel-arrow-height) top
+      curve to calc(var(--ui-panel-radius) + var(--ui-panel-arrow-height)) top with
+        var(--ui-panel-arrow-height) top
     );
   }
 
@@ -292,12 +307,14 @@
     border-shape: shape(
       from var(--ui-panel-radius) 0,
       hline to calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))),
-      curve to calc(100% - var(--ui-panel-arrow-height)) var(--ui-panel-radius) with calc(100% - var(--ui-panel-arrow-height)) top,
+      curve to calc(100% - var(--ui-panel-arrow-height)) var(--ui-panel-radius) with
+        calc(100% - var(--ui-panel-arrow-height)) top,
       vline to calc(var(--ui-panel-arrow-position) - var(--ui-panel-arrow-width)),
       line by var(--ui-panel-arrow-height) var(--ui-panel-arrow-width),
       line by calc(var(--ui-panel-arrow-height) * -1) var(--ui-panel-arrow-width),
       vline to calc(100% - var(--ui-panel-radius)),
-      curve to calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))) bottom with calc(100% - var(--ui-panel-arrow-height)) bottom,
+      curve to calc(100% - (var(--ui-panel-radius) + var(--ui-panel-arrow-height))) bottom with
+        calc(100% - var(--ui-panel-arrow-height)) bottom,
       hline to var(--ui-panel-radius),
       curve to left calc(100% - var(--ui-panel-radius)) with left bottom,
       vline to var(--ui-panel-radius),
