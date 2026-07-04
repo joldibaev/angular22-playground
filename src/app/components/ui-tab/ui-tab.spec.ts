@@ -207,15 +207,12 @@ describe('UiTab', () => {
     const hostFixture = await createHostFixture();
     const selectedItem = getTabTriggers(hostFixture)[0];
     const indicator = getTabIndicator(hostFixture);
-    const tabList = getTabList(hostFixture);
     const selectedItemStyle = getComputedStyle(selectedItem);
     const indicatorStyle = getComputedStyle(indicator);
-    const tabListStyle = getComputedStyle(tabList);
 
-    expect(tabListStyle.anchorScope).toBe('--ui-tab-active');
-    expect(selectedItemStyle.anchorName).toBe('--ui-tab-active');
+    expect(selectedItemStyle.anchorName).toMatch(/^--ui-tab-\d+-0$/);
     expect(indicatorStyle.position).toBe('absolute');
-    expect(indicatorStyle.positionAnchor).toBe('--ui-tab-active');
+    expect(indicatorStyle.positionAnchor).toBe(selectedItemStyle.anchorName);
   });
 
   it('should use the pills variant by default', async () => {

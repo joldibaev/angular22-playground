@@ -24,6 +24,7 @@
         type="button"
         [value]="item.value()"
         [disabled]="item.disabled()"
+        [style.anchor-name]="tabAnchorName($index)"
         (pointerdown)="onTabListInteraction()"
         (mousedown)="onTabListInteraction()"
         (click)="onTabListInteraction()"
@@ -33,7 +34,11 @@
       </button>
     }
 
-    <span class="ui-tab-indicator" aria-hidden="true"></span>
+    <span
+      class="ui-tab-indicator"
+      aria-hidden="true"
+      [style.position-anchor]="activeAnchorName()"
+    ></span>
   </div>
 
   <div class="ui-tab-panels">

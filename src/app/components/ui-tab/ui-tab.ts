@@ -14,6 +14,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { Tab, TabContent, TabList, TabPanel, Tabs } from '@angular/aria/tabs';
 import { UiTabItem } from './ui-tab-item/ui-tab-item';
+import { nextId } from '../../shared/unique-id';
 
 export type UiTabSize = 'sm' | 'md';
 
@@ -37,6 +38,7 @@ export type UiTabSize = 'sm' | 'md';
   },
 })
 export class UiTab {
+  private readonly anchorId = nextId();
   private readonly document = inject(DOCUMENT);
   // Router is optional: the query-param sync is an opt-in feature (`queryParam`),
   // so the component must still work when used outside a routing context.
@@ -83,6 +85,12 @@ export class UiTab {
     return !this.userSelectedTab() && queryParamValue && this.isEnabledTabValue(queryParamValue)
       ? queryParamValue
       : selectedTab;
+  });
+  readonly activeAnchorName = computed(() => {
+    const selectedTab = this.tabListSelectedTab();
+    const index = this.items().findIndex((item) => item.value() === selectedTab);
+
+    return index >= 0 ? this.tabAnchorName(index) : null;
   });
 
   constructor() {
@@ -142,6 +150,10 @@ export class UiTab {
 
   onTabListInteraction() {
     this.tabListInteracted.set(true);
+  }
+
+  tabAnchorName(index: number): string {
+    return `--ui-tab-${this.anchorId}-${index}`;
   }
 
   private isEnabledTabValue(value: string): boolean {

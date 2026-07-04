@@ -47,7 +47,6 @@
   justify-self: start;
   gap: 0.25rem;
   margin: 0;
-  anchor-scope: --ui-tab-active;
 }
 
 .ui-tab-list-pills {
@@ -79,7 +78,6 @@
   overflow-y: clip;
   overscroll-behavior-x: contain;
   scroll-padding-inline: 1rem;
-  scrollbar-gutter: stable;
 }
 
 .ui-tab-list[aria-orientation='vertical'] {
@@ -166,7 +164,6 @@
 }
 
 .ui-tab-trigger[aria-selected='true'] {
-  anchor-name: --ui-tab-active;
   color: var(--ui-tab-item-active-color);
 }
 
@@ -183,10 +180,11 @@
 
 .ui-tab-indicator {
   position: absolute;
-  position-anchor: --ui-tab-active;
   pointer-events: none;
-  /* Anchor-driven, so the slide rides on inset/size props rather than transform.
-     Smooth ease-out gives the pill a confident glide between triggers. */
+  /* Every trigger keeps a stable, component-unique anchor. Switching the
+     indicator's target avoids the transient no-anchor state produced when
+     Angular Aria updates aria-selected, which otherwise makes forward motion
+     snap while reverse motion transitions correctly. */
   transition:
     top var(--ui-tab-motion-duration) var(--ui-tab-motion-easing),
     left var(--ui-tab-motion-duration) var(--ui-tab-motion-easing),
