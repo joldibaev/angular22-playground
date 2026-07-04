@@ -102,10 +102,7 @@
   }
 
   & tbody tr[aria-selected='true'] > :is(th, td) {
-    background-color: var(
-      --ui-table-row-selected-background,
-      color-mix(in oklab, var(--color-brand) 14%, var(--background-color-surface))
-    );
+    background-color: var(--ui-table-row-selected-background);
   }
 
   & tbody tr[aria-disabled='true'] {
@@ -151,10 +148,7 @@
 }
 
 .ui-table-with-row-hover tbody tr:not(.ui-table-spacer):is(:hover, :focus-within) > :is(th, td) {
-  background-color: var(
-    --ui-table-row-hover-background,
-    color-mix(in oklab, var(--color-brand) 8%, var(--background-color-surface))
-  );
+  background-color: var(--ui-table-row-hover-background);
 }
 
 .ui-table-spacer {

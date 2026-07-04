@@ -82,7 +82,7 @@
   grid-template-rows: auto 1fr auto;
   max-block-size: 85dvh;
   overflow: hidden;
-  border: 1px solid color-mix(in oklab, var(--border-color-default) 62%, transparent);
+  border: 1px solid var(--border-color-subtle);
   border-radius: 0.75rem;
   background-color: var(--background-color-surface);
   color: contrast-color(var(--background-color-surface));

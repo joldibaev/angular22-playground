@@ -18,11 +18,7 @@
   /* Shared interaction language for every control rendered inside a popup.
      Components keep semantic states such as a solid calendar selection, but
      ordinary hover, press timing, and supporting text stay consistent. */
-  --ui-popup-interactive-hover-background: color-mix(
-    in oklab,
-    var(--text-color-muted) 7%,
-    transparent
-  );
+  --ui-popup-interactive-hover-background: var(--background-color-hover);
   --ui-popup-interactive-state-duration: var(--dur-quick);
   --ui-popup-interactive-press-duration: var(--dur-press);
   --ui-popup-interactive-easing: var(--ease-snappy);
