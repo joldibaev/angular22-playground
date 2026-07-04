@@ -2,21 +2,14 @@
 
 :root {
   color-scheme: light dark;
-
-  --bg-image: url(/light.svg);
-  @media (prefers-color-scheme: dark) {
-    --bg-image: url(/dark.svg);
-  }
 }
 
 :root[data-theme='light'] {
   color-scheme: light;
-  --bg-image: url(/light.svg);
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --bg-image: url(/dark.svg);
 }
 
 @theme {
@@ -79,7 +72,7 @@ html {
 }
 
 body {
-  background-image: var(--bg-image);
+  background-image: light-dark(url(/light.svg), url(/dark.svg));
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
