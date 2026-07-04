@@ -7,9 +7,6 @@ import { UiChip } from './ui-chip';
   template: `
     <ui-chip
       variant="destructive"
-      size="sm"
-      withDot
-      withRemove
       [disabled]="disabled()"
       removeLabel="Remove tag"
       (remove)="removed.set(removed() + 1)"
@@ -40,11 +37,9 @@ describe('UiChip', () => {
     return host().querySelector('.ui-chip-remove') as HTMLButtonElement;
   }
 
-  it('should reflect variant/size classes and project the label', () => {
+  it('should reflect the variant and project the label', () => {
     expect(host().classList.contains('ui-chip-destructive')).toBe(true);
-    expect(host().classList.contains('ui-chip-sm')).toBe(true);
     expect(host().querySelector('.ui-chip-label')?.textContent?.trim()).toBe('Angular');
-    expect(host().querySelector('.ui-chip-dot')?.getAttribute('aria-hidden')).toBe('true');
   });
 
   it('should render an accessible remove button and emit on click', () => {

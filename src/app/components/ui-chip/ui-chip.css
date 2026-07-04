@@ -3,8 +3,7 @@
   --ui-chip-padding-inline: 0.6875rem;
   --ui-chip-font-size: 0.8125rem;
   --ui-chip-line-height: 1rem;
-  --ui-chip-dot-size: 0.375rem;
-  --ui-chip-remove-size: 1.25rem;
+  --ui-chip-remove-size: 1.5rem;
   --ui-chip-remove-icon-size: 0.875rem;
   --ui-chip-motion-duration: var(--dur-press);
   --ui-chip-motion-easing: var(--ease-snappy);
@@ -36,24 +35,6 @@
   opacity: var(--opacity-disabled);
 }
 
-:host(.ui-chip-default) {
-  --ui-chip-background: CanvasText;
-  --ui-chip-border-color: var(--ui-chip-background);
-  --ui-chip-color: Canvas;
-}
-
-:host(.ui-chip-brand) {
-  --ui-chip-background: var(--color-brand);
-  --ui-chip-border-color: var(--ui-chip-background);
-  --ui-chip-color: contrast-color(var(--ui-chip-background));
-}
-
-:host(.ui-chip-outline) {
-  --ui-chip-background: transparent;
-  --ui-chip-border-color: var(--border-color-strong);
-  --ui-chip-color: contrast-color(Canvas);
-}
-
 :host(.ui-chip-destructive) {
   --ui-chip-background: var(--color-destructive-subtle);
   --ui-chip-border-color: transparent;
@@ -64,24 +45,6 @@
   --ui-chip-background: var(--background-color-subtle);
   --ui-chip-border-color: transparent;
   --ui-chip-color: contrast-color(var(--ui-chip-background));
-}
-
-:host(.ui-chip-sm) {
-  --ui-chip-min-height: 1.5rem;
-  --ui-chip-padding-inline: 0.5rem;
-  --ui-chip-font-size: 0.75rem;
-  --ui-chip-line-height: 0.875rem;
-  --ui-chip-dot-size: 0.3125rem;
-  --ui-chip-remove-size: 1.125rem;
-  --ui-chip-remove-icon-size: 0.75rem;
-}
-
-.ui-chip-dot {
-  flex: 0 0 auto;
-  width: var(--ui-chip-dot-size);
-  height: var(--ui-chip-dot-size);
-  border-radius: 50%;
-  background-color: currentColor;
 }
 
 .ui-chip-label {

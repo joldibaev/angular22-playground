@@ -1,17 +1,11 @@
-@if (withDot()) {
-  <span class="ui-chip-dot" aria-hidden="true"></span>
-}
-
 <span class="ui-chip-label"><ng-content /></span>
 
-@if (withRemove()) {
-  <button
-    type="button"
-    class="ui-chip-remove"
-    [disabled]="disabled()"
-    [attr.aria-label]="removeLabel()"
-    (click)="onRemove()"
-  >
-    <ui-icon name="outline-x" decorative [width]="removeIconSize()" [height]="removeIconSize()" />
-  </button>
-}
+<button
+  type="button"
+  class="ui-chip-remove"
+  [disabled]="disabled()"
+  [attr.aria-label]="removeLabel()"
+  (click)="onRemove()"
+>
+  <ui-icon name="outline-x" decorative [width]="14" [height]="14" />
+</button>
