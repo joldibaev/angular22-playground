@@ -1,19 +1,99 @@
-<div class="grid min-w-0 gap-4">
-  <div class="flex flex-wrap items-center gap-2">
-    <ui-chip removeLabel="Remove default token">Default</ui-chip>
-    <ui-chip variant="destructive" removeLabel="Remove alert">Destructive</ui-chip>
-    <ui-chip disabled removeLabel="Remove disabled token">Disabled</ui-chip>
-  </div>
+<article class="chip-showcase" aria-labelledby="chip-showcase-title">
+  <header class="chip-showcase-header">
+    <h4 id="chip-showcase-title" class="font-black">Chip</h4>
+    <p>
+      Compact removable tokens for user-selected values; use badges for passive labels and statuses.
+    </p>
+  </header>
 
-  <div class="flex flex-wrap items-center gap-2">
-    @for (tag of tags(); track tag) {
-      <ui-chip [removeLabel]="'Remove ' + tag" (remove)="removeTag(tag)">
-        {{ tag }}
-      </ui-chip>
-    } @empty {
-      <button type="button" class="text-sm font-bold text-secondary underline" (click)="reset()">
-        Reset tags
-      </button>
-    }
-  </div>
-</div>
+  <section class="chip-example" aria-labelledby="chip-default-title">
+    <h5 id="chip-default-title">Default</h5>
+    <ui-card variant="outlined">
+      <ui-tab size="sm" aria-label="Default chip example">
+        <ui-tab-item value="preview" label="Preview">
+          <div class="chip-preview">
+            <ui-chip removeLabel="Remove Angular" (remove)="reportRemoval('Angular')"
+              >Angular</ui-chip
+            >
+          </div>
+        </ui-tab-item>
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ defaultCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab>
+    </ui-card>
+  </section>
+
+  <section class="chip-example" aria-labelledby="chip-variant-title">
+    <h5 id="chip-variant-title">Variants</h5>
+    <ui-card variant="outlined">
+      <ui-tab size="sm" aria-label="Chip variant examples">
+        <ui-tab-item value="preview" label="Preview">
+          <div class="chip-preview chip-row">
+            <ui-chip removeLabel="Remove design" (remove)="reportRemoval('Design')">Design</ui-chip>
+            <ui-chip
+              variant="destructive"
+              removeLabel="Remove blocked"
+              (remove)="reportRemoval('Blocked')"
+              >Blocked</ui-chip
+            >
+          </div>
+        </ui-tab-item>
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ variantCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab>
+    </ui-card>
+  </section>
+
+  <section class="chip-example" aria-labelledby="chip-state-title">
+    <h5 id="chip-state-title">Disabled and overflow</h5>
+    <ui-card variant="outlined">
+      <ui-tab size="sm" aria-label="Chip state examples">
+        <ui-tab-item value="preview" label="Preview">
+          <div class="chip-preview chip-state-preview">
+            <ui-chip disabled removeLabel="Remove locked filter">Locked filter</ui-chip>
+            <div class="chip-width-limit">
+              <ui-chip removeLabel="Remove long filter" (remove)="reportRemoval('Long filter')"
+                >Orders awaiting fulfillment from the primary warehouse</ui-chip
+              >
+            </div>
+          </div>
+        </ui-tab-item>
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ stateCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab>
+    </ui-card>
+  </section>
+
+  <section class="chip-example" aria-labelledby="chip-removal-title">
+    <h5 id="chip-removal-title">Removal</h5>
+    <ui-card variant="outlined">
+      <ui-tab size="sm" aria-label="Interactive chip removal example">
+        <ui-tab-item value="preview" label="Preview">
+          <div class="chip-preview chip-removal-preview">
+            <div class="chip-row">
+              @for (tag of tags(); track tag) {
+                <ui-chip [removeLabel]="'Remove ' + tag" (remove)="removeTag(tag)">{{
+                  tag
+                }}</ui-chip>
+              } @empty {
+                <span class="chip-empty">All tags removed</span>
+              }
+            </div>
+            <div class="chip-removal-status">
+              <span aria-live="polite">Last removed: {{ lastRemoved() }}</span>
+              <button uiButton type="button" size="sm" variant="ghost" (click)="reset()">
+                Reset
+              </button>
+            </div>
+          </div>
+        </ui-tab-item>
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ removalCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab>
+    </ui-card>
+  </section>
+</article>

@@ -1,54 +1,70 @@
-<article class="grid min-w-0 gap-5" aria-labelledby="badge-showcase-title">
-  <h4 id="badge-showcase-title" class="font-black">Variants</h4>
-
-  <div class="flex flex-wrap items-center gap-2">
-    <ui-badge>Secondary (default)</ui-badge>
-    <ui-badge variant="contrast">High contrast</ui-badge>
-    <ui-badge variant="brand">Brand</ui-badge>
-    <ui-badge variant="outline">Outline</ui-badge>
-    <ui-badge variant="destructive">Destructive</ui-badge>
-  </div>
-
-  <section class="grid min-w-0 gap-3" aria-labelledby="badge-detail-title">
-    <h4 id="badge-detail-title" class="font-black">Dots and icons</h4>
-
-    <div class="flex flex-wrap items-center gap-2">
-      <ui-badge withDot>Processing</ui-badge>
-      <ui-badge variant="secondary" withDot>Queued</ui-badge>
-      <ui-badge variant="destructive" withDot>Blocked</ui-badge>
-
-      <ui-badge variant="brand">
-        <ui-icon name="outline-circle-check" decorative [width]="14" [height]="14" />
-        Verified
-      </ui-badge>
-
-      <ui-badge variant="outline">
-        <ui-icon name="outline-sparkles" decorative [width]="14" [height]="14" />
-        AI assisted
-      </ui-badge>
-
-      <ui-badge variant="destructive">
-        <ui-icon name="outline-alert-circle" decorative [width]="14" [height]="14" />
-        Rejected
-      </ui-badge>
-    </div>
+<article class="docs" aria-labelledby="badge-showcase-title">
+  <header>
+    <h4 id="badge-showcase-title" class="font-black">Badge</h4>
+    <p>Passive labels and statuses; use interactive components when the value can be changed.</p>
+  </header>
+  <section aria-labelledby="badge-default-title">
+    <h5 id="badge-default-title">Default</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Default badge example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview"><ui-badge>Draft</ui-badge></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ defaultCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
   </section>
-
-  <section class="grid min-w-0 gap-3" aria-labelledby="badge-combination-title">
-    <h4 id="badge-combination-title" class="font-black">Combinations</h4>
-
-    <div class="flex flex-wrap items-center gap-2">
-      <ui-badge variant="contrast">
-        <ui-icon name="outline-check" decorative [width]="14" [height]="14" />
-        Completed
-      </ui-badge>
-
-      <ui-badge variant="outline" withDot>Awaiting confirmation</ui-badge>
-
-      <ui-badge variant="destructive">
-        <ui-icon name="outline-alert-triangle" decorative [width]="14" [height]="14" />
-        Needs review
-      </ui-badge>
-    </div>
+  <section aria-labelledby="badge-variants-title">
+    <h5 id="badge-variants-title">Variants</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Badge variant examples"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview row">
+            <ui-badge>Secondary</ui-badge><ui-badge variant="contrast">Contrast</ui-badge
+            ><ui-badge variant="brand">Brand</ui-badge><ui-badge variant="outline">Outline</ui-badge
+            ><ui-badge variant="destructive">Destructive</ui-badge>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ variantsCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section aria-labelledby="badge-dot-title">
+    <h5 id="badge-dot-title">Status dot</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Badge status dot examples"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview row">
+            <ui-badge withDot>Processing</ui-badge
+            ><ui-badge variant="destructive" withDot>Blocked</ui-badge>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ dotCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section aria-labelledby="badge-icon-title">
+    <h5 id="badge-icon-title">Projected icon</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Badge icon example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-badge variant="brand"
+              ><ui-icon
+                name="outline-circle-check"
+                decorative
+                [width]="14"
+                [height]="14"
+              />Verified</ui-badge
+            >
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ iconCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
   </section>
 </article>

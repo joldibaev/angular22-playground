@@ -1,122 +1,113 @@
-<article class="grid min-w-0 gap-5 rounded-lg bg-primary p-5">
-  <section class="grid min-w-0 gap-3" aria-labelledby="tabs-horizontal-pills">
-    <h4 id="tabs-horizontal-pills" class="font-black">Horizontal pills</h4>
-    <div class="rounded-lg border border-default bg-surface p-4">
-      <ui-tab fluid aria-labelledby="tabs-horizontal-pills">
-        @for (tab of tabDetails; track tab.value) {
-          <ui-tab-item [value]="tab.value" [label]="tab.label" [disabled]="tab.disabled === true">
-            <h5 class="font-black">{{ tab.title }}</h5>
-            <p class="mt-2 max-w-prose text-sm font-bold text-secondary">{{ tab.description }}</p>
-          </ui-tab-item>
-        }
-      </ui-tab>
-    </div>
+<article class="docs" aria-labelledby="tabs-showcase-title">
+  <header>
+    <h4 id="tabs-showcase-title" class="font-black">Tabs</h4>
+    <p>
+      Keyboard-navigable related panels with controlled selection and optional URL synchronization.
+    </p>
+  </header>
+  <section aria-labelledby="tabs-default-title">
+    <h5 id="tabs-default-title">Default</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Default tabs example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-tab aria-label="Account sections"
+              ><ui-tab-item value="overview" label="Overview"
+                ><p>Account summary and current plan.</p></ui-tab-item
+              ><ui-tab-item value="activity" label="Activity"
+                ><p>Recent account activity.</p></ui-tab-item
+              ></ui-tab
+            >
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{defaultCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
   </section>
-
-  <section class="grid min-w-0 gap-3" aria-labelledby="tabs-compact">
-    <h4 id="tabs-compact" class="font-black">Compact (sm)</h4>
-    <div class="grid min-w-0 gap-4 rounded-lg border border-default bg-surface p-4">
-      <ui-tab size="sm" fluid aria-labelledby="tabs-compact">
-        @for (tab of enabledTabDetails; track tab.value) {
-          <ui-tab-item [value]="tab.value" [label]="tab.label">
-            <h5 class="font-black">{{ tab.title }}</h5>
-            <p class="mt-2 max-w-prose text-sm font-bold text-secondary">{{ tab.description }}</p>
-          </ui-tab-item>
-        }
-      </ui-tab>
-
-      <ui-tab size="sm" variant="line" fluid aria-label="Compact line tabs">
-        @for (tab of enabledTabDetails; track tab.value) {
-          <ui-tab-item [value]="tab.value" [label]="tab.label">
-            <h5 class="font-black">{{ tab.title }}</h5>
-            <p class="mt-2 max-w-prose text-sm font-bold text-secondary">{{ tab.description }}</p>
-          </ui-tab-item>
-        }
-      </ui-tab>
-    </div>
+  <section aria-labelledby="tabs-variants-title">
+    <h5 id="tabs-variants-title">Variants and sizes</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Tab variant examples"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview stack">
+            <ui-tab variant="pills" aria-label="Pill tabs"
+              ><ui-tab-item value="one" label="Overview">Pill content</ui-tab-item
+              ><ui-tab-item value="two" label="Metrics">Metrics content</ui-tab-item></ui-tab
+            ><ui-tab variant="line" size="sm" aria-label="Line tabs"
+              ><ui-tab-item value="one" label="Overview">Line content</ui-tab-item
+              ><ui-tab-item value="two" label="Metrics">Metrics content</ui-tab-item></ui-tab
+            >
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{variantsCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
   </section>
-
-  <section class="grid min-w-0 gap-3" aria-labelledby="tabs-horizontal-line">
-    <h4 id="tabs-horizontal-line" class="font-black">Horizontal line</h4>
-    <div class="rounded-lg border border-default bg-surface p-4">
-      <ui-tab variant="line" fluid aria-labelledby="tabs-horizontal-line">
-        @for (tab of tabDetails; track tab.value) {
-          <ui-tab-item [value]="tab.value" [label]="tab.label" [disabled]="tab.disabled === true">
-            <h5 class="font-black">{{ tab.title }}</h5>
-            <p class="mt-2 max-w-prose text-sm font-bold text-secondary">{{ tab.description }}</p>
-          </ui-tab-item>
-        }
-      </ui-tab>
-    </div>
+  <section aria-labelledby="tabs-vertical-title">
+    <h5 id="tabs-vertical-title">Vertical</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Vertical tabs example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-tab orientation="vertical" aria-label="Settings sections"
+              ><ui-tab-item value="profile" label="Profile">Profile settings</ui-tab-item
+              ><ui-tab-item value="security" label="Security">Security settings</ui-tab-item
+              ><ui-tab-item value="billing" label="Billing">Billing settings</ui-tab-item></ui-tab
+            >
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{verticalCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
   </section>
-
-  <section class="grid min-w-0 gap-3" aria-labelledby="tabs-vertical-pills">
-    <h4 id="tabs-vertical-pills" class="font-black">Vertical pills</h4>
-    <div class="rounded-lg border border-default bg-surface p-4">
-      <ui-tab orientation="vertical" fluid aria-labelledby="tabs-vertical-pills">
-        @for (tab of tabDetails; track tab.value) {
-          <ui-tab-item [value]="tab.value" [label]="tab.label" [disabled]="tab.disabled === true">
-            <h5 class="font-black">{{ tab.title }}</h5>
-            <p class="mt-2 max-w-prose text-sm font-bold text-secondary">{{ tab.description }}</p>
-          </ui-tab-item>
-        }
-      </ui-tab>
-    </div>
+  <section aria-labelledby="tabs-behavior-title">
+    <h5 id="tabs-behavior-title">Selection behavior and disabled tabs</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Tab selection behavior example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-tab
+              selectionMode="explicit"
+              [wrap]="false"
+              [softDisabled]="true"
+              aria-label="Explicit tabs"
+              ><ui-tab-item value="overview" label="Overview"
+                >Use arrows to focus and Enter or Space to select.</ui-tab-item
+              ><ui-tab-item value="activity" label="Activity">Activity</ui-tab-item
+              ><ui-tab-item value="billing" label="Billing" disabled
+                >Unavailable</ui-tab-item
+              ></ui-tab
+            >
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{behaviorCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
   </section>
-
-  <section class="grid min-w-0 gap-3" aria-labelledby="tabs-vertical-line">
-    <h4 id="tabs-vertical-line" class="font-black">Vertical line</h4>
-    <div class="rounded-lg border border-default bg-surface p-4">
-      <ui-tab variant="line" orientation="vertical" fluid aria-labelledby="tabs-vertical-line">
-        @for (tab of tabDetails; track tab.value) {
-          <ui-tab-item [value]="tab.value" [label]="tab.label" [disabled]="tab.disabled === true">
-            <h5 class="font-black">{{ tab.title }}</h5>
-            <p class="mt-2 max-w-prose text-sm font-bold text-secondary">{{ tab.description }}</p>
-          </ui-tab-item>
-        }
-      </ui-tab>
-    </div>
-  </section>
-
-  <section class="grid min-w-0 gap-3" aria-labelledby="tabs-all-enabled">
-    <h4 id="tabs-all-enabled" class="font-black">All enabled tabs</h4>
-    <div class="rounded-lg border border-default bg-surface p-4">
-      <ui-tab fluid aria-labelledby="tabs-all-enabled">
-        @for (tab of enabledTabDetails; track tab.value) {
-          <ui-tab-item [value]="tab.value" [label]="tab.label">
-            <h5 class="font-black">{{ tab.title }}</h5>
-            <p class="mt-2 max-w-prose text-sm font-bold text-secondary">{{ tab.description }}</p>
-          </ui-tab-item>
-        }
-      </ui-tab>
-    </div>
-  </section>
-
-  <section class="grid min-w-0 gap-3" aria-labelledby="tabs-many">
-    <h4 id="tabs-many" class="font-black">Many tabs</h4>
-    <div class="rounded-lg border border-default bg-surface p-4">
-      <ui-tab fluid aria-labelledby="tabs-many">
-        @for (tab of manyTabDetails; track tab.value) {
-          <ui-tab-item [value]="tab.value" [label]="tab.label" [disabled]="tab.disabled === true">
-            <h5 class="font-black">{{ tab.title }}</h5>
-            <p class="mt-2 max-w-prose text-sm font-bold text-secondary">{{ tab.description }}</p>
-          </ui-tab-item>
-        }
-      </ui-tab>
-    </div>
-  </section>
-
-  <section class="grid min-w-0 gap-3" aria-labelledby="tabs-many-line">
-    <h4 id="tabs-many-line" class="font-black">Many tabs line</h4>
-    <div class="rounded-lg border border-default bg-surface p-4">
-      <ui-tab variant="line" fluid aria-labelledby="tabs-many-line">
-        @for (tab of manyTabDetails; track tab.value) {
-          <ui-tab-item [value]="tab.value" [label]="tab.label" [disabled]="tab.disabled === true">
-            <h5 class="font-black">{{ tab.title }}</h5>
-            <p class="mt-2 max-w-prose text-sm font-bold text-secondary">{{ tab.description }}</p>
-          </ui-tab-item>
-        }
-      </ui-tab>
-    </div>
+  <section aria-labelledby="tabs-controlled-title">
+    <h5 id="tabs-controlled-title">Controlled, fluid, and URL-synced</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Controlled tabs example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview stack">
+            <ui-tab
+              [(selectedTab)]="selected"
+              queryParam="settings-tab"
+              fluid
+              aria-label="URL synced settings"
+              ><ui-tab-item value="overview" label="Overview">Overview</ui-tab-item
+              ><ui-tab-item value="activity" label="Activity">Activity</ui-tab-item
+              ><ui-tab-item value="settings" label="Settings">Settings</ui-tab-item></ui-tab
+            ><output>Selected: {{ selected() }}</output>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{controlledCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
   </section>
 </article>

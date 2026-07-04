@@ -1,158 +1,102 @@
-<article class="button-showcase" aria-labelledby="button-showcase-title">
-  <h4 id="button-showcase-title" class="font-black">Variants</h4>
-
-  <div class="button-showcase-list">
-    <button uiButton type="button">Default</button>
-    <button uiButton type="button" variant="brand">Brand</button>
-    <button uiButton type="button" variant="outline">Outline</button>
-    <button uiButton type="button" variant="destructive">Destructive</button>
-    <button uiButton type="button" variant="secondary">Secondary</button>
-    <button uiButton type="button" variant="ghost">Ghost</button>
-    <button uiButton type="button" variant="link">Link</button>
-  </div>
-
-  <section class="button-showcase-section" aria-labelledby="button-state-title">
-    <h4 id="button-state-title" class="font-black">States</h4>
-
-    <div class="button-showcase-grid">
-      <button uiButton type="button">Enabled</button>
-      <button uiButton type="button" disabled>Disabled</button>
-      <button uiButton type="button" loading>Loading</button>
-
-      <button uiButton type="button" variant="brand">Enabled</button>
-      <button uiButton type="button" variant="brand" disabled>Disabled</button>
-      <button uiButton type="button" variant="brand" loading>Loading</button>
-
-      <button uiButton type="button" variant="outline">Enabled</button>
-      <button uiButton type="button" variant="outline" disabled>Disabled</button>
-      <button uiButton type="button" variant="outline" loading>Loading</button>
-
-      <button uiButton type="button" variant="destructive">Enabled</button>
-      <button uiButton type="button" variant="destructive" disabled>Disabled</button>
-      <button uiButton type="button" variant="destructive" loading>Loading</button>
-
-      <button uiButton type="button" variant="secondary">Enabled</button>
-      <button uiButton type="button" variant="secondary" disabled>Disabled</button>
-      <button uiButton type="button" variant="secondary" loading>Loading</button>
-
-      <button uiButton type="button" variant="ghost">Enabled</button>
-      <button uiButton type="button" variant="ghost" disabled>Disabled</button>
-      <button uiButton type="button" variant="ghost" loading>Loading</button>
-
-      <button uiButton type="button" variant="link">Enabled</button>
-      <button uiButton type="button" variant="link" disabled>Disabled</button>
-      <button uiButton type="button" variant="link" loading>Loading</button>
-    </div>
+<article class="docs" aria-labelledby="button-title">
+  <header>
+    <h4 id="button-title" class="font-black">Button</h4>
+    <p>
+      Actions and button-styled links with variants, sizes, busy state, icons, and layout options.
+    </p>
+  </header>
+  <section>
+    <h5>Variants</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Button variants"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview row">
+            @for (variant of variants; track variant) {
+              <button uiButton type="button" [variant]="variant">{{ variant }}</button>
+            }
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ variantsCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
   </section>
-
-  <section class="button-showcase-section" aria-labelledby="button-link-title">
-    <h4 id="button-link-title" class="font-black">Anchor host</h4>
-
-    <div class="button-showcase-list">
-      <a uiButton href="#component-catalog">Default anchor</a>
-      <a uiButton href="#component-catalog" variant="outline">Outline anchor</a>
-      <a uiButton href="#component-catalog" variant="link">Link anchor</a>
-      <a uiButton href="#component-catalog" disabled>Disabled anchor</a>
-      <a uiButton href="#component-catalog" loading>Loading anchor</a>
-    </div>
+  <section>
+    <h5>Sizes and shape</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Button sizes and shapes"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview row">
+            <button uiButton type="button" size="sm">Small</button
+            ><button uiButton type="button">Medium</button
+            ><button uiButton type="button" variant="brand" rounded>Pill</button>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ sizesCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
   </section>
-
-  <section class="button-showcase-section" aria-labelledby="button-icon-title">
-    <h4 id="button-icon-title" class="font-black">Icons</h4>
-
-    <div class="button-showcase-list">
-      <button uiButton type="button">
-        <ui-icon name="outline-plus" decorative />
-        Create
-      </button>
-
-      <button uiButton type="button" variant="outline">
-        Export
-        <ui-icon name="outline-arrow-left" decorative />
-      </button>
-
-      <button uiButton type="button" variant="destructive">
-        <ui-icon name="outline-trash" decorative />
-        Delete
-      </button>
-
-      <button uiButton type="button" variant="secondary" iconOnly aria-label="Settings">
-        <ui-icon name="outline-settings" decorative />
-      </button>
-
-      <button uiButton type="button" variant="brand" iconOnly loading aria-label="Creating">
-        <ui-icon name="outline-plus" decorative />
-      </button>
-
-      <a uiButton href="#component-catalog" variant="ghost" iconOnly aria-label="Open details">
-        <ui-icon name="outline-chevron-right" decorative />
-      </a>
-    </div>
+  <section>
+    <h5>States</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Button states"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview row">
+            <button uiButton type="button">Enabled</button
+            ><button uiButton type="button" disabled>Disabled</button
+            ><button uiButton type="button" loading>Saving</button>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ statesCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
   </section>
-
-  <section class="button-showcase-section" aria-labelledby="button-variant-api">
-    <h4 id="button-variant-api" class="font-black">Variant input</h4>
-    <div class="button-showcase-list">
-      <button uiButton type="button" variant="brand">Brand variant</button>
-      <button uiButton type="button" variant="secondary">
-        Secondary variant
-      </button>
-      <button uiButton type="button" variant="destructive">
-        Destructive variant
-      </button>
-    </div>
+  <section>
+    <h5>Icons</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Buttons with icons"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview row">
+            <button uiButton type="button" variant="brand">
+              <ui-icon name="outline-plus" decorative />Create</button
+            ><button uiButton type="button" variant="ghost" iconOnly aria-label="Settings">
+              <ui-icon name="outline-settings" decorative />
+            </button></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ iconsCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
   </section>
-
-  <section class="button-showcase-section" aria-labelledby="button-rounded-title">
-    <h4 id="button-rounded-title" class="font-black">Rounded (pill)</h4>
-
-    <div class="button-showcase-list">
-      <button uiButton type="button" rounded>Default</button>
-      <button uiButton type="button" variant="brand" rounded>Brand</button>
-      <button uiButton type="button" variant="outline" rounded>Outline</button>
-      <button uiButton type="button" variant="secondary" rounded>Secondary</button>
-
-      <button uiButton type="button" variant="brand" rounded>
-        <ui-icon name="outline-plus" decorative />
-        Create
-      </button>
-
-      <button uiButton type="button" variant="secondary" rounded iconOnly aria-label="Settings">
-        <ui-icon name="outline-settings" decorative />
-      </button>
-
-      <a uiButton href="#component-catalog" variant="outline" rounded>Anchor pill</a>
-    </div>
+  <section>
+    <h5>Anchor host</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Button styled links"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview row">
+            <a uiButton href="#component-catalog" variant="outline">Open catalog</a
+            ><a uiButton href="#component-catalog" disabled>Unavailable</a>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ anchorCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
   </section>
-
-  <section class="button-showcase-section" aria-labelledby="button-size-title">
-    <h4 id="button-size-title" class="font-black">Sizes</h4>
-
-    <div class="button-showcase-list">
-      <button uiButton type="button" variant="brand" size="sm">Small</button>
-      <button uiButton type="button" variant="brand">Medium</button>
-
-      <button uiButton type="button" variant="outline" size="sm">
-        <ui-icon name="outline-plus" decorative />
-        Small
-      </button>
-      <button uiButton type="button" variant="outline">
-        <ui-icon name="outline-plus" decorative />
-        Medium
-      </button>
-
-      <button uiButton type="button" variant="secondary" size="sm" iconOnly aria-label="Settings">
-        <ui-icon name="outline-settings" decorative />
-      </button>
-      <button uiButton type="button" variant="secondary" iconOnly aria-label="Settings">
-        <ui-icon name="outline-settings" decorative />
-      </button>
-    </div>
-  </section>
-
-  <section class="button-showcase-section" aria-labelledby="button-fluid-title">
-    <h4 id="button-fluid-title" class="font-black">Fluid</h4>
-
-    <button uiButton type="button" variant="brand" fluid>Full-width button</button>
+  <section>
+    <h5>Fluid</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Fluid button"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <button uiButton type="button" variant="brand" fluid>Continue</button>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ fluidCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
   </section>
 </article>

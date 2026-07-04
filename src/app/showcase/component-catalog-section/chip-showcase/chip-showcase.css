@@ -1,0 +1,98 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.chip-showcase,
+.chip-showcase-header,
+.chip-example {
+  display: grid;
+  min-width: 0;
+}
+
+.chip-showcase {
+  gap: 1.25rem;
+}
+.chip-showcase-header {
+  gap: 0.25rem;
+}
+.chip-example {
+  gap: 0.625rem;
+}
+
+.chip-showcase-header p {
+  margin: 0;
+  color: var(--text-color-muted);
+  text-wrap: pretty;
+}
+.chip-example h5 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+.chip-example ui-card {
+  --ui-card-padding: 0.875rem;
+}
+
+.chip-preview {
+  display: grid;
+  min-height: 7rem;
+  place-items: center;
+  padding: 1rem;
+}
+
+.chip-row {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.chip-state-preview,
+.chip-removal-preview {
+  gap: 1rem;
+}
+.chip-width-limit {
+  min-width: 0;
+  max-width: 13rem;
+}
+
+.chip-removal-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: var(--text-color-muted);
+  font-size: 0.8125rem;
+}
+
+.chip-empty {
+  color: var(--text-color-muted);
+  font-size: 0.875rem;
+}
+
+pre {
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  overflow: auto;
+  border-radius: 0.5rem;
+  padding: 0.875rem;
+  background: var(--background-color-subtle);
+  color: contrast-color(var(--background-color-subtle));
+  font-size: 0.75rem;
+  line-height: 1.55;
+  tab-size: 2;
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+}
+
+code {
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+}

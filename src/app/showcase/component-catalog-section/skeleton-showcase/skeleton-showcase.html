@@ -1,17 +1,57 @@
-<div class="skeleton-showcase">
-  <div class="shape-examples">
-    <ui-skeleton class="short-line" />
-    <ui-skeleton shape="circle" />
-    <ui-skeleton class="thumbnail" shape="rectangle" />
-  </div>
-
-  <article class="profile-placeholder" aria-busy="true" aria-label="Loading profile">
-    <ui-skeleton class="profile-avatar" shape="circle" />
-
-    <div class="profile-copy">
-      <ui-skeleton class="name-line" />
-      <ui-skeleton class="detail-line" />
-      <ui-skeleton class="detail-line-short" />
-    </div>
-  </article>
-</div>
+<article class="docs" aria-labelledby="skeleton-title">
+  <header>
+    <h4 id="skeleton-title" class="font-black">Skeleton</h4>
+    <p>Decorative placeholders; the surrounding loading region owns the accessible status.</p>
+  </header>
+  <section>
+    <h5>Shapes</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Skeleton shape examples"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview row">
+            <ui-skeleton class="line" /><ui-skeleton shape="circle" /><ui-skeleton
+              class="rectangle"
+              shape="rectangle"
+            /></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ shapesCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
+    <h5>Composed loading state</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Composed skeleton example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><article class="profile" aria-busy="true" aria-label="Loading profile">
+            <ui-skeleton class="avatar" shape="circle" />
+            <div>
+              <ui-skeleton class="name" /><ui-skeleton class="detail" /><ui-skeleton
+                class="short"
+              />
+            </div></article></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ compositionCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
+    <h5>Static placeholder</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Static skeleton example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-skeleton
+              class="rectangle"
+              shape="rectangle"
+              [withAnimation]="false"
+            /></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ staticCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+</article>

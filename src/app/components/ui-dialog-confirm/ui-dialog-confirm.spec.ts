@@ -21,6 +21,12 @@ class TestHost {
   cancelled = 0;
 }
 
+function dispatchToggle(dialog: HTMLElement, newState: 'open' | 'closed'): void {
+  const event = new Event('toggle');
+  Object.defineProperty(event, 'newState', { value: newState });
+  dialog.dispatchEvent(event);
+}
+
 describe('UiDialogConfirm', () => {
   let fixture: ComponentFixture<TestHost>;
 
@@ -78,6 +84,15 @@ describe('UiDialogConfirm', () => {
 
     cancel.click();
     fixture.detectChanges();
+
+    expect(fixture.componentInstance.cancelled).toBe(1);
+  });
+
+  it('should emit cancel when the dialog is dismissed without an action', () => {
+    const dialog = fixture.nativeElement.querySelector('dialog');
+
+    dispatchToggle(dialog, 'open');
+    dispatchToggle(dialog, 'closed');
 
     expect(fixture.componentInstance.cancelled).toBe(1);
   });

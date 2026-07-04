@@ -1,14 +1,72 @@
-<div class="grid min-w-0 gap-4">
-  <div class="flex flex-wrap items-center gap-3">
-    <ui-avatar size="sm" name="Ada Lovelace" src="https://i.pravatar.cc/96?img=5" />
-    <ui-avatar size="md" name="Ada Lovelace" src="https://i.pravatar.cc/96?img=5" />
-    <ui-avatar size="lg" name="Ada Lovelace" src="https://i.pravatar.cc/96?img=5" />
-  </div>
+<article class="avatar-showcase" aria-labelledby="avatar-showcase-title">
+  <header class="avatar-showcase-header">
+    <h4 id="avatar-showcase-title" class="font-black">Avatar</h4>
+    <p>User imagery with deterministic initials and an anonymous decorative placeholder.</p>
+  </header>
 
-  <div class="flex flex-wrap items-center gap-3">
-    <ui-avatar name="Grace Hopper" />
-    <ui-avatar name="Linus Torvalds" />
-    <ui-avatar name="Broken Image" src="https://example.invalid/missing.png" />
-    <ui-avatar />
-  </div>
-</div>
+  <section class="avatar-example" aria-labelledby="avatar-default-title">
+    <h5 id="avatar-default-title">Default</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Default avatar example">
+        <ui-tab-item value="preview" label="Preview"
+          ><div class="avatar-preview">
+            <ui-avatar name="Ada Lovelace" src="https://i.pravatar.cc/96?img=5" /></div
+        ></ui-tab-item>
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ defaultCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab></ui-card
+    >
+  </section>
+
+  <section class="avatar-example" aria-labelledby="avatar-size-title">
+    <h5 id="avatar-size-title">Sizes</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Avatar size examples">
+        <ui-tab-item value="preview" label="Preview"
+          ><div class="avatar-preview avatar-row">
+            <ui-avatar size="sm" name="Ada Lovelace" /><ui-avatar
+              size="md"
+              name="Ada Lovelace"
+            /><ui-avatar size="lg" name="Ada Lovelace" /></div
+        ></ui-tab-item>
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ sizeCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab></ui-card
+    >
+  </section>
+
+  <section class="avatar-example" aria-labelledby="avatar-fallback-title">
+    <h5 id="avatar-fallback-title">Initials and image fallback</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Avatar fallback examples">
+        <ui-tab-item value="preview" label="Preview"
+          ><div class="avatar-preview avatar-row">
+            <ui-avatar name="Grace Hopper" /><ui-avatar
+              name="Broken Image"
+              src="/missing-avatar.webp"
+            /></div
+        ></ui-tab-item>
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ fallbackCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab></ui-card
+    >
+  </section>
+
+  <section class="avatar-example" aria-labelledby="avatar-accessibility-title">
+    <h5 id="avatar-accessibility-title">Named and anonymous</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Avatar accessibility examples">
+        <ui-tab-item value="preview" label="Preview"
+          ><div class="avatar-preview avatar-row">
+            <ui-avatar name="Linus Torvalds" /><ui-avatar /></div
+        ></ui-tab-item>
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ placeholderCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab></ui-card
+    >
+  </section>
+</article>

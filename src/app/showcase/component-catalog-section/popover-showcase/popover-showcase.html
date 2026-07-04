@@ -1,111 +1,150 @@
-<article class="popover-showcase">
-  <section class="popover-showcase-section" aria-label="Click placement examples">
-    <div class="popover-showcase-section-label">Placement</div>
-
-    @for (state of fallbackStates; track state.label) {
-      <div class="popover-showcase-group" [attr.aria-label]="state.label">
-        <div class="popover-showcase-group-label">{{ state.label }}</div>
-
-        <div class="popover-showcase-grid">
-          @for (placement of placements; track placement) {
+<article class="docs" aria-labelledby="popover-showcase-title">
+  <header>
+    <h4 id="popover-showcase-title" class="font-black">Popover</h4>
+    <p>Click-triggered rich content with native light dismiss, Escape, and anchor positioning.</p>
+  </header>
+  <section aria-labelledby="popover-default-title">
+    <h5 id="popover-default-title">Default</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Default popover example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <button uiButton type="button" uiPopover [uiContent]="defaultContent">
+              Open details
+            </button>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{defaultCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section aria-labelledby="popover-placement-title">
+    <h5 id="popover-placement-title">Placement</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Popover placement examples"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview row">
+            @for (placement of placements; track placement) {
+              <button
+                uiButton
+                type="button"
+                variant="outline"
+                uiPopover
+                [uiPlacement]="placement"
+                [uiContent]="placementContent"
+              >
+                {{ placement }}
+              </button>
+            }
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{placementCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section aria-labelledby="popover-fallback-title">
+    <h5 id="popover-fallback-title">Collision fallback</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Popover collision fallback example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              uiPopover
+              uiWithFallback
+              uiPlacement="bottom"
+              [uiContent]="fallbackContent"
+            >
+              Adaptive placement
+            </button>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{fallbackCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section aria-labelledby="popover-rich-title">
+    <h5 id="popover-rich-title">Rich content and semantics</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Rich popover example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
             <button
               uiButton
               type="button"
               uiPopover
-              [uiPlacement]="placement"
-              [uiWithFallback]="state.value"
-              [uiContent]="placementContent"
+              uiRole="note"
+              uiDescribedby
+              uiMaxWidth="min(28rem, calc(100vw - 2rem))"
+              [uiContent]="richContent"
             >
-              {{ placement }}
+              Quarterly review
             </button>
-          }
-        </div>
-      </div>
-    }
-  </section>
-
-  <section class="popover-showcase-section" aria-label="State and rich content examples">
-    <div class="popover-showcase-section-label">Content patterns</div>
-
-    <div class="popover-showcase-grid popover-showcase-grid--compact">
-      <button
-        uiButton
-        type="button"
-        uiPopover
-        uiPlacement="top"
-        [uiContent]="richContent"
-      >
-        Rich content
-      </button>
-
-      <button
-        uiButton
-        variant="secondary"
-        type="button"
-        uiPopover
-        uiPanelId="controlled-popover"
-        uiDescribedby
-        uiPlacement="right"
-        [uiContent]="controlledContent"
-        [uiVisible]="contentOpen()"
-        (uiVisibleChange)="contentOpen.set($event)"
-        [attr.aria-pressed]="contentOpen()"
-      >
-        Toggle content
-      </button>
-    </div>
-  </section>
-
-  <div class="popover-showcase-large">
-    <button
-      uiButton
-      variant="outline"
-      type="button"
-      uiPopover
-      uiMaxWidth="min(28rem, calc(100vw - 2rem))"
-      uiPlacement="top"
-      [uiContent]="detailsContent"
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{richCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
     >
-      Details panel
-    </button>
-
-    <ng-template #detailsContent>
-      <div class="popover-showcase-panel">
-        <div class="popover-showcase-panel-header">
-          <strong>Quarterly review</strong>
-          <span>Draft</span>
+  </section>
+  <section aria-labelledby="popover-controlled-title">
+    <h5 id="popover-controlled-title">Controlled and programmatic</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Controlled popover example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview controlled">
+            <button
+              #controlled="uiPopover"
+              uiButton
+              type="button"
+              uiPopover
+              uiPanelId="controlled-popover-example"
+              [uiContent]="controlledContent"
+              [uiVisible]="controlledOpen()"
+              (uiVisibleChange)="controlledOpen.set($event)"
+            >
+              Toggle content
+            </button>
+            <div class="row">
+              <button uiButton type="button" size="sm" variant="ghost" (click)="controlled.show()">
+                Show</button
+              ><button uiButton type="button" size="sm" variant="ghost" (click)="controlled.hide()">
+                Hide
+              </button>
+            </div>
+            <span aria-live="polite">{{ controlledOpen() ? 'Open' : 'Closed' }}</span>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{controlledCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <ng-template #defaultContent
+    ><strong>Order details</strong><span>Updated two minutes ago</span></ng-template
+  ><ng-template #placementContent
+    ><strong>Milestone</strong><span>Ready for review</span></ng-template
+  ><ng-template #fallbackContent><span>Flips when the preferred side overflows.</span></ng-template
+  ><ng-template #controlledContent><span>Controlled by component state.</span></ng-template
+  ><ng-template #richContent
+    ><div class="rich">
+      <strong>Quarterly review</strong>
+      <p>Revenue is ahead of plan while onboarding remains the main friction point.</p>
+      <dl>
+        <div>
+          <dt>ARR</dt>
+          <dd>$2.4M</dd>
         </div>
-
-        <p>
-          Revenue is tracking ahead of plan, with onboarding friction still concentrated in
-          workspace setup.
-        </p>
-
-        <dl class="popover-showcase-metrics" aria-label="Quarterly review metrics">
-          <div>
-            <dt>ARR</dt>
-            <dd>$2.4M</dd>
-          </div>
-          <div>
-            <dt>Activation</dt>
-            <dd>68%</dd>
-          </div>
-        </dl>
-      </div>
-    </ng-template>
-  </div>
-
-  <ng-template #placementContent>
-    <strong>Milestone</strong>
-    <span>Ready for design review</span>
-  </ng-template>
-
-  <ng-template #richContent>
-    <strong>Rich content</strong>
-    <span>Supports projected markup</span>
-  </ng-template>
-
-  <ng-template #controlledContent>
-    <span>Controlled by component state</span>
-  </ng-template>
+        <div>
+          <dt>Activation</dt>
+          <dd>68%</dd>
+        </div>
+      </dl>
+    </div></ng-template
+  >
 </article>

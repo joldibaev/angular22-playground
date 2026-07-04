@@ -2,7 +2,65 @@
   display: block;
   min-width: 0;
 }
-
-.card-showcase-compact {
+.docs,
+.docs > header,
+.docs > section {
+  display: grid;
+  min-width: 0;
+}
+.docs {
+  gap: 1.25rem;
+}
+.docs > header {
+  gap: 0.25rem;
+}
+.docs > section {
+  gap: 0.625rem;
+}
+.docs p {
+  margin: 0;
+  color: var(--text-color-muted);
+}
+.docs h5 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+.docs > section > ui-card {
   --ui-card-padding: 0.875rem;
+}
+.preview {
+  display: grid;
+  min-height: 8rem;
+  place-items: center;
+  padding: 1rem;
+}
+.preview > ui-card {
+  inline-size: min(100%, 24rem);
+}
+.preview h6,
+.preview p {
+  margin: 0;
+}
+.preview h6 {
+  font-weight: 800;
+}
+.preview p {
+  margin-block-start: 0.25rem;
+  color: var(--text-color-muted);
+}
+.compact {
+  --ui-card-padding: 0.875rem;
+}
+pre {
+  margin: 0;
+  overflow: auto;
+  border-radius: 0.5rem;
+  padding: 0.875rem;
+  background: var(--background-color-subtle);
+  font-size: 0.75rem;
+  &:focus-visible {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
 }

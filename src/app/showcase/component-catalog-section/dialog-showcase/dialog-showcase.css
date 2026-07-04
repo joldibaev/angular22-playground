@@ -1,0 +1,102 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.dialog-showcase,
+.dialog-showcase-header,
+.dialog-example {
+  display: grid;
+  min-width: 0;
+}
+
+.dialog-showcase {
+  gap: 1.25rem;
+}
+.dialog-showcase-header {
+  gap: 0.25rem;
+}
+.dialog-example {
+  gap: 0.625rem;
+}
+
+.dialog-showcase-header p,
+.dialog-context,
+.dialog-copy,
+.dialog-long-copy p {
+  margin: 0;
+  color: var(--text-color-muted);
+  text-wrap: pretty;
+}
+
+.dialog-example h5 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+.dialog-example ui-card {
+  --ui-card-padding: 0.875rem;
+}
+
+.dialog-preview {
+  display: grid;
+  min-height: 7rem;
+  place-items: center;
+  padding: 1rem;
+}
+
+.dialog-button-row,
+.dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.dialog-actions {
+  justify-content: flex-end;
+}
+.dialog-controlled-preview {
+  gap: 0.75rem;
+}
+.dialog-controlled-preview span {
+  color: var(--text-color-muted);
+  font-size: 0.875rem;
+}
+.dialog-context {
+  font-size: 0.8125rem;
+}
+.dialog-copy {
+  max-width: 65ch;
+  font-size: 0.875rem;
+}
+.dialog-long-copy {
+  display: grid;
+  max-width: 65ch;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+}
+
+pre {
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  overflow: auto;
+  border-radius: 0.5rem;
+  padding: 0.875rem;
+  background: var(--background-color-subtle);
+  color: contrast-color(var(--background-color-subtle));
+  font-size: 0.75rem;
+  line-height: 1.55;
+  tab-size: 2;
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+}
+
+code {
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+}

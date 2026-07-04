@@ -1,5 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
+import { UiCard } from '../../../components/ui-card/ui-card';
+import { UiTab } from '../../../components/ui-tab/ui-tab';
+import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 import { UiTable } from '../../../components/ui-table/ui-table';
 import { UiTableSort } from '../../../components/ui-table/ui-table-sort/ui-table-sort';
 import { UiTableSpacer } from '../../../components/ui-table/ui-table-spacer/ui-table-spacer';
@@ -16,21 +19,38 @@ interface InventoryRow {
 
 const PRODUCTS = ['Arabica', 'Matcha', 'Olive oil', 'Protein bar', 'Sparkling water'];
 const WAREHOUSES = ['Central', 'Airport', 'Market'];
-const ALL_ROWS = Array.from({ length: 500 }, (_, index): InventoryRow => ({
-  id: index + 1,
-  sku: `SKU-${String(index + 1).padStart(4, '0')}`,
-  product: `${PRODUCTS[index % PRODUCTS.length]} ${index + 1}`,
-  warehouse: WAREHOUSES[index % WAREHOUSES.length],
-  stock: 8 + ((index * 17) % 240),
-  reserved: (index * 7) % 32,
-}));
+const ALL_ROWS = Array.from(
+  { length: 500 },
+  (_, index): InventoryRow => ({
+    id: index + 1,
+    sku: `SKU-${String(index + 1).padStart(4, '0')}`,
+    product: `${PRODUCTS[index % PRODUCTS.length]} ${index + 1}`,
+    warehouse: WAREHOUSES[index % WAREHOUSES.length],
+    stock: 8 + ((index * 17) % 240),
+    reserved: (index * 7) % 32,
+  }),
+);
 
 @Component({
   selector: 'app-table-showcase',
-  imports: [UiButton, UiTable, UiTableSort, UiTableSpacer, UiTableViewport],
+  imports: [
+    UiButton,
+    UiCard,
+    UiTab,
+    UiTabItem,
+    UiTable,
+    UiTableSort,
+    UiTableSpacer,
+    UiTableViewport,
+  ],
   templateUrl: './table-showcase.html',
+  styleUrl: './table-showcase.css',
 })
 export class TableShowcase {
+  protected readonly defaultCode = `<div uiTableViewport>\n  <table uiTable [data]="rows">\n    <caption>Inventory</caption>\n    <thead><tr><th scope="col">SKU</th><th scope="col">Product</th></tr></thead>\n    <tbody>@for (row of rows; track row.id) { ... }</tbody>\n  </table>\n</div>`;
+  protected readonly densityCode = `<table uiTable density="compact" withRowHover [withStickyHeader]="true">...</table>`;
+  protected readonly sortCode = `<table uiTable [data]="rows()" [(sort)]="sort" (sortChange)="requestPage($event)">\n  <th uiTableSort="product">Product</th>\n  <th uiTableSort="stock" startDirection="desc">Stock</th>\n</table>`;
+  protected readonly virtualCode = `<div uiTableViewport [height]="384">\n  <table #table="uiTable" uiTable virtualScroll [data]="rows()" [rowHeight]="40" [totalRows]="500" (endReached)="loadMore()">\n    <tr uiTableSpacer="start" [columns]="5"></tr>\n    @for (row of table.renderedRows(); track row.id) { ... }\n    <tr uiTableSpacer="end" [columns]="5"></tr>\n  </table>\n</div>`;
   protected readonly allRows = ALL_ROWS;
   protected readonly sort = signal<string | null>(null);
   protected readonly previewRows = signal<readonly InventoryRow[]>(ALL_ROWS.slice(0, 10));
@@ -65,6 +85,10 @@ export class TableShowcase {
       this.loadedRows.set(ALL_ROWS.slice(0, Math.min(loaded + 80, ALL_ROWS.length)));
       this.loading.set(false);
     });
+  }
+
+  protected scrollToEnd(table: UiTable<InventoryRow>): void {
+    table.scrollToIndex(this.loadedRows().length - 1, 'smooth');
   }
 }
 

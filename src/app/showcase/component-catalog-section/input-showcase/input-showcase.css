@@ -1,0 +1,60 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+.docs,
+.docs > header,
+.docs > section {
+  display: grid;
+  min-width: 0;
+}
+.docs {
+  gap: 1.25rem;
+}
+.docs > header {
+  gap: 0.25rem;
+}
+.docs > section {
+  gap: 0.625rem;
+}
+.docs p {
+  margin: 0;
+  color: var(--text-color-muted);
+}
+.docs h5 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+.docs ui-card {
+  --ui-card-padding: 0.875rem;
+}
+.preview {
+  display: grid;
+  min-height: 9rem;
+  align-content: center;
+  padding: 1rem;
+}
+.preview > ui-input {
+  inline-size: min(100%, 26rem);
+  margin-inline: auto;
+}
+.grid {
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 1rem;
+}
+.grid > ui-input {
+  inline-size: 100%;
+}
+pre {
+  margin: 0;
+  overflow: auto;
+  border-radius: 0.5rem;
+  padding: 0.875rem;
+  background: var(--background-color-subtle);
+  font-size: 0.75rem;
+  &:focus-visible {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+}

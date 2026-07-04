@@ -1,16 +1,46 @@
-<div class="grid max-w-md gap-6">
-  <div class="grid gap-2">
-    <span class="text-sm text-muted">Indeterminate</span>
-    <ui-progress label="Loading content" />
-  </div>
-
-  <div class="grid gap-2">
-    <span class="text-sm text-muted">35%</span>
-    <ui-progress label="Upload progress" [value]="35" />
-  </div>
-
-  <div class="grid gap-2">
-    <span class="text-sm text-muted">72 of 120</span>
-    <ui-progress label="Import progress" [value]="72" [max]="120" />
-  </div>
-</div>
+<article class="docs" aria-labelledby="progress-title">
+  <header>
+    <h4 id="progress-title" class="font-black">Progress</h4>
+    <p>Native determinate and indeterminate progress with a custom visual track.</p>
+  </header>
+  <section>
+    <h5>Determinate</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Determinate progress example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview column">
+            <span>35%</span><ui-progress label="Upload progress" [value]="35" /></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ determinateCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
+    <h5>Custom maximum</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Custom maximum progress example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview column">
+            <span>72 of 120</span
+            ><ui-progress label="Import progress" [value]="72" [max]="120" /></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ maxCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
+    <h5>Indeterminate</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Indeterminate progress example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview column">
+            <span>Preparing report</span><ui-progress label="Preparing report" /></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ indeterminateCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+</article>

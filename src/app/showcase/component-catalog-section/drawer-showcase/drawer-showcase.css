@@ -1,0 +1,96 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.drawer-showcase,
+.drawer-showcase-header,
+.drawer-example {
+  display: grid;
+  min-width: 0;
+}
+
+.drawer-showcase {
+  gap: 1.25rem;
+}
+.drawer-showcase-header {
+  gap: 0.25rem;
+}
+.drawer-example {
+  gap: 0.625rem;
+}
+
+.drawer-showcase-header p,
+.drawer-context,
+.drawer-copy {
+  margin: 0;
+  color: var(--text-color-muted);
+  text-wrap: pretty;
+}
+
+.drawer-example h5 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+
+.drawer-example ui-card {
+  --ui-card-padding: 0.875rem;
+}
+
+.drawer-preview {
+  display: grid;
+  min-height: 7rem;
+  place-items: center;
+  padding: 1rem;
+}
+
+.drawer-button-row,
+.drawer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.drawer-actions {
+  justify-content: flex-end;
+}
+.drawer-controlled-preview {
+  gap: 0.75rem;
+}
+.drawer-controlled-preview span {
+  color: var(--text-color-muted);
+  font-size: 0.875rem;
+}
+.drawer-context {
+  font-size: 0.8125rem;
+}
+.drawer-copy {
+  max-width: 65ch;
+  font-size: 0.875rem;
+}
+
+pre {
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  overflow: auto;
+  border-radius: 0.5rem;
+  padding: 0.875rem;
+  background: var(--background-color-subtle);
+  color: contrast-color(var(--background-color-subtle));
+  font-size: 0.75rem;
+  line-height: 1.55;
+  tab-size: 2;
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+}
+
+code {
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+}

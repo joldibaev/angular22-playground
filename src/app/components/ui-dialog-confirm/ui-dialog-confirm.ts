@@ -30,12 +30,25 @@ export class UiDialogConfirm {
   readonly cancel = output<void>();
 
   protected readonly messageId = `ui-dialog-confirm-message-${this.id}`;
+  private resolved = false;
 
   protected onConfirm(): void {
+    this.resolved = true;
     this.confirm.emit();
   }
 
   protected onCancel(): void {
+    this.resolved = true;
     this.cancel.emit();
+  }
+
+  protected onOpenChange(open: boolean): void {
+    if (open) {
+      this.resolved = false;
+    } else if (!this.resolved) {
+      // Every dismissal that did not confirm is cancellation, including Escape and light dismiss.
+      this.resolved = true;
+      this.cancel.emit();
+    }
   }
 }

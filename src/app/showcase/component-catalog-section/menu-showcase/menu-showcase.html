@@ -1,77 +1,119 @@
-<article class="grid min-w-0 gap-4 rounded-lg bg-primary p-5">
-  <div class="flex flex-wrap items-center gap-3">
-    <button uiButton uiMenuTrigger variant="outline" [menu]="catalogMenu.menu()">
-      Command menu
-    </button>
-    <ui-menu #catalogMenu (itemSelected)="selectedCommand.set($event)">
-      <ui-menu-item value="duplicate">Duplicate</ui-menu-item>
-      <ui-menu-item value="archive">Archive</ui-menu-item>
-      <ui-menu-item value="delete" [disabled]="true">Delete locked item</ui-menu-item>
-    </ui-menu>
-
-    <button uiButton uiMenuTrigger variant="outline" [menu]="groupedMenu.menu()">
-      Grouped menu
-    </button>
-    <ui-menu #groupedMenu (itemSelected)="selectedCommand.set($event)">
-      <ui-menu-item value="inspect">Inspect details</ui-menu-item>
-
-      <ui-menu-group label="Editing">
-        <ui-menu-item value="duplicate">Duplicate</ui-menu-item>
-        <ui-menu-item value="rename">Rename</ui-menu-item>
-      </ui-menu-group>
-
-      <ui-menu-group label="Danger zone">
-        <ui-menu-item value="archive">Archive</ui-menu-item>
-        <ui-menu-item value="delete" disabled>Delete locked item</ui-menu-item>
-      </ui-menu-group>
-    </ui-menu>
-
-    <button uiButton uiMenuTrigger variant="outline" [menu]="statusMenu.menu()">
-      Status menu
-    </button>
-    <ui-menu #statusMenu (itemSelected)="selectedCommand.set($event)">
-      <ui-menu-item value="todo">Todo</ui-menu-item>
-      <ui-menu-item value="doing">Doing</ui-menu-item>
-      <ui-menu-item value="done">Done</ui-menu-item>
-    </ui-menu>
-
-    <!-- Icon-only (kebab) trigger: a tiny anchor, so the menu opens at its own
-         min-width (12rem) rather than the trigger's width — handy for eyeballing
-         how the popup sizes itself against a narrow trigger. -->
-    <button
-      uiButton
-      uiMenuTrigger
-      variant="secondary"
-      iconOnly
-      aria-label="More actions"
-      [menu]="moreMenu.menu()"
+<article class="docs" aria-labelledby="menu-showcase-title">
+  <header>
+    <h4 id="menu-showcase-title" class="font-black">Menu</h4>
+    <p>Action menus with native top-layer positioning and Angular Aria keyboard navigation.</p>
+  </header>
+  <section aria-labelledby="menu-default-title">
+    <h5 id="menu-default-title">Default</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Default menu example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <button
+              uiButton
+              type="button"
+              uiMenuTrigger
+              variant="outline"
+              [menu]="defaultMenu.menu()"
+            >
+              Actions</button
+            ><ui-menu #defaultMenu (itemSelected)="selected.set($event)"
+              ><ui-menu-item value="duplicate">Duplicate</ui-menu-item
+              ><ui-menu-item value="archive">Archive</ui-menu-item></ui-menu
+            ><output aria-live="polite">Selected: {{ selected() }}</output>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{defaultCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
     >
-      <ui-icon name="outline-dots-vertical" decorative />
-    </button>
-    <ui-menu #moreMenu (itemSelected)="selectedCommand.set($event)">
-      <ui-menu-item value="rename">
-        <ui-icon name="outline-edit" decorative />
-        Rename
-      </ui-menu-item>
-      <ui-menu-item value="move">
-        <ui-icon name="outline-hand-move" decorative />
-        Move to…
-      </ui-menu-item>
-      <ui-menu-item value="share">
-        <ui-icon name="outline-share-3" decorative />
-        Share
-      </ui-menu-item>
-      <ui-menu-item value="remove" [variant]="'destructive'">
-        <ui-icon name="outline-trash" decorative />
-        Remove
-      </ui-menu-item>
-    </ui-menu>
-  </div>
-
-  <output
-    class="rounded-lg border border-default bg-surface p-3 text-sm font-bold text-secondary"
-    aria-label="Selected command"
-  >
-    {{ selectedCommand() }}
-  </output>
+  </section>
+  <section aria-labelledby="menu-group-title">
+    <h5 id="menu-group-title">Groups</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Grouped menu example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <button
+              uiButton
+              type="button"
+              uiMenuTrigger
+              variant="outline"
+              [menu]="groupedMenu.menu()"
+            >
+              Grouped actions</button
+            ><ui-menu #groupedMenu (itemSelected)="selected.set($event)"
+              ><ui-menu-item value="inspect">Inspect</ui-menu-item
+              ><ui-menu-group label="Editing"
+                ><ui-menu-item value="duplicate">Duplicate</ui-menu-item
+                ><ui-menu-item value="rename">Rename</ui-menu-item></ui-menu-group
+              ><ui-menu-group label="Danger zone"
+                ><ui-menu-item value="archive">Archive</ui-menu-item></ui-menu-group
+              ></ui-menu
+            >
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{groupCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section aria-labelledby="menu-state-title">
+    <h5 id="menu-state-title">Disabled and destructive items</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Menu item state examples"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <button
+              uiButton
+              type="button"
+              uiMenuTrigger
+              variant="outline"
+              [menu]="stateMenu.menu()"
+            >
+              Item states</button
+            ><ui-menu #stateMenu (itemSelected)="selected.set($event)"
+              ><ui-menu-item value="edit">Edit</ui-menu-item
+              ><ui-menu-item value="locked" disabled>Locked action</ui-menu-item
+              ><ui-menu-item value="remove" variant="destructive">Remove</ui-menu-item></ui-menu
+            >
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{stateCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section aria-labelledby="menu-icon-title">
+    <h5 id="menu-icon-title">Icons and icon-only trigger</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Icon menu example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <button
+              uiButton
+              type="button"
+              uiMenuTrigger
+              variant="secondary"
+              iconOnly
+              aria-label="More actions"
+              [menu]="iconMenu.menu()"
+            >
+              <ui-icon name="outline-dots-vertical" decorative /></button
+            ><ui-menu #iconMenu (itemSelected)="selected.set($event)"
+              ><ui-menu-item value="rename"
+                ><ui-icon name="outline-edit" decorative />Rename</ui-menu-item
+              ><ui-menu-item value="move"
+                ><ui-icon name="outline-hand-move" decorative />Move to…</ui-menu-item
+              ><ui-menu-item value="remove" variant="destructive"
+                ><ui-icon name="outline-trash" decorative />Remove</ui-menu-item
+              ></ui-menu
+            >
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{iconCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
 </article>

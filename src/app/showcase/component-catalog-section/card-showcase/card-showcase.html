@@ -1,17 +1,54 @@
-<article class="grid min-w-0 gap-4 rounded-lg bg-primary p-5">
-  <div class="grid min-w-0 gap-4 md:grid-cols-2">
-    <ui-card variant="elevated">
-      <h4 class="font-black">Elevated</h4>
-      <p class="max-w-prose text-sm font-bold text-secondary">
-        Raised surface for primary summaries, compact dashboards, and short grouped content.
-      </p>
-    </ui-card>
-
-    <ui-card variant="outlined">
-      <h4 class="font-black">Outlined</h4>
-      <p class="max-w-prose text-sm font-bold text-secondary">
-        Bordered surface for secondary groups, settings sections, and dense repeated items.
-      </p>
-    </ui-card>
-  </div>
+<article class="docs" aria-labelledby="card-title">
+  <header>
+    <h4 id="card-title" class="font-black">Card</h4>
+    <p>A neutral content surface with elevated and outlined treatments.</p>
+  </header>
+  <section>
+    <h5>Elevated</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Elevated card example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-card
+              ><h6>Account summary</h6>
+              <p>Review usage and billing for this workspace.</p></ui-card
+            >
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ elevatedCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
+    <h5>Outlined</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Outlined card example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-card variant="outlined"
+              ><h6>Team access</h6>
+              <p>Manage roles and invitations.</p></ui-card
+            >
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ outlinedCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
+    <h5>Custom padding</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Compact card example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-card class="compact" variant="outlined">Compact repeated item</ui-card>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ paddingCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
 </article>

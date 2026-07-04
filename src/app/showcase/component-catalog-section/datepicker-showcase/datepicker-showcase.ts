@@ -1,24 +1,26 @@
-import { JsonPipe } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { FormField, form, required } from '@angular/forms/signals';
+import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiDateRangePicker } from '../../../components/ui-date-range-picker/ui-date-range-picker';
 import { UiDatepicker } from '../../../components/ui-datepicker/ui-datepicker';
-
+import { UiTab } from '../../../components/ui-tab/ui-tab';
+import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 @Component({
   selector: 'app-datepicker-showcase',
-  imports: [FormField, JsonPipe, UiDateRangePicker, UiDatepicker],
+  imports: [FormField, UiCard, UiDateRangePicker, UiDatepicker, UiTab, UiTabItem],
   templateUrl: './datepicker-showcase.html',
+  styleUrl: './datepicker-showcase.css',
 })
 export class DatepickerShowcase {
-  readonly preselectedRange = { start: '2026-06-15', end: '2026-06-20' };
-
-  readonly model = signal({
-    invoiceDate: '2026-06-15',
-    requiredDate: '',
-    reportRange: { start: '2026-06-15', end: '2026-06-20' },
-  });
-
-  readonly formState = form(this.model, (path) => {
-    required(path.requiredDate, { message: 'Pick a date before continuing' });
-  });
+  readonly range = { start: '2026-06-15', end: '2026-06-20' };
+  readonly model = signal({ requiredDate: '' });
+  readonly formState = form(this.model, (path) =>
+    required(path.requiredDate, { message: 'Pick a date before continuing' }),
+  );
+  protected readonly singleCode = `<ui-datepicker label="Invoice date" value="2026-06-15" />`;
+  protected readonly limitsCode = `<ui-datepicker min="2026-06-05" max="2026-06-25" />`;
+  protected readonly rangeCode = `<ui-date-range-picker [value]="{start: '2026-06-15', end: '2026-06-20'}" />`;
+  protected readonly presetsCode = `<ui-date-range-picker [withPresets]="false" />`;
+  protected readonly statesCode = `<ui-datepicker size="sm" />\n<ui-datepicker disabled />\n<ui-datepicker loading />`;
+  protected readonly formCode = `required(path.requiredDate, {message: 'Pick a date'});\n\n<ui-datepicker withErrorMessage [formField]="formState.requiredDate" />`;
 }

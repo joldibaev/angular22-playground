@@ -1,30 +1,307 @@
-<div class="grid min-w-0 gap-3">
-  <div class="flex flex-wrap items-center gap-3">
-    <button uiButton variant="outline" command="show-modal" [attr.commandfor]="endDrawer.drawerId()">
-      Open filters (end)
-    </button>
-    <button uiButton variant="outline" command="show-modal" [attr.commandfor]="startDrawer.drawerId()">
-      Open nav (start)
-    </button>
-  </div>
+<article class="drawer-showcase" aria-labelledby="drawer-showcase-title">
+  <header class="drawer-showcase-header">
+    <h4 id="drawer-showcase-title" class="font-black">Drawer</h4>
+    <p>Modal edge panels with native focus trapping, light dismiss, and declarative commands.</p>
+  </header>
 
-  <ui-drawer #endDrawer="uiDrawer" title="Filters" side="end">
-    <p class="max-w-prose text-sm text-secondary">
-      A drawer slides in from the inline end. Dismiss it with the close button, the backdrop, or
-      Escape.
+  <section class="drawer-example" aria-labelledby="drawer-default-title">
+    <h5 id="drawer-default-title">Default</h5>
+    <ui-card variant="outlined">
+      <ui-tab size="sm" aria-label="Default drawer example">
+        <ui-tab-item value="preview" label="Preview">
+          <div class="drawer-preview">
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="defaultDrawer.drawerId()"
+            >
+              Open filters
+            </button>
+          </div>
+        </ui-tab-item>
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ defaultCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab>
+    </ui-card>
+    <ui-drawer #defaultDrawer="uiDrawer" title="Filters">
+      <p class="drawer-copy">Choose which orders appear in the table.</p>
+    </ui-drawer>
+  </section>
+
+  <section class="drawer-example" aria-labelledby="drawer-side-title">
+    <h5 id="drawer-side-title">Sides</h5>
+    <ui-card variant="outlined">
+      <ui-tab size="sm" aria-label="Drawer side examples">
+        <ui-tab-item value="preview" label="Preview">
+          <div class="drawer-preview drawer-button-row">
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="startDrawer.drawerId()"
+            >
+              Start
+            </button>
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="endDrawer.drawerId()"
+            >
+              End
+            </button>
+          </div>
+        </ui-tab-item>
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ sideCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab>
+    </ui-card>
+    <ui-drawer #startDrawer="uiDrawer" title="Navigation" side="start"
+      ><p class="drawer-copy">Primary destinations appear from the inline start.</p></ui-drawer
+    >
+    <ui-drawer #endDrawer="uiDrawer" title="Filters" side="end"
+      ><p class="drawer-copy">Contextual tools appear from the inline end.</p></ui-drawer
+    >
+  </section>
+
+  <section class="drawer-example" aria-labelledby="drawer-size-title">
+    <h5 id="drawer-size-title">Sizes</h5>
+    <ui-card variant="outlined">
+      <ui-tab size="sm" aria-label="Drawer size examples">
+        <ui-tab-item value="preview" label="Preview"
+          ><div class="drawer-preview drawer-button-row">
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="smallDrawer.drawerId()"
+            >
+              Small
+            </button>
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="mediumDrawer.drawerId()"
+            >
+              Medium
+            </button>
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="largeDrawer.drawerId()"
+            >
+              Large
+            </button>
+          </div></ui-tab-item
+        >
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ sizeCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab>
+    </ui-card>
+    <ui-drawer #smallDrawer="uiDrawer" title="Compact drawer" size="sm"
+      ><p class="drawer-copy">For short navigation or focused controls.</p></ui-drawer
+    >
+    <ui-drawer #mediumDrawer="uiDrawer" title="Default drawer" size="md"
+      ><p class="drawer-copy">The balanced default for most workflows.</p></ui-drawer
+    >
+    <ui-drawer #largeDrawer="uiDrawer" title="Wide drawer" size="lg"
+      ><p class="drawer-copy">For forms and denser supporting content.</p></ui-drawer
+    >
+  </section>
+
+  <section class="drawer-example" aria-labelledby="drawer-footer-title">
+    <h5 id="drawer-footer-title">Body and footer</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Drawer footer example">
+        <ui-tab-item value="preview" label="Preview"
+          ><div class="drawer-preview">
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="footerDrawer.drawerId()"
+            >
+              Edit filters
+            </button>
+          </div></ui-tab-item
+        >
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ footerCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab></ui-card
+    >
+    <ui-drawer #footerDrawer="uiDrawer" title="Order filters">
+      <ui-switch
+        label="Only open orders"
+        [checked]="onlyOpenOrders()"
+        (checkedChange)="onlyOpenOrders.set($event)"
+      />
+      <div uiDrawerFooter class="drawer-actions">
+        <button uiButton type="button" variant="outline" (click)="onlyOpenOrders.set(false)">
+          Reset
+        </button>
+        <button uiButton type="button" command="close" [attr.commandfor]="footerDrawer.drawerId()">
+          Apply
+        </button>
+      </div>
+    </ui-drawer>
+  </section>
+
+  <section class="drawer-example" aria-labelledby="drawer-dismiss-title">
+    <h5 id="drawer-dismiss-title">Dismiss behavior</h5>
+    <p class="drawer-context">
+      <code>any</code> supports backdrop and Escape, <code>closerequest</code> keeps Escape, and
+      <code>none</code> requires an explicit action.
     </p>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Drawer dismiss examples">
+        <ui-tab-item value="preview" label="Preview"
+          ><div class="drawer-preview drawer-button-row">
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="anyDrawer.drawerId()"
+            >
+              Any
+            </button>
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="requestDrawer.drawerId()"
+            >
+              Close request
+            </button>
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="lockedDrawer.drawerId()"
+            >
+              None
+            </button>
+          </div></ui-tab-item
+        >
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ dismissCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab></ui-card
+    >
+    <ui-drawer #anyDrawer="uiDrawer" title="Light dismiss" dismiss="any"
+      ><p class="drawer-copy">
+        Backdrop, Escape, and the close button dismiss this drawer.
+      </p></ui-drawer
+    >
+    <ui-drawer #requestDrawer="uiDrawer" title="Close request" dismiss="closerequest"
+      ><p class="drawer-copy">Escape works, but clicking the backdrop does not.</p></ui-drawer
+    >
+    <ui-drawer #lockedDrawer="uiDrawer" title="Blocking task" dismiss="none"
+      ><p class="drawer-copy">Only an explicit close control dismisses this drawer.</p></ui-drawer
+    >
+  </section>
 
-    <div uiDrawerFooter class="flex justify-end gap-2">
-      <button uiButton variant="outline" command="close" [attr.commandfor]="endDrawer.drawerId()">
-        Reset
-      </button>
-      <button uiButton command="close" [attr.commandfor]="endDrawer.drawerId()">Apply</button>
-    </div>
-  </ui-drawer>
+  <section class="drawer-example" aria-labelledby="drawer-close-title">
+    <h5 id="drawer-close-title">Custom close controls</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Drawer close control example">
+        <ui-tab-item value="preview" label="Preview"
+          ><div class="drawer-preview drawer-button-row">
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="labelledCloseDrawer.drawerId()"
+            >
+              Custom label
+            </button>
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="customCloseDrawer.drawerId()"
+            >
+              Custom action
+            </button>
+          </div></ui-tab-item
+        >
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ closeButtonCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab></ui-card
+    >
+    <ui-drawer #labelledCloseDrawer="uiDrawer" title="Checkout" closeLabel="Close checkout"
+      ><p class="drawer-copy">
+        The built-in close button has a context-specific accessible name.
+      </p></ui-drawer
+    >
+    <ui-drawer
+      #customCloseDrawer="uiDrawer"
+      title="Required step"
+      [withCloseButton]="false"
+      dismiss="none"
+    >
+      <p class="drawer-copy">
+        A workflow can omit the header close button when completion must be explicit.
+      </p>
+      <div uiDrawerFooter class="drawer-actions">
+        <button
+          uiButton
+          type="button"
+          command="close"
+          [attr.commandfor]="customCloseDrawer.drawerId()"
+        >
+          Done
+        </button>
+      </div>
+    </ui-drawer>
+  </section>
 
-  <ui-drawer #startDrawer="uiDrawer" title="Navigation" side="start" size="sm">
-    <p class="max-w-prose text-sm text-secondary">
-      A compact drawer anchored to the inline start, handy for navigation panels.
-    </p>
-  </ui-drawer>
-</div>
+  <section class="drawer-example" aria-labelledby="drawer-controlled-title">
+    <h5 id="drawer-controlled-title">Controlled and programmatic</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Controlled drawer example">
+        <ui-tab-item value="preview" label="Preview"
+          ><div class="drawer-preview drawer-controlled-preview">
+            <button uiButton type="button" variant="outline" (click)="controlledDrawer.show()">
+              Open from code
+            </button>
+            <span aria-live="polite">State: {{ controlledOpen() ? 'open' : 'closed' }}</span>
+          </div></ui-tab-item
+        >
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ controlledCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab></ui-card
+    >
+    <ui-drawer
+      #controlledDrawer="uiDrawer"
+      title="Controlled drawer"
+      [open]="controlledOpen()"
+      (openChange)="controlledOpen.set($event)"
+    >
+      <p class="drawer-copy">The native toggle event keeps external state synchronized.</p>
+      <div uiDrawerFooter class="drawer-actions">
+        <button uiButton type="button" (click)="controlledDrawer.close()">Close from code</button>
+      </div>
+    </ui-drawer>
+  </section>
+</article>

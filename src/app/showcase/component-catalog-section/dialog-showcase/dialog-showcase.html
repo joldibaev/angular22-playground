@@ -1,167 +1,402 @@
-<div class="grid min-w-0 gap-5">
-  <section class="grid min-w-0 gap-3">
-    <h4 class="font-black">Modal dialog</h4>
-    <div class="flex flex-wrap items-center gap-3">
-      <button uiButton command="show-modal" [attr.commandfor]="inviteDialog.dialogId()">
-        Invite teammates
-      </button>
-    </div>
+<article class="dialog-showcase" aria-labelledby="dialog-showcase-title">
+  <header class="dialog-showcase-header">
+    <h4 id="dialog-showcase-title" class="font-black">Dialog</h4>
+    <p>
+      Native modal dialogs with declarative commands, accessible descriptions, and focused
+      decisions.
+    </p>
+  </header>
 
-    <ui-dialog
-      #inviteDialog="uiDialog"
-      title="Invite teammates"
-      caption="Workspace access"
-      [ariaDescribedBy]="'invite-dialog-description'"
+  <section class="dialog-example" aria-labelledby="dialog-default-title">
+    <h5 id="dialog-default-title">Default</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Default dialog example">
+        <ui-tab-item value="preview" label="Preview"
+          ><div class="dialog-preview">
+            <button
+              uiButton
+              type="button"
+              command="show-modal"
+              [attr.commandfor]="inviteDialog.dialogId()"
+            >
+              Invite teammates
+            </button>
+          </div></ui-tab-item
+        >
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ defaultCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab></ui-card
     >
-      <p class="max-w-prose text-sm text-secondary">
-        <span id="invite-dialog-description">
-          Send an invitation link to a teammate. They will get access to this workspace once they
-          accept.
-        </span>
+    <ui-dialog #inviteDialog="uiDialog" title="Invite teammates" caption="Workspace access">
+      <p class="dialog-copy">
+        Send an invitation link to a teammate. They receive access after accepting it.
       </p>
-
-      <div uiDialogFooter class="flex justify-end gap-2">
+      <div uiDialogFooter class="dialog-actions">
         <button
           uiButton
+          type="button"
           variant="outline"
           command="close"
           [attr.commandfor]="inviteDialog.dialogId()"
         >
           Cancel
         </button>
-        <button uiButton command="close" [attr.commandfor]="inviteDialog.dialogId()">
+        <button uiButton type="button" command="close" [attr.commandfor]="inviteDialog.dialogId()">
           Send invites
         </button>
       </div>
     </ui-dialog>
   </section>
 
-  <section class="grid min-w-0 gap-3">
-    <h4 class="font-black">Nested dialog</h4>
-    <div class="flex flex-wrap items-center gap-3">
-      <button uiButton command="show-modal" [attr.commandfor]="parentDialog.dialogId()">
-        Open parent
-      </button>
-    </div>
+  <section class="dialog-example" aria-labelledby="dialog-size-title">
+    <h5 id="dialog-size-title">Sizes</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Dialog size examples">
+        <ui-tab-item value="preview" label="Preview"
+          ><div class="dialog-preview dialog-button-row">
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="smallDialog.dialogId()"
+            >
+              Small
+            </button>
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="mediumDialog.dialogId()"
+            >
+              Medium
+            </button>
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="largeDialog.dialogId()"
+            >
+              Large
+            </button>
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="extraLargeDialog.dialogId()"
+            >
+              Extra large
+            </button>
+          </div></ui-tab-item
+        >
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ sizeCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab></ui-card
+    >
+    <ui-dialog #smallDialog="uiDialog" title="Small dialog" size="sm"
+      ><p class="dialog-copy">For short confirmations and focused prompts.</p></ui-dialog
+    >
+    <ui-dialog #mediumDialog="uiDialog" title="Default dialog" size="md"
+      ><p class="dialog-copy">The default for common forms and messages.</p></ui-dialog
+    >
+    <ui-dialog #largeDialog="uiDialog" title="Large dialog" size="lg"
+      ><p class="dialog-copy">For workflows that need more horizontal room.</p></ui-dialog
+    >
+    <ui-dialog #extraLargeDialog="uiDialog" title="Extra-large dialog" size="xl"
+      ><p class="dialog-copy">For dense pickers and multi-column content.</p></ui-dialog
+    >
+  </section>
 
-    <ui-dialog #parentDialog="uiDialog" title="Parent dialog" caption="Stacked native modals">
-      <p class="max-w-prose text-sm text-secondary">
-        The child dialog enters the browser top layer above this parent dialog and closes
-        independently.
+  <section class="dialog-example" aria-labelledby="dialog-description-title">
+    <h5 id="dialog-description-title">Role and description</h5>
+    <p class="dialog-context">
+      Use <code>alertdialog</code> only for urgent decisions, and connect supporting copy with
+      <code>ariaDescribedBy</code>.
+    </p>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Dialog role and description example">
+        <ui-tab-item value="preview" label="Preview"
+          ><div class="dialog-preview">
+            <button
+              uiButton
+              type="button"
+              variant="destructive"
+              command="show-modal"
+              [attr.commandfor]="alertDialog.dialogId()"
+            >
+              Delete workspace
+            </button>
+          </div></ui-tab-item
+        >
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ descriptionCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab></ui-card
+    >
+    <ui-dialog
+      #alertDialog="uiDialog"
+      title="Delete workspace?"
+      role="alertdialog"
+      size="sm"
+      [ariaDescribedBy]="'workspace-delete-description'"
+    >
+      <p id="workspace-delete-description" class="dialog-copy">
+        This permanently removes the workspace and cannot be undone.
       </p>
-
-      <button uiButton command="show-modal" [attr.commandfor]="childDialog.dialogId()">
-        Open nested dialog
-      </button>
-
-      <ui-dialog
-        #childDialog="uiDialog"
-        title="Nested confirmation"
-        role="alertdialog"
-        size="sm"
-        dismiss="closerequest"
-        [ariaDescribedBy]="'nested-dialog-description'"
-      >
-        <p id="nested-dialog-description" class="max-w-prose text-sm text-secondary">
-          This alert dialog keeps the parent in place while asking for a focused confirmation.
-        </p>
-
-        <div uiDialogFooter class="flex justify-end gap-2">
-          <button
-            uiButton
-            variant="outline"
-            command="close"
-            [attr.commandfor]="childDialog.dialogId()"
-          >
-            Keep editing
-          </button>
-          <button uiButton command="close" [attr.commandfor]="childDialog.dialogId()">
-            Confirm
-          </button>
-        </div>
-      </ui-dialog>
+      <div uiDialogFooter class="dialog-actions">
+        <button uiButton type="button" command="close" [attr.commandfor]="alertDialog.dialogId()">
+          Keep workspace
+        </button>
+      </div>
     </ui-dialog>
   </section>
 
-  <section class="grid min-w-0 gap-3">
-    <h4 class="font-black">Scrollable content</h4>
-    <div class="flex flex-wrap items-center gap-3">
-      <button uiButton command="show-modal" [attr.commandfor]="scrollDialog.dialogId()">
-        Open long dialog
-      </button>
-    </div>
+  <section class="dialog-example" aria-labelledby="dialog-dismiss-title">
+    <h5 id="dialog-dismiss-title">Dismiss behavior</h5>
+    <p class="dialog-context">
+      <code>any</code> supports backdrop and Escape, <code>closerequest</code> keeps Escape, and
+      <code>none</code> requires an explicit action.
+    </p>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Dialog dismiss examples">
+        <ui-tab-item value="preview" label="Preview"
+          ><div class="dialog-preview dialog-button-row">
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="anyDialog.dialogId()"
+            >
+              Any
+            </button>
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="requestDialog.dialogId()"
+            >
+              Close request
+            </button>
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="lockedDialog.dialogId()"
+            >
+              None
+            </button>
+          </div></ui-tab-item
+        >
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ dismissCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab></ui-card
+    >
+    <ui-dialog #anyDialog="uiDialog" title="Light dismiss" dismiss="any"
+      ><p class="dialog-copy">
+        Backdrop, Escape, and the close button dismiss this dialog.
+      </p></ui-dialog
+    >
+    <ui-dialog #requestDialog="uiDialog" title="Close request" dismiss="closerequest"
+      ><p class="dialog-copy">Escape works, but clicking the backdrop does not.</p></ui-dialog
+    >
+    <ui-dialog #lockedDialog="uiDialog" title="Blocking task" dismiss="none"
+      ><p class="dialog-copy">Only an explicit close control dismisses this dialog.</p></ui-dialog
+    >
+  </section>
 
-    <ui-dialog #scrollDialog="uiDialog" title="Review changes" caption="Body scrolls inside">
-      <div class="grid max-w-prose gap-3 text-sm text-secondary">
-        @for (item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]; track item) {
-          <p>
-            Change {{ item }} updates inventory, pricing, or checkout behavior. The header and
-            footer stay visible while the dialog body takes the scroll.
-          </p>
+  <section class="dialog-example" aria-labelledby="dialog-scroll-title">
+    <h5 id="dialog-scroll-title">Scrollable content</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Scrollable dialog example">
+        <ui-tab-item value="preview" label="Preview"
+          ><div class="dialog-preview">
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="scrollDialog.dialogId()"
+            >
+              Review changes
+            </button>
+          </div></ui-tab-item
+        >
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ scrollCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab></ui-card
+    >
+    <ui-dialog
+      #scrollDialog="uiDialog"
+      title="Review changes"
+      caption="The body scrolls while actions remain available"
+    >
+      <div class="dialog-long-copy">
+        @for (
+          item of [
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+          ];
+          track item
+        ) {
+          <p>Change {{ item }} updates inventory, pricing, or checkout behavior.</p>
         }
       </div>
-
-      <div uiDialogFooter class="flex justify-end gap-2">
-        <button uiButton variant="outline" command="close" [attr.commandfor]="scrollDialog.dialogId()">
-          Close
-        </button>
-        <button uiButton command="close" [attr.commandfor]="scrollDialog.dialogId()">
+      <div uiDialogFooter class="dialog-actions">
+        <button uiButton type="button" command="close" [attr.commandfor]="scrollDialog.dialogId()">
           Apply
         </button>
       </div>
     </ui-dialog>
   </section>
 
-  <section class="grid min-w-0 gap-3">
-    <h4 class="font-black">Large dialog</h4>
-    <div class="flex flex-wrap items-center gap-3">
-      <button uiButton command="show-modal" [attr.commandfor]="largeDialog.dialogId()">
-        Open large dialog
+  <section class="dialog-example" aria-labelledby="dialog-nested-title">
+    <h5 id="dialog-nested-title">Nested dialogs</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Nested dialog example">
+        <ui-tab-item value="preview" label="Preview"
+          ><div class="dialog-preview">
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="parentDialog.dialogId()"
+            >
+              Edit order
+            </button>
+          </div></ui-tab-item
+        >
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ nestedCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab></ui-card
+    >
+    <ui-dialog
+      #parentDialog="uiDialog"
+      title="Edit order"
+      caption="The child enters the top layer above its parent"
+    >
+      <p class="dialog-copy">Unsaved quantity and price changes remain in the parent.</p>
+      <button
+        uiButton
+        type="button"
+        variant="destructive"
+        command="show-modal"
+        [attr.commandfor]="childDialog.dialogId()"
+      >
+        Discard changes
       </button>
-    </div>
+      <ui-dialog
+        #childDialog="uiDialog"
+        title="Discard changes?"
+        role="alertdialog"
+        size="sm"
+        dismiss="closerequest"
+      >
+        <p class="dialog-copy">The child closes independently while the parent remains open.</p>
+        <div uiDialogFooter class="dialog-actions">
+          <button uiButton type="button" command="close" [attr.commandfor]="childDialog.dialogId()">
+            Keep editing
+          </button>
+        </div>
+      </ui-dialog>
+    </ui-dialog>
+  </section>
 
-    <ui-dialog #largeDialog="uiDialog" title="Product picker" size="xl">
-      <div class="grid gap-3 md:grid-cols-3">
-        @for (product of ['Barcode scanner', 'Receipt printer', 'Cash drawer', 'Scale']; track product) {
-          <article class="rounded-md border border-primary p-3">
-            <h5 class="font-bold">{{ product }}</h5>
-            <p class="mt-1 text-sm text-secondary">
-              Select this item and continue configuring the sale workflow.
-            </p>
-          </article>
-        }
-      </div>
-
-      <div uiDialogFooter class="flex justify-end gap-2">
-        <button uiButton variant="outline" command="close" [attr.commandfor]="largeDialog.dialogId()">
-          Cancel
-        </button>
-        <button uiButton command="close" [attr.commandfor]="largeDialog.dialogId()">
-          Add selected
+  <section class="dialog-example" aria-labelledby="dialog-close-title">
+    <h5 id="dialog-close-title">Custom close controls</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Dialog close control example">
+        <ui-tab-item value="preview" label="Preview"
+          ><div class="dialog-preview dialog-button-row">
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="labelledCloseDialog.dialogId()"
+            >
+              Custom label
+            </button>
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="decisionDialog.dialogId()"
+            >
+              Custom action
+            </button>
+          </div></ui-tab-item
+        >
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ closeCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab></ui-card
+    >
+    <ui-dialog #labelledCloseDialog="uiDialog" title="Settings" closeLabel="Close settings"
+      ><p class="dialog-copy">
+        The built-in close button has a context-specific accessible name.
+      </p></ui-dialog
+    >
+    <ui-dialog
+      #decisionDialog="uiDialog"
+      title="Required decision"
+      [withCloseButton]="false"
+      dismiss="none"
+    >
+      <p class="dialog-copy">
+        A workflow can omit the header close button when completion must be explicit.
+      </p>
+      <div uiDialogFooter class="dialog-actions">
+        <button
+          uiButton
+          type="button"
+          command="close"
+          [attr.commandfor]="decisionDialog.dialogId()"
+        >
+          Continue
         </button>
       </div>
     </ui-dialog>
   </section>
 
-  <section class="grid min-w-0 gap-3">
-    <h4 class="font-black">Confirmation</h4>
-    <div class="flex flex-wrap items-center gap-3">
-      <button uiButton variant="destructive" command="show-modal" [attr.commandfor]="deleteConfirm.dialogId()">
-        Delete item
-      </button>
-      @if (lastAction()) {
-        <span class="text-sm font-bold text-secondary">Last action: {{ lastAction() }}</span>
-      }
-    </div>
-
-    <ui-dialog-confirm
-      #deleteConfirm="uiDialogConfirm"
-      tone="destructive"
-      title="Delete item?"
-      message="This permanently removes the item. This action cannot be undone."
-      confirmLabel="Delete"
-      (confirm)="onConfirm()"
-      (cancel)="onCancel()"
-    />
+  <section class="dialog-example" aria-labelledby="dialog-controlled-title">
+    <h5 id="dialog-controlled-title">Controlled and programmatic</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Controlled dialog example">
+        <ui-tab-item value="preview" label="Preview"
+          ><div class="dialog-preview dialog-controlled-preview">
+            <button uiButton type="button" variant="outline" (click)="controlledDialog.show()">
+              Open from code
+            </button>
+            <span aria-live="polite">State: {{ controlledOpen() ? 'open' : 'closed' }}</span>
+          </div></ui-tab-item
+        >
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ controlledCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab></ui-card
+    >
+    <ui-dialog
+      #controlledDialog="uiDialog"
+      title="Controlled dialog"
+      [open]="controlledOpen()"
+      (openChange)="controlledOpen.set($event)"
+    >
+      <p class="dialog-copy">The native toggle event keeps external state synchronized.</p>
+      <div uiDialogFooter class="dialog-actions">
+        <button uiButton type="button" (click)="controlledDialog.close()">Close from code</button>
+      </div>
+    </ui-dialog>
   </section>
-</div>
+</article>

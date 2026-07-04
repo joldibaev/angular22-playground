@@ -10,7 +10,8 @@
   --ui-dialog-current-duration: var(--ui-dialog-close-duration);
 
   margin: auto;
-  max-inline-size: min(92vw, var(--ui-dialog-width));
+  inline-size: min(92vw, var(--ui-dialog-width));
+  max-inline-size: 92vw;
   max-block-size: 85dvh;
   border: none;
   padding: 0;
@@ -79,7 +80,8 @@
 
 .ui-dialog-surface {
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  inline-size: 100%;
   max-block-size: 85dvh;
   overflow: hidden;
   border: 1px solid var(--border-color-subtle);
@@ -149,6 +151,7 @@
 }
 
 .ui-dialog-body {
+  min-block-size: 0;
   padding: 1.25rem;
   overflow: auto;
 }

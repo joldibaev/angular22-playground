@@ -1,21 +1,61 @@
-<article class="tooltip-showcase">
-  @for (state of fallbackStates; track state.label) {
-    <section class="tooltip-showcase-section" [attr.aria-label]="state.label">
-      <div class="tooltip-showcase-section-label">{{ state.label }}</div>
-
-      <div class="tooltip-showcase-grid">
-        @for (placement of placements; track placement) {
-          <button
-            uiButton
-            type="button"
-            uiTooltip="Saved changes are available"
-            [uiPlacement]="placement"
-            [uiWithFallback]="state.value"
-          >
-            {{ placement }}
-          </button>
-        }
-      </div>
-    </section>
-  }
+<article class="docs" aria-labelledby="tooltip-showcase-title">
+  <header>
+    <h4 id="tooltip-showcase-title" class="font-black">Tooltip</h4>
+    <p>Plain-text hints shown natively on hover, focus, and long press.</p>
+  </header>
+  <section aria-labelledby="tooltip-default-title">
+    <h5 id="tooltip-default-title">Default</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Default tooltip example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <button uiButton type="button" uiTooltip="Save changes">Save</button>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{defaultCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section aria-labelledby="tooltip-trigger-title">
+    <h5 id="tooltip-trigger-title">Button and link triggers</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Tooltip trigger examples"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview row">
+            <button uiButton type="button" variant="outline" uiTooltip="Archive order">
+              Archive</button
+            ><a href="#component-catalog" uiTooltip="Return to catalog heading">Catalog link</a>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{triggerCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section aria-labelledby="tooltip-placement-title">
+    <h5 id="tooltip-placement-title">Placement and collision fallback</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Tooltip placement examples"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview row">
+            @for (placement of placements; track placement) {
+              <button
+                uiButton
+                type="button"
+                variant="outline"
+                uiTooltip="Saved changes are available"
+                [uiPlacement]="placement"
+                uiWithFallback
+              >
+                {{ placement }}
+              </button>
+            }
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{placementCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
 </article>

@@ -1,64 +1,123 @@
-<article class="grid min-w-0 gap-4 rounded-lg bg-primary p-5">
-  <div class="grid min-w-0 gap-4 md:grid-cols-2">
-    <ui-autocomplete label="Empty">
-      @for (team of teams; track team) {
-        <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
-          team
-        }}</ui-autocomplete-option>
-      }
-    </ui-autocomplete>
-
-    <ui-autocomplete label="Preselected" value="team_support">
-      @for (team of teams; track team) {
-        <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
-          team
-        }}</ui-autocomplete-option>
-      }
-    </ui-autocomplete>
-
-    <ui-autocomplete label="Filtered text" value="team_growth">
-      @for (team of teams; track team) {
-        <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
-          team
-        }}</ui-autocomplete-option>
-      }
-    </ui-autocomplete>
-
-    <ui-autocomplete label="Disabled" [disabled]="true">
-      <ui-autocomplete-option value="team_platform">Platform</ui-autocomplete-option>
-    </ui-autocomplete>
-
-    <ui-autocomplete label="Loading" loading />
-
-    <ui-autocomplete label="Small (sm)" size="sm">
-      @for (team of teams; track team) {
-        <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
-          team
-        }}</ui-autocomplete-option>
-      }
-    </ui-autocomplete>
-
-    <ui-autocomplete label="Medium (md)">
-      @for (team of teams; track team) {
-        <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
-          team
-        }}</ui-autocomplete-option>
-      }
-    </ui-autocomplete>
-  </div>
-
-  <div class="grid min-w-0 gap-4 border-t border-default pt-4 md:grid-cols-2">
-    <ui-autocomplete label="Signal form team" [formField]="formState.team">
-      @for (team of teams; track team) {
-        <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
-          team
-        }}</ui-autocomplete-option>
-      }
-    </ui-autocomplete>
-  </div>
-
-  <div class="grid min-w-0 gap-2 rounded-lg border border-default p-4 text-sm">
-    <p class="font-black text-muted">Signal form value</p>
-    <pre class="overflow-auto rounded bg-subtle p-3 text-xs">{{ formModel() | json }}</pre>
-  </div>
+<article class="docs" aria-labelledby="autocomplete-showcase-title">
+  <header>
+    <h4 id="autocomplete-showcase-title" class="font-black">Autocomplete</h4>
+    <p>
+      Filterable single selection with inline suggestions, listbox keyboard navigation, and Signal
+      Forms support.
+    </p>
+  </header>
+  <section aria-labelledby="autocomplete-default-title">
+    <h5 id="autocomplete-default-title">Default filtering</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Default autocomplete example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-autocomplete label="Team">
+              @for (team of teams; track team) {
+                <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
+                  team
+                }}</ui-autocomplete-option>
+              }
+            </ui-autocomplete>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{defaultCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section aria-labelledby="autocomplete-value-title">
+    <h5 id="autocomplete-value-title">Controlled value</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Controlled autocomplete example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview stack">
+            <ui-autocomplete label="Assigned team" [(value)]="selectedTeam">
+              @for (team of teams; track team) {
+                <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
+                  team
+                }}</ui-autocomplete-option>
+              }</ui-autocomplete
+            ><output>Value: {{ selectedTeam() }}</output
+            ><button
+              uiButton
+              type="button"
+              size="sm"
+              variant="ghost"
+              (click)="selectedTeam.set('')"
+            >
+              Reset
+            </button>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{valueCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section aria-labelledby="autocomplete-state-title">
+    <h5 id="autocomplete-state-title">Sizes and states</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Autocomplete size and state examples"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview grid">
+            <ui-autocomplete label="Small" size="sm"
+              ><ui-autocomplete-option value="platform"
+                >Platform</ui-autocomplete-option
+              ></ui-autocomplete
+            ><ui-autocomplete label="Loading" loading /><ui-autocomplete label="Disabled" disabled
+              ><ui-autocomplete-option value="platform"
+                >Platform</ui-autocomplete-option
+              ></ui-autocomplete
+            >
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{stateCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section aria-labelledby="autocomplete-copy-title">
+    <h5 id="autocomplete-copy-title">Custom status copy</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Autocomplete custom copy example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview grid">
+            <ui-autocomplete label="Owner" placeholder="Search people" emptyText="No people found"
+              ><ui-autocomplete-option value="ada">Ada Lovelace</ui-autocomplete-option
+              ><ui-autocomplete-option value="grace"
+                >Grace Hopper</ui-autocomplete-option
+              ></ui-autocomplete
+            ><ui-autocomplete
+              label="Async owner"
+              placeholder="Search people"
+              loadingText="Loading people"
+              loading
+            /></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{copyCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section aria-labelledby="autocomplete-form-title">
+    <h5 id="autocomplete-form-title">Signal Forms</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Autocomplete Signal Forms example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview stack">
+            <ui-autocomplete label="Required team" withErrorMessage [formField]="formState.team">
+              @for (team of teams; track team) {
+                <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
+                  team
+                }}</ui-autocomplete-option>
+              }</ui-autocomplete
+            ><output>Value: {{ formModel().team || 'Empty' }}</output>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{formCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
 </article>

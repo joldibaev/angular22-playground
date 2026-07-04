@@ -1,111 +1,100 @@
-.popover-showcase {
-  display: grid;
-  gap: 2.5rem;
-  min-width: 0;
-  border-radius: 0.5rem;
-  background-color: var(--background-color-subtle);
-  padding: 1.25rem;
-}
-
-.popover-showcase-section,
-.popover-showcase-group {
-  display: grid;
-  gap: 1rem;
+:host {
+  display: block;
   min-width: 0;
 }
-
-.popover-showcase-section {
+.docs,
+.docs > header,
+.docs > section {
+  display: grid;
+  min-width: 0;
+}
+.docs {
   gap: 1.25rem;
 }
-
-.popover-showcase-section-label,
-.popover-showcase-group-label {
+.docs > header {
+  gap: 0.25rem;
+}
+.docs > section {
+  gap: 0.625rem;
+}
+.docs header p {
+  margin: 0;
   color: var(--text-color-muted);
-  font-size: 0.75rem;
+  text-wrap: pretty;
+}
+.docs h5 {
+  margin: 0;
+  font-size: 0.875rem;
   font-weight: 800;
-  text-transform: uppercase;
 }
-
-.popover-showcase-group-label {
-  color: color-mix(in oklab, currentColor 68%, transparent);
-  font-size: 0.6875rem;
+.docs ui-card {
+  --ui-card-padding: 0.875rem;
 }
-
-.popover-showcase-grid {
+.preview {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
-  justify-items: center;
-  gap: 3rem 2rem;
-  min-width: 0;
-  padding-block: 2rem;
+  min-height: 8rem;
+  place-items: center;
+  padding: 1.5rem;
 }
-
-.popover-showcase-grid--compact {
-  grid-template-columns: repeat(auto-fit, minmax(min(10rem, 100%), 1fr));
-  gap: 2.5rem 1.5rem;
-}
-
-.popover-showcase-large {
+.row {
   display: flex;
-  min-height: 13rem;
-  align-items: flex-end;
-  justify-content: center;
-  padding-block-start: 5rem;
-}
-
-.popover-showcase-panel {
-  display: grid;
-  gap: 0.875rem;
-  min-width: min(22rem, calc(100vw - 4rem));
-  font-weight: 600;
-}
-
-.popover-showcase-panel-header {
-  display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
+  justify-content: center;
+  gap: 0.5rem;
 }
-
-.popover-showcase-panel-header strong {
-  font-size: 0.9375rem;
+.controlled {
+  gap: 0.75rem;
 }
-
-.popover-showcase-panel-header span {
-  border-radius: 999px;
-  background-color: color-mix(in oklab, currentColor 10%, transparent);
-  font-size: 0.75rem;
-  font-weight: 800;
-  padding: 0.125rem 0.5rem;
+.controlled > span {
+  color: var(--text-color-muted);
+  font-size: 0.8125rem;
 }
-
-.popover-showcase-panel p {
+.rich {
+  display: grid;
+  min-width: min(22rem, calc(100vw - 4rem));
+  gap: 0.75rem;
+}
+.rich p {
   margin: 0;
   color: color-mix(in oklab, currentColor 76%, transparent);
 }
-
-.popover-showcase-metrics {
+.rich dl {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.5rem;
   margin: 0;
 }
-
-.popover-showcase-metrics div {
-  display: grid;
-  gap: 0.125rem;
+.rich dl div {
+  padding: 0.5rem;
   border-radius: 0.375rem;
-  background-color: color-mix(in oklab, currentColor 8%, transparent);
-  padding: 0.625rem;
+  background: color-mix(in oklab, currentColor 8%, transparent);
 }
-
-.popover-showcase-metrics dt {
-  color: color-mix(in oklab, currentColor 68%, transparent);
+.rich dt {
   font-size: 0.75rem;
+  color: color-mix(in oklab, currentColor 68%, transparent);
 }
-
-.popover-showcase-metrics dd {
+.rich dd {
   margin: 0;
-  font-size: 1rem;
-  font-weight: 900;
+  font-weight: 800;
+}
+pre {
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  overflow: auto;
+  border-radius: 0.5rem;
+  padding: 0.875rem;
+  background: var(--background-color-subtle);
+  color: contrast-color(var(--background-color-subtle));
+  font-size: 0.75rem;
+  line-height: 1.55;
+  tab-size: 2;
+  &:focus-visible {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+}
+code {
+  font-family: ui-monospace, 'Cascadia Code', monospace;
 }

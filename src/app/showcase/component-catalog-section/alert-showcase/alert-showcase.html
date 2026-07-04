@@ -1,11 +1,100 @@
-<article class="grid min-w-0 gap-3" aria-labelledby="alert-showcase-title">
-  <h4 id="alert-showcase-title" class="font-black">Variants</h4>
-  <ui-alert title="Market session">
-    Trading closes today at 17:00. Pending orders remain active until the session ends.
-  </ui-alert>
+<article class="alert-showcase" aria-labelledby="alert-showcase-title">
+  <header class="alert-showcase-header">
+    <h4 id="alert-showcase-title" class="font-black">Alert</h4>
+    <p>
+      Persistent guidance and errors with optional actions and deliberate live-region semantics.
+    </p>
+  </header>
 
-  <ui-alert title="Order rejected" variant="destructive">
-    The entered quantity exceeds the available balance. Review the order and try again.
-    <button uiButton uiAlertAction type="button" variant="outline" size="sm">Review order</button>
-  </ui-alert>
+  <section class="alert-example" aria-labelledby="alert-default-title">
+    <h5 id="alert-default-title">Default</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Default alert example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="alert-preview">
+            <ui-alert title="Market session"
+              >Trading closes today at 17:00. Pending orders remain active until the session
+              ends.</ui-alert
+            >
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ defaultCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+
+  <section class="alert-example" aria-labelledby="alert-destructive-title">
+    <h5 id="alert-destructive-title">Destructive</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Destructive alert example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="alert-preview">
+            <ui-alert title="Order rejected" variant="destructive"
+              >The entered quantity exceeds the available balance. Review the order and try
+              again.</ui-alert
+            >
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ destructiveCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+
+  <section class="alert-example" aria-labelledby="alert-action-title">
+    <h5 id="alert-action-title">Action</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Alert action example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="alert-preview">
+            <ui-alert title="Profile incomplete"
+              >Add a recovery email before enabling withdrawals.<button
+                uiButton
+                uiAlertAction
+                type="button"
+                variant="outline"
+                size="sm"
+              >
+                Add email
+              </button></ui-alert
+            >
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ actionCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+
+  <section class="alert-example" aria-labelledby="alert-live-title">
+    <h5 id="alert-live-title">Dynamic urgent alert</h5>
+    <p class="alert-context">
+      Visual severity does not announce static content. Add <code>role="alert"</code> only when an
+      urgent message appears dynamically.
+    </p>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Dynamic live alert example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="alert-preview alert-live-preview">
+            <button
+              uiButton
+              type="button"
+              variant="destructive"
+              (click)="withUrgentError.set(!withUrgentError())"
+            >
+              {{ withUrgentError() ? 'Clear error' : 'Simulate connection loss' }}
+            </button>
+            @if (withUrgentError()) {
+              <ui-alert title="Connection lost" variant="destructive" role="alert"
+                >Live prices are unavailable. Reconnect before submitting an order.</ui-alert
+              >
+            }
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ liveCode }}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
 </article>

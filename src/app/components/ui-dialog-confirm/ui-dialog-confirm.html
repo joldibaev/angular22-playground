@@ -4,6 +4,7 @@
   role="alertdialog"
   size="sm"
   [ariaDescribedBy]="message() ? messageId : null"
+  (openChange)="onOpenChange($event)"
 >
   @if (message()) {
     <p [id]="messageId" class="ui-dialog-confirm-message">{{ message() }}</p>

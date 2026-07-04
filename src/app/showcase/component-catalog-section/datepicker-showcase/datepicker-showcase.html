@@ -1,61 +1,101 @@
-<article class="grid min-w-0 gap-4 rounded-lg bg-primary p-5">
-  <div class="grid min-w-0 gap-4 md:grid-cols-2">
-    <ui-datepicker label="Plain" />
-
-    <ui-datepicker label="Preselected" value="2026-06-15" />
-
-    <ui-datepicker
-      label="Limited window"
-      value="2026-06-15"
-      min="2026-06-05"
-      max="2026-06-25"
-    />
-
-    <ui-datepicker label="Disabled" value="2026-06-15" [disabled]="true" />
-
-    <ui-datepicker label="Loading" value="2026-06-15" loading />
-
-    <ui-datepicker label="Small (sm)" size="sm" value="2026-06-15" />
-
-    <ui-datepicker label="Medium (md)" value="2026-06-15" />
-  </div>
-
-  <div class="grid min-w-0 gap-4 border-t border-default pt-4 md:grid-cols-2">
-    <ui-datepicker label="Signal form date" [formField]="formState.invoiceDate" />
-
-    <ui-datepicker label="Required date" withErrorMessage [formField]="formState.requiredDate" />
-  </div>
-
-  <div class="grid min-w-0 gap-4 border-t border-default pt-4 md:grid-cols-2">
-    <ui-date-range-picker
-      label="Preselected range"
-      [value]="preselectedRange"
-    />
-
-    <ui-date-range-picker
-      label="Limited range"
-      [value]="preselectedRange"
-      minDate="2026-06-05"
-      maxDate="2026-07-25"
-    />
-
-    <ui-date-range-picker
-      label="No presets"
-      [value]="preselectedRange"
-      [withPresets]="false"
-    />
-
-    <ui-date-range-picker label="Loading" [value]="preselectedRange" loading />
-
-    <ui-date-range-picker label="Signal form range" [formField]="formState.reportRange" />
-
-    <ui-date-range-picker label="Small (sm)" size="sm" [value]="preselectedRange" />
-
-    <ui-date-range-picker label="Medium (md)" [value]="preselectedRange" />
-  </div>
-
-  <div class="grid min-w-0 gap-2 rounded-lg border border-default p-4 text-sm">
-    <p class="font-black text-muted">Signal form value</p>
-    <pre class="overflow-auto rounded bg-subtle p-3 text-xs">{{ model() | json }}</pre>
-  </div>
+<article class="docs" aria-labelledby="date-title">
+  <header>
+    <h4 id="date-title" class="font-black">Datepicker</h4>
+    <p>Single-date and date-range selection with limits, presets, states, and Signal Forms.</p>
+  </header>
+  <section>
+    <h5>Single date</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Single date example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-datepicker label="Invoice date" value="2026-06-15" /></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{singleCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
+    <h5>Date limits</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Limited date example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-datepicker
+              label="Delivery date"
+              value="2026-06-15"
+              min="2026-06-05"
+              max="2026-06-25"
+            /></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{limitsCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
+    <h5>Date range</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Date range example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-date-range-picker label="Report range" [value]="range" /></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{rangeCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
+    <h5>Range without presets</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Range without presets example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-date-range-picker
+              label="Custom range"
+              [value]="range"
+              [withPresets]="false"
+            /></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{presetsCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
+    <h5>Sizes and states</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Datepicker sizes and states"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview grid">
+            <ui-datepicker label="Small" size="sm" value="2026-06-15" /><ui-datepicker
+              label="Disabled"
+              value="2026-06-15"
+              disabled
+            /><ui-datepicker label="Loading" value="2026-06-15" loading /></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{statesCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
+    <h5>Signal Forms validation</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Datepicker validation example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-datepicker
+              label="Required date"
+              withErrorMessage
+              [formField]="formState.requiredDate"
+            /></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{formCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
 </article>

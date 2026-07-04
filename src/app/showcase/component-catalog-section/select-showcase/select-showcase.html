@@ -1,78 +1,100 @@
-<article class="grid min-w-0 gap-4 rounded-lg bg-primary p-5">
-  <div class="grid min-w-0 gap-4 md:grid-cols-2">
-    <ui-select label="Grouped">
-      <ui-select-group label="Pinned">
-        <ui-select-option value="roadmap">Roadmap</ui-select-option>
-        <ui-select-option value="research">Research</ui-select-option>
-      </ui-select-group>
-      <ui-select-group label="Workflow">
-        @for (label of projectLabels; track label) {
-          <ui-select-option [value]="label.toLowerCase().replaceAll(' ', '-')">{{
-            label
-          }}</ui-select-option>
-        }
-      </ui-select-group>
-    </ui-select>
-
-    <ui-select label="Preselected" value="design-review">
-      @for (label of projectLabels; track label) {
-        <ui-select-option [value]="label.toLowerCase().replaceAll(' ', '-')">{{
-          label
-        }}</ui-select-option>
-      }
-    </ui-select>
-
-    <ui-select label="Plain">
-      <ui-select-option value="created">Created</ui-select-option>
-      <ui-select-option value="approved">Approved</ui-select-option>
-      <ui-select-option value="paid">Paid</ui-select-option>
-    </ui-select>
-
-    <ui-select label="Multi" multi placeholder="Select labels" [value]="['roadmap', 'research']">
-      @for (label of projectLabels; track label) {
-        <ui-select-option [value]="label.toLowerCase().replaceAll(' ', '-')">{{
-          label
-        }}</ui-select-option>
-      }
-    </ui-select>
-
-    <ui-select label="Disabled" [disabled]="true">
-      <ui-select-option value="locked">Locked option</ui-select-option>
-    </ui-select>
-
-    <ui-select label="Loading" loading />
-
-    <ui-select label="Small (sm)" size="sm" placeholder="Compact select">
-      <ui-select-option value="created">Created</ui-select-option>
-      <ui-select-option value="approved">Approved</ui-select-option>
-      <ui-select-option value="paid">Paid</ui-select-option>
-    </ui-select>
-
-    <ui-select label="Medium (md)" placeholder="Default select">
-      <ui-select-option value="created">Created</ui-select-option>
-      <ui-select-option value="approved">Approved</ui-select-option>
-      <ui-select-option value="paid">Paid</ui-select-option>
-    </ui-select>
-  </div>
-
-  <div class="grid min-w-0 gap-4 border-t border-default pt-4 md:grid-cols-2">
-    <ui-select label="Signal form status" [formField]="formState.status">
-      <ui-select-option value="created">Created</ui-select-option>
-      <ui-select-option value="approved">Approved</ui-select-option>
-      <ui-select-option value="paid">Paid</ui-select-option>
-    </ui-select>
-
-    <ui-select label="Signal form labels" multi [formField]="formState.labels">
-      @for (label of projectLabels; track label) {
-        <ui-select-option [value]="label.toLowerCase().replaceAll(' ', '-')">{{
-          label
-        }}</ui-select-option>
-      }
-    </ui-select>
-  </div>
-
-  <div class="grid min-w-0 gap-2 rounded-lg border border-default p-4 text-sm">
-    <p class="font-black text-muted">Signal form value</p>
-    <pre class="overflow-auto rounded bg-subtle p-3 text-xs">{{ formModel() | json }}</pre>
-  </div>
+<article class="docs" aria-labelledby="select-title">
+  <header>
+    <h4 id="select-title" class="font-black">Select</h4>
+    <p>Single and multiple selection with groups, state feedback, sizing, and Signal Forms.</p>
+  </header>
+  <section>
+    <h5>Default</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Default select example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-select label="Status" placeholder="Choose status"
+              ><ui-select-option value="created">Created</ui-select-option
+              ><ui-select-option value="approved">Approved</ui-select-option
+              ><ui-select-option value="paid">Paid</ui-select-option></ui-select
+            >
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{defaultCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
+    <h5>Grouped options</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Grouped select example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-select label="Project" value="research"
+              ><ui-select-group label="Pinned"
+                ><ui-select-option value="roadmap">Roadmap</ui-select-option
+                ><ui-select-option value="research">Research</ui-select-option></ui-select-group
+              ><ui-select-group label="Workflow"
+                ><ui-select-option value="review">Design review</ui-select-option
+                ><ui-select-option value="release"
+                  >Release candidate</ui-select-option
+                ></ui-select-group
+              ></ui-select
+            >
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{groupsCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
+    <h5>Multiple</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Multiple select example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-select label="Labels" multi [value]="['roadmap', 'research']"
+              ><ui-select-option value="roadmap">Roadmap</ui-select-option
+              ><ui-select-option value="research">Research</ui-select-option
+              ><ui-select-option value="release">Release</ui-select-option></ui-select
+            >
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{multiCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
+    <h5>Sizes and states</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Select sizes and states"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview grid">
+            <ui-select label="Small" size="sm"
+              ><ui-select-option value="one">One</ui-select-option></ui-select
+            ><ui-select label="Disabled" disabled
+              ><ui-select-option value="locked">Locked</ui-select-option></ui-select
+            ><ui-select label="Loading" loading /></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{statesCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
+    <h5>Signal Forms</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Select Signal Forms example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-select label="Status" [formField]="formState.status"
+              ><ui-select-option value="created">Created</ui-select-option
+              ><ui-select-option value="approved">Approved</ui-select-option></ui-select
+            ><output>{{ formModel().status }}</output>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{formCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
 </article>

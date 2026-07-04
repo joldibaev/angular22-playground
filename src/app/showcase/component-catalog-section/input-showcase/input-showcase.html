@@ -1,71 +1,86 @@
-<article class="grid min-w-0 gap-4 rounded-lg bg-primary p-5">
-  <div class="grid min-w-0 gap-4 md:grid-cols-2">
-    <ui-input label="Required empty" withErrorMessage>
-      <input [formField]="formState.requiredEmpty" placeholder="name@example.com" type="email" />
-    </ui-input>
-
-    <ui-input label="Required valid" withErrorMessage>
-      <input [formField]="formState.requiredValid" placeholder="name@example.com" type="email" />
-    </ui-input>
-
-    <ui-input label="Optional empty">
-      <input [formField]="formState.optionalEmpty" placeholder="No value" />
-    </ui-input>
-
-    <ui-input label="Optional filled">
-      <input [formField]="formState.optionalFilled" />
-    </ui-input>
-
-    <ui-input label="Invalid email" withErrorMessage>
-      <input [formField]="formState.invalidEmail" type="email" />
-    </ui-input>
-
-    <ui-input label="Minimum length" withErrorMessage>
-      <input [formField]="formState.shortCode" />
-    </ui-input>
-
-    <ui-input label="Signal disabled">
-      <input [formField]="formState.disabledField" />
-    </ui-input>
-
-    <ui-input label="Native disabled">
-      <input value="Native disabled" disabled />
-    </ui-input>
-
-    <ui-input label="Loading" loading>
-      <input value="Searching remote records" />
-    </ui-input>
-
-    <ui-input label="Small (sm)" size="sm">
-      <input placeholder="Compact field" />
-    </ui-input>
-
-    <ui-input label="Medium (md)">
-      <input placeholder="Default field" />
-    </ui-input>
-
-    <ui-input class="md:col-span-2" label="Textarea">
-      <textarea [formField]="formState.notes" placeholder="Add escalation notes"></textarea>
-    </ui-input>
-
-    <ui-input
-      class="md:col-span-2"
-      label="Required textarea"
-      withErrorMessage
+<article class="docs" aria-labelledby="input-title">
+  <header>
+    <h4 id="input-title" class="font-black">Input</h4>
+    <p>
+      Labelled text fields and textareas with native states, loading feedback, and Signal Forms
+      validation.
+    </p>
+  </header>
+  <section>
+    <h5>Text field</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Text input example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-input label="Email"
+              ><input type="email" autocomplete="email" placeholder="name@example.com"
+            /></ui-input></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{defaultCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
     >
-      <textarea
-        [formField]="formState.requiredNotes"
-        placeholder="Describe the handoff context"
-      ></textarea>
-    </ui-input>
-
-    <ui-input class="md:col-span-2" label="Native disabled textarea">
-      <textarea disabled>Native disabled notes</textarea>
-    </ui-input>
-  </div>
-
-  <div class="grid min-w-0 gap-2 rounded-lg border border-default p-4 text-sm">
-    <p class="font-black text-muted">Signal form value</p>
-    <pre class="overflow-auto rounded bg-subtle p-3 text-xs">{{ model() | json }}</pre>
-  </div>
+  </section>
+  <section>
+    <h5>Textarea</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Textarea example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-input label="Notes">
+              <textarea placeholder="Add handoff notes"></textarea>
+            </ui-input></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{textareaCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
+    <h5>Sizes and states</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Input sizes and states"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview grid">
+            <ui-input label="Small" size="sm"><input placeholder="Compact field" /></ui-input
+            ><ui-input label="Disabled"><input disabled value="Managed by SSO" /></ui-input
+            ><ui-input label="Loading" loading
+              ><input value="Searching records"
+            /></ui-input></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{statesCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
+    <h5>Validation</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Input validation example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-input label="Work email" withErrorMessage
+              ><input type="email" [formField]="formState.email"
+            /></ui-input></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{validationCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
+    <h5>Signal disabled reason</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Signal disabled input example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-input label="Identity"
+              ><input [formField]="formState.identity"
+            /></ui-input></div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{disabledCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
 </article>

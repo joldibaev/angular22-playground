@@ -1,0 +1,77 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.dialog-confirm-showcase,
+.dialog-confirm-showcase-header,
+.dialog-confirm-example {
+  display: grid;
+  min-width: 0;
+}
+
+.dialog-confirm-showcase {
+  gap: 1.25rem;
+}
+.dialog-confirm-showcase-header {
+  gap: 0.25rem;
+}
+.dialog-confirm-example {
+  gap: 0.625rem;
+}
+
+.dialog-confirm-showcase-header p,
+.dialog-confirm-context {
+  margin: 0;
+  color: var(--text-color-muted);
+  text-wrap: pretty;
+}
+.dialog-confirm-context {
+  font-size: 0.8125rem;
+}
+.dialog-confirm-example h5 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+.dialog-confirm-example ui-card {
+  --ui-card-padding: 0.875rem;
+}
+
+.dialog-confirm-preview {
+  display: grid;
+  min-height: 7rem;
+  place-items: center;
+  padding: 1rem;
+}
+
+.dialog-confirm-outcome {
+  gap: 0.75rem;
+}
+.dialog-confirm-outcome span {
+  color: var(--text-color-muted);
+  font-size: 0.875rem;
+}
+
+pre {
+  min-width: 0;
+  max-width: 100%;
+  margin: 0;
+  overflow: auto;
+  border-radius: 0.5rem;
+  padding: 0.875rem;
+  background: var(--background-color-subtle);
+  color: contrast-color(var(--background-color-subtle));
+  font-size: 0.75rem;
+  line-height: 1.55;
+  tab-size: 2;
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+}
+
+code {
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+}

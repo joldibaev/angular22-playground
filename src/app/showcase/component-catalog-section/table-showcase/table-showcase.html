@@ -1,117 +1,194 @@
-<div class="grid min-w-0 gap-8">
-  <section class="grid min-w-0 gap-3" aria-labelledby="table-standard-title">
-    <div>
-      <h3 id="table-standard-title" class="font-semibold">Backend sorting and row actions</h3>
-      <p class="text-muted text-sm">
-        Header buttons request a newly sorted page from the data source. Actions remain explicit controls
-        inside their row.
-      </p>
-    </div>
-
-    <div uiTableViewport>
-      <table
-        uiTable
-        withRowHover
-        [data]="previewRows()"
-        [sort]="sort()"
-        [loading]="sorting()"
-        (sortChange)="requestSortedPage($event)"
-      >
-        <caption class="sr-only">Inventory preview</caption>
-        <thead>
-          <tr>
-            <th scope="col" uiTableSort="sku">SKU</th>
-            <th scope="col" uiTableSort="product">Product</th>
-            <th scope="col" uiTableSort="warehouse">Warehouse</th>
-            <th scope="col" uiTableSort="stock">Stock</th>
-            <th scope="col" uiTableSort="reserved">Reserved</th>
-            <th scope="col">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          @for (row of previewRows(); track row.id) {
-            <tr>
-              <td>{{ row.sku }}</td>
-              <th scope="row">{{ row.product }}</th>
-              <td>{{ row.warehouse }}</td>
-              <td>{{ row.stock }}</td>
-              <td>{{ row.reserved }}</td>
-              <td>
-                <button uiButton variant="ghost" (click)="openProduct(row)">
-                  Open <span class="sr-only">{{ row.product }}</span>
-                </button>
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    </div>
-
-    @if (lastAction(); as product) {
-      <p class="text-muted text-xs" aria-live="polite">Action: open {{ product }}</p>
-    }
+<article class="docs" aria-labelledby="table-showcase-title">
+  <header>
+    <h4 id="table-showcase-title" class="font-black">Table</h4>
+    <p>Native tables with density, backend sorting, row actions, and optional virtual scrolling.</p>
+  </header>
+  <section aria-labelledby="table-default-title">
+    <h5 id="table-default-title">Default</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Default table example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <div uiTableViewport>
+              <table uiTable [data]="previewRows().slice(0, 4)">
+                <caption>
+                  Inventory preview
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">SKU</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Stock</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (row of previewRows().slice(0, 4); track row.id) {
+                    <tr>
+                      <td>{{ row.sku }}</td>
+                      <th scope="row">{{ row.product }}</th>
+                      <td>{{ row.stock }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{defaultCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
   </section>
-
-  <section class="grid min-w-0 gap-3" aria-labelledby="table-virtual-title">
-    <div>
-      <h3 id="table-virtual-title" class="font-semibold">Virtual + incremental loading</h3>
-      <p class="text-muted text-sm">
-        Only the visible fixed-height window is rendered. Near the end, the showcase appends the next
-        page through <code>endReached</code>; request state remains outside the table.
-      </p>
-    </div>
-
-    <div uiTableViewport [height]="384">
-      <table
-        #table="uiTable"
-        uiTable
-        density="compact"
-        virtualScroll
-        withRowHover
-        [data]="loadedRows()"
-        [rowHeight]="40"
-        [totalRows]="allRows.length"
-        [loading]="loading()"
-        [hasMore]="loadedRows().length < allRows.length"
-        (endReached)="loadMore()"
-      >
-        <caption class="sr-only">Virtual inventory table</caption>
-        <colgroup>
-          <col style="width: 8rem" />
-          <col style="width: 18rem" />
-          <col style="width: 10rem" />
-          <col style="width: 7rem" />
-          <col style="width: 7rem" />
-        </colgroup>
-        <thead>
-          <tr>
-            <th scope="col">SKU</th>
-            <th scope="col">Product</th>
-            <th scope="col">Warehouse</th>
-            <th scope="col">Stock</th>
-            <th scope="col">Reserved</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr uiTableSpacer="start" [columns]="5"></tr>
-
-          @for (row of table.renderedRows(); track row.id; let index = $index) {
-            <tr [attr.aria-rowindex]="table.rowAriaIndex(index)">
-              <td>{{ row.sku }}</td>
-              <th scope="row">{{ row.product }}</th>
-              <td>{{ row.warehouse }}</td>
-              <td>{{ row.stock }}</td>
-              <td>{{ row.reserved }}</td>
-            </tr>
-          }
-
-          <tr uiTableSpacer="end" [columns]="5"></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <p class="text-muted text-xs" aria-live="polite">
-      Loaded {{ loadedRows().length }} of {{ allRows.length }} rows
-    </p>
+  <section aria-labelledby="table-density-title">
+    <h5 id="table-density-title">Density, hover, and sticky header</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Table presentation options"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <div uiTableViewport [height]="220">
+              <table uiTable density="compact" withRowHover [data]="previewRows()">
+                <caption>
+                  Compact inventory
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">SKU</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Warehouse</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (row of previewRows(); track row.id) {
+                    <tr>
+                      <td>{{ row.sku }}</td>
+                      <th scope="row">{{ row.product }}</th>
+                      <td>{{ row.warehouse }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{densityCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
   </section>
-</div>
+  <section aria-labelledby="table-sort-title">
+    <h5 id="table-sort-title">Backend sorting and row actions</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Table sorting example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <div uiTableViewport>
+              <table
+                uiTable
+                withRowHover
+                [data]="previewRows()"
+                [sort]="sort()"
+                [loading]="sorting()"
+                (sortChange)="requestSortedPage($event)"
+              >
+                <caption>
+                  Sortable inventory
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col" uiTableSort="sku">SKU</th>
+                    <th scope="col" uiTableSort="product">Product</th>
+                    <th scope="col" uiTableSort="stock" startDirection="desc">Stock</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (row of previewRows(); track row.id) {
+                    <tr>
+                      <td>{{ row.sku }}</td>
+                      <th scope="row">{{ row.product }}</th>
+                      <td>{{ row.stock }}</td>
+                      <td>
+                        <button
+                          uiButton
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          (click)="openProduct(row)"
+                        >
+                          Open<span class="sr-only"> {{ row.product }}</span>
+                        </button>
+                      </td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+            @if (lastAction(); as product) {
+              <output aria-live="polite">Open {{ product }}</output>
+            }
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{sortCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section aria-labelledby="table-virtual-title">
+    <h5 id="table-virtual-title">Virtual and incremental loading</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Virtual table example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview virtual">
+            <button uiButton type="button" size="sm" variant="outline" (click)="scrollToEnd(table)">
+              Scroll to loaded end
+            </button>
+            <div uiTableViewport [height]="384">
+              <table
+                #table="uiTable"
+                uiTable
+                density="compact"
+                virtualScroll
+                withRowHover
+                [data]="loadedRows()"
+                [rowHeight]="40"
+                [totalRows]="allRows.length"
+                [loading]="loading()"
+                [hasMore]="loadedRows().length < allRows.length"
+                (endReached)="loadMore()"
+              >
+                <caption>
+                  Virtual inventory
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">SKU</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Warehouse</th>
+                    <th scope="col">Stock</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr uiTableSpacer="start" [columns]="4"></tr>
+                  @for (row of table.renderedRows(); track row.id; let index = $index) {
+                    <tr [attr.aria-rowindex]="table.rowAriaIndex(index)">
+                      <td>{{ row.sku }}</td>
+                      <th scope="row">{{ row.product }}</th>
+                      <td>{{ row.warehouse }}</td>
+                      <td>{{ row.stock }}</td>
+                    </tr>
+                  }
+                  <tr uiTableSpacer="end" [columns]="4"></tr>
+                </tbody>
+              </table>
+            </div>
+            <output aria-live="polite"
+              >Loaded {{ loadedRows().length }} of {{ allRows.length }}</output
+            >
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{virtualCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+</article>
