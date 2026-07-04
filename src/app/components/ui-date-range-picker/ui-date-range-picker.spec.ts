@@ -108,7 +108,7 @@ describe('UiDateRangePicker', () => {
     const fixture = await createHostFixture();
     const trigger = getTrigger(fixture);
 
-    expect(trigger.textContent).toContain('Jun 15, 2026 - Jun 20, 2026');
+    expect(trigger.textContent).toContain('15 июн. 2026 г. — 20 июн. 2026 г.');
     expect(trigger.getAttribute('aria-haspopup')).toBe('dialog');
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
   });

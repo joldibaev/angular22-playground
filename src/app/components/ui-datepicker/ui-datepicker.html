@@ -59,7 +59,7 @@
       <button
         type="button"
         class="ui-datepicker-nav"
-        aria-label="Previous month"
+        aria-label="Предыдущий месяц"
         [disabled]="!canGoPrev()"
         (click)="previousMonth()"
       >
@@ -71,7 +71,7 @@
       <button
         type="button"
         class="ui-datepicker-nav"
-        aria-label="Next month"
+        aria-label="Следующий месяц"
         [disabled]="!canGoNext()"
         (click)="nextMonth()"
       >
@@ -125,14 +125,14 @@
     </table>
 
     <footer class="ui-datepicker-footer">
-      <button type="button" class="ui-datepicker-action" (click)="reset()">Clear</button>
+      <button type="button" class="ui-datepicker-action" (click)="reset()">Очистить</button>
       <button
         type="button"
         class="ui-datepicker-action ui-datepicker-action-accent"
         [disabled]="!isTodayAllowed()"
         (click)="setToday()"
       >
-        Today
+        Сегодня
       </button>
     </footer>
   </div>

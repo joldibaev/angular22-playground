@@ -21,10 +21,10 @@ export class UiDialogConfirm {
   private readonly id = nextId();
 
   readonly dialogId = input(`ui-dialog-confirm-${this.id}`);
-  readonly title = input('Are you sure?');
+  readonly title = input('Вы уверены?');
   readonly message = input('');
-  readonly confirmLabel = input('Confirm');
-  readonly cancelLabel = input('Cancel');
+  readonly confirmLabel = input('Подтвердить');
+  readonly cancelLabel = input('Отмена');
   readonly tone = input<UiDialogConfirmTone>('default');
   readonly confirm = output<void>();
   readonly cancel = output<void>();

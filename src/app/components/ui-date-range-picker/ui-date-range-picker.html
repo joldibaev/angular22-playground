@@ -57,7 +57,7 @@
 >
  <div class="ui-popup-box">
   @if (withPresets()) {
-    <aside class="ui-date-range-presets" aria-label="Quick ranges">
+    <aside class="ui-date-range-presets" aria-label="Быстрые диапазоны">
       @for (preset of presets; track preset.label) {
         <button
           type="button"
@@ -76,7 +76,7 @@
       <button
         type="button"
         class="ui-date-range-nav"
-        aria-label="Previous month"
+        aria-label="Предыдущий месяц"
         [disabled]="!canGoPrev()"
         (click)="previousMonth()"
       >
@@ -91,7 +91,7 @@
       <button
         type="button"
         class="ui-date-range-nav"
-        aria-label="Next month"
+        aria-label="Следующий месяц"
         [disabled]="!canGoNext()"
         (click)="nextMonth()"
       >
@@ -173,19 +173,19 @@
 
     <footer class="ui-date-range-footer">
       <p class="ui-date-range-draft" aria-live="polite" aria-atomic="true">
-        <span>Range</span>
+        <span>Диапазон</span>
         {{ draftDisplayValue() }}
       </p>
 
       <div class="ui-date-range-actions">
-        <button type="button" class="ui-date-range-action" (click)="reset()">Clear</button>
+        <button type="button" class="ui-date-range-action" (click)="reset()">Очистить</button>
         <button
           type="button"
           class="ui-date-range-action ui-date-range-action-accent"
           [disabled]="!canApplyDraft()"
           (click)="applyDraft()"
         >
-          Apply
+          Применить
         </button>
       </div>
     </footer>

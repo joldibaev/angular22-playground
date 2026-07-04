@@ -33,7 +33,7 @@ export interface RangePreset {
   range: () => UiDateRangeValue;
 }
 
-const ARIA_LABEL_FORMATTER = new Intl.DateTimeFormat('en-US', { dateStyle: 'full' });
+const ARIA_LABEL_FORMATTER = new Intl.DateTimeFormat('ru-RU', { dateStyle: 'full' });
 
 export function emptyRange(): UiDateRangeValue {
   return { start: '', end: '' };
@@ -53,10 +53,10 @@ export function formatRangeDisplay(range: UiDateRangeValue): string {
   }
 
   if (range.start && range.end) {
-    return `${formatDay(range.start)} - ${formatDay(range.end)}`;
+    return `${formatDay(range.start)} — ${formatDay(range.end)}`;
   }
 
-  return range.start ? `From ${formatDay(range.start)}` : `Until ${formatDay(range.end)}`;
+  return range.start ? `С ${formatDay(range.start)}` : `До ${formatDay(range.end)}`;
 }
 
 export function rangeToView(range: UiDateRangeValue, today: string): CalendarMonth {
@@ -133,12 +133,12 @@ export function buildRangeMonthGrid(
 
 export function buildPresets(today: () => Date): RangePreset[] {
   return [
-    { label: 'Today', range: () => single(today()) },
-    { label: 'Yesterday', range: () => single(shift(today(), -1)) },
-    { label: 'Last 7 days', range: () => span(shift(today(), -6), today()) },
-    { label: 'Last 30 days', range: () => span(shift(today(), -29), today()) },
+    { label: 'Сегодня', range: () => single(today()) },
+    { label: 'Вчера', range: () => single(shift(today(), -1)) },
+    { label: 'Последние 7 дней', range: () => span(shift(today(), -6), today()) },
+    { label: 'Последние 30 дней', range: () => span(shift(today(), -29), today()) },
     {
-      label: 'This month',
+      label: 'Этот месяц',
       range: () => {
         const now = today();
 
@@ -149,7 +149,7 @@ export function buildPresets(today: () => Date): RangePreset[] {
       },
     },
     {
-      label: 'Last month',
+      label: 'Прошлый месяц',
       range: () => {
         const now = today();
 

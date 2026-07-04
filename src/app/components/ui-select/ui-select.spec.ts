@@ -327,7 +327,7 @@ describe('UiSelect', () => {
 
     const label = hostFixture.nativeElement.querySelector('.selected-label-text');
 
-    expect(label?.textContent).toContain('Select a label');
+    expect(label?.textContent).toContain('Выберите значение');
     expect(label?.classList).toContain('selected-label-placeholder');
   });
 
@@ -387,7 +387,7 @@ describe('UiSelect', () => {
 
     const label = hostFixture.nativeElement.querySelector('.selected-label-text');
 
-    expect(label?.textContent).toContain('Select a label');
+    expect(label?.textContent).toContain('Выберите значение');
     expect(label?.classList).toContain('selected-label-placeholder');
   });
 
@@ -551,7 +551,7 @@ describe('UiSelect', () => {
     // collapsed. The popup *content* is still lazy — getPopup is null until the
     // first open.
     expect(combobox.getAttribute('aria-autocomplete')).toBe('list');
-    expect(combobox.textContent).toContain('Select a label');
+    expect(combobox.textContent).toContain('Выберите значение');
     expect(getPopup(hostFixture)).toBeNull();
   });
 

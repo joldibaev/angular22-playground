@@ -45,7 +45,7 @@ export class UiDialog {
   readonly size = input<UiDialogSize>('md');
   readonly dismiss = input<UiDialogDismiss>('any');
   readonly ariaDescribedBy = input<string | null>(null);
-  readonly closeLabel = input('Close');
+  readonly closeLabel = input('Закрыть');
   readonly withCloseButton = input(true, { transform: booleanAttribute });
   readonly open = input<boolean | undefined, unknown>(undefined, {
     transform: (value) => (value === undefined ? undefined : booleanAttribute(value)),

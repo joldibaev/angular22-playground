@@ -67,10 +67,10 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
   // Loading is passive, like ui-input/select/autocomplete: an existing range remains usable while
   // availability or metadata refreshes. Consumers can bind disabled as well when truly unavailable.
   readonly loading = input(false, { transform: booleanAttribute });
-  readonly label = input('Date range');
+  readonly label = input('Диапазон дат');
   // Forwarded to the wrapped <ui-input>; the trigger reads its control-size tokens.
   readonly size = input<UiDateRangePickerSize>('md');
-  readonly placeholder = input('Select date range');
+  readonly placeholder = input('Выберите диапазон дат');
   // Boundaries are named `minDate`/`maxDate`, not `min`/`max` like the single
   // `ui-datepicker`. The signal-forms `FormUiControl<TValue>` contract reserves
   // `min`/`max` typed as `NonNullable<TValue>`, and `[formField]` matches it
@@ -105,12 +105,12 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
     normalizeRange({ start: this.draftStart(), end: this.draftEnd() }),
   );
   readonly displayValue = computed(() => formatRangeDisplay(this.committedRange()));
-  readonly draftDisplayValue = computed(() => formatRangeDisplay(this.draftRange()) || 'No range');
+  readonly draftDisplayValue = computed(() => formatRangeDisplay(this.draftRange()) || 'Диапазон не выбран');
   readonly isPlaceholderVisible = computed(() => this.displayValue().length === 0);
   readonly rightView = computed(() => getRightView(this.leftView()));
   readonly leftMonthLabel = computed(() => formatMonthLabel(this.leftView()));
   readonly rightMonthLabel = computed(() => formatMonthLabel(this.rightView()));
-  readonly panelLabel = computed(() => `${this.leftMonthLabel()} and ${this.rightMonthLabel()}`);
+  readonly panelLabel = computed(() => `${this.leftMonthLabel()} и ${this.rightMonthLabel()}`);
   readonly leftWeeks = computed(() => this.buildWeeks(this.leftView()));
   readonly rightWeeks = computed(() => this.buildWeeks(this.rightView()));
   readonly canApplyDraft = computed(() => {

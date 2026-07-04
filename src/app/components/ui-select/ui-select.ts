@@ -46,12 +46,12 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
   // and an empty popup can explain that options are pending. Consumers may bind both for a
   // strictly unavailable initial load.
   loading = input(false, { transform: booleanAttribute });
-  label = input('Select');
+  label = input('Выбор');
   // Forwarded to the wrapped <ui-input>, which owns the control-size scale.
   size = input<UiSelectSize>('md');
-  loadingText = input('Loading');
+  loadingText = input('Загрузка');
   multi = input(false, { transform: booleanAttribute });
-  placeholder = input('Select a label');
+  placeholder = input('Выберите значение');
   withErrorMessage = input(false, { transform: booleanAttribute });
   touch = output<void>();
 

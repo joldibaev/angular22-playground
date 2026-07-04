@@ -233,7 +233,7 @@ describe('UiAutocomplete', () => {
     // collapsed. The popup *content* is still lazy — getPopup is null until the
     // first open.
     expect(combobox.getAttribute('aria-autocomplete')).toBe('list');
-    expect(combobox.getAttribute('placeholder')).toBe('Search labels');
+    expect(combobox.getAttribute('placeholder')).toBe('Поиск значений');
     expect(getPopup(hostFixture)).toBeNull();
   });
 
@@ -275,7 +275,7 @@ describe('UiAutocomplete', () => {
     const popup = getPopup(hostFixture);
 
     expect(popup?.querySelector('.ui-popup-status')?.textContent).toContain('Fetching statuses');
-    expect(popup?.textContent).not.toContain('No matches');
+    expect(popup?.textContent).not.toContain('Ничего не найдено');
   });
 
   it('should sync selected value from a signal form field', async () => {
@@ -421,7 +421,7 @@ describe('UiAutocomplete', () => {
     await hostFixture.whenRenderingDone();
 
     expect(getOptions()).toEqual([]);
-    expect(getPopup(hostFixture)?.textContent).toContain('No matches');
+    expect(getPopup(hostFixture)?.textContent).toContain('Ничего не найдено');
   });
 
   it('should configure the popup with css anchor positioning', async () => {

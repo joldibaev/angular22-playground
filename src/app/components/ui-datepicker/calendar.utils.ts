@@ -16,26 +16,13 @@ export interface CalendarDay {
   disabled: boolean;
 }
 
-const ARIA_LABEL_FORMATTER = new Intl.DateTimeFormat('en-US', { dateStyle: 'full' });
-const MONTH_LABEL_FORMATTER = new Intl.DateTimeFormat('en-US', {
-  month: 'long',
-  year: 'numeric',
-});
-const DISPLAY_DATE_FORMATTER = new Intl.DateTimeFormat('en-US', {
-  day: '2-digit',
-  month: 'short',
-  year: 'numeric',
+const ARIA_LABEL_FORMATTER = new Intl.DateTimeFormat('ru-RU', { dateStyle: 'full' });
+const MONTH_LABEL_FORMATTER = new Intl.DateTimeFormat('ru-RU', { month: 'long', year: 'numeric' });
+const DISPLAY_DATE_FORMATTER = new Intl.DateTimeFormat('ru-RU', {
+  day: '2-digit', month: 'short', year: 'numeric',
 });
 
-export const WEEKDAYS_MON_FIRST: readonly string[] = [
-  'Mon',
-  'Tue',
-  'Wed',
-  'Thu',
-  'Fri',
-  'Sat',
-  'Sun',
-];
+export const WEEKDAYS_MON_FIRST: readonly string[] = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
 export function monthFromDate(date: Date): CalendarMonth {
   return { year: date.getFullYear(), month: date.getMonth() };

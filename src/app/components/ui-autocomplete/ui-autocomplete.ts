@@ -39,12 +39,12 @@ export class UiAutocomplete implements FormValueControl<string> {
   // Keep the combobox operable while loading: continued typing refines or replaces the pending
   // request. Disabling here would drop focus and prevent the interaction that drives async search.
   loading = input(false, { transform: booleanAttribute });
-  label = input('Search');
+  label = input('Поиск');
   // Forwarded to the wrapped <ui-input>, which owns the control-size scale.
   size = input<UiAutocompleteSize>('md');
-  placeholder = input('Search labels');
-  emptyText = input('No matches');
-  loadingText = input('Loading');
+  placeholder = input('Поиск значений');
+  emptyText = input('Ничего не найдено');
+  loadingText = input('Загрузка');
   withErrorMessage = input(false, { transform: booleanAttribute });
   touch = output<void>();
 

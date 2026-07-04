@@ -37,7 +37,7 @@ export class UiDrawer {
   readonly side = input<UiDrawerSide>('end');
   readonly size = input<UiDrawerSize>('md');
   readonly dismiss = input<UiDrawerDismiss>('any');
-  readonly closeLabel = input('Close');
+  readonly closeLabel = input('Закрыть');
   readonly withCloseButton = input(true, { transform: booleanAttribute });
   readonly open = input<boolean | undefined, unknown>(undefined, {
     transform: (value) => (value === undefined ? undefined : booleanAttribute(value)),

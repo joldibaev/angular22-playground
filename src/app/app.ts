@@ -15,13 +15,10 @@ import { ComponentCatalogSection } from './showcase/component-catalog-section/co
 })
 export class App {
   readonly theme = inject(ThemeService);
-  readonly themeOptions: {
-    value: Theme;
-    label: string;
-  }[] = [
-    { value: 'system', label: 'System' },
-    { value: 'dark', label: 'Dark' },
-    { value: 'light', label: 'Light' },
+  readonly themeOptions: { value: Theme; label: string }[] = [
+    { value: 'system', label: 'Системная' },
+    { value: 'dark', label: 'Тёмная' },
+    { value: 'light', label: 'Светлая' },
   ];
 
   setTheme(value: string | string[]) {

@@ -53,7 +53,7 @@ describe('UiSonner', () => {
     const [toast] = toasts();
 
     expect(list.getAttribute('data-sonner-toaster')).toBe('');
-    expect(list.getAttribute('aria-label')).toContain('Notifications');
+    expect(list.getAttribute('aria-label')).toContain('Уведомления');
     expect(list.hasAttribute('data-theme')).toBe(false);
     expect(host.hasAttribute('aria-label')).toBe(false);
     expect(toast.getAttribute('role')).toBe('status');

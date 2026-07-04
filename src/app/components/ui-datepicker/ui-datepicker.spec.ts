@@ -111,7 +111,7 @@ describe('UiDatepicker', () => {
     const fixture = await createHostFixture();
     const trigger = getTrigger(fixture);
 
-    expect(trigger.textContent).toContain('Jun 15, 2026');
+    expect(trigger.textContent).toContain('15 июн. 2026 г.');
     expect(trigger.getAttribute('aria-haspopup')).toBe('dialog');
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
   });
@@ -138,7 +138,7 @@ describe('UiDatepicker', () => {
     expect(panel?.getAttribute('popover')).toBe('auto');
     expect(panel?.getAttribute('role')).toBe('dialog');
     expect(panel?.getAttribute('aria-labelledby')).toBeTruthy();
-    expect(grid.getAttribute('aria-label')).toBe('June 2026');
+    expect(grid.getAttribute('aria-label')).toBe('июнь 2026 г.');
     expect(getTrigger(fixture).getAttribute('aria-expanded')).toBe('true');
   });
 
