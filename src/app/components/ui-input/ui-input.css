@@ -8,7 +8,7 @@ ui-input {
   --ui-input-label-color: var(--text-color-muted);
   --ui-input-required-color: var(--color-destructive);
 
-  --ui-input-border-color: var(--border-color-default);
+  --ui-input-border-color: light-dark(var(--border-color-default), var(--border-color-strong));
   --ui-input-invalid-border-color: var(--color-destructive);
   --ui-input-focus-visible-border-color: var(--color-brand);
   --ui-input-invalid-focus-visible-border-color: var(--ui-input-invalid-border-color);

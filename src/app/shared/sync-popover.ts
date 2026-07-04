@@ -7,7 +7,7 @@
 export function syncPopover(
   element: HTMLElement | undefined,
   open: boolean | (() => boolean),
-  disconnectedRetries = 1,
+  pendingRetries = 2,
 ) {
   if (!element || !('showPopover' in element) || !('hidePopover' in element)) {
     return;
@@ -16,18 +16,33 @@ export function syncPopover(
   const shouldOpen = typeof open === 'function' ? open() : open;
 
   if (!element.isConnected) {
-    // Native popovers throw if opened while detached; retry once for elements
-    // that are created during the same render pass and connect on the next frame.
-    if (shouldOpen && disconnectedRetries > 0) {
-      requestAnimationFrame(() => syncPopover(element, open, disconnectedRetries - 1));
+    // Native popovers throw if opened while detached; retry briefly for elements
+    // created during the same render pass and connected on a following frame.
+    if (shouldOpen && pendingRetries > 0) {
+      requestAnimationFrame(() => syncPopover(element, open, pendingRetries - 1));
     }
 
     return;
   }
 
-  if (shouldOpen && !element.matches(':popover-open')) {
-    element.showPopover();
-  } else if (!shouldOpen && element.matches(':popover-open')) {
-    element.hidePopover();
+  try {
+    if (shouldOpen && !element.matches(':popover-open')) {
+      element.showPopover();
+    } else if (!shouldOpen && element.matches(':popover-open')) {
+      element.hidePopover();
+    }
+  } catch (error) {
+    // During the first render the document may not be fully active yet, which
+    // makes showPopover() temporarily throw InvalidStateError. Reconcile again
+    // after a paint instead of waiting for unrelated input to change state.
+    if (shouldOpen && error instanceof DOMException && error.name === 'InvalidStateError') {
+      if (pendingRetries > 0) {
+        requestAnimationFrame(() => syncPopover(element, open, pendingRetries - 1));
+      }
+
+      return;
+    }
+
+    throw error;
   }
 }
