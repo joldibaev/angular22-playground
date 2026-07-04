@@ -7,8 +7,8 @@
   --ui-checkbox-invalid-color: var(--color-destructive);
   --ui-checkbox-invalid-focus-visible-border-color: var(--ui-checkbox-invalid-color);
   --ui-checkbox-background: var(--background-color-subtle);
+  --ui-checkbox-mark-color: var(--color-white);
   --ui-checkbox-label-color: CanvasText;
-  --ui-checkbox-muted-color: var(--text-color-muted);
   --ui-checkbox-state-duration: var(--dur-fast);
   --ui-checkbox-mark-duration: var(--dur-fast);
   --ui-checkbox-indeterminate-duration: var(--dur-quick);
@@ -76,7 +76,7 @@
   border: 1px solid var(--ui-checkbox-current-border-color);
   border-radius: 0.375rem;
   background-color: var(--ui-checkbox-background);
-  color: contrast-color(var(--ui-checkbox-checked-color));
+  color: var(--ui-checkbox-mark-color);
   transition:
     background-color var(--ui-checkbox-state-duration) var(--ui-checkbox-motion-easing),
     border-color var(--ui-checkbox-state-duration) var(--ui-checkbox-motion-easing),
@@ -100,7 +100,7 @@
   height: var(--ui-checkbox-mark-size);
   overflow: visible;
   stroke: currentColor;
-  stroke-width: 2;
+  stroke-width: 2.5;
   stroke-linecap: round;
   stroke-linejoin: round;
   filter: drop-shadow(0 1px 2px rgb(15 23 42 / 0.18));
@@ -165,7 +165,7 @@
 .ui-checkbox-description,
 .ui-checkbox-error,
 .ui-checkbox-disabled-reason {
-  color: var(--ui-checkbox-muted-color);
+  color: var(--text-color-muted);
   font-size: 0.875rem;
   font-weight: 400;
   line-height: 1.45;
