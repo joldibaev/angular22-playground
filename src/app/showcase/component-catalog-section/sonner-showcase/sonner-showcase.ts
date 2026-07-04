@@ -1,8 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { UiIcon } from '../../../components/ui-icon/ui-icon';
 import { toast } from '../../../components/ui-sonner/ui-sonner.state';
 import { UiSonner } from '../../../components/ui-sonner/ui-sonner';
+import type { UiSonnerPosition } from '../../../components/ui-sonner/ui-sonner.type';
+
+const POSITIONS: ReadonlyArray<{ value: UiSonnerPosition; label: string }> = [
+  { value: 'top-left', label: 'Top left' },
+  { value: 'top-center', label: 'Top center' },
+  { value: 'top-right', label: 'Top right' },
+  { value: 'bottom-left', label: 'Bottom left' },
+  { value: 'bottom-center', label: 'Bottom center' },
+  { value: 'bottom-right', label: 'Bottom right' },
+];
 
 @Component({
   selector: 'app-sonner-showcase',
@@ -11,6 +21,18 @@ import { UiSonner } from '../../../components/ui-sonner/ui-sonner';
   styleUrl: './sonner-showcase.css',
 })
 export class SonnerShowcase {
+  protected readonly positions = POSITIONS;
+  protected readonly selectedPosition = signal<UiSonnerPosition>('bottom-right');
+
+  protected showPositionPreview(): void {
+    const position = this.selectedPosition();
+    const label = POSITIONS.find((option) => option.value === position)?.label ?? position;
+
+    toast(`Position: ${label}`, {
+      description: 'All feedback examples now use this position by default.',
+    });
+  }
+
   protected showSuccess(): void {
     toast.success('Portfolio synced', { description: 'Latest positions are now reflected.' });
   }

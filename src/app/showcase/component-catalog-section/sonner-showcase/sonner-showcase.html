@@ -11,6 +11,36 @@
     </p>
   </div>
 
+  <section class="sonner-showcase-section" aria-labelledby="sonner-position-title">
+    <h5 id="sonner-position-title">Position</h5>
+
+    <div class="sonner-position-playground">
+      <fieldset class="sonner-position-picker">
+        <legend>Default toast position</legend>
+
+        <div class="sonner-position-grid">
+          @for (position of positions; track position.value) {
+            <label>
+              <input
+                type="radio"
+                name="sonner-position"
+                [value]="position.value"
+                [checked]="selectedPosition() === position.value"
+                (change)="selectedPosition.set(position.value)"
+              />
+              <span>{{ position.label }}</span>
+            </label>
+          }
+        </div>
+      </fieldset>
+
+      <div class="sonner-position-action">
+        <p>Selected: <strong>{{ selectedPosition() }}</strong></p>
+        <button uiButton type="button" (click)="showPositionPreview()">Show toast</button>
+      </div>
+    </div>
+  </section>
+
   <section class="sonner-showcase-section" aria-labelledby="sonner-feedback-title">
     <h5 id="sonner-feedback-title">Feedback types</h5>
 
@@ -52,5 +82,5 @@
     </div>
   </section>
 
-  <ui-sonner position="bottom-right" closeButton closeLabel="Dismiss notification" />
+  <ui-sonner [position]="selectedPosition()" closeButton closeLabel="Dismiss notification" />
 </article>
