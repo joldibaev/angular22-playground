@@ -9,6 +9,7 @@
       [attr.data-theme]="themeAttribute()"
       [attr.data-y-position]="group.y"
       [attr.data-x-position]="group.x"
+      [attr.data-position]="group.position"
       [attr.data-offset]="offsetAttribute()"
       [attr.data-width]="widthAttribute()"
       [style]="toasterStyles()"
@@ -34,7 +35,7 @@
           [closeButton]="closeButton()"
           [closeLabel]="closeLabel()"
           [gap]="gap()"
-          [frontToastHeight]="frontToastHeightAttribute()"
+          [frontToastHeight]="group.frontToastHeight"
           [width]="widthAttribute()"
           [descriptionClass]="toastOptions().descriptionClass ?? ''"
         />

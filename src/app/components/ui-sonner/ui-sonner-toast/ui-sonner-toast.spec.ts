@@ -77,6 +77,12 @@ describe('UiSonnerToast', () => {
         'data-removed',
       ),
     ).toBe('true');
+
+    const exit = new Event('transitionend', { bubbles: true });
+    Object.defineProperty(exit, 'propertyName', { value: 'opacity' });
+    fixture.nativeElement.querySelector('[data-sonner-toast]').dispatchEvent(exit);
+
+    expect(uiSonnerState.toasts()).toHaveLength(0);
   });
 
   it('should hide toasts beyond the visible limit from assistive technology', async () => {

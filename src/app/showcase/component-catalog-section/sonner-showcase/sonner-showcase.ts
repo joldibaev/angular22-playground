@@ -51,4 +51,33 @@ export class SonnerShowcase {
       error: 'Order failed',
     });
   }
+
+  protected showPersistent(): void {
+    toast.info('Live monitoring enabled', {
+      description: 'This notification stays until you dismiss it.',
+      duration: Number.POSITIVE_INFINITY,
+    });
+  }
+
+  protected showStack(): void {
+    toast.info('Market connected', { description: 'Streaming quotes are available.' });
+    toast.success('Watchlist synced', { description: 'Eight instruments updated.' });
+    toast.warning('Volatility increased', { description: 'Review active limit orders.' });
+    toast('Background task ready', { description: 'Open the stack to inspect every message.' });
+  }
+
+  protected showMultiplePositions(): void {
+    toast.success('Primary account synced', {
+      description: 'Bottom-right position.',
+      position: 'bottom-right',
+    });
+    toast.info('Secondary account connected', {
+      description: 'Top-left position. Alt+T focuses this newest group.',
+      position: 'top-left',
+    });
+  }
+
+  protected dismissAll(): void {
+    toast.dismiss();
+  }
 }

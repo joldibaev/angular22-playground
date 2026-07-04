@@ -1,4 +1,4 @@
-import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
   booleanAttribute,
   Component,
@@ -11,7 +11,7 @@ import {
   OnDestroy,
   PLATFORM_ID,
   signal,
-  viewChild,
+  viewChildren,
 } from '@angular/core';
 import { uiSonnerState } from './ui-sonner.state';
 import {
@@ -37,6 +37,7 @@ const DEFAULT_WIDTH = 356;
 })
 export class UiSonner implements OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly document = inject(DOCUMENT);
 
   protected readonly toasts = uiSonnerState.toasts;
   protected readonly heights = uiSonnerState.heights;
@@ -47,7 +48,7 @@ export class UiSonner implements OnDestroy {
   protected readonly interacting = signal(false);
   protected readonly lastFocusedElement = signal<HTMLElement | null>(null);
   protected readonly isFocusWithin = signal(false);
-  protected readonly listRef = viewChild<ElementRef<HTMLOListElement>>('listRef');
+  protected readonly listRefs = viewChildren<ElementRef<HTMLOListElement>>('listRef');
 
   readonly invert = input(false, { transform: booleanAttribute });
   readonly theme = input<UiSonnerTheme>('system');
@@ -78,9 +79,6 @@ export class UiSonner implements OnDestroy {
   protected readonly listClass = computed(() =>
     ['ui-sonner-list', this.className()].filter(Boolean).join(' '),
   );
-  protected readonly frontToastHeightAttribute = computed(
-    () => `${this.heights()[0]?.height ?? 0}px`,
-  );
   protected readonly offsetAttribute = computed(() =>
     typeof this.offset() === 'number' ? `${this.offset()}px` : (this.offset() ?? DEFAULT_OFFSET),
   );
@@ -88,24 +86,32 @@ export class UiSonner implements OnDestroy {
   protected readonly toasterStyles = computed(() => ({
     ...this.styleMap(),
   }));
-  protected readonly groups = computed(() =>
-    this.positions().map((position) => ({
-      position,
-      y: position.startsWith('top') ? 'top' : 'bottom',
-      x: position.endsWith('left') ? 'left' : position.endsWith('center') ? 'center' : 'right',
-      toasts: this.toastsFor(position),
-    })),
-  );
+  protected readonly groups = computed(() => {
+    const heights = this.heights();
+
+    return this.positions().map((position) => {
+      const toasts = this.toastsFor(position);
+      const frontHeight = heights.find((height) => height.toastId === toasts[0]?.id)?.height ?? 0;
+
+      return {
+        position,
+        y: position.startsWith('top') ? 'top' : 'bottom',
+        x: position.endsWith('left') ? 'left' : position.endsWith('center') ? 'center' : 'right',
+        toasts,
+        frontToastHeight: `${frontHeight}px`,
+      };
+    });
+  });
 
   constructor() {
     if (isPlatformBrowser(this.platformId)) {
-      document.addEventListener('keydown', this.handleKeydown);
+      this.document.addEventListener('keydown', this.handleKeydown);
     }
   }
 
   ngOnDestroy(): void {
     if (isPlatformBrowser(this.platformId)) {
-      document.removeEventListener('keydown', this.handleKeydown);
+      this.document.removeEventListener('keydown', this.handleKeydown);
     }
   }
 
@@ -155,9 +161,9 @@ export class UiSonner implements OnDestroy {
   }
 
   private readonly handleKeydown = (event: KeyboardEvent): void => {
-    const listRef = this.listRef()?.nativeElement;
+    const lists = this.listRefs().map((ref) => ref.nativeElement);
 
-    if (!listRef) {
+    if (!lists.length) {
       return;
     }
 
@@ -166,14 +172,21 @@ export class UiSonner implements OnDestroy {
         (key) => Boolean((event as unknown as Record<string, unknown>)[key]) || event.code === key,
       )
     ) {
+      const newestPosition = this.toasts()[0]?.position ?? this.position();
+      const target = lists.find((list) => list.dataset['position'] === newestPosition) ?? lists[0];
+
+      event.preventDefault();
       this.expanded.set(true);
-      listRef.focus();
+      target.focus();
+      return;
     }
 
-    if (
-      event.code === 'Escape' &&
-      (document.activeElement === listRef || listRef.contains(document.activeElement))
-    ) {
+    const activeElement = this.document.activeElement;
+    const activeList = lists.find(
+      (list) => activeElement === list || (activeElement !== null && list.contains(activeElement)),
+    );
+
+    if (event.code === 'Escape' && activeList) {
       this.expanded.set(false);
     }
   };

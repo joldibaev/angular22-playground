@@ -32,6 +32,8 @@
   (pointerdown)="onPointerDown($event)"
   (pointerup)="onPointerUp()"
   (pointermove)="onPointerMove($event)"
+  (transitionend)="onExitTransitionEnd($event)"
+  (animationend)="onExitAnimationEnd($event)"
 >
   @if (resolvedCloseButton()) {
     <button

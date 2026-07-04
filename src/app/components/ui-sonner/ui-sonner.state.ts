@@ -66,14 +66,23 @@ function createToastState() {
 
   function dismiss(id?: UiSonnerToastId): UiSonnerToastId | undefined {
     if (id === undefined) {
-      toastsState.set([]);
-      heightsState.set([]);
+      toastsState.update((toasts) =>
+        toasts.map((toastItem) => ({ ...toastItem, delete: true, dismissing: true })),
+      );
       return undefined;
     }
 
+    toastsState.update((toasts) =>
+      toasts.map((toastItem) =>
+        toastItem.id === id ? { ...toastItem, delete: true, dismissing: true } : toastItem,
+      ),
+    );
+    return id;
+  }
+
+  function remove(id: UiSonnerToastId): void {
     toastsState.update((toasts) => toasts.filter((toastItem) => toastItem.id !== id));
     heightsState.update((heights) => heights.filter((height) => height.toastId !== id));
-    return id;
   }
 
   function message(messageText: UiSonnerRenderable, data?: UiSonnerExternalToast): UiSonnerToastId {
@@ -208,6 +217,7 @@ function createToastState() {
     loading,
     message,
     promise,
+    remove,
     removeHeight,
     reset,
     success,

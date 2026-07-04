@@ -38,6 +38,12 @@ describe('UiSonner', () => {
     return Array.from(fixture.nativeElement.querySelectorAll('[data-sonner-toast]'));
   }
 
+  function finishExit(toast: HTMLElement): void {
+    const event = new Event('transitionend', { bubbles: true });
+    Object.defineProperty(event, 'propertyName', { value: 'opacity' });
+    toast.dispatchEvent(event);
+  }
+
   it('should render visible toasts with live-region semantics', async () => {
     sonner.success('Saved', 'The order is ready');
     await fixture.whenStable();
@@ -84,6 +90,22 @@ describe('UiSonner', () => {
     expect(lists[1].getAttribute('data-x-position')).toBe('left');
   });
 
+  it('should focus the newest position group with the hotkey', async () => {
+    sonner.info('Default position');
+    sonner.success('Newest', undefined, { position: 'top-left' });
+    await fixture.whenStable();
+
+    document.dispatchEvent(
+      new KeyboardEvent('keydown', { bubbles: true, altKey: true, code: 'KeyT' }),
+    );
+    await fixture.whenStable();
+
+    const activeList = document.activeElement as HTMLElement;
+
+    expect(activeList.classList.contains('ui-sonner-list')).toBe(true);
+    expect(activeList.getAttribute('data-position')).toBe('top-left');
+  });
+
   it('should use the configured gap for stacked offsets', async () => {
     sonner.info('First');
     sonner.warning('Second');
@@ -114,6 +136,27 @@ describe('UiSonner', () => {
     expect(action).toHaveBeenCalledOnce();
     expect(cancel).toHaveBeenCalledOnce();
     expect(toasts()[0].getAttribute('data-removed')).toBe('true');
+
+    finishExit(toasts()[0]);
+    await fixture.whenStable();
+
+    expect(toasts()).toHaveLength(0);
+  });
+
+  it('should animate programmatic dismissal before removing state', async () => {
+    const id = sonner.info('Dismiss through API');
+    await fixture.whenStable();
+
+    sonner.dismiss(id);
+    await fixture.whenStable();
+
+    const [toast] = toasts();
+    expect(toast.getAttribute('data-removed')).toBe('true');
+
+    finishExit(toast);
+    await fixture.whenStable();
+
+    expect(toasts()).toHaveLength(0);
   });
 
   it('should expose a close button when requested', async () => {

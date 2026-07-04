@@ -26,7 +26,6 @@ import {
 
 const DEFAULT_DURATION = 4000;
 const SWIPE_THRESHOLD = 20;
-const TIME_BEFORE_UNMOUNT = 200;
 
 @Component({
   selector: 'ui-sonner-toast',
@@ -69,26 +68,28 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
   protected readonly toastType = computed<UiSonnerToastType>(() => this.toast().type ?? 'default');
   protected readonly toastPosition = computed(() => this.toast().position ?? this.position());
   protected readonly coords = computed(() => this.toastPosition().split('-'));
-  protected readonly heightIndex = computed(() =>
-    this.heights().findIndex((height) => height.toastId === this.toast().id),
-  );
-  protected readonly toastsHeightBefore = computed(() =>
-    this.heights().reduce((total, currentHeight, reducerIndex) => {
-      if (reducerIndex >= this.heightIndex()) {
-        return total;
-      }
+  protected readonly toastsHeightBefore = computed(() => {
+    const previousIds = new Set(
+      this.toasts()
+        .filter((toast) => (toast.position ?? this.position()) === this.toastPosition())
+        .slice(0, this.index())
+        .map((toast) => toast.id),
+    );
 
-      return total + currentHeight.height;
-    }, 0),
-  );
+    return this.heights().reduce(
+      (total, currentHeight) =>
+        previousIds.has(currentHeight.toastId) ? total + currentHeight.height : total,
+      0,
+    );
+  });
   protected readonly offset = linkedSignal({
     source: () => ({
       gap: this.gap(),
-      heightIndex: this.heightIndex(),
+      index: this.index(),
       toastsHeightBefore: this.toastsHeightBefore(),
     }),
-    computation: ({ gap, heightIndex, toastsHeightBefore }) =>
-      Math.round(heightIndex * gap + toastsHeightBefore),
+    computation: ({ gap, index, toastsHeightBefore }) =>
+      Math.round(index * gap + toastsHeightBefore),
   });
   protected readonly resolvedInvert = computed(() => this.toast().invert ?? this.invert());
   protected readonly resolvedCloseButton = computed(
@@ -132,6 +133,7 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
   private timeoutId: ReturnType<typeof setTimeout> | undefined;
   private remainingTime = 0;
   private resizeObserver: ResizeObserver | undefined;
+  private removalFinalized = false;
 
   constructor() {
     effect(() => {
@@ -293,14 +295,45 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
     }
   }
 
+  protected onExitTransitionEnd(event: TransitionEvent): void {
+    if (
+      event.target === event.currentTarget &&
+      event.propertyName === 'opacity' &&
+      this.removed()
+    ) {
+      this.finalizeRemoval();
+    }
+  }
+
+  protected onExitAnimationEnd(event: AnimationEvent): void {
+    if (event.target === event.currentTarget && this.removed() && this.swipeOut()) {
+      this.finalizeRemoval();
+    }
+  }
+
   private deleteToast(): void {
+    if (this.removed()) {
+      return;
+    }
+
     this.removed.set(true);
     this.offsetBeforeRemove.set(this.offset());
     uiSonnerState.removeHeight(this.toast().id);
 
-    setTimeout(() => {
-      uiSonnerState.dismiss(this.toast().id);
-    }, TIME_BEFORE_UNMOUNT);
+    // Toasts already hidden beyond the visible stack have no opacity change,
+    // so the browser would not emit transitionend for them.
+    if (!this.mounted() || !this.isVisible()) {
+      this.finalizeRemoval();
+    }
+  }
+
+  private finalizeRemoval(): void {
+    if (this.removalFinalized) {
+      return;
+    }
+
+    this.removalFinalized = true;
+    uiSonnerState.remove(this.toast().id);
   }
 
   private pauseTimer(): void {

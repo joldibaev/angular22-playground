@@ -182,6 +182,14 @@
   height: auto;
 }
 
+/* Exit owns its shorter timing explicitly. State removal listens for this
+   transition instead of guessing the token's resolved duration in TypeScript. */
+[data-sonner-toast][data-removed='true'][data-swipe-out='false'] {
+  transition:
+    transform var(--ui-sonner-toast-exit-duration) var(--ui-sonner-toast-motion-easing),
+    opacity var(--ui-sonner-toast-exit-duration) var(--ui-sonner-toast-motion-easing);
+}
+
 [data-sonner-toast][data-removed='true'][data-front='true'][data-swipe-out='false'] {
   --y: translateY(calc(var(--lift) * -100%));
   opacity: 0;
@@ -196,7 +204,7 @@
   --y: translateY(40%);
   opacity: 0;
   transition:
-    transform var(--ui-sonner-toast-motion-duration) var(--ui-sonner-toast-motion-easing),
+    transform var(--ui-sonner-toast-exit-duration) var(--ui-sonner-toast-motion-easing),
     opacity var(--ui-sonner-toast-exit-duration) var(--ui-sonner-toast-motion-easing);
 }
 
@@ -244,5 +252,10 @@
   [data-sonner-toast] > * {
     transition: opacity var(--ui-sonner-toast-motion-duration) var(--ui-sonner-toast-motion-easing);
     animation: none;
+  }
+
+  [data-sonner-toast][data-removed='true'] {
+    opacity: 0;
+    transition: opacity var(--ui-sonner-toast-exit-duration) var(--ui-sonner-toast-motion-easing);
   }
 }

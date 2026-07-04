@@ -39,4 +39,15 @@ describe('SonnerService', () => {
 
     expect(service.toasts()[0].type).toBe('destructive');
   });
+
+  it('should mark programmatically dismissed toasts for animated removal', () => {
+    const id = service.show('Saved');
+
+    service.dismiss(id);
+
+    expect(service.toasts()).toHaveLength(1);
+    expect(service.toasts()[0]).toEqual(
+      expect.objectContaining({ id, delete: true, dismissing: true }),
+    );
+  });
 });
