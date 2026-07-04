@@ -21,16 +21,7 @@ const POSITIONS: ReadonlyArray<{ value: UiSonnerPosition; label: string }> = [
 
 @Component({
   selector: 'app-sonner-showcase',
-  imports: [
-    UiButton,
-    UiCard,
-    UiSelect,
-    UiSelectOption,
-    UiSonner,
-    UiSwitch,
-    UiTab,
-    UiTabItem,
-  ],
+  imports: [UiButton, UiCard, UiSelect, UiSelectOption, UiSonner, UiSwitch, UiTab, UiTabItem],
   templateUrl: './sonner-showcase.html',
   styleUrl: './sonner-showcase.css',
 })

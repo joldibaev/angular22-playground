@@ -38,9 +38,7 @@ export class UiMenu {
     const groups = this.groups();
     const groupedItems = new Set(groups.flatMap((group) => group.items()));
     const declarations: UiMenuDeclaration[] = [
-      ...groups
-        .filter((group) => group.items().length > 0)
-        .map((group) => ({ group }) as const),
+      ...groups.filter((group) => group.items().length > 0).map((group) => ({ group }) as const),
       ...this.items()
         .filter((item) => !groupedItems.has(item))
         .map((item) => ({ item }) as const),

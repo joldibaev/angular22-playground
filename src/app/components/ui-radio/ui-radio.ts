@@ -8,10 +8,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { nextId } from '../../shared/unique-id';
-import {
-  UI_RADIO_GROUP,
-  type UiRadioSize,
-} from './ui-radio-group/ui-radio-group.token';
+import { UI_RADIO_GROUP, type UiRadioSize } from './ui-radio-group/ui-radio-group.token';
 
 @Component({
   selector: 'ui-radio',

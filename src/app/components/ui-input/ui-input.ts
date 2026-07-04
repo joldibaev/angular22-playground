@@ -51,7 +51,9 @@ export class UiInput {
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly renderer = inject(Renderer2);
   private readonly projectedFormField = contentChild<FormField<unknown>>(FormField);
-  private readonly hostFormField = inject<FormField<unknown> | null>(FORM_FIELD, { optional: true });
+  private readonly hostFormField = inject<FormField<unknown> | null>(FORM_FIELD, {
+    optional: true,
+  });
 
   readonly state = computed<FieldState<unknown> | undefined>(
     () => this.projectedFormField()?.field()() ?? this.hostFormField?.field()(),

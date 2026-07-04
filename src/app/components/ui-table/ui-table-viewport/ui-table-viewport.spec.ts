@@ -7,10 +7,14 @@ describe('UiTableViewport', () => {
     fixture.componentRef.setInput('height', 320);
     await fixture.whenStable();
 
-    expect(fixture.nativeElement.style.getPropertyValue('--ui-table-viewport-height')).toBe('320px');
+    expect(fixture.nativeElement.style.getPropertyValue('--ui-table-viewport-height')).toBe(
+      '320px',
+    );
 
     fixture.componentRef.setInput('height', '50dvh');
     await fixture.whenStable();
-    expect(fixture.nativeElement.style.getPropertyValue('--ui-table-viewport-height')).toBe('50dvh');
+    expect(fixture.nativeElement.style.getPropertyValue('--ui-table-viewport-height')).toBe(
+      '50dvh',
+    );
   });
 });

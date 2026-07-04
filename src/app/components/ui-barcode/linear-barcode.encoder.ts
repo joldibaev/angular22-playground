@@ -194,9 +194,7 @@ function encodeEan13(value: string): BarcodeEncoding {
   const parity = EAN13_PARITY[digits[0]];
   const left = digits
     .slice(1, 7)
-    .map((digit, index) =>
-      parity[index] === 'L' ? EAN_L_PATTERNS[digit] : EAN_G_PATTERNS[digit],
-    )
+    .map((digit, index) => (parity[index] === 'L' ? EAN_L_PATTERNS[digit] : EAN_G_PATTERNS[digit]))
     .join('');
   const right = digits
     .slice(7)

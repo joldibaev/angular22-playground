@@ -187,9 +187,9 @@ describe('UiAutocomplete', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(
-      fixture.nativeElement.querySelector('ui-input')?.classList.contains('ui-input-sm'),
-    ).toBe(true);
+    expect(fixture.nativeElement.querySelector('ui-input')?.classList.contains('ui-input-sm')).toBe(
+      true,
+    );
   });
 
   it('should expose projected options and filter them by input value', async () => {

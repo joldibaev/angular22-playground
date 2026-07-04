@@ -85,9 +85,9 @@ describe('UiDateRangePicker', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(
-      fixture.nativeElement.querySelector('ui-input')?.classList.contains('ui-input-sm'),
-    ).toBe(true);
+    expect(fixture.nativeElement.querySelector('ui-input')?.classList.contains('ui-input-sm')).toBe(
+      true,
+    );
   });
 
   it('should expose a passive loading state without disabling the trigger', async () => {
@@ -161,8 +161,8 @@ describe('UiDateRangePicker', () => {
 
     await openRangePicker(fixture);
 
-    const edges = [...fixture.nativeElement.querySelectorAll('.ui-date-range-edge')].map(
-      (edge) => edge.textContent.trim(),
+    const edges = [...fixture.nativeElement.querySelectorAll('.ui-date-range-edge')].map((edge) =>
+      edge.textContent.trim(),
     );
 
     expect(edges).toEqual(['15', '20']);

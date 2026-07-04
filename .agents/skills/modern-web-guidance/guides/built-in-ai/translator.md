@@ -1,6 +1,5 @@
 The **Translator API** allows developers to perform client-side text translation using built-in AI models in Chrome and Edge. This approach eliminates the need for cloud-based translation services for ephemeral content, reducing costs and improving privacy by keeping data on the user's device.
 
-
 ## Prerequisites & Requirements
 
 ### Browser Support
@@ -65,9 +64,7 @@ const translator = await Translator.create({
   targetLanguage: 'fr',
 });
 
-const result = await translator.translate(
-  'Where is the next bus stop, please?',
-);
+const result = await translator.translate('Where is the next bus stop, please?');
 console.log(result);
 // Output: "Où est le prochain arrêt de bus, s'il vous plaît ?"
 ```
@@ -152,9 +149,10 @@ if ('Translator' in self) {
 }
 ```
 
-If the `Translator` API is unsupported or availability checks return `'unavailable'`, you must gracefully fall back. 
+If the `Translator` API is unsupported or availability checks return `'unavailable'`, you must gracefully fall back.
 
 Recommended options:
+
 1. **Remote API Fallback**: Redirect the translation request to a server endpoint or cloud remote API (such as the Vertex AI Gemini API) to deliver translation functionality.
 2. **Graceful Degradation**: Visually disable translation control elements or buttons while showing an end-user friendly note (e.g., `"Client-side translation is currently unsupported in this browser"`). Do not allow unhandled exceptions.
 3. **Polyfill Fallback**: You can use community-maintained polyfills like `built-in-ai-task-apis-polyfills` or `prompt-api-polyfill` to emulate the API surface using remote services.

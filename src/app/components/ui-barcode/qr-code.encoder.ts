@@ -64,13 +64,7 @@ function createEmptyMatrix(): QrMatrix {
   };
 }
 
-function setModule(
-  matrix: QrMatrix,
-  x: number,
-  y: number,
-  value: boolean,
-  reserved = true,
-): void {
+function setModule(matrix: QrMatrix, x: number, y: number, value: boolean, reserved = true): void {
   if (x < 0 || y < 0 || x >= QR_SIZE || y >= QR_SIZE) {
     return;
   }

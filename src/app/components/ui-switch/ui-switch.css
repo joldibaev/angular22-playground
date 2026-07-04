@@ -129,7 +129,10 @@
 
 /* On → pull `left` back by the same amount it grows, so the right edge stays
    pinned and the pill extends leftward instead. */
-.ui-switch-label:active .ui-switch-input:checked:not(:disabled) + .ui-switch-control .ui-switch-thumb {
+.ui-switch-label:active
+  .ui-switch-input:checked:not(:disabled)
+  + .ui-switch-control
+  .ui-switch-thumb {
   left: calc(
     var(--ui-switch-thumb-offset) + var(--ui-switch-thumb-translate) - var(--ui-switch-thumb-squash)
   );

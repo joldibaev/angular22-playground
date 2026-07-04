@@ -1,4 +1,11 @@
-import { booleanAttribute, ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+} from '@angular/core';
 import { UiTable } from '../ui-table';
 import type { UiTableSortDirection } from '../ui-table.types';
 
@@ -48,10 +55,6 @@ export class UiTableSort {
   });
 
   protected toggle(): void {
-    this.table.toggleSort(
-      this.ascendingValue(),
-      this.descendingValue(),
-      this.startDirection(),
-    );
+    this.table.toggleSort(this.ascendingValue(), this.descendingValue(), this.startDirection());
   }
 }

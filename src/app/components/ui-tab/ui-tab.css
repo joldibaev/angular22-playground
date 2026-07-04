@@ -5,7 +5,11 @@
   --ui-tab-indicator-background: light-dark(white, var(--color-neutral-700));
   --ui-tab-indicator-shadow: var(--shadow-sm);
   --ui-tab-item-color: var(--text-color-muted);
-  --ui-tab-item-hover-color: color-mix(in oklab, var(--ui-tab-item-color) 45%, contrast-color(Canvas));
+  --ui-tab-item-hover-color: color-mix(
+    in oklab,
+    var(--ui-tab-item-color) 45%,
+    contrast-color(Canvas)
+  );
   --ui-tab-item-active-color: contrast-color(var(--ui-tab-indicator-background));
   --ui-tab-line-color: contrast-color(Canvas);
   --ui-tab-line-indicator-size: 2px;
@@ -174,8 +178,7 @@
 }
 
 .ui-tab-trigger:focus-visible {
-  outline: 3px solid
-    color-mix(in oklab, var(--ui-tab-focus-visible-border-color) 50%, transparent);
+  outline: 3px solid color-mix(in oklab, var(--ui-tab-focus-visible-border-color) 50%, transparent);
 }
 
 .ui-tab-indicator {

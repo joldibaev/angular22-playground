@@ -6,13 +6,7 @@ import { UiPopover } from './ui-popover';
 @Component({
   imports: [UiPopover],
   template: `
-    <button
-      type="button"
-      uiPopover
-      uiPlacement="right"
-      uiWithFallback
-      [uiContent]="content"
-    >
+    <button type="button" uiPopover uiPlacement="right" uiWithFallback [uiContent]="content">
       Open
     </button>
 

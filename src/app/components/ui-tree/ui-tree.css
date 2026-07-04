@@ -221,8 +221,8 @@
 
 .ui-tree-group-leave {
   pointer-events: none;
-  animation:
-    ui-tree-group-toggle var(--ui-tree-collapse-duration) var(--ui-tree-motion-easing) reverse;
+  animation: ui-tree-group-toggle var(--ui-tree-collapse-duration) var(--ui-tree-motion-easing)
+    reverse;
 }
 
 @media (prefers-reduced-motion: reduce) {

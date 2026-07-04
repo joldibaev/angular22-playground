@@ -73,7 +73,7 @@ describe('UiTree', () => {
     expect(labels).toEqual(['src', 'main.ts', 'styles.css', 'docs']);
   });
 
-  it('only renders a branch\'s children once it is expanded', async () => {
+  it("only renders a branch's children once it is expanded", async () => {
     const fixture = await createHost();
 
     expect(itemByText(fixture, 'README.md')).toBeUndefined();

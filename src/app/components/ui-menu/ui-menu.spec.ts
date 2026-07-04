@@ -11,9 +11,7 @@ import { UiMenuTrigger } from './ui-menu-trigger/ui-menu-trigger';
 @Component({
   imports: [UiButton, UiMenu, UiMenuItem, UiMenuTrigger],
   template: `
-    <button uiButton uiMenuTrigger variant="outline" [menu]="menu.menu()">
-      Ticket actions
-    </button>
+    <button uiButton uiMenuTrigger variant="outline" [menu]="menu.menu()">Ticket actions</button>
 
     <ui-menu #menu (itemSelected)="selected.set($event)">
       <ui-menu-item value="assign">Assign owner</ui-menu-item>
@@ -37,9 +35,7 @@ class TestHost {
       <ui-menu-item value="duplicate">Duplicate</ui-menu-item>
     </ui-menu>
 
-    <button uiButton uiMenuTrigger variant="outline" [menu]="statusMenu.menu()">
-      Status menu
-    </button>
+    <button uiButton uiMenuTrigger variant="outline" [menu]="statusMenu.menu()">Status menu</button>
     <ui-menu #statusMenu>
       <ui-menu-item value="todo">Todo</ui-menu-item>
     </ui-menu>

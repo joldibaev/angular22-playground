@@ -72,7 +72,12 @@
                 <div class="ui-select-group-label" aria-hidden="true">{{ group.label() }}</div>
 
                 @for (option of group.options(); track option) {
-                  <div ngOption #ngOption="ngOption" class="ui-popup-option" [value]="option.value()">
+                  <div
+                    ngOption
+                    #ngOption="ngOption"
+                    class="ui-popup-option"
+                    [value]="option.value()"
+                  >
                     <span class="flex-1">{{ option.label() }}</span>
 
                     @if (ngOption.selected()) {

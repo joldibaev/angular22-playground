@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input, numberAttribute } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  numberAttribute,
+} from '@angular/core';
 import { UiTable } from '../ui-table';
 
 export type UiTableSpacerPosition = 'start' | 'end';

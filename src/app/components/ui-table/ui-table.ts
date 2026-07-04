@@ -140,11 +140,7 @@ export class UiTable<T> {
         return;
       }
 
-      if (
-        !this.hasMore() ||
-        this.loading() ||
-        this.lastEndReachedLength === loadedRows
-      ) {
+      if (!this.hasMore() || this.loading() || this.lastEndReachedLength === loadedRows) {
         return;
       }
 
@@ -155,10 +151,7 @@ export class UiTable<T> {
 
   rowAriaIndex(renderedIndex: number): number {
     return (
-      Math.max(0, this.headerRows()) +
-      this.renderedRange().start +
-      Math.max(0, renderedIndex) +
-      1
+      Math.max(0, this.headerRows()) + this.renderedRange().start + Math.max(0, renderedIndex) + 1
     );
   }
 

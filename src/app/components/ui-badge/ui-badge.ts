@@ -1,11 +1,6 @@
 import { booleanAttribute, Component, input } from '@angular/core';
 
-export type UiBadgeVariant =
-  | 'contrast'
-  | 'brand'
-  | 'outline'
-  | 'destructive'
-  | 'secondary';
+export type UiBadgeVariant = 'contrast' | 'brand' | 'outline' | 'destructive' | 'secondary';
 
 @Component({
   selector: 'ui-badge',

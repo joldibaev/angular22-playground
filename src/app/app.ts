@@ -6,11 +6,7 @@ import { ComponentCatalogSection } from './showcase/component-catalog-section/co
 
 @Component({
   selector: 'app-root',
-  imports: [
-    ComponentCatalogSection,
-    UiSelect,
-    UiSelectOption,
-  ],
+  imports: [ComponentCatalogSection, UiSelect, UiSelectOption],
   templateUrl: './app.html',
 })
 export class App {

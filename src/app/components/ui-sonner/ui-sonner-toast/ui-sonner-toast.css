@@ -278,8 +278,7 @@
 
 [data-sonner-toast][data-swipe-out='true'][data-y-position='bottom'],
 [data-sonner-toast][data-swipe-out='true'][data-y-position='top'] {
-  animation:
-    ui-sonner-swipe-out var(--ui-sonner-toast-swipe-duration)
+  animation: ui-sonner-swipe-out var(--ui-sonner-toast-swipe-duration)
     var(--ui-sonner-toast-motion-easing) forwards;
 }
 
@@ -294,7 +293,10 @@
   to {
     opacity: 0;
     transform: translateY(
-      calc(var(--lift) * attr(data-offset type(<length>), 0px) + var(--swipe-amount) + var(--lift) * -100%)
+      calc(
+        var(--lift) * attr(data-offset type(<length>), 0px) + var(--swipe-amount) + var(--lift) *
+          -100%
+      )
     );
   }
 }

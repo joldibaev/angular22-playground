@@ -105,7 +105,9 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
     normalizeRange({ start: this.draftStart(), end: this.draftEnd() }),
   );
   readonly displayValue = computed(() => formatRangeDisplay(this.committedRange()));
-  readonly draftDisplayValue = computed(() => formatRangeDisplay(this.draftRange()) || 'Диапазон не выбран');
+  readonly draftDisplayValue = computed(
+    () => formatRangeDisplay(this.draftRange()) || 'Диапазон не выбран',
+  );
   readonly isPlaceholderVisible = computed(() => this.displayValue().length === 0);
   readonly rightView = computed(() => getRightView(this.leftView()));
   readonly leftMonthLabel = computed(() => formatMonthLabel(this.leftView()));

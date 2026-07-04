@@ -58,9 +58,7 @@ describe('UiButton', () => {
   });
 
   it('should apply the rounded (pill) shape mode', () => {
-    const button = fixture.nativeElement.querySelector(
-      'button[rounded]',
-    ) as HTMLButtonElement;
+    const button = fixture.nativeElement.querySelector('button[rounded]') as HTMLButtonElement;
 
     expect(button.classList.contains('ui-button-rounded')).toBe(true);
   });

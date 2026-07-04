@@ -45,8 +45,8 @@ onINP((metric) => {
       // subpart indicates which phase (input delay, processing, or
       // presentation delay) the longest script overlapped with most.
       subpart: metric.attribution.longestScript.subpart,
-      intersectingDuration: metric.attribution.longestScript.intersectingDuration
-    })
+      intersectingDuration: metric.attribution.longestScript.intersectingDuration,
+    }),
   );
 });
 ```

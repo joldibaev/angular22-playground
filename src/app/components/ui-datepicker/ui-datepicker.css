@@ -276,8 +276,8 @@
   /* Nav / action buttons keep their hover fade; drop the press-scale. */
   .ui-datepicker-nav,
   .ui-datepicker-action {
-    transition:
-      background-color var(--ui-popup-interactive-state-duration) var(--ui-popup-interactive-easing);
+    transition: background-color var(--ui-popup-interactive-state-duration)
+      var(--ui-popup-interactive-easing);
   }
 
   .ui-datepicker-nav:not(:disabled):active,

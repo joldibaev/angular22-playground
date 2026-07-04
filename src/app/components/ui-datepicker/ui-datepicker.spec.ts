@@ -88,9 +88,9 @@ describe('UiDatepicker', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(
-      fixture.nativeElement.querySelector('ui-input')?.classList.contains('ui-input-sm'),
-    ).toBe(true);
+    expect(fixture.nativeElement.querySelector('ui-input')?.classList.contains('ui-input-sm')).toBe(
+      true,
+    );
   });
 
   it('should expose a passive loading state without disabling the trigger', async () => {

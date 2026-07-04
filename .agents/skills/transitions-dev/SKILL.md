@@ -9,26 +9,26 @@ Eighteen portable CSS transitions, each namespaced under `t-*` selectors with se
 
 ## Quick reference
 
-| Transition | When to use | Reference |
-| --- | --- | --- |
-| **Card resize** | Tween a container's width or height when its layout state changes. | [01-card-resize.md](./01-card-resize.md) |
-| **Number pop-in** | Re-enter each digit with a blurred slide when a number updates. | [02-number-pop-in.md](./02-number-pop-in.md) |
-| **Notification badge** | Slide a small badge onto a trigger and pop the dot. | [03-notification-badge.md](./03-notification-badge.md) |
-| **Text states swap** | Swap text in place with a blurred up-and-down transition. | [04-text-states-swap.md](./04-text-states-swap.md) |
-| **Menu dropdown** | Open an origin-aware dropdown that grows from its trigger. | [05-menu-dropdown.md](./05-menu-dropdown.md) |
-| **Modal open / close** | Scale-up modal dialog with a softer scale-down on close. | [06-modal.md](./06-modal.md) |
-| **Panel reveal** | Slide a panel into a region with a cross-blur. | [07-panel-reveal.md](./07-panel-reveal.md) |
-| **Page side-by-side** | Slide between two side-by-side pages (list ↔ detail, step 1 ↔ step 2). | [08-page-side-by-side.md](./08-page-side-by-side.md) |
-| **Icon swap** | Cross-fade two icons in the same slot with blur and scale. | [09-icon-swap.md](./09-icon-swap.md) |
-| **Success check** | Compose fade + rotate + Y-bob + path stroke-draw to celebrate a completed action. | [10-success-check.md](./10-success-check.md) |
-| **Avatar group hover** | Distance-falloff lift on a row of items with a bouncy spring on return. | [11-avatar-group-hover.md](./11-avatar-group-hover.md) |
-| **Error state shake** | Per-segment cubic-bezier shake with auto-reverting border + message. | [12-error-state-shake.md](./12-error-state-shake.md) |
-| **Input clear with dissolve** | Fly-out + per-word streak when a text field is cleared. | [13-input-clear-dissolve.md](./13-input-clear-dissolve.md) |
-| **Skeleton loader and reveal** | Pulse a placeholder, then cross-fade + cross-blur to the loaded content. | [14-skeleton-reveal.md](./14-skeleton-reveal.md) |
-| **Shimmer text** | Sweep a highlight band across muted text on a loop (pure CSS). | [15-shimmer-text.md](./15-shimmer-text.md) |
-| **Tabs sliding** | Slide the active pill between tabs in a segmented control. | [16-tabs-sliding.md](./16-tabs-sliding.md) |
-| **Tooltip open/close** | Delayed fade+scale in, instant out (pure CSS). | [17-tooltip.md](./17-tooltip.md) |
-| **Texts reveal** | Staggered blurred rise for stacked text lines, quiet fade out. | [18-texts-reveal.md](./18-texts-reveal.md) |
+| Transition                     | When to use                                                                       | Reference                                                  |
+| ------------------------------ | --------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| **Card resize**                | Tween a container's width or height when its layout state changes.                | [01-card-resize.md](./01-card-resize.md)                   |
+| **Number pop-in**              | Re-enter each digit with a blurred slide when a number updates.                   | [02-number-pop-in.md](./02-number-pop-in.md)               |
+| **Notification badge**         | Slide a small badge onto a trigger and pop the dot.                               | [03-notification-badge.md](./03-notification-badge.md)     |
+| **Text states swap**           | Swap text in place with a blurred up-and-down transition.                         | [04-text-states-swap.md](./04-text-states-swap.md)         |
+| **Menu dropdown**              | Open an origin-aware dropdown that grows from its trigger.                        | [05-menu-dropdown.md](./05-menu-dropdown.md)               |
+| **Modal open / close**         | Scale-up modal dialog with a softer scale-down on close.                          | [06-modal.md](./06-modal.md)                               |
+| **Panel reveal**               | Slide a panel into a region with a cross-blur.                                    | [07-panel-reveal.md](./07-panel-reveal.md)                 |
+| **Page side-by-side**          | Slide between two side-by-side pages (list ↔ detail, step 1 ↔ step 2).            | [08-page-side-by-side.md](./08-page-side-by-side.md)       |
+| **Icon swap**                  | Cross-fade two icons in the same slot with blur and scale.                        | [09-icon-swap.md](./09-icon-swap.md)                       |
+| **Success check**              | Compose fade + rotate + Y-bob + path stroke-draw to celebrate a completed action. | [10-success-check.md](./10-success-check.md)               |
+| **Avatar group hover**         | Distance-falloff lift on a row of items with a bouncy spring on return.           | [11-avatar-group-hover.md](./11-avatar-group-hover.md)     |
+| **Error state shake**          | Per-segment cubic-bezier shake with auto-reverting border + message.              | [12-error-state-shake.md](./12-error-state-shake.md)       |
+| **Input clear with dissolve**  | Fly-out + per-word streak when a text field is cleared.                           | [13-input-clear-dissolve.md](./13-input-clear-dissolve.md) |
+| **Skeleton loader and reveal** | Pulse a placeholder, then cross-fade + cross-blur to the loaded content.          | [14-skeleton-reveal.md](./14-skeleton-reveal.md)           |
+| **Shimmer text**               | Sweep a highlight band across muted text on a loop (pure CSS).                    | [15-shimmer-text.md](./15-shimmer-text.md)                 |
+| **Tabs sliding**               | Slide the active pill between tabs in a segmented control.                        | [16-tabs-sliding.md](./16-tabs-sliding.md)                 |
+| **Tooltip open/close**         | Delayed fade+scale in, instant out (pure CSS).                                    | [17-tooltip.md](./17-tooltip.md)                           |
+| **Texts reveal**               | Staggered blurred rise for stacked text lines, quiet fade out.                    | [18-texts-reveal.md](./18-texts-reveal.md)                 |
 
 ## Decision rules
 
@@ -108,53 +108,53 @@ The value vocabulary behind the eighteen transitions. `transitions refine` maps 
 
 **Durations**
 
-| Value | Name | Usage |
-| --- | --- | --- |
-| 40ms | Stagger | per-item stagger offset |
-| 80ms | Micro | tooltip delay, shake segment, large stagger |
-| 150ms | Quick | modal close, dropdown close, text swap, tooltip appear |
-| 250ms | Fast | icon swap, dropdown open, modal open, tabs sliding, page slide |
-| 350ms | Medium | panel close, toast close |
-| 400ms | Slow | panel open, skeleton content reveal, input clear |
-| 500ms | Very slow | emphasis moments, badge appear, text reveal, success check |
+| Value | Name      | Usage                                                          |
+| ----- | --------- | -------------------------------------------------------------- |
+| 40ms  | Stagger   | per-item stagger offset                                        |
+| 80ms  | Micro     | tooltip delay, shake segment, large stagger                    |
+| 150ms | Quick     | modal close, dropdown close, text swap, tooltip appear         |
+| 250ms | Fast      | icon swap, dropdown open, modal open, tabs sliding, page slide |
+| 350ms | Medium    | panel close, toast close                                       |
+| 400ms | Slow      | panel open, skeleton content reveal, input clear               |
+| 500ms | Very slow | emphasis moments, badge appear, text reveal, success check     |
 
 **Easings**
 
-| Value | Name | Usage |
-| --- | --- | --- |
-| cubic-bezier(0.22, 1, 0.36, 1) | Smooth ease out | modal / dropdown / panel open + close, page slide, resize, position change |
-| ease-in-out | Ease in out | icon swap, text swap, text reveal, skeleton reveal |
-| ease-out | Ease out | tooltip open / close |
-| linear | Linear | shimmer, skeleton pulse, spinner |
-| cubic-bezier(0.34, 1.36, 0.64, 1) | Bouncy overshoot | badge pop open |
-| cubic-bezier(0.34, 3.85, 0.64, 1) | Strong bouncy overshoot | bouncy hover-out (avatar return) |
+| Value                             | Name                    | Usage                                                                      |
+| --------------------------------- | ----------------------- | -------------------------------------------------------------------------- |
+| cubic-bezier(0.22, 1, 0.36, 1)    | Smooth ease out         | modal / dropdown / panel open + close, page slide, resize, position change |
+| ease-in-out                       | Ease in out             | icon swap, text swap, text reveal, skeleton reveal                         |
+| ease-out                          | Ease out                | tooltip open / close                                                       |
+| linear                            | Linear                  | shimmer, skeleton pulse, spinner                                           |
+| cubic-bezier(0.34, 1.36, 0.64, 1) | Bouncy overshoot        | badge pop open                                                             |
+| cubic-bezier(0.34, 3.85, 0.64, 1) | Strong bouncy overshoot | bouncy hover-out (avatar return)                                           |
 
 **Distances**
 
-| Value | Name | Usage |
-| --- | --- | --- |
-| 4px | Micro | text swap |
-| 6px | Small | error shake (small segment) |
-| 8px | Base | badge diagonal reveal, page slide, error shake (large segment) |
-| 12px | Medium | text reveal |
-| 30px | Large | check badge appear |
+| Value | Name   | Usage                                                          |
+| ----- | ------ | -------------------------------------------------------------- |
+| 4px   | Micro  | text swap                                                      |
+| 6px   | Small  | error shake (small segment)                                    |
+| 8px   | Base   | badge diagonal reveal, page slide, error shake (large segment) |
+| 12px  | Medium | text reveal                                                    |
+| 30px  | Large  | check badge appear                                             |
 
 **Scales**
 
-| Value | Name | Usage |
-| --- | --- | --- |
-| 0.96 | Large | modal open / close |
-| 0.97 | Medium | dropdown open |
-| 0.98 | Small | tooltip open |
-| 0.99 | Tiny | dropdown close |
+| Value | Name   | Usage              |
+| ----- | ------ | ------------------ |
+| 0.96  | Large  | modal open / close |
+| 0.97  | Medium | dropdown open      |
+| 0.98  | Small  | tooltip open       |
+| 0.99  | Tiny   | dropdown close     |
 
 **Blur**
 
-| Value | Name | Usage |
-| --- | --- | --- |
-| 2px | Small | panel reveal, icon swap, text swap, skeleton reveal, number pop-in |
-| 3px | Medium | page slide, text reveal |
-| 8px | Large | success check open |
+| Value | Name   | Usage                                                              |
+| ----- | ------ | ------------------------------------------------------------------ |
+| 2px   | Small  | panel reveal, icon swap, text swap, skeleton reveal, number pop-in |
+| 3px   | Medium | page slide, text reveal                                            |
+| 8px   | Large  | success check open                                                 |
 
 ## Universal install
 
@@ -182,8 +182,8 @@ Keep the diff small: only edit the files needed to introduce the transition. Don
 - **Forgetting the reflow** in the text swap, number pop-in, success check replay, and error state shake — `void el.offsetWidth` (or `offsetHeight`) between class/attribute removal and re-addition is what guarantees the animation replays.
 - **Animating a single container** instead of the inner pieces — for the badge, animate the dot, not the trigger; for page slide, animate the page sections, not the container.
 - **Replacing `transition: …` with `transition: all`** — every snippet enumerates exact properties on purpose so unrelated style changes don't ride in for free.
-- **Hardcoding the success check's `stroke-dasharray`** — the snippet ships `20` as a placeholder. Replace it with `path.getTotalLength()` rounded up by 1 for *your* path, otherwise the stroke pre-reveals or over-draws.
-- **Setting `transition-timing-function` in CSS** for the avatar group hover — it has to be set inline in JS *before* the `--shift` / `--scale-active` writes so the bouncy ease-out only applies on `mouseleave`.
+- **Hardcoding the success check's `stroke-dasharray`** — the snippet ships `20` as a placeholder. Replace it with `path.getTotalLength()` rounded up by 1 for _your_ path, otherwise the stroke pre-reveals or over-draws.
+- **Setting `transition-timing-function` in CSS** for the avatar group hover — it has to be set inline in JS _before_ the `--shift` / `--scale-active` writes so the bouncy ease-out only applies on `mouseleave`.
 - **Mixing `.is-error` and `.is-shaking` into one class** for the error state shake — keeping them orthogonal is what allows the shake to replay (remove → reflow → re-add) without flickering the whole error treatment.
 - **Leaving the input clear glow on `mix-blend-mode: multiply` in dark mode** — flip to `screen`, bump `--glow-opacity` to ~0.85, and paint white gradients in JS.
 - **Forgetting to write the tabs pill's first position without a transition** — on first paint and resize, set `transform` + `width` with `transition: none` (then reflow + restore) or the pill animates in from `translateX(0)` / `width: 0`.
@@ -208,4 +208,4 @@ Keep the diff small: only edit the files needed to introduce the transition. Don
 - [16-tabs-sliding.md](./16-tabs-sliding.md) — Tabs sliding
 - [17-tooltip.md](./17-tooltip.md) — Tooltip open/close
 - [18-texts-reveal.md](./18-texts-reveal.md) — Texts reveal
-- [_root.css](./_root.css) — the universal install block on its own, ready to import directly.
+- [\_root.css](./_root.css) — the universal install block on its own, ready to import directly.

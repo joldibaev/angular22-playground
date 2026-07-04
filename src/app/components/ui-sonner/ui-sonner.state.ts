@@ -107,10 +107,7 @@ function createToastState() {
     return create({ ...data, type: 'warning', message: messageText });
   }
 
-  function destructive(
-    messageText: string,
-    data?: UiSonnerExternalToast,
-  ): UiSonnerToastId {
+  function destructive(messageText: string, data?: UiSonnerExternalToast): UiSonnerToastId {
     return create({ ...data, type: 'destructive', message: messageText });
   }
 
@@ -229,10 +226,7 @@ function createToastState() {
 
 export const uiSonnerState = createToastState();
 
-function toastFunction(
-  messageText: string,
-  data?: UiSonnerExternalToast,
-): UiSonnerToastId {
+function toastFunction(messageText: string, data?: UiSonnerExternalToast): UiSonnerToastId {
   return uiSonnerState.create({ ...data, message: messageText });
 }
 
@@ -266,10 +260,7 @@ function isResponseLike(value: unknown): value is { ok: boolean; status: number 
 }
 
 function resolvePromiseValue<ToastData>(
-  value:
-    | string
-    | ((payload: ToastData) => string)
-    | undefined,
+  value: string | ((payload: ToastData) => string) | undefined,
   payload: ToastData,
 ): string {
   return typeof value === 'function' ? value(payload) : (value ?? String(payload));

@@ -61,9 +61,9 @@ describe('UiSonner', () => {
     expect(toast.getAttribute('aria-live')).toBe('polite');
     expect(toast.getAttribute('data-close-button')).toBe('true');
     expect(toast.classList.contains('custom-toast')).toBe(true);
-    expect(toast.querySelector('[data-description]')?.classList.contains('custom-description')).toBe(
-      true,
-    );
+    expect(
+      toast.querySelector('[data-description]')?.classList.contains('custom-description'),
+    ).toBe(true);
     expect(toast.textContent).toContain('Saved');
     expect(toast.textContent).toContain('The order is ready');
   });
@@ -85,12 +85,10 @@ describe('UiSonner', () => {
     expect(lists[0].querySelectorAll('[data-sonner-toast]')).toHaveLength(3);
     expect(lists[0].querySelectorAll('[data-visible="true"]')).toHaveLength(2);
     expect(lists[0].querySelectorAll('[data-visible="false"]')).toHaveLength(1);
-    expect(
-      lists[0].querySelector('[data-visible="false"]')?.getAttribute('aria-hidden'),
-    ).toBe('true');
-    expect(
-      lists[0].querySelector('[data-visible="false"]')?.getAttribute('tabindex'),
-    ).toBe('-1');
+    expect(lists[0].querySelector('[data-visible="false"]')?.getAttribute('aria-hidden')).toBe(
+      'true',
+    );
+    expect(lists[0].querySelector('[data-visible="false"]')?.getAttribute('tabindex')).toBe('-1');
     expect(lists[1].getAttribute('data-y-position')).toBe('top');
     expect(lists[1].getAttribute('data-x-position')).toBe('left');
   });
@@ -195,9 +193,7 @@ describe('UiSonner', () => {
 
     const [toast] = toasts();
 
-    toast.dispatchEvent(
-      new KeyboardEvent('keydown', { bubbles: true, key: 'Escape' }),
-    );
+    toast.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: 'Escape' }));
     await fixture.whenStable();
 
     expect(toast.getAttribute('data-removed')).toBe('true');

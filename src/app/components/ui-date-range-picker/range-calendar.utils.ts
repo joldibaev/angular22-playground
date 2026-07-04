@@ -89,7 +89,12 @@ export function buildRangeMonthGrid(
   const firstOfMonth = new Date(view.year, view.month, 1);
   const mondayOffset = (firstOfMonth.getDay() + 6) % 7;
   const gridStart = new Date(view.year, view.month, 1 - mondayOffset);
-  const focusTargetDate = pickFocusTarget(view, options.range, options.pending.start, options.today);
+  const focusTargetDate = pickFocusTarget(
+    view,
+    options.range,
+    options.pending.start,
+    options.today,
+  );
   const pendingRange = pendingPreviewRange(options.pending);
   const min = normalizeInputDate(options.min);
   const max = normalizeInputDate(options.max);

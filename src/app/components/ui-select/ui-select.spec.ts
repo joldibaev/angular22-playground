@@ -194,7 +194,9 @@ async function createGroupedHostFixture(): Promise<ComponentFixture<GroupedTestH
   return hostFixture;
 }
 
-async function createDuplicateValueHostFixture(): Promise<ComponentFixture<DuplicateValueTestHost>> {
+async function createDuplicateValueHostFixture(): Promise<
+  ComponentFixture<DuplicateValueTestHost>
+> {
   const hostFixture = TestBed.createComponent(DuplicateValueTestHost);
   hostFixture.detectChanges();
   await hostFixture.whenStable();
@@ -317,9 +319,9 @@ describe('UiSelect', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    expect(
-      fixture.nativeElement.querySelector('ui-input')?.classList.contains('ui-input-sm'),
-    ).toBe(true);
+    expect(fixture.nativeElement.querySelector('ui-input')?.classList.contains('ui-input-sm')).toBe(
+      true,
+    );
   });
 
   it('should render placeholder when no value is selected', async () => {

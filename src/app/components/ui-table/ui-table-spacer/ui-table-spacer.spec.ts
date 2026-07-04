@@ -9,7 +9,9 @@ import { UiTableSpacer } from './ui-table-spacer';
   template: `
     <div uiTableViewport>
       <table uiTable [data]="rows" virtualScroll>
-        <tbody><tr uiTableSpacer="start" [columns]="3"></tr></tbody>
+        <tbody>
+          <tr uiTableSpacer="start" [columns]="3"></tr>
+        </tbody>
       </table>
     </div>
   `,

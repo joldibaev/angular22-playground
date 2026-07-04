@@ -28,7 +28,9 @@ interface TestRow {
         [(sort)]="sort"
         (endReached)="endEvents.push($event)"
       >
-        <caption>Products</caption>
+        <caption>
+          Products
+        </caption>
         <thead>
           <tr>
             <th scope="col" uiTableSort="name">Name</th>
@@ -93,7 +95,9 @@ describe('UiTable', () => {
   });
 
   it('cycles sorting intent without mutating the supplied data', async () => {
-    const sortButton = fixture.nativeElement.querySelector('.ui-table-sort-trigger') as HTMLButtonElement;
+    const sortButton = fixture.nativeElement.querySelector(
+      '.ui-table-sort-trigger',
+    ) as HTMLButtonElement;
 
     sortButton.click();
     await fixture.whenStable();
@@ -122,7 +126,10 @@ describe('UiTable', () => {
     viewportElement.scrollTop = 4_640;
     viewportElement.dispatchEvent(new Event('scroll'));
     await fixture.whenStable();
-    expect(fixture.componentInstance.endEvents.at(-1)).toEqual({ loadedRows: 120, renderedEnd: 120 });
+    expect(fixture.componentInstance.endEvents.at(-1)).toEqual({
+      loadedRows: 120,
+      renderedEnd: 120,
+    });
   });
 
   it('does not request another page when the data source has no more rows', async () => {

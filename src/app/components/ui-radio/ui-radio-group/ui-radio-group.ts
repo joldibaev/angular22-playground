@@ -59,7 +59,9 @@ export class UiRadioGroup implements FormValueControl<string>, UiRadioGroupContr
   }
 
   focus(options?: FocusOptions): void {
-    this.element.nativeElement.querySelector<HTMLInputElement>('input[type="radio"]')?.focus(options);
+    this.element.nativeElement
+      .querySelector<HTMLInputElement>('input[type="radio"]')
+      ?.focus(options);
   }
 
   reset(): void {

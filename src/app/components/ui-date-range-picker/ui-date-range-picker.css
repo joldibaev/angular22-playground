@@ -300,7 +300,12 @@
     font-weight: 900;
   }
 
-  &:not(.ui-date-range-edge, [aria-disabled='true'], .ui-date-range-pending-start, [data-edge]):hover
+  &:not(
+      .ui-date-range-edge,
+      [aria-disabled='true'],
+      .ui-date-range-pending-start,
+      [data-edge]
+    ):hover
     .ui-date-range-day {
     background-color: var(--ui-popup-interactive-hover-background);
   }
@@ -445,8 +450,8 @@
   .ui-date-range-preset,
   .ui-date-range-nav,
   .ui-date-range-action {
-    transition:
-      background-color var(--ui-popup-interactive-state-duration) var(--ui-popup-interactive-easing);
+    transition: background-color var(--ui-popup-interactive-state-duration)
+      var(--ui-popup-interactive-easing);
 
     &:not(:disabled):active {
       scale: none;

@@ -73,7 +73,11 @@
   --ui-button-color: contrast-color(Canvas);
   --ui-button-focus-visible-border-color: var(--color-brand);
   --ui-button-hover-background: var(--background-color-subtle);
-  --ui-button-active-background: color-mix(in oklab, var(--background-color-subtle) 82%, CanvasText);
+  --ui-button-active-background: color-mix(
+    in oklab,
+    var(--background-color-subtle) 82%,
+    CanvasText
+  );
 }
 
 :host(.ui-button-destructive) {
@@ -100,7 +104,11 @@
   --ui-button-color: contrast-color(Canvas);
   --ui-button-focus-visible-border-color: var(--color-brand);
   --ui-button-hover-background: var(--background-color-subtle);
-  --ui-button-active-background: color-mix(in oklab, var(--background-color-subtle) 82%, CanvasText);
+  --ui-button-active-background: color-mix(
+    in oklab,
+    var(--background-color-subtle) 82%,
+    CanvasText
+  );
 }
 
 :host(.ui-button-link) {

@@ -20,14 +20,7 @@ export type UiTabSize = 'sm' | 'md';
 
 @Component({
   selector: 'ui-tab',
-  imports: [
-    NgTemplateOutlet,
-    Tabs,
-    TabList,
-    Tab,
-    TabPanel,
-    TabContent,
-  ],
+  imports: [NgTemplateOutlet, Tabs, TabList, Tab, TabPanel, TabContent],
   templateUrl: './ui-tab.html',
   styleUrl: './ui-tab.css',
   host: {

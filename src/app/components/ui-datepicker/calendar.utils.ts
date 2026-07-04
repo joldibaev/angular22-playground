@@ -19,7 +19,9 @@ export interface CalendarDay {
 const ARIA_LABEL_FORMATTER = new Intl.DateTimeFormat('ru-RU', { dateStyle: 'full' });
 const MONTH_LABEL_FORMATTER = new Intl.DateTimeFormat('ru-RU', { month: 'long', year: 'numeric' });
 const DISPLAY_DATE_FORMATTER = new Intl.DateTimeFormat('ru-RU', {
-  day: '2-digit', month: 'short', year: 'numeric',
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric',
 });
 
 export const WEEKDAYS_MON_FIRST: readonly string[] = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];

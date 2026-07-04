@@ -1,9 +1,11 @@
 # Select Menu Interaction
 
 ## The Problem
+
 For mandatory dropdowns (e.g., "Choose a Country"), standard validation flags the field as invalid immediately if the default option has an empty value. This can create visual noise. We want to show the error only if the user opens the menu and closes it without choosing an option, or attempts to submit the form.
 
 ## The Solution
+
 The `:user-invalid` pseudo-class works seamlessly with `<select>` elements. It respects the user's interaction flow: simply loading the page or focusing/blurring without making a change doesn't count as an interaction, so the field stays neutral until they actively attempt a selection.
 
 ### Implementation Strategy
@@ -15,31 +17,26 @@ The `:user-invalid` pseudo-class works seamlessly with `<select>` elements. It r
 ## Implementation Guide
 
 ### 1. HTML Structure
+
 The "placeholder" option is key here.
 
 ```html
 <form>
   <div class="field">
     <label for="country">Country</label>
-    <select
-      id="country"
-      name="country"
-      required
-      aria-errormessage="country-error"
-    >
+    <select id="country" name="country" required aria-errormessage="country-error">
       <option value="" disabled selected>Select a country...</option>
       <option value="us">United States</option>
       <option value="ca">Canada</option>
       <option value="uk">United Kingdom</option>
     </select>
-    <div id="country-error" class="error-msg">
-      Please select a country.
-    </div>
+    <div id="country-error" class="error-msg">Please select a country.</div>
   </div>
 </form>
 ```
 
 ### 2. CSS
+
 ```css
 .error-msg {
   display: none;

@@ -32,20 +32,20 @@ expressed as a static @keyframe.
 
 ## Tunable variables
 
-| Variable | Default | Notes |
-| --- | --- | --- |
-| `--clear-dur` | `1000ms` | sourced from `--p13-clear-dur` |
-| `--clear-out-dur` | `400ms` | sourced from `--p13-text-out-dur` |
-| `--clear-in-dur` | `400ms` | sourced from `--p13-text-in-dur` |
-| `--clear-out-fly` | `12px` | sourced from `--p13-text-out-fly` |
-| `--clear-in-fly` | `12px` | sourced from `--p13-text-in-fly` |
+| Variable           | Default                          | Notes                              |
+| ------------------ | -------------------------------- | ---------------------------------- |
+| `--clear-dur`      | `1000ms`                         | sourced from `--p13-clear-dur`     |
+| `--clear-out-dur`  | `400ms`                          | sourced from `--p13-text-out-dur`  |
+| `--clear-in-dur`   | `400ms`                          | sourced from `--p13-text-in-dur`   |
+| `--clear-out-fly`  | `12px`                           | sourced from `--p13-text-out-fly`  |
+| `--clear-in-fly`   | `12px`                           | sourced from `--p13-text-in-fly`   |
 | `--clear-out-ease` | `cubic-bezier(0.22, 1, 0.36, 1)` | sourced from `--p13-text-out-ease` |
-| `--clear-in-ease` | `cubic-bezier(0.22, 1, 0.36, 1)` | sourced from `--p13-text-in-ease` |
-| `--clear-blur` | `2px` | sourced from `--p13-blur` |
-| `--glow-delay` | `50ms` | sourced from `--p13-glow-delay` |
-| `--glow-peak-at` | `0.15` | sourced from `--p13-glow-peak-at` |
-| `--glow-opacity` | `0.42` | sourced from `--p13-glow-opacity` |
-| `--glow-spread` | `1.5` | sourced from `--p13-glow-spread` |
+| `--clear-in-ease`  | `cubic-bezier(0.22, 1, 0.36, 1)` | sourced from `--p13-text-in-ease`  |
+| `--clear-blur`     | `2px`                            | sourced from `--p13-blur`          |
+| `--glow-delay`     | `50ms`                           | sourced from `--p13-glow-delay`    |
+| `--glow-peak-at`   | `0.15`                           | sourced from `--p13-glow-peak-at`  |
+| `--glow-opacity`   | `0.42`                           | sourced from `--p13-glow-opacity`  |
+| `--glow-spread`    | `1.5`                            | sourced from `--p13-glow-spread`   |
 
 The `:root` defaults below match the live tuning on [transitions.dev](https://transitions.dev). Drop them into your global stylesheet once — every transition in this skill reads from semantic names like these, so multiple transitions can share a single `:root` block.
 
@@ -89,16 +89,22 @@ The `:root` defaults below match the live tuning on [transitions.dev](https://tr
   overflow: hidden;
   z-index: 2;
 }
-.t-clear-mirror { opacity: 0; }
+.t-clear-mirror {
+  opacity: 0;
+}
 .t-clear.has-value .t-clear-mirror,
-.t-clear.is-clearing .t-clear-mirror { opacity: 1; }
+.t-clear.is-clearing .t-clear-mirror {
+  opacity: 1;
+}
 /* Hide the input's own glyphs while the mirror owns them so
    the cleared text doesn't double-render with the fly-up. */
 .t-clear.has-value > input,
 .t-clear.is-clearing > input {
   -webkit-text-fill-color: transparent;
 }
-.t-clear.has-value .t-clear-placeholder { opacity: 0; }
+.t-clear.has-value .t-clear-placeholder {
+  opacity: 0;
+}
 /* The streak overlay: empty by default; JS writes a stack of
    `radial-gradient(...)` layers into background during a clear,
    then animates opacity. mix-blend-mode: multiply darkens the
@@ -120,7 +126,9 @@ The `:root` defaults below match the live tuning on [transitions.dev](https://tr
    so live tweaks apply on the next clear without a reload. */
 
 @media (prefers-reduced-motion: reduce) {
-  .t-clear-glow { opacity: 0 !important; }
+  .t-clear-glow {
+    opacity: 0 !important;
+  }
 }
 ```
 
@@ -141,8 +149,12 @@ function bezier(str) {
   const m = String(str).match(/cubic-bezier\(([-\d.]+),([-\d.]+),([-\d.]+),([-\d.]+)\)/);
   if (!m) return (t) => t;
   const [x1, y1, x2, y2] = m.slice(1).map(parseFloat);
-  const cx = 3 * x1, bx = 3 * (x2 - x1) - cx, ax = 1 - cx - bx;
-  const cy = 3 * y1, by = 3 * (y2 - y1) - cy, ay = 1 - cy - by;
+  const cx = 3 * x1,
+    bx = 3 * (x2 - x1) - cx,
+    ax = 1 - cx - bx;
+  const cy = 3 * y1,
+    by = 3 * (y2 - y1) - cy,
+    ay = 1 - cy - by;
   return (t) => {
     if (t <= 0) return 0;
     if (t >= 1) return 1;
@@ -157,28 +169,28 @@ function bezier(str) {
   };
 }
 
-document.querySelectorAll(".t-clear").forEach((wrap) => {
-  const input  = wrap.querySelector("input");
-  const mirror = wrap.querySelector(".t-clear-mirror");
-  const phold  = wrap.querySelector(".t-clear-placeholder");
-  const glow   = wrap.querySelector(".t-clear-glow");
-  const btn    = wrap.querySelector(".t-clear-btn");
-  const canvas = document.createElement("canvas").getContext("2d");
+document.querySelectorAll('.t-clear').forEach((wrap) => {
+  const input = wrap.querySelector('input');
+  const mirror = wrap.querySelector('.t-clear-mirror');
+  const phold = wrap.querySelector('.t-clear-placeholder');
+  const glow = wrap.querySelector('.t-clear-glow');
+  const btn = wrap.querySelector('.t-clear-btn');
+  const canvas = document.createElement('canvas').getContext('2d');
   let clearing = false;
 
   const sync = () => {
     const has = input.value.length > 0;
-    wrap.classList.toggle("has-value", has);
-    if (has) mirror.textContent = input.value.replace(/ /g, "\u00a0");
+    wrap.classList.toggle('has-value', has);
+    if (has) mirror.textContent = input.value.replace(/ /g, '\u00a0');
   };
 
   function buildGlow(text) {
     canvas.font = getComputedStyle(input).font;
-    const isDark = root.getAttribute("data-theme") === "dark";
-    const rgb = isDark ? "255,255,255" : "0,0,0";
+    const isDark = root.getAttribute('data-theme') === 'dark';
+    const rgb = isDark ? '255,255,255' : '0,0,0';
     const w = wrap.clientWidth || 280;
     const padLeft = parseFloat(getComputedStyle(input).paddingLeft) || 12;
-    const spread = num("--glow-spread", 1.5);
+    const spread = num('--glow-spread', 1.5);
     const layers = [];
     let x = 0;
     text.split(/(\s+)/).forEach((seg) => {
@@ -186,45 +198,48 @@ document.querySelectorAll(".t-clear").forEach((wrap) => {
       if (seg.trim()) {
         const cx = padLeft + x + segW / 2;
         const hw = Math.max(segW * 0.45, 8) * spread;
-        [[0, 0.8, 7, 0.22], [hw * 0.45, 0.55, 8, 0.18],
-         [-hw * 0.4, 0.65, 6, 0.16], [hw * 0.15, 0.9, 5, 0.14]]
-          .forEach(([dx, rwm, rh, a]) => {
-            const lx = (((cx + dx) / w) * 100).toFixed(2);
-            layers.push(
-              `radial-gradient(ellipse ${Math.max(hw * rwm, 2).toFixed(1)}px ${rh}px at ${lx}% 100%, rgba(${rgb},${a}), transparent)`
-            );
-          });
+        [
+          [0, 0.8, 7, 0.22],
+          [hw * 0.45, 0.55, 8, 0.18],
+          [-hw * 0.4, 0.65, 6, 0.16],
+          [hw * 0.15, 0.9, 5, 0.14],
+        ].forEach(([dx, rwm, rh, a]) => {
+          const lx = (((cx + dx) / w) * 100).toFixed(2);
+          layers.push(
+            `radial-gradient(ellipse ${Math.max(hw * rwm, 2).toFixed(1)}px ${rh}px at ${lx}% 100%, rgba(${rgb},${a}), transparent)`,
+          );
+        });
       }
       x += segW;
     });
-    return layers.join(", ");
+    return layers.join(', ');
   }
 
   function clearWithAnimation() {
     if (clearing || !input.value) return;
     clearing = true;
     const keepFocus = document.activeElement === input;
-    mirror.textContent = input.value.replace(/ /g, "\u00a0");
+    mirror.textContent = input.value.replace(/ /g, '\u00a0');
 
-    const total = num("--clear-dur", 1000);
-    const outDur = num("--clear-out-dur", 400);
-    const inDur  = num("--clear-in-dur", 400);
-    const outFly = num("--clear-out-fly", 12);
-    const inFly  = num("--clear-in-fly", 12);
-    const blur   = num("--clear-blur", 2);
-    const delay  = num("--glow-delay", 50);
-    const peakAt = num("--glow-peak-at", 0.15);
-    const gOp    = num("--glow-opacity", 0.42);
-    const easeOut = bezier(getComputedStyle(root).getPropertyValue("--clear-out-ease"));
-    const easeIn  = bezier(getComputedStyle(root).getPropertyValue("--clear-in-ease"));
+    const total = num('--clear-dur', 1000);
+    const outDur = num('--clear-out-dur', 400);
+    const inDur = num('--clear-in-dur', 400);
+    const outFly = num('--clear-out-fly', 12);
+    const inFly = num('--clear-in-fly', 12);
+    const blur = num('--clear-blur', 2);
+    const delay = num('--glow-delay', 50);
+    const peakAt = num('--glow-peak-at', 0.15);
+    const gOp = num('--glow-opacity', 0.42);
+    const easeOut = bezier(getComputedStyle(root).getPropertyValue('--clear-out-ease'));
+    const easeIn = bezier(getComputedStyle(root).getPropertyValue('--clear-in-ease'));
 
-    input.value = "";
-    wrap.classList.remove("has-value");
-    wrap.classList.add("is-clearing");
+    input.value = '';
+    wrap.classList.remove('has-value');
+    wrap.classList.add('is-clearing');
     glow.style.background = buildGlow(mirror.textContent);
-    glow.style.opacity = "0";
+    glow.style.opacity = '0';
     phold.style.transform = `translateY(-${inFly}px)`;
-    phold.style.opacity = "0.9";
+    phold.style.opacity = '0.9';
     phold.style.filter = `blur(${blur}px)`;
 
     const t0 = performance.now();
@@ -250,22 +265,24 @@ document.querySelectorAll(".t-clear").forEach((wrap) => {
       if (el < total) {
         requestAnimationFrame(tick);
       } else {
-        wrap.classList.remove("is-clearing");
-        [mirror, phold].forEach((el) => (el.style.cssText = ""));
-        mirror.textContent = "";
-        glow.style.opacity = "0";
-        glow.style.background = "";
+        wrap.classList.remove('is-clearing');
+        [mirror, phold].forEach((el) => (el.style.cssText = ''));
+        mirror.textContent = '';
+        glow.style.opacity = '0';
+        glow.style.background = '';
         clearing = false;
         if (keepFocus) requestAnimationFrame(() => input.focus({ preventScroll: true }));
       }
     })(performance.now());
   }
 
-  const keep = (e) => { if (document.activeElement === input) e.preventDefault(); };
-  btn.addEventListener("pointerdown", keep);
-  btn.addEventListener("mousedown", keep);
-  btn.addEventListener("click", clearWithAnimation);
-  input.addEventListener("input", sync);
+  const keep = (e) => {
+    if (document.activeElement === input) e.preventDefault();
+  };
+  btn.addEventListener('pointerdown', keep);
+  btn.addEventListener('mousedown', keep);
+  btn.addEventListener('click', clearWithAnimation);
+  input.addEventListener('input', sync);
   sync();
 });
 ```
@@ -273,4 +290,3 @@ document.querySelectorAll(".t-clear").forEach((wrap) => {
 ### Dark mode
 
 The glow uses `mix-blend-mode: multiply` in light mode. In dark mode flip to `screen`, bump `--glow-opacity` to ~0.85, and paint **white** gradients in JS — multiply over a dark surface vanishes.
-

@@ -22,9 +22,9 @@ describe('SonnerShowcase', () => {
     expect(text).toContain('Toaster options');
     expect(fixture.nativeElement.querySelectorAll('ui-card')).toHaveLength(10);
 
-    const showButton = Array.from(
-      fixture.nativeElement.querySelectorAll('button'),
-    ).find((button) => (button as HTMLButtonElement).textContent?.trim() === 'Show toast') as HTMLButtonElement;
+    const showButton = Array.from(fixture.nativeElement.querySelectorAll('button')).find(
+      (button) => (button as HTMLButtonElement).textContent?.trim() === 'Show toast',
+    ) as HTMLButtonElement;
     showButton.click();
     await fixture.whenStable();
 

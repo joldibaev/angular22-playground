@@ -6,9 +6,7 @@ import { UiTooltip } from './ui-tooltip';
 
 @Component({
   imports: [UiButton, UiTooltip],
-  template: `
-    <button uiButton [uiTooltip]="text()">Button</button>
-  `,
+  template: ` <button uiButton [uiTooltip]="text()">Button</button> `,
 })
 class TooltipTestHost {
   readonly text = signal('Hello');

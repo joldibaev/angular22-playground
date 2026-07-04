@@ -43,7 +43,7 @@ function queueBeacon() {
   try {
     fetchLater(ANALYTICS_ENDPOINT, {
       method: 'POST',
-      headers: {'content-type': 'application/json'},
+      headers: { 'content-type': 'application/json' },
       body: JSON.stringify(sessionData),
       signal: fetchLaterController.signal,
     });
@@ -91,12 +91,8 @@ globalThis.fetchLater ??= function fetchLater(url, init = {}) {
       // Use fetch keepalive if the browser supports it or if custom fetch
       // parameters are specified (e.g. custom headers or methods).
       // Otherwise fall back to `navigator.sendBeacon()`.
-      if (
-        'keepalive' in Request.prototype ||
-        init.method !== 'POST' ||
-        init.headers
-      ) {
-        fetch(url, Object.assign({}, init, {keepalive: true}));
+      if ('keepalive' in Request.prototype || init.method !== 'POST' || init.headers) {
+        fetch(url, Object.assign({}, init, { keepalive: true }));
         activated = true;
       } else {
         activated = navigator.sendBeacon(url, init.body);
