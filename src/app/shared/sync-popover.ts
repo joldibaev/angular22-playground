@@ -35,11 +35,13 @@ export function syncPopover(
     // During the first render the document may not be fully active yet, which
     // makes showPopover() temporarily throw InvalidStateError. Reconcile again
     // after a paint instead of waiting for unrelated input to change state.
-    if (shouldOpen && error instanceof DOMException && error.name === 'InvalidStateError') {
-      if (pendingRetries > 0) {
-        requestAnimationFrame(() => syncPopover(element, open, pendingRetries - 1));
-      }
-
+    if (
+      shouldOpen &&
+      pendingRetries > 0 &&
+      error instanceof DOMException &&
+      error.name === 'InvalidStateError'
+    ) {
+      requestAnimationFrame(() => syncPopover(element, open, pendingRetries - 1));
       return;
     }
 
