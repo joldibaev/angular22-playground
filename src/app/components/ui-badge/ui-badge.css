@@ -29,7 +29,7 @@
   display: none;
 }
 
-:host(.ui-badge-default) {
+:host(.ui-badge-contrast) {
   --ui-badge-background: CanvasText;
   --ui-badge-border-color: var(--ui-badge-background);
   --ui-badge-color: Canvas;

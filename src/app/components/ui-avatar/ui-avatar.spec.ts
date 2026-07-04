@@ -62,6 +62,8 @@ describe('UiAvatar', () => {
     fixture.detectChanges();
 
     expect(host().querySelector('ui-icon')).toBeTruthy();
+    expect(host().getAttribute('role')).toBeNull();
     expect(host().getAttribute('aria-label')).toBeNull();
+    expect(host().getAttribute('aria-hidden')).toBe('true');
   });
 });

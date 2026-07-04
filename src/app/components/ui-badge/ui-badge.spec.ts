@@ -12,6 +12,7 @@ import { UiBadge } from './ui-badge';
       <ui-icon name="outline-circle-check" decorative [width]="14" [height]="14" />
       Verified
     </ui-badge>
+    <ui-badge variant="contrast">High contrast</ui-badge>
   `,
 })
 class TestHost {}
@@ -61,5 +62,11 @@ describe('UiBadge', () => {
     expect(icon?.getAttribute('aria-hidden')).toBe('true');
     expect(badge.textContent).toContain('Verified');
     expect(badge.classList.contains('ui-badge-brand')).toBe(true);
+  });
+
+  it('should expose the explicit high-contrast variant by name', () => {
+    const [, , , badge] = badges();
+
+    expect(badge.classList.contains('ui-badge-contrast')).toBe(true);
   });
 });

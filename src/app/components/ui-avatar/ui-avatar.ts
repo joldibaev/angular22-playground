@@ -12,15 +12,19 @@ export type UiAvatarSize = 'sm' | 'md' | 'lg';
     '[class.ui-avatar-sm]': "size() === 'sm'",
     '[class.ui-avatar-md]': "size() === 'md'",
     '[class.ui-avatar-lg]': "size() === 'lg'",
-    // The host carries the accessible name, so the inner image/initials stay decorative.
-    role: 'img',
-    '[attr.aria-label]': 'name() || null',
+    // The host carries image semantics only when the caller supplies a name.
+    // Anonymous placeholders are decoration and stay out of the accessibility tree.
+    '[attr.role]': 'accessibleName() ? "img" : null',
+    '[attr.aria-label]': 'accessibleName() || null',
+    '[attr.aria-hidden]': 'accessibleName() ? null : "true"',
   },
 })
 export class UiAvatar {
   readonly src = input('');
   readonly name = input('');
   readonly size = input<UiAvatarSize>('md');
+
+  protected readonly accessibleName = computed(() => this.name().trim());
 
   // Resets to `false` whenever `src` changes, so a new image gets a fresh attempt
   // after a previous one failed to load.

@@ -12,6 +12,7 @@ import { UiTreeItem } from './ui-tree.type';
       [nav]="nav()"
       [withGuides]="withGuides()"
       [(selected)]="selected"
+      [(expanded)]="expanded"
     />
   `,
 })
@@ -38,6 +39,7 @@ class TestHost {
   readonly nav = signal(false);
   readonly withGuides = signal(true);
   readonly selected = signal<string[]>([]);
+  readonly expanded = signal<string[] | undefined>(undefined);
 }
 
 async function createHost(): Promise<ComponentFixture<TestHost>> {
@@ -90,6 +92,19 @@ describe('UiTree', () => {
 
     expect(itemByText(fixture, 'src').getAttribute('aria-expanded')).toBe('true');
     expect(itemByText(fixture, 'docs').getAttribute('aria-expanded')).toBe('false');
+  });
+
+  it('controls expansion without mutating input items', async () => {
+    const fixture = await createHost();
+    const source = fixture.componentInstance.items();
+
+    fixture.componentInstance.expanded.set(['docs']);
+    fixture.detectChanges();
+    await fixture.whenStable();
+
+    expect(itemByText(fixture, 'README.md')).toBeTruthy();
+    expect(source[0].expanded).toBe(true);
+    expect(source[1].expanded).toBeUndefined();
   });
 
   it('marks disabled items as non-interactive', async () => {

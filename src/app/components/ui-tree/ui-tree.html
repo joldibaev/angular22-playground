@@ -30,10 +30,10 @@
         [value]="node.id"
         [parent]="parent"
         [label]="node.label"
-        [expanded]="node.expanded ?? false"
+        [expanded]="isExpanded(node)"
         [disabled]="node.disabled ?? false"
         [selectable]="node.selectable ?? true"
-        (expandedChange)="node.expanded = $event"
+        (expandedChange)="onExpandedChange(node.id, $event)"
       >
         @if (branch) {
           <ui-icon class="ui-tree-twisty" name="outline-chevron-down" [decorative]="true" />

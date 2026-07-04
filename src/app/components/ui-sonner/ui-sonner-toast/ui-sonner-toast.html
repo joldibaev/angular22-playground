@@ -40,7 +40,7 @@
       variant="ghost"
       iconOnly
       data-close-button
-      aria-label="Close toast"
+      [attr.aria-label]="closeLabel()"
       [attr.data-disabled]="disabled()"
       [disabled]="disabled()"
       (click)="onCloseButtonClick()"

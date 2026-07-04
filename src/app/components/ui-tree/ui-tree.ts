@@ -26,10 +26,13 @@ import { booleanAttribute, ChangeDetectionStrategy, Component, input, model } fr
   },
 })
 export class UiTree {
-  readonly items = input.required<UiTreeItem[]>();
+  readonly items = input.required<readonly UiTreeItem[]>();
 
   /** Selected node ids. Two-way bound to the tree's value model. */
   readonly selected = model<string[]>([]);
+
+  /** Expanded node ids; undefined lets item flags seed the first interaction. */
+  readonly expanded = model<string[] | undefined>(undefined);
 
   /**
    * Accessible name for the tree. Aliased to the native `aria-label` /
@@ -51,4 +54,27 @@ export class UiTree {
 
   /** Draw the connector guide lines linking children to their parent. */
   readonly withGuides = input(true, { transform: booleanAttribute });
+
+  protected isExpanded(node: UiTreeItem): boolean {
+    return this.expanded()?.includes(node.id) ?? node.expanded ?? false;
+  }
+
+  protected onExpandedChange(nodeId: string, expanded: boolean): void {
+    const next = new Set(this.expanded() ?? collectInitiallyExpanded(this.items()));
+
+    if (expanded) {
+      next.add(nodeId);
+    } else {
+      next.delete(nodeId);
+    }
+
+    this.expanded.set([...next]);
+  }
+}
+
+function collectInitiallyExpanded(items: readonly UiTreeItem[]): string[] {
+  return items.flatMap((item) => [
+    ...(item.expanded ? [item.id] : []),
+    ...collectInitiallyExpanded(item.children ?? []),
+  ]);
 }

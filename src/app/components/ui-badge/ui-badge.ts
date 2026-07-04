@@ -1,7 +1,7 @@
 import { booleanAttribute, Component, input } from '@angular/core';
 
 export type UiBadgeVariant =
-  | 'default'
+  | 'contrast'
   | 'brand'
   | 'outline'
   | 'destructive'
@@ -12,7 +12,7 @@ export type UiBadgeVariant =
   templateUrl: './ui-badge.html',
   styleUrl: './ui-badge.css',
   host: {
-    '[class.ui-badge-default]': "variant() === 'default'",
+    '[class.ui-badge-contrast]': "variant() === 'contrast'",
     '[class.ui-badge-brand]': "variant() === 'brand'",
     '[class.ui-badge-outline]': "variant() === 'outline'",
     '[class.ui-badge-destructive]': "variant() === 'destructive'",

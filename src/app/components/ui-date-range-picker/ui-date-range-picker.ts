@@ -38,6 +38,8 @@ import {
 
 export type UiDateRangePickerSize = 'sm' | 'md';
 
+const INITIAL_VIEW: CalendarMonth = { year: 1970, month: 0 };
+
 // Range picking keeps a draft until Apply, unlike the single picker which can
 // commit immediately. Keep it as a separate public control and share calendar math.
 @Component({
@@ -86,14 +88,16 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
   readonly anchorName = `--ui-date-range-trigger-${this.id}`;
 
   readonly popupExpanded = signal(false);
-  readonly leftView = signal<CalendarMonth>(monthFromDate(new Date()));
+  // Keep the closed first render identical on the server and client; local
+  // calendar time is captured only when the user opens the control.
+  readonly leftView = signal<CalendarMonth>(INITIAL_VIEW);
   readonly draftStart = signal('');
   readonly draftEnd = signal('');
   readonly hoverDate = signal('');
   readonly selectingEnd = signal(false);
 
   readonly weekdays = WEEKDAYS_MON_FIRST;
-  readonly today = todayInputValue();
+  readonly today = signal('');
   readonly presets = buildPresets(() => new Date());
 
   readonly committedRange = computed(() => normalizeRange(this.value()));
@@ -171,12 +175,14 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
     }
 
     const range = this.committedRange();
+    const today = todayInputValue();
 
+    this.today.set(today);
     this.draftStart.set(range.start);
     this.draftEnd.set(range.end);
     this.hoverDate.set('');
     this.selectingEnd.set(Boolean(range.start && !range.end));
-    this.leftView.set(rangeToView(range));
+    this.leftView.set(rangeToView(range, today));
     this.popupExpanded.set(true);
   }
 
@@ -236,7 +242,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
     this.draftEnd.set(range.end);
     this.hoverDate.set('');
     this.selectingEnd.set(false);
-    this.leftView.set(rangeToView(range));
+    this.leftView.set(rangeToView(range, this.today()));
   }
 
   isPresetAllowed(preset: { range: () => UiDateRangeValue }) {
@@ -307,7 +313,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
 
     if (event.key === 'Home') {
       event.preventDefault();
-      this.leftView.set(monthFromDate(new Date()));
+      this.leftView.set(monthFromDate(parseInputDate(this.today())!));
       queueMicrotask(() => this.focusInitialCell());
     }
   }
@@ -324,7 +330,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
         hover: this.hoverDate(),
         selectingEnd: this.selectingEnd(),
       },
-      today: this.today,
+      today: this.today(),
       min: this.minDate(),
       max: this.maxDate(),
     });

@@ -10,6 +10,7 @@ import { UiDrawer } from './ui-drawer';
       side="start"
       size="sm"
       dismiss="any"
+      closeLabel="Dismiss filters"
       (openChange)="lastOpen.set($event)"
     >
       <p class="drawer-body-text">Body</p>
@@ -61,6 +62,7 @@ describe('UiDrawer', () => {
 
     expect(close.getAttribute('command')).toBe('close');
     expect(close.getAttribute('commandfor')).toBe(dialog().id);
+    expect(close.getAttribute('aria-label')).toBe('Dismiss filters');
   });
 
   it('should project body content and the footer slot', () => {

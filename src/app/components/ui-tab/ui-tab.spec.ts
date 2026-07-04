@@ -262,6 +262,17 @@ describe('UiTab', () => {
     expect(getTabs(hostFixture)[1].getAttribute('aria-selected')).toBe('true');
   });
 
+  it('should fall back to the first enabled tab for an unknown query param', async () => {
+    const router = TestBed.inject(Router);
+
+    await router.navigateByUrl('/?section=unknown');
+
+    const hostFixture = await createQueryParamHostFixture();
+
+    expect(hostFixture.componentInstance.tab().selectedTab()).toBe('overview');
+    expect(getTabs(hostFixture)[0].getAttribute('aria-selected')).toBe('true');
+  });
+
   it('should write the selected tab to the configured query param', async () => {
     const router = TestBed.inject(Router);
     await router.navigateByUrl('/?section=overview&ticket=42');

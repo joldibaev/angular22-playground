@@ -30,6 +30,8 @@ import {
 
 export type UiDatepickerSize = 'sm' | 'md';
 
+const INITIAL_VIEW: CalendarMonth = { year: 1970, month: 0 };
+
 // Keep the public picker single-value focused. Range picking has different
 // draft/commit behavior, but both variants can share the calendar math here.
 @Component({
@@ -70,19 +72,21 @@ export class UiDatepicker implements FormValueControl<string> {
   readonly anchorName = `--ui-datepicker-trigger-${this.id}`;
 
   readonly popupExpanded = signal(false);
-  readonly view = signal<CalendarMonth>(monthFromDate(new Date()));
+  // Keep the first server/client render deterministic. The real local date is
+  // read when the user opens the calendar, after hydration has completed.
+  readonly view = signal<CalendarMonth>(INITIAL_VIEW);
 
   readonly weekdays = WEEKDAYS_MON_FIRST;
-  readonly today = todayInputValue();
+  readonly today = signal('');
 
   readonly displayValue = computed(() => formatDisplayDate(this.value()));
   readonly isPlaceholderVisible = computed(() => this.displayValue().length === 0);
-  readonly isTodayAllowed = computed(() => this.isDateAllowed(this.today));
+  readonly isTodayAllowed = computed(() => this.isDateAllowed(this.today()));
   readonly monthLabel = computed(() => formatMonthLabel(this.view()));
   readonly weeks = computed(() =>
     buildMonthGrid(this.view(), {
       selected: this.value(),
-      today: this.today,
+      today: this.today(),
       min: this.min(),
       max: this.max(),
     }),
@@ -145,7 +149,10 @@ export class UiDatepicker implements FormValueControl<string> {
       return;
     }
 
-    this.view.set(monthFromValue(this.value()));
+    const today = todayInputValue();
+
+    this.today.set(today);
+    this.view.set(monthFromValue(this.value(), today));
     this.popupExpanded.set(true);
   }
 
@@ -168,12 +175,14 @@ export class UiDatepicker implements FormValueControl<string> {
   }
 
   setToday() {
-    if (!this.isDateAllowed(this.today)) {
+    const today = this.today();
+
+    if (!this.isDateAllowed(today)) {
       return;
     }
 
-    this.value.set(this.today);
-    this.view.set(monthFromDate(new Date()));
+    this.value.set(today);
+    this.view.set(monthFromDate(parseInputDate(today)!));
     this.close();
   }
 
@@ -228,7 +237,7 @@ export class UiDatepicker implements FormValueControl<string> {
 
     if (event.key === 'Home') {
       event.preventDefault();
-      this.view.set(monthFromDate(new Date()));
+      this.view.set(monthFromDate(parseInputDate(this.today())!));
       queueMicrotask(() => this.focusInitialCell());
     }
   }
@@ -266,8 +275,8 @@ export class UiDatepicker implements FormValueControl<string> {
   }
 }
 
-function monthFromValue(value: string): CalendarMonth {
-  const date = parseInputDate(value) ?? new Date();
+function monthFromValue(value: string, today: string): CalendarMonth {
+  const date = parseInputDate(value) ?? parseInputDate(today)!;
 
   return monthFromDate(date);
 }

@@ -46,6 +46,7 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
   readonly visibleToasts = input.required<number>();
   readonly expandByDefault = input.required<boolean>();
   readonly closeButton = input.required<boolean>();
+  readonly closeLabel = input.required<string>();
   readonly interacting = input.required<boolean>();
   readonly duration = input<number | null>(DEFAULT_DURATION);
   readonly descriptionClass = input('');

@@ -75,6 +75,8 @@ describe('UiDateRangePicker', () => {
     await fixture.whenStable();
 
     expect(fixture.componentInstance).toBeTruthy();
+    expect(fixture.componentInstance.leftView()).toEqual({ year: 1970, month: 0 });
+    expect(fixture.componentInstance.today()).toBe('');
   });
 
   it('should forward the compact size to the wrapped ui-input', async () => {

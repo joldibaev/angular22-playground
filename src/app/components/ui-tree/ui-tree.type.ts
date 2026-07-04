@@ -4,10 +4,8 @@ import { IconName } from '../ui-icon/data';
  * A single node in a {@link UiTree}. The data is plain and recursive: the tree
  * renders it through a self-referencing template, so depth is unbounded.
  *
- * `expanded` is intentionally mutable — the component writes the user's
- * collapse/expand state straight back onto the node via `(expandedChange)`,
- * which keeps the caller's array as the single source of truth without an extra
- * map of open ids to maintain.
+ * `expanded` seeds initial state only. UiTree publishes later interaction
+ * through its `expanded` model and never mutates the caller's objects.
  */
 export interface UiTreeItem {
   /** Stable identity. Used both for `@for` tracking and as the selection value. */
@@ -16,8 +14,8 @@ export interface UiTreeItem {
   label: string;
 
   /** Child nodes. Absent or empty marks a leaf (no twisty, no group). */
-  children?: UiTreeItem[];
-  /** Whether the node starts expanded; mutated as the user toggles it. */
+  children?: readonly UiTreeItem[];
+  /** Whether the node starts expanded when no explicit expanded model is bound. */
   expanded?: boolean;
 
   /** Optional leading glyph shown before the label. */

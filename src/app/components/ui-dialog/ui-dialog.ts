@@ -39,7 +39,7 @@ export class UiDialog {
   private readonly id = nextId();
 
   readonly dialogId = input(`ui-dialog-${this.id}`);
-  readonly title = input('');
+  readonly title = input.required<string>();
   readonly caption = input('');
   readonly role = input<UiDialogRole>('dialog');
   readonly size = input<UiDialogSize>('md');

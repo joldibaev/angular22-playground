@@ -59,10 +59,10 @@ export function formatRangeDisplay(range: UiDateRangeValue): string {
   return range.start ? `From ${formatDay(range.start)}` : `Until ${formatDay(range.end)}`;
 }
 
-export function rangeToView(range: UiDateRangeValue): CalendarMonth {
+export function rangeToView(range: UiDateRangeValue, today: string): CalendarMonth {
   const start = parseInputDate(range.start);
   const end = parseInputDate(range.end);
-  const anchor = end ?? start ?? new Date();
+  const anchor = end ?? start ?? parseInputDate(today)!;
   const sameMonth =
     start &&
     end &&

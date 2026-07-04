@@ -78,8 +78,11 @@ export class UiTab {
   });
   readonly tabListSelectedTab = computed(() => {
     const selectedTab = this.selectedTab();
+    const queryParamValue = this.queryParamValue();
 
-    return this.userSelectedTab() ? selectedTab : (this.queryParamValue() ?? selectedTab);
+    return !this.userSelectedTab() && queryParamValue && this.isEnabledTabValue(queryParamValue)
+      ? queryParamValue
+      : selectedTab;
   });
 
   constructor() {
@@ -94,10 +97,6 @@ export class UiTab {
 
       if (queryParamValue && this.isEnabledTabValue(queryParamValue)) {
         this.selectedTab.set(queryParamValue);
-        return;
-      }
-
-      if (queryParamValue) {
         return;
       }
 

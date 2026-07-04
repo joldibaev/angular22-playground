@@ -73,8 +73,8 @@
   opacity: 0;
   scale: 0.5;
   box-shadow:
-    0 1px 2px rgb(15 23 42 / 0.18),
-    0 0 0 1px rgb(15 23 42 / 0.05);
+    0 1px 2px color-mix(in oklab, CanvasText 18%, transparent),
+    0 0 0 1px color-mix(in oklab, CanvasText 5%, transparent);
   transition:
     opacity var(--ui-radio-state-duration) var(--ui-radio-motion-easing),
     scale var(--ui-radio-state-duration) var(--ui-radio-motion-easing);

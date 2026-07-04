@@ -57,6 +57,7 @@ export class UiSonner implements OnDestroy {
   readonly duration = input(DEFAULT_DURATION, { transform: numberAttribute });
   readonly visibleToasts = input(DEFAULT_VISIBLE_TOASTS, { transform: numberAttribute });
   readonly closeButton = input(false, { transform: booleanAttribute });
+  readonly closeLabel = input('Close notification');
   readonly toastOptions = input<UiSonnerToastOptions>({});
   readonly offset = input<string | number | null>(null);
   readonly gap = input(DEFAULT_GAP, { transform: numberAttribute });

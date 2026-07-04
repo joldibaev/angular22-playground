@@ -8,7 +8,7 @@
   [class.ui-dialog-xl]="size() === 'xl'"
   [attr.role]="role()"
   [attr.closedby]="dismiss()"
-  [attr.aria-labelledby]="title() ? titleId : null"
+  [attr.aria-labelledby]="titleId"
   [attr.aria-describedby]="describedBy()"
   (toggle)="onToggle($event)"
 >
@@ -17,9 +17,7 @@
       <header class="ui-dialog-header">
         @if (title() || caption()) {
           <div class="ui-dialog-title-group">
-            @if (title()) {
-              <h2 [id]="titleId" class="ui-dialog-title">{{ title() }}</h2>
-            }
+            <h2 [id]="titleId" class="ui-dialog-title">{{ title() }}</h2>
 
             @if (caption()) {
               <p [id]="captionId" class="ui-dialog-caption">{{ caption() }}</p>

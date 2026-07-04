@@ -11,6 +11,7 @@ import { UiSonnerToast } from './ui-sonner-toast/ui-sonner-toast';
       position="bottom-center"
       [visibleToasts]="2"
       [closeButton]="true"
+      closeLabel="Dismiss notification"
       [gap]="8"
     />
   `,
@@ -120,7 +121,7 @@ describe('UiSonner', () => {
     await fixture.whenStable();
 
     const close = fixture.nativeElement.querySelector(
-      'button[aria-label="Close toast"]',
+      'button[aria-label="Dismiss notification"]',
     ) as HTMLButtonElement;
 
     expect(close.classList.contains('ui-button-icon-only')).toBe(true);

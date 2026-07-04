@@ -100,8 +100,8 @@
   border-radius: 999px; /* circle at rest, clean pill when stretched */
   background-color: white;
   box-shadow:
-    0 1px 2px rgb(15 23 42 / 0.18),
-    0 0 0 1px rgb(15 23 42 / 0.05);
+    0 1px 2px color-mix(in oklab, CanvasText 18%, transparent),
+    0 0 0 1px color-mix(in oklab, CanvasText 5%, transparent);
   transform: translateY(-50%);
   /* Travel (`left`) and press-stretch (`width`) ride the same property timing,
      so they stay in lock-step — no cross-property desync, no origin flip. */
