@@ -1,5 +1,4 @@
 :host {
-  --ui-menu-group-label-color: var(--text-color-subtle);
   --ui-menu-separator-color: var(--border-color-default);
   --ui-popup-max-height: calc(100vh - 2rem);
   --ui-popup-padding: 0.25rem;
@@ -21,7 +20,7 @@
   overflow: clip;
   padding-block: 0.5rem 0.25rem;
   padding-inline: 0.75rem;
-  color: var(--ui-menu-group-label-color);
+  color: var(--ui-popup-muted-color);
   font-size: 0.6875rem;
   font-weight: 700;
   line-height: 1rem;

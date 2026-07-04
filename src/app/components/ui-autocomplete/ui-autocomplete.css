@@ -1,6 +1,4 @@
 :host {
-  --ui-autocomplete-empty-state-color: color-mix(in oklab, var(--text-color-muted) 60%, transparent);
-
   anchor-scope: --ui-autocomplete-trigger;
   display: block;
   min-width: 0;
@@ -25,6 +23,6 @@
 }
 
 .empty-state {
-  color: var(--ui-autocomplete-empty-state-color);
+  color: var(--ui-popup-muted-color);
   padding: 0.75rem 1rem;
 }

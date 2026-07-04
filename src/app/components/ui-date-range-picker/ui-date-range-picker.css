@@ -13,11 +13,11 @@
   --ui-popup-padding: 0;
 
   --ui-date-range-border-color: var(--border-color-default);
-  --ui-date-range-hover-background: color-mix(in oklab, var(--text-color-muted) 7%, transparent);
-  --ui-date-range-selected-background: var(--color-brand);
-  --ui-date-range-selected-color: contrast-color(var(--ui-date-range-selected-background));
-  --ui-date-range-preview-background: color-mix(in oklab, var(--color-brand) 16%, transparent);
-  --ui-date-range-muted-color: var(--text-color-subtle);
+  --ui-date-range-preview-background: color-mix(
+    in oklab,
+    var(--ui-popup-accent-background) 16%,
+    transparent
+  );
   /* Gaps between adjacent day cells, set as the grid's border-spacing
      (inline = columns 8 ↔ 9, block = rows 8 ↔ 15). The range fill (::before) stays
      inside its own cell, so the spacing shows as a real gap on both axes — the
@@ -27,9 +27,6 @@
   /* Corner radius shared by the day pill and the brand-subtle range tile behind
      it, so the rounded fill tracks the pill when either is themed. */
   --ui-date-range-day-radius: 0.375rem;
-  --ui-date-range-close-duration: var(--dur-quick);
-  --ui-date-range-press-duration: var(--dur-press);
-  --ui-date-range-motion-easing: var(--ease-snappy);
 
   display: block;
   min-width: 0;
@@ -87,7 +84,7 @@
 
 .ui-date-range-chevron {
   margin-left: auto;
-  transition: rotate var(--ui-date-range-close-duration) var(--ui-date-range-motion-easing);
+  transition: rotate var(--ui-popup-close-duration) var(--ui-popup-easing);
 }
 
 .ui-date-range-trigger-label {
@@ -135,11 +132,11 @@
   font: inherit;
   outline: none;
   transition:
-    background-color var(--ui-date-range-press-duration) var(--ui-date-range-motion-easing),
-    scale var(--ui-date-range-press-duration) var(--ui-date-range-motion-easing);
+    background-color var(--ui-popup-interactive-state-duration) var(--ui-popup-interactive-easing),
+    scale var(--ui-popup-interactive-press-duration) var(--ui-popup-interactive-easing);
 
   &:not(:disabled):hover {
-    background-color: var(--ui-date-range-hover-background);
+    background-color: var(--ui-popup-interactive-hover-background);
   }
 
   /* Press feedback. Wide text buttons (preset / footer action) take the gentle
@@ -222,7 +219,7 @@
 
 .ui-date-range-weekday {
   height: 2rem;
-  color: var(--ui-date-range-muted-color);
+  color: var(--ui-popup-muted-color);
   font-size: 0.75rem;
   font-weight: 800;
   text-align: center;
@@ -242,7 +239,7 @@
     cursor: default;
 
     .ui-date-range-day {
-      color: var(--ui-date-range-muted-color);
+      color: var(--ui-popup-muted-color);
       opacity: 0.55;
     }
   }
@@ -252,7 +249,7 @@
   }
 
   &[aria-current='date'] .ui-date-range-day {
-    color: var(--color-brand);
+    color: var(--ui-popup-accent-background);
     font-weight: 900;
   }
 
@@ -298,14 +295,14 @@
      `data-edge` yet, so it is matched by its class. */
   &[data-edge] .ui-date-range-day,
   &.ui-date-range-pending-start .ui-date-range-day {
-    background-color: var(--ui-date-range-selected-background);
-    color: var(--ui-date-range-selected-color);
+    background-color: var(--ui-popup-accent-background);
+    color: var(--ui-popup-accent-color);
     font-weight: 900;
   }
 
   &:not(.ui-date-range-edge, [aria-disabled='true'], .ui-date-range-pending-start, [data-edge]):hover
     .ui-date-range-day {
-    background-color: var(--ui-date-range-hover-background);
+    background-color: var(--ui-popup-interactive-hover-background);
   }
 
   &:focus-visible .ui-date-range-day,
@@ -332,7 +329,7 @@
   border-radius: var(--ui-date-range-day-radius);
   font-size: 0.875rem;
   pointer-events: none;
-  transition: scale var(--ui-date-range-press-duration) var(--ui-date-range-motion-easing);
+  transition: scale var(--ui-popup-interactive-press-duration) var(--ui-popup-interactive-easing);
 }
 
 .ui-date-range-footer {
@@ -374,11 +371,11 @@
 }
 
 .ui-date-range-action-accent {
-  background-color: var(--ui-date-range-selected-background);
-  color: var(--ui-date-range-selected-color);
+  background-color: var(--ui-popup-accent-background);
+  color: var(--ui-popup-accent-color);
 
   &:not(:disabled):hover {
-    background-color: color-mix(in oklab, var(--ui-date-range-selected-background) 88%, black);
+    background-color: var(--ui-popup-accent-hover-background);
   }
 }
 
@@ -448,7 +445,8 @@
   .ui-date-range-preset,
   .ui-date-range-nav,
   .ui-date-range-action {
-    transition: background-color var(--ui-date-range-press-duration) var(--ui-date-range-motion-easing);
+    transition:
+      background-color var(--ui-popup-interactive-state-duration) var(--ui-popup-interactive-easing);
 
     &:not(:disabled):active {
       scale: none;

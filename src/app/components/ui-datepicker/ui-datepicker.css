@@ -12,15 +12,6 @@
   --ui-popup-max-height: none;
 
   --ui-datepicker-border-color: var(--border-color-default);
-  --ui-datepicker-hover-background: color-mix(in oklab, var(--text-color-muted) 7%, transparent);
-  --ui-datepicker-selected-background: var(--color-brand);
-  --ui-datepicker-selected-color: contrast-color(var(--ui-datepicker-selected-background));
-  --ui-datepicker-today-color: var(--color-brand);
-  --ui-datepicker-muted-color: var(--text-color-subtle);
-  --ui-datepicker-state-duration: var(--dur-quick);
-  --ui-datepicker-press-duration: var(--dur-press);
-  --ui-datepicker-close-duration: var(--dur-quick);
-  --ui-datepicker-motion-easing: var(--ease-snappy);
 
   display: block;
   min-width: 0;
@@ -78,7 +69,7 @@
 
 .ui-datepicker-chevron {
   margin-left: auto;
-  transition: rotate var(--ui-datepicker-close-duration) var(--ui-datepicker-motion-easing);
+  transition: rotate var(--ui-popup-close-duration) var(--ui-popup-easing);
 }
 
 .ui-datepicker-trigger-label {
@@ -130,11 +121,11 @@
   font: inherit;
   outline: none;
   transition:
-    background-color var(--ui-datepicker-press-duration) var(--ui-datepicker-motion-easing),
-    scale var(--ui-datepicker-press-duration) var(--ui-datepicker-motion-easing);
+    background-color var(--ui-popup-interactive-state-duration) var(--ui-popup-interactive-easing),
+    scale var(--ui-popup-interactive-press-duration) var(--ui-popup-interactive-easing);
 
   &:not(:disabled):hover {
-    background-color: var(--ui-datepicker-hover-background);
+    background-color: var(--ui-popup-interactive-hover-background);
   }
 
   /* Press feedback for the month nav / footer actions. */
@@ -171,7 +162,7 @@
 
 .ui-datepicker-weekday {
   height: 2rem;
-  color: var(--ui-datepicker-muted-color);
+  color: var(--ui-popup-muted-color);
   font-size: 0.75rem;
   font-weight: 800;
   text-align: center;
@@ -190,7 +181,7 @@
     cursor: default;
 
     .ui-datepicker-day {
-      color: var(--ui-datepicker-muted-color);
+      color: var(--ui-popup-muted-color);
       opacity: 0.55;
     }
   }
@@ -200,18 +191,18 @@
   }
 
   &[aria-current='date'] .ui-datepicker-day {
-    color: var(--ui-datepicker-today-color);
+    color: var(--ui-popup-accent-background);
     font-weight: 900;
   }
 
   &[aria-selected='true'] .ui-datepicker-day {
-    background-color: var(--ui-datepicker-selected-background);
-    color: var(--ui-datepicker-selected-color);
+    background-color: var(--ui-popup-accent-background);
+    color: var(--ui-popup-accent-color);
     font-weight: 900;
   }
 
   &:not([aria-selected='true'], [aria-disabled='true']):hover .ui-datepicker-day {
-    background-color: var(--ui-datepicker-hover-background);
+    background-color: var(--ui-popup-interactive-hover-background);
   }
 
   &:focus-visible .ui-datepicker-day,
@@ -238,9 +229,9 @@
   line-height: 1;
   pointer-events: none;
   transition:
-    background-color var(--ui-datepicker-state-duration) var(--ui-datepicker-motion-easing),
-    color var(--ui-datepicker-state-duration) var(--ui-datepicker-motion-easing),
-    scale var(--ui-datepicker-press-duration) var(--ui-datepicker-motion-easing);
+    background-color var(--ui-popup-interactive-state-duration) var(--ui-popup-interactive-easing),
+    color var(--ui-popup-interactive-state-duration) var(--ui-popup-interactive-easing),
+    scale var(--ui-popup-interactive-press-duration) var(--ui-popup-interactive-easing);
 }
 
 .ui-datepicker-footer {
@@ -274,8 +265,8 @@
   /* Day keeps its color fade; drop the press-scale. */
   .ui-datepicker-day {
     transition:
-      background-color var(--ui-datepicker-state-duration) var(--ui-datepicker-motion-easing),
-      color var(--ui-datepicker-state-duration) var(--ui-datepicker-motion-easing);
+      background-color var(--ui-popup-interactive-state-duration) var(--ui-popup-interactive-easing),
+      color var(--ui-popup-interactive-state-duration) var(--ui-popup-interactive-easing);
   }
 
   .ui-datepicker-cell:not([aria-disabled='true']):active .ui-datepicker-day {
@@ -285,7 +276,8 @@
   /* Nav / action buttons keep their hover fade; drop the press-scale. */
   .ui-datepicker-nav,
   .ui-datepicker-action {
-    transition: background-color var(--ui-datepicker-press-duration) var(--ui-datepicker-motion-easing);
+    transition:
+      background-color var(--ui-popup-interactive-state-duration) var(--ui-popup-interactive-easing);
   }
 
   .ui-datepicker-nav:not(:disabled):active,
