@@ -6,8 +6,8 @@ import { UiBadge } from './ui-badge';
 @Component({
   imports: [UiBadge, UiIcon],
   template: `
-    <ui-badge>Default</ui-badge>
-    <ui-badge variant="destructive" rounded size="sm" withDot>Alert</ui-badge>
+    <ui-badge>Secondary</ui-badge>
+    <ui-badge variant="destructive" withDot>Alert</ui-badge>
     <ui-badge variant="brand">
       <ui-icon name="outline-circle-check" decorative [width]="14" [height]="14" />
       Verified
@@ -30,23 +30,20 @@ describe('UiBadge', () => {
     return Array.from(fixture.nativeElement.querySelectorAll('ui-badge'));
   }
 
-  it('should default to the same default variant vocabulary as ui-button', () => {
+  it('should render as a passive secondary badge by default', () => {
     const [badge] = badges();
 
     expect(badge.tagName.toLowerCase()).toBe('ui-badge');
-    expect(badge.classList.contains('ui-badge-default')).toBe(true);
-    expect(badge.classList.contains('ui-badge-md')).toBe(true);
-    expect(badge.textContent?.trim()).toBe('Default');
+    expect(badge.classList.contains('ui-badge-secondary')).toBe(true);
+    expect(badge.textContent?.trim()).toBe('Secondary');
     expect(badge.hasAttribute('role')).toBe(false);
   });
 
-  it('should reflect variant, rounded, and size inputs as host classes', () => {
+  it('should reflect the variant input as a host class', () => {
     const [, badge] = badges();
 
     expect(badge.classList.contains('ui-badge-destructive')).toBe(true);
-    expect(badge.classList.contains('ui-badge-rounded')).toBe(true);
-    expect(badge.classList.contains('ui-badge-sm')).toBe(true);
-    expect(badge.classList.contains('ui-badge-default')).toBe(false);
+    expect(badge.classList.contains('ui-badge-secondary')).toBe(false);
   });
 
   it('should render a decorative status dot', () => {
@@ -57,7 +54,7 @@ describe('UiBadge', () => {
     expect(dot?.getAttribute('aria-hidden')).toBe('true');
   });
 
-  it('should project arbitrary icon content like ui-button', () => {
+  it('should project arbitrary icon content', () => {
     const [, , badge] = badges();
     const icon = badge.querySelector('ui-icon');
 

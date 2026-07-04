@@ -26,7 +26,7 @@ export type UiChipSize = 'sm' | 'md';
   },
 })
 export class UiChip {
-  // Keep the surface vocabulary aligned with ui-button/ui-badge so variants stay predictable.
+  // Shared semantic variant names keep the component family predictable.
   readonly variant = input<UiChipVariant>('default');
   readonly size = input<UiChipSize>('md');
   readonly withDot = input(false, { transform: booleanAttribute });

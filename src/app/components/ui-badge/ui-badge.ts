@@ -6,7 +6,6 @@ export type UiBadgeVariant =
   | 'outline'
   | 'destructive'
   | 'secondary';
-export type UiBadgeSize = 'sm' | 'md';
 
 @Component({
   selector: 'ui-badge',
@@ -18,15 +17,10 @@ export type UiBadgeSize = 'sm' | 'md';
     '[class.ui-badge-outline]': "variant() === 'outline'",
     '[class.ui-badge-destructive]': "variant() === 'destructive'",
     '[class.ui-badge-secondary]': "variant() === 'secondary'",
-    '[class.ui-badge-rounded]': 'rounded()',
-    '[class.ui-badge-sm]': "size() === 'sm'",
-    '[class.ui-badge-md]': "size() === 'md'",
   },
 })
 export class UiBadge {
-  // Reuses ui-button's surface recipes, excluding ghost/link because a badge is not interactive.
-  readonly variant = input<UiBadgeVariant>('default');
-  readonly size = input<UiBadgeSize>('md');
-  readonly rounded = input(false, { transform: booleanAttribute });
+  // A passive label should recede by default; stronger variants are deliberate status emphasis.
+  readonly variant = input<UiBadgeVariant>('secondary');
   readonly withDot = input(false, { transform: booleanAttribute });
 }
