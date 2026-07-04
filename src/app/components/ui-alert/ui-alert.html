@@ -1,1 +1,8 @@
-<ng-content />
+<ui-icon class="ui-alert-icon" [name]="icon()" [width]="20" [height]="20" decorative />
+
+<div class="ui-alert-content">
+  <strong class="ui-alert-title">{{ title() }}</strong>
+  <div class="ui-alert-description"><ng-content /></div>
+</div>
+
+<div class="ui-alert-actions"><ng-content select="[uiAlertAction]" /></div>

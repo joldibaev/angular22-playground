@@ -1,16 +1,11 @@
 <article class="grid min-w-0 gap-3" aria-labelledby="alert-showcase-title">
   <h4 id="alert-showcase-title" class="font-black">Variants</h4>
-  <ui-alert>
-    <h5 class="font-bold">Market session</h5>
-    <p class="max-w-prose text-sm text-secondary">
-      Trading closes today at 17:00. Pending orders remain active until the session ends.
-    </p>
+  <ui-alert title="Market session">
+    Trading closes today at 17:00. Pending orders remain active until the session ends.
   </ui-alert>
 
-  <ui-alert variant="destructive">
-    <h5 class="font-bold">Order rejected</h5>
-    <p class="max-w-prose text-sm text-secondary">
-      The entered quantity exceeds the available balance. Review the order and try again.
-    </p>
+  <ui-alert title="Order rejected" variant="destructive">
+    The entered quantity exceeds the available balance. Review the order and try again.
+    <button uiButton uiAlertAction type="button" variant="outline" size="sm">Review order</button>
   </ui-alert>
 </article>

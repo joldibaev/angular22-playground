@@ -5,13 +5,14 @@ import { UiAlert } from './ui-alert';
 @Component({
   imports: [UiAlert],
   template: `
-    <ui-alert>
-      <strong>Market session</strong>
-      <p>Trading closes today at 17:00.</p>
-      <button type="button">Dismiss</button>
+    <ui-alert title="Market session">
+      Trading closes today at 17:00.
+      <button uiAlertAction type="button">Review hours</button>
     </ui-alert>
 
-    <ui-alert variant="destructive" role="alert">Order rejected</ui-alert>
+    <ui-alert title="Order rejected" variant="destructive" role="alert">
+      The quantity exceeds the available balance.
+    </ui-alert>
   `,
 })
 class TestHost {}
@@ -30,23 +31,28 @@ describe('UiAlert', () => {
     return Array.from(fixture.nativeElement.querySelectorAll('ui-alert'));
   }
 
-  it('should project arbitrary content without adding structure', () => {
+  it('should render its required title, default icon, description, and action slot', () => {
     const [alert] = alerts();
 
     expect(alert.classList.contains('ui-alert-default')).toBe(true);
     expect(alert.classList.contains('ui-alert-destructive')).toBe(false);
-    expect(alert.querySelector('strong')?.textContent).toBe('Market session');
-    expect(alert.querySelector('p')?.textContent).toContain('Trading closes');
-    expect(alert.querySelector('button')?.textContent).toBe('Dismiss');
+    expect(alert.querySelector('.ui-alert-title')?.textContent).toBe('Market session');
+    expect(alert.querySelector('.ui-alert-description')?.textContent).toContain('Trading closes');
+    expect(alert.querySelector('.ui-alert-description button')).toBeNull();
+    expect(alert.querySelector('.ui-alert-actions button')?.textContent).toBe('Review hours');
+    expect(alert.querySelector('ui-icon')?.getAttribute('aria-hidden')).toBe('true');
     expect(alert.hasAttribute('role')).toBe(false);
   });
 
-  it('should reflect the destructive variant and preserve consumer semantics', () => {
+  it('should render the destructive treatment without imposing live-region semantics', () => {
     const [, alert] = alerts();
 
     expect(alert.classList.contains('ui-alert-destructive')).toBe(true);
     expect(alert.classList.contains('ui-alert-default')).toBe(false);
     expect(alert.getAttribute('role')).toBe('alert');
-    expect(alert.textContent?.trim()).toBe('Order rejected');
+    expect(alert.querySelector('.ui-alert-title')?.textContent).toBe('Order rejected');
+    expect(alert.querySelector('.ui-alert-description')?.textContent).toContain(
+      'exceeds the available balance',
+    );
   });
 });
