@@ -41,7 +41,7 @@
   --color-destructive: var(--color-red-600);
   --color-destructive-subtle: color-mix(in oklab, var(--color-destructive) 12%, Canvas);
 
-  --shadow-popup: 0 0 0 1px color-mix(in oklab, black 5%, transparent);
+  /*--shadow-popup: 0 0 0 1px color-mix(in oklab, black 5%, transparent);*/
 
   /* Shared focus ring: every `:focus-visible` outline reads its color from here
      so the ring lives in one place. Stateful controls swap the source color
@@ -58,6 +58,7 @@
      built-in `ease-out` utility. UI motion stays under 300ms; close < open.
      --------------------------------------------------------------------------- */
   --ease-snappy: cubic-bezier(0.22, 1, 0.36, 1); /* strong ease-out: enter/exit, press, position */
+  --ease-balanced: ease-in-out; /* symmetric swaps: crossfades, blur, equivalent states */
 
   --dur-press: 130ms; /* button/press feedback */
   --dur-quick: 150ms; /* dropdown/panel close, swaps */

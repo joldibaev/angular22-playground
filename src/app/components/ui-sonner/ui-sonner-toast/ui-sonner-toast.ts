@@ -1,4 +1,3 @@
-import { NgComponentOutlet } from '@angular/common';
 import {
   afterRenderEffect,
   AfterViewInit,
@@ -10,7 +9,7 @@ import {
   linkedSignal,
   OnDestroy,
   signal,
-  Type,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { UiButton } from '../../ui-button/ui-button';
@@ -19,7 +18,6 @@ import { UiLoading } from '../../ui-loading/ui-loading';
 import { uiSonnerState } from '../ui-sonner.state';
 import {
   UiSonnerPosition,
-  UiSonnerRenderable,
   UiSonnerToast as UiSonnerToastModel,
   UiSonnerToastType,
 } from '../ui-sonner.type';
@@ -29,7 +27,7 @@ const SWIPE_THRESHOLD = 20;
 
 @Component({
   selector: 'ui-sonner-toast',
-  imports: [NgComponentOutlet, UiButton, UiIcon, UiLoading],
+  imports: [UiButton, UiIcon, UiLoading],
   templateUrl: './ui-sonner-toast.html',
   styleUrl: './ui-sonner-toast.css',
 })
@@ -48,6 +46,7 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
   readonly closeLabel = input.required<string>();
   readonly interacting = input.required<boolean>();
   readonly duration = input<number | null>(DEFAULT_DURATION);
+  readonly className = input('');
   readonly descriptionClass = input('');
   readonly gap = input.required<number>();
   readonly frontToastHeight = input.required<string>();
@@ -60,6 +59,12 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
   protected readonly offsetBeforeRemove = signal(0);
   protected readonly measuredHeight = signal(0);
   protected readonly toastRef = viewChild.required<ElementRef<HTMLLIElement>>('toastRef');
+  protected readonly contentRef = viewChild.required<ElementRef<HTMLElement>>('contentRef');
+  protected readonly displayedTitle = signal<string | undefined>(undefined);
+  protected readonly displayedDescription = signal<string | undefined>(undefined);
+  protected readonly displayedIcon = signal<UiSonnerToastModel['icon']>(undefined);
+  protected readonly displayedToastType = signal<UiSonnerToastType>('default');
+  protected readonly contentSwapPhase = signal<'idle' | 'exit' | 'enter-start'>('idle');
 
   protected readonly isFront = computed(() => this.index() === 0);
   protected readonly isVisible = computed(
@@ -107,14 +112,12 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
   protected readonly zIndexAttribute = computed(() => this.toasts().length - this.index());
   protected readonly measuredHeightAttribute = computed(() => `${this.measuredHeight()}px`);
   protected readonly gapAttribute = computed(() => `${this.gap()}px`);
-  protected readonly iconName = computed(() => {
-    const toast = this.toast();
-
-    if (toast.icon) {
-      return toast.icon;
+  protected readonly displayedIconName = computed(() => {
+    if (this.displayedIcon()) {
+      return this.displayedIcon();
     }
 
-    switch (this.toastType()) {
+    switch (this.displayedToastType()) {
       case 'success':
         return 'outline-circle-check';
       case 'info':
@@ -134,12 +137,60 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
   private remainingTime = 0;
   private resizeObserver: ResizeObserver | undefined;
   private removalFinalized = false;
+  private pendingTitle: string | undefined;
+  private pendingDescription: string | undefined;
+  private pendingIcon: UiSonnerToastModel['icon'];
+  private pendingToastType: UiSonnerToastType = 'default';
 
   constructor() {
+    effect(() => {
+      const toast = this.toast();
+      const nextTitle = toast.title;
+      const nextDescription = toast.description;
+      const nextIcon = toast.icon;
+      const nextToastType = this.toastType();
+      const currentTitle = untracked(this.displayedTitle);
+      const currentDescription = untracked(this.displayedDescription);
+      const currentIcon = untracked(this.displayedIcon);
+      const currentToastType = untracked(this.displayedToastType);
+
+      if (currentTitle === undefined) {
+        this.displayedTitle.set(nextTitle);
+        this.displayedDescription.set(nextDescription);
+        this.displayedIcon.set(nextIcon);
+        this.displayedToastType.set(nextToastType);
+        this.pendingTitle = nextTitle;
+        this.pendingDescription = nextDescription;
+        this.pendingIcon = nextIcon;
+        this.pendingToastType = nextToastType;
+        return;
+      }
+
+      if (
+        Object.is(nextTitle, currentTitle) &&
+        Object.is(nextDescription, currentDescription) &&
+        Object.is(nextIcon, currentIcon) &&
+        nextToastType === currentToastType
+      ) {
+        return;
+      }
+
+      this.pendingTitle = nextTitle;
+      this.pendingDescription = nextDescription;
+      this.pendingIcon = nextIcon;
+      this.pendingToastType = nextToastType;
+      this.contentSwapPhase.set('exit');
+    });
+
     effect(() => {
       if (this.toast().updated) {
         clearTimeout(this.timeoutId);
         this.remainingTime = this.toast().duration ?? this.duration() ?? DEFAULT_DURATION;
+
+        if (this.isPromiseLoadingOrInfiniteDuration()) {
+          return;
+        }
+
         this.startTimer();
       }
     });
@@ -154,6 +205,16 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
       }
 
       onCleanup(() => clearTimeout(this.timeoutId));
+    });
+
+    afterRenderEffect(() => {
+      if (this.contentSwapPhase() !== 'enter-start') {
+        return;
+      }
+
+      // Reflow separates the no-transition start pose from the animated entrance.
+      void this.contentRef().nativeElement.offsetHeight;
+      this.contentSwapPhase.set('idle');
     });
 
     effect(() => {
@@ -184,14 +245,6 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
     clearTimeout(this.timeoutId);
     this.resizeObserver?.disconnect();
     uiSonnerState.removeHeight(this.toast().id);
-  }
-
-  protected isString(value: UiSonnerRenderable | undefined): value is string {
-    return typeof value === 'string';
-  }
-
-  protected asComponent(value: UiSonnerRenderable | undefined): Type<unknown> | null {
-    return typeof value === 'function' ? value : null;
   }
 
   protected onPointerDown(event: PointerEvent): void {
@@ -293,6 +346,22 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
     if (!event.defaultPrevented) {
       this.deleteToast();
     }
+  }
+
+  protected onContentTransitionEnd(event: TransitionEvent): void {
+    if (
+      event.target !== event.currentTarget ||
+      event.propertyName !== 'opacity' ||
+      this.contentSwapPhase() !== 'exit'
+    ) {
+      return;
+    }
+
+    this.displayedTitle.set(this.pendingTitle);
+    this.displayedDescription.set(this.pendingDescription);
+    this.displayedIcon.set(this.pendingIcon);
+    this.displayedToastType.set(this.pendingToastType);
+    this.contentSwapPhase.set('enter-start');
   }
 
   protected onExitTransitionEnd(event: TransitionEvent): void {

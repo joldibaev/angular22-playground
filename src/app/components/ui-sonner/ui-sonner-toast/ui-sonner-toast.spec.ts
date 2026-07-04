@@ -94,4 +94,68 @@ describe('UiSonnerToast', () => {
     expect(host.getAttribute('aria-hidden')).toBe('true');
     expect(host.getAttribute('tabindex')).toBe('-1');
   });
+
+  it('should transition updated copy through exit and enter states', async () => {
+    fixture.componentRef.setInput('toast', {
+      ...toast,
+      title: 'Order accepted',
+      description: 'The same toast was updated in place.',
+    });
+    await fixture.whenStable();
+
+    const content = fixture.nativeElement.querySelector('[data-content]') as HTMLElement;
+    const title = content.querySelector('[data-title]') as HTMLElement;
+    expect(title.textContent).toContain('Saved');
+    expect(content.textContent).toContain('Changes are ready');
+    expect(content.getAttribute('data-swap-phase')).toBe('exit');
+
+    const exit = new Event('transitionend', { bubbles: true });
+    Object.defineProperty(exit, 'propertyName', { value: 'opacity' });
+    content.dispatchEvent(exit);
+    await fixture.whenStable();
+
+    expect(title.textContent).toContain('Order accepted');
+    expect(content.textContent).toContain('The same toast was updated in place.');
+    expect(content.getAttribute('data-swap-phase')).toBe('idle');
+  });
+
+  it('should swap a promise icon in sync with its title', async () => {
+    const promise = Promise.resolve('Done');
+    fixture.componentRef.setInput('toast', {
+      ...toast,
+      title: 'Submitting order',
+      type: 'loading',
+      promise,
+    });
+    await fixture.whenStable();
+
+    const content = fixture.nativeElement.querySelector('[data-content]') as HTMLElement;
+    let exit = new Event('transitionend', { bubbles: true });
+    Object.defineProperty(exit, 'propertyName', { value: 'opacity' });
+    content.dispatchEvent(exit);
+    await fixture.whenStable();
+
+    const iconSlot = fixture.nativeElement.querySelector('[data-icon]') as HTMLElement;
+    expect(iconSlot.getAttribute('data-swap-phase')).toBe('idle');
+    expect(iconSlot.querySelector('ui-loading')).not.toBeNull();
+
+    fixture.componentRef.setInput('toast', {
+      ...toast,
+      title: 'Order accepted',
+      type: 'success',
+      promise,
+    });
+    await fixture.whenStable();
+
+    expect(iconSlot.getAttribute('data-swap-phase')).toBe('exit');
+    expect(iconSlot.querySelector('ui-loading')).not.toBeNull();
+
+    exit = new Event('transitionend', { bubbles: true });
+    Object.defineProperty(exit, 'propertyName', { value: 'opacity' });
+    content.dispatchEvent(exit);
+    await fixture.whenStable();
+
+    expect(iconSlot.getAttribute('data-swap-phase')).toBe('idle');
+    expect(iconSlot.querySelector('ui-icon')).not.toBeNull();
+  });
 });

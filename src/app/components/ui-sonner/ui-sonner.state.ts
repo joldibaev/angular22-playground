@@ -1,10 +1,9 @@
-import { signal, Type } from '@angular/core';
+import { signal } from '@angular/core';
 import {
   UiSonnerExternalToast,
   UiSonnerHeight,
   UiSonnerPromise,
   UiSonnerPromiseData,
-  UiSonnerRenderable,
   UiSonnerToast,
   UiSonnerToastId,
   UiSonnerToastType,
@@ -18,7 +17,7 @@ function createToastState() {
 
   function create(
     input: UiSonnerExternalToast & {
-      message?: UiSonnerRenderable;
+      message?: string;
       type?: UiSonnerToastType;
       promise?: UiSonnerPromise;
     },
@@ -38,6 +37,13 @@ function createToastState() {
                 ...rest,
                 id,
                 title: message,
+                // A direct loading toast owns an infinite duration. Once that same ID becomes
+                // a settled toast, fall back to the toaster duration unless the caller overrides it.
+                duration:
+                  input.duration ??
+                  (toastItem.type === 'loading' && type !== 'loading'
+                    ? undefined
+                    : toastItem.duration),
                 dismissible,
                 type,
                 delete: false,
@@ -85,30 +91,30 @@ function createToastState() {
     heightsState.update((heights) => heights.filter((height) => height.toastId !== id));
   }
 
-  function message(messageText: UiSonnerRenderable, data?: UiSonnerExternalToast): UiSonnerToastId {
+  function message(messageText: string, data?: UiSonnerExternalToast): UiSonnerToastId {
     return create({ ...data, type: 'default', message: messageText });
   }
 
-  function success(messageText: UiSonnerRenderable, data?: UiSonnerExternalToast): UiSonnerToastId {
+  function success(messageText: string, data?: UiSonnerExternalToast): UiSonnerToastId {
     return create({ ...data, type: 'success', message: messageText });
   }
 
-  function info(messageText: UiSonnerRenderable, data?: UiSonnerExternalToast): UiSonnerToastId {
+  function info(messageText: string, data?: UiSonnerExternalToast): UiSonnerToastId {
     return create({ ...data, type: 'info', message: messageText });
   }
 
-  function warning(messageText: UiSonnerRenderable, data?: UiSonnerExternalToast): UiSonnerToastId {
+  function warning(messageText: string, data?: UiSonnerExternalToast): UiSonnerToastId {
     return create({ ...data, type: 'warning', message: messageText });
   }
 
   function destructive(
-    messageText: UiSonnerRenderable,
+    messageText: string,
     data?: UiSonnerExternalToast,
   ): UiSonnerToastId {
     return create({ ...data, type: 'destructive', message: messageText });
   }
 
-  function loading(messageText: UiSonnerRenderable, data?: UiSonnerExternalToast): UiSonnerToastId {
+  function loading(messageText: string, data?: UiSonnerExternalToast): UiSonnerToastId {
     return create({
       ...data,
       duration: data?.duration ?? Number.POSITIVE_INFINITY,
@@ -180,10 +186,6 @@ function createToastState() {
     return id;
   }
 
-  function custom<T>(component: Type<T>, data?: UiSonnerExternalToast): UiSonnerToastId {
-    return create({ ...data, id: data?.id ?? toastCounter++, component });
-  }
-
   function addHeight(height: UiSonnerHeight): void {
     heightsState.update((heights) =>
       [...heights.filter((item) => item.toastId !== height.toastId), height].sort(sortHeights),
@@ -209,7 +211,6 @@ function createToastState() {
   return {
     addHeight,
     create,
-    custom,
     destructive,
     dismiss,
     heights: heightsState.asReadonly(),
@@ -229,14 +230,13 @@ function createToastState() {
 export const uiSonnerState = createToastState();
 
 function toastFunction(
-  messageText: UiSonnerRenderable,
+  messageText: string,
   data?: UiSonnerExternalToast,
 ): UiSonnerToastId {
   return uiSonnerState.create({ ...data, message: messageText });
 }
 
 export const toast = Object.assign(toastFunction, {
-  custom: uiSonnerState.custom,
   destructive: uiSonnerState.destructive,
   dismiss: uiSonnerState.dismiss,
   error: uiSonnerState.destructive,
@@ -267,19 +267,10 @@ function isResponseLike(value: unknown): value is { ok: boolean; status: number 
 
 function resolvePromiseValue<ToastData>(
   value:
-    | UiSonnerRenderable
-    | ((payload: ToastData) => UiSonnerRenderable)
+    | string
+    | ((payload: ToastData) => string)
     | undefined,
   payload: ToastData,
-): UiSonnerRenderable {
-  return typeof value === 'function' && !isAngularType(value)
-    ? value(payload)
-    : (value ?? String(payload));
-}
-
-function isAngularType(value: unknown): value is Type<unknown> {
-  return (
-    typeof value === 'function' &&
-    Object.prototype.hasOwnProperty.call(value, '\u0275cmp')
-  );
+): string {
+  return typeof value === 'function' ? value(payload) : (value ?? String(payload));
 }

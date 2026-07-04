@@ -34,6 +34,19 @@ describe('SonnerService', () => {
     );
   });
 
+  it('should reset an inherited loading duration when the same toast settles', () => {
+    service.loading('Saving', undefined, { id: 'request' });
+
+    expect(service.toasts()[0].duration).toBe(Number.POSITIVE_INFINITY);
+
+    service.success('Saved', undefined, { id: 'request' });
+
+    expect(service.toasts()[0]).toEqual(
+      expect.objectContaining({ id: 'request', title: 'Saved', type: 'success' }),
+    );
+    expect(service.toasts()[0].duration).toBeUndefined();
+  });
+
   it('should map error convenience calls to the destructive toast type', () => {
     service.error('Failed');
 

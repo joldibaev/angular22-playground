@@ -16,7 +16,8 @@
 }
 
 :host(.ui-card-elevated) {
-  box-shadow: var(--shadow-popup), var(--shadow-xs);
+  border: 1px solid var(--border-color-default);
+  box-shadow: var(--shadow-xs);
 }
 
 :host(.ui-card-outlined) {

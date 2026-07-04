@@ -26,7 +26,7 @@
   --ui-panel-gap: 0;
   --ui-panel-background: Canvas;
   --ui-panel-text-color: inherit;
-  --ui-panel-shadow: var(--shadow-popup), var(--shadow-lg);
+  --ui-panel-shadow: var(--shadow-lg);
   --ui-panel-open-duration: var(--dur-fast);
   --ui-panel-close-duration: var(--dur-quick);
   --ui-panel-easing: var(--ease-snappy);
@@ -147,6 +147,7 @@
   line-height: 1.45;
   text-wrap: pretty;
   box-shadow: var(--ui-panel-shadow);
+  border: 1px solid var(--border-color-default);
 }
 
 /* --- Arrow: integrated border-shape ----------------------------------------- */

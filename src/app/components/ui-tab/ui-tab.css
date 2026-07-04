@@ -1,9 +1,9 @@
 :host {
   --ui-tab-border-color: var(--border-color-default);
   --ui-tab-focus-visible-border-color: var(--color-brand);
-  --ui-tab-list-background: light-dark(var(--color-neutral-100), var(--color-neutral-900));
-  --ui-tab-indicator-background: var(--background-color-elevated);
-  --ui-tab-indicator-shadow: var(--shadow-popup), var(--shadow-sm);
+  --ui-tab-list-background: light-dark(var(--color-neutral-100), var(--color-neutral-800));
+  --ui-tab-indicator-background: light-dark(white, var(--color-neutral-700));
+  --ui-tab-indicator-shadow: var(--shadow-sm);
   --ui-tab-item-color: var(--text-color-muted);
   --ui-tab-item-hover-color: color-mix(in oklab, var(--ui-tab-item-color) 45%, contrast-color(Canvas));
   --ui-tab-item-active-color: contrast-color(var(--ui-tab-indicator-background));
@@ -208,6 +208,7 @@
   border-radius: var(--ui-tab-pill-item-radius);
   background-color: var(--ui-tab-indicator-background);
   box-shadow: var(--ui-tab-indicator-shadow);
+  border: 1px solid var(--border-color-default);
 }
 
 .ui-tab-list-pills:not([aria-orientation='vertical']) .ui-tab-indicator {

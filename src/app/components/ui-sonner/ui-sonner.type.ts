@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { IconName } from '../ui-icon/data';
 
 export type UiSonnerToastType =
@@ -21,7 +20,6 @@ export type UiSonnerPosition =
 export type UiSonnerToastId = number | string;
 export type UiSonnerPromise<ToastData = unknown> = Promise<ToastData> | (() => Promise<ToastData>);
 
-export type UiSonnerRenderable = string | Type<unknown>;
 export type UiSonnerTheme = 'light' | 'dark' | 'system';
 
 export interface UiSonnerToastAction {
@@ -36,12 +34,10 @@ export interface UiSonnerToastCancel {
 
 export interface UiSonnerToast {
   id: UiSonnerToastId;
-  title?: UiSonnerRenderable;
-  description?: UiSonnerRenderable;
+  title?: string;
+  description?: string;
   type: UiSonnerToastType;
   icon?: IconName;
-  component?: Type<unknown>;
-  componentProps?: Record<string, unknown>;
   duration?: number;
   dismissible: boolean;
   closeButton?: boolean;
@@ -63,15 +59,15 @@ export type UiSonnerExternalToast = Omit<
   'id' | 'title' | 'type' | 'dismissible' | 'dismissing'
 > & {
   id?: UiSonnerToastId;
-  title?: UiSonnerRenderable;
+  title?: string;
   type?: UiSonnerToastType;
   dismissible?: boolean;
 };
 
 export type UiSonnerPromiseData<ToastData = unknown> = UiSonnerExternalToast & {
-  loading?: UiSonnerRenderable;
-  success?: UiSonnerRenderable | ((data: ToastData) => UiSonnerRenderable);
-  error?: UiSonnerRenderable | ((error: unknown) => UiSonnerRenderable);
+  loading?: string;
+  success?: string | ((data: ToastData) => string);
+  error?: string | ((error: unknown) => string);
   finally?: () => void | Promise<void>;
 };
 

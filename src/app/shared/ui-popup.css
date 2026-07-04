@@ -8,7 +8,7 @@
   --ui-popup-max-height: 12rem;
   --ui-popup-font-size: 0.9rem;
   --ui-popup-overflow-y: auto;
-  --ui-popup-shadow: var(--shadow-popup), var(--shadow-md);
+  --ui-popup-shadow: var(--shadow-md);
 
   --ui-popup-open-duration: var(--dur-fast);
   --ui-popup-close-duration: var(--dur-quick);
@@ -85,6 +85,7 @@
   background-color: var(--ui-popup-background);
   box-shadow: var(--ui-popup-shadow);
   font-size: var(--ui-popup-font-size);
+  border: 1px solid var(--border-color-default);
 
   /* Origin-aware open/close: the box grows from the trigger edge. The close
      transition lives on this base state, the open transition on the

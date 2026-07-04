@@ -3,10 +3,10 @@
   data-sonner-toast
   aria-atomic="true"
   role="status"
+  [class]="className()"
   [attr.aria-hidden]="isVisible() ? null : 'true'"
   [attr.tabindex]="isVisible() ? 0 : -1"
   [attr.aria-live]="toast().important ? 'assertive' : 'polite'"
-  [attr.data-styled]="!(toast().component)"
   [attr.data-mounted]="mounted()"
   [attr.data-promise]="!!toast().promise"
   [attr.data-removed]="removed()"
@@ -51,51 +51,40 @@
     </button>
   }
 
-  @if (toast().component; as component) {
-    <ng-container *ngComponentOutlet="component; inputs: toast().componentProps" />
-  } @else {
-    @if (toastType() !== 'default' || iconName() || toast().promise) {
-      <div data-icon>
-        @if (iconName(); as icon) {
-          <ui-icon [name]="icon" decorative />
-        } @else if (toastType() === 'loading') {
-          <ui-loading decorative />
-        }
-      </div>
-    }
-
-    <div data-content>
-      @if (toast().title; as title) {
-        <div data-title>
-          @if (isString(title)) {
-            {{ title }}
-          } @else {
-            <ng-container *ngComponentOutlet="asComponent(title); inputs: toast().componentProps" />
-          }
-        </div>
-      }
-
-      @if (toast().description; as description) {
-        <div data-description [class]="descriptionClass()">
-          @if (isString(description)) {
-            {{ description }}
-          } @else {
-            <ng-container *ngComponentOutlet="asComponent(description); inputs: toast().componentProps" />
-          }
-        </div>
+  @if (displayedToastType() !== 'default' || displayedIconName() || toast().promise) {
+    <div data-icon [attr.data-swap-phase]="contentSwapPhase()">
+      @if (displayedIconName(); as icon) {
+        <ui-icon [name]="icon" decorative />
+      } @else if (displayedToastType() === 'loading') {
+        <ui-loading decorative />
       }
     </div>
+  }
 
-    @if (toast().cancel; as cancel) {
-      <button uiButton type="button" variant="ghost" data-button data-cancel (click)="onCancelClick()">
-        {{ cancel.label }}
-      </button>
+  <div
+    #contentRef
+    data-content
+    [attr.data-swap-phase]="contentSwapPhase()"
+    (transitionend)="onContentTransitionEnd($event)"
+  >
+    @if (displayedTitle(); as title) {
+      <div data-title>{{ title }}</div>
     }
 
-    @if (toast().action; as action) {
-      <button uiButton type="button" variant="secondary" data-button (click)="onActionClick($event)">
-        {{ action.label }}
-      </button>
+    @if (displayedDescription(); as description) {
+      <div data-description [class]="descriptionClass()">{{ description }}</div>
     }
+  </div>
+
+  @if (toast().cancel; as cancel) {
+    <button uiButton type="button" variant="ghost" data-button data-cancel (click)="onCancelClick()">
+      {{ cancel.label }}
+    </button>
+  }
+
+  @if (toast().action; as action) {
+    <button uiButton type="button" variant="secondary" data-button (click)="onActionClick($event)">
+      {{ action.label }}
+    </button>
   }
 </li>

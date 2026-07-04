@@ -13,6 +13,7 @@ import { UiSonnerToast } from './ui-sonner-toast/ui-sonner-toast';
       [closeButton]="true"
       closeLabel="Dismiss notification"
       [gap]="8"
+      [toastOptions]="{ class: 'custom-toast', descriptionClass: 'custom-description' }"
     />
   `,
 })
@@ -59,6 +60,10 @@ describe('UiSonner', () => {
     expect(toast.getAttribute('role')).toBe('status');
     expect(toast.getAttribute('aria-live')).toBe('polite');
     expect(toast.getAttribute('data-close-button')).toBe('true');
+    expect(toast.classList.contains('custom-toast')).toBe(true);
+    expect(toast.querySelector('[data-description]')?.classList.contains('custom-description')).toBe(
+      true,
+    );
     expect(toast.textContent).toContain('Saved');
     expect(toast.textContent).toContain('The order is ready');
   });
