@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { disabled, email, FormField, form, required } from '@angular/forms/signals';
+import { disabled, email, FormField, form, max, min, required } from '@angular/forms/signals';
 import { RouterLink } from '@angular/router';
 import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiInput } from '../../../components/ui-input/ui-input';
@@ -18,13 +18,22 @@ export class InputShowcase {
     email: 'not-an-email',
     identity: 'Managed by SSO',
     phone: '998901234567',
+    quantity: 12,
   });
   readonly formState = form(this.model, (path) => {
     required(path.email, { message: 'Email is required' });
     email(path.email, { message: 'Use a valid email' });
     disabled(path.identity, { when: 'Locked by identity provider' });
+    min(path.quantity, 1, { message: 'Quantity must be at least 1' });
+    max(path.quantity, 100, { message: 'Quantity cannot exceed 100' });
   });
   protected readonly defaultCode = `<ui-input label="Email">\n  <input type="email" autocomplete="email" />\n</ui-input>`;
+  protected readonly numberCode = `min(path.quantity, 1);
+max(path.quantity, 100);
+
+<ui-input label="Quantity" withErrorMessage>
+  <input type="number" [formField]="formState.quantity" />
+</ui-input>`;
   protected readonly textareaCode = `<ui-input label="Notes">\n  <textarea placeholder="Add handoff notes"></textarea>\n</ui-input>`;
   protected readonly statesCode = `<ui-input size="sm">…</ui-input>\n<ui-input><input disabled /></ui-input>\n<ui-input loading>…</ui-input>`;
   protected readonly validationCode = `<ui-input label="Work email" withErrorMessage>\n  <input type="email" [formField]="formState.email" />\n</ui-input>`;
