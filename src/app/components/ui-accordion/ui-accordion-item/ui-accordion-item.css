@@ -1,0 +1,138 @@
+:host {
+  display: block;
+  border-block-end: 1px solid var(--ui-accordion-border-color);
+}
+
+:host(:last-child) {
+  border-block-end: 0;
+}
+
+.ui-accordion-heading {
+  position: relative;
+  margin: 0;
+  background-color: transparent;
+  transition: background-color var(--ui-accordion-state-duration)
+    var(--ui-accordion-motion-easing);
+
+  /* The trigger keeps its press scale, so the persistent surface and focus ring
+     live on this unscaled wrapper. The ring is intentionally equally rounded
+     for every standalone item: matching edge-specific corners would add a
+     first/last + expanded/collapsed state matrix for negligible visual payoff. */
+  &::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+    border-radius: var(--ui-accordion-radius);
+    outline: 2px solid transparent;
+    outline-offset: -2px;
+    pointer-events: none;
+    transition: outline-color var(--ui-accordion-state-duration)
+      var(--ui-accordion-motion-easing);
+  }
+
+  &:has(.ui-accordion-trigger:hover) {
+    background-color: var(--ui-accordion-hover-background);
+  }
+
+  &:has(.ui-accordion-trigger[aria-expanded='true']) {
+    /* Expansion is the visual state; Angular ARIA's data-active only tracks
+       roving focus and is not set for an initially expanded item. */
+    background-color: var(--ui-accordion-expanded-background);
+  }
+
+  &:has(.ui-accordion-trigger:focus-visible) {
+    &::after {
+      outline-color: var(--ui-accordion-focus-ring);
+    }
+  }
+}
+
+.ui-accordion-trigger {
+  display: flex;
+  width: 100%;
+  min-height: var(--ui-accordion-trigger-min-height);
+  align-items: center;
+  gap: 0.75rem;
+  padding-inline: var(--ui-accordion-trigger-padding-inline);
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  font-weight: 700;
+  line-height: 1.35;
+  text-align: start;
+  cursor: pointer;
+  outline: none;
+  transition: scale var(--ui-accordion-press-duration) var(--ui-accordion-motion-easing);
+
+  &:not([aria-disabled='true']):active {
+    scale: var(--press-scale);
+  }
+
+  &[aria-disabled='true'] {
+    cursor: default;
+    opacity: var(--opacity-disabled);
+  }
+}
+
+.ui-accordion-label {
+  flex: 1;
+  min-width: 0;
+}
+
+.ui-accordion-chevron {
+  flex: none;
+  color: var(--text-color-muted);
+  transition: rotate var(--ui-accordion-state-duration) var(--ui-accordion-motion-easing);
+}
+
+.ui-accordion-trigger[aria-expanded='true'] .ui-accordion-chevron {
+  rotate: 180deg;
+}
+
+.ui-accordion-panel {
+  block-size: auto;
+  overflow: clip;
+  opacity: 1;
+  transition:
+    block-size var(--ui-accordion-state-duration) var(--ui-accordion-motion-easing),
+    opacity var(--ui-accordion-state-duration) var(--ui-accordion-motion-easing);
+
+  &[inert] {
+    block-size: 0;
+    opacity: 0;
+    transition-duration:
+      var(--ui-accordion-collapse-duration), var(--ui-accordion-collapse-duration);
+  }
+}
+
+.ui-accordion-content {
+  padding-inline: var(--ui-accordion-content-padding-inline);
+  padding-block: var(--ui-accordion-content-padding-block);
+  color: var(--text-color-muted);
+  font-size: 0.875rem;
+  line-height: 1.55;
+
+  :where(p) {
+    margin: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-accordion-trigger {
+    transition: none;
+
+    &:not([aria-disabled='true']):active {
+      scale: none;
+    }
+  }
+
+  .ui-accordion-chevron {
+    transition: none;
+  }
+
+  .ui-accordion-panel {
+    transition: opacity var(--ui-accordion-collapse-duration) var(--ui-accordion-motion-easing);
+  }
+}

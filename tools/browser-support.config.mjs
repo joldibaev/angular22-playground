@@ -1,0 +1,43 @@
+export const browserSupportProfiles = {
+  accordion: ['light-dark', 'contrast-color', 'interpolate-size'],
+  alert: ['light-dark', 'contrast-color', 'container-queries'],
+  autocomplete: ['light-dark', 'contrast-color', 'popover', 'anchor-name', 'starting-style', 'transition-behavior'],
+  avatar: ['light-dark'],
+  badge: ['light-dark', 'contrast-color'],
+  barcode: ['light-dark', 'contrast-color'],
+  button: ['light-dark', 'contrast-color'],
+  card: ['light-dark', 'contrast-color'],
+  checkbox: ['light-dark'],
+  chip: ['light-dark', 'contrast-color'],
+  datepicker: ['light-dark', 'contrast-color', 'popover', 'anchor-name', 'starting-style', 'transition-behavior'],
+  dialog: ['light-dark', 'contrast-color', 'dialog-closedby', 'invoker-commands', 'starting-style', 'transition-behavior'],
+  drawer: ['light-dark', 'contrast-color', 'dialog-closedby', 'invoker-commands', 'starting-style', 'transition-behavior'],
+  input: ['light-dark', 'contrast-color', 'has', 'popover', 'anchor-name', 'starting-style', 'transition-behavior'],
+  loading: ['light-dark'],
+  menu: ['light-dark', 'popover', 'anchor-name', 'starting-style', 'transition-behavior'],
+  popover: [
+    'light-dark',
+    'contrast-color',
+    'popover',
+    'invoker-commands',
+    'anchor-name',
+    'starting-style',
+    'transition-behavior',
+  ],
+  progress: ['light-dark'],
+  radio: ['light-dark'],
+  select: ['light-dark', 'popover', 'anchor-name', 'starting-style', 'transition-behavior'],
+  skeleton: ['light-dark'],
+  sonner: ['light-dark', 'contrast-color', 'has', 'interpolate-size'],
+  switch: ['light-dark'],
+  table: ['light-dark', 'contrast-color'],
+  tabs: ['light-dark', 'contrast-color', 'has', 'anchor-name'],
+  tooltip: ['light-dark', 'popover-hint', 'interest-invokers', 'starting-style', 'transition-behavior'],
+  tree: ['light-dark', 'interpolate-size'],
+};
+
+// Use the exact BCD-backed subset exercised by the components. The umbrella
+// Anchor Positioning feature also includes syntax that these components do not use.
+export const featureSources = {
+  'anchor-name': ['anchor-positioning', 'css.properties.anchor-name'],
+};

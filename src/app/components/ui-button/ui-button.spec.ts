@@ -43,12 +43,31 @@ describe('UiButton', () => {
     expect(button.disabled).toBe(true);
     expect(button.getAttribute('aria-busy')).toBe('true');
     expect(button.querySelector('ui-loading')).toBeTruthy();
+    const state = button.querySelector('.ui-button-state') as HTMLElement;
     const content = button.querySelector('.ui-button-content') as HTMLElement;
     const spinner = button.querySelector('.ui-button-loading-indicator') as HTMLElement;
     expect(content.textContent).toContain('Save');
-    expect(getComputedStyle(content).opacity).toBe('0');
+    expect(state.dataset['loading']).toBe('true');
+    expect(getComputedStyle(content).visibility).toBe('hidden');
     expect(getComputedStyle(spinner).position).toBe('absolute');
     expect(getComputedStyle(spinner).translate).toBe('-50% -50%');
+  });
+
+  it('should swap content and loading indicator through exit and enter phases', () => {
+    const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
+    const state = button.querySelector('.ui-button-state') as HTMLElement;
+
+    fixture.componentInstance.loading.set(false);
+    fixture.detectChanges();
+
+    expect(state.dataset['swapPhase']).toBe('exit');
+    const transitionEnd = new Event('transitionend');
+    Object.defineProperty(transitionEnd, 'propertyName', { value: 'opacity' });
+    state.dispatchEvent(transitionEnd);
+    fixture.detectChanges();
+
+    expect(state.dataset['loading']).toBe('false');
+    expect(button.querySelector('.ui-button-loading-indicator')).toBeNull();
   });
 
   it('should apply disabled state to anchor hosts accessibly', () => {

@@ -5,9 +5,9 @@ describe('ButtonShowcase', () => {
     const f = TestBed.createComponent(ButtonShowcase);
     await f.whenStable();
     expect(f.nativeElement.querySelectorAll('ui-card')).toHaveLength(6);
-    const asyncButton = Array.from<HTMLButtonElement>(
-      f.nativeElement.querySelectorAll('button'),
-    ).find((button) => button.textContent.includes('Save changes'));
+    const asyncButton = Array.from(
+      f.nativeElement.querySelectorAll('button') as NodeListOf<HTMLButtonElement>,
+    ).find((button) => button.textContent.includes('Save changes'))!;
     expect(asyncButton).toBeTruthy();
     expect(asyncButton.textContent).toContain('Save changes');
   });

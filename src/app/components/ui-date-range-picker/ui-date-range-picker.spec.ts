@@ -131,7 +131,7 @@ describe('UiDateRangePicker', () => {
     label.dispatchEvent(exit);
     await fixture.whenStable();
 
-    expect(label.textContent).toContain('1 июл. 2026 г. — 5 июл. 2026 г.');
+    expect(label.textContent).toContain('01 июл. 2026 г. — 05 июл. 2026 г.');
     expect(label.getAttribute('data-swap-phase')).toBe('idle');
   });
 

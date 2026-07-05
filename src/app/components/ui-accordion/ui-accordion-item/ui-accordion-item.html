@@ -1,0 +1,29 @@
+<div class="ui-accordion-heading" role="heading" [attr.aria-level]="headingLevel()">
+  <button
+    #trigger="ngAccordionTrigger"
+    ngAccordionTrigger
+    type="button"
+    class="ui-accordion-trigger"
+    [panel]="panel"
+    [disabled]="disabled()"
+    [(expanded)]="expanded"
+  >
+    <span class="ui-accordion-label">{{ label() }}</span>
+    <ui-icon class="ui-accordion-chevron" name="outline-chevron-down" [decorative]="true" />
+  </button>
+</div>
+
+<!-- Preserving lazy content after its first opening gives CSS a real node for a
+     matching exit transition and avoids resetting controls on every collapse. -->
+<div
+  #panel="ngAccordionPanel"
+  ngAccordionPanel
+  class="ui-accordion-panel"
+  [preserveContent]="true"
+>
+  <ng-template ngAccordionContent>
+    <div class="ui-accordion-content">
+      <ng-content />
+    </div>
+  </ng-template>
+</div>

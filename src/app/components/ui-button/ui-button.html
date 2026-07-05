@@ -1,12 +1,15 @@
-@if (loading()) {
-  <ui-loading
-    class="ui-button-loading-indicator"
-    animate.enter="ui-button-spinner-enter"
-    animate.leave="ui-button-spinner-leave"
-    decorative
-  />
-}
+<span
+  #stateElement
+  class="ui-button-state"
+  [attr.data-loading]="displayedLoading()"
+  [attr.data-swap-phase]="stateSwapPhase()"
+  (transitionend)="onStateTransitionEnd($event)"
+>
+  @if (displayedLoading()) {
+    <ui-loading class="ui-button-loading-indicator" decorative />
+  }
 
-<span class="ui-button-content">
-  <ng-content />
+  <span class="ui-button-content">
+    <ng-content />
+  </span>
 </span>

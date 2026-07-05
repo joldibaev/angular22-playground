@@ -16,7 +16,9 @@ describe('DialogSuccessShowcase', () => {
     await fixture.whenStable();
 
     const action = Array.from(
-      fixture.nativeElement.querySelectorAll('.ui-dialog-success-actions button'),
+      fixture.nativeElement.querySelectorAll(
+        '.ui-dialog-success-actions button',
+      ) as NodeListOf<HTMLButtonElement>,
     ).find((button) => button.textContent?.includes('Open workspace')) as HTMLButtonElement;
 
     action.click();

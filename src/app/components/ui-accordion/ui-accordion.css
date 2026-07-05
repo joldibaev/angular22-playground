@@ -1,0 +1,26 @@
+:host {
+  interpolate-size: allow-keywords;
+
+  --ui-accordion-background: var(--background-color-elevated);
+  --ui-accordion-color: contrast-color(var(--ui-accordion-background));
+  --ui-accordion-border-color: var(--border-color-strong);
+  --ui-accordion-radius: 0.75rem;
+  --ui-accordion-trigger-min-height: 3rem;
+  --ui-accordion-trigger-padding-inline: 1rem;
+  --ui-accordion-content-padding-inline: 1rem;
+  --ui-accordion-content-padding-block: 1rem;
+  --ui-accordion-hover-background: var(--background-color-hover);
+  --ui-accordion-expanded-background: var(--background-color-hover);
+  --ui-accordion-focus-ring: var(--focus-ring-color);
+  --ui-accordion-state-duration: var(--dur-fast);
+  --ui-accordion-collapse-duration: var(--dur-quick);
+  --ui-accordion-press-duration: var(--dur-press);
+  --ui-accordion-motion-easing: var(--ease-snappy);
+
+  display: block;
+  overflow: clip;
+  border: 1px solid var(--ui-accordion-border-color);
+  border-radius: var(--ui-accordion-radius);
+  background: var(--ui-accordion-background);
+  color: var(--ui-accordion-color);
+}

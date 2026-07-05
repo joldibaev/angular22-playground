@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UiIcon } from '../ui-icon/ui-icon';
 import { UiBadge } from './ui-badge';
@@ -13,11 +13,11 @@ import { UiBadge } from './ui-badge';
       Verified
     </ui-badge>
     <ui-badge variant="contrast">High contrast</ui-badge>
-    <ui-badge variant="brand" withNotificationAnimation [visible]="notificationVisible">3</ui-badge>
+    <ui-badge variant="brand" withNotificationAnimation [visible]="notificationVisible()">3</ui-badge>
   `,
 })
 class TestHost {
-  notificationVisible = true;
+  readonly notificationVisible = signal(true);
 }
 
 describe('UiBadge', () => {
@@ -73,15 +73,15 @@ describe('UiBadge', () => {
     expect(badge.classList.contains('ui-badge-contrast')).toBe(true);
   });
 
-  it('should animate notification visibility without removing the badge from the DOM', () => {
+  it('should animate notification visibility without removing the badge from the DOM', async () => {
     const badge = badges()[4];
 
     expect(badge?.classList).toContain('ui-badge-notification');
     expect(badge?.classList).toContain('ui-badge-notification-visible');
     expect(badge?.getAttribute('aria-hidden')).toBeNull();
 
-    fixture.componentInstance.notificationVisible = false;
-    fixture.detectChanges();
+    fixture.componentInstance.notificationVisible.set(false);
+    await fixture.whenStable();
 
     expect(badges()[4]).toBe(badge);
     expect(badge?.classList).not.toContain('ui-badge-notification-visible');

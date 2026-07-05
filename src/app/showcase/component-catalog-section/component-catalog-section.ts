@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UiTab } from '../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../components/ui-tab/ui-tab-item/ui-tab-item';
 import { AlertShowcase } from './alert-showcase/alert-showcase';
+import { AccordionShowcase } from './accordion-showcase/accordion-showcase';
 import { AutocompleteShowcase } from './autocomplete-showcase/autocomplete-showcase';
 import { AvatarShowcase } from './avatar-showcase/avatar-showcase';
 import { BadgeShowcase } from './badge-showcase/badge-showcase';
@@ -30,10 +31,12 @@ import { TabsShowcase } from './tabs-showcase/tabs-showcase';
 import { TooltipShowcase } from './tooltip-showcase/tooltip-showcase';
 import { TreeShowcase } from './tree-showcase/tree-showcase';
 import { UiCard } from '../../components/ui-card/ui-card';
+import { BrowserSupport } from '../browser-support/browser-support';
 
 @Component({
   selector: 'app-component-catalog-section',
   imports: [
+    AccordionShowcase,
     AlertShowcase,
     AutocompleteShowcase,
     AvatarShowcase,
@@ -65,7 +68,9 @@ import { UiCard } from '../../components/ui-card/ui-card';
     UiTab,
     UiTabItem,
     UiCard,
+    BrowserSupport,
   ],
   templateUrl: './component-catalog-section.html',
+  styleUrl: './component-catalog-section.css',
 })
 export class ComponentCatalogSection {}

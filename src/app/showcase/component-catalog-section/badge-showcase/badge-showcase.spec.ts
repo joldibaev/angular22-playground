@@ -16,9 +16,9 @@ describe('BadgeShowcase', () => {
     const badge = fixture.nativeElement.querySelector(
       'ui-badge.ui-badge-notification',
     ) as HTMLElement;
-    const toggle = Array.from(fixture.nativeElement.querySelectorAll('button')).find((button) =>
-      button.textContent?.includes('Show notification'),
-    ) as HTMLButtonElement;
+    const toggle = Array.from(
+      fixture.nativeElement.querySelectorAll('button') as NodeListOf<HTMLButtonElement>,
+    ).find((button) => button.textContent?.includes('Show notification')) as HTMLButtonElement;
 
     expect(badge.getAttribute('aria-hidden')).toBe('true');
 

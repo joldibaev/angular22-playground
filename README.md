@@ -12,6 +12,19 @@ A UI component library. The goal: **rebuild the UI components from the `trade3` 
 
 Components live in `src/app/components/*`; each is demoed in the showcase (`src/app/showcase`).
 
+Every showcase includes a Baseline status and the minimum Chrome, Edge, Firefox,
+and Safari versions required by the component's modern platform features. This
+is compatibility information, not an expanded support promise: Chrome 150+
+remains the only tested target. The small client-side dataset is generated from
+the official `web-features` package:
+
+```bash
+npm run generate:browser-support
+```
+
+Update `tools/browser-support.config.mjs` when a component adopts or removes a
+tracked platform feature, then regenerate the data.
+
 > **Conventions and constraints are in [AGENTS.md](./AGENTS.md) — read it before contributing.**
 
 ## Develop

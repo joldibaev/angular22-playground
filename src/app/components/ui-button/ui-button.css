@@ -8,6 +8,8 @@
   --ui-button-font-size: 1rem;
   --ui-button-motion-duration: var(--dur-press);
   --ui-button-motion-easing: var(--ease-snappy);
+  --ui-button-content-swap-blur: 4px;
+  --ui-button-content-swap-distance: 4px;
 
   appearance: none;
   display: inline-flex;
@@ -207,18 +209,42 @@
   border-color: transparent;
 }
 
+.ui-button-state,
 .ui-button-content {
   display: inline-flex;
   min-width: 0;
   align-items: center;
   justify-content: center;
   gap: inherit;
-  opacity: 1;
-  transition: opacity var(--dur-quick) var(--ease-balanced);
 }
 
-:host(.ui-button-loading) .ui-button-content {
+.ui-button-state {
+  position: relative;
+  transform: translateY(0);
+  filter: blur(0);
+  opacity: 1;
+  transition:
+    transform var(--dur-quick) var(--ease-balanced),
+    filter var(--dur-quick) var(--ease-balanced),
+    opacity var(--dur-quick) var(--ease-balanced);
+  will-change: transform, filter, opacity;
+}
+
+.ui-button-state[data-swap-phase='exit'] {
+  transform: translateY(calc(var(--ui-button-content-swap-distance) * -1));
+  filter: blur(var(--ui-button-content-swap-blur));
   opacity: 0;
+}
+
+.ui-button-state[data-swap-phase='enter-start'] {
+  transform: translateY(var(--ui-button-content-swap-distance));
+  filter: blur(var(--ui-button-content-swap-blur));
+  opacity: 0;
+  transition: none;
+}
+
+.ui-button-state[data-loading='true'] .ui-button-content {
+  visibility: hidden;
 }
 
 .ui-button-loading-indicator {
@@ -226,28 +252,6 @@
   top: 50%;
   left: 50%;
   translate: -50% -50%;
-}
-
-.ui-button-spinner-enter {
-  animation: ui-button-spinner-in var(--dur-quick) var(--ease-balanced);
-}
-
-.ui-button-spinner-leave {
-  animation: ui-button-spinner-out var(--dur-press) var(--ease-balanced);
-}
-
-@keyframes ui-button-spinner-in {
-  from {
-    scale: 0.95;
-    opacity: 0;
-  }
-}
-
-@keyframes ui-button-spinner-out {
-  to {
-    scale: 0.95;
-    opacity: 0;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -264,27 +268,14 @@
     opacity: 0.75;
   }
 
-  .ui-button-content {
+  .ui-button-state {
+    transform: none;
+    filter: none;
     transition: opacity var(--dur-quick) var(--ease-balanced);
   }
 
-  .ui-button-spinner-enter {
-    animation: ui-button-spinner-fade-in var(--dur-quick) var(--ease-balanced);
-  }
-
-  .ui-button-spinner-leave {
-    animation: ui-button-spinner-fade-out var(--dur-press) var(--ease-balanced);
-  }
-}
-
-@keyframes ui-button-spinner-fade-in {
-  from {
-    opacity: 0;
-  }
-}
-
-@keyframes ui-button-spinner-fade-out {
-  to {
-    opacity: 0;
+  .ui-button-state:is([data-swap-phase='exit'], [data-swap-phase='enter-start']) {
+    transform: none;
+    filter: none;
   }
 }

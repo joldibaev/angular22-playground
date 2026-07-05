@@ -1,4 +1,16 @@
-import { booleanAttribute, Component, computed, ElementRef, inject, input } from '@angular/core';
+import {
+  afterRenderEffect,
+  booleanAttribute,
+  Component,
+  computed,
+  effect,
+  ElementRef,
+  inject,
+  input,
+  signal,
+  untracked,
+  viewChild,
+} from '@angular/core';
 import { UiLoading } from '../ui-loading/ui-loading';
 
 export type UiButtonVariant =
@@ -41,6 +53,7 @@ export type UiButtonSize = 'sm' | 'md';
 })
 export class UiButton {
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
+  private readonly stateElement = viewChild.required<ElementRef<HTMLElement>>('stateElement');
 
   readonly variant = input<UiButtonVariant>('default');
   // Shared control-size scale ('md' default, 'sm' compact) — same axis as the
@@ -57,9 +70,60 @@ export class UiButton {
   // Unlike passive field loading, an action in flight is unavailable: repeated activation can
   // duplicate a submission or side effect, so loading participates in the disabled behavior.
   readonly loading = input(false, { transform: booleanAttribute });
+  protected readonly displayedLoading = signal(false);
+  protected readonly stateSwapPhase = signal<'idle' | 'exit' | 'enter-start'>('idle');
 
   readonly unavailable = computed(() => this.disabled() || this.loading());
   readonly isButton = computed(() => this.element.nativeElement.tagName.toLowerCase() === 'button');
+  private pendingLoading = false;
+  private stateInitialized = false;
+
+  constructor() {
+    effect(() => {
+      const nextLoading = this.loading();
+
+      if (!this.stateInitialized) {
+        this.stateInitialized = true;
+        this.displayedLoading.set(nextLoading);
+        this.pendingLoading = nextLoading;
+        return;
+      }
+
+      this.pendingLoading = nextLoading;
+
+      if (nextLoading === untracked(this.displayedLoading)) {
+        if (untracked(this.stateSwapPhase) === 'exit') {
+          this.stateSwapPhase.set('idle');
+        }
+        return;
+      }
+
+      this.stateSwapPhase.set('exit');
+    });
+
+    afterRenderEffect(() => {
+      if (this.stateSwapPhase() !== 'enter-start') {
+        return;
+      }
+
+      // Match Select/Sonner: separate the no-transition start pose from the entrance.
+      void this.stateElement().nativeElement.offsetHeight;
+      this.stateSwapPhase.set('idle');
+    });
+  }
+
+  protected onStateTransitionEnd(event: TransitionEvent): void {
+    if (
+      event.target !== event.currentTarget ||
+      event.propertyName !== 'opacity' ||
+      this.stateSwapPhase() !== 'exit'
+    ) {
+      return;
+    }
+
+    this.displayedLoading.set(this.pendingLoading);
+    this.stateSwapPhase.set('enter-start');
+  }
 
   onClick(event: Event): void {
     if (!this.unavailable()) {
