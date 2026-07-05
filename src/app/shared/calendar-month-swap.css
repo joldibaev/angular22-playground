@@ -1,0 +1,49 @@
+:host {
+  --ui-calendar-month-swap-distance: 8px;
+  --ui-calendar-month-swap-blur: 2px;
+}
+
+.calendar-month-swap {
+  transform: translateX(0);
+  filter: blur(0);
+  opacity: 1;
+  transition:
+    transform var(--dur-quick) var(--ease-balanced),
+    filter var(--dur-quick) var(--ease-balanced),
+    opacity var(--dur-quick) var(--ease-balanced);
+  will-change: transform, filter, opacity;
+}
+
+.calendar-month-swap[data-swap-phase='exit'][data-swap-direction='next'] {
+  transform: translateX(calc(var(--ui-calendar-month-swap-distance) * -1));
+  filter: blur(var(--ui-calendar-month-swap-blur));
+  opacity: 0;
+}
+
+.calendar-month-swap[data-swap-phase='exit'][data-swap-direction='previous'] {
+  transform: translateX(var(--ui-calendar-month-swap-distance));
+  filter: blur(var(--ui-calendar-month-swap-blur));
+  opacity: 0;
+}
+
+.calendar-month-swap[data-swap-phase='enter-start'][data-swap-direction='next'] {
+  transform: translateX(var(--ui-calendar-month-swap-distance));
+  filter: blur(var(--ui-calendar-month-swap-blur));
+  opacity: 0;
+  transition: none;
+}
+
+.calendar-month-swap[data-swap-phase='enter-start'][data-swap-direction='previous'] {
+  transform: translateX(calc(var(--ui-calendar-month-swap-distance) * -1));
+  filter: blur(var(--ui-calendar-month-swap-blur));
+  opacity: 0;
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calendar-month-swap {
+    transform: none;
+    filter: none;
+    transition: opacity var(--dur-quick) var(--ease-balanced);
+  }
+}

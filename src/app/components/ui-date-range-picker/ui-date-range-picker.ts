@@ -8,6 +8,7 @@ import {
   model,
   output,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { Grid, GridCell, GridRow } from '@angular/aria/grid';
@@ -50,7 +51,12 @@ const INITIAL_VIEW: CalendarMonth = { year: 1970, month: 0 };
   // select, and single datepicker popups (ui-popup.css). The range picker
   // overrides only the structural tokens it needs in its own stylesheet, which
   // loads second so its overrides win.
-  styleUrls: ['../../shared/ui-popup.css', './ui-date-range-picker.css'],
+  styleUrls: [
+    '../../shared/ui-popup.css',
+    '../../shared/calendar-month-swap.css',
+    '../../shared/calendar-trigger-swap.css',
+    './ui-date-range-picker.css',
+  ],
   host: {
     '[style.anchor-scope]': 'anchorName',
   },
@@ -59,6 +65,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
   private readonly id = nextId();
 
   readonly trigger = viewChild<ElementRef<HTMLButtonElement>>('trigger');
+  readonly triggerLabel = viewChild.required<ElementRef<HTMLElement>>('triggerLabel');
   readonly panel = viewChild<ElementRef<HTMLElement>>('panel');
   readonly grid = viewChild(Grid);
 
@@ -91,6 +98,8 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
   // Keep the closed first render identical on the server and client; local
   // calendar time is captured only when the user opens the control.
   readonly leftView = signal<CalendarMonth>(INITIAL_VIEW);
+  readonly monthSwapPhase = signal<'idle' | 'exit' | 'enter-start'>('idle');
+  readonly monthSwapDirection = signal<'previous' | 'next'>('next');
   readonly draftStart = signal('');
   readonly draftEnd = signal('');
   readonly hoverDate = signal('');
@@ -109,6 +118,9 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
     () => formatRangeDisplay(this.draftRange()) || 'Диапазон не выбран',
   );
   readonly isPlaceholderVisible = computed(() => this.displayValue().length === 0);
+  readonly displayedTriggerValue = signal('');
+  readonly displayedTriggerPlaceholder = signal(true);
+  readonly triggerSwapPhase = signal<'idle' | 'exit' | 'enter-start'>('idle');
   readonly rightView = computed(() => getRightView(this.leftView()));
   readonly leftMonthLabel = computed(() => formatMonthLabel(this.leftView()));
   readonly rightMonthLabel = computed(() => formatMonthLabel(this.rightView()));
@@ -148,10 +160,55 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
 
     return firstDayAfterRight <= max;
   });
+  private pendingLeftView: CalendarMonth | undefined;
+  private focusAfterMonthSwap = false;
+  private pendingTriggerValue = '';
+  private pendingTriggerPlaceholder = true;
+  private triggerDisplayInitialized = false;
 
   constructor() {
     afterRenderEffect(() => {
+      const nextPlaceholder = this.isPlaceholderVisible();
+      const nextValue = this.displayValue() || this.placeholder();
+      const currentValue = untracked(this.displayedTriggerValue);
+      const currentPlaceholder = untracked(this.displayedTriggerPlaceholder);
+
+      if (!this.triggerDisplayInitialized) {
+        this.triggerDisplayInitialized = true;
+        this.displayedTriggerValue.set(nextValue);
+        this.displayedTriggerPlaceholder.set(nextPlaceholder);
+        this.pendingTriggerValue = nextValue;
+        this.pendingTriggerPlaceholder = nextPlaceholder;
+        return;
+      }
+
+      if (nextValue === currentValue && nextPlaceholder === currentPlaceholder) {
+        this.pendingTriggerValue = nextValue;
+        this.pendingTriggerPlaceholder = nextPlaceholder;
+
+        if (untracked(this.triggerSwapPhase) === 'exit') {
+          this.triggerSwapPhase.set('idle');
+        }
+
+        return;
+      }
+
+      this.pendingTriggerValue = nextValue;
+      this.pendingTriggerPlaceholder = nextPlaceholder;
+      this.triggerSwapPhase.set('exit');
+    });
+
+    afterRenderEffect(() => {
       syncPopover(this.panel()?.nativeElement, this.popupExpanded());
+    });
+
+    afterRenderEffect(() => {
+      if (this.triggerSwapPhase() !== 'enter-start') {
+        return;
+      }
+
+      void this.triggerLabel().nativeElement.offsetHeight;
+      this.triggerSwapPhase.set('idle');
     });
 
     afterRenderEffect(() => {
@@ -160,6 +217,22 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
       }
 
       queueMicrotask(() => this.focusInitialCell());
+    });
+
+    afterRenderEffect(() => {
+      if (this.monthSwapPhase() !== 'enter-start') {
+        return;
+      }
+
+      // Reflow separates the no-transition start pose from the directional entrance.
+      void this.panel()?.nativeElement.offsetHeight;
+      this.monthSwapPhase.set('idle');
+      this.pendingLeftView = undefined;
+
+      if (this.focusAfterMonthSwap) {
+        this.focusAfterMonthSwap = false;
+        queueMicrotask(() => this.focusInitialCell());
+      }
     });
   }
 
@@ -184,6 +257,9 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
     this.draftEnd.set(range.end);
     this.hoverDate.set('');
     this.selectingEnd.set(Boolean(range.start && !range.end));
+    this.monthSwapPhase.set('idle');
+    this.pendingLeftView = undefined;
+    this.focusAfterMonthSwap = false;
     this.leftView.set(rangeToView(range, today));
     this.popupExpanded.set(true);
   }
@@ -223,14 +299,42 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
 
   previousMonth() {
     if (this.canGoPrev()) {
-      this.shiftView(-1);
+      this.shiftView(-1, false);
     }
   }
 
   nextMonth() {
     if (this.canGoNext()) {
-      this.shiftView(1);
+      this.shiftView(1, false);
     }
+  }
+
+  onTriggerTransitionEnd(event: TransitionEvent) {
+    if (
+      event.target !== event.currentTarget ||
+      event.propertyName !== 'opacity' ||
+      this.triggerSwapPhase() !== 'exit'
+    ) {
+      return;
+    }
+
+    this.displayedTriggerValue.set(this.pendingTriggerValue);
+    this.displayedTriggerPlaceholder.set(this.pendingTriggerPlaceholder);
+    this.triggerSwapPhase.set('enter-start');
+  }
+
+  onMonthTransitionEnd(event: TransitionEvent) {
+    if (
+      event.target !== event.currentTarget ||
+      event.propertyName !== 'opacity' ||
+      this.monthSwapPhase() !== 'exit' ||
+      !this.pendingLeftView
+    ) {
+      return;
+    }
+
+    this.leftView.set(this.pendingLeftView);
+    this.monthSwapPhase.set('enter-start');
   }
 
   applyPreset(preset: { range: () => UiDateRangeValue }) {
@@ -244,7 +348,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
     this.draftEnd.set(range.end);
     this.hoverDate.set('');
     this.selectingEnd.set(false);
-    this.leftView.set(rangeToView(range, this.today()));
+    this.transitionToView(rangeToView(range, this.today()), false);
   }
 
   isPresetAllowed(preset: { range: () => UiDateRangeValue }) {
@@ -315,8 +419,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
 
     if (event.key === 'Home') {
       event.preventDefault();
-      this.leftView.set(monthFromDate(parseInputDate(this.today())!));
-      queueMicrotask(() => this.focusInitialCell());
+      this.transitionToView(monthFromDate(parseInputDate(this.today())!), true);
     }
   }
 
@@ -338,9 +441,34 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
     });
   }
 
-  private shiftView(months: number) {
-    this.leftView.update((view) => addMonths(view, months));
-    queueMicrotask(() => this.focusInitialCell());
+  private shiftView(months: number, withFocus = true) {
+    if (this.monthSwapPhase() === 'exit') {
+      return;
+    }
+
+    this.transitionToView(
+      addMonths(this.pendingLeftView ?? this.leftView(), months),
+      withFocus,
+    );
+  }
+
+  private transitionToView(nextView: CalendarMonth, withFocus: boolean) {
+    const currentView = this.leftView();
+
+    if (nextView.year === currentView.year && nextView.month === currentView.month) {
+      if (withFocus) {
+        queueMicrotask(() => this.focusInitialCell());
+      }
+
+      return;
+    }
+
+    this.pendingLeftView = nextView;
+    this.focusAfterMonthSwap = withFocus;
+    this.monthSwapDirection.set(
+      monthIndex(nextView) < monthIndex(currentView) ? 'previous' : 'next',
+    );
+    this.monthSwapPhase.set('exit');
   }
 
   private focusInitialCell() {
@@ -376,3 +504,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
 }
 
 export type { UiDateRangeValue };
+
+function monthIndex(view: CalendarMonth): number {
+  return view.year * 12 + view.month;
+}

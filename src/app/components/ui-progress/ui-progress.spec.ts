@@ -5,9 +5,10 @@ import { UiProgress } from './ui-progress';
 @Component({
   imports: [UiProgress],
   template: `
-    <ui-progress label="Upload progress" value="40" max="200" />
+    <ui-progress label="Upload progress" value="40" max="200" withValue withAnimation />
     <ui-progress label="Loading report" />
     <ui-progress label="Duplicated progress" value="120" decorative />
+    <ui-progress label="Static progress" value="50" withValue />
   `,
 })
 class TestHost {}
@@ -36,6 +37,12 @@ describe('UiProgress', () => {
     expect(progress?.getAttribute('max')).toBe('200');
     expect(indicator.classList.contains('ui-progress-indeterminate')).toBe(false);
     expect(indicator.style.getPropertyValue('--ui-progress-ratio')).toBe('0.2');
+    expect(indicator.classList.contains('ui-progress-with-value')).toBe(true);
+    expect(indicator.classList.contains('ui-progress-animated')).toBe(true);
+    expect(indicator.querySelector('.ui-progress-value')?.textContent?.replace(/\s/g, '')).toBe(
+      '20%',
+    );
+    expect(indicator.querySelector('.ui-progress-value')?.getAttribute('aria-hidden')).toBe('true');
   });
 
   it('should omit value and expose the indeterminate state', () => {
@@ -57,5 +64,15 @@ describe('UiProgress', () => {
     expect(progress?.getAttribute('aria-label')).toBeNull();
     expect(progress?.getAttribute('value')).toBe('100');
     expect(track?.getAttribute('aria-hidden')).toBe('true');
+  });
+
+  it('should keep visible values static unless animation is explicitly enabled', () => {
+    const animatedValue = indicators()[0]?.querySelector('.ui-progress-value');
+    const staticValue = indicators()[3]?.querySelector('.ui-progress-value');
+
+    expect(animatedValue).toBeTruthy();
+    expect(staticValue).toBeTruthy();
+    expect(indicators()[3]?.classList).not.toContain('ui-progress-animated');
+    expect(staticValue?.classList).not.toContain('ui-progress-value-animating');
   });
 });

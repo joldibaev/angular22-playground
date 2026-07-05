@@ -1,11 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UiButton } from './ui-button';
 
 @Component({
   imports: [UiButton],
   template: `
-    <button uiButton type="submit" loading>Save</button>
+    <button
+      uiButton
+      type="submit"
+      [loading]="loading()"
+    >
+      Save
+    </button>
     <a uiButton href="/docs" disabled>Docs</a>
     <button uiButton type="button" variant="brand" iconOnly aria-label="Add">+</button>
     <button uiButton type="button" rounded>Pill</button>
@@ -13,7 +19,9 @@ import { UiButton } from './ui-button';
     <button uiButton type="button" fluid>Fluid</button>
   `,
 })
-class TestHost {}
+class TestHost {
+  readonly loading = signal(true);
+}
 
 describe('UiButton', () => {
   let fixture: ComponentFixture<TestHost>;
@@ -35,6 +43,12 @@ describe('UiButton', () => {
     expect(button.disabled).toBe(true);
     expect(button.getAttribute('aria-busy')).toBe('true');
     expect(button.querySelector('ui-loading')).toBeTruthy();
+    const content = button.querySelector('.ui-button-content') as HTMLElement;
+    const spinner = button.querySelector('.ui-button-loading-indicator') as HTMLElement;
+    expect(content.textContent).toContain('Save');
+    expect(getComputedStyle(content).opacity).toBe('0');
+    expect(getComputedStyle(spinner).position).toBe('absolute');
+    expect(getComputedStyle(spinner).translate).toBe('-50% -50%');
   });
 
   it('should apply disabled state to anchor hosts accessibly', () => {

@@ -1,10 +1,15 @@
 import {
+  afterRenderEffect,
   booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
+  ElementRef,
   input,
   numberAttribute,
+  signal,
+  viewChild,
 } from '@angular/core';
 
 function optionalNumberAttribute(value: unknown): number | undefined {
@@ -18,6 +23,8 @@ function optionalNumberAttribute(value: unknown): number | undefined {
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class.ui-progress-indeterminate]': 'normalizedValue() === undefined',
+    '[class.ui-progress-with-value]': 'withValue() && normalizedValue() !== undefined',
+    '[class.ui-progress-animated]': 'withAnimation()',
     '[style.--ui-progress-ratio]': 'ratio()',
   },
 })
@@ -27,6 +34,10 @@ export class UiProgress {
   });
   readonly max = input(100, { transform: numberAttribute });
   readonly label = input('');
+  readonly withValue = input(false, { transform: booleanAttribute });
+  // Motion is opt-in: frequently updating progress should stay quiet unless the
+  // consumer explicitly wants both the fill transition and emphasized digits.
+  readonly withAnimation = input(false, { transform: booleanAttribute });
   readonly decorative = input<boolean | undefined, unknown>(undefined, {
     transform: booleanAttribute,
   });
@@ -49,4 +60,45 @@ export class UiProgress {
   });
   protected readonly ratio = computed(() => (this.normalizedValue() ?? 0) / this.normalizedMax());
   protected readonly percentage = computed(() => Math.round(this.ratio() * 100));
+  protected readonly percentageCharacters = computed(() => `${this.percentage()}%`.split(''));
+  protected readonly digitAnimationPhase = signal<'idle' | 'prepare' | 'animate'>('idle');
+  private readonly valueRef = viewChild<ElementRef<HTMLElement>>('valueRef');
+  private lastPercentage: number | undefined;
+
+  constructor() {
+    effect(() => {
+      const percentage = this.percentage();
+      const withAnimation = this.withAnimation();
+      const withValue = this.withValue();
+
+      if (this.lastPercentage === undefined) {
+        this.lastPercentage = percentage;
+        return;
+      }
+
+      if (!withAnimation || !withValue) {
+        this.lastPercentage = percentage;
+        this.digitAnimationPhase.set('idle');
+        return;
+      }
+
+      if (percentage === this.lastPercentage) {
+        return;
+      }
+
+      this.lastPercentage = percentage;
+      this.digitAnimationPhase.set('prepare');
+    });
+
+    afterRenderEffect(() => {
+      if (this.digitAnimationPhase() !== 'prepare') {
+        return;
+      }
+
+      // Separate the updated digits from their animated state so the browser
+      // reliably replays the pop-in on every value change.
+      void this.valueRef()?.nativeElement.offsetHeight;
+      this.digitAnimationPhase.set('animate');
+    });
+  }
 }

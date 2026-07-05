@@ -1,5 +1,10 @@
 @if (loading()) {
-  <ui-loading class="ui-button-loading-indicator" decorative />
+  <ui-loading
+    class="ui-button-loading-indicator"
+    animate.enter="ui-button-spinner-enter"
+    animate.leave="ui-button-spinner-leave"
+    decorative
+  />
 }
 
 <span class="ui-button-content">

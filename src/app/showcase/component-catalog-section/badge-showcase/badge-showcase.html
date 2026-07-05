@@ -46,6 +46,41 @@
       ></ui-card
     >
   </section>
+  <section aria-labelledby="badge-notification-title">
+    <h5 id="badge-notification-title">Notification</h5>
+    <ui-card variant="outlined">
+      <ui-tab size="sm" aria-label="Animated notification badge example">
+        <ui-tab-item value="preview" label="Preview">
+          <div class="preview notification-preview">
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              iconOnly
+              class="notification-trigger"
+              [attr.aria-label]="
+                notificationVisible() ? 'Notifications, 3 unread' : 'Notifications, none unread'
+              "
+            >
+              <ui-icon name="outline-bell-down" decorative />
+              <ui-badge
+                variant="brand"
+                withNotificationAnimation
+                [visible]="notificationVisible()"
+                >3</ui-badge
+              >
+            </button>
+            <button uiButton type="button" size="sm" variant="ghost" (click)="toggleNotification()">
+              {{ notificationVisible() ? 'Hide notification' : 'Show notification' }}
+            </button>
+          </div>
+        </ui-tab-item>
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ notificationCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab>
+    </ui-card>
+  </section>
   <section aria-labelledby="badge-icon-title">
     <h5 id="badge-icon-title">Projected icon</h5>
     <ui-card variant="outlined"

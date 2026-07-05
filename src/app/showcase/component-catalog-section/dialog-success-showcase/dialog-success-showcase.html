@@ -1,0 +1,67 @@
+<article class="dialog-success-showcase" aria-labelledby="dialog-success-showcase-title">
+  <header>
+    <h4 id="dialog-success-showcase-title" class="font-black">Dialog success</h4>
+    <p>A focused completion moment with a replayable success-check animation.</p>
+  </header>
+
+  <section aria-labelledby="dialog-success-default-title">
+    <h5 id="dialog-success-default-title">Default</h5>
+    <ui-card variant="outlined">
+      <ui-tab size="sm" aria-label="Default success dialog example">
+        <ui-tab-item value="preview" label="Preview">
+          <div class="dialog-success-preview">
+            <button
+              uiButton
+              type="button"
+              command="show-modal"
+              [attr.commandfor]="paymentSuccess.dialogId()"
+            >
+              Complete payment
+            </button>
+          </div>
+        </ui-tab-item>
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ defaultCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab>
+    </ui-card>
+    <ui-dialog-success
+      #paymentSuccess="uiDialogSuccess"
+      title="Payment complete"
+      message="A receipt has been sent to your email."
+    />
+  </section>
+
+  <section aria-labelledby="dialog-success-custom-title">
+    <h5 id="dialog-success-custom-title">Custom action</h5>
+    <ui-card variant="outlined">
+      <ui-tab size="sm" aria-label="Custom success dialog action example">
+        <ui-tab-item value="preview" label="Preview">
+          <div class="dialog-success-preview dialog-success-outcome">
+            <button
+              uiButton
+              type="button"
+              variant="outline"
+              command="show-modal"
+              [attr.commandfor]="workspaceSuccess.dialogId()"
+            >
+              Create workspace
+            </button>
+            <span aria-live="polite">{{ lastAction() }}</span>
+          </div>
+        </ui-tab-item>
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{ customCode }}</code></pre>
+        </ui-tab-item>
+      </ui-tab>
+    </ui-card>
+    <ui-dialog-success
+      #workspaceSuccess="uiDialogSuccess"
+      title="Workspace created"
+      message="Your team can now start collaborating."
+      actionLabel="Open workspace"
+      dismiss="closerequest"
+      (acknowledge)="acknowledge()"
+    />
+  </section>
+</article>

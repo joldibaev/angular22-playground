@@ -1,0 +1,127 @@
+:host {
+  --ui-dialog-success-icon-size: 5rem;
+  --ui-dialog-success-icon-background: var(--color-brand);
+  --ui-dialog-success-icon-color: contrast-color(var(--ui-dialog-success-icon-background));
+  --ui-dialog-success-motion-duration: var(--dur-slow);
+  --ui-dialog-success-exit-duration: var(--dur-quick);
+  --ui-dialog-success-path-delay: calc(var(--dur-press) * 0.6);
+  --ui-dialog-success-motion-easing: var(--ease-snappy);
+  --ui-dialog-success-rotate-from: 80deg;
+  --ui-dialog-success-y: 30px;
+  --ui-dialog-success-blur: 8px;
+
+  display: contents;
+}
+
+.ui-dialog-success-content {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  text-align: center;
+}
+
+.ui-dialog-success-content p {
+  max-inline-size: 28rem;
+  margin: 0;
+  color: var(--text-color-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.ui-dialog-success-check {
+  display: inline-block;
+  inline-size: var(--ui-dialog-success-icon-size);
+  block-size: var(--ui-dialog-success-icon-size);
+  opacity: 0;
+  transform-origin: center;
+  transition: opacity var(--ui-dialog-success-exit-duration) var(--ease-balanced);
+  will-change: rotate, translate, filter, opacity;
+}
+
+.ui-dialog-success-check svg {
+  display: block;
+  inline-size: 100%;
+  block-size: 100%;
+  overflow: visible;
+}
+
+.ui-dialog-success-check circle {
+  fill: var(--ui-dialog-success-icon-background);
+}
+
+.ui-dialog-success-check path {
+  fill: none;
+  stroke: var(--ui-dialog-success-icon-color);
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 28;
+  stroke-dashoffset: 28;
+}
+
+.ui-dialog-success-check[data-state='in'] {
+  animation:
+    ui-dialog-success-fade var(--ui-dialog-success-motion-duration)
+      var(--ui-dialog-success-motion-easing) forwards,
+    ui-dialog-success-rotate var(--ui-dialog-success-motion-duration)
+      var(--ui-dialog-success-motion-easing) forwards,
+    ui-dialog-success-blur var(--ui-dialog-success-motion-duration)
+      var(--ui-dialog-success-motion-easing) forwards,
+    ui-dialog-success-bob var(--ui-dialog-success-motion-duration)
+      var(--ui-dialog-success-motion-easing) forwards;
+}
+
+.ui-dialog-success-check[data-state='in'] path {
+  animation: ui-dialog-success-draw var(--ui-dialog-success-motion-duration)
+    var(--ui-dialog-success-motion-easing) var(--ui-dialog-success-path-delay) forwards;
+}
+
+.ui-dialog-success-actions {
+  display: flex;
+  justify-content: center;
+  inline-size: 100%;
+}
+
+@keyframes ui-dialog-success-fade {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes ui-dialog-success-rotate {
+  from {
+    rotate: var(--ui-dialog-success-rotate-from);
+  }
+}
+
+@keyframes ui-dialog-success-blur {
+  from {
+    filter: blur(var(--ui-dialog-success-blur));
+  }
+}
+
+@keyframes ui-dialog-success-bob {
+  from {
+    translate: 0 var(--ui-dialog-success-y);
+  }
+}
+
+@keyframes ui-dialog-success-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-dialog-success-check[data-state='in'] {
+    opacity: 1;
+    animation: none;
+    transition: opacity var(--ui-dialog-success-exit-duration) var(--ease-balanced);
+  }
+
+  .ui-dialog-success-check[data-state='in'] path {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+}

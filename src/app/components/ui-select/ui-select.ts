@@ -10,6 +10,7 @@ import {
   model,
   output,
   signal,
+  untracked,
   viewChild,
 } from '@angular/core';
 import { Listbox, Option } from '@angular/aria/listbox';
@@ -39,6 +40,7 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
   readonly combobox = viewChild(Combobox);
   readonly listbox = viewChild(Listbox);
   readonly popupElement = viewChild<ElementRef<HTMLElement>>('popupElement');
+  readonly selectedLabelElement = viewChild.required<ElementRef<HTMLElement>>('selectedLabel');
 
   value = model<UiSelectValue>('');
   disabled = input(false, { transform: booleanAttribute });
@@ -72,6 +74,9 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
     return this.placeholder();
   });
   readonly isPlaceholderVisible = computed(() => this.selectedOptions().length === 0);
+  readonly displayedValue = signal('');
+  readonly displayedPlaceholder = signal(true);
+  readonly valueSwapPhase = signal<'idle' | 'exit' | 'enter-start'>('idle');
   private readonly selectedOptions = computed(() => {
     const selectedValues = new Set(this.selectedValues());
     const emittedValues = new Set<string>();
@@ -91,6 +96,9 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
 
   options = contentChildren(UiSelectOption, { descendants: true });
   groups = contentChildren(UiSelectGroup);
+  private pendingDisplayValue = '';
+  private pendingPlaceholder = true;
+  private valueDisplayInitialized = false;
 
   readonly renderItems = computed<UiSelectRenderItem[]>(() => {
     const groups = this.groups();
@@ -117,12 +125,67 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
 
   constructor() {
     afterRenderEffect(() => {
+      const nextValue = this.displayValue();
+      const nextPlaceholder = this.isPlaceholderVisible();
+      const currentValue = untracked(this.displayedValue);
+      const currentPlaceholder = untracked(this.displayedPlaceholder);
+
+      if (!this.valueDisplayInitialized) {
+        this.valueDisplayInitialized = true;
+        this.displayedValue.set(nextValue);
+        this.displayedPlaceholder.set(nextPlaceholder);
+        this.pendingDisplayValue = nextValue;
+        this.pendingPlaceholder = nextPlaceholder;
+        return;
+      }
+
+      if (nextValue === currentValue && nextPlaceholder === currentPlaceholder) {
+        this.pendingDisplayValue = nextValue;
+        this.pendingPlaceholder = nextPlaceholder;
+
+        if (untracked(this.valueSwapPhase) === 'exit') {
+          this.valueSwapPhase.set('idle');
+        }
+
+        return;
+      }
+
+      this.pendingDisplayValue = nextValue;
+      this.pendingPlaceholder = nextPlaceholder;
+      this.valueSwapPhase.set('exit');
+    });
+
+    afterRenderEffect(() => {
       this.listbox()?.scrollActiveItemIntoView();
     });
 
     afterRenderEffect(() => {
       syncPopover(this.popupElement()?.nativeElement, this.popupExpanded());
     });
+
+    afterRenderEffect(() => {
+      if (this.valueSwapPhase() !== 'enter-start') {
+        return;
+      }
+
+      // Reflow separates the no-transition start pose from the animated entrance.
+      void this.selectedLabelElement().nativeElement.offsetHeight;
+      this.valueSwapPhase.set('idle');
+    });
+  }
+
+  onValueTransitionEnd(event: TransitionEvent) {
+    if (
+      event.target !== event.currentTarget ||
+      event.propertyName !== 'opacity' ||
+      this.valueSwapPhase() !== 'exit'
+    ) {
+      return;
+    }
+
+    this.displayedValue.set(this.pendingDisplayValue);
+    this.displayedPlaceholder.set(this.pendingPlaceholder);
+    this.valueSwapPhase.set('enter-start');
   }
 
   onListboxClick(event: MouseEvent) {

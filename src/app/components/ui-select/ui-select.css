@@ -1,4 +1,7 @@
 :host {
+  --ui-select-value-swap-distance: 4px;
+  --ui-select-value-swap-blur: 2px;
+
   anchor-scope: --ui-select-trigger;
   display: block;
   min-width: 0;
@@ -46,9 +49,31 @@
 }
 
 .selected-label-text {
+  display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  transform: translateY(0);
+  filter: blur(0);
+  opacity: 1;
+  transition:
+    transform var(--dur-quick) var(--ease-balanced),
+    filter var(--dur-quick) var(--ease-balanced),
+    opacity var(--dur-quick) var(--ease-balanced);
+  will-change: transform, filter, opacity;
+}
+
+.selected-label-text[data-swap-phase='exit'] {
+  transform: translateY(calc(var(--ui-select-value-swap-distance) * -1));
+  filter: blur(var(--ui-select-value-swap-blur));
+  opacity: 0;
+}
+
+.selected-label-text[data-swap-phase='enter-start'] {
+  transform: translateY(var(--ui-select-value-swap-distance));
+  filter: blur(var(--ui-select-value-swap-blur));
+  opacity: 0;
+  transition: none;
 }
 
 .selected-label-placeholder {
@@ -62,6 +87,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .selected-label-text {
+    transform: none;
+    filter: none;
+    transition: opacity var(--dur-quick) var(--ease-balanced);
+  }
+
   .icon-chevron-down {
     transition: none;
   }

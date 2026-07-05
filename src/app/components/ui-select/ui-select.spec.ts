@@ -260,6 +260,20 @@ function getCombobox<T extends SelectHost>(fixture: ComponentFixture<T>): HTMLEl
   return fixture.nativeElement.querySelector('[role="combobox"]');
 }
 
+async function completeValueSwap<T>(fixture: ComponentFixture<T>): Promise<HTMLElement> {
+  await fixture.whenStable();
+  const label = fixture.nativeElement.querySelector('.selected-label-text') as HTMLElement;
+
+  if (label.getAttribute('data-swap-phase') === 'exit') {
+    const event = new Event('transitionend', { bubbles: true });
+    Object.defineProperty(event, 'propertyName', { value: 'opacity' });
+    label.dispatchEvent(event);
+    await fixture.whenStable();
+  }
+
+  return label;
+}
+
 async function openPopup(fixture: ComponentFixture<SelectHost>): Promise<HTMLElement> {
   const combobox = getCombobox(fixture);
 
@@ -374,10 +388,18 @@ describe('UiSelect', () => {
 
     hostFixture.componentInstance.select().selectedValues.set(['approved']);
     hostFixture.detectChanges();
+    await hostFixture.whenStable();
 
-    const label = hostFixture.nativeElement.querySelector('.selected-label-text');
+    const exitingLabel = hostFixture.nativeElement.querySelector(
+      '.selected-label-text',
+    ) as HTMLElement;
+    expect(exitingLabel.textContent).toContain('Выберите значение');
+    expect(exitingLabel.getAttribute('data-swap-phase')).toBe('exit');
+
+    const label = await completeValueSwap(hostFixture);
 
     expect(label?.textContent).toContain('Approved');
+    expect(label.getAttribute('data-swap-phase')).toBe('idle');
     expect(label?.classList).not.toContain('selected-label-placeholder');
   });
 
@@ -387,7 +409,7 @@ describe('UiSelect', () => {
     hostFixture.componentInstance.select().selectedValues.set(['missing']);
     hostFixture.detectChanges();
 
-    const label = hostFixture.nativeElement.querySelector('.selected-label-text');
+    const label = await completeValueSwap(hostFixture);
 
     expect(label?.textContent).toContain('Выберите значение');
     expect(label?.classList).toContain('selected-label-placeholder');
@@ -399,7 +421,7 @@ describe('UiSelect', () => {
     hostFixture.componentInstance.select().selectedValues.set(['paid', 'created']);
     hostFixture.detectChanges();
 
-    const label = hostFixture.nativeElement.querySelector('.selected-label-text');
+    const label = await completeValueSwap(hostFixture);
 
     expect(label?.textContent).toContain('Created, Paid');
   });
@@ -479,7 +501,7 @@ describe('UiSelect', () => {
     hostFixture.componentInstance.select().selectedValues.set(['approved']);
     hostFixture.detectChanges();
 
-    const label = hostFixture.nativeElement.querySelector('.selected-label-text');
+    const label = await completeValueSwap(hostFixture);
 
     expect(label?.textContent).toContain('Approved');
   });
@@ -490,7 +512,7 @@ describe('UiSelect', () => {
     hostFixture.componentInstance.select().selectedValues.set(['research']);
     hostFixture.detectChanges();
 
-    const label = hostFixture.nativeElement.querySelector('.selected-label-text');
+    const label = await completeValueSwap(hostFixture);
 
     expect(label?.textContent?.trim()).toBe('Research');
   });
@@ -629,6 +651,7 @@ describe('UiSelect', () => {
     expect(await options[1].getText()).toBe('Approved');
 
     await options[1].click();
+    await completeValueSwap(hostFixture);
 
     expect(await select.isOpen()).toBe(false);
     expect(hostFixture.componentInstance.select().selectedValues()).toEqual(['approved']);
@@ -754,6 +777,7 @@ describe('UiSelect', () => {
     dispatchKeyboardEvent(listbox, 'Enter');
     hostFixture.detectChanges();
     await hostFixture.whenStable();
+    await completeValueSwap(hostFixture);
 
     expect(hostFixture.componentInstance.select().selectedValues()).toEqual(['approved']);
     expect(hostFixture.componentInstance.select().popupExpanded()).toBe(false);

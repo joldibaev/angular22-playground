@@ -70,3 +70,39 @@
 .ui-badge-content {
   display: contents;
 }
+
+:host(.ui-badge-notification) {
+  pointer-events: none;
+  translate: -8px 8px;
+  scale: 0.95;
+  filter: blur(2px);
+  opacity: 0;
+  transition:
+    translate var(--dur-quick) var(--ease-balanced),
+    scale var(--dur-quick) var(--ease-balanced),
+    filter var(--dur-quick) var(--ease-balanced),
+    opacity var(--dur-quick) var(--ease-balanced);
+  will-change: translate, scale, filter, opacity;
+}
+
+:host(.ui-badge-notification-visible) {
+  translate: 0 0;
+  scale: 1;
+  filter: blur(0);
+  opacity: 1;
+  transition:
+    translate var(--dur-fast) var(--ease-snappy),
+    scale var(--dur-slow) var(--ease-snappy),
+    filter var(--dur-fast) var(--ease-snappy),
+    opacity var(--dur-fast) var(--ease-snappy);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host(.ui-badge-notification),
+  :host(.ui-badge-notification-visible) {
+    translate: 0 0;
+    scale: 1;
+    filter: none;
+    transition: opacity var(--dur-quick) var(--ease-balanced);
+  }
+}

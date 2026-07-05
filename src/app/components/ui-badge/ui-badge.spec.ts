@@ -13,9 +13,12 @@ import { UiBadge } from './ui-badge';
       Verified
     </ui-badge>
     <ui-badge variant="contrast">High contrast</ui-badge>
+    <ui-badge variant="brand" withNotificationAnimation [visible]="notificationVisible">3</ui-badge>
   `,
 })
-class TestHost {}
+class TestHost {
+  notificationVisible = true;
+}
 
 describe('UiBadge', () => {
   let fixture: ComponentFixture<TestHost>;
@@ -68,5 +71,20 @@ describe('UiBadge', () => {
     const [, , , badge] = badges();
 
     expect(badge.classList.contains('ui-badge-contrast')).toBe(true);
+  });
+
+  it('should animate notification visibility without removing the badge from the DOM', () => {
+    const badge = badges()[4];
+
+    expect(badge?.classList).toContain('ui-badge-notification');
+    expect(badge?.classList).toContain('ui-badge-notification-visible');
+    expect(badge?.getAttribute('aria-hidden')).toBeNull();
+
+    fixture.componentInstance.notificationVisible = false;
+    fixture.detectChanges();
+
+    expect(badges()[4]).toBe(badge);
+    expect(badge?.classList).not.toContain('ui-badge-notification-visible');
+    expect(badge?.getAttribute('aria-hidden')).toBe('true');
   });
 });

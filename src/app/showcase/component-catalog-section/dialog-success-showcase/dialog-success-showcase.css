@@ -2,59 +2,55 @@
   display: block;
   min-width: 0;
 }
-.docs,
-.docs > header,
-.docs > section {
+
+.dialog-success-showcase,
+.dialog-success-showcase > header,
+.dialog-success-showcase > section {
   display: grid;
   min-width: 0;
 }
-.docs {
+
+.dialog-success-showcase {
   gap: 1.25rem;
 }
-.docs > header {
+
+.dialog-success-showcase > header {
   gap: 0.25rem;
 }
-.docs > section {
+
+.dialog-success-showcase > section {
   gap: 0.625rem;
 }
-.docs header p {
+
+.dialog-success-showcase header p {
   margin: 0;
   color: var(--text-color-muted);
   text-wrap: pretty;
 }
-.docs h5 {
+
+.dialog-success-showcase h5 {
   margin: 0;
   font-size: 0.875rem;
   font-weight: 800;
 }
-.docs ui-card {
+
+.dialog-success-showcase ui-card {
   --ui-card-padding: 0.875rem;
 }
-.preview {
+
+.dialog-success-preview {
   display: grid;
   min-height: 7rem;
   place-items: center;
+  gap: 0.75rem;
   padding: 1rem;
 }
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+
+.dialog-success-outcome span {
+  color: var(--text-color-muted);
+  font-size: 0.875rem;
 }
-.notification-preview {
-  gap: 0.75rem;
-}
-.notification-trigger {
-  position: relative;
-  overflow: visible;
-}
-.notification-trigger ui-badge {
-  position: absolute;
-  top: -0.5rem;
-  right: -0.625rem;
-}
+
 pre {
   min-width: 0;
   max-width: 100%;
@@ -67,11 +63,13 @@ pre {
   font-size: 0.75rem;
   line-height: 1.55;
   tab-size: 2;
+
   &:focus-visible {
     outline: 2px solid var(--focus-ring-color);
     outline-offset: 2px;
   }
 }
+
 code {
   font-family: ui-monospace, 'Cascadia Code', monospace;
 }

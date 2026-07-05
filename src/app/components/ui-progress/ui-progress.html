@@ -12,3 +12,21 @@
 <span class="ui-progress-track" aria-hidden="true">
   <span class="ui-progress-indicator"></span>
 </span>
+
+@if (withValue() && normalizedValue() !== undefined) {
+  <span
+    #valueRef
+    class="ui-progress-value"
+    aria-hidden="true"
+    [class.ui-progress-value-animating]="withAnimation() && digitAnimationPhase() === 'animate'"
+  >
+    @for (character of percentageCharacters(); track $index) {
+      <span
+        class="ui-progress-digit"
+        [attr.data-stagger]="$count - $index <= 2 ? 3 - ($count - $index) : null"
+      >
+        {{ character }}
+      </span>
+    }
+  </span>
+}

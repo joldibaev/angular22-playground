@@ -22,10 +22,13 @@
     </span>
 
     <span
-      class="ui-datepicker-trigger-label"
-      [class.ui-datepicker-placeholder]="isPlaceholderVisible()"
+      #triggerLabel
+      class="ui-datepicker-trigger-label calendar-trigger-swap"
+      [class.ui-datepicker-placeholder]="displayedTriggerPlaceholder()"
+      [attr.data-swap-phase]="triggerSwapPhase()"
+      (transitionend)="onTriggerTransitionEnd($event)"
     >
-      {{ displayValue() || placeholder() }}
+      {{ displayedTriggerValue() }}
     </span>
 
     @if (!loading()) {
@@ -66,7 +69,16 @@
         <ui-icon name="outline-chevron-left" />
       </button>
 
-      <h2 [id]="titleId" class="ui-datepicker-title" aria-live="polite">{{ monthLabel() }}</h2>
+      <h2
+        [id]="titleId"
+        class="ui-datepicker-title calendar-month-swap"
+        aria-live="polite"
+        [attr.data-swap-phase]="monthSwapPhase()"
+        [attr.data-swap-direction]="monthSwapDirection()"
+        (transitionend)="onMonthTransitionEnd($event)"
+      >
+        {{ monthLabel() }}
+      </h2>
 
       <button
         type="button"
@@ -82,13 +94,15 @@
     <table
       ngGrid
       #grid="ngGrid"
-      class="ui-datepicker-grid"
+      class="ui-datepicker-grid calendar-month-swap"
       colWrap="continuous"
       rowWrap="nowrap"
       selectionMode="explicit"
       [enableSelection]="true"
       [softDisabled]="false"
       [attr.aria-label]="monthLabel()"
+      [attr.data-swap-phase]="monthSwapPhase()"
+      [attr.data-swap-direction]="monthSwapDirection()"
     >
       <thead>
         <tr>

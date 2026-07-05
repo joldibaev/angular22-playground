@@ -45,7 +45,15 @@
           ><div class="preview row">
             <button uiButton type="button">Enabled</button
             ><button uiButton type="button" disabled>Disabled</button
-            ><button uiButton type="button" loading>Saving</button>
+            ><button
+              uiButton
+              type="button"
+              variant="brand"
+              [loading]="saving()"
+              (click)="save()"
+            >
+              Save changes
+            </button>
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
           <pre tabindex="0"><code>{{ statesCode }}</code></pre>

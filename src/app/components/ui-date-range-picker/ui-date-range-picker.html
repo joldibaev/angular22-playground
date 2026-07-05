@@ -22,10 +22,13 @@
     </span>
 
     <span
-      class="ui-date-range-trigger-label"
-      [class.ui-date-range-placeholder]="isPlaceholderVisible()"
+      #triggerLabel
+      class="ui-date-range-trigger-label calendar-trigger-swap"
+      [class.ui-date-range-placeholder]="displayedTriggerPlaceholder()"
+      [attr.data-swap-phase]="triggerSwapPhase()"
+      (transitionend)="onTriggerTransitionEnd($event)"
     >
-      {{ displayValue() || placeholder() }}
+      {{ displayedTriggerValue() }}
     </span>
 
     @if (!loading()) {
@@ -83,7 +86,13 @@
           <ui-icon name="outline-chevron-left" />
         </button>
 
-        <h2 [id]="titleId" class="ui-date-range-title">
+        <h2
+          [id]="titleId"
+          class="ui-date-range-title calendar-month-swap"
+          [attr.data-swap-phase]="monthSwapPhase()"
+          [attr.data-swap-direction]="monthSwapDirection()"
+          (transitionend)="onMonthTransitionEnd($event)"
+        >
           <span>{{ leftMonthLabel() }}</span>
           <span>{{ rightMonthLabel() }}</span>
         </h2>
@@ -99,7 +108,11 @@
         </button>
       </header>
 
-      <div class="ui-date-range-grids">
+      <div
+        class="ui-date-range-grids calendar-month-swap"
+        [attr.data-swap-phase]="monthSwapPhase()"
+        [attr.data-swap-direction]="monthSwapDirection()"
+      >
         @for (
           block of [
             { weeks: leftWeeks(), label: leftMonthLabel() },

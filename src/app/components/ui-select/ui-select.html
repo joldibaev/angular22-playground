@@ -14,8 +14,14 @@
     (blur)="touch.emit()"
   >
     <span class="combobox-label">
-      <span class="selected-label-text" [class.selected-label-placeholder]="isPlaceholderVisible()">
-        {{ displayValue() }}
+      <span
+        #selectedLabel
+        class="selected-label-text"
+        [class.selected-label-placeholder]="displayedPlaceholder()"
+        [attr.data-swap-phase]="valueSwapPhase()"
+        (transitionend)="onValueTransitionEnd($event)"
+      >
+        {{ displayedValue() }}
       </span>
     </span>
 

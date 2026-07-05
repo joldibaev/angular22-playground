@@ -113,6 +113,28 @@ describe('UiDateRangePicker', () => {
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
   });
 
+  it('should transition the trigger label when the selected range changes', async () => {
+    const fixture = await createHostFixture();
+    const rangePicker = fixture.componentInstance.rangePicker();
+    const label = fixture.nativeElement.querySelector(
+      '.ui-date-range-trigger-label',
+    ) as HTMLElement;
+
+    rangePicker.value.set({ start: '2026-07-01', end: '2026-07-05' });
+    await fixture.whenStable();
+
+    expect(label.textContent).toContain('15 июн. 2026 г. — 20 июн. 2026 г.');
+    expect(label.getAttribute('data-swap-phase')).toBe('exit');
+
+    const exit = new Event('transitionend', { bubbles: true });
+    Object.defineProperty(exit, 'propertyName', { value: 'opacity' });
+    label.dispatchEvent(exit);
+    await fixture.whenStable();
+
+    expect(label.textContent).toContain('1 июл. 2026 г. — 5 июл. 2026 г.');
+    expect(label.getAttribute('data-swap-phase')).toBe('idle');
+  });
+
   it('should wire ui-input label to the button trigger', async () => {
     const fixture = await createHostFixture();
     const label = fixture.nativeElement.querySelector('.ui-input-label') as HTMLLabelElement;
@@ -139,6 +161,30 @@ describe('UiDateRangePicker', () => {
     expect(grids).toHaveLength(2);
     expect(await grids[0].getCellTextByIndex()).toContainEqual(['1', '2', '3', '4', '5', '6', '7']);
     expect(getTrigger(fixture).getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('should transition both visible months in their spatial direction', async () => {
+    const fixture = TestBed.createComponent(UiDateRangePicker);
+    fixture.componentRef.setInput('value', { start: '2026-06-15', end: '2026-06-20' });
+    await fixture.whenStable();
+
+    fixture.componentInstance.open();
+    await fixture.whenStable();
+    fixture.componentInstance.nextMonth();
+    await fixture.whenStable();
+
+    const title = fixture.nativeElement.querySelector('.ui-date-range-title') as HTMLElement;
+    expect(fixture.componentInstance.leftView()).toEqual({ year: 2026, month: 5 });
+    expect(title.getAttribute('data-swap-phase')).toBe('exit');
+    expect(title.getAttribute('data-swap-direction')).toBe('next');
+
+    const exit = new Event('transitionend', { bubbles: true });
+    Object.defineProperty(exit, 'propertyName', { value: 'opacity' });
+    title.dispatchEvent(exit);
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.leftView()).toEqual({ year: 2026, month: 6 });
+    expect(title.getAttribute('data-swap-phase')).toBe('idle');
   });
 
   it('should expose selected range edges through the Angular Aria grid harness', async () => {

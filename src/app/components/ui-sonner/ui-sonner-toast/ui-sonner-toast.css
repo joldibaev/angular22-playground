@@ -4,7 +4,9 @@
   --ui-sonner-toast-swipe-duration: var(--dur-quick);
   --ui-sonner-toast-motion-easing: var(--ease-snappy);
   --ui-sonner-text-swap-distance: 4px;
-  --ui-sonner-text-swap-blur: 2px;
+  /* Four pixels remain legible as motion while the simultaneous fade is still visible;
+     the original two-pixel recipe disappeared too early at toast text sizes. */
+  --ui-sonner-text-swap-blur: 4px;
   /* Text swaps need balanced interpolation so blur remains visible before opacity reaches zero. */
   --ui-sonner-text-swap-easing: var(--ease-balanced);
 

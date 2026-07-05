@@ -44,6 +44,17 @@
   font-size: 0.875rem;
   color: var(--text-color-muted);
 }
+.progress-variant {
+  display: grid;
+  gap: 0.5rem;
+}
+.progress-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-block-start: 0.25rem;
+}
 pre {
   margin: 0;
   overflow: auto;

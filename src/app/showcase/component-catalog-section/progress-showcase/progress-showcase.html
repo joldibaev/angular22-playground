@@ -9,7 +9,44 @@
       ><ui-tab size="sm" aria-label="Determinate progress example"
         ><ui-tab-item value="preview" label="Preview"
           ><div class="preview column">
-            <span>35%</span><ui-progress label="Upload progress" [value]="35" /></div></ui-tab-item
+            <div class="progress-variant">
+              <span>Animated value</span>
+              <ui-progress
+                label="Animated progress"
+                [value]="progress()"
+                withValue
+                withAnimation
+              />
+            </div>
+            <div class="progress-variant">
+              <span>Without animation</span>
+              <ui-progress label="Static progress" [value]="progress()" withValue />
+            </div>
+            <div class="progress-actions">
+              <button
+                uiButton
+                type="button"
+                size="sm"
+                variant="ghost"
+                data-progress-decrease
+                [disabled]="progress() === 0"
+                (click)="decreaseProgress()"
+              >
+                Decrease
+              </button>
+              <button
+                uiButton
+                type="button"
+                size="sm"
+                variant="secondary"
+                data-progress-increase
+                [disabled]="progress() === 100"
+                (click)="increaseProgress()"
+              >
+                Increase
+              </button>
+            </div>
+          </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
           <pre tabindex="0"><code>{{ determinateCode }}</code></pre>
         </ui-tab-item></ui-tab

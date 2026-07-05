@@ -116,6 +116,28 @@ describe('UiDatepicker', () => {
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
   });
 
+  it('should transition the trigger label when the selected date changes', async () => {
+    const fixture = await createHostFixture();
+    const datepicker = fixture.componentInstance.datepicker();
+    const label = fixture.nativeElement.querySelector(
+      '.ui-datepicker-trigger-label',
+    ) as HTMLElement;
+
+    datepicker.value.set('2026-06-16');
+    await fixture.whenStable();
+
+    expect(label.textContent).toContain('15 июн. 2026 г.');
+    expect(label.getAttribute('data-swap-phase')).toBe('exit');
+
+    const exit = new Event('transitionend', { bubbles: true });
+    Object.defineProperty(exit, 'propertyName', { value: 'opacity' });
+    label.dispatchEvent(exit);
+    await fixture.whenStable();
+
+    expect(label.textContent).toContain('16 июн. 2026 г.');
+    expect(label.getAttribute('data-swap-phase')).toBe('idle');
+  });
+
   it('should wire ui-input label to the button trigger', async () => {
     const fixture = await createHostFixture();
     const label = fixture.nativeElement.querySelector('.ui-input-label') as HTMLLabelElement;
@@ -140,6 +162,30 @@ describe('UiDatepicker', () => {
     expect(panel?.getAttribute('aria-labelledby')).toBeTruthy();
     expect(grid.getAttribute('aria-label')).toBe('июнь 2026 г.');
     expect(getTrigger(fixture).getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('should transition month navigation in its spatial direction', async () => {
+    const fixture = TestBed.createComponent(UiDatepicker);
+    fixture.componentRef.setInput('value', '2026-06-15');
+    await fixture.whenStable();
+
+    fixture.componentInstance.open();
+    await fixture.whenStable();
+    fixture.componentInstance.nextMonth();
+    await fixture.whenStable();
+
+    const title = fixture.nativeElement.querySelector('.ui-datepicker-title') as HTMLElement;
+    expect(fixture.componentInstance.view()).toEqual({ year: 2026, month: 5 });
+    expect(title.getAttribute('data-swap-phase')).toBe('exit');
+    expect(title.getAttribute('data-swap-direction')).toBe('next');
+
+    const exit = new Event('transitionend', { bubbles: true });
+    Object.defineProperty(exit, 'propertyName', { value: 'opacity' });
+    title.dispatchEvent(exit);
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.view()).toEqual({ year: 2026, month: 6 });
+    expect(title.getAttribute('data-swap-phase')).toBe('idle');
   });
 
   it('should expose calendar cells through the Angular Aria grid harness', async () => {
