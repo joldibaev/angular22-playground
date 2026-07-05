@@ -19,6 +19,7 @@ import { DialogSuccessShowcase } from './dialog-success-showcase/dialog-success-
 import { DrawerShowcase } from './drawer-showcase/drawer-showcase';
 import { InputShowcase } from './input-showcase/input-showcase';
 import { LoadingShowcase } from './loading-showcase/loading-showcase';
+import { MaskShowcase } from './mask-showcase/mask-showcase';
 import { MenuShowcase } from './menu-showcase/menu-showcase';
 import { PopoverShowcase } from './popover-showcase/popover-showcase';
 import { ProgressShowcase } from './progress-showcase/progress-showcase';
@@ -55,6 +56,7 @@ import { BrowserSupport } from '../browser-support/browser-support';
     DrawerShowcase,
     InputShowcase,
     LoadingShowcase,
+    MaskShowcase,
     MenuShowcase,
     PopoverShowcase,
     ProgressShowcase,

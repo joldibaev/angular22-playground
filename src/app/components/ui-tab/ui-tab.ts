@@ -43,7 +43,10 @@ export class UiTab {
       })
     : undefined;
   private readonly tabListInteracted = signal(false);
-  private readonly userSelectedTab = signal(false);
+  // Keeps a just-selected tab responsive while its router navigation is pending.
+  // Once the URL catches up, later query-param changes (including RouterLink and Back)
+  // become authoritative again.
+  private readonly pendingQueryParamValue = signal<string | undefined>(undefined);
 
   selectedTab = model<string | undefined>(undefined);
 
@@ -72,12 +75,7 @@ export class UiTab {
       : undefined;
   });
   readonly tabListSelectedTab = computed(() => {
-    const selectedTab = this.selectedTab();
-    const queryParamValue = this.queryParamValue();
-
-    return !this.userSelectedTab() && queryParamValue && this.isEnabledTabValue(queryParamValue)
-      ? queryParamValue
-      : selectedTab;
+    return this.selectedTab();
   });
   readonly activeAnchorName = computed(() => {
     const selectedTab = this.tabListSelectedTab();
@@ -95,9 +93,19 @@ export class UiTab {
       }
 
       const queryParamValue = this.queryParamValue();
+      const pendingQueryParamValue = this.pendingQueryParamValue();
+
+      if (pendingQueryParamValue) {
+        if (queryParamValue === pendingQueryParamValue) {
+          this.pendingQueryParamValue.set(undefined);
+        }
+        return;
+      }
 
       if (queryParamValue && this.isEnabledTabValue(queryParamValue)) {
-        this.selectedTab.set(queryParamValue);
+        if (this.selectedTab() !== queryParamValue) {
+          this.selectedTab.set(queryParamValue);
+        }
         return;
       }
 
@@ -110,22 +118,21 @@ export class UiTab {
 
     afterRenderEffect(() => {
       const queryParam = this.queryParam();
-      const selectedTab = this.selectedTab();
+      const pendingQueryParamValue = this.pendingQueryParamValue();
       const queryParamValue = this.queryParamValue();
 
       if (
         !this.router ||
         !queryParam ||
-        !selectedTab ||
-        !this.userSelectedTab() ||
-        queryParamValue === selectedTab
+        !pendingQueryParamValue ||
+        queryParamValue === pendingQueryParamValue
       ) {
         return;
       }
 
       void this.router.navigate([], {
         relativeTo: this.route,
-        queryParams: { [queryParam]: selectedTab },
+        queryParams: { [queryParam]: pendingQueryParamValue },
         queryParamsHandling: 'merge',
         replaceUrl: true,
       });
@@ -138,7 +145,9 @@ export class UiTab {
     }
 
     this.selectedTab.set(value);
-    this.userSelectedTab.set(true);
+    if (this.queryParam()) {
+      this.pendingQueryParamValue.set(value);
+    }
   }
 
   onTabListInteraction() {

@@ -287,4 +287,22 @@ describe('UiTab', () => {
     expect(urlTree.queryParams['section']).toBe('activity');
     expect(urlTree.queryParams['ticket']).toBe('42');
   });
+
+  it('should follow external query-param navigation after a manual selection', async () => {
+    const router = TestBed.inject(Router);
+    await router.navigateByUrl('/?section=overview');
+    const hostFixture = await createQueryParamHostFixture();
+    const loader = TestbedHarnessEnvironment.loader(hostFixture);
+    const tabs = await loader.getHarness(TabsHarness);
+
+    await tabs.selectTab({ title: 'Activity' });
+    await hostFixture.whenStable();
+    expect(hostFixture.componentInstance.tab().selectedTab()).toBe('activity');
+
+    await router.navigateByUrl('/?section=overview');
+    await hostFixture.whenStable();
+
+    expect(hostFixture.componentInstance.tab().selectedTab()).toBe('overview');
+    expect(getTabs(hostFixture)[0].getAttribute('aria-selected')).toBe('true');
+  });
 });

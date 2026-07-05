@@ -1,0 +1,131 @@
+<article class="docs" aria-labelledby="mask-title">
+  <header>
+    <h4 id="mask-title" class="font-black">Mask</h4>
+    <p>
+      Lightweight input formatting for common patterns and grouped decimal values, with Signal
+      Forms and classic Angular Forms integration.
+    </p>
+  </header>
+
+  <section aria-labelledby="mask-token-title">
+    <div class="section-heading">
+      <h5 id="mask-token-title">Pattern tokens</h5>
+      <p>
+        Add <code>uiMask</code> to a text input. Literal characters are inserted automatically;
+        token characters accept and normalize user input.
+      </p>
+    </div>
+
+    <div uiTableViewport tabindex="0" role="region" aria-label="Input mask tokens">
+      <table uiTable density="compact">
+        <thead>
+          <tr><th scope="col">Token</th><th scope="col">Accepts</th><th scope="col">Example</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row"><code>0</code></th><td>Digit</td><td><code>000-000</code></td></tr>
+          <tr><th scope="row"><code>9</code></th><td>Optional digit</td><td><code>0009</code></td></tr>
+          <tr><th scope="row"><code>A</code></th><td>Unicode letter or digit</td><td><code>AA-000</code></td></tr>
+          <tr><th scope="row"><code>S</code></th><td>Unicode letter</td><td><code>SSS</code></td></tr>
+          <tr><th scope="row"><code>U</code></th><td>Letter, converted to uppercase</td><td><code>UU-0000</code></td></tr>
+          <tr><th scope="row"><code>L</code></th><td>Letter, converted to lowercase</td><td><code>LLL</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="mask-behavior-title">
+    <h5 id="mask-behavior-title">Behavior</h5>
+    <div uiTableViewport tabindex="0" role="region" aria-label="Input mask behavior">
+      <table uiTable density="compact">
+        <thead><tr><th scope="col">Setting</th><th scope="col">Behavior</th></tr></thead>
+        <tbody>
+          <tr>
+            <th scope="row"><code>separator.N</code></th>
+            <td>
+              Groups the integer part and accepts at most <code>N</code> decimal digits. Use
+              <code>thousandSeparator</code> and <code>decimalMarker</code> to choose the characters.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Model value</th>
+            <td>
+              Forms receive the unmasked value. Group separators and pattern literals are removed;
+              the configured decimal marker is retained.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Validation</th>
+            <td>
+              A mask formats input but does not make it valid or complete. Add validators for
+              required length, ranges, and business rules.
+            </td>
+          </tr>
+          <tr>
+            <th scope="row">Input type</th>
+            <td>
+              Use <code>type="text"</code> with an appropriate <code>inputmode</code>. The directive
+              intentionally does not attach to <code>type="number"</code> inputs.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h5>Pattern masks</h5>
+    <ui-card variant="outlined">
+      <ui-tab size="sm" aria-label="Pattern mask examples">
+        <ui-tab-item value="preview" label="Preview">
+          <div class="preview grid">
+            <ui-input label="Phone">
+              <input
+                uiMask="+000 00 000-00-00"
+                inputmode="tel"
+                autocomplete="tel"
+                placeholder="+998 90 123-45-67"
+                [formField]="formState.phone"
+              />
+            </ui-input>
+            <ui-input label="Reference">
+              <input
+                uiMask="UU-0000"
+                autocapitalize="characters"
+                placeholder="AB-1234"
+                [formField]="formState.reference"
+              />
+            </ui-input>
+          </div>
+        </ui-tab-item>
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{patternCode}}</code></pre>
+        </ui-tab-item>
+      </ui-tab>
+    </ui-card>
+  </section>
+
+  <section>
+    <h5>Number separator</h5>
+    <ui-card variant="outlined">
+      <ui-tab size="sm" aria-label="Number separator mask example">
+        <ui-tab-item value="preview" label="Preview">
+          <div class="preview">
+            <ui-input label="Amount">
+              <input
+                uiMask="separator.2"
+                thousandSeparator=" "
+                decimalMarker="."
+                inputmode="decimal"
+                placeholder="0.00"
+                [formField]="formState.amount"
+              />
+            </ui-input>
+          </div>
+        </ui-tab-item>
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{separatorCode}}</code></pre>
+        </ui-tab-item>
+      </ui-tab>
+    </ui-card>
+  </section>
+</article>
