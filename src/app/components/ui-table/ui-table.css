@@ -151,6 +151,15 @@
   background-color: var(--ui-table-row-hover-background);
 }
 
+.ui-table tbody tr[uiContextMenuTrigger] {
+  cursor: context-menu;
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: -2px;
+  }
+}
+
 .ui-table-spacer {
   &[hidden] {
     display: none;

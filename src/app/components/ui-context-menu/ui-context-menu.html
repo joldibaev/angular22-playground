@@ -1,0 +1,58 @@
+<div
+  ngMenuTrigger
+  #contextTrigger="ngMenuTrigger"
+  class="ui-context-menu-origin"
+  tabindex="-1"
+  aria-hidden="true"
+  [attr.id]="originId"
+  [style.anchor-name]="anchorName"
+  [menu]="menu()"
+  [style.left.px]="position().x"
+  [style.top.px]="position().y"
+></div>
+
+<div
+  ngMenu
+  #menuPanel="ngMenu"
+  class="ui-popup-surface ui-menu-panel ui-context-menu-panel"
+  popover="auto"
+  [style.position-anchor]="anchorName"
+  (itemSelected)="onItemSelected($event)"
+  (toggle)="onPopoverToggle($event)"
+>
+  <div class="ui-popup-box">
+    <ng-template ngMenuContent>
+      @for (section of sections(); track section.group ?? section.items[0]) {
+        @if (!$first) {
+          <hr class="ui-menu-separator" />
+        }
+
+        <div
+          class="ui-menu-section"
+          [attr.aria-label]="section.group?.label() || null"
+          [attr.role]="section.group ? 'group' : null"
+        >
+          @if (section.group; as group) {
+            @if (group.label(); as label) {
+              <div class="ui-menu-group-label" aria-hidden="true">{{ label }}</div>
+            }
+          }
+
+          @for (item of section.items; track item) {
+            <div
+              ngMenuItem
+              class="ui-popup-option ui-menu-item"
+              [attr.data-variant]="item.variant()"
+              [value]="item.value()"
+              [disabled]="item.disabled()"
+            >
+              <ng-container [ngTemplateOutlet]="item.template()" />
+            </div>
+          }
+        </div>
+      }
+    </ng-template>
+  </div>
+</div>
+
+<ng-content />

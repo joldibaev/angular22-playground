@@ -1,0 +1,53 @@
+:host {
+  --ui-popup-background: Canvas;
+  --ui-popup-offset: 0.25rem;
+  --ui-popup-width: max-content;
+  --ui-popup-min-width: 12rem;
+  --ui-popup-max-height: calc(100vh - 2rem);
+
+  display: contents;
+}
+
+.ui-context-menu-origin {
+  position: fixed;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ui-context-menu-panel {
+  position-try-fallbacks: flip-block, flip-inline;
+
+  &[data-visible='false'] {
+    display: none;
+  }
+
+  & .ui-popup-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    transform-origin: top left;
+  }
+}
+
+@container anchored(fallback: flip-inline) {
+  .ui-context-menu-panel .ui-popup-box {
+    transform-origin: top right;
+  }
+}
+
+@container anchored(fallback: flip-block) {
+  .ui-context-menu-panel .ui-popup-box {
+    transform-origin: bottom left;
+  }
+}
+
+@container anchored(fallback: flip-block) and anchored(fallback: flip-inline) {
+  .ui-context-menu-panel .ui-popup-box {
+    transform-origin: bottom right;
+  }
+}

@@ -11,6 +11,7 @@ import { ButtonShowcase } from './button-showcase/button-showcase';
 import { CardShowcase } from './card-showcase/card-showcase';
 import { CheckboxShowcase } from './checkbox-showcase/checkbox-showcase';
 import { ChipShowcase } from './chip-showcase/chip-showcase';
+import { ContextMenuShowcase } from './context-menu-showcase/context-menu-showcase';
 import { DatepickerShowcase } from './datepicker-showcase/datepicker-showcase';
 import { DialogShowcase } from './dialog-showcase/dialog-showcase';
 import { DialogConfirmShowcase } from './dialog-confirm-showcase/dialog-confirm-showcase';
@@ -46,6 +47,7 @@ import { BrowserSupport } from '../browser-support/browser-support';
     CardShowcase,
     CheckboxShowcase,
     ChipShowcase,
+    ContextMenuShowcase,
     DatepickerShowcase,
     DialogShowcase,
     DialogConfirmShowcase,

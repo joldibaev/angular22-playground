@@ -1,6 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { UiCard } from '../../../components/ui-card/ui-card';
+import {
+  UiContextMenu,
+  UiContextMenuSelection,
+} from '../../../components/ui-context-menu/ui-context-menu';
+import { UiContextMenuTrigger } from '../../../components/ui-context-menu/ui-context-menu-trigger/ui-context-menu-trigger';
+import { UiIcon } from '../../../components/ui-icon/ui-icon';
+import { UiMenuItem } from '../../../components/ui-menu/ui-menu-item/ui-menu-item';
 import { UiTab } from '../../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 import { UiTable } from '../../../components/ui-table/ui-table';
@@ -36,6 +43,10 @@ const ALL_ROWS = Array.from(
   imports: [
     UiButton,
     UiCard,
+    UiContextMenu,
+    UiContextMenuTrigger,
+    UiIcon,
+    UiMenuItem,
     UiTab,
     UiTabItem,
     UiTable,
@@ -50,6 +61,16 @@ export class TableShowcase {
   protected readonly defaultCode = `<div uiTableViewport>\n  <table uiTable [data]="rows">\n    <caption>Inventory</caption>\n    <thead><tr><th scope="col">SKU</th><th scope="col">Product</th></tr></thead>\n    <tbody>@for (row of rows; track row.id) { ... }</tbody>\n  </table>\n</div>`;
   protected readonly densityCode = `<table uiTable density="compact" withRowHover [withStickyHeader]="true">...</table>`;
   protected readonly sortCode = `<table uiTable [data]="rows()" [(sort)]="sort" (sortChange)="requestPage($event)">\n  <th uiTableSort="product">Product</th>\n  <th uiTableSort="stock" startDirection="desc">Stock</th>\n</table>`;
+  protected readonly contextMenuCode = `<tr
+  tabindex="0"
+  [uiContextMenuTrigger]="rowMenu"
+  [uiContextMenuContext]="row"
+>...</tr>
+
+<ui-context-menu #rowMenu (itemSelected)="runRowAction($event)">
+  <ui-menu-item value="open">Open</ui-menu-item>
+  <ui-menu-item value="delete" variant="destructive">Delete</ui-menu-item>
+</ui-context-menu>`;
   protected readonly virtualCode = `<div uiTableViewport [height]="384">\n  <table #table="uiTable" uiTable virtualScroll [data]="rows()" [rowHeight]="40" [totalRows]="500" (endReached)="loadMore()">\n    <tr uiTableSpacer="start" [columns]="5"></tr>\n    @for (row of table.renderedRows(); track row.id) { ... }\n    <tr uiTableSpacer="end" [columns]="5"></tr>\n  </table>\n</div>`;
   protected readonly allRows = ALL_ROWS;
   protected readonly sort = signal<string | null>(null);
@@ -71,6 +92,14 @@ export class TableShowcase {
 
   protected openProduct(row: InventoryRow): void {
     this.lastAction.set(row.product);
+  }
+
+  protected runRowAction(selection: UiContextMenuSelection<unknown>): void {
+    if (!isInventoryRow(selection.context)) {
+      return;
+    }
+
+    this.lastAction.set(`${selection.value}: ${selection.context.product}`);
   }
 
   protected loadMore(): void {
@@ -116,4 +145,15 @@ function compareValues(first: string | number, second: string | number): number 
   }
 
   return String(first).localeCompare(String(second));
+}
+
+function isInventoryRow(value: unknown): value is InventoryRow {
+  return (
+    typeof value === 'object' &&
+    value !== null &&
+    'id' in value &&
+    typeof value.id === 'number' &&
+    'product' in value &&
+    typeof value.product === 'string'
+  );
 }

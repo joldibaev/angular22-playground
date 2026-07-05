@@ -133,6 +133,61 @@
       ></ui-card
     >
   </section>
+  <section aria-labelledby="table-context-menu-title">
+    <h5 id="table-context-menu-title">Row context menu</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Table row context menu example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <div uiTableViewport>
+              <table uiTable withRowHover [data]="previewRows().slice(0, 5)">
+                <caption>
+                  Right-click a row, long-press it, or focus it and press Shift+F10
+                </caption>
+                <thead>
+                  <tr>
+                    <th scope="col">SKU</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Warehouse</th>
+                    <th scope="col">Stock</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @for (row of previewRows().slice(0, 5); track row.id) {
+                    <tr
+                      tabindex="0"
+                      [uiContextMenuTrigger]="rowMenu"
+                      [uiContextMenuContext]="row"
+                    >
+                      <td>{{ row.sku }}</td>
+                      <th scope="row">{{ row.product }}</th>
+                      <td>{{ row.warehouse }}</td>
+                      <td>{{ row.stock }}</td>
+                    </tr>
+                  }
+                </tbody>
+              </table>
+            </div>
+
+            <ui-context-menu #rowMenu (itemSelected)="runRowAction($event)"
+              ><ui-menu-item value="open">Open details</ui-menu-item
+              ><ui-menu-item value="duplicate"
+                ><ui-icon name="outline-copy" decorative />Duplicate row</ui-menu-item
+              ><ui-menu-item value="delete" variant="destructive"
+                ><ui-icon name="outline-trash" decorative />Delete row</ui-menu-item
+              ></ui-context-menu
+            >
+
+            @if (lastAction(); as action) {
+              <output aria-live="polite">{{ action }}</output>
+            }
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{contextMenuCode}}</code></pre>
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
   <section aria-labelledby="table-virtual-title">
     <h5 id="table-virtual-title">Virtual and incremental loading</h5>
     <ui-card variant="outlined"
