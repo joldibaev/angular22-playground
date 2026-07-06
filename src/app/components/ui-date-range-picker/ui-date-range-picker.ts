@@ -78,6 +78,9 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
   // Forwarded to the wrapped <ui-input>; the trigger reads its control-size tokens.
   readonly size = input<UiDateRangePickerSize>('md');
   readonly placeholder = input('Выберите диапазон дат');
+  readonly presetsLabel = input('Быстрые диапазоны');
+  readonly previousMonthLabel = input('Предыдущий месяц');
+  readonly nextMonthLabel = input('Следующий месяц');
   // Boundaries are named `minDate`/`maxDate`, not `min`/`max` like the single
   // `ui-datepicker`. The signal-forms `FormUiControl<TValue>` contract reserves
   // `min`/`max` typed as `NonNullable<TValue>`, and `[formField]` matches it

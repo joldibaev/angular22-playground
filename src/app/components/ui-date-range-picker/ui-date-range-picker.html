@@ -60,7 +60,7 @@
 >
   <div class="ui-popup-box">
     @if (withPresets()) {
-      <aside class="ui-date-range-presets" aria-label="Быстрые диапазоны">
+      <aside class="ui-date-range-presets" [attr.aria-label]="presetsLabel()">
         @for (preset of presets; track preset.label) {
           <button
             type="button"
@@ -79,7 +79,7 @@
         <button
           type="button"
           class="ui-date-range-nav"
-          aria-label="Предыдущий месяц"
+          [attr.aria-label]="previousMonthLabel()"
           [disabled]="!canGoPrev()"
           (click)="previousMonth()"
         >
@@ -100,7 +100,7 @@
         <button
           type="button"
           class="ui-date-range-nav"
-          aria-label="Следующий месяц"
+          [attr.aria-label]="nextMonthLabel()"
           [disabled]="!canGoNext()"
           (click)="nextMonth()"
         >

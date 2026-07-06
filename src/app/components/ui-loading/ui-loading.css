@@ -24,6 +24,12 @@ svg {
 
 @media (prefers-reduced-motion: reduce) {
   svg {
-    animation: none;
+    animation: ui-loading-pulse var(--dur-slow) var(--ease-snappy) infinite alternate;
+  }
+}
+
+@keyframes ui-loading-pulse {
+  to {
+    opacity: 0.5;
   }
 }

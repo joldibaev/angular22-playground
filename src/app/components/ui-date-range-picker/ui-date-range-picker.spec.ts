@@ -79,6 +79,22 @@ describe('UiDateRangePicker', () => {
     expect(fixture.componentInstance.today()).toBe('');
   });
 
+  it('should expose customizable preset and month navigation labels', async () => {
+    const fixture = TestBed.createComponent(UiDateRangePicker);
+    fixture.componentRef.setInput('presetsLabel', 'Quick ranges');
+    fixture.componentRef.setInput('previousMonthLabel', 'Previous month');
+    fixture.componentRef.setInput('nextMonthLabel', 'Next month');
+
+    await fixture.whenStable();
+
+    expect(
+      fixture.nativeElement.querySelector('.ui-date-range-presets').getAttribute('aria-label'),
+    ).toBe('Quick ranges');
+    const buttons = fixture.nativeElement.querySelectorAll('.ui-date-range-nav');
+    expect(buttons[0].getAttribute('aria-label')).toBe('Previous month');
+    expect(buttons[1].getAttribute('aria-label')).toBe('Next month');
+  });
+
   it('should forward the compact size to the wrapped ui-input', async () => {
     const fixture = TestBed.createComponent(UiDateRangePicker);
     fixture.componentRef.setInput('size', 'sm');

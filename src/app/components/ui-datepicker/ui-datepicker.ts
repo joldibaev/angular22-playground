@@ -69,6 +69,8 @@ export class UiDatepicker implements FormValueControl<string> {
   // Forwarded to the wrapped <ui-input>; the trigger reads its control-size tokens.
   readonly size = input<UiDatepickerSize>('md');
   readonly placeholder = input('Выберите дату');
+  readonly previousMonthLabel = input('Предыдущий месяц');
+  readonly nextMonthLabel = input('Следующий месяц');
   readonly min = input<string | undefined>(undefined);
   readonly max = input<string | undefined>(undefined);
   readonly withErrorMessage = input(false, { transform: booleanAttribute });

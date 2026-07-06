@@ -107,6 +107,18 @@ describe('UiDatepicker', () => {
     expect(trigger.querySelector('.ui-datepicker-chevron')).toBeNull();
   });
 
+  it('should expose customizable month navigation labels', async () => {
+    const fixture = TestBed.createComponent(UiDatepicker);
+    fixture.componentRef.setInput('previousMonthLabel', 'Previous month');
+    fixture.componentRef.setInput('nextMonthLabel', 'Next month');
+
+    await fixture.whenStable();
+
+    const buttons = fixture.nativeElement.querySelectorAll('.ui-datepicker-nav');
+    expect(buttons[0].getAttribute('aria-label')).toBe('Previous month');
+    expect(buttons[1].getAttribute('aria-label')).toBe('Next month');
+  });
+
   it('should render the selected value in the trigger', async () => {
     const fixture = await createHostFixture();
     const trigger = getTrigger(fixture);

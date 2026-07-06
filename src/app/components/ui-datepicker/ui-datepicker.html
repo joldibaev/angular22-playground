@@ -62,7 +62,7 @@
       <button
         type="button"
         class="ui-datepicker-nav"
-        aria-label="Предыдущий месяц"
+        [attr.aria-label]="previousMonthLabel()"
         [disabled]="!canGoPrev()"
         (click)="previousMonth()"
       >
@@ -83,7 +83,7 @@
       <button
         type="button"
         class="ui-datepicker-nav"
-        aria-label="Следующий месяц"
+        [attr.aria-label]="nextMonthLabel()"
         [disabled]="!canGoNext()"
         (click)="nextMonth()"
       >
