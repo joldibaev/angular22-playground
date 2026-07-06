@@ -11,10 +11,10 @@
     "generate:browser-support": "node tools/generate-browser-support.mjs"
   },
   "private": true,
-  "packageManager": "npm@11.17.0",
+  "packageManager": "npm@11.18.0",
   "dependencies": {
-    "@angular/aria": "^22.0.2",
-    "@angular/cdk": "^22.0.2",
+    "@angular/aria": "^22.0.3",
+    "@angular/cdk": "^22.0.3",
     "@angular/common": "^22.0.5",
     "@angular/compiler": "^22.0.5",
     "@angular/core": "^22.0.5",
@@ -31,15 +31,15 @@
     "@angular/build": "^22.0.5",
     "@angular/cli": "^22.0.5",
     "@angular/compiler-cli": "^22.0.5",
-    "@tailwindcss/postcss": "^4.3.1",
+    "@tailwindcss/postcss": "^4.3.2",
     "@types/express": "^5.0.6",
-    "@types/node": "^24.13.2",
+    "@types/node": "^26.1.0",
     "jsdom": "^29.1.1",
-    "postcss": "^8.5.15",
-    "prettier": "^3.8.4",
-    "tailwindcss": "^4.3.1",
+    "postcss": "^8.5.16",
+    "prettier": "^3.9.4",
+    "tailwindcss": "^4.3.2",
     "typescript": "~6.0.3",
-    "vitest": "^4.1.9",
+    "vitest": "^4.1.10",
     "web-features": "^3.32.0"
   }
 }
