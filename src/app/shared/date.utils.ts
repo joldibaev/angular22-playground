@@ -1,28 +1,17 @@
-export function parseInputDate(value: string): Date | null {
-  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+// The pattern guard keeps the public `yyyy-mm-dd` contract strict:
+// Temporal.PlainDate.from() alone would also accept other ISO forms
+// (e.g. '2026-06-15T10:00'), which the pickers must reject.
+const INPUT_DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
-  if (!match) {
+export function parseInputDate(value: string): Temporal.PlainDate | null {
+  if (!INPUT_DATE_PATTERN.test(value)) {
     return null;
   }
 
-  const year = Number(match[1]);
-  const month = Number(match[2]) - 1;
-  const day = Number(match[3]);
-  const date = new Date(year, month, day);
-
-  return date.getFullYear() === year && date.getMonth() === month && date.getDate() === day
-    ? date
-    : null;
-}
-
-export function toInputDate(date: Date): string {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-
-  return `${year}-${month}-${day}`;
-}
-
-export function todayInputValue(): string {
-  return toInputDate(new Date());
+  try {
+    return Temporal.PlainDate.from(value);
+  } catch {
+    // Well-formed but impossible dates ('2026-02-31') throw a RangeError.
+    return null;
+  }
 }

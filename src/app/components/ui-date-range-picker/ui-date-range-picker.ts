@@ -16,30 +16,22 @@ import type { FormValueControl } from '@angular/forms/signals';
 import { UiIcon } from '../ui-icon/ui-icon';
 import { UiInput } from '../ui-input/ui-input';
 import { syncPopover } from '../../shared/sync-popover';
-import { parseInputDate, todayInputValue } from '../../shared/date.utils';
+import { parseInputDate } from '../../shared/date.utils';
 import { nextId } from '../../shared/unique-id';
-import {
-  addMonths,
-  type CalendarMonth,
-  formatMonthLabel,
-  monthFromDate,
-  WEEKDAYS_MON_FIRST,
-} from '../ui-datepicker/calendar.utils';
+import { formatMonthLabel, WEEKDAYS_MON_FIRST } from '../ui-datepicker/calendar.utils';
 import {
   buildPresets,
   buildRangeMonthGrid,
-  emptyRange,
   formatRangeDisplay,
   normalizeRange,
   type RangeDay,
   rangeToView,
-  rightView as getRightView,
   type UiDateRangeValue,
 } from './range-calendar.utils';
 
 export type UiDateRangePickerSize = 'sm' | 'md';
 
-const INITIAL_VIEW: CalendarMonth = { year: 1970, month: 0 };
+const INITIAL_VIEW = new Temporal.PlainYearMonth(1970, 1);
 
 // Range picking keeps a draft until Apply, unlike the single picker which can
 // commit immediately. Keep it as a separate public control and share calendar math.
@@ -69,7 +61,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
   readonly panel = viewChild<ElementRef<HTMLElement>>('panel');
   readonly grid = viewChild(Grid);
 
-  readonly value = model<UiDateRangeValue>(emptyRange());
+  readonly value = model<UiDateRangeValue>({ start: '', end: '' });
   readonly disabled = input(false, { transform: booleanAttribute });
   // Loading is passive, like ui-input/select/autocomplete: an existing range remains usable while
   // availability or metadata refreshes. Consumers can bind disabled as well when truly unavailable.
@@ -100,7 +92,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
   readonly popupExpanded = signal(false);
   // Keep the closed first render identical on the server and client; local
   // calendar time is captured only when the user opens the control.
-  readonly leftView = signal<CalendarMonth>(INITIAL_VIEW);
+  readonly leftView = signal(INITIAL_VIEW);
   readonly monthSwapPhase = signal<'idle' | 'exit' | 'enter-start'>('idle');
   readonly monthSwapDirection = signal<'previous' | 'next'>('next');
   readonly draftStart = signal('');
@@ -110,7 +102,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
 
   readonly weekdays = WEEKDAYS_MON_FIRST;
   readonly today = signal('');
-  readonly presets = buildPresets(() => new Date());
+  readonly presets = buildPresets(() => Temporal.Now.plainDateISO());
 
   readonly committedRange = computed(() => normalizeRange(this.value()));
   readonly draftRange = computed(() =>
@@ -124,7 +116,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
   readonly displayedTriggerValue = signal('');
   readonly displayedTriggerPlaceholder = signal(true);
   readonly triggerSwapPhase = signal<'idle' | 'exit' | 'enter-start'>('idle');
-  readonly rightView = computed(() => getRightView(this.leftView()));
+  readonly rightView = computed(() => this.leftView().add({ months: 1 }));
   readonly leftMonthLabel = computed(() => formatMonthLabel(this.leftView()));
   readonly rightMonthLabel = computed(() => formatMonthLabel(this.rightView()));
   readonly panelLabel = computed(() => `${this.leftMonthLabel()} и ${this.rightMonthLabel()}`);
@@ -138,6 +130,8 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
     return Boolean(isComplete && (draft.start !== committed.start || draft.end !== committed.end));
   });
 
+  // The previous month is reachable while any of its days is >= min, i.e.
+  // while that whole month is not before min's month (same idea for max).
   readonly canGoPrev = computed(() => {
     const min = parseInputDate(this.minDate() ?? '');
 
@@ -145,10 +139,9 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
       return true;
     }
 
-    const view = this.leftView();
-    const lastDayPrevMonth = new Date(view.year, view.month, 0);
+    const prevMonth = this.leftView().subtract({ months: 1 });
 
-    return lastDayPrevMonth >= min;
+    return Temporal.PlainYearMonth.compare(prevMonth, min.toPlainYearMonth()) >= 0;
   });
 
   readonly canGoNext = computed(() => {
@@ -158,12 +151,11 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
       return true;
     }
 
-    const right = this.rightView();
-    const firstDayAfterRight = new Date(right.year, right.month + 1, 1);
+    const monthAfterRight = this.rightView().add({ months: 1 });
 
-    return firstDayAfterRight <= max;
+    return Temporal.PlainYearMonth.compare(monthAfterRight, max.toPlainYearMonth()) <= 0;
   });
-  private pendingLeftView: CalendarMonth | undefined;
+  private pendingLeftView: Temporal.PlainYearMonth | undefined;
   private focusAfterMonthSwap = false;
   private pendingTriggerValue = '';
   private pendingTriggerPlaceholder = true;
@@ -253,7 +245,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
     }
 
     const range = this.committedRange();
-    const today = todayInputValue();
+    const today = Temporal.Now.plainDateISO().toString();
 
     this.today.set(today);
     this.draftStart.set(range.start);
@@ -422,7 +414,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
 
     if (event.key === 'Home') {
       event.preventDefault();
-      this.transitionToView(monthFromDate(parseInputDate(this.today())!), true);
+      this.transitionToView(parseInputDate(this.today())!.toPlainYearMonth(), true);
     }
   }
 
@@ -430,7 +422,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
     this.trigger()?.nativeElement.focus(options);
   }
 
-  private buildWeeks(view: CalendarMonth) {
+  private buildWeeks(view: Temporal.PlainYearMonth) {
     return buildRangeMonthGrid(view, {
       range: this.draftRange(),
       pending: {
@@ -449,16 +441,13 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
       return;
     }
 
-    this.transitionToView(
-      addMonths(this.pendingLeftView ?? this.leftView(), months),
-      withFocus,
-    );
+    this.transitionToView((this.pendingLeftView ?? this.leftView()).add({ months }), withFocus);
   }
 
-  private transitionToView(nextView: CalendarMonth, withFocus: boolean) {
+  private transitionToView(nextView: Temporal.PlainYearMonth, withFocus: boolean) {
     const currentView = this.leftView();
 
-    if (nextView.year === currentView.year && nextView.month === currentView.month) {
+    if (nextView.equals(currentView)) {
       if (withFocus) {
         queueMicrotask(() => this.focusInitialCell());
       }
@@ -469,7 +458,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
     this.pendingLeftView = nextView;
     this.focusAfterMonthSwap = withFocus;
     this.monthSwapDirection.set(
-      monthIndex(nextView) < monthIndex(currentView) ? 'previous' : 'next',
+      Temporal.PlainYearMonth.compare(nextView, currentView) < 0 ? 'previous' : 'next',
     );
     this.monthSwapPhase.set('exit');
   }
@@ -495,7 +484,10 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
     const min = parseInputDate(this.minDate() ?? '');
     const max = parseInputDate(this.maxDate() ?? '');
 
-    return (!min || start >= min) && (!max || end <= max);
+    return (
+      (!min || Temporal.PlainDate.compare(start, min) >= 0) &&
+      (!max || Temporal.PlainDate.compare(end, max) <= 0)
+    );
   }
 
   private clearDraft() {
@@ -507,7 +499,3 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
 }
 
 export type { UiDateRangeValue };
-
-function monthIndex(view: CalendarMonth): number {
-  return view.year * 12 + view.month;
-}

@@ -78,7 +78,7 @@ describe('UiDatepicker', () => {
     await fixture.whenStable();
 
     expect(fixture.componentInstance).toBeTruthy();
-    expect(fixture.componentInstance.view()).toEqual({ year: 1970, month: 0 });
+    expect(fixture.componentInstance.view().toString()).toBe('1970-01');
     expect(fixture.componentInstance.today()).toBe('');
   });
 
@@ -187,7 +187,7 @@ describe('UiDatepicker', () => {
     await fixture.whenStable();
 
     const title = fixture.nativeElement.querySelector('.ui-datepicker-title') as HTMLElement;
-    expect(fixture.componentInstance.view()).toEqual({ year: 2026, month: 5 });
+    expect(fixture.componentInstance.view().toString()).toBe('2026-06');
     expect(title.getAttribute('data-swap-phase')).toBe('exit');
     expect(title.getAttribute('data-swap-direction')).toBe('next');
 
@@ -196,7 +196,7 @@ describe('UiDatepicker', () => {
     title.dispatchEvent(exit);
     await fixture.whenStable();
 
-    expect(fixture.componentInstance.view()).toEqual({ year: 2026, month: 6 });
+    expect(fixture.componentInstance.view().toString()).toBe('2026-07');
     expect(title.getAttribute('data-swap-phase')).toBe('idle');
   });
 

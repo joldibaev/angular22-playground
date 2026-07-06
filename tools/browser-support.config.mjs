@@ -9,7 +9,7 @@ export const browserSupportProfiles = {
   card: ['light-dark', 'contrast-color'],
   checkbox: ['light-dark'],
   chip: ['light-dark', 'contrast-color'],
-  datepicker: ['light-dark', 'contrast-color', 'popover', 'anchor-name', 'starting-style', 'transition-behavior'],
+  datepicker: ['light-dark', 'contrast-color', 'popover', 'anchor-name', 'starting-style', 'transition-behavior', 'temporal'],
   dialog: ['light-dark', 'contrast-color', 'dialog-closedby', 'invoker-commands', 'starting-style', 'transition-behavior'],
   drawer: ['light-dark', 'contrast-color', 'dialog-closedby', 'invoker-commands', 'starting-style', 'transition-behavior'],
   input: ['light-dark', 'contrast-color', 'has', 'popover', 'anchor-name', 'starting-style', 'transition-behavior'],
@@ -40,4 +40,11 @@ export const browserSupportProfiles = {
 // Anchor Positioning feature also includes syntax that these components do not use.
 export const featureSources = {
   'anchor-name': ['anchor-positioning', 'css.properties.anchor-name'],
+};
+
+// web-features tracks browsers only, so JS features that the dev/test
+// toolchain also executes (vitest runs on Node) list their Node.js minimum
+// here by hand. CSS/DOM features never run in Node and stay out of this map.
+export const nodeMinimums = {
+  temporal: '26',
 };

@@ -9,7 +9,8 @@ export const browserSupportFeatures = {
       "chrome": "123",
       "edge": "123",
       "firefox": "120",
-      "safari": "17.5"
+      "safari": "17.5",
+      "node": null
     }
   },
   "contrast-color": {
@@ -21,7 +22,8 @@ export const browserSupportFeatures = {
       "chrome": "147",
       "edge": "147",
       "firefox": "146",
-      "safari": "26"
+      "safari": "26",
+      "node": null
     }
   },
   "interpolate-size": {
@@ -33,7 +35,8 @@ export const browserSupportFeatures = {
       "chrome": "129",
       "edge": "129",
       "firefox": null,
-      "safari": null
+      "safari": null,
+      "node": null
     }
   },
   "container-queries": {
@@ -45,7 +48,8 @@ export const browserSupportFeatures = {
       "chrome": "105",
       "edge": "105",
       "firefox": "110",
-      "safari": "16"
+      "safari": "16",
+      "node": null
     }
   },
   "popover": {
@@ -57,7 +61,8 @@ export const browserSupportFeatures = {
       "chrome": "116",
       "edge": "116",
       "firefox": "125",
-      "safari": "17"
+      "safari": "17",
+      "node": null
     }
   },
   "anchor-name": {
@@ -69,7 +74,8 @@ export const browserSupportFeatures = {
       "chrome": "125",
       "edge": "125",
       "firefox": "147",
-      "safari": "26"
+      "safari": "26",
+      "node": null
     }
   },
   "starting-style": {
@@ -81,7 +87,8 @@ export const browserSupportFeatures = {
       "chrome": "117",
       "edge": "117",
       "firefox": "129",
-      "safari": "17.5"
+      "safari": "17.5",
+      "node": null
     }
   },
   "transition-behavior": {
@@ -93,7 +100,21 @@ export const browserSupportFeatures = {
       "chrome": "117",
       "edge": "117",
       "firefox": "129",
-      "safari": "17.4"
+      "safari": "17.4",
+      "node": null
+    }
+  },
+  "temporal": {
+    "name": "Temporal",
+    "baseline": false,
+    "baselineLowDate": null,
+    "baselineHighDate": null,
+    "support": {
+      "chrome": "144",
+      "edge": "144",
+      "firefox": "139",
+      "safari": null,
+      "node": "26"
     }
   },
   "dialog-closedby": {
@@ -105,7 +126,8 @@ export const browserSupportFeatures = {
       "chrome": "134",
       "edge": "134",
       "firefox": "141",
-      "safari": null
+      "safari": null,
+      "node": null
     }
   },
   "invoker-commands": {
@@ -117,7 +139,8 @@ export const browserSupportFeatures = {
       "chrome": "135",
       "edge": "135",
       "firefox": "144",
-      "safari": "26.2"
+      "safari": "26.2",
+      "node": null
     }
   },
   "has": {
@@ -129,7 +152,8 @@ export const browserSupportFeatures = {
       "chrome": "105",
       "edge": "105",
       "firefox": "121",
-      "safari": "15.4"
+      "safari": "15.4",
+      "node": null
     }
   },
   "popover-hint": {
@@ -141,7 +165,8 @@ export const browserSupportFeatures = {
       "chrome": "133",
       "edge": "133",
       "firefox": "149",
-      "safari": null
+      "safari": null,
+      "node": null
     }
   },
   "interest-invokers": {
@@ -153,7 +178,8 @@ export const browserSupportFeatures = {
       "chrome": "142",
       "edge": "142",
       "firefox": null,
-      "safari": null
+      "safari": null,
+      "node": null
     }
   }
 } as const;
@@ -209,7 +235,8 @@ export const browserSupportProfiles = {
     "popover",
     "anchor-name",
     "starting-style",
-    "transition-behavior"
+    "transition-behavior",
+    "temporal"
   ],
   "dialog": [
     "light-dark",

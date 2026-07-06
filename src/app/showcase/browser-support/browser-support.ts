@@ -2,7 +2,7 @@ import { Component, computed, input } from '@angular/core';
 import { browserSupportFeatures, browserSupportProfiles } from './browser-support.data';
 
 export type BrowserSupportProfile = keyof typeof browserSupportProfiles;
-type Browser = 'chrome' | 'edge' | 'firefox' | 'safari';
+type Browser = 'chrome' | 'edge' | 'firefox' | 'safari' | 'node';
 type Baseline = 'high' | 'low' | false;
 
 interface BrowserVersion {
@@ -55,12 +55,17 @@ export class BrowserSupport {
         ['edge', 'Edge'],
         ['firefox', 'Firefox'],
         ['safari', 'Safari'],
+        ['node', 'Node.js'],
       ] as const
-    ).map(([id, label]) => ({
-      id,
-      label,
-      version: this.minimumVersion(id),
-    })),
+    )
+      .map(([id, label]) => ({
+        id,
+        label,
+        version: this.minimumVersion(id),
+      }))
+      // Node.js reflects the dev/test toolchain, not page rendering, so it only
+      // appears for profiles whose features actually execute in Node.
+      .filter((browser) => browser.id !== 'node' || browser.version !== null),
   );
 
   protected readonly featureNames = computed(() => [
@@ -69,8 +74,12 @@ export class BrowserSupport {
 
   private minimumVersion(browser: Browser): string | null {
     const versions = this.features().map((feature) => feature.support[browser]);
-    if (versions.includes(null)) return null;
-    return (versions as string[]).sort(compareVersions).at(-1) ?? null;
+    // A missing browser version means the feature is unsupported there, but a
+    // missing Node version just means the feature never runs in Node — skip it.
+    const relevant =
+      browser === 'node' ? versions.filter((version) => version !== null) : versions;
+    if (relevant.length === 0 || relevant.includes(null)) return null;
+    return (relevant as string[]).sort(compareVersions).at(-1) ?? null;
   }
 }
 

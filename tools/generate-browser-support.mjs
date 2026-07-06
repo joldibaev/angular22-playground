@@ -1,6 +1,6 @@
 import { writeFile } from 'node:fs/promises';
 import { features } from 'web-features';
-import { browserSupportProfiles, featureSources } from './browser-support.config.mjs';
+import { browserSupportProfiles, featureSources, nodeMinimums } from './browser-support.config.mjs';
 
 const browserKeys = ['chrome', 'edge', 'firefox', 'safari'];
 const featureIds = [...new Set(Object.values(browserSupportProfiles).flat())];
@@ -23,7 +23,10 @@ function resolveFeature(id) {
     baseline: status.baseline ?? null,
     baselineLowDate: status.baseline_low_date ?? null,
     baselineHighDate: status.baseline_high_date ?? null,
-    support: Object.fromEntries(browserKeys.map((browser) => [browser, status.support[browser] ?? null])),
+    support: {
+      ...Object.fromEntries(browserKeys.map((browser) => [browser, status.support[browser] ?? null])),
+      node: nodeMinimums[id] ?? null,
+    },
   };
 }
 

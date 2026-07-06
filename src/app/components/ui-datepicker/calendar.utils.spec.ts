@@ -1,15 +1,8 @@
-import {
-  addMonths,
-  buildMonthGrid,
-  formatDisplayDate,
-  monthFromDate,
-} from './calendar.utils';
+import { buildMonthGrid, formatDisplayDate, formatMonthLabel } from './calendar.utils';
 
 describe('calendar utilities', () => {
-  it('normalizes month overflow and underflow across year boundaries', () => {
-    expect(addMonths({ year: 2025, month: 11 }, 1)).toEqual({ year: 2026, month: 0 });
-    expect(addMonths({ year: 2026, month: 0 }, -1)).toEqual({ year: 2025, month: 11 });
-    expect(monthFromDate(new Date(2026, 5, 15))).toEqual({ year: 2026, month: 5 });
+  it('formats the month label through its first day', () => {
+    expect(formatMonthLabel(Temporal.PlainYearMonth.from('2026-06'))).toBe('июнь 2026 г.');
   });
 
   it('formats valid input dates and rejects impossible dates', () => {
@@ -18,10 +11,12 @@ describe('calendar utilities', () => {
   });
 
   it('builds a six-week Monday-first grid with selection and boundaries', () => {
-    const weeks = buildMonthGrid(
-      { year: 2026, month: 5 },
-      { selected: '2026-06-15', today: '2026-06-20', min: '2026-06-05', max: '2026-06-25' },
-    );
+    const weeks = buildMonthGrid(Temporal.PlainYearMonth.from('2026-06'), {
+      selected: '2026-06-15',
+      today: '2026-06-20',
+      min: '2026-06-05',
+      max: '2026-06-25',
+    });
     const days = weeks.flat();
 
     expect(weeks).toHaveLength(6);
@@ -35,14 +30,14 @@ describe('calendar utilities', () => {
   });
 
   it('falls back from selection to today and then the first day for focus', () => {
-    const todayGrid = buildMonthGrid(
-      { year: 2026, month: 5 },
-      { selected: '2026-05-01', today: '2026-06-20' },
-    );
-    const firstGrid = buildMonthGrid(
-      { year: 2026, month: 5 },
-      { selected: '', today: '2026-07-01' },
-    );
+    const todayGrid = buildMonthGrid(Temporal.PlainYearMonth.from('2026-06'), {
+      selected: '2026-05-01',
+      today: '2026-06-20',
+    });
+    const firstGrid = buildMonthGrid(Temporal.PlainYearMonth.from('2026-06'), {
+      selected: '',
+      today: '2026-07-01',
+    });
 
     expect(todayGrid.flat().find((day) => day.isFocusTarget)?.date).toBe('2026-06-20');
     expect(firstGrid.flat().find((day) => day.isFocusTarget)?.date).toBe('2026-06-01');

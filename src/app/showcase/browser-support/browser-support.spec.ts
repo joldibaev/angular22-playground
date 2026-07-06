@@ -30,4 +30,23 @@ describe('BrowserSupport', () => {
     expect(host.querySelector('.support')?.getAttribute('data-status')).toBe('limited');
     expect(host.querySelector('[aria-label="Safari: not supported"]')).not.toBeNull();
   });
+
+  it('shows the Node.js minimum only for profiles with Node-executed features', async () => {
+    const withNode = TestBed.createComponent(BrowserSupport);
+    withNode.componentRef.setInput('profile', 'datepicker');
+    await withNode.whenStable();
+
+    const withoutNode = TestBed.createComponent(BrowserSupport);
+    withoutNode.componentRef.setInput('profile', 'button');
+    await withoutNode.whenStable();
+
+    expect(
+      (withNode.nativeElement as HTMLElement).querySelector(
+        '[aria-label="Node.js 26 and later"]',
+      ),
+    ).not.toBeNull();
+    expect(
+      (withoutNode.nativeElement as HTMLElement).querySelector('[aria-label^="Node.js"]'),
+    ).toBeNull();
+  });
 });

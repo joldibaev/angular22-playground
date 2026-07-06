@@ -12,6 +12,10 @@
     "experimentalDecorators": true,
     "importHelpers": true,
     "target": "ES2022",
+    /* Temporal ships natively in the target platform (Chrome 150 / Node 26);
+       ESNext.Intl lets the cached Intl.DateTimeFormat instances accept
+       Temporal.PlainDate directly. */
+    "lib": ["ES2022", "ESNext.Temporal", "ESNext.Intl", "DOM", "DOM.Iterable"],
     "module": "preserve"
   },
   "angularCompilerOptions": {

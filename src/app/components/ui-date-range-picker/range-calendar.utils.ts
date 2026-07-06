@@ -1,10 +1,5 @@
-import { parseInputDate, toInputDate } from '../../shared/date.utils';
-import {
-  addMonths,
-  type CalendarMonth,
-  formatDisplayDate,
-  monthFromDate,
-} from '../ui-datepicker/calendar.utils';
+import { parseInputDate } from '../../shared/date.utils';
+import { formatDisplayDate } from '../ui-datepicker/calendar.utils';
 
 export interface UiDateRangeValue {
   start: string;
@@ -35,10 +30,6 @@ export interface RangePreset {
 
 const ARIA_LABEL_FORMATTER = new Intl.DateTimeFormat('ru-RU', { dateStyle: 'full' });
 
-export function emptyRange(): UiDateRangeValue {
-  return { start: '', end: '' };
-}
-
 export function normalizeRange(range: UiDateRangeValue): UiDateRangeValue {
   if (!range.start || !range.end || range.start <= range.end) {
     return range;
@@ -59,25 +50,18 @@ export function formatRangeDisplay(range: UiDateRangeValue): string {
   return range.start ? `С ${formatDay(range.start)}` : `До ${formatDay(range.end)}`;
 }
 
-export function rangeToView(range: UiDateRangeValue, today: string): CalendarMonth {
+export function rangeToView(range: UiDateRangeValue, today: string): Temporal.PlainYearMonth {
   const start = parseInputDate(range.start);
   const end = parseInputDate(range.end);
   const anchor = end ?? start ?? parseInputDate(today)!;
-  const sameMonth =
-    start &&
-    end &&
-    start.getFullYear() === end.getFullYear() &&
-    start.getMonth() === end.getMonth();
+  const sameMonth = start && end && start.toPlainYearMonth().equals(end.toPlainYearMonth());
+  const view = anchor.toPlainYearMonth();
 
-  return addMonths(monthFromDate(anchor), !sameMonth && start && end ? -1 : 0);
-}
-
-export function rightView(view: CalendarMonth): CalendarMonth {
-  return addMonths(view, 1);
+  return !sameMonth && start && end ? view.subtract({ months: 1 }) : view;
 }
 
 export function buildRangeMonthGrid(
-  view: CalendarMonth,
+  view: Temporal.PlainYearMonth,
   options: {
     range: UiDateRangeValue;
     pending: { start: string; hover: string; selectingEnd: boolean };
@@ -86,9 +70,9 @@ export function buildRangeMonthGrid(
     max?: string;
   },
 ): RangeDay[][] {
-  const firstOfMonth = new Date(view.year, view.month, 1);
-  const mondayOffset = (firstOfMonth.getDay() + 6) % 7;
-  const gridStart = new Date(view.year, view.month, 1 - mondayOffset);
+  const firstOfMonth = view.toPlainDate({ day: 1 });
+  // dayOfWeek is ISO: 1 = Monday … 7 = Sunday, matching the Monday-first grid.
+  const gridStart = firstOfMonth.subtract({ days: firstOfMonth.dayOfWeek - 1 });
   const focusTargetDate = pickFocusTarget(
     view,
     options.range,
@@ -100,20 +84,16 @@ export function buildRangeMonthGrid(
   const max = normalizeInputDate(options.max);
 
   const flat = Array.from({ length: 42 }, (_, index) => {
-    const date = new Date(
-      gridStart.getFullYear(),
-      gridStart.getMonth(),
-      gridStart.getDate() + index,
-    );
-    const inputDate = toInputDate(date);
+    const date = gridStart.add({ days: index });
+    const inputDate = date.toString();
     const disabled =
       (min !== undefined && inputDate < min) || (max !== undefined && inputDate > max);
 
     return {
       date: inputDate,
-      day: date.getDate(),
+      day: date.day,
       ariaLabel: ARIA_LABEL_FORMATTER.format(date),
-      inCurrentMonth: date.getMonth() === view.month,
+      inCurrentMonth: view.equals(date.toPlainYearMonth()),
       isToday: inputDate === options.today,
       isStart: inputDate === options.range.start,
       isEnd: inputDate === options.range.end,
@@ -136,32 +116,26 @@ export function buildRangeMonthGrid(
   return weeks;
 }
 
-export function buildPresets(today: () => Date): RangePreset[] {
+export function buildPresets(today: () => Temporal.PlainDate): RangePreset[] {
   return [
     { label: 'Сегодня', range: () => single(today()) },
-    { label: 'Вчера', range: () => single(shift(today(), -1)) },
-    { label: 'Последние 7 дней', range: () => span(shift(today(), -6), today()) },
-    { label: 'Последние 30 дней', range: () => span(shift(today(), -29), today()) },
+    { label: 'Вчера', range: () => single(today().subtract({ days: 1 })) },
+    { label: 'Последние 7 дней', range: () => span(today().subtract({ days: 6 }), today()) },
+    { label: 'Последние 30 дней', range: () => span(today().subtract({ days: 29 }), today()) },
     {
       label: 'Этот месяц',
       range: () => {
         const now = today();
 
-        return span(
-          new Date(now.getFullYear(), now.getMonth(), 1),
-          new Date(now.getFullYear(), now.getMonth() + 1, 0),
-        );
+        return span(now.with({ day: 1 }), now.with({ day: now.daysInMonth }));
       },
     },
     {
       label: 'Прошлый месяц',
       range: () => {
-        const now = today();
+        const prev = today().toPlainYearMonth().subtract({ months: 1 });
 
-        return span(
-          new Date(now.getFullYear(), now.getMonth() - 1, 1),
-          new Date(now.getFullYear(), now.getMonth(), 0),
-        );
+        return span(prev.toPlainDate({ day: 1 }), prev.toPlainDate({ day: prev.daysInMonth }));
       },
     },
   ];
@@ -172,7 +146,7 @@ function normalizeInputDate(value: string | undefined): string | undefined {
 }
 
 function pickFocusTarget(
-  view: CalendarMonth,
+  view: Temporal.PlainYearMonth,
   range: UiDateRangeValue,
   pendingStart: string,
   today: string,
@@ -182,12 +156,12 @@ function pickFocusTarget(
   for (const candidate of candidates) {
     const date = parseInputDate(candidate);
 
-    if (date && date.getFullYear() === view.year && date.getMonth() === view.month) {
+    if (date && view.equals(date.toPlainYearMonth())) {
       return candidate;
     }
   }
 
-  return toInputDate(new Date(view.year, view.month, 1));
+  return view.toPlainDate({ day: 1 }).toString();
 }
 
 function pendingPreviewRange(pending: {
@@ -225,14 +199,10 @@ function formatDay(value: string): string {
   return formatDisplayDate(value) || value;
 }
 
-function shift(date: Date, days: number): Date {
-  return new Date(date.getFullYear(), date.getMonth(), date.getDate() + days);
+function single(date: Temporal.PlainDate): UiDateRangeValue {
+  return { start: date.toString(), end: date.toString() };
 }
 
-function single(date: Date): UiDateRangeValue {
-  return { start: toInputDate(date), end: toInputDate(date) };
-}
-
-function span(start: Date, end: Date): UiDateRangeValue {
-  return { start: toInputDate(start), end: toInputDate(end) };
+function span(start: Temporal.PlainDate, end: Temporal.PlainDate): UiDateRangeValue {
+  return { start: start.toString(), end: end.toString() };
 }

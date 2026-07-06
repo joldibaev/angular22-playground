@@ -1,9 +1,4 @@
-import { parseInputDate, toInputDate } from '../../shared/date.utils';
-
-export interface CalendarMonth {
-  year: number;
-  month: number;
-}
+import { parseInputDate } from '../../shared/date.utils';
 
 export interface CalendarDay {
   date: string;
@@ -26,16 +21,10 @@ const DISPLAY_DATE_FORMATTER = new Intl.DateTimeFormat('ru-RU', {
 
 export const WEEKDAYS_MON_FIRST: readonly string[] = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
-export function monthFromDate(date: Date): CalendarMonth {
-  return { year: date.getFullYear(), month: date.getMonth() };
-}
-
-export function addMonths(view: CalendarMonth, amount: number): CalendarMonth {
-  return monthFromDate(new Date(view.year, view.month + amount, 1));
-}
-
-export function formatMonthLabel(view: CalendarMonth): string {
-  return MONTH_LABEL_FORMATTER.format(new Date(view.year, view.month, 1));
+export function formatMonthLabel(view: Temporal.PlainYearMonth): string {
+  // Intl rejects an iso8601 PlainYearMonth when the locale's default calendar
+  // differs (ru-RU is gregory), so format the month through its first day.
+  return MONTH_LABEL_FORMATTER.format(view.toPlainDate({ day: 1 }));
 }
 
 export function formatDisplayDate(value: string): string {
@@ -45,7 +34,7 @@ export function formatDisplayDate(value: string): string {
 }
 
 export function buildMonthGrid(
-  view: CalendarMonth,
+  view: Temporal.PlainYearMonth,
   options: {
     selected: string;
     today: string;
@@ -53,28 +42,24 @@ export function buildMonthGrid(
     max?: string;
   },
 ): CalendarDay[][] {
-  const firstOfMonth = new Date(view.year, view.month, 1);
-  const mondayOffset = (firstOfMonth.getDay() + 6) % 7;
-  const gridStart = new Date(view.year, view.month, 1 - mondayOffset);
+  const firstOfMonth = view.toPlainDate({ day: 1 });
+  // dayOfWeek is ISO: 1 = Monday … 7 = Sunday, matching the Monday-first grid.
+  const gridStart = firstOfMonth.subtract({ days: firstOfMonth.dayOfWeek - 1 });
   const focusTargetDate = pickFocusTarget(view, options.selected, options.today);
   const min = normalizeInputDate(options.min);
   const max = normalizeInputDate(options.max);
 
   const flat = Array.from({ length: 42 }, (_, index) => {
-    const date = new Date(
-      gridStart.getFullYear(),
-      gridStart.getMonth(),
-      gridStart.getDate() + index,
-    );
-    const inputDate = toInputDate(date);
+    const date = gridStart.add({ days: index });
+    const inputDate = date.toString();
     const disabled =
       (min !== undefined && inputDate < min) || (max !== undefined && inputDate > max);
 
     return {
       date: inputDate,
-      day: date.getDate(),
+      day: date.day,
       ariaLabel: ARIA_LABEL_FORMATTER.format(date),
-      inCurrentMonth: date.getMonth() === view.month,
+      inCurrentMonth: view.equals(date.toPlainYearMonth()),
       isToday: inputDate === options.today,
       isSelected: inputDate === options.selected,
       isFocusTarget: inputDate === focusTargetDate,
@@ -95,26 +80,18 @@ function normalizeInputDate(value: string | undefined): string | undefined {
   return value && parseInputDate(value) ? value : undefined;
 }
 
-function pickFocusTarget(view: CalendarMonth, selected: string, today: string): string {
+function pickFocusTarget(view: Temporal.PlainYearMonth, selected: string, today: string): string {
   const selectedInView = parseInputDate(selected);
 
-  if (
-    selectedInView &&
-    selectedInView.getFullYear() === view.year &&
-    selectedInView.getMonth() === view.month
-  ) {
+  if (selectedInView && view.equals(selectedInView.toPlainYearMonth())) {
     return selected;
   }
 
   const todayInView = parseInputDate(today);
 
-  if (
-    todayInView &&
-    todayInView.getFullYear() === view.year &&
-    todayInView.getMonth() === view.month
-  ) {
+  if (todayInView && view.equals(todayInView.toPlainYearMonth())) {
     return today;
   }
 
-  return toInputDate(new Date(view.year, view.month, 1));
+  return view.toPlainDate({ day: 1 }).toString();
 }

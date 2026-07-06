@@ -4,7 +4,6 @@ import {
   formatRangeDisplay,
   normalizeRange,
   rangeToView,
-  rightView,
 } from './range-calendar.utils';
 
 describe('range calendar utilities', () => {
@@ -20,16 +19,14 @@ describe('range calendar utilities', () => {
   });
 
   it('chooses a two-month view that contains both range endpoints', () => {
-    expect(rangeToView({ start: '2026-05-20', end: '2026-06-10' }, '2026-01-01')).toEqual({
-      year: 2026,
-      month: 4,
-    });
-    expect(rightView({ year: 2026, month: 11 })).toEqual({ year: 2027, month: 0 });
+    expect(rangeToView({ start: '2026-05-20', end: '2026-06-10' }, '2026-01-01').toString()).toBe(
+      '2026-05',
+    );
   });
 
   it('marks committed and reversed pending ranges without including endpoints', () => {
     const days = buildRangeMonthGrid(
-      { year: 2026, month: 5 },
+      Temporal.PlainYearMonth.from('2026-06'),
       {
         range: { start: '2026-06-10', end: '2026-06-15' },
         pending: { start: '2026-06-25', hover: '2026-06-20', selectingEnd: true },
@@ -51,7 +48,7 @@ describe('range calendar utilities', () => {
   });
 
   it('builds deterministic presets from the supplied clock', () => {
-    const presets = buildPresets(() => new Date(2026, 6, 6));
+    const presets = buildPresets(() => Temporal.PlainDate.from('2026-07-06'));
 
     expect(presets.map((preset) => preset.label)).toEqual([
       'Сегодня',
