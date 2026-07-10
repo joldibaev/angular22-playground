@@ -50,6 +50,18 @@ class LoadingTestHost {
   readonly loading = signal(true);
 }
 
+@Component({
+  imports: [UiInput],
+  template: `
+    <ui-input [label]="label()">
+      <input type="text" />
+    </ui-input>
+  `,
+})
+class DynamicLabelTestHost {
+  readonly label = signal('Account name');
+}
+
 function dispatchInputEvent(input: HTMLInputElement, value: string): void {
   input.value = value;
   input.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
@@ -120,6 +132,21 @@ describe('UiInput', () => {
 
     expect(label.htmlFor).toBe(textarea.id);
     expect(textarea.placeholder).toBe('Add notes');
+  });
+
+  it('should remove its aria-labelledby token when a dynamic label is cleared', async () => {
+    const hostFixture = TestBed.createComponent(DynamicLabelTestHost);
+    await hostFixture.whenStable();
+
+    const input = getInputs(hostFixture)[0];
+    const labelId = input.getAttribute('aria-labelledby');
+
+    expect(labelId).toBeTruthy();
+
+    hostFixture.componentInstance.label.set('');
+    await hostFixture.whenStable();
+
+    expect(input.getAttribute('aria-labelledby')).toBeNull();
   });
 
   it('should preserve a native placeholder when ui-input placeholder is not set', async () => {

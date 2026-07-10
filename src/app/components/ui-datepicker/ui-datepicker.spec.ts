@@ -200,6 +200,22 @@ describe('UiDatepicker', () => {
     expect(title.getAttribute('data-swap-phase')).toBe('idle');
   });
 
+  it('should leave Home navigation to the aria grid instead of changing months', async () => {
+    const fixture = await createHostFixture();
+    const datepicker = fixture.componentInstance.datepicker();
+
+    await openDatepicker(fixture);
+    datepicker.today.set('2026-07-10');
+
+    getPanel(fixture)?.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Home', bubbles: true, cancelable: true }),
+    );
+    await fixture.whenStable();
+
+    expect(datepicker.view().toString()).toBe('2026-06');
+    expect(datepicker.monthSwapPhase()).toBe('idle');
+  });
+
   it('should expose calendar cells through the Angular Aria grid harness', async () => {
     const fixture = await createHostFixture();
     const loader = TestbedHarnessEnvironment.loader(fixture);

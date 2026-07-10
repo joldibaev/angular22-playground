@@ -3,7 +3,10 @@ import type { BarcodeEncoding } from './barcode.types';
 const QR_SIZE = 21;
 const QR_DATA_CODEWORDS = 19;
 const QR_ECC_CODEWORDS = 7;
-const QR_GENERATOR = [87, 229, 146, 149, 238, 102, 21] as const;
+// Degree-7 generator coefficients as GF(256) field values. Do not replace
+// these with their logarithm-table exponents; the polynomial division below
+// multiplies the coefficients directly.
+const QR_GENERATOR = [127, 122, 154, 164, 11, 68, 117] as const;
 const QR_FORMAT_L_MASK_0 = 0b111011111000100;
 const QR_QUIET_ZONE = 4;
 
@@ -140,7 +143,6 @@ function addData(matrix: QrMatrix, codewords: number[]): void {
 }
 
 function addFormatBits(matrix: QrMatrix): void {
-  const bits = QR_FORMAT_L_MASK_0.toString(2).padStart(15, '0');
   const primary = [
     [8, 0],
     [8, 1],
@@ -160,16 +162,22 @@ function addFormatBits(matrix: QrMatrix): void {
   ] as const;
 
   primary.forEach(([x, y], index) => {
-    matrix.modules[y][x] = bits[index] === '1';
+    matrix.modules[y][x] = getBit(QR_FORMAT_L_MASK_0, index);
   });
 
+  // Format information is mirrored across row 8 and column 8. Keeping x/y
+  // explicit here avoids transposing the second copy and overwriting the dark module.
   for (let index = 0; index < 8; index += 1) {
-    matrix.modules[QR_SIZE - 1 - index][8] = bits[index] === '1';
+    matrix.modules[8][QR_SIZE - 1 - index] = getBit(QR_FORMAT_L_MASK_0, index);
   }
 
   for (let index = 8; index < 15; index += 1) {
-    matrix.modules[8][QR_SIZE - 15 + index] = bits[index] === '1';
+    matrix.modules[QR_SIZE - 15 + index][8] = getBit(QR_FORMAT_L_MASK_0, index);
   }
+}
+
+function getBit(value: number, index: number): boolean {
+  return ((value >>> index) & 1) !== 0;
 }
 
 function createCodewords(bytes: Uint8Array): number[] {

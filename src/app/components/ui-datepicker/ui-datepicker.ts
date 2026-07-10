@@ -316,6 +316,8 @@ export class UiDatepicker implements FormValueControl<string> {
   }
 
   onPanelKeydown(event: KeyboardEvent) {
+    // Home/End belong to the Angular Aria grid's row navigation. This panel only
+    // layers calendar-specific month/year shortcuts on top of that keyboard model.
     if (event.key === 'Escape') {
       event.preventDefault();
       this.close();
@@ -334,10 +336,6 @@ export class UiDatepicker implements FormValueControl<string> {
       return;
     }
 
-    if (event.key === 'Home') {
-      event.preventDefault();
-      this.transitionToView(parseInputDate(this.today())!.toPlainYearMonth(), true);
-    }
   }
 
   focus(options?: FocusOptions) {

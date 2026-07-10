@@ -70,6 +70,14 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
   protected readonly isVisible = computed(
     () => this.expanded() || this.index() + 1 <= this.visibleToasts(),
   );
+  protected readonly isStackExpanded = computed(
+    () => this.expanded() || (this.expandByDefault() && this.mounted()),
+  );
+  // Collapsed cards remain visually stacked, but only the front card may expose
+  // focusable descendants. `inert` in the template enforces that browser contract.
+  protected readonly isInteractive = computed(
+    () => this.isVisible() && (this.isFront() || this.isStackExpanded()),
+  );
   protected readonly toastType = computed<UiSonnerToastType>(() => this.toast().type ?? 'default');
   protected readonly toastPosition = computed(() => this.toast().position ?? this.position());
   protected readonly coords = computed(() => this.toastPosition().split('-'));

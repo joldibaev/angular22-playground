@@ -114,18 +114,9 @@ export class UiInput {
 
     if (this.label()) {
       this.syncLabelFor(controlId);
-
-      const labelledBy = control.getAttribute('aria-labelledby');
-      const labelIds = labelledBy?.split(/\s+/).filter(Boolean) ?? [];
-
-      if (!labelIds.includes(this.labelId)) {
-        this.renderer.setAttribute(
-          control,
-          'aria-labelledby',
-          [...labelIds, this.labelId].join(' '),
-        );
-      }
     }
+
+    this.syncTokenAttribute(control, 'aria-labelledby', this.labelId, Boolean(this.label()));
 
     this.syncTokenAttribute(
       control,

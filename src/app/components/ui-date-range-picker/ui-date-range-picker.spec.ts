@@ -203,6 +203,22 @@ describe('UiDateRangePicker', () => {
     expect(title.getAttribute('data-swap-phase')).toBe('idle');
   });
 
+  it('should leave Home navigation to the aria grid instead of changing months', async () => {
+    const fixture = await createHostFixture();
+    const rangePicker = fixture.componentInstance.rangePicker();
+
+    await openRangePicker(fixture);
+    rangePicker.today.set('2026-08-10');
+
+    getPanel(fixture)?.dispatchEvent(
+      new KeyboardEvent('keydown', { key: 'Home', bubbles: true, cancelable: true }),
+    );
+    await fixture.whenStable();
+
+    expect(rangePicker.leftView().toString()).toBe('2026-06');
+    expect(rangePicker.monthSwapPhase()).toBe('idle');
+  });
+
   it('should expose selected range edges through the Angular Aria grid harness', async () => {
     const fixture = await createHostFixture();
     const loader = TestbedHarnessEnvironment.loader(fixture);

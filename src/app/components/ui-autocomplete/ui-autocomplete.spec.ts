@@ -289,6 +289,20 @@ describe('UiAutocomplete', () => {
     expect(combobox.value).toBe('Approved');
   });
 
+  it('should clear a committed option when the user edits its visible label', async () => {
+    const hostFixture = await createSignalFormHostFixture();
+    const autocomplete = hostFixture.componentInstance.autocomplete();
+    const combobox = getCombobox(hostFixture);
+
+    dispatchInputEvent(combobox, 'Appro');
+    await hostFixture.whenStable();
+
+    expect(autocomplete.inputValue()).toBe('Appro');
+    expect(autocomplete.selectedValues()).toEqual([]);
+    expect(autocomplete.value()).toBe('');
+    expect(hostFixture.componentInstance.model().status).toBe('');
+  });
+
   it('should write selected value back to a signal form field', async () => {
     const hostFixture = await createSignalFormHostFixture();
     const loader = TestbedHarnessEnvironment.loader(hostFixture);

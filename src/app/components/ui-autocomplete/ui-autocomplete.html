@@ -7,7 +7,8 @@
   <input
     ngCombobox
     #combobox="ngCombobox"
-    [(value)]="inputValue"
+    [value]="inputValue()"
+    (valueChange)="onInputValueChange($event)"
     [(expanded)]="popupExpanded"
     [disabled]="disabled()"
     [inlineSuggestion]="inlineSuggestion()"

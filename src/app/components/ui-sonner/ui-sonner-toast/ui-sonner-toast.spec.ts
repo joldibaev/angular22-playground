@@ -95,6 +95,30 @@ describe('UiSonnerToast', () => {
     expect(host.getAttribute('tabindex')).toBe('-1');
   });
 
+  it('should make visually collapsed and hidden toast actions inert', async () => {
+    fixture.componentRef.setInput('index', 1);
+    fixture.componentRef.setInput('visibleToasts', 3);
+    await fixture.whenStable();
+
+    const host = fixture.nativeElement.querySelector('[data-sonner-toast]') as HTMLElement;
+    const closeButton = host.querySelector('button[data-close-button]') as HTMLButtonElement;
+
+    expect(host.getAttribute('data-visible')).toBe('true');
+    expect(host.hasAttribute('inert')).toBe(true);
+    expect(closeButton.closest('[inert]')).toBe(host);
+
+    fixture.componentRef.setInput('expanded', true);
+    await fixture.whenStable();
+
+    expect(host.hasAttribute('inert')).toBe(false);
+
+    fixture.componentRef.setInput('expanded', false);
+    fixture.componentRef.setInput('index', 3);
+    await fixture.whenStable();
+
+    expect(host.hasAttribute('inert')).toBe(true);
+  });
+
   it('should transition updated copy through exit and enter states', async () => {
     fixture.componentRef.setInput('toast', {
       ...toast,

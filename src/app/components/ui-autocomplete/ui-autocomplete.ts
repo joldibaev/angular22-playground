@@ -51,6 +51,7 @@ export class UiAutocomplete implements FormValueControl<string> {
   inputValue = signal('');
   selectedValues = signal<string[]>([]);
   popupExpanded = signal(false);
+  private inputValueAfterSelectionClear: string | undefined;
 
   options = contentChildren(UiAutocompleteOption);
 
@@ -82,9 +83,14 @@ export class UiAutocomplete implements FormValueControl<string> {
     afterRenderEffect(() => {
       const value = this.value();
       const selectedOption = this.options().find((option) => option.value() === value);
-      const nextInputValue = selectedOption?.label() ?? '';
+      const nextInputValue =
+        !value && this.inputValueAfterSelectionClear !== undefined
+          ? this.inputValueAfterSelectionClear
+          : (selectedOption?.label() ?? '');
       const nextSelectedValues = value ? [value] : [];
       const selectedValues = untracked(this.selectedValues);
+
+      this.inputValueAfterSelectionClear = undefined;
 
       if (untracked(this.inputValue) !== nextInputValue) {
         this.inputValue.set(nextInputValue);
@@ -114,6 +120,24 @@ export class UiAutocomplete implements FormValueControl<string> {
     }
 
     this.popupExpanded.set(false);
+  }
+
+  onInputValueChange(value: string) {
+    this.inputValue.set(value);
+
+    const selectedValue = this.selectedValues()[0] ?? this.value();
+    const selectedOption = this.options().find((option) => option.value() === selectedValue);
+
+    if (selectedOption?.label() === value || (!selectedOption && !this.value())) {
+      return;
+    }
+
+    // The form value represents a committed option, not arbitrary query text.
+    // Once the user edits its label, keeping the old option would make the
+    // visible control disagree with the submitted value.
+    this.selectedValues.set([]);
+    this.inputValueAfterSelectionClear = value;
+    this.value.set('');
   }
 
   onListboxClick(event: MouseEvent) {
