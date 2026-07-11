@@ -1,5 +1,3 @@
-export type UiTableDensity = 'compact' | 'comfortable';
-
 export type UiTableSortDirection = 'asc' | 'desc';
 
 export interface UiTableRange {

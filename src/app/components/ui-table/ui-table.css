@@ -14,6 +14,11 @@
     var(--color-brand) 8%,
     var(--ui-table-background)
   );
+  --ui-table-row-striped-background: color-mix(
+    in oklab,
+    CanvasText 3%,
+    var(--ui-table-background)
+  );
   --ui-table-row-selected-background: color-mix(
     in oklab,
     var(--color-brand) 14%,
@@ -29,9 +34,10 @@
   --ui-table-row-height: 48px;
 
   display: block;
+  flex: 1 1 0;
   min-inline-size: 0;
+  min-block-size: 0;
   max-inline-size: 100%;
-  block-size: var(--ui-table-viewport-height, auto);
   overflow: auto;
   overscroll-behavior: contain;
   border: 1px solid var(--ui-table-border-color);
@@ -39,6 +45,7 @@
   background-color: var(--ui-table-background);
   color: var(--ui-table-foreground);
   scrollbar-color: var(--ui-table-border-color-strong) transparent;
+  scrollbar-gutter: stable;
   scrollbar-width: thin;
 
   &:focus-visible {
@@ -72,7 +79,10 @@
     padding-inline: var(--ui-table-cell-padding-inline, 1rem);
     overflow: hidden;
     border-block-end: 1px solid var(--ui-table-border-color, var(--border-color-default));
-    background-color: var(--ui-table-background, var(--background-color-surface));
+    background-color: var(
+      --ui-table-row-background,
+      var(--ui-table-background, var(--background-color-surface))
+    );
     text-overflow: ellipsis;
     vertical-align: middle;
     white-space: nowrap;
@@ -102,7 +112,7 @@
   }
 
   & tbody tr[aria-selected='true'] > :is(th, td) {
-    background-color: var(--ui-table-row-selected-background);
+    --ui-table-row-background: var(--ui-table-row-selected-background);
   }
 
   & tbody tr[aria-disabled='true'] {
@@ -114,6 +124,11 @@
   }
 }
 
+:where(.ui-table-with-striped-rows:not(.ui-table-virtual) tbody tr:nth-child(even)),
+:where(.ui-table-with-striped-rows.ui-table-virtual tbody tr.ui-table-row-striped) {
+  --ui-table-row-background: var(--ui-table-row-striped-background);
+}
+
 .ui-table-viewport > .ui-table {
   border: 0;
   border-radius: 0;
@@ -121,12 +136,6 @@
 
 .ui-table th.ui-table-sort {
   padding: 0;
-}
-
-.ui-table-compact {
-  --ui-table-cell-padding-block: 0.5rem;
-  --ui-table-cell-padding-inline: 0.75rem;
-  --ui-table-row-height: 40px;
 }
 
 .ui-table-virtual {
@@ -147,8 +156,11 @@
   transition: background-color var(--dur-fast) var(--ease-snappy);
 }
 
-.ui-table-with-row-hover tbody tr:not(.ui-table-spacer):is(:hover, :focus-within) > :is(th, td) {
-  background-color: var(--ui-table-row-hover-background);
+.ui-table-with-row-hover
+  tbody
+  tr:not(.ui-table-spacer, [aria-selected='true']):is(:hover, :focus-within)
+  > :is(th, td) {
+  --ui-table-row-background: var(--ui-table-row-hover-background);
 }
 
 .ui-table tbody tr[uiContextMenuTrigger] {

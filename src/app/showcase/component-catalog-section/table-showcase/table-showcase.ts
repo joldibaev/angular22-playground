@@ -8,6 +8,7 @@ import {
 import { UiContextMenuTrigger } from '../../../components/ui-context-menu/ui-context-menu-trigger/ui-context-menu-trigger';
 import { UiIcon } from '../../../components/ui-icon/ui-icon';
 import { UiMenuItem } from '../../../components/ui-menu/ui-menu-item/ui-menu-item';
+import { UiSkeleton } from '../../../components/ui-skeleton/ui-skeleton';
 import { UiTab } from '../../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 import { UiTable } from '../../../components/ui-table/ui-table';
@@ -47,6 +48,7 @@ const ALL_ROWS = Array.from(
     UiContextMenuTrigger,
     UiIcon,
     UiMenuItem,
+    UiSkeleton,
     UiTab,
     UiTabItem,
     UiTable,
@@ -58,9 +60,9 @@ const ALL_ROWS = Array.from(
   styleUrl: './table-showcase.css',
 })
 export class TableShowcase {
-  protected readonly defaultCode = `<div uiTableViewport>\n  <table uiTable [data]="rows">\n    <caption>Inventory</caption>\n    <thead><tr><th scope="col">SKU</th><th scope="col">Product</th></tr></thead>\n    <tbody>@for (row of rows; track row.id) { ... }</tbody>\n  </table>\n</div>`;
-  protected readonly densityCode = `<table uiTable density="compact" withRowHover [withStickyHeader]="true">...</table>`;
-  protected readonly sortCode = `<table uiTable [data]="rows()" [(sort)]="sort" (sortChange)="requestPage($event)">\n  <th uiTableSort="product">Product</th>\n  <th uiTableSort="stock" startDirection="desc">Stock</th>\n</table>`;
+  protected readonly defaultCode = `<table uiTable>\n  <caption>Inventory</caption>\n  <thead><tr><th scope="col">SKU</th><th scope="col">Product</th></tr></thead>\n  <tbody>@for (row of rows; track row.id) { ... }</tbody>\n</table>`;
+  protected readonly presentationCode = `<div uiTableViewport>\n  <table uiTable withStripedRows withRowHover>...</table>\n</div>`;
+  protected readonly sortCode = `<table uiTable [(sort)]="sort" (sortChange)="requestPage($event)">\n  <th uiTableSort="product">Product</th>\n  <th uiTableSort="stock" startDirection="desc">Stock</th>\n</table>`;
   protected readonly contextMenuCode = `<tr
   tabindex="0"
   [uiContextMenuTrigger]="rowMenu"
@@ -71,13 +73,14 @@ export class TableShowcase {
   <ui-menu-item value="open">Open</ui-menu-item>
   <ui-menu-item value="delete" variant="destructive">Delete</ui-menu-item>
 </ui-context-menu>`;
-  protected readonly virtualCode = `<div uiTableViewport [height]="384">\n  <table #table="uiTable" uiTable virtualScroll [data]="rows()" [rowHeight]="40" [totalRows]="500" (endReached)="loadMore()">\n    <tr uiTableSpacer="start" [columns]="5"></tr>\n    @for (row of table.renderedRows(); track row.id) { ... }\n    <tr uiTableSpacer="end" [columns]="5"></tr>\n  </table>\n</div>`;
+  protected readonly virtualCode = `<div uiTableViewport>\n  <table #table="uiTable" uiTable virtualScroll [rows]="rows()" [rowHeight]="48" [totalRows]="totalRows" [loading]="loading()" [hasMore]="rows().length < totalRows" (endReached)="loadMore()">\n    <tr uiTableSpacer="start" [columns]="4"></tr>\n    @for (row of table.renderedRows(); track row.id) { ... }\n    <tr uiTableSpacer="end" [columns]="4"></tr>\n    @if (loading()) { ...skeleton rows... }\n  </table>\n</div>`;
   protected readonly allRows = ALL_ROWS;
   protected readonly sort = signal<string | null>(null);
-  protected readonly previewRows = signal<readonly InventoryRow[]>(ALL_ROWS.slice(0, 10));
+  protected readonly sortedRows = signal<readonly InventoryRow[]>(ALL_ROWS.slice(0, 10));
   protected readonly sorting = signal(false);
   protected readonly loadedRows = signal<readonly InventoryRow[]>(ALL_ROWS.slice(0, 80));
   protected readonly loading = signal(false);
+  protected readonly loadingSkeletonRows = [0, 1, 2] as const;
   protected readonly lastAction = signal<string | null>(null);
 
   protected requestSortedPage(sort: string | null): void {
@@ -85,7 +88,7 @@ export class TableShowcase {
     this.sorting.set(true);
 
     queueMicrotask(() => {
-      this.previewRows.set(mockBackendPage(sort));
+      this.sortedRows.set(mockBackendPage(sort));
       this.sorting.set(false);
     });
   }

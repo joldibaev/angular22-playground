@@ -1,7 +1,7 @@
 <article class="docs" aria-labelledby="table-showcase-title">
   <header>
     <h4 id="table-showcase-title" class="font-black">Table</h4>
-    <p>Native tables with density, backend sorting, row actions, and optional virtual scrolling.</p>
+    <p>Native tables with backend sorting, row actions, and fixed-height virtual scrolling.</p>
   </header>
   <section aria-labelledby="table-default-title">
     <h5 id="table-default-title">Default</h5>
@@ -10,7 +10,7 @@
         ><ui-tab-item value="preview" label="Preview"
           ><div class="preview">
             <div uiTableViewport>
-              <table uiTable [data]="previewRows().slice(0, 4)">
+              <table uiTable>
                 <caption>
                   Inventory preview
                 </caption>
@@ -22,7 +22,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for (row of previewRows().slice(0, 4); track row.id) {
+                  @for (row of allRows.slice(0, 4); track row.id) {
                     <tr>
                       <td>{{ row.sku }}</td>
                       <th scope="row">{{ row.product }}</th>
@@ -39,16 +39,16 @@
       ></ui-card
     >
   </section>
-  <section aria-labelledby="table-density-title">
-    <h5 id="table-density-title">Density, hover, and sticky header</h5>
+  <section aria-labelledby="table-presentation-title">
+    <h5 id="table-presentation-title">Striped rows, hover, and sticky header</h5>
     <ui-card variant="outlined"
       ><ui-tab size="sm" aria-label="Table presentation options"
         ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <div uiTableViewport [height]="220">
-              <table uiTable density="compact" withRowHover [data]="previewRows()">
+          ><div class="preview presentation">
+            <div uiTableViewport>
+              <table uiTable withStripedRows withRowHover>
                 <caption>
-                  Compact inventory
+                  Inventory presentation
                 </caption>
                 <thead>
                   <tr>
@@ -58,7 +58,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for (row of previewRows(); track row.id) {
+                  @for (row of allRows.slice(0, 10); track row.id) {
                     <tr>
                       <td>{{ row.sku }}</td>
                       <th scope="row">{{ row.product }}</th>
@@ -70,7 +70,7 @@
             </div>
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{densityCode}}</code></pre>
+          <pre tabindex="0"><code>{{presentationCode}}</code></pre>
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -85,7 +85,6 @@
               <table
                 uiTable
                 withRowHover
-                [data]="previewRows()"
                 [sort]="sort()"
                 [loading]="sorting()"
                 (sortChange)="requestSortedPage($event)"
@@ -102,7 +101,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for (row of previewRows(); track row.id) {
+                  @for (row of sortedRows(); track row.id) {
                     <tr>
                       <td>{{ row.sku }}</td>
                       <th scope="row">{{ row.product }}</th>
@@ -140,7 +139,7 @@
         ><ui-tab-item value="preview" label="Preview"
           ><div class="preview">
             <div uiTableViewport>
-              <table uiTable withRowHover [data]="previewRows().slice(0, 5)">
+              <table uiTable withRowHover>
                 <caption>
                   Right-click a row, long-press it, or focus it and press Shift+F10
                 </caption>
@@ -153,7 +152,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for (row of previewRows().slice(0, 5); track row.id) {
+                  @for (row of allRows.slice(0, 5); track row.id) {
                     <tr
                       tabindex="0"
                       [uiContextMenuTrigger]="rowMenu"
@@ -197,15 +196,15 @@
             <button uiButton type="button" size="sm" variant="outline" (click)="scrollToEnd(table)">
               Scroll to loaded end
             </button>
-            <div uiTableViewport [height]="384">
+            <div uiTableViewport>
               <table
                 #table="uiTable"
                 uiTable
-                density="compact"
                 virtualScroll
                 withRowHover
-                [data]="loadedRows()"
-                [rowHeight]="40"
+                withStripedRows
+                [rows]="loadedRows()"
+                [rowHeight]="48"
                 [totalRows]="allRows.length"
                 [loading]="loading()"
                 [hasMore]="loadedRows().length < allRows.length"
@@ -224,8 +223,8 @@
                 </thead>
                 <tbody>
                   <tr uiTableSpacer="start" [columns]="4"></tr>
-                  @for (row of table.renderedRows(); track row.id; let index = $index) {
-                    <tr [attr.aria-rowindex]="table.rowAriaIndex(index)">
+                  @for (row of table.renderedRows(); track row.id) {
+                    <tr>
                       <td>{{ row.sku }}</td>
                       <th scope="row">{{ row.product }}</th>
                       <td>{{ row.warehouse }}</td>
@@ -233,6 +232,16 @@
                     </tr>
                   }
                   <tr uiTableSpacer="end" [columns]="4"></tr>
+                  @if (loading()) {
+                    @for (_ of loadingSkeletonRows; track $index) {
+                      <tr class="ui-table-loading-row" aria-hidden="true">
+                        <td><ui-skeleton /></td>
+                        <th scope="row"><ui-skeleton /></th>
+                        <td><ui-skeleton /></td>
+                        <td><ui-skeleton /></td>
+                      </tr>
+                    }
+                  }
                 </tbody>
               </table>
             </div>

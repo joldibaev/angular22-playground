@@ -1,10 +1,4 @@
 :host {
-  --ui-popup-background: Canvas;
-  --ui-popup-offset: 0.25rem;
-  --ui-popup-width: max-content;
-  --ui-popup-min-width: 12rem;
-  --ui-popup-max-height: calc(100vh - 2rem);
-
   display: contents;
 }
 

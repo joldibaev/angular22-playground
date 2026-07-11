@@ -62,6 +62,19 @@ describe('UiContextMenu', () => {
     expect(getComputedStyle(menu).positionTryFallbacks).toContain('flip-inline');
   });
 
+  it('uses the shared menu popup surface tokens', async () => {
+    const fixture = await createHost();
+    const contextMenu = fixture.nativeElement.querySelector('ui-context-menu') as HTMLElement;
+    const style = getComputedStyle(contextMenu);
+
+    expect(style.getPropertyValue('--ui-popup-background').trim()).toBe(
+      'var(--background-color-elevated)',
+    );
+    expect(style.getPropertyValue('--ui-popup-offset').trim()).toBe('0.5rem');
+    expect(style.getPropertyValue('--ui-popup-padding').trim()).toBe('0.25rem');
+    expect(style.getPropertyValue('--ui-popup-option-radius').trim()).toBe('0.375rem');
+  });
+
   it('opens at pointer coordinates and retains the supplied target context', async () => {
     const fixture = await createHost();
     const target = fixture.nativeElement.querySelector('.target') as HTMLElement;

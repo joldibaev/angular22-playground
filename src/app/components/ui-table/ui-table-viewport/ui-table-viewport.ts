@@ -1,27 +1,22 @@
 import {
   afterNextRender,
-  ChangeDetectionStrategy,
-  Component,
   DestroyRef,
+  Directive,
   ElementRef,
   inject,
-  input,
   signal,
 } from '@angular/core';
 
-@Component({
-  selector: 'div[uiTableViewport]',
+@Directive({
+  selector: '[uiTableViewport]',
   exportAs: 'uiTableViewport',
-  templateUrl: './ui-table-viewport.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'ui-table-viewport',
-    '[style.--ui-table-viewport-height]': 'heightStyle()',
     '(scroll)': 'refresh()',
   },
 })
 export class UiTableViewport {
-  readonly height = input<number | string | null>(null);
+  // Layout owns the available height; the viewport only fills that flex space and reports metrics.
   readonly scrollTop = signal(0);
   readonly viewportHeight = signal(0);
 
@@ -40,16 +35,6 @@ export class UiTableViewport {
       observer.observe(this.elementRef.nativeElement);
       this.destroyRef.onDestroy(() => observer.disconnect());
     });
-  }
-
-  heightStyle(): string | null {
-    const height = this.height();
-
-    if (height === null) {
-      return null;
-    }
-
-    return typeof height === 'number' ? `${Math.max(0, height)}px` : height;
   }
 
   refresh(): void {

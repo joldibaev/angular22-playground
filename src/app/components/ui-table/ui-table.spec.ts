@@ -15,15 +15,18 @@ interface TestRow {
 @Component({
   imports: [UiTable, UiTableSort, UiTableSpacer, UiTableViewport],
   template: `
-    <div uiTableViewport [height]="200">
+    <div uiTableViewport>
       <table
         #table="uiTable"
         uiTable
         virtualScroll
-        [data]="rows()"
+        withStripedRows
+        [rows]="rows()"
         [rowHeight]="40"
         [overscan]="1"
         [endThreshold]="1"
+        [totalRows]="totalRows()"
+        [loading]="loading()"
         [hasMore]="hasMore()"
         [(sort)]="sort"
         (endReached)="endEvents.push($event)"
@@ -39,8 +42,8 @@ interface TestRow {
         </thead>
         <tbody>
           <tr uiTableSpacer="start" [columns]="2"></tr>
-          @for (row of table.renderedRows(); track row.id; let index = $index) {
-            <tr [attr.aria-rowindex]="table.rowAriaIndex(index)">
+          @for (row of table.renderedRows(); track row.id) {
+            <tr>
               <th scope="row">{{ row.name }}</th>
               <td>{{ row.id }}</td>
             </tr>
@@ -55,6 +58,8 @@ class TestHost {
   readonly rows = signal<readonly TestRow[]>(createRows(100));
   readonly sort = signal<string | null>(null);
   readonly hasMore = signal(true);
+  readonly loading = signal(false);
+  readonly totalRows = signal<number | undefined>(100);
   readonly endEvents: UiTableEndReachedEvent[] = [];
 }
 
@@ -79,6 +84,7 @@ describe('UiTable', () => {
     expect(tableElement.caption?.textContent).toContain('Products');
     expect(tableElement.querySelector('th[scope="col"]')).toBeTruthy();
     expect(tableElement.getAttribute('aria-rowcount')).toBe('101');
+    expect(tableElement.tHead?.rows[0].getAttribute('aria-rowindex')).toBe('1');
   });
 
   it('renders the visible window with automatic spacer geometry', async () => {
@@ -90,8 +96,27 @@ describe('UiTable', () => {
     expect(table.renderedRows().map((row) => row.id)).toEqual([10, 11, 12, 13, 14]);
 
     const spacers = fixture.nativeElement.querySelectorAll('.ui-table-spacer td');
+    const bodyRows = Array.from(
+      (fixture.nativeElement as HTMLElement).querySelectorAll<HTMLTableRowElement>(
+        'tbody tr:not(.ui-table-spacer)',
+      ),
+    );
     expect(spacers[0].style.height).toBe('360px');
     expect(spacers[1].style.height).toBe('3440px');
+    expect(bodyRows.map((row) => row.getAttribute('aria-rowindex'))).toEqual([
+      '11',
+      '12',
+      '13',
+      '14',
+      '15',
+    ]);
+    expect(bodyRows.map((row) => row.classList.contains('ui-table-row-striped'))).toEqual([
+      true,
+      false,
+      true,
+      false,
+      true,
+    ]);
   });
 
   it('cycles sorting intent without mutating the supplied data', async () => {
@@ -139,6 +164,39 @@ describe('UiTable', () => {
     await fixture.whenStable();
 
     expect(fixture.componentInstance.endEvents).toHaveLength(0);
+  });
+
+  it('does not request another page while a page is loading', async () => {
+    fixture.componentInstance.loading.set(true);
+    viewportElement.scrollTop = 3_840;
+    viewportElement.dispatchEvent(new Event('scroll'));
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.endEvents).toHaveLength(0);
+  });
+
+  it('reports an unknown total while more rows may exist', async () => {
+    fixture.componentInstance.totalRows.set(undefined);
+    await fixture.whenStable();
+    const tableElement = fixture.nativeElement.querySelector('table') as HTMLTableElement;
+
+    expect(tableElement.getAttribute('aria-rowcount')).toBe('-1');
+
+    fixture.componentInstance.hasMore.set(false);
+    await fixture.whenStable();
+    expect(tableElement.getAttribute('aria-rowcount')).toBe('101');
+  });
+
+  it('clamps the rendered range after the data source shrinks', async () => {
+    viewportElement.scrollTop = 3_840;
+    viewportElement.dispatchEvent(new Event('scroll'));
+    await fixture.whenStable();
+
+    fixture.componentInstance.rows.set(createRows(10));
+    await fixture.whenStable();
+
+    expect(table.renderedRange()).toEqual({ start: 6, end: 10 });
+    expect(table.renderedRows().map((row) => row.id)).toEqual([7, 8, 9, 10]);
   });
 });
 

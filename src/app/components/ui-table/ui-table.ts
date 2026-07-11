@@ -1,20 +1,22 @@
 import {
+  afterRenderEffect,
   afterNextRender,
   booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
   effect,
+  ElementRef,
   inject,
   input,
   model,
   numberAttribute,
   output,
+  Renderer2,
   ViewEncapsulation,
 } from '@angular/core';
 import { UiTableViewport } from './ui-table-viewport/ui-table-viewport';
 import type {
-  UiTableDensity,
   UiTableEndReachedEvent,
   UiTableRange,
   UiTableSortDirection,
@@ -33,8 +35,8 @@ const DEFAULT_OVERSCAN = 6;
   host: {
     class: 'ui-table',
     '[class.ui-table-virtual]': 'virtualScroll()',
-    '[class.ui-table-compact]': "density() === 'compact'",
     '[class.ui-table-with-row-hover]': 'withRowHover()',
+    '[class.ui-table-with-striped-rows]': 'withStripedRows()',
     '[class.ui-table-with-sticky-header]': 'withStickyHeader()',
     '[style.--ui-table-row-height.px]': 'safeRowHeight()',
     '[attr.aria-busy]': "loading() ? 'true' : null",
@@ -42,8 +44,10 @@ const DEFAULT_OVERSCAN = 6;
   },
 })
 export class UiTable<T> {
-  readonly data = input<readonly T[]>([]);
+  readonly rows = input<readonly T[]>([]);
   readonly virtualScroll = input(false, { transform: booleanAttribute });
+  // Virtual rows are deliberately uniform: this is the only row-size source of truth. Measuring
+  // arbitrary projected row content would turn scrolling into a dynamic-height virtualizer.
   readonly rowHeight = input(DEFAULT_ROW_HEIGHT, { transform: numberAttribute });
   readonly overscan = input(DEFAULT_OVERSCAN, { transform: numberAttribute });
   readonly endThreshold = input(DEFAULT_OVERSCAN, { transform: numberAttribute });
@@ -51,12 +55,12 @@ export class UiTable<T> {
     transform: numberAttribute,
   });
   readonly headerRows = input(1, { transform: numberAttribute });
-  readonly density = input<UiTableDensity>('comfortable');
   // Refreshing does not make already-rendered rows unavailable. Loading marks the table busy and
   // suppresses duplicate pagination requests while preserving reading, scrolling, and selection.
   readonly loading = input(false, { transform: booleanAttribute });
-  readonly hasMore = input(true, { transform: booleanAttribute });
+  readonly hasMore = input(false, { transform: booleanAttribute });
   readonly withRowHover = input(false, { transform: booleanAttribute });
+  readonly withStripedRows = input(false, { transform: booleanAttribute });
   readonly withStickyHeader = input(true, { transform: booleanAttribute });
   readonly withSortReset = input(true, { transform: booleanAttribute });
 
@@ -66,20 +70,29 @@ export class UiTable<T> {
   readonly endReached = output<UiTableEndReachedEvent>();
 
   private readonly viewport = inject(UiTableViewport, { optional: true });
+  private readonly elementRef = inject<ElementRef<HTMLTableElement>>(ElementRef);
+  private readonly renderer = inject(Renderer2);
+  private readonly indexedRows = new Set<HTMLTableRowElement>();
   private lastEndReachedLength = -1;
 
-  readonly safeRowHeight = computed(() => Math.max(1, this.rowHeight()));
+  readonly safeRowHeight = computed(() => positiveInteger(this.rowHeight(), DEFAULT_ROW_HEIGHT));
   readonly visibleRange = computed<UiTableRange>(() => {
-    const total = this.data().length;
+    const total = this.rows().length;
 
     if (!this.virtualScroll()) {
       return { start: 0, end: total };
     }
 
+    if (total === 0) {
+      return { start: 0, end: 0 };
+    }
+
     const rowHeight = this.safeRowHeight();
     const viewportHeight = this.viewport?.viewportHeight() ?? 0;
     const scrollTop = this.viewport?.scrollTop() ?? 0;
-    const start = Math.max(0, Math.floor(scrollTop / rowHeight));
+    const maxScrollTop = Math.max(0, total * rowHeight - viewportHeight);
+    const safeScrollTop = Math.min(Math.max(0, scrollTop), maxScrollTop);
+    const start = Math.floor(safeScrollTop / rowHeight);
     const visibleRows = Math.max(1, Math.ceil(viewportHeight / rowHeight));
 
     return {
@@ -89,23 +102,25 @@ export class UiTable<T> {
   });
   readonly renderedRange = computed<UiTableRange>(() => {
     const visible = this.visibleRange();
-    const overscan = this.virtualScroll() ? Math.max(0, this.overscan()) : 0;
+    const overscan = this.virtualScroll()
+      ? nonNegativeInteger(this.overscan(), DEFAULT_OVERSCAN)
+      : 0;
 
     return {
       start: Math.max(0, visible.start - overscan),
-      end: Math.min(this.data().length, visible.end + overscan),
+      end: Math.min(this.rows().length, visible.end + overscan),
     };
   });
   readonly renderedRows = computed(() => {
     const range = this.renderedRange();
-    return this.virtualScroll() ? this.data().slice(range.start, range.end) : this.data();
+    return this.virtualScroll() ? this.rows().slice(range.start, range.end) : this.rows();
   });
   readonly topSpacerHeight = computed(() =>
     this.virtualScroll() ? this.renderedRange().start * this.safeRowHeight() : 0,
   );
   readonly bottomSpacerHeight = computed(() =>
     this.virtualScroll()
-      ? Math.max(0, (this.data().length - this.renderedRange().end) * this.safeRowHeight())
+      ? Math.max(0, (this.rows().length - this.renderedRange().end) * this.safeRowHeight())
       : 0,
   );
   protected readonly ariaRowCount = computed(() => {
@@ -113,19 +128,73 @@ export class UiTable<T> {
       return null;
     }
 
-    const bodyRows = this.totalRows() ?? this.data().length;
-    return Math.max(0, bodyRows) + Math.max(0, this.headerRows());
+    const totalRows = this.totalRows();
+
+    if (totalRows === undefined || !Number.isFinite(totalRows)) {
+      return this.hasMore()
+        ? -1
+        : this.rows().length + nonNegativeInteger(this.headerRows(), 1);
+    }
+
+    const bodyRows = Math.max(this.rows().length, nonNegativeInteger(totalRows, 0));
+    return bodyRows + nonNegativeInteger(this.headerRows(), 1);
   });
 
   constructor() {
     afterNextRender(() => {
       if (this.virtualScroll() && !this.viewport) {
-        throw new Error('uiTable with virtualScroll must be inside a div[uiTableViewport].');
+        throw new Error('uiTable with virtualScroll must be inside an [uiTableViewport].');
       }
     });
 
+    afterRenderEffect({
+      earlyRead: () => {
+        const table = this.elementRef.nativeElement;
+        const virtual = this.virtualScroll();
+        const rangeStart = this.renderedRange().start;
+        const headerOffset = nonNegativeInteger(this.headerRows(), 1);
+        const headerRows = table.tHead ? Array.from(table.tHead.rows) : [];
+        const bodyRows = Array.from(table.tBodies).flatMap((body) =>
+          Array.from(body.rows).filter(
+            (row) => !row.classList.contains('ui-table-spacer') && row.ariaHidden !== 'true',
+          ),
+        );
+
+        return { bodyRows, headerOffset, headerRows, rangeStart, virtual };
+      },
+      write: (renderState) => {
+        const { bodyRows, headerOffset, headerRows, rangeStart, virtual } = renderState();
+
+        for (const row of this.indexedRows) {
+          this.renderer.removeAttribute(row, 'aria-rowindex');
+          this.renderer.removeClass(row, 'ui-table-row-striped');
+        }
+        this.indexedRows.clear();
+
+        if (!virtual) {
+          return;
+        }
+
+        headerRows.forEach((row, index) => {
+          this.renderer.setAttribute(row, 'aria-rowindex', String(index + 1));
+          this.indexedRows.add(row);
+        });
+
+        bodyRows.forEach((row, index) => {
+          const absoluteIndex = rangeStart + index;
+          this.renderer.setAttribute(row, 'aria-rowindex', String(headerOffset + absoluteIndex + 1));
+
+          if (absoluteIndex % 2 === 1) {
+            this.renderer.addClass(row, 'ui-table-row-striped');
+          }
+
+          this.indexedRows.add(row);
+        });
+      },
+    });
+
     effect(() => {
-      const loadedRows = this.data().length;
+      const loadedRows = this.rows().length;
       const range = this.renderedRange();
       const visibleRange = this.visibleRange();
       const viewportHeight = this.viewport?.viewportHeight() ?? 0;
@@ -133,7 +202,7 @@ export class UiTable<T> {
         this.virtualScroll() &&
         viewportHeight > 0 &&
         loadedRows > 0 &&
-        loadedRows - visibleRange.end <= Math.max(0, this.endThreshold());
+        loadedRows - visibleRange.end <= nonNegativeInteger(this.endThreshold(), DEFAULT_OVERSCAN);
 
       if (!nearEnd) {
         this.lastEndReachedLength = -1;
@@ -149,15 +218,12 @@ export class UiTable<T> {
     });
   }
 
-  rowAriaIndex(renderedIndex: number): number {
-    return (
-      Math.max(0, this.headerRows()) + this.renderedRange().start + Math.max(0, renderedIndex) + 1
-    );
-  }
-
   scrollToIndex(index: number, behavior: ScrollBehavior = 'auto'): void {
+    const lastIndex = Math.max(0, this.rows().length - 1);
+    const safeIndex = Math.min(nonNegativeInteger(index, 0), lastIndex);
+
     this.viewport?.scrollTo({
-      top: Math.max(0, Math.floor(index)) * this.safeRowHeight(),
+      top: safeIndex * this.safeRowHeight(),
       behavior,
     });
   }
@@ -183,4 +249,12 @@ export class UiTable<T> {
 
     this.sort.set(this.withSortReset() ? null : startValue);
   }
+}
+
+function positiveInteger(value: number, fallback: number): number {
+  return Number.isFinite(value) ? Math.max(1, Math.floor(value)) : fallback;
+}
+
+function nonNegativeInteger(value: number, fallback: number): number {
+  return Number.isFinite(value) ? Math.max(0, Math.floor(value)) : fallback;
 }

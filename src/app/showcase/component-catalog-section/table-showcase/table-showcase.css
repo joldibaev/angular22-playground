@@ -36,12 +36,30 @@
   gap: 0.75rem;
   padding: 1rem;
 }
+.presentation,
+.virtual {
+  display: flex;
+  flex-direction: column;
+}
+.presentation {
+  block-size: 18rem;
+}
+.virtual {
+  block-size: 32rem;
+}
 .preview output {
   color: var(--text-color-muted);
   font-size: 0.8125rem;
 }
 .virtual > button {
-  justify-self: start;
+  align-self: start;
+  flex: 0 0 auto;
+}
+.ui-table-loading-row ui-skeleton {
+  --ui-skeleton-height: 0.75rem;
+}
+.ui-table-loading-row :is(td, th):nth-child(2) ui-skeleton {
+  --ui-skeleton-width: 72%;
 }
 pre {
   min-width: 0;
