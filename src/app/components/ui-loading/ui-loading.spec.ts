@@ -52,4 +52,13 @@ describe('UiLoading', () => {
     expect(indicator.getAttribute('aria-label')).toBeNull();
     expect(indicator.getAttribute('role')).toBe('presentation');
   });
+
+  it('should keep an explicitly non-decorative spinner hidden when it has no label', async () => {
+    const unlabelled = TestBed.createComponent(UiLoading);
+    unlabelled.componentRef.setInput('decorative', false);
+    await unlabelled.whenStable();
+
+    expect(unlabelled.nativeElement.getAttribute('aria-hidden')).toBe('true');
+    expect(unlabelled.nativeElement.getAttribute('role')).toBe('presentation');
+  });
 });

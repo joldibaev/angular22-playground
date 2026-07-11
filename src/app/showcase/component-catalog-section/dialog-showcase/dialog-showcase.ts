@@ -2,26 +2,28 @@ import { Component, signal } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiDialog } from '../../../components/ui-dialog/ui-dialog';
+import { UiDialogClose } from '../../../components/ui-dialog/ui-dialog-close/ui-dialog-close';
+import { UiDialogTrigger } from '../../../components/ui-dialog/ui-dialog-trigger/ui-dialog-trigger';
 import { UiTab } from '../../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 
 @Component({
   selector: 'app-dialog-showcase',
-  imports: [UiButton, UiCard, UiDialog, UiTab, UiTabItem],
+  imports: [UiButton, UiCard, UiDialog, UiDialogClose, UiDialogTrigger, UiTab, UiTabItem],
   templateUrl: './dialog-showcase.html',
   styleUrl: './dialog-showcase.css',
 })
 export class DialogShowcase {
   protected readonly controlledOpen = signal(false);
 
-  protected readonly defaultCode = `<button uiButton command="show-modal" [attr.commandfor]="dialog.dialogId()">
+  protected readonly defaultCode = `<button uiButton [uiDialogTrigger]="dialog">
   Invite teammates
 </button>
 
 <ui-dialog #dialog="uiDialog" title="Invite teammates" caption="Workspace access">
   <p>Send an invitation link to a teammate.</p>
   <div uiDialogFooter>
-    <button uiButton command="close" [attr.commandfor]="dialog.dialogId()">Done</button>
+    <button uiButton [uiDialogClose]="dialog">Done</button>
   </div>
 </ui-dialog>`;
 
@@ -45,12 +47,12 @@ export class DialogShowcase {
   protected readonly scrollCode = `<ui-dialog #dialog="uiDialog" title="Review changes" caption="The body scrolls">
   <div><!-- Long content --></div>
   <div uiDialogFooter>
-    <button uiButton command="close" [attr.commandfor]="dialog.dialogId()">Apply</button>
+    <button uiButton [uiDialogClose]="dialog">Apply</button>
   </div>
 </ui-dialog>`;
 
   protected readonly nestedCode = `<ui-dialog #parent="uiDialog" title="Edit order">
-  <button uiButton command="show-modal" [attr.commandfor]="child.dialogId()">Discard</button>
+  <button uiButton [uiDialogTrigger]="child">Discard</button>
   <ui-dialog #child="uiDialog" title="Discard changes?" role="alertdialog" size="sm">
     ...
   </ui-dialog>
@@ -59,7 +61,7 @@ export class DialogShowcase {
   protected readonly closeCode = `<ui-dialog title="Settings" closeLabel="Close settings">...</ui-dialog>
 
 <ui-dialog #dialog="uiDialog" title="Required decision" [withCloseButton]="false" dismiss="none">
-  <button uiButton command="close" [attr.commandfor]="dialog.dialogId()">Continue</button>
+  <button uiButton [uiDialogClose]="dialog">Continue</button>
 </ui-dialog>`;
 
   protected readonly controlledCode = `readonly dialogOpen = signal(false);

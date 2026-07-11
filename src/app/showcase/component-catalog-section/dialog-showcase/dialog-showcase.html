@@ -16,8 +16,7 @@
             <button
               uiButton
               type="button"
-              command="show-modal"
-              [attr.commandfor]="inviteDialog.dialogId()"
+              [uiDialogTrigger]="inviteDialog"
             >
               Invite teammates
             </button>
@@ -37,12 +36,11 @@
           uiButton
           type="button"
           variant="outline"
-          command="close"
-          [attr.commandfor]="inviteDialog.dialogId()"
+          [uiDialogClose]="inviteDialog"
         >
           Cancel
         </button>
-        <button uiButton type="button" command="close" [attr.commandfor]="inviteDialog.dialogId()">
+        <button uiButton type="button" [uiDialogClose]="inviteDialog">
           Send invites
         </button>
       </div>
@@ -59,8 +57,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="smallDialog.dialogId()"
+              [uiDialogTrigger]="smallDialog"
             >
               Small
             </button>
@@ -68,8 +65,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="mediumDialog.dialogId()"
+              [uiDialogTrigger]="mediumDialog"
             >
               Medium
             </button>
@@ -77,8 +73,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="largeDialog.dialogId()"
+              [uiDialogTrigger]="largeDialog"
             >
               Large
             </button>
@@ -86,8 +81,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="extraLargeDialog.dialogId()"
+              [uiDialogTrigger]="extraLargeDialog"
             >
               Extra large
             </button>
@@ -126,8 +120,7 @@
               uiButton
               type="button"
               variant="destructive"
-              command="show-modal"
-              [attr.commandfor]="alertDialog.dialogId()"
+              [uiDialogTrigger]="alertDialog"
             >
               Delete workspace
             </button>
@@ -149,7 +142,7 @@
         This permanently removes the workspace and cannot be undone.
       </p>
       <div uiDialogFooter class="dialog-actions">
-        <button uiButton type="button" command="close" [attr.commandfor]="alertDialog.dialogId()">
+        <button uiButton type="button" [uiDialogClose]="alertDialog">
           Keep workspace
         </button>
       </div>
@@ -170,8 +163,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="anyDialog.dialogId()"
+              [uiDialogTrigger]="anyDialog"
             >
               Any
             </button>
@@ -179,8 +171,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="requestDialog.dialogId()"
+              [uiDialogTrigger]="requestDialog"
             >
               Close request
             </button>
@@ -188,8 +179,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="lockedDialog.dialogId()"
+              [uiDialogTrigger]="lockedDialog"
             >
               None
             </button>
@@ -223,8 +213,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="scrollDialog.dialogId()"
+              [uiDialogTrigger]="scrollDialog"
             >
               Review changes
             </button>
@@ -251,7 +240,7 @@
         }
       </div>
       <div uiDialogFooter class="dialog-actions">
-        <button uiButton type="button" command="close" [attr.commandfor]="scrollDialog.dialogId()">
+        <button uiButton type="button" [uiDialogClose]="scrollDialog">
           Apply
         </button>
       </div>
@@ -268,8 +257,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="parentDialog.dialogId()"
+              [uiDialogTrigger]="parentDialog"
             >
               Edit order
             </button>
@@ -290,8 +278,7 @@
         uiButton
         type="button"
         variant="destructive"
-        command="show-modal"
-        [attr.commandfor]="childDialog.dialogId()"
+        [uiDialogTrigger]="childDialog"
       >
         Discard changes
       </button>
@@ -304,7 +291,7 @@
       >
         <p class="dialog-copy">The child closes independently while the parent remains open.</p>
         <div uiDialogFooter class="dialog-actions">
-          <button uiButton type="button" command="close" [attr.commandfor]="childDialog.dialogId()">
+          <button uiButton type="button" [uiDialogClose]="childDialog">
             Keep editing
           </button>
         </div>
@@ -322,8 +309,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="labelledCloseDialog.dialogId()"
+              [uiDialogTrigger]="labelledCloseDialog"
             >
               Custom label
             </button>
@@ -331,8 +317,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="decisionDialog.dialogId()"
+              [uiDialogTrigger]="decisionDialog"
             >
               Custom action
             </button>
@@ -361,8 +346,7 @@
         <button
           uiButton
           type="button"
-          command="close"
-          [attr.commandfor]="decisionDialog.dialogId()"
+          [uiDialogClose]="decisionDialog"
         >
           Continue
         </button>

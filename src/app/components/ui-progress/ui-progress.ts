@@ -44,7 +44,9 @@ export class UiProgress {
 
   // Match ui-loading: an unlabeled indicator is visual-only unless the caller supplies context.
   protected readonly accessibleLabel = computed(() => this.label().trim());
-  protected readonly isDecorative = computed(() => this.decorative() ?? !this.accessibleLabel());
+  protected readonly isDecorative = computed(
+    () => this.decorative() === true || !this.accessibleLabel(),
+  );
   protected readonly normalizedMax = computed(() => {
     const max = this.max();
     return Number.isFinite(max) && max > 0 ? max : 1;

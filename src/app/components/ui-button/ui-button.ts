@@ -26,7 +26,7 @@ export type UiButtonType = 'button' | 'submit' | 'reset';
 export type UiButtonSize = 'sm' | 'md';
 
 @Component({
-  selector: 'button[uiButton], a[uiButton]',
+  selector: 'button[uiButton], a[href][uiButton]',
   imports: [UiLoading],
   templateUrl: './ui-button.html',
   styleUrl: './ui-button.css',

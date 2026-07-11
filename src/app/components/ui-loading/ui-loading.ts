@@ -28,5 +28,7 @@ export class UiLoading {
   // Loading indicators nested in an aria-busy control are visual only by default;
   // supplying a label opts a standalone indicator into status semantics.
   protected readonly accessibleLabel = computed(() => this.label().trim());
-  protected readonly isDecorative = computed(() => this.decorative() ?? !this.accessibleLabel());
+  protected readonly isDecorative = computed(
+    () => this.decorative() === true || !this.accessibleLabel(),
+  );
 }

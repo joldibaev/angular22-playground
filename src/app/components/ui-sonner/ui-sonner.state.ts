@@ -1,4 +1,4 @@
-import { signal } from '@angular/core';
+import { InjectionToken, signal } from '@angular/core';
 import {
   UiSonnerExternalToast,
   UiSonnerHeight,
@@ -231,6 +231,15 @@ export function createToastState() {
     warning,
   };
 }
+
+export type UiSonnerState = ReturnType<typeof createToastState>;
+
+// The factory is scoped to the active Angular root injector, so browser apps and
+// concurrent SSR requests never share notifications through module state.
+export const UI_SONNER_STATE = new InjectionToken<UiSonnerState>('UI_SONNER_STATE', {
+  providedIn: 'root',
+  factory: createToastState,
+});
 
 function isResponseLike(value: unknown): value is { ok: boolean; status: number } {
   if (typeof value !== 'object' || value === null) {

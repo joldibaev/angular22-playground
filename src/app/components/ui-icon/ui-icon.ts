@@ -27,7 +27,9 @@ export class UiIcon {
   height = input(16, { transform: numberAttribute });
 
   readonly accessibleLabel = computed(() => this.label().trim());
-  readonly isDecorative = computed(() => this.decorative() ?? !this.accessibleLabel());
+  // A caller may explicitly hide a labelled icon, but can never expose an
+  // unlabelled image to assistive technology.
+  readonly isDecorative = computed(() => this.decorative() === true || !this.accessibleLabel());
 
   protected readonly svgDefinition = computed(() => {
     const iconName = this.name();

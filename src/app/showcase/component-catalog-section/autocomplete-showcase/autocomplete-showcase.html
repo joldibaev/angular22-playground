@@ -14,9 +14,7 @@
           ><div class="preview">
             <ui-autocomplete label="Team">
               @for (team of teams; track team) {
-                <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
-                  team
-                }}</ui-autocomplete-option>
+                <ui-autocomplete-option [value]="'team_' + team.toLowerCase()" [label]="team" />
               }
             </ui-autocomplete>
           </div></ui-tab-item
@@ -34,9 +32,7 @@
           ><div class="preview stack">
             <ui-autocomplete label="Assigned team" [(value)]="selectedTeam">
               @for (team of teams; track team) {
-                <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
-                  team
-                }}</ui-autocomplete-option>
+                <ui-autocomplete-option [value]="'team_' + team.toLowerCase()" [label]="team" />
               }</ui-autocomplete
             ><output>Value: {{ selectedTeam() }}</output
             ><button
@@ -62,13 +58,9 @@
         ><ui-tab-item value="preview" label="Preview"
           ><div class="preview grid">
             <ui-autocomplete label="Small" size="sm"
-              ><ui-autocomplete-option value="platform"
-                >Platform</ui-autocomplete-option
-              ></ui-autocomplete
+              ><ui-autocomplete-option value="platform" label="Platform" /></ui-autocomplete
             ><ui-autocomplete label="Loading" loading /><ui-autocomplete label="Disabled" disabled
-              ><ui-autocomplete-option value="platform"
-                >Platform</ui-autocomplete-option
-              ></ui-autocomplete
+              ><ui-autocomplete-option value="platform" label="Platform" /></ui-autocomplete
             >
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
@@ -84,10 +76,10 @@
         ><ui-tab-item value="preview" label="Preview"
           ><div class="preview grid">
             <ui-autocomplete label="Owner" placeholder="Search people" emptyText="No people found"
-              ><ui-autocomplete-option value="ada">Ada Lovelace</ui-autocomplete-option
-              ><ui-autocomplete-option value="grace"
-                >Grace Hopper</ui-autocomplete-option
-              ></ui-autocomplete
+              ><ui-autocomplete-option value="ada" label="Ada Lovelace" /><ui-autocomplete-option
+                value="grace"
+                label="Grace Hopper"
+              /></ui-autocomplete
             ><ui-autocomplete
               label="Async owner"
               placeholder="Search people"
@@ -108,9 +100,7 @@
           ><div class="preview stack">
             <ui-autocomplete label="Required team" withErrorMessage [formField]="formState.team">
               @for (team of teams; track team) {
-                <ui-autocomplete-option [value]="'team_' + team.toLowerCase()">{{
-                  team
-                }}</ui-autocomplete-option>
+                <ui-autocomplete-option [value]="'team_' + team.toLowerCase()" [label]="team" />
               }</ui-autocomplete
             ><output>Value: {{ formModel().team || 'Empty' }}</output>
           </div></ui-tab-item

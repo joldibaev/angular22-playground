@@ -7,7 +7,7 @@
 
     <ui-select label="Тема" [value]="theme.theme()" (valueChange)="setTheme($event)">
       @for (option of themeOptions; track option.value) {
-        <ui-select-option [value]="option.value">{{ option.label }}</ui-select-option>
+        <ui-select-option [value]="option.value" [label]="option.label" />
       }
     </ui-select>
   </header>

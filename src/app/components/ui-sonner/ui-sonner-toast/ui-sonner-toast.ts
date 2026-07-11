@@ -16,7 +16,7 @@ import {
 import { UiButton } from '../../ui-button/ui-button';
 import { UiIcon } from '../../ui-icon/ui-icon';
 import { UiLoading } from '../../ui-loading/ui-loading';
-import { SonnerService } from '../sonner.service';
+import { UI_SONNER_STATE } from '../ui-sonner.state';
 import { afterElementAnimations } from '../../../shared/after-element-animations';
 import {
   UiSonnerPosition,
@@ -34,7 +34,7 @@ const SWIPE_THRESHOLD = 20;
   styleUrl: './ui-sonner-toast.css',
 })
 export class UiSonnerToast implements AfterViewInit, OnDestroy {
-  private readonly sonner = inject(SonnerService);
+  private readonly sonner = inject(UI_SONNER_STATE);
   protected readonly toasts = this.sonner.toasts;
   protected readonly heights = this.sonner.heights;
 

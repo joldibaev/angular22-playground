@@ -1,11 +1,15 @@
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UiDrawer } from './ui-drawer';
+import { UiDrawerClose } from './ui-drawer-close/ui-drawer-close';
+import { UiDrawerTrigger } from './ui-drawer-trigger/ui-drawer-trigger';
 
 @Component({
-  imports: [UiDrawer],
+  imports: [UiDrawer, UiDrawerClose, UiDrawerTrigger],
   template: `
+    <button type="button" [uiDrawerTrigger]="drawer">Open</button>
     <ui-drawer
+      #drawer="uiDrawer"
       [title]="title()"
       side="start"
       size="sm"
@@ -14,7 +18,9 @@ import { UiDrawer } from './ui-drawer';
       (openChange)="lastOpen.set($event)"
     >
       <p class="drawer-body-text">Body</p>
-      <div uiDrawerFooter><button type="button" class="footer-action">Apply</button></div>
+      <div uiDrawerFooter>
+        <button type="button" class="footer-action" [uiDrawerClose]="drawer">Apply</button>
+      </div>
     </ui-drawer>
   `,
 })
@@ -63,6 +69,16 @@ describe('UiDrawer', () => {
     expect(close.getAttribute('command')).toBe('close');
     expect(close.getAttribute('commandfor')).toBe(dialog().id);
     expect(close.getAttribute('aria-label')).toBe('Dismiss filters');
+  });
+
+  it('should hide invoker command wiring behind trigger and close directives', () => {
+    const trigger = fixture.nativeElement.querySelector('[uiDrawerTrigger]') as HTMLButtonElement;
+    const close = dialog().querySelector('[uiDrawerClose]') as HTMLButtonElement;
+
+    expect(trigger.getAttribute('command')).toBe('show-modal');
+    expect(trigger.getAttribute('commandfor')).toBe(dialog().id);
+    expect(close.getAttribute('command')).toBe('close');
+    expect(close.getAttribute('commandfor')).toBe(dialog().id);
   });
 
   it('should project body content and the footer slot', () => {

@@ -37,8 +37,6 @@ import { SonnerService } from './components/ui-sonner/sonner.service';
 
 readonly sonner = inject(SonnerService);
 
-<ui-sonner position="bottom-right" closeButton />
-
 this.sonner.show('Price alert created', {
   description: 'AAPL above $220.',
 });`;

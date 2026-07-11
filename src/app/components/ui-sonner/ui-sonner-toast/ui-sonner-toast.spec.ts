@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SonnerService } from '../sonner.service';
+import { UI_SONNER_STATE, type UiSonnerState } from '../ui-sonner.state';
 import { type UiSonnerToast as UiSonnerToastModel } from '../ui-sonner.type';
 import { UiSonnerToast } from './ui-sonner-toast';
 
 describe('UiSonnerToast', () => {
   let fixture: ComponentFixture<UiSonnerToast>;
   let toast: UiSonnerToastModel;
-  let sonner: SonnerService;
+  let sonner: UiSonnerState;
 
   beforeEach(async () => {
     TestBed.overrideComponent(UiSonnerToast, { set: { styles: [] } });
     await TestBed.configureTestingModule({ imports: [UiSonnerToast] }).compileComponents();
-    sonner = TestBed.inject(SonnerService);
+    sonner = TestBed.inject(UI_SONNER_STATE);
     sonner.reset();
 
     toast = {
@@ -23,7 +23,7 @@ describe('UiSonnerToast', () => {
       dismissible: true,
       duration: Number.POSITIVE_INFINITY,
     };
-    sonner.show({ ...toast, title: toast.title ?? '' });
+    sonner.create({ ...toast, message: toast.title });
     fixture = TestBed.createComponent(UiSonnerToast);
     fixture.componentRef.setInput('toast', toast);
     fixture.componentRef.setInput('index', 0);

@@ -17,8 +17,8 @@ export type UiDrawerDismiss = 'any' | 'closerequest' | 'none';
 
 /**
  * Edge-anchored drawer built on the native modal `<dialog>` element — same
- * platform plumbing as {@link UiDialog} (Invoker Commands to open via
- * `command="show-modal"` + `commandfor`, `closedby` for light dismiss, native
+ * platform plumbing as {@link UiDialog} (UiDrawerTrigger/UiDrawerClose wrap
+ * Invoker Commands, `closedby` handles light dismiss, and native
  * top layer / focus trap / `::backdrop`), but the surface slides in from the
  * inline start or end instead of scaling in centered.
  */

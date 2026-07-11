@@ -66,6 +66,16 @@ describe('UiProgress', () => {
     expect(track?.getAttribute('aria-hidden')).toBe('true');
   });
 
+  it('should keep explicitly non-decorative progress hidden when it has no label', async () => {
+    const unlabelled = TestBed.createComponent(UiProgress);
+    unlabelled.componentRef.setInput('decorative', false);
+    await unlabelled.whenStable();
+
+    const progress = unlabelled.nativeElement.querySelector('progress');
+    expect(progress.getAttribute('aria-hidden')).toBe('true');
+    expect(progress.getAttribute('aria-label')).toBeNull();
+  });
+
   it('should keep visible values static unless animation is explicitly enabled', () => {
     const animatedValue = indicators()[0]?.querySelector('.ui-progress-value');
     const staticValue = indicators()[3]?.querySelector('.ui-progress-value');

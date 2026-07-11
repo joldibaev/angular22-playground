@@ -2,13 +2,15 @@ import { Component, signal } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiDrawer } from '../../../components/ui-drawer/ui-drawer';
+import { UiDrawerClose } from '../../../components/ui-drawer/ui-drawer-close/ui-drawer-close';
+import { UiDrawerTrigger } from '../../../components/ui-drawer/ui-drawer-trigger/ui-drawer-trigger';
 import { UiSwitch } from '../../../components/ui-switch/ui-switch';
 import { UiTab } from '../../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 
 @Component({
   selector: 'app-drawer-showcase',
-  imports: [UiButton, UiCard, UiDrawer, UiSwitch, UiTab, UiTabItem],
+  imports: [UiButton, UiCard, UiDrawer, UiDrawerClose, UiDrawerTrigger, UiSwitch, UiTab, UiTabItem],
   templateUrl: './drawer-showcase.html',
   styleUrl: './drawer-showcase.css',
 })
@@ -16,7 +18,7 @@ export class DrawerShowcase {
   protected readonly controlledOpen = signal(false);
   protected readonly onlyOpenOrders = signal(true);
 
-  protected readonly defaultCode = `<button uiButton command="show-modal" [attr.commandfor]="drawer.drawerId()">
+  protected readonly defaultCode = `<button uiButton [uiDrawerTrigger]="drawer">
   Open filters
 </button>
 
@@ -40,7 +42,7 @@ export class DrawerShowcase {
 
   <div uiDrawerFooter>
     <button uiButton variant="outline" (click)="onlyOpenOrders.set(false)">Reset</button>
-    <button uiButton command="close" [attr.commandfor]="drawer.drawerId()">Apply</button>
+    <button uiButton [uiDrawerClose]="drawer">Apply</button>
   </div>
 </ui-drawer>`;
 
@@ -51,7 +53,7 @@ export class DrawerShowcase {
   protected readonly closeButtonCode = `<ui-drawer title="Checkout" closeLabel="Close checkout">...</ui-drawer>
 
 <ui-drawer #drawer="uiDrawer" title="Required step" [withCloseButton]="false" dismiss="none">
-  <button uiButton command="close" [attr.commandfor]="drawer.drawerId()">Done</button>
+  <button uiButton [uiDrawerClose]="drawer">Done</button>
 </ui-drawer>`;
 
   protected readonly controlledCode = `readonly drawerOpen = signal(false);

@@ -19,7 +19,7 @@ export class AutocompleteShowcase {
   protected readonly formState = form(this.formModel, (path) => {
     required(path.team, { message: 'Choose a team' });
   });
-  protected readonly defaultCode = `<ui-autocomplete label="Team">\n  <ui-autocomplete-option value="platform">Platform</ui-autocomplete-option>\n  <ui-autocomplete-option value="growth">Growth</ui-autocomplete-option>\n</ui-autocomplete>`;
+  protected readonly defaultCode = `<ui-autocomplete label="Team">\n  <ui-autocomplete-option value="platform" label="Platform" />\n  <ui-autocomplete-option value="growth" label="Growth" />\n</ui-autocomplete>`;
   protected readonly valueCode = `readonly team = signal('team_support');\n\n<ui-autocomplete label="Team" [(value)]="team">...</ui-autocomplete>`;
   protected readonly stateCode = `<ui-autocomplete label="Small" size="sm">...</ui-autocomplete>\n<ui-autocomplete label="Loading" loading />\n<ui-autocomplete label="Disabled" disabled>...</ui-autocomplete>`;
   protected readonly copyCode = `<ui-autocomplete label="Owner" placeholder="Search people" emptyText="No people found" loadingText="Loading people" loading>...</ui-autocomplete>`;

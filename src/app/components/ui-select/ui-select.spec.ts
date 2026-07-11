@@ -14,9 +14,9 @@ import { UiSelectOption } from './ui-select-option/ui-select-option';
   imports: [UiSelect, UiSelectOption],
   template: `
     <ui-select>
-      <ui-select-option value="created">Created</ui-select-option>
-      <ui-select-option value="approved">Approved</ui-select-option>
-      <ui-select-option value="paid">Paid</ui-select-option>
+      <ui-select-option value="created" label="Created" />
+      <ui-select-option value="approved" label="Approved" />
+      <ui-select-option value="paid" label="Paid" />
     </ui-select>
   `,
 })
@@ -28,8 +28,8 @@ class TestHost {
   imports: [UiSelect, UiSelectOption],
   template: `
     <ui-select>
-      <ui-select-option value="enabled">Enabled</ui-select-option>
-      <ui-select-option value="disabled" disabled>Disabled</ui-select-option>
+      <ui-select-option value="enabled" label="Enabled" />
+      <ui-select-option value="disabled" label="Disabled" disabled />
     </ui-select>
   `,
 })
@@ -39,8 +39,8 @@ class DisabledOptionTestHost {}
   imports: [UiSelect, UiSelectOption],
   template: `
     <ui-select placeholder="Choose status">
-      <ui-select-option value="created">Created</ui-select-option>
-      <ui-select-option value="approved">Approved</ui-select-option>
+      <ui-select-option value="created" label="Created" />
+      <ui-select-option value="approved" label="Approved" />
     </ui-select>
   `,
 })
@@ -60,13 +60,13 @@ class LoadingTestHost {
   imports: [UiSelect, UiSelectGroup, UiSelectOption],
   template: `
     <ui-select>
-      <ui-select-option value="all">All</ui-select-option>
+      <ui-select-option value="all" label="All" />
       <ui-select-group label="Status">
-        <ui-select-option value="created">Created</ui-select-option>
-        <ui-select-option value="approved">Approved</ui-select-option>
+        <ui-select-option value="created" label="Created" />
+        <ui-select-option value="approved" label="Approved" />
       </ui-select-group>
       <ui-select-group label="Payment">
-        <ui-select-option value="paid">Paid</ui-select-option>
+        <ui-select-option value="paid" label="Paid" />
       </ui-select-group>
     </ui-select>
   `,
@@ -80,10 +80,10 @@ class GroupedTestHost {
   template: `
     <ui-select>
       <ui-select-group label="Pinned">
-        <ui-select-option value="research">Research</ui-select-option>
+        <ui-select-option value="research" label="Research" />
       </ui-select-group>
       <ui-select-group label="Workflow">
-        <ui-select-option value="research">Research</ui-select-option>
+        <ui-select-option value="research" label="Research" />
       </ui-select-group>
     </ui-select>
   `,
@@ -96,9 +96,9 @@ class DuplicateValueTestHost {
   imports: [UiSelect, UiSelectOption],
   template: `
     <ui-select multi [value]="['created', 'paid']">
-      <ui-select-option value="created">Created</ui-select-option>
-      <ui-select-option value="approved">Approved</ui-select-option>
-      <ui-select-option value="paid">Paid</ui-select-option>
+      <ui-select-option value="created" label="Created" />
+      <ui-select-option value="approved" label="Approved" />
+      <ui-select-option value="paid" label="Paid" />
     </ui-select>
   `,
 })
@@ -110,9 +110,9 @@ class MultiTestHost {
   imports: [UiSelect, UiSelectOption],
   template: `
     <ui-select multi value="created,paid">
-      <ui-select-option value="created">Created</ui-select-option>
-      <ui-select-option value="approved">Approved</ui-select-option>
-      <ui-select-option value="paid">Paid</ui-select-option>
+      <ui-select-option value="created" label="Created" />
+      <ui-select-option value="approved" label="Approved" />
+      <ui-select-option value="paid" label="Paid" />
     </ui-select>
   `,
 })
@@ -124,8 +124,8 @@ class LegacyMultiStringTestHost {
   imports: [UiSelect, UiSelectOption],
   template: `
     <ui-select multi value="created,paid">
-      <ui-select-option value="created,paid">Created and paid together</ui-select-option>
-      <ui-select-option value="approved">Approved</ui-select-option>
+      <ui-select-option value="created,paid" label="Created and paid together" />
+      <ui-select-option value="approved" label="Approved" />
     </ui-select>
   `,
 })
@@ -137,9 +137,9 @@ class CommaValueMultiStringTestHost {
   imports: [FormField, UiSelect, UiSelectOption],
   template: `
     <ui-select [formField]="formState.status">
-      <ui-select-option value="created">Created</ui-select-option>
-      <ui-select-option value="approved">Approved</ui-select-option>
-      <ui-select-option value="paid">Paid</ui-select-option>
+      <ui-select-option value="created" label="Created" />
+      <ui-select-option value="approved" label="Approved" />
+      <ui-select-option value="paid" label="Paid" />
     </ui-select>
   `,
 })
@@ -153,13 +153,13 @@ class SignalFormTestHost {
   imports: [FormField, UiSelect, UiSelectOption],
   template: `
     <ui-select label="Status" withErrorMessage [formField]="formState.status">
-      <ui-select-option value="created">Created</ui-select-option>
-      <ui-select-option value="approved">Approved</ui-select-option>
+      <ui-select-option value="created" label="Created" />
+      <ui-select-option value="approved" label="Approved" />
     </ui-select>
 
     <ui-select label="Locked status" [formField]="formState.lockedStatus">
-      <ui-select-option value="created">Created</ui-select-option>
-      <ui-select-option value="approved">Approved</ui-select-option>
+      <ui-select-option value="created" label="Created" />
+      <ui-select-option value="approved" label="Approved" />
     </ui-select>
   `,
 })

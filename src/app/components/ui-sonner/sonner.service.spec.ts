@@ -24,6 +24,15 @@ describe('SonnerService', () => {
     ]);
   });
 
+  it('should lazily mount exactly one toaster without root template setup', () => {
+    expect(document.body.querySelector('ui-sonner')).toBeNull();
+
+    service.show('First');
+    service.show('Second');
+
+    expect(document.body.querySelectorAll('ui-sonner')).toHaveLength(1);
+  });
+
   it('should update an existing toast by id without moving duplicates into the stack', () => {
     service.show('Saving', { id: 'request' });
     service.success('Saved', undefined, { id: 'request' });

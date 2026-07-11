@@ -13,9 +13,9 @@ import { UiAutocompleteOption } from './ui-autocomplete-option/ui-autocomplete-o
   imports: [UiAutocomplete, UiAutocompleteOption],
   template: `
     <ui-autocomplete>
-      <ui-autocomplete-option value="created">Created</ui-autocomplete-option>
-      <ui-autocomplete-option value="approved">Approved</ui-autocomplete-option>
-      <ui-autocomplete-option value="paid">Paid</ui-autocomplete-option>
+      <ui-autocomplete-option value="created" label="Created" />
+      <ui-autocomplete-option value="approved" label="Approved" />
+      <ui-autocomplete-option value="paid" label="Paid" />
     </ui-autocomplete>
   `,
 })
@@ -27,8 +27,8 @@ class TestHost {
   imports: [UiAutocomplete, UiAutocompleteOption],
   template: `
     <ui-autocomplete>
-      <ui-autocomplete-option value="enabled">Enabled</ui-autocomplete-option>
-      <ui-autocomplete-option value="disabled" disabled>Disabled</ui-autocomplete-option>
+      <ui-autocomplete-option value="enabled" label="Enabled" />
+      <ui-autocomplete-option value="disabled" label="Disabled" disabled />
     </ui-autocomplete>
   `,
 })
@@ -38,8 +38,8 @@ class DisabledOptionTestHost {}
   imports: [UiAutocomplete, UiAutocompleteOption],
   template: `
     <ui-autocomplete placeholder="Find status" emptyText="Nothing found">
-      <ui-autocomplete-option value="created">Created</ui-autocomplete-option>
-      <ui-autocomplete-option value="approved">Approved</ui-autocomplete-option>
+      <ui-autocomplete-option value="created" label="Created" />
+      <ui-autocomplete-option value="approved" label="Approved" />
     </ui-autocomplete>
   `,
 })
@@ -59,9 +59,9 @@ class LoadingTestHost {
   imports: [FormField, UiAutocomplete, UiAutocompleteOption],
   template: `
     <ui-autocomplete [formField]="formState.status">
-      <ui-autocomplete-option value="created">Created</ui-autocomplete-option>
-      <ui-autocomplete-option value="approved">Approved</ui-autocomplete-option>
-      <ui-autocomplete-option value="paid">Paid</ui-autocomplete-option>
+      <ui-autocomplete-option value="created" label="Created" />
+      <ui-autocomplete-option value="approved" label="Approved" />
+      <ui-autocomplete-option value="paid" label="Paid" />
     </ui-autocomplete>
   `,
 })
@@ -75,13 +75,13 @@ class SignalFormTestHost {
   imports: [FormField, UiAutocomplete, UiAutocompleteOption],
   template: `
     <ui-autocomplete label="Status" withErrorMessage [formField]="formState.status">
-      <ui-autocomplete-option value="created">Created</ui-autocomplete-option>
-      <ui-autocomplete-option value="approved">Approved</ui-autocomplete-option>
+      <ui-autocomplete-option value="created" label="Created" />
+      <ui-autocomplete-option value="approved" label="Approved" />
     </ui-autocomplete>
 
     <ui-autocomplete label="Locked status" [formField]="formState.lockedStatus">
-      <ui-autocomplete-option value="created">Created</ui-autocomplete-option>
-      <ui-autocomplete-option value="approved">Approved</ui-autocomplete-option>
+      <ui-autocomplete-option value="created" label="Created" />
+      <ui-autocomplete-option value="approved" label="Approved" />
     </ui-autocomplete>
   `,
 })

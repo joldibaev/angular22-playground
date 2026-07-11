@@ -13,7 +13,7 @@ import {
   signal,
   viewChildren,
 } from '@angular/core';
-import { SonnerService } from './sonner.service';
+import { UI_SONNER_STATE } from './ui-sonner.state';
 import {
   UiSonnerPosition,
   UiSonnerTheme,
@@ -38,7 +38,7 @@ const DEFAULT_WIDTH = 356;
 export class UiSonner implements OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT);
-  private readonly sonner = inject(SonnerService);
+  private readonly sonner = inject(UI_SONNER_STATE);
 
   protected readonly toasts = this.sonner.toasts;
   protected readonly heights = this.sonner.heights;

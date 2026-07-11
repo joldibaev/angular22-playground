@@ -8,8 +8,8 @@ import { UiSelectOption } from '../ui-select-option/ui-select-option';
   imports: [UiSelectGroup, UiSelectOption],
   template: `
     <ui-select-group label="Status">
-      <ui-select-option value="created">Created</ui-select-option>
-      <ui-select-option value="approved">Approved</ui-select-option>
+      <ui-select-option value="created" label="Created" />
+      <ui-select-option value="approved" label="Approved" />
     </ui-select-group>
   `,
 })

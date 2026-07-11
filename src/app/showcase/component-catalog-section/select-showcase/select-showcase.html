@@ -10,9 +10,10 @@
         ><ui-tab-item value="preview" label="Preview"
           ><div class="preview">
             <ui-select label="Status" placeholder="Choose status"
-              ><ui-select-option value="created">Created</ui-select-option
-              ><ui-select-option value="approved">Approved</ui-select-option
-              ><ui-select-option value="paid">Paid</ui-select-option></ui-select
+              ><ui-select-option value="created" label="Created" /><ui-select-option
+                value="approved"
+                label="Approved"
+              /><ui-select-option value="paid" label="Paid" /></ui-select
             >
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
@@ -29,13 +30,15 @@
           ><div class="preview">
             <ui-select label="Project" value="research"
               ><ui-select-group label="Pinned"
-                ><ui-select-option value="roadmap">Roadmap</ui-select-option
-                ><ui-select-option value="research">Research</ui-select-option></ui-select-group
+                ><ui-select-option value="roadmap" label="Roadmap" /><ui-select-option
+                  value="research"
+                  label="Research"
+                /></ui-select-group
               ><ui-select-group label="Workflow"
-                ><ui-select-option value="review">Design review</ui-select-option
-                ><ui-select-option value="release"
-                  >Release candidate</ui-select-option
-                ></ui-select-group
+                ><ui-select-option value="review" label="Design review" /><ui-select-option
+                  value="release"
+                  label="Release candidate"
+                /></ui-select-group
               ></ui-select
             >
           </div></ui-tab-item
@@ -52,9 +55,10 @@
         ><ui-tab-item value="preview" label="Preview"
           ><div class="preview">
             <ui-select label="Labels" multi [value]="['roadmap', 'research']"
-              ><ui-select-option value="roadmap">Roadmap</ui-select-option
-              ><ui-select-option value="research">Research</ui-select-option
-              ><ui-select-option value="release">Release</ui-select-option></ui-select
+              ><ui-select-option value="roadmap" label="Roadmap" /><ui-select-option
+                value="research"
+                label="Research"
+              /><ui-select-option value="release" label="Release" /></ui-select
             >
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
@@ -70,9 +74,9 @@
         ><ui-tab-item value="preview" label="Preview"
           ><div class="preview grid">
             <ui-select label="Small" size="sm"
-              ><ui-select-option value="one">One</ui-select-option></ui-select
+              ><ui-select-option value="one" label="One" /></ui-select
             ><ui-select label="Disabled" disabled
-              ><ui-select-option value="locked">Locked</ui-select-option></ui-select
+              ><ui-select-option value="locked" label="Locked" /></ui-select
             ><ui-select label="Loading" loading /></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
           <pre tabindex="0"><code>{{statesCode}}</code></pre>
@@ -87,8 +91,10 @@
         ><ui-tab-item value="preview" label="Preview"
           ><div class="preview">
             <ui-select label="Status" [formField]="formState.status"
-              ><ui-select-option value="created">Created</ui-select-option
-              ><ui-select-option value="approved">Approved</ui-select-option></ui-select
+              ><ui-select-option value="created" label="Created" /><ui-select-option
+                value="approved"
+                label="Approved"
+              /></ui-select
             ><output>{{ formModel().status }}</output>
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">

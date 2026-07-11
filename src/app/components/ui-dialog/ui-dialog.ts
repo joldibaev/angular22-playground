@@ -18,8 +18,8 @@ export type UiDialogDismiss = 'any' | 'closerequest' | 'none';
 
 /**
  * Modal dialog built on the native `<dialog>` element. Opening is delegated to
- * the platform: a trigger button uses the Invoker Commands API
- * (`command="show-modal"` + `commandfor="<dialogId>"`), and `closedby` provides
+ * the platform: UiDialogTrigger/UiDialogClose hide the Invoker Commands wiring,
+ * and `closedby` provides
  * backdrop/Escape light dismiss. The browser handles the top layer, focus trap,
  * and `::backdrop`; this component only renders the surface and keeps the
  * optional `open` two-way binding in sync via the dialog's `toggle` event.

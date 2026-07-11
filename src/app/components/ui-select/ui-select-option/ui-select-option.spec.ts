@@ -1,14 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UiSelectOption } from './ui-select-option';
-import { Component, viewChild } from '@angular/core';
+import { Component, signal, viewChild } from '@angular/core';
 
 @Component({
   imports: [UiSelectOption],
-  template: '<ui-select-option value="approved">Approved</ui-select-option>',
+  template: '<ui-select-option value="approved" [label]="label()" />',
 })
 class TestHost {
   readonly option = viewChild.required(UiSelectOption);
+  readonly label = signal('Approved');
 }
 
 describe('UiSelectOption', () => {
@@ -22,6 +23,7 @@ describe('UiSelectOption', () => {
 
     fixture = TestBed.createComponent(UiSelectOption);
     fixture.componentRef.setInput('value', 'created');
+    fixture.componentRef.setInput('label', 'Created');
     component = fixture.componentInstance;
     fixture.detectChanges();
     await fixture.whenStable();
@@ -35,11 +37,15 @@ describe('UiSelectOption', () => {
     expect(component.value()).toBe('created');
   });
 
-  it('should use projected text as its label', async () => {
+  it('should react to label input changes', async () => {
     const hostFixture = TestBed.createComponent(TestHost);
-    hostFixture.detectChanges();
     await hostFixture.whenStable();
 
     expect(hostFixture.componentInstance.option().label()).toBe('Approved');
+
+    hostFixture.componentInstance.label.set('Одобрено');
+    await hostFixture.whenStable();
+
+    expect(hostFixture.componentInstance.option().label()).toBe('Одобрено');
   });
 });

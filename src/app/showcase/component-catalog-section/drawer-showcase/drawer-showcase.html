@@ -14,8 +14,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="defaultDrawer.drawerId()"
+              [uiDrawerTrigger]="defaultDrawer"
             >
               Open filters
             </button>
@@ -41,8 +40,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="startDrawer.drawerId()"
+              [uiDrawerTrigger]="startDrawer"
             >
               Start
             </button>
@@ -50,8 +48,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="endDrawer.drawerId()"
+              [uiDrawerTrigger]="endDrawer"
             >
               End
             </button>
@@ -80,8 +77,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="smallDrawer.drawerId()"
+              [uiDrawerTrigger]="smallDrawer"
             >
               Small
             </button>
@@ -89,8 +85,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="mediumDrawer.drawerId()"
+              [uiDrawerTrigger]="mediumDrawer"
             >
               Medium
             </button>
@@ -98,8 +93,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="largeDrawer.drawerId()"
+              [uiDrawerTrigger]="largeDrawer"
             >
               Large
             </button>
@@ -131,8 +125,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="footerDrawer.drawerId()"
+              [uiDrawerTrigger]="footerDrawer"
             >
               Edit filters
             </button>
@@ -153,7 +146,7 @@
         <button uiButton type="button" variant="outline" (click)="onlyOpenOrders.set(false)">
           Reset
         </button>
-        <button uiButton type="button" command="close" [attr.commandfor]="footerDrawer.drawerId()">
+        <button uiButton type="button" [uiDrawerClose]="footerDrawer">
           Apply
         </button>
       </div>
@@ -174,8 +167,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="anyDrawer.drawerId()"
+              [uiDrawerTrigger]="anyDrawer"
             >
               Any
             </button>
@@ -183,8 +175,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="requestDrawer.drawerId()"
+              [uiDrawerTrigger]="requestDrawer"
             >
               Close request
             </button>
@@ -192,8 +183,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="lockedDrawer.drawerId()"
+              [uiDrawerTrigger]="lockedDrawer"
             >
               None
             </button>
@@ -227,8 +217,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="labelledCloseDrawer.drawerId()"
+              [uiDrawerTrigger]="labelledCloseDrawer"
             >
               Custom label
             </button>
@@ -236,8 +225,7 @@
               uiButton
               type="button"
               variant="outline"
-              command="show-modal"
-              [attr.commandfor]="customCloseDrawer.drawerId()"
+              [uiDrawerTrigger]="customCloseDrawer"
             >
               Custom action
             </button>
@@ -266,8 +254,7 @@
         <button
           uiButton
           type="button"
-          command="close"
-          [attr.commandfor]="customCloseDrawer.drawerId()"
+          [uiDrawerClose]="customCloseDrawer"
         >
           Done
         </button>

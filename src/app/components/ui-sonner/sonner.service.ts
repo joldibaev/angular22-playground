@@ -1,20 +1,39 @@
-import { Injectable } from '@angular/core';
-import { createToastState } from './ui-sonner.state';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import {
+  ApplicationRef,
+  ComponentRef,
+  createComponent,
+  DestroyRef,
+  EnvironmentInjector,
+  inject,
+  Injectable,
+  PLATFORM_ID,
+} from '@angular/core';
+import { UI_SONNER_STATE } from './ui-sonner.state';
 import {
   UiSonnerExternalToast,
-  UiSonnerHeight,
   UiSonnerPromise,
   UiSonnerPromiseData,
   UiSonnerToastId,
 } from './ui-sonner.type';
+import { UiSonner } from './ui-sonner';
 
 @Injectable({ providedIn: 'root' })
 export class SonnerService {
-  // Root providers are created per Angular application, including once per SSR request.
-  // Never move this state back to module scope: concurrent requests would share notifications.
-  private readonly state = createToastState();
+  private readonly state = inject(UI_SONNER_STATE);
+  private readonly applicationRef = inject(ApplicationRef);
+  private readonly environmentInjector = inject(EnvironmentInjector);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly document = inject(DOCUMENT);
+  private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  private outletRef: ComponentRef<UiSonner> | null = null;
+
   readonly toasts = this.state.toasts;
   readonly heights = this.state.heights;
+
+  constructor() {
+    this.destroyRef.onDestroy(() => this.destroyOutlet());
+  }
 
   show(title: string, options?: UiSonnerExternalToast): UiSonnerToastId;
   show(options: UiSonnerExternalToast & { title: string }): UiSonnerToastId;
@@ -22,12 +41,14 @@ export class SonnerService {
     titleOrOptions: string | (UiSonnerExternalToast & { title: string }),
     options?: UiSonnerExternalToast,
   ): UiSonnerToastId {
+    this.ensureOutlet();
     return typeof titleOrOptions === 'string'
       ? this.state.create({ ...options, message: titleOrOptions })
       : this.state.create({ ...titleOrOptions, message: titleOrOptions.title });
   }
 
   success(title: string, description?: string, options?: UiSonnerExternalToast): UiSonnerToastId {
+    this.ensureOutlet();
     return this.state.success(title, {
       ...options,
       description: description ?? options?.description,
@@ -35,6 +56,7 @@ export class SonnerService {
   }
 
   info(title: string, description?: string, options?: UiSonnerExternalToast): UiSonnerToastId {
+    this.ensureOutlet();
     return this.state.info(title, {
       ...options,
       description: description ?? options?.description,
@@ -42,6 +64,7 @@ export class SonnerService {
   }
 
   warning(title: string, description?: string, options?: UiSonnerExternalToast): UiSonnerToastId {
+    this.ensureOutlet();
     return this.state.warning(title, {
       ...options,
       description: description ?? options?.description,
@@ -53,6 +76,7 @@ export class SonnerService {
     description?: string,
     options?: UiSonnerExternalToast,
   ): UiSonnerToastId {
+    this.ensureOutlet();
     return this.state.destructive(title, {
       ...options,
       description: description ?? options?.description,
@@ -64,6 +88,7 @@ export class SonnerService {
   }
 
   loading(title: string, description?: string, options?: UiSonnerExternalToast): UiSonnerToastId {
+    this.ensureOutlet();
     return this.state.loading(title, {
       ...options,
       description: description ?? options?.description,
@@ -74,6 +99,9 @@ export class SonnerService {
     promiseInput: UiSonnerPromise<ToastData>,
     data?: UiSonnerPromiseData<ToastData>,
   ): UiSonnerToastId | undefined {
+    if (data) {
+      this.ensureOutlet();
+    }
     return this.state.promise(promiseInput, data);
   }
 
@@ -85,15 +113,30 @@ export class SonnerService {
     this.state.reset();
   }
 
-  addHeight(height: UiSonnerHeight): void {
-    this.state.addHeight(height);
+  private ensureOutlet(): void {
+    if (!this.isBrowser || this.outletRef || this.document.querySelector('ui-sonner')) {
+      return;
+    }
+
+    // The default API is service-only: lazily mount one Angular-managed outlet
+    // on first use. A manually declared <ui-sonner> still wins for custom inputs.
+    const outletRef = createComponent(UiSonner, {
+      environmentInjector: this.environmentInjector,
+    });
+
+    this.applicationRef.attachView(outletRef.hostView);
+    this.document.body.appendChild(outletRef.location.nativeElement);
+    outletRef.changeDetectorRef.detectChanges();
+    this.outletRef = outletRef;
   }
 
-  removeHeight(id: UiSonnerToastId): void {
-    this.state.removeHeight(id);
-  }
+  private destroyOutlet(): void {
+    if (!this.outletRef) {
+      return;
+    }
 
-  remove(id: UiSonnerToastId): void {
-    this.state.remove(id);
+    this.applicationRef.detachView(this.outletRef.hostView);
+    this.outletRef.destroy();
+    this.outletRef = null;
   }
 }

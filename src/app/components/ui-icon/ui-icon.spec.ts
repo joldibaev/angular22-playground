@@ -63,6 +63,16 @@ describe('UiIcon', () => {
     expect(icon.getAttribute('role')).toBe('presentation');
   });
 
+  it('should keep an explicitly non-decorative icon hidden when it has no label', async () => {
+    const fixture = TestBed.createComponent(UiIcon);
+    fixture.componentRef.setInput('name', 'outline-check');
+    fixture.componentRef.setInput('decorative', false);
+    await fixture.whenStable();
+
+    expect(fixture.nativeElement.getAttribute('aria-hidden')).toBe('true');
+    expect(fixture.nativeElement.getAttribute('role')).toBe('presentation');
+  });
+
   it('should render configured svg dimensions', async () => {
     const fixture = TestBed.createComponent(IconTestHost);
     fixture.detectChanges();

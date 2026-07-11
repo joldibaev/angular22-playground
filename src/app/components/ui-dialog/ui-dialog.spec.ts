@@ -1,11 +1,15 @@
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UiDialog } from './ui-dialog';
+import { UiDialogClose } from './ui-dialog-close/ui-dialog-close';
+import { UiDialogTrigger } from './ui-dialog-trigger/ui-dialog-trigger';
 
 @Component({
-  imports: [UiDialog],
+  imports: [UiDialog, UiDialogClose, UiDialogTrigger],
   template: `
+    <button type="button" [uiDialogTrigger]="dialog">Open</button>
     <ui-dialog
+      #dialog="uiDialog"
       [title]="title()"
       caption="A short description"
       role="alertdialog"
@@ -17,7 +21,9 @@ import { UiDialog } from './ui-dialog';
       (openChange)="lastOpen.set($event)"
     >
       <p class="dialog-body-text">Body</p>
-      <div uiDialogFooter><button type="button" class="footer-action">OK</button></div>
+      <div uiDialogFooter>
+        <button type="button" class="footer-action" [uiDialogClose]="dialog">OK</button>
+      </div>
     </ui-dialog>
   `,
 })
@@ -71,6 +77,16 @@ describe('UiDialog', () => {
     expect(close.getAttribute('command')).toBe('close');
     expect(close.getAttribute('commandfor')).toBe(dialog().id);
     expect(close.getAttribute('aria-label')).toBe('Dismiss invite dialog');
+  });
+
+  it('should hide invoker command wiring behind trigger and close directives', () => {
+    const trigger = fixture.nativeElement.querySelector('[uiDialogTrigger]') as HTMLButtonElement;
+    const close = dialog().querySelector('[uiDialogClose]') as HTMLButtonElement;
+
+    expect(trigger.getAttribute('command')).toBe('show-modal');
+    expect(trigger.getAttribute('commandfor')).toBe(dialog().id);
+    expect(close.getAttribute('command')).toBe('close');
+    expect(close.getAttribute('commandfor')).toBe(dialog().id);
   });
 
   it('should hide the close button when withCloseButton is false', () => {
