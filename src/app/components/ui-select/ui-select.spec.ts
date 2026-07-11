@@ -93,47 +93,6 @@ class DuplicateValueTestHost {
 }
 
 @Component({
-  imports: [UiSelect, UiSelectOption],
-  template: `
-    <ui-select multi [value]="['created', 'paid']">
-      <ui-select-option value="created" label="Created" />
-      <ui-select-option value="approved" label="Approved" />
-      <ui-select-option value="paid" label="Paid" />
-    </ui-select>
-  `,
-})
-class MultiTestHost {
-  readonly select = viewChild.required(UiSelect);
-}
-
-@Component({
-  imports: [UiSelect, UiSelectOption],
-  template: `
-    <ui-select multi value="created,paid">
-      <ui-select-option value="created" label="Created" />
-      <ui-select-option value="approved" label="Approved" />
-      <ui-select-option value="paid" label="Paid" />
-    </ui-select>
-  `,
-})
-class LegacyMultiStringTestHost {
-  readonly select = viewChild.required(UiSelect);
-}
-
-@Component({
-  imports: [UiSelect, UiSelectOption],
-  template: `
-    <ui-select multi value="created,paid">
-      <ui-select-option value="created,paid" label="Created and paid together" />
-      <ui-select-option value="approved" label="Approved" />
-    </ui-select>
-  `,
-})
-class CommaValueMultiStringTestHost {
-  readonly select = viewChild.required(UiSelect);
-}
-
-@Component({
   imports: [FormField, UiSelect, UiSelectOption],
   template: `
     <ui-select [formField]="formState.status">
@@ -209,37 +168,6 @@ async function createDuplicateValueHostFixture(): Promise<
   ComponentFixture<DuplicateValueTestHost>
 > {
   const hostFixture = TestBed.createComponent(DuplicateValueTestHost);
-  hostFixture.detectChanges();
-  await hostFixture.whenStable();
-  await hostFixture.whenRenderingDone();
-
-  return hostFixture;
-}
-
-async function createMultiHostFixture(): Promise<ComponentFixture<MultiTestHost>> {
-  const hostFixture = TestBed.createComponent(MultiTestHost);
-  hostFixture.detectChanges();
-  await hostFixture.whenStable();
-  await hostFixture.whenRenderingDone();
-
-  return hostFixture;
-}
-
-async function createLegacyMultiStringHostFixture(): Promise<
-  ComponentFixture<LegacyMultiStringTestHost>
-> {
-  const hostFixture = TestBed.createComponent(LegacyMultiStringTestHost);
-  hostFixture.detectChanges();
-  await hostFixture.whenStable();
-  await hostFixture.whenRenderingDone();
-
-  return hostFixture;
-}
-
-async function createCommaValueMultiStringHostFixture(): Promise<
-  ComponentFixture<CommaValueMultiStringTestHost>
-> {
-  const hostFixture = TestBed.createComponent(CommaValueMultiStringTestHost);
   hostFixture.detectChanges();
   await hostFixture.whenStable();
   await hostFixture.whenRenderingDone();
@@ -440,17 +368,6 @@ describe('UiSelect', () => {
     expect(label?.classList).toContain('selected-label-placeholder');
   });
 
-  it('should join labels for multiple selected values in option order', async () => {
-    const hostFixture = await createHostFixture();
-
-    hostFixture.componentInstance.select().selectedValues.set(['paid', 'created']);
-    hostFixture.detectChanges();
-
-    const label = await completeValueSwap(hostFixture);
-
-    expect(label?.textContent).toContain('Created, Paid');
-  });
-
   it('should sync selected value from a signal form field', async () => {
     const hostFixture = await createSignalFormHostFixture();
 
@@ -540,51 +457,6 @@ describe('UiSelect', () => {
     const label = await completeValueSwap(hostFixture);
 
     expect(label?.textContent?.trim()).toBe('Research');
-  });
-
-  it('should support multi selection from an array value', async () => {
-    const hostFixture = await createMultiHostFixture();
-    const select = hostFixture.componentInstance.select();
-
-    expect(select.multi()).toBe(true);
-    expect(select.selectedValues()).toEqual(['created', 'paid']);
-    expect(hostFixture.nativeElement.querySelector('.selected-label-text')?.textContent).toContain(
-      'Created, Paid',
-    );
-  });
-
-  it('should parse legacy comma-delimited values in multi mode', async () => {
-    const hostFixture = await createLegacyMultiStringHostFixture();
-    const select = hostFixture.componentInstance.select();
-
-    expect(select.selectedValues()).toEqual(['created', 'paid']);
-    expect(hostFixture.nativeElement.querySelector('.selected-label-text')?.textContent).toContain(
-      'Created, Paid',
-    );
-  });
-
-  it('should support a multi option value that contains a comma', async () => {
-    const hostFixture = await createCommaValueMultiStringHostFixture();
-    const select = hostFixture.componentInstance.select();
-
-    expect(select.selectedValues()).toEqual(['created,paid']);
-    expect(hostFixture.nativeElement.querySelector('.selected-label-text')?.textContent).toContain(
-      'Created and paid together',
-    );
-  });
-
-  it('should keep a multi select popup open when committing a selection', async () => {
-    const hostFixture = await createMultiHostFixture();
-    const select = hostFixture.componentInstance.select();
-
-    select.popupExpanded.set(true);
-    select.selectedValues.set(['created', 'approved']);
-    hostFixture.detectChanges();
-
-    select.onCommit();
-
-    expect(select.value()).toEqual(['created', 'approved']);
-    expect(select.popupExpanded()).toBe(true);
   });
 
   it('should expose combobox accessibility attributes when collapsed', async () => {

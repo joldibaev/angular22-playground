@@ -7,8 +7,8 @@
   <input
     ngCombobox
     #combobox="ngCombobox"
-    [value]="inputValue()"
-    (valueChange)="onInputValueChange($event)"
+    [value]="query()"
+    (valueChange)="onQueryChange($event)"
     [(expanded)]="popupExpanded"
     [disabled]="disabled()"
     [inlineSuggestion]="inlineSuggestion()"
@@ -61,7 +61,7 @@
           (keydown.enter)="onCommit()"
           (keydown.space)="onCommit()"
         >
-          @for (option of filteredOptions(); track option) {
+          @for (option of options(); track option) {
             <div
               ngOption
               #ngOption="ngOption"
@@ -70,7 +70,7 @@
               [label]="option.label()"
               [disabled]="option.disabled()"
             >
-              <span class="flex-1">{{ option.label() }}</span>
+              <span class="ui-autocomplete-option-label">{{ option.label() }}</span>
 
               @if (ngOption.selected()) {
                 <ui-icon name="outline-check" class="icon-check" />

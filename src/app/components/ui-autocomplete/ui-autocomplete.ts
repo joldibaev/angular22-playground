@@ -35,6 +35,9 @@ export class UiAutocomplete implements FormValueControl<string> {
   readonly popupElement = viewChild<ElementRef<HTMLElement>>('popupElement');
 
   value = model('');
+  // Query is independent from the committed option value. Consumers own the
+  // suggestion source (local computed data, resource, HTTP, cache, etc.).
+  query = model('');
   disabled = input(false, { transform: booleanAttribute });
   // Keep the combobox operable while loading: continued typing refines or replaces the pending
   // request. Disabling here would drop focus and prevent the interaction that drives async search.
@@ -48,52 +51,40 @@ export class UiAutocomplete implements FormValueControl<string> {
   withErrorMessage = input(false, { transform: booleanAttribute });
   touch = output<void>();
 
-  inputValue = signal('');
   selectedValues = signal<string[]>([]);
   popupExpanded = signal(false);
-  private inputValueAfterSelectionClear: string | undefined;
+  private queryAfterSelectionClear: string | undefined;
 
   options = contentChildren(UiAutocompleteOption);
 
-  readonly filteredOptions = computed(() => {
-    const query = this.inputValue().trim().toLocaleLowerCase();
-
-    if (!query) {
-      return this.options();
-    }
-
-    return this.options().filter((option) => option.label().toLocaleLowerCase().includes(query));
-  });
-
   readonly inlineSuggestion = computed(() => {
-    const query = this.inputValue();
+    const query = this.query();
 
     if (!query) {
       return undefined;
     }
 
-    return this.filteredOptions()
+    return this.options()
       .find((option) => option.label().toLocaleLowerCase().startsWith(query.toLocaleLowerCase()))
       ?.label();
   });
 
-  readonly hasOptions = computed(() => this.filteredOptions().length > 0);
+  readonly hasOptions = computed(() => this.options().length > 0);
 
   constructor() {
     afterRenderEffect(() => {
       const value = this.value();
       const selectedOption = this.options().find((option) => option.value() === value);
-      const nextInputValue =
-        !value && this.inputValueAfterSelectionClear !== undefined
-          ? this.inputValueAfterSelectionClear
-          : (selectedOption?.label() ?? '');
+      const nextInputValue = value
+        ? (selectedOption?.label() ?? '')
+        : (this.queryAfterSelectionClear ?? untracked(this.query));
       const nextSelectedValues = value ? [value] : [];
       const selectedValues = untracked(this.selectedValues);
 
-      this.inputValueAfterSelectionClear = undefined;
+      this.queryAfterSelectionClear = undefined;
 
-      if (untracked(this.inputValue) !== nextInputValue) {
-        this.inputValue.set(nextInputValue);
+      if (untracked(this.query) !== nextInputValue) {
+        this.query.set(nextInputValue);
       }
 
       if (!this.areSelectedValuesEqual(selectedValues, nextSelectedValues)) {
@@ -116,19 +107,19 @@ export class UiAutocomplete implements FormValueControl<string> {
 
     if (selectedOption) {
       this.value.set(selectedOption.value());
-      this.inputValue.set(selectedOption.label());
+      this.query.set(selectedOption.label());
     }
 
     this.popupExpanded.set(false);
   }
 
-  onInputValueChange(value: string) {
-    this.inputValue.set(value);
+  onQueryChange(query: string) {
+    this.query.set(query);
 
     const selectedValue = this.selectedValues()[0] ?? this.value();
     const selectedOption = this.options().find((option) => option.value() === selectedValue);
 
-    if (selectedOption?.label() === value || (!selectedOption && !this.value())) {
+    if (selectedOption?.label() === query || (!selectedOption && !this.value())) {
       return;
     }
 
@@ -136,7 +127,7 @@ export class UiAutocomplete implements FormValueControl<string> {
     // Once the user edits its label, keeping the old option would make the
     // visible control disagree with the submitted value.
     this.selectedValues.set([]);
-    this.inputValueAfterSelectionClear = value;
+    this.queryAfterSelectionClear = query;
     this.value.set('');
   }
 
@@ -158,7 +149,7 @@ export class UiAutocomplete implements FormValueControl<string> {
 
   reset() {
     this.value.set('');
-    this.inputValue.set('');
+    this.query.set('');
     this.selectedValues.set([]);
     this.popupExpanded.set(false);
   }

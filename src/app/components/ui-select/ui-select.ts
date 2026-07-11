@@ -28,7 +28,6 @@ type UiSelectRenderItem = {
   group?: UiSelectGroup;
   option?: UiSelectOption;
 };
-export type UiSelectValue = string | string[];
 export type UiSelectSize = 'sm' | 'md';
 
 @Component({
@@ -37,13 +36,13 @@ export type UiSelectSize = 'sm' | 'md';
   templateUrl: './ui-select.html',
   styleUrls: ['../../shared/ui-popup.css', './ui-select.css'],
 })
-export class UiSelect implements FormValueControl<UiSelectValue> {
+export class UiSelect implements FormValueControl<string> {
   readonly combobox = viewChild(Combobox);
   readonly listbox = viewChild(Listbox);
   readonly popupElement = viewChild<ElementRef<HTMLElement>>('popupElement');
   readonly selectedLabelElement = viewChild.required<ElementRef<HTMLElement>>('selectedLabel');
 
-  value = model<UiSelectValue>('');
+  value = model('');
   disabled = input(false, { transform: booleanAttribute });
   // Loading does not imply disabled: previously loaded options remain useful during a refresh,
   // and an empty popup can explain that options are pending. Consumers may bind both for a
@@ -53,7 +52,6 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
   // Forwarded to the wrapped <ui-input>, which owns the control-size scale.
   size = input<UiSelectSize>('md');
   loadingText = input('Загрузка');
-  multi = input(false, { transform: booleanAttribute });
   placeholder = input('Выберите значение');
   withErrorMessage = input(false, { transform: booleanAttribute });
   touch = output<void>();
@@ -62,14 +60,14 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
   // bound value changes, but still accepts direct writes from the listbox
   // two-way binding / `onCommit` until the next `value` change — no manual
   // effect-based reconciliation or equality guards needed.
-  selectedValues = linkedSignal<string[]>(() => this.parseValue(this.value()));
+  selectedValues = linkedSignal<string[]>(() => (this.value() ? [this.value()] : []));
   popupExpanded = signal(false);
 
   readonly displayValue = computed(() => {
     const options = this.selectedOptions();
 
     if (options.length) {
-      return options.map((option) => option.label()).join(', ');
+      return options[0].label();
     }
 
     return this.placeholder();
@@ -212,9 +210,8 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
   }
 
   onCommit() {
-    this.value.set(this.formatValue(this.selectedValues()));
-
-    this.popupExpanded.set(this.multi());
+    this.value.set(this.selectedValues()[0] ?? '');
+    this.popupExpanded.set(false);
   }
 
   onPopupToggle(event: ToggleEvent) {
@@ -228,33 +225,9 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
   }
 
   reset() {
-    this.value.set(this.multi() ? [] : '');
+    this.value.set('');
     this.selectedValues.set([]);
     this.popupExpanded.set(false);
   }
 
-  private parseValue(value: UiSelectValue): string[] {
-    if (Array.isArray(value)) {
-      return this.multi() ? value : value[0] ? [value[0]] : [];
-    }
-
-    if (!this.multi()) {
-      return value ? [value] : [];
-    }
-
-    if (!value) {
-      return [];
-    }
-
-    // A whole string that matches a real option value wins over comma-splitting,
-    // so an option value may legitimately contain a comma. Otherwise fall back
-    // to legacy comma-delimited parsing.
-    const optionValues = new Set(this.options().map((option) => option.value()));
-
-    return optionValues.has(value) ? [value] : value.split(',').filter(Boolean);
-  }
-
-  private formatValue(values: string[]): UiSelectValue {
-    return this.multi() ? values : (values[0] ?? '');
-  }
 }

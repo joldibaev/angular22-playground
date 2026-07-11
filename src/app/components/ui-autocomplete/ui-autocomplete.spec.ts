@@ -35,12 +35,9 @@ class TestHost {
 class DisabledOptionTestHost {}
 
 @Component({
-  imports: [UiAutocomplete, UiAutocompleteOption],
+  imports: [UiAutocomplete],
   template: `
-    <ui-autocomplete placeholder="Find status" emptyText="Nothing found">
-      <ui-autocomplete-option value="created" label="Created" />
-      <ui-autocomplete-option value="approved" label="Approved" />
-    </ui-autocomplete>
+    <ui-autocomplete placeholder="Find status" emptyText="Nothing found" />
   `,
 })
 class PlaceholderTestHost {
@@ -53,6 +50,22 @@ class PlaceholderTestHost {
 })
 class LoadingTestHost {
   readonly autocomplete = viewChild.required(UiAutocomplete);
+}
+
+@Component({
+  imports: [UiAutocomplete, UiAutocompleteOption],
+  template: `
+    <ui-autocomplete [(query)]="query">
+      @if (withResults()) {
+        <ui-autocomplete-option value="new-york" label="New York" />
+      }
+    </ui-autocomplete>
+  `,
+})
+class ExternalResultsTestHost {
+  readonly autocomplete = viewChild.required(UiAutocomplete);
+  readonly query = signal('');
+  readonly withResults = signal(false);
 }
 
 @Component({
@@ -217,11 +230,11 @@ describe('UiAutocomplete', () => {
     );
   });
 
-  it('should expose projected options and filter them by input value', async () => {
+  it('should expose every supplied option without applying business filtering', async () => {
     const hostFixture = await createHostFixture();
     const autocomplete = hostFixture.componentInstance.autocomplete();
 
-    autocomplete.inputValue.set('p');
+    autocomplete.query.set('does-not-match');
     hostFixture.detectChanges();
 
     expect(autocomplete.options().map((option) => option.value())).toEqual([
@@ -229,7 +242,8 @@ describe('UiAutocomplete', () => {
       'approved',
       'paid',
     ]);
-    expect(autocomplete.filteredOptions().map((option) => option.label())).toEqual([
+    expect(autocomplete.options().map((option) => option.label())).toEqual([
+      'Created',
       'Approved',
       'Paid',
     ]);
@@ -239,7 +253,7 @@ describe('UiAutocomplete', () => {
     const hostFixture = await createHostFixture();
     const autocomplete = hostFixture.componentInstance.autocomplete();
 
-    autocomplete.inputValue.set('app');
+    autocomplete.query.set('app');
     hostFixture.detectChanges();
 
     expect(autocomplete.inlineSuggestion()).toBe('Approved');
@@ -303,13 +317,28 @@ describe('UiAutocomplete', () => {
     expect(popup?.textContent).not.toContain('Ничего не найдено');
   });
 
+  it('should preserve the consumer query when external results arrive', async () => {
+    const hostFixture = TestBed.createComponent(ExternalResultsTestHost);
+    await hostFixture.whenStable();
+    const combobox = getCombobox(hostFixture);
+
+    dispatchInputEvent(combobox, 'NYC');
+    await hostFixture.whenStable();
+    hostFixture.componentInstance.withResults.set(true);
+    await hostFixture.whenStable();
+
+    expect(hostFixture.componentInstance.query()).toBe('NYC');
+    expect(hostFixture.componentInstance.autocomplete().query()).toBe('NYC');
+    expect(hostFixture.componentInstance.autocomplete().options()[0].label()).toBe('New York');
+  });
+
   it('should sync selected value from a signal form field', async () => {
     const hostFixture = await createSignalFormHostFixture();
     const autocomplete = hostFixture.componentInstance.autocomplete();
     const combobox = getCombobox(hostFixture);
 
     expect(autocomplete.value()).toBe('approved');
-    expect(autocomplete.inputValue()).toBe('Approved');
+    expect(autocomplete.query()).toBe('Approved');
     expect(autocomplete.selectedValues()).toEqual(['approved']);
     expect(combobox.value).toBe('Approved');
   });
@@ -322,7 +351,7 @@ describe('UiAutocomplete', () => {
     dispatchInputEvent(combobox, 'Appro');
     await hostFixture.whenStable();
 
-    expect(autocomplete.inputValue()).toBe('Appro');
+    expect(autocomplete.query()).toBe('Appro');
     expect(autocomplete.selectedValues()).toEqual([]);
     expect(autocomplete.value()).toBe('');
     expect(hostFixture.componentInstance.model().status).toBe('');
@@ -338,7 +367,7 @@ describe('UiAutocomplete', () => {
     const listbox = await autocomplete.getPopupWidget(ListboxHarness);
     const options = await listbox.getOptions();
 
-    await options[1].click();
+    await options[2].click();
 
     expect(hostFixture.componentInstance.model().status).toBe('paid');
     expect(hostFixture.componentInstance.formState.status().value()).toBe('paid');
@@ -392,7 +421,7 @@ describe('UiAutocomplete', () => {
     ]);
   });
 
-  it('should open the popup and filter options when typing', async () => {
+  it('should open the popup without filtering consumer-supplied options', async () => {
     const hostFixture = await createHostFixture();
     const combobox = getCombobox(hostFixture);
 
@@ -403,10 +432,14 @@ describe('UiAutocomplete', () => {
     await hostFixture.whenRenderingDone();
 
     expect(hostFixture.componentInstance.autocomplete().popupExpanded()).toBe(true);
-    expect(getOptions().map((option) => option.textContent?.trim())).toEqual(['Approved', 'Paid']);
+    expect(getOptions().map((option) => option.textContent?.trim())).toEqual([
+      'Created',
+      'Approved',
+      'Paid',
+    ]);
   });
 
-  it('should filter and select an option with Angular Aria harnesses', async () => {
+  it('should select a supplied option with Angular Aria harnesses', async () => {
     const hostFixture = await createHostFixture();
     const loader = TestbedHarnessEnvironment.loader(hostFixture);
     const autocomplete = await loader.getHarness(ComboboxHarness);
@@ -421,11 +454,12 @@ describe('UiAutocomplete', () => {
     const options = await listbox.getOptions();
 
     expect(await Promise.all(options.map((option) => option.getText()))).toEqual([
+      'Created',
       'Approved',
       'Paid',
     ]);
 
-    await options[0].click();
+    await options[1].click();
 
     expect(await autocomplete.isOpen()).toBe(false);
     expect(await autocomplete.getValue()).toBe('Approved');
@@ -445,11 +479,11 @@ describe('UiAutocomplete', () => {
     await hostFixture.whenStable();
 
     expect(autocomplete.value()).toBe('');
-    expect(autocomplete.inputValue()).toBe('');
+    expect(autocomplete.query()).toBe('');
     expect(autocomplete.popupExpanded()).toBe(true);
   });
 
-  it('should show an empty state when no options match', async () => {
+  it('should keep supplied options visible when the query does not match their labels', async () => {
     const hostFixture = await createHostFixture();
     const combobox = getCombobox(hostFixture);
 
@@ -459,8 +493,8 @@ describe('UiAutocomplete', () => {
     await hostFixture.whenStable();
     await hostFixture.whenRenderingDone();
 
-    expect(getOptions()).toEqual([]);
-    expect(getPopup(hostFixture)?.textContent).toContain('Ничего не найдено');
+    expect(getOptions()).toHaveLength(3);
+    expect(getPopup(hostFixture)?.textContent).not.toContain('Ничего не найдено');
   });
 
   it('should configure the popup with css anchor positioning', async () => {
@@ -483,8 +517,11 @@ describe('UiAutocomplete', () => {
     expect(style.positionAnchor).toBe('--ui-autocomplete-trigger');
     expect(style.top).toContain('anchor(bottom)');
     expect(style.top).toContain('var(--ui-popup-offset)');
+    expect(style.width).toBe('fit-content');
+    expect(style.minWidth).toContain('anchor-size(width)');
     expect(style.margin).toBe('0px');
     expect(style.positionTryFallbacks).toContain('flip-block');
+    expect(style.positionTryFallbacks).toContain('flip-inline');
   });
 
   it('should keep focus on the input and update aria-activedescendant while navigating', async () => {
@@ -527,7 +564,7 @@ describe('UiAutocomplete', () => {
     const autocomplete = hostFixture.componentInstance.autocomplete();
 
     expect(autocomplete.selectedValues()).toEqual(['approved']);
-    expect(autocomplete.inputValue()).toBe('Approved');
+    expect(autocomplete.query()).toBe('Approved');
     expect(autocomplete.popupExpanded()).toBe(false);
     // Popup persists after close (preserveContent) so its exit can animate.
     expect(getPopup(hostFixture)).not.toBeNull();

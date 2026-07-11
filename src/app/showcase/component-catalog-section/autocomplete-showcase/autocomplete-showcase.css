@@ -38,13 +38,18 @@
   padding: 1rem;
 }
 .preview > ui-autocomplete {
-  width: min(20rem, 100%);
+  width: min(28rem, calc(100vw - 3rem));
 }
 .stack {
   gap: 0.75rem;
 }
 .stack output {
   color: var(--text-color-muted);
+  font-size: 0.8125rem;
+}
+.request-error {
+  margin: 0;
+  color: var(--color-destructive);
   font-size: 0.8125rem;
 }
 .stack button {

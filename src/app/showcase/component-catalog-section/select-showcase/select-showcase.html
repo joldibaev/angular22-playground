@@ -1,7 +1,7 @@
 <article class="docs" aria-labelledby="select-title">
   <header>
     <h4 id="select-title" class="font-black">Select</h4>
-    <p>Single and multiple selection with groups, state feedback, sizing, and Signal Forms.</p>
+    <p>Single selection with groups, state feedback, sizing, and Signal Forms.</p>
   </header>
   <section>
     <h5>Default</h5>
@@ -44,25 +44,6 @@
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
           <pre tabindex="0"><code>{{groupsCode}}</code></pre>
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section>
-    <h5>Multiple</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Multiple select example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-select label="Labels" multi [value]="['roadmap', 'research']"
-              ><ui-select-option value="roadmap" label="Roadmap" /><ui-select-option
-                value="research"
-                label="Research"
-              /><ui-select-option value="release" label="Release" /></ui-select
-            >
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{multiCode}}</code></pre>
         </ui-tab-item></ui-tab
       ></ui-card
     >

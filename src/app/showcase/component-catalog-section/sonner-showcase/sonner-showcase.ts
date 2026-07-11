@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { UiCard } from '../../../components/ui-card/ui-card';
-import { UiSelect, type UiSelectValue } from '../../../components/ui-select/ui-select';
+import { UiSelect } from '../../../components/ui-select/ui-select';
 import { UiSelectOption } from '../../../components/ui-select/ui-select-option/ui-select-option';
 import { SonnerService } from '../../../components/ui-sonner/sonner.service';
 import { UiSonner } from '../../../components/ui-sonner/ui-sonner';
@@ -110,10 +110,8 @@ this.sonner.dismiss();`;
   label="Notifications"
 />`;
 
-  protected setVisibleToasts(value: UiSelectValue): void {
-    if (typeof value === 'string') {
-      this.visibleToasts.set(Number(value));
-    }
+  protected setVisibleToasts(value: string): void {
+    this.visibleToasts.set(Number(value));
   }
 
   protected showDefault(): void {

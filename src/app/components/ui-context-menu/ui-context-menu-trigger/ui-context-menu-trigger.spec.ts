@@ -11,7 +11,9 @@ import { UiContextMenuTrigger } from './ui-context-menu-trigger';
       tabindex="0"
       [uiContextMenuTrigger]="menu"
       [uiContextMenuContext]="context"
-    ></div>
+    >
+      <button type="button" class="row-action">Row action</button>
+    </div>
   `,
 })
 class TestHost {
@@ -79,5 +81,26 @@ describe('UiContextMenuTrigger', () => {
 
     expect(event.defaultPrevented).toBe(false);
     expect(fixture.componentInstance.menu.openAt).not.toHaveBeenCalled();
+  });
+
+  it('returns keyboard focus to the focused descendant of a table-like row', () => {
+    const action = target.querySelector('.row-action') as HTMLButtonElement;
+    target.getBoundingClientRect = () => ({ left: 12, bottom: 48 }) as DOMRect;
+
+    action.dispatchEvent(
+      new KeyboardEvent('keydown', {
+        bubbles: true,
+        cancelable: true,
+        key: 'F10',
+        shiftKey: true,
+      }),
+    );
+
+    expect(fixture.componentInstance.menu.openAt).toHaveBeenCalledWith(
+      12,
+      48,
+      fixture.componentInstance.context,
+      action,
+    );
   });
 });

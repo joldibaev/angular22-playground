@@ -12,8 +12,8 @@
       ><ui-tab size="sm" aria-label="Default autocomplete example"
         ><ui-tab-item value="preview" label="Preview"
           ><div class="preview">
-            <ui-autocomplete label="Team">
-              @for (team of teams; track team) {
+            <ui-autocomplete label="Team" [(query)]="teamQuery">
+              @for (team of filteredTeams(); track team) {
                 <ui-autocomplete-option [value]="'team_' + team.toLowerCase()" [label]="team" />
               }
             </ui-autocomplete>
@@ -23,6 +23,70 @@
         </ui-tab-item></ui-tab
       ></ui-card
     >
+  </section>
+  <section aria-labelledby="autocomplete-resource-title">
+    <h5 id="autocomplete-resource-title">HTTP search with httpResource</h5>
+    <ui-card variant="outlined">
+      <ui-tab size="sm" aria-label="httpResource autocomplete example">
+        <ui-tab-item value="preview" label="Preview">
+          <div class="preview stack">
+            <ui-autocomplete
+              label="User"
+              placeholder="Try John"
+              [(query)]="resourceQuery"
+              [loading]="resourceSearch.isLoading()"
+              [emptyText]="resourceEmptyText()"
+              loadingText="Searching users"
+            >
+              @for (user of resourceUsers(); track user.id) {
+                <ui-autocomplete-option
+                  [value]="user.id.toString()"
+                  [label]="userLabel(user)"
+                />
+              }
+            </ui-autocomplete>
+            @if (resourceSearch.error()) {
+              <p class="request-error" role="status">Could not load users. Try again.</p>
+            }
+          </div>
+        </ui-tab-item>
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{resourceCode}}</code></pre>
+        </ui-tab-item>
+      </ui-tab>
+    </ui-card>
+  </section>
+  <section aria-labelledby="autocomplete-rxjs-title">
+    <h5 id="autocomplete-rxjs-title">HTTP search with HttpClient and RxJS</h5>
+    <ui-card variant="outlined">
+      <ui-tab size="sm" aria-label="RxJS autocomplete example">
+        <ui-tab-item value="preview" label="Preview">
+          <div class="preview stack">
+            <ui-autocomplete
+              label="User"
+              placeholder="Try Emily"
+              [(query)]="rxQuery"
+              [loading]="rxSearch().loading"
+              [emptyText]="rxEmptyText()"
+              loadingText="Searching users"
+            >
+              @for (user of rxSearch().users; track user.id) {
+                <ui-autocomplete-option
+                  [value]="user.id.toString()"
+                  [label]="userLabel(user)"
+                />
+              }
+            </ui-autocomplete>
+            @if (rxSearch().failed) {
+              <p class="request-error" role="status">Could not load users. Try again.</p>
+            }
+          </div>
+        </ui-tab-item>
+        <ui-tab-item value="code" label="Code">
+          <pre tabindex="0"><code>{{rxCode}}</code></pre>
+        </ui-tab-item>
+      </ui-tab>
+    </ui-card>
   </section>
   <section aria-labelledby="autocomplete-value-title">
     <h5 id="autocomplete-value-title">Controlled value</h5>

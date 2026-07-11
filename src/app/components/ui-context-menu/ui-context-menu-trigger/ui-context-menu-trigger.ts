@@ -28,8 +28,9 @@ export class UiContextMenuTrigger<T = unknown> {
     }
 
     event.preventDefault();
-    const target = event.currentTarget as HTMLElement;
-    const bounds = target.getBoundingClientRect();
-    this.menu().openAt(bounds.left, bounds.bottom, this.context(), target);
+    const host = event.currentTarget as HTMLElement;
+    const returnFocusTo = event.target instanceof HTMLElement ? event.target : host;
+    const bounds = host.getBoundingClientRect();
+    this.menu().openAt(bounds.left, bounds.bottom, this.context(), returnFocusTo);
   }
 }

@@ -19,7 +19,20 @@
 }
 
 .ui-autocomplete-popup {
+  --ui-popup-width: fit-content;
+  --ui-popup-min-width: anchor-size(width);
+
+  max-width: calc(100vw - 1rem);
   position-anchor: --ui-autocomplete-trigger;
+  position-try-fallbacks: flip-block, flip-inline, flip-block flip-inline;
+}
+
+.ui-autocomplete-option-label {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .empty-state {
