@@ -517,8 +517,9 @@ describe('UiAutocomplete', () => {
     expect(style.positionAnchor).toBe('--ui-autocomplete-trigger');
     expect(style.top).toContain('anchor(bottom)');
     expect(style.top).toContain('var(--ui-popup-offset)');
-    expect(style.width).toBe('fit-content');
-    expect(style.minWidth).toContain('anchor-size(width)');
+    expect(style.width).toBe('var(--ui-popup-width)');
+    expect(style.getPropertyValue('--ui-popup-width')).toBe('fit-content');
+    expect(style.getPropertyValue('--ui-popup-min-width')).toContain('anchor-size(width)');
     expect(style.margin).toBe('0px');
     expect(style.positionTryFallbacks).toContain('flip-block');
     expect(style.positionTryFallbacks).toContain('flip-inline');

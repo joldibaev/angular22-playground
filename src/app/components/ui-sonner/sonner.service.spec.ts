@@ -1,11 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 import { SonnerService } from './sonner.service';
+import { UiSonner } from './ui-sonner';
 
 describe('SonnerService', () => {
   let service: SonnerService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    // Compile the dynamically created outlet as part of the test application.
+    // Merely importing the declaration does not mount it in the root template.
+    TestBed.configureTestingModule({ imports: [UiSonner] });
     service = TestBed.inject(SonnerService);
     service.reset();
   });
