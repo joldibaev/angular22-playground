@@ -13,7 +13,7 @@ import {
   signal,
   viewChildren,
 } from '@angular/core';
-import { uiSonnerState } from './ui-sonner.state';
+import { SonnerService } from './sonner.service';
 import {
   UiSonnerPosition,
   UiSonnerTheme,
@@ -38,9 +38,10 @@ const DEFAULT_WIDTH = 356;
 export class UiSonner implements OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
   private readonly document = inject(DOCUMENT);
+  private readonly sonner = inject(SonnerService);
 
-  protected readonly toasts = uiSonnerState.toasts;
-  protected readonly heights = uiSonnerState.heights;
+  protected readonly toasts = this.sonner.toasts;
+  protected readonly heights = this.sonner.heights;
   protected readonly expanded = linkedSignal({
     source: this.toasts,
     computation: (toasts) => toasts.length < 1,
@@ -63,8 +64,10 @@ export class UiSonner implements OnDestroy {
   readonly offset = input<string | number | null>(null);
   readonly gap = input(DEFAULT_GAP, { transform: numberAttribute });
   readonly label = input('Уведомления');
-  readonly className = input('', { alias: 'class' });
-  readonly styleMap = input<Record<string, string>>({}, { alias: 'style' });
+  // Do not alias these to native class/style: doing so steals host styling and
+  // makes a normal style="..." string flow into an object-typed input.
+  readonly listClass = input('');
+  readonly listStyle = input<Record<string, string>>({});
 
   protected readonly positions = computed(() => {
     const positions = [this.position(), ...this.toasts().map((toast) => toast.position)];
@@ -76,15 +79,15 @@ export class UiSonner implements OnDestroy {
   protected readonly themeAttribute = computed(() =>
     this.theme() === 'system' ? null : this.theme(),
   );
-  protected readonly listClass = computed(() =>
-    ['ui-sonner-list', this.className()].filter(Boolean).join(' '),
+  protected readonly resolvedListClass = computed(() =>
+    ['ui-sonner-list', this.listClass()].filter(Boolean).join(' '),
   );
   protected readonly offsetAttribute = computed(() =>
     typeof this.offset() === 'number' ? `${this.offset()}px` : (this.offset() ?? DEFAULT_OFFSET),
   );
   protected readonly widthAttribute = computed(() => `${DEFAULT_WIDTH}px`);
   protected readonly toasterStyles = computed(() => ({
-    ...this.styleMap(),
+    ...this.listStyle(),
   }));
   protected readonly groups = computed(() => {
     const heights = this.heights();

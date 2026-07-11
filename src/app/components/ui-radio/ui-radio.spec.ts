@@ -14,8 +14,11 @@ class TestHost implements UiRadioGroupControl {
   readonly value = signal('');
   readonly disabled = signal(false);
   readonly required = signal(true);
+  readonly invalid = signal(false);
   readonly size = signal<'sm' | 'md'>('sm');
   readonly describedBy = signal<string | null>('preferences-help');
+  readonly showErrorMessage = signal(false);
+  readonly errorId = 'preferences-error';
   readonly label = signal('Priority');
   readonly radioDisabled = signal(false);
   readonly touched = signal(false);

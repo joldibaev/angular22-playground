@@ -1,0 +1,19 @@
+@if (svgDefinition(); as icon) {
+  <svg
+    aria-hidden="true"
+    focusable="false"
+    xmlns="http://www.w3.org/2000/svg"
+    [attr.width]="width()"
+    [attr.height]="height()"
+    [attr.viewBox]="icon.viewBox"
+    [attr.fill]="icon.fill"
+    [attr.stroke]="icon.stroke"
+    [attr.stroke-width]="icon.strokeWidth"
+    [attr.stroke-linecap]="icon.strokeLinecap"
+    [attr.stroke-linejoin]="icon.strokeLinejoin"
+  >
+    @for (path of icon.paths; track $index) {
+      <path [attr.d]="path" />
+    }
+  </svg>
+}

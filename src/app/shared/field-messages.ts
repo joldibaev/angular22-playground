@@ -70,10 +70,6 @@ export function createFieldMessages(prefix: string, source: FieldMessagesSource)
       ids.push(descriptionId);
     }
 
-    if (showErrorMessage()) {
-      ids.push(errorId);
-    }
-
     if (disabledReasonMessages().length) {
       ids.push(disabledReasonId);
     }

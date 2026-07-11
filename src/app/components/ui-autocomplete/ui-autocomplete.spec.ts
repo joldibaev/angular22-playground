@@ -26,6 +26,17 @@ class TestHost {
 @Component({
   imports: [UiAutocomplete, UiAutocompleteOption],
   template: `
+    <ui-autocomplete>
+      <ui-autocomplete-option value="enabled">Enabled</ui-autocomplete-option>
+      <ui-autocomplete-option value="disabled" disabled>Disabled</ui-autocomplete-option>
+    </ui-autocomplete>
+  `,
+})
+class DisabledOptionTestHost {}
+
+@Component({
+  imports: [UiAutocomplete, UiAutocompleteOption],
+  template: `
     <ui-autocomplete placeholder="Find status" emptyText="Nothing found">
       <ui-autocomplete-option value="created">Created</ui-autocomplete-option>
       <ui-autocomplete-option value="approved">Approved</ui-autocomplete-option>
@@ -180,6 +191,20 @@ describe('UiAutocomplete', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should expose disabled suggestions through Angular Aria', async () => {
+    const hostFixture = TestBed.createComponent(DisabledOptionTestHost);
+    await hostFixture.whenStable();
+    const loader = TestbedHarnessEnvironment.loader(hostFixture);
+    const autocomplete = await loader.getHarness(ComboboxHarness);
+
+    await autocomplete.open();
+    const listbox = await autocomplete.getPopupWidget(ListboxHarness);
+    const options = await listbox.getOptions();
+
+    expect(await options[0].isDisabled()).toBe(false);
+    expect(await options[1].isDisabled()).toBe(true);
   });
 
   it('should forward the compact size to the wrapped ui-input', async () => {

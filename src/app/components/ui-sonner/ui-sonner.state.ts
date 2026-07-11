@@ -9,11 +9,10 @@ import {
   UiSonnerToastType,
 } from './ui-sonner.type';
 
-let toastCounter = 0;
-
-function createToastState() {
+export function createToastState() {
   const toastsState = signal<UiSonnerToast[]>([]);
   const heightsState = signal<UiSonnerHeight[]>([]);
+  let toastCounter = 0;
 
   function create(
     input: UiSonnerExternalToast & {
@@ -196,6 +195,7 @@ function createToastState() {
   function reset(): void {
     toastsState.set([]);
     heightsState.set([]);
+    toastCounter = 0;
   }
 
   function sortHeights(left: UiSonnerHeight, right: UiSonnerHeight): number {
@@ -203,6 +203,14 @@ function createToastState() {
       toastsState().findIndex((toastItem) => toastItem.id === left.toastId) -
       toastsState().findIndex((toastItem) => toastItem.id === right.toastId)
     );
+  }
+
+  function resolveId(id?: UiSonnerToastId): UiSonnerToastId {
+    if (typeof id === 'number' || (typeof id === 'string' && id.length > 0)) {
+      return id;
+    }
+
+    return toastCounter++;
   }
 
   return {
@@ -222,32 +230,6 @@ function createToastState() {
     toasts: toastsState.asReadonly(),
     warning,
   };
-}
-
-export const uiSonnerState = createToastState();
-
-function toastFunction(messageText: string, data?: UiSonnerExternalToast): UiSonnerToastId {
-  return uiSonnerState.create({ ...data, message: messageText });
-}
-
-export const toast = Object.assign(toastFunction, {
-  destructive: uiSonnerState.destructive,
-  dismiss: uiSonnerState.dismiss,
-  error: uiSonnerState.destructive,
-  info: uiSonnerState.info,
-  loading: uiSonnerState.loading,
-  message: uiSonnerState.message,
-  promise: uiSonnerState.promise,
-  success: uiSonnerState.success,
-  warning: uiSonnerState.warning,
-});
-
-function resolveId(id?: UiSonnerToastId): UiSonnerToastId {
-  if (typeof id === 'number' || (typeof id === 'string' && id.length > 0)) {
-    return id;
-  }
-
-  return toastCounter++;
 }
 
 function isResponseLike(value: unknown): value is { ok: boolean; status: number } {

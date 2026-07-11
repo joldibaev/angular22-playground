@@ -45,6 +45,11 @@ describe('UiSonner', () => {
     toast.dispatchEvent(event);
   }
 
+  function holdAnimations(element: Element): void {
+    element.getAnimations = () =>
+      [{ finished: new Promise<never>(() => undefined) }] as unknown as Animation[];
+  }
+
   it('should render visible toasts with live-region semantics', async () => {
     sonner.success('Saved', 'The order is ready');
     await fixture.whenStable();
@@ -131,6 +136,7 @@ describe('UiSonner', () => {
     const buttons = Array.from(
       fixture.nativeElement.querySelectorAll('button'),
     ) as HTMLButtonElement[];
+    holdAnimations(toasts()[0]);
 
     buttons.find((button) => button.textContent?.includes('Undo'))?.click();
     buttons.find((button) => button.textContent?.includes('Skip'))?.click();
@@ -149,6 +155,7 @@ describe('UiSonner', () => {
   it('should animate programmatic dismissal before removing state', async () => {
     const id = sonner.info('Dismiss through API');
     await fixture.whenStable();
+    holdAnimations(toasts()[0]);
 
     sonner.dismiss(id);
     await fixture.whenStable();
@@ -171,6 +178,7 @@ describe('UiSonner', () => {
     ) as HTMLButtonElement;
 
     expect(close.classList.contains('ui-button-icon-only')).toBe(true);
+    holdAnimations(toasts()[0]);
 
     close.click();
     await fixture.whenStable();

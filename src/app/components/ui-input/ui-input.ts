@@ -120,10 +120,16 @@ export class UiInput {
 
     this.syncTokenAttribute(
       control,
-      'aria-describedby',
+      'aria-errormessage',
       this.errorTooltipId,
       this.showErrorTooltip(),
     );
+
+    if (this.invalid()) {
+      this.renderer.setAttribute(control, 'aria-invalid', 'true');
+    } else {
+      this.renderer.removeAttribute(control, 'aria-invalid');
+    }
 
     if (this.loading()) {
       this.renderer.setAttribute(control, 'aria-busy', 'true');

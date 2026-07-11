@@ -1,14 +1,18 @@
-import { uiSonnerState } from './ui-sonner.state';
+import { createToastState } from './ui-sonner.state';
 
-describe('uiSonnerState', () => {
-  beforeEach(() => uiSonnerState.reset());
+describe('createToastState', () => {
+  let state: ReturnType<typeof createToastState>;
+
+  beforeEach(() => {
+    state = createToastState();
+  });
 
   it('updates an existing toast and resets a settled loading duration', () => {
-    uiSonnerState.loading('Saving', { id: 'request' });
-    uiSonnerState.success('Saved', { id: 'request' });
+    state.loading('Saving', { id: 'request' });
+    state.success('Saved', { id: 'request' });
 
-    expect(uiSonnerState.toasts()).toHaveLength(1);
-    expect(uiSonnerState.toasts()[0]).toEqual(
+    expect(state.toasts()).toHaveLength(1);
+    expect(state.toasts()[0]).toEqual(
       expect.objectContaining({
         id: 'request',
         title: 'Saved',
@@ -20,30 +24,30 @@ describe('uiSonnerState', () => {
   });
 
   it('keeps height order aligned with the toast stack and cleans it on removal', () => {
-    uiSonnerState.message('First', { id: 'first' });
-    uiSonnerState.message('Second', { id: 'second' });
-    uiSonnerState.addHeight({ toastId: 'first', height: 40 });
-    uiSonnerState.addHeight({ toastId: 'second', height: 60 });
+    state.message('First', { id: 'first' });
+    state.message('Second', { id: 'second' });
+    state.addHeight({ toastId: 'first', height: 40 });
+    state.addHeight({ toastId: 'second', height: 60 });
 
-    expect(uiSonnerState.heights().map((item) => item.toastId)).toEqual(['second', 'first']);
+    expect(state.heights().map((item) => item.toastId)).toEqual(['second', 'first']);
 
-    uiSonnerState.remove('second');
+    state.remove('second');
 
-    expect(uiSonnerState.toasts().map((toast) => toast.id)).toEqual(['first']);
-    expect(uiSonnerState.heights()).toEqual([{ toastId: 'first', height: 40 }]);
+    expect(state.toasts().map((toast) => toast.id)).toEqual(['first']);
+    expect(state.heights()).toEqual([{ toastId: 'first', height: 40 }]);
   });
 
   it('marks one or all toasts for animated dismissal', () => {
-    uiSonnerState.message('First', { id: 'first' });
-    uiSonnerState.message('Second', { id: 'second' });
+    state.message('First', { id: 'first' });
+    state.message('Second', { id: 'second' });
 
-    expect(uiSonnerState.dismiss('first')).toBe('first');
-    expect(uiSonnerState.toasts().find((toast) => toast.id === 'first')).toEqual(
+    expect(state.dismiss('first')).toBe('first');
+    expect(state.toasts().find((toast) => toast.id === 'first')).toEqual(
       expect.objectContaining({ delete: true, dismissing: true }),
     );
 
-    expect(uiSonnerState.dismiss()).toBeUndefined();
-    expect(uiSonnerState.toasts().every((toast) => toast.delete && toast.dismissing)).toBe(true);
+    expect(state.dismiss()).toBeUndefined();
+    expect(state.toasts().every((toast) => toast.delete && toast.dismissing)).toBe(true);
   });
 
   it('settles promise toasts and calls the finalizer', async () => {
@@ -52,7 +56,7 @@ describe('uiSonnerState', () => {
       resolveFinalized = resolve;
     });
     const finalizer = vi.fn(resolveFinalized);
-    const id = uiSonnerState.promise(Promise.resolve({ name: 'Report' }), {
+    const id = state.promise(Promise.resolve({ name: 'Report' }), {
       id: 'upload',
       loading: 'Uploading',
       success: (value) => `${value.name} uploaded`,
@@ -60,13 +64,23 @@ describe('uiSonnerState', () => {
     });
 
     expect(id).toBe('upload');
-    expect(uiSonnerState.toasts()[0].type).toBe('loading');
+    expect(state.toasts()[0].type).toBe('loading');
 
     await finalized;
 
-    expect(uiSonnerState.toasts()[0]).toEqual(
+    expect(state.toasts()[0]).toEqual(
       expect.objectContaining({ id: 'upload', title: 'Report uploaded', type: 'success' }),
     );
     expect(finalizer).toHaveBeenCalledOnce();
+  });
+
+  it('isolates notifications and generated ids between application stores', () => {
+    const firstRequest = createToastState();
+    const secondRequest = createToastState();
+
+    expect(firstRequest.message('First request')).toBe(0);
+    expect(secondRequest.message('Second request')).toBe(0);
+    expect(firstRequest.toasts().map((toast) => toast.title)).toEqual(['First request']);
+    expect(secondRequest.toasts().map((toast) => toast.title)).toEqual(['Second request']);
   });
 });

@@ -1,4 +1,4 @@
-import { Component, computed, ElementRef, inject, input } from '@angular/core';
+import { booleanAttribute, Component, computed, ElementRef, inject, input } from '@angular/core';
 
 @Component({
   selector: 'ui-autocomplete-option',
@@ -10,6 +10,7 @@ export class UiAutocompleteOption {
   private element = inject(ElementRef<HTMLElement>);
 
   value = input.required<string>();
+  disabled = input(false, { transform: booleanAttribute });
 
   label = computed(() => {
     const element = this.element.nativeElement;

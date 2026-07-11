@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UiIcon } from './ui-icon';
+import { ICONS } from './data';
 
 @Component({
   imports: [UiIcon],
@@ -72,5 +73,23 @@ describe('UiIcon', () => {
 
     expect(svg?.getAttribute('width')).toBe('20');
     expect(svg?.getAttribute('height')).toBe('24');
+  });
+
+  it('should keep Angular sanitization active for generated icon markup', async () => {
+    const icons = ICONS as unknown as Record<string, string>;
+    const original = icons['outline-check'];
+    icons['outline-check'] =
+      '<svg onload="globalThis.__iconXss = true"><script>globalThis.__iconXss = true</script><path d="M0 0" /></svg>';
+
+    try {
+      const fixture = TestBed.createComponent(IconTestHost);
+      await fixture.whenStable();
+      const [icon] = getIcons(fixture);
+
+      expect(icon.querySelector('svg')?.hasAttribute('onload')).toBe(false);
+      expect(icon.querySelector('script')).toBeNull();
+    } finally {
+      icons['outline-check'] = original;
+    }
   });
 });

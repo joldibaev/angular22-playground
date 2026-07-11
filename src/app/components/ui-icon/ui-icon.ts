@@ -4,11 +4,9 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  inject,
   input,
   numberAttribute,
 } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'ui-icon',
@@ -19,12 +17,9 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
     '[attr.aria-hidden]': 'isDecorative() ? "true" : null',
     '[attr.aria-label]': 'isDecorative() ? null : accessibleLabel()',
     '[attr.role]': 'isDecorative() ? "presentation" : "img"',
-    '[innerHTML]': 'svgContent()',
   },
 })
 export class UiIcon {
-  private readonly sanitizer = inject(DomSanitizer);
-
   name = input.required<IconName>();
   label = input('');
   decorative = input<boolean | undefined, unknown>(undefined, { transform: booleanAttribute });
@@ -34,27 +29,33 @@ export class UiIcon {
   readonly accessibleLabel = computed(() => this.label().trim());
   readonly isDecorative = computed(() => this.decorative() ?? !this.accessibleLabel());
 
-  svgContent = computed<SafeHtml | string>(() => {
+  protected readonly svgDefinition = computed(() => {
     const iconName = this.name();
     const svgString = ICONS[iconName];
 
     if (!svgString) {
-      return '';
+      return null;
     }
 
-    const cleaned = svgString.replace(
-      /<svg([^>]*?)>/,
-      (_match: string, attrs: string) =>
-        `<svg${attrs.replace(/\swidth="[^"]*"/g, '').replace(/\sheight="[^"]*"/g, '')}>`,
-    );
+    const rootAttributes = parseAttributes(/<svg\s+([^>]+)>/u.exec(svgString)?.[1] ?? '');
+    const paths = Array.from(svgString.matchAll(/<path\s+d="([^"]+)"\s*\/>/gu), (match) => match[1]);
 
-    const replaced = cleaned.replace(
-      /<svg([^>]*?)>/,
-      (_match: string, attrs: string) =>
-        `<svg${attrs} width="${this.width()}" height="${this.height()}">`,
-    );
-
-    // ICONS is generated from local SVG assets and `name` is restricted to generated keys.
-    return this.sanitizer.bypassSecurityTrustHtml(replaced);
+    // Only data consumed by explicit Angular attribute bindings survives this
+    // parser. Unknown tags/attributes from a compromised generator are ignored.
+    return {
+      viewBox: rootAttributes['viewBox'] ?? '0 0 24 24',
+      fill: rootAttributes['fill'] ?? null,
+      stroke: rootAttributes['stroke'] ?? null,
+      strokeWidth: rootAttributes['stroke-width'] ?? null,
+      strokeLinecap: rootAttributes['stroke-linecap'] ?? null,
+      strokeLinejoin: rootAttributes['stroke-linejoin'] ?? null,
+      paths,
+    };
   });
+}
+
+function parseAttributes(source: string): Record<string, string> {
+  return Object.fromEntries(
+    Array.from(source.matchAll(/([\w-]+)="([^"]*)"/gu), (match) => [match[1], match[2]]),
+  );
 }

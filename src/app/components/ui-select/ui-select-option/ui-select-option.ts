@@ -1,4 +1,4 @@
-import { Component, computed, ElementRef, inject, input } from '@angular/core';
+import { booleanAttribute, Component, computed, ElementRef, inject, input } from '@angular/core';
 
 @Component({
   selector: 'ui-select-option',
@@ -9,6 +9,7 @@ export class UiSelectOption {
   readonly element = inject(ElementRef<HTMLElement>);
 
   value = input.required<string>();
+  disabled = input(false, { transform: booleanAttribute });
 
   label = computed(() => {
     const element = this.element.nativeElement;

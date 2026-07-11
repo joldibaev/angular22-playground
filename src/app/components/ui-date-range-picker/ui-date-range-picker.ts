@@ -18,6 +18,7 @@ import { UiInput } from '../ui-input/ui-input';
 import { syncPopover } from '../../shared/sync-popover';
 import { parseInputDate } from '../../shared/date.utils';
 import { nextId } from '../../shared/unique-id';
+import { afterElementAnimations } from '../../shared/after-element-animations';
 import { formatMonthLabel, WEEKDAYS_MON_FIRST } from '../ui-datepicker/calendar.utils';
 import {
   buildPresets,
@@ -58,6 +59,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
 
   readonly trigger = viewChild<ElementRef<HTMLButtonElement>>('trigger');
   readonly triggerLabel = viewChild.required<ElementRef<HTMLElement>>('triggerLabel');
+  readonly monthTitle = viewChild.required<ElementRef<HTMLElement>>('monthTitle');
   readonly panel = viewChild<ElementRef<HTMLElement>>('panel');
   readonly grid = viewChild(Grid);
 
@@ -198,12 +200,24 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
     });
 
     afterRenderEffect(() => {
+      if (this.triggerSwapPhase() === 'exit') {
+        afterElementAnimations(this.triggerLabel().nativeElement, () => this.finishTriggerSwap());
+      }
+    });
+
+    afterRenderEffect(() => {
       if (this.triggerSwapPhase() !== 'enter-start') {
         return;
       }
 
       void this.triggerLabel().nativeElement.offsetHeight;
       this.triggerSwapPhase.set('idle');
+    });
+
+    afterRenderEffect(() => {
+      if (this.monthSwapPhase() === 'exit') {
+        afterElementAnimations(this.monthTitle().nativeElement, () => this.finishMonthSwap());
+      }
     });
 
     afterRenderEffect(() => {
@@ -313,9 +327,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
       return;
     }
 
-    this.displayedTriggerValue.set(this.pendingTriggerValue);
-    this.displayedTriggerPlaceholder.set(this.pendingTriggerPlaceholder);
-    this.triggerSwapPhase.set('enter-start');
+    this.finishTriggerSwap();
   }
 
   onMonthTransitionEnd(event: TransitionEvent) {
@@ -328,8 +340,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
       return;
     }
 
-    this.leftView.set(this.pendingLeftView);
-    this.monthSwapPhase.set('enter-start');
+    this.finishMonthSwap();
   }
 
   applyPreset(preset: { range: () => UiDateRangeValue }) {
@@ -444,6 +455,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
 
   private transitionToView(nextView: Temporal.PlainYearMonth, withFocus: boolean) {
     const currentView = this.leftView();
+    nextView = this.clampLeftViewToBounds(nextView);
 
     if (nextView.equals(currentView)) {
       if (withFocus) {
@@ -459,6 +471,43 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
       Temporal.PlainYearMonth.compare(nextView, currentView) < 0 ? 'previous' : 'next',
     );
     this.monthSwapPhase.set('exit');
+  }
+
+  private finishTriggerSwap(): void {
+    if (this.triggerSwapPhase() !== 'exit') {
+      return;
+    }
+
+    this.displayedTriggerValue.set(this.pendingTriggerValue);
+    this.displayedTriggerPlaceholder.set(this.pendingTriggerPlaceholder);
+    this.triggerSwapPhase.set('enter-start');
+  }
+
+  private finishMonthSwap(): void {
+    if (this.monthSwapPhase() !== 'exit' || !this.pendingLeftView) {
+      return;
+    }
+
+    this.leftView.set(this.pendingLeftView);
+    this.monthSwapPhase.set('enter-start');
+  }
+
+  private clampLeftViewToBounds(view: Temporal.PlainYearMonth): Temporal.PlainYearMonth {
+    const minMonth = parseInputDate(this.minDate() ?? '')?.toPlainYearMonth();
+    const maxMonth = parseInputDate(this.maxDate() ?? '')?.toPlainYearMonth();
+    const maxLeftMonth = maxMonth?.subtract({ months: 1 });
+
+    if (minMonth && Temporal.PlainYearMonth.compare(view, minMonth) < 0) {
+      return minMonth;
+    }
+
+    if (maxLeftMonth && Temporal.PlainYearMonth.compare(view, maxLeftMonth) > 0) {
+      return minMonth && Temporal.PlainYearMonth.compare(maxLeftMonth, minMonth) < 0
+        ? minMonth
+        : maxLeftMonth;
+    }
+
+    return view;
   }
 
   private focusInitialCell() {

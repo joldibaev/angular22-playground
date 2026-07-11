@@ -33,7 +33,9 @@ export class UiDrawer {
   private readonly id = nextId();
 
   readonly drawerId = input(`ui-drawer-${this.id}`);
-  readonly title = input('');
+  // A modal surface must always have an accessible name. Keep the visible title
+  // required instead of offering an easy-to-forget unlabeled drawer mode.
+  readonly title = input.required<string>();
   readonly side = input<UiDrawerSide>('end');
   readonly size = input<UiDrawerSize>('md');
   readonly dismiss = input<UiDrawerDismiss>('any');

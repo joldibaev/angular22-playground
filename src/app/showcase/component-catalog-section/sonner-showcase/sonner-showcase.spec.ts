@@ -1,17 +1,20 @@
 import { TestBed } from '@angular/core/testing';
-import { uiSonnerState } from '../../../components/ui-sonner/ui-sonner.state';
+import { SonnerService } from '../../../components/ui-sonner/sonner.service';
 import { UiSonner } from '../../../components/ui-sonner/ui-sonner';
 import { UiSonnerToast } from '../../../components/ui-sonner/ui-sonner-toast/ui-sonner-toast';
 import { SonnerShowcase } from './sonner-showcase';
 
 describe('SonnerShowcase', () => {
+  let sonner: SonnerService;
+
   beforeEach(() => {
     TestBed.overrideComponent(UiSonner, { set: { styles: [] } });
     TestBed.overrideComponent(UiSonnerToast, { set: { styles: [] } });
-    uiSonnerState.reset();
+    sonner = TestBed.inject(SonnerService);
+    sonner.reset();
   });
 
-  afterEach(() => uiSonnerState.reset());
+  afterEach(() => sonner.reset());
 
   it('documents the complete creator API and renders an interactive toast', async () => {
     const fixture = TestBed.createComponent(SonnerShowcase);

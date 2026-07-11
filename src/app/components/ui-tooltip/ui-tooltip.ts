@@ -34,7 +34,7 @@ import { UiTooltipPanel } from './ui-tooltip-panel/ui-tooltip-panel';
   // hover/focus/long-press/timer path (the legacy Tray3 approach) — that is a
   // deliberate non-goal. To attach a tooltip to something else, wrap it in a
   // `<button>`/`<a>` instead of widening this selector.
-  selector: 'button[uiTooltip], a[uiTooltip]',
+  selector: 'button[uiTooltip], a[href][uiTooltip]',
   host: {
     class: 'ui-tooltip-trigger',
     '[attr.interestfor]': 'normalizedText() ? tooltipId : null',

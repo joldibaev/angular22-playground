@@ -10,6 +10,8 @@
     [disabled]="isDisabled()"
     [required]="group.required()"
     [attr.aria-describedby]="group.describedBy()"
+    [attr.aria-invalid]="group.invalid() ? 'true' : null"
+    [attr.aria-errormessage]="group.showErrorMessage() ? group.errorId : null"
     (change)="onChange($event)"
     (blur)="group.markTouched()"
   />

@@ -4,6 +4,8 @@
     [class.ui-radio-group-invalid]="invalid()"
     [class.ui-radio-group-disabled]="disabled()"
     [attr.aria-describedby]="describedBy()"
+    [attr.aria-invalid]="invalid() ? 'true' : null"
+    [attr.aria-errormessage]="showErrorMessage() ? errorId : null"
   >
     @if (label()) {
       <legend class="ui-radio-group-legend">

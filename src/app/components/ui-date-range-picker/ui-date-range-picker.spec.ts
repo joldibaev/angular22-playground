@@ -58,6 +58,11 @@ function getPanel(fixture: ComponentFixture<unknown>): HTMLElement | null {
   return fixture.nativeElement.querySelector('.ui-date-range-panel');
 }
 
+function holdElementAnimations(element: Element): void {
+  element.getAnimations = () =>
+    [{ finished: new Promise<never>(() => undefined) }] as unknown as Animation[];
+}
+
 describe('UiDateRangePicker', () => {
   beforeAll(() => {
     HTMLElement.prototype.scrollIntoView ??= () => {};
@@ -135,6 +140,7 @@ describe('UiDateRangePicker', () => {
     const label = fixture.nativeElement.querySelector(
       '.ui-date-range-trigger-label',
     ) as HTMLElement;
+    holdElementAnimations(label);
 
     rangePicker.value.set({ start: '2026-07-01', end: '2026-07-05' });
     await fixture.whenStable();
@@ -186,10 +192,11 @@ describe('UiDateRangePicker', () => {
 
     fixture.componentInstance.open();
     await fixture.whenStable();
+    const title = fixture.nativeElement.querySelector('.ui-date-range-title') as HTMLElement;
+    holdElementAnimations(title);
     fixture.componentInstance.nextMonth();
     await fixture.whenStable();
 
-    const title = fixture.nativeElement.querySelector('.ui-date-range-title') as HTMLElement;
     expect(fixture.componentInstance.leftView().toString()).toBe('2026-06');
     expect(title.getAttribute('data-swap-phase')).toBe('exit');
     expect(title.getAttribute('data-swap-direction')).toBe('next');
@@ -218,6 +225,24 @@ describe('UiDateRangePicker', () => {
     expect(rangePicker.leftView().toString()).toBe('2026-06');
     expect(rangePicker.monthSwapPhase()).toBe('idle');
   });
+
+  it.each(['PageUp', 'PageDown'])(
+    'should keep %s navigation inside the two-month min/max window',
+    async (key) => {
+      const fixture = await createHostFixture();
+      await openRangePicker(fixture);
+      const panel = getPanel(fixture)!;
+
+      panel.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true }));
+      await fixture.whenStable();
+
+      expect(fixture.componentInstance.rangePicker().leftView().toString()).toBe('2026-06');
+      expect(fixture.componentInstance.rangePicker().rightView().toString()).toBe('2026-07');
+      expect(panel.querySelector('.ui-date-range-title')?.getAttribute('data-swap-phase')).toBe(
+        'idle',
+      );
+    },
+  );
 
   it('should expose selected range edges through the Angular Aria grid harness', async () => {
     const fixture = await createHostFixture();

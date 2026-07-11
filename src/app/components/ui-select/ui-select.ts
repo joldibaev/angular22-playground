@@ -22,6 +22,7 @@ import { UiSelectOption } from './ui-select-option/ui-select-option';
 import { UiIcon } from '../ui-icon/ui-icon';
 import { UiLoading } from '../ui-loading/ui-loading';
 import { syncPopover } from '../../shared/sync-popover';
+import { afterElementAnimations } from '../../shared/after-element-animations';
 
 type UiSelectRenderItem = {
   group?: UiSelectGroup;
@@ -125,6 +126,14 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
 
   constructor() {
     afterRenderEffect(() => {
+      if (this.valueSwapPhase() === 'exit') {
+        afterElementAnimations(this.selectedLabelElement().nativeElement, () =>
+          this.finishValueSwap(),
+        );
+      }
+    });
+
+    afterRenderEffect(() => {
       const nextValue = this.displayValue();
       const nextPlaceholder = this.isPlaceholderVisible();
       const currentValue = untracked(this.displayedValue);
@@ -180,6 +189,14 @@ export class UiSelect implements FormValueControl<UiSelectValue> {
       event.propertyName !== 'opacity' ||
       this.valueSwapPhase() !== 'exit'
     ) {
+      return;
+    }
+
+    this.finishValueSwap();
+  }
+
+  private finishValueSwap(): void {
+    if (this.valueSwapPhase() !== 'exit') {
       return;
     }
 

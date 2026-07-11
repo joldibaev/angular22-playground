@@ -1,17 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { uiSonnerState } from '../ui-sonner.state';
+import { SonnerService } from '../sonner.service';
 import { type UiSonnerToast as UiSonnerToastModel } from '../ui-sonner.type';
 import { UiSonnerToast } from './ui-sonner-toast';
 
 describe('UiSonnerToast', () => {
   let fixture: ComponentFixture<UiSonnerToast>;
   let toast: UiSonnerToastModel;
+  let sonner: SonnerService;
 
   beforeEach(async () => {
     TestBed.overrideComponent(UiSonnerToast, { set: { styles: [] } });
     await TestBed.configureTestingModule({ imports: [UiSonnerToast] }).compileComponents();
-    uiSonnerState.reset();
+    sonner = TestBed.inject(SonnerService);
+    sonner.reset();
 
     toast = {
       id: 'toast-test',
@@ -21,7 +23,7 @@ describe('UiSonnerToast', () => {
       dismissible: true,
       duration: Number.POSITIVE_INFINITY,
     };
-    uiSonnerState.create(toast);
+    sonner.show({ ...toast, title: toast.title ?? '' });
     fixture = TestBed.createComponent(UiSonnerToast);
     fixture.componentRef.setInput('toast', toast);
     fixture.componentRef.setInput('index', 0);
@@ -41,8 +43,13 @@ describe('UiSonnerToast', () => {
 
   afterEach(() => {
     fixture.destroy();
-    uiSonnerState.reset();
+    sonner.reset();
   });
+
+  function holdAnimations(element: Element): void {
+    element.getAnimations = () =>
+      [{ finished: new Promise<never>(() => undefined) }] as unknown as Animation[];
+  }
 
   it('should render content, status semantics, and stack metadata', () => {
     const host = fixture.nativeElement.querySelector('[data-sonner-toast]') as HTMLElement;
@@ -82,7 +89,7 @@ describe('UiSonnerToast', () => {
     Object.defineProperty(exit, 'propertyName', { value: 'opacity' });
     fixture.nativeElement.querySelector('[data-sonner-toast]').dispatchEvent(exit);
 
-    expect(uiSonnerState.toasts()).toHaveLength(0);
+    expect(sonner.toasts()).toHaveLength(0);
   });
 
   it('should hide toasts beyond the visible limit from assistive technology', async () => {
@@ -120,6 +127,8 @@ describe('UiSonnerToast', () => {
   });
 
   it('should transition updated copy through exit and enter states', async () => {
+    const content = fixture.nativeElement.querySelector('[data-content]') as HTMLElement;
+    holdAnimations(content);
     fixture.componentRef.setInput('toast', {
       ...toast,
       title: 'Order accepted',
@@ -127,7 +136,6 @@ describe('UiSonnerToast', () => {
     });
     await fixture.whenStable();
 
-    const content = fixture.nativeElement.querySelector('[data-content]') as HTMLElement;
     const title = content.querySelector('[data-title]') as HTMLElement;
     expect(title.textContent).toContain('Saved');
     expect(content.textContent).toContain('Changes are ready');
@@ -145,6 +153,8 @@ describe('UiSonnerToast', () => {
 
   it('should swap a promise icon in sync with its title', async () => {
     const promise = Promise.resolve('Done');
+    const content = fixture.nativeElement.querySelector('[data-content]') as HTMLElement;
+    holdAnimations(content);
     fixture.componentRef.setInput('toast', {
       ...toast,
       title: 'Submitting order',
@@ -153,7 +163,6 @@ describe('UiSonnerToast', () => {
     });
     await fixture.whenStable();
 
-    const content = fixture.nativeElement.querySelector('[data-content]') as HTMLElement;
     let exit = new Event('transitionend', { bubbles: true });
     Object.defineProperty(exit, 'propertyName', { value: 'opacity' });
     content.dispatchEvent(exit);

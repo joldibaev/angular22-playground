@@ -114,7 +114,9 @@ describe('UiRadioGroup', () => {
     expect(lowRadio.name).toBe(groupName);
     expect(highRadio.name).toBe(groupName);
     expect(lowRadio.getAttribute('aria-describedby')).toContain(description?.id);
-    expect(lowRadio.getAttribute('aria-describedby')).toContain(error?.id);
+    expect(lowRadio.getAttribute('aria-describedby')).not.toContain(error?.id);
+    expect(lowRadio.getAttribute('aria-invalid')).toBe('true');
+    expect(lowRadio.getAttribute('aria-errormessage')).toBe(error?.id);
   });
 
   it('should update the signal form value when an option is selected', async () => {

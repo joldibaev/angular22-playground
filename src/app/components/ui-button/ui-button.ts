@@ -12,6 +12,7 @@ import {
   viewChild,
 } from '@angular/core';
 import { UiLoading } from '../ui-loading/ui-loading';
+import { afterElementAnimations } from '../../shared/after-element-animations';
 
 export type UiButtonVariant =
   | 'default'
@@ -102,6 +103,12 @@ export class UiButton {
     });
 
     afterRenderEffect(() => {
+      if (this.stateSwapPhase() === 'exit') {
+        afterElementAnimations(this.stateElement().nativeElement, () => this.finishStateSwap());
+      }
+    });
+
+    afterRenderEffect(() => {
       if (this.stateSwapPhase() !== 'enter-start') {
         return;
       }
@@ -118,6 +125,14 @@ export class UiButton {
       event.propertyName !== 'opacity' ||
       this.stateSwapPhase() !== 'exit'
     ) {
+      return;
+    }
+
+    this.finishStateSwap();
+  }
+
+  private finishStateSwap(): void {
+    if (this.stateSwapPhase() !== 'exit') {
       return;
     }
 

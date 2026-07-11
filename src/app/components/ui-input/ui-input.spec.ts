@@ -191,9 +191,12 @@ describe('UiInput', () => {
     const hostFixture = await createSignalFormHostFixture();
     const firstField = hostFixture.nativeElement.querySelector('ui-input');
     const message = firstField.querySelector('.ui-input-error-panel');
+    const input = firstField.querySelector('input') as HTMLInputElement;
 
     expect(message?.getAttribute('role')).toBe('alert');
     expect(message?.textContent).toContain('Ticket title is required');
+    expect(input.getAttribute('aria-invalid')).toBe('true');
+    expect(input.getAttribute('aria-errormessage')).toBe(message?.id);
   });
 
   it('should show disabled reasons below the control', async () => {

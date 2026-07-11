@@ -27,6 +27,17 @@ class TestHost {
 @Component({
   imports: [UiSelect, UiSelectOption],
   template: `
+    <ui-select>
+      <ui-select-option value="enabled">Enabled</ui-select-option>
+      <ui-select-option value="disabled" disabled>Disabled</ui-select-option>
+    </ui-select>
+  `,
+})
+class DisabledOptionTestHost {}
+
+@Component({
+  imports: [UiSelect, UiSelectOption],
+  template: `
     <ui-select placeholder="Choose status">
       <ui-select-option value="created">Created</ui-select-option>
       <ui-select-option value="approved">Approved</ui-select-option>
@@ -326,6 +337,20 @@ describe('UiSelect', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should expose disabled options through Angular Aria', async () => {
+    const hostFixture = TestBed.createComponent(DisabledOptionTestHost);
+    await hostFixture.whenStable();
+    const loader = TestbedHarnessEnvironment.loader(hostFixture);
+    const select = await loader.getHarness(ComboboxHarness);
+
+    await select.open();
+    const listbox = await select.getPopupWidget(ListboxHarness);
+    const options = await listbox.getOptions();
+
+    expect(await options[0].isDisabled()).toBe(false);
+    expect(await options[1].isDisabled()).toBe(true);
   });
 
   it('should forward the compact size to the wrapped ui-input', async () => {

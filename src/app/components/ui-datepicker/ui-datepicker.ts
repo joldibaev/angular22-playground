@@ -18,6 +18,7 @@ import { UiInput } from '../ui-input/ui-input';
 import { syncPopover } from '../../shared/sync-popover';
 import { parseInputDate } from '../../shared/date.utils';
 import { nextId } from '../../shared/unique-id';
+import { afterElementAnimations } from '../../shared/after-element-animations';
 import {
   buildMonthGrid,
   type CalendarDay,
@@ -54,6 +55,7 @@ export class UiDatepicker implements FormValueControl<string> {
 
   readonly trigger = viewChild<ElementRef<HTMLButtonElement>>('trigger');
   readonly triggerLabel = viewChild.required<ElementRef<HTMLElement>>('triggerLabel');
+  readonly monthTitle = viewChild.required<ElementRef<HTMLElement>>('monthTitle');
   readonly panel = viewChild<ElementRef<HTMLElement>>('panel');
   readonly grid = viewChild(Grid);
 
@@ -171,12 +173,24 @@ export class UiDatepicker implements FormValueControl<string> {
     });
 
     afterRenderEffect(() => {
+      if (this.triggerSwapPhase() === 'exit') {
+        afterElementAnimations(this.triggerLabel().nativeElement, () => this.finishTriggerSwap());
+      }
+    });
+
+    afterRenderEffect(() => {
       if (this.triggerSwapPhase() !== 'enter-start') {
         return;
       }
 
       void this.triggerLabel().nativeElement.offsetHeight;
       this.triggerSwapPhase.set('idle');
+    });
+
+    afterRenderEffect(() => {
+      if (this.monthSwapPhase() === 'exit') {
+        afterElementAnimations(this.monthTitle().nativeElement, () => this.finishMonthSwap());
+      }
     });
 
     afterRenderEffect(() => {
@@ -278,9 +292,7 @@ export class UiDatepicker implements FormValueControl<string> {
       return;
     }
 
-    this.displayedTriggerValue.set(this.pendingTriggerValue);
-    this.displayedTriggerPlaceholder.set(this.pendingTriggerPlaceholder);
-    this.triggerSwapPhase.set('enter-start');
+    this.finishTriggerSwap();
   }
 
   onMonthTransitionEnd(event: TransitionEvent) {
@@ -293,8 +305,7 @@ export class UiDatepicker implements FormValueControl<string> {
       return;
     }
 
-    this.view.set(this.pendingView);
-    this.monthSwapPhase.set('enter-start');
+    this.finishMonthSwap();
   }
 
   onDaySelectionChange(day: CalendarDay, selected: boolean) {
@@ -352,6 +363,7 @@ export class UiDatepicker implements FormValueControl<string> {
 
   private transitionToView(nextView: Temporal.PlainYearMonth, withFocus: boolean) {
     const currentView = this.view();
+    nextView = this.clampViewToBounds(nextView);
 
     if (nextView.equals(currentView)) {
       if (withFocus) {
@@ -367,6 +379,40 @@ export class UiDatepicker implements FormValueControl<string> {
       Temporal.PlainYearMonth.compare(nextView, currentView) < 0 ? 'previous' : 'next',
     );
     this.monthSwapPhase.set('exit');
+  }
+
+  private finishTriggerSwap(): void {
+    if (this.triggerSwapPhase() !== 'exit') {
+      return;
+    }
+
+    this.displayedTriggerValue.set(this.pendingTriggerValue);
+    this.displayedTriggerPlaceholder.set(this.pendingTriggerPlaceholder);
+    this.triggerSwapPhase.set('enter-start');
+  }
+
+  private finishMonthSwap(): void {
+    if (this.monthSwapPhase() !== 'exit' || !this.pendingView) {
+      return;
+    }
+
+    this.view.set(this.pendingView);
+    this.monthSwapPhase.set('enter-start');
+  }
+
+  private clampViewToBounds(view: Temporal.PlainYearMonth): Temporal.PlainYearMonth {
+    const minMonth = parseInputDate(this.min() ?? '')?.toPlainYearMonth();
+    const maxMonth = parseInputDate(this.max() ?? '')?.toPlainYearMonth();
+
+    if (minMonth && Temporal.PlainYearMonth.compare(view, minMonth) < 0) {
+      return minMonth;
+    }
+
+    if (maxMonth && Temporal.PlainYearMonth.compare(view, maxMonth) > 0) {
+      return maxMonth;
+    }
+
+    return view;
   }
 
   private focusInitialCell() {

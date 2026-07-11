@@ -131,7 +131,9 @@ describe('UiCheckbox', () => {
 
     expect(message?.getAttribute('role')).toBe('alert');
     expect(message?.textContent).toContain('Accept terms is required');
-    expect(input.getAttribute('aria-describedby')).toContain(message?.id);
+    expect(input.getAttribute('aria-invalid')).toBe('true');
+    expect(input.getAttribute('aria-errormessage')).toBe(message?.id);
+    expect(input.getAttribute('aria-describedby')).not.toContain(message?.id);
   });
 
   it('should show disabled reasons below the control', async () => {

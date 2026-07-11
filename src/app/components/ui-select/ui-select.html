@@ -83,6 +83,7 @@
                     #ngOption="ngOption"
                     class="ui-popup-option"
                     [value]="option.value()"
+                    [disabled]="option.disabled()"
                   >
                     <span class="flex-1">{{ option.label() }}</span>
 
@@ -93,7 +94,13 @@
                 }
               </div>
             } @else if (item.option; as option) {
-              <div ngOption #ngOption="ngOption" class="ui-popup-option" [value]="option.value()">
+              <div
+                ngOption
+                #ngOption="ngOption"
+                class="ui-popup-option"
+                [value]="option.value()"
+                [disabled]="option.disabled()"
+              >
                 <span class="flex-1">{{ option.label() }}</span>
 
                 @if (ngOption.selected()) {

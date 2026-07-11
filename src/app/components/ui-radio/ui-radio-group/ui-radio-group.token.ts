@@ -7,10 +7,13 @@ export interface UiRadioGroupControl {
   value(): string;
   disabled(): boolean;
   required(): boolean;
+  invalid(): boolean;
   // The group owns the size so a single `<ui-radio-group size>` cascades to every
   // child; an individual `<ui-radio>` may still override it.
   size(): UiRadioSize;
   describedBy(): string | null;
+  showErrorMessage(): boolean;
+  readonly errorId: string;
   select(value: string): void;
   markTouched(): void;
 }

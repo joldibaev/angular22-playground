@@ -61,6 +61,11 @@ function getPanel(fixture: ComponentFixture<unknown>): HTMLElement | null {
   return fixture.nativeElement.querySelector('.ui-datepicker-panel');
 }
 
+function holdElementAnimations(element: Element): void {
+  element.getAnimations = () =>
+    [{ finished: new Promise<never>(() => undefined) }] as unknown as Animation[];
+}
+
 describe('UiDatepicker', () => {
   beforeAll(() => {
     HTMLElement.prototype.scrollIntoView ??= () => {};
@@ -134,6 +139,7 @@ describe('UiDatepicker', () => {
     const label = fixture.nativeElement.querySelector(
       '.ui-datepicker-trigger-label',
     ) as HTMLElement;
+    holdElementAnimations(label);
 
     datepicker.value.set('2026-06-16');
     await fixture.whenStable();
@@ -183,10 +189,11 @@ describe('UiDatepicker', () => {
 
     fixture.componentInstance.open();
     await fixture.whenStable();
+    const title = fixture.nativeElement.querySelector('.ui-datepicker-title') as HTMLElement;
+    holdElementAnimations(title);
     fixture.componentInstance.nextMonth();
     await fixture.whenStable();
 
-    const title = fixture.nativeElement.querySelector('.ui-datepicker-title') as HTMLElement;
     expect(fixture.componentInstance.view().toString()).toBe('2026-06');
     expect(title.getAttribute('data-swap-phase')).toBe('exit');
     expect(title.getAttribute('data-swap-direction')).toBe('next');
@@ -214,6 +221,20 @@ describe('UiDatepicker', () => {
 
     expect(datepicker.view().toString()).toBe('2026-06');
     expect(datepicker.monthSwapPhase()).toBe('idle');
+  });
+
+  it.each(['PageUp', 'PageDown'])('should keep %s navigation inside min/max months', async (key) => {
+    const fixture = await createHostFixture();
+    await openDatepicker(fixture);
+    const panel = getPanel(fixture)!;
+
+    panel.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true }));
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.datepicker().view().toString()).toBe('2026-06');
+    expect(panel.querySelector('.ui-datepicker-title')?.getAttribute('data-swap-phase')).toBe(
+      'idle',
+    );
   });
 
   it('should expose calendar cells through the Angular Aria grid harness', async () => {

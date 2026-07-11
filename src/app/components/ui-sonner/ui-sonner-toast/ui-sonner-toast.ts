@@ -5,6 +5,7 @@ import {
   computed,
   effect,
   ElementRef,
+  inject,
   input,
   linkedSignal,
   OnDestroy,
@@ -15,7 +16,8 @@ import {
 import { UiButton } from '../../ui-button/ui-button';
 import { UiIcon } from '../../ui-icon/ui-icon';
 import { UiLoading } from '../../ui-loading/ui-loading';
-import { uiSonnerState } from '../ui-sonner.state';
+import { SonnerService } from '../sonner.service';
+import { afterElementAnimations } from '../../../shared/after-element-animations';
 import {
   UiSonnerPosition,
   UiSonnerToast as UiSonnerToastModel,
@@ -32,8 +34,9 @@ const SWIPE_THRESHOLD = 20;
   styleUrl: './ui-sonner-toast.css',
 })
 export class UiSonnerToast implements AfterViewInit, OnDestroy {
-  protected readonly toasts = uiSonnerState.toasts;
-  protected readonly heights = uiSonnerState.heights;
+  private readonly sonner = inject(SonnerService);
+  protected readonly toasts = this.sonner.toasts;
+  protected readonly heights = this.sonner.heights;
 
   readonly toast = input.required<UiSonnerToastModel>();
   readonly index = input.required<number>();
@@ -216,6 +219,12 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
     });
 
     afterRenderEffect(() => {
+      if (this.contentSwapPhase() === 'exit') {
+        afterElementAnimations(this.contentRef().nativeElement, () => this.finishContentSwap());
+      }
+    });
+
+    afterRenderEffect(() => {
       if (this.contentSwapPhase() !== 'enter-start') {
         return;
       }
@@ -228,6 +237,12 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
     effect(() => {
       if (this.toast().delete) {
         this.deleteToast();
+      }
+    });
+
+    afterRenderEffect(() => {
+      if (this.removed() && this.isVisible()) {
+        afterElementAnimations(this.toastRef().nativeElement, () => this.finalizeRemoval());
       }
     });
   }
@@ -252,7 +267,7 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     clearTimeout(this.timeoutId);
     this.resizeObserver?.disconnect();
-    uiSonnerState.removeHeight(this.toast().id);
+    this.sonner.removeHeight(this.toast().id);
   }
 
   protected onPointerDown(event: PointerEvent): void {
@@ -365,11 +380,7 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
       return;
     }
 
-    this.displayedTitle.set(this.pendingTitle);
-    this.displayedDescription.set(this.pendingDescription);
-    this.displayedIcon.set(this.pendingIcon);
-    this.displayedToastType.set(this.pendingToastType);
-    this.contentSwapPhase.set('enter-start');
+    this.finishContentSwap();
   }
 
   protected onExitTransitionEnd(event: TransitionEvent): void {
@@ -395,7 +406,7 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
 
     this.removed.set(true);
     this.offsetBeforeRemove.set(this.offset());
-    uiSonnerState.removeHeight(this.toast().id);
+    this.sonner.removeHeight(this.toast().id);
 
     // Toasts already hidden beyond the visible stack have no opacity change,
     // so the browser would not emit transitionend for them.
@@ -404,13 +415,25 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
     }
   }
 
+  private finishContentSwap(): void {
+    if (this.contentSwapPhase() !== 'exit') {
+      return;
+    }
+
+    this.displayedTitle.set(this.pendingTitle);
+    this.displayedDescription.set(this.pendingDescription);
+    this.displayedIcon.set(this.pendingIcon);
+    this.displayedToastType.set(this.pendingToastType);
+    this.contentSwapPhase.set('enter-start');
+  }
+
   private finalizeRemoval(): void {
     if (this.removalFinalized) {
       return;
     }
 
     this.removalFinalized = true;
-    uiSonnerState.remove(this.toast().id);
+    this.sonner.remove(this.toast().id);
   }
 
   private pauseTimer(): void {
@@ -437,6 +460,6 @@ export class UiSonnerToast implements AfterViewInit, OnDestroy {
 
     // CSS owns the toast's own auto height; measured heights only feed stack offsets.
     this.measuredHeight.set(height);
-    uiSonnerState.addHeight({ toastId: this.toast().id, height });
+    this.sonner.addHeight({ toastId: this.toast().id, height });
   }
 }

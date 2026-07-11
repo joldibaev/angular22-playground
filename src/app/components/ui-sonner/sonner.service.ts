@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { toast, uiSonnerState } from './ui-sonner.state';
+import { createToastState } from './ui-sonner.state';
 import {
   UiSonnerExternalToast,
+  UiSonnerHeight,
   UiSonnerPromise,
   UiSonnerPromiseData,
   UiSonnerToastId,
@@ -9,8 +10,11 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class SonnerService {
-  readonly toasts = uiSonnerState.toasts;
-  readonly heights = uiSonnerState.heights;
+  // Root providers are created per Angular application, including once per SSR request.
+  // Never move this state back to module scope: concurrent requests would share notifications.
+  private readonly state = createToastState();
+  readonly toasts = this.state.toasts;
+  readonly heights = this.state.heights;
 
   show(title: string, options?: UiSonnerExternalToast): UiSonnerToastId;
   show(options: UiSonnerExternalToast & { title: string }): UiSonnerToastId;
@@ -19,26 +23,26 @@ export class SonnerService {
     options?: UiSonnerExternalToast,
   ): UiSonnerToastId {
     return typeof titleOrOptions === 'string'
-      ? toast(titleOrOptions, options)
-      : toast(titleOrOptions.title, titleOrOptions);
+      ? this.state.create({ ...options, message: titleOrOptions })
+      : this.state.create({ ...titleOrOptions, message: titleOrOptions.title });
   }
 
   success(title: string, description?: string, options?: UiSonnerExternalToast): UiSonnerToastId {
-    return toast.success(title, {
+    return this.state.success(title, {
       ...options,
       description: description ?? options?.description,
     });
   }
 
   info(title: string, description?: string, options?: UiSonnerExternalToast): UiSonnerToastId {
-    return toast.info(title, {
+    return this.state.info(title, {
       ...options,
       description: description ?? options?.description,
     });
   }
 
   warning(title: string, description?: string, options?: UiSonnerExternalToast): UiSonnerToastId {
-    return toast.warning(title, {
+    return this.state.warning(title, {
       ...options,
       description: description ?? options?.description,
     });
@@ -49,7 +53,7 @@ export class SonnerService {
     description?: string,
     options?: UiSonnerExternalToast,
   ): UiSonnerToastId {
-    return toast.destructive(title, {
+    return this.state.destructive(title, {
       ...options,
       description: description ?? options?.description,
     });
@@ -60,7 +64,7 @@ export class SonnerService {
   }
 
   loading(title: string, description?: string, options?: UiSonnerExternalToast): UiSonnerToastId {
-    return toast.loading(title, {
+    return this.state.loading(title, {
       ...options,
       description: description ?? options?.description,
     });
@@ -70,14 +74,26 @@ export class SonnerService {
     promiseInput: UiSonnerPromise<ToastData>,
     data?: UiSonnerPromiseData<ToastData>,
   ): UiSonnerToastId | undefined {
-    return toast.promise(promiseInput, data);
+    return this.state.promise(promiseInput, data);
   }
 
   dismiss(id?: UiSonnerToastId): UiSonnerToastId | undefined {
-    return toast.dismiss(id);
+    return this.state.dismiss(id);
   }
 
   reset(): void {
-    uiSonnerState.reset();
+    this.state.reset();
+  }
+
+  addHeight(height: UiSonnerHeight): void {
+    this.state.addHeight(height);
+  }
+
+  removeHeight(id: UiSonnerToastId): void {
+    this.state.removeHeight(id);
+  }
+
+  remove(id: UiSonnerToastId): void {
+    this.state.remove(id);
   }
 }
