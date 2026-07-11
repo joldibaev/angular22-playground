@@ -45,11 +45,12 @@ export function buildMonthGrid(
   const firstOfMonth = view.toPlainDate({ day: 1 });
   // dayOfWeek is ISO: 1 = Monday … 7 = Sunday, matching the Monday-first grid.
   const gridStart = firstOfMonth.subtract({ days: firstOfMonth.dayOfWeek - 1 });
+  const cellCount = Math.ceil((firstOfMonth.dayOfWeek - 1 + view.daysInMonth) / 7) * 7;
   const focusTargetDate = pickFocusTarget(view, options.selected, options.today);
   const min = normalizeInputDate(options.min);
   const max = normalizeInputDate(options.max);
 
-  const flat = Array.from({ length: 42 }, (_, index) => {
+  const flat = Array.from({ length: cellCount }, (_, index) => {
     const date = gridStart.add({ days: index });
     const inputDate = date.toString();
     const disabled =

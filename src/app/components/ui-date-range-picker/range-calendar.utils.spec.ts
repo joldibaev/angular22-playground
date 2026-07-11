@@ -47,6 +47,20 @@ describe('range calendar utilities', () => {
     expect(days.find((day) => day.date === '2026-06-25')?.isPendingRangeEnd).toBe(true);
   });
 
+  it.each([
+    ['2021-02', 4],
+    ['2026-06', 5],
+    ['2026-08', 6],
+  ])('renders only the weeks required by %s', (month, expectedWeeks) => {
+    const weeks = buildRangeMonthGrid(Temporal.PlainYearMonth.from(month), {
+      range: { start: '', end: '' },
+      pending: { start: '', hover: '', selectingEnd: false },
+      today: '2026-07-11',
+    });
+
+    expect(weeks).toHaveLength(expectedWeeks);
+  });
+
   it('builds deterministic presets from the supplied clock', () => {
     const presets = buildPresets(() => Temporal.PlainDate.from('2026-07-06'));
 

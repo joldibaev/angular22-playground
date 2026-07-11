@@ -10,7 +10,7 @@ describe('calendar utilities', () => {
     expect(formatDisplayDate('2026-02-31')).toBe('');
   });
 
-  it('builds a six-week Monday-first grid with selection and boundaries', () => {
+  it('builds a Monday-first grid with selection and boundaries', () => {
     const weeks = buildMonthGrid(Temporal.PlainYearMonth.from('2026-06'), {
       selected: '2026-06-15',
       today: '2026-06-20',
@@ -19,7 +19,7 @@ describe('calendar utilities', () => {
     });
     const days = weeks.flat();
 
-    expect(weeks).toHaveLength(6);
+    expect(weeks).toHaveLength(5);
     expect(weeks.every((week) => week.length === 7)).toBe(true);
     expect(days[0].date).toBe('2026-06-01');
     expect(days.find((day) => day.date === '2026-06-15')).toEqual(
@@ -27,6 +27,19 @@ describe('calendar utilities', () => {
     );
     expect(days.find((day) => day.date === '2026-06-04')?.disabled).toBe(true);
     expect(days.find((day) => day.date === '2026-06-26')?.disabled).toBe(true);
+  });
+
+  it.each([
+    ['2021-02', 4],
+    ['2026-06', 5],
+    ['2026-08', 6],
+  ])('renders only the weeks required by %s', (month, expectedWeeks) => {
+    const weeks = buildMonthGrid(Temporal.PlainYearMonth.from(month), {
+      selected: '',
+      today: '2026-07-11',
+    });
+
+    expect(weeks).toHaveLength(expectedWeeks);
   });
 
   it('falls back from selection to today and then the first day for focus', () => {
