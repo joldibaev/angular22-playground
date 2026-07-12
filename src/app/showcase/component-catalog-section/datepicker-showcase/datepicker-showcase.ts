@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component, signal } from '@angular/core';
 import { FormField, form, required } from '@angular/forms/signals';
 import { UiCard } from '../../../components/ui-card/ui-card';
@@ -7,7 +8,7 @@ import { UiTab } from '../../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 @Component({
   selector: 'app-datepicker-showcase',
-  imports: [FormField, UiCard, UiDateRangePicker, UiDatepicker, UiTab, UiTabItem],
+  imports: [ShowcaseCode, FormField, UiCard, UiDateRangePicker, UiDatepicker, UiTab, UiTabItem],
   templateUrl: './datepicker-showcase.html',
   styleUrl: './datepicker-showcase.css',
 })

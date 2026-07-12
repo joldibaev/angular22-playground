@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component } from '@angular/core';
 import { UiBarcode } from '../../../components/ui-barcode/ui-barcode';
 import { UiCard } from '../../../components/ui-card/ui-card';
@@ -6,7 +7,7 @@ import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 
 @Component({
   selector: 'app-barcode-showcase',
-  imports: [UiBarcode, UiCard, UiTab, UiTabItem],
+  imports: [ShowcaseCode, UiBarcode, UiCard, UiTab, UiTabItem],
   templateUrl: './barcode-showcase.html',
   styleUrl: './barcode-showcase.css',
 })

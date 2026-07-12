@@ -41,23 +41,6 @@
   color: var(--text-color-muted);
   font-size: 0.8125rem;
 }
-pre {
-  min-width: 0;
-  max-width: 100%;
-  margin: 0;
-  overflow: auto;
-  border-radius: 0.5rem;
-  padding: 0.875rem;
-  background: var(--background-color-subtle);
-  color: contrast-color(var(--background-color-subtle));
-  font-size: 0.75rem;
-  line-height: 1.55;
-  tab-size: 2;
-  &:focus-visible {
-    outline: 2px solid var(--focus-ring-color);
-    outline-offset: 2px;
-  }
-}
 code {
   font-family: ui-monospace, 'Cascadia Code', monospace;
 }

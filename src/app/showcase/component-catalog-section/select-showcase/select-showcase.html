@@ -17,7 +17,7 @@
             >
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{defaultCode}}</code></pre>
+<app-showcase-code [code]="defaultCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -43,7 +43,7 @@
             >
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{groupsCode}}</code></pre>
+<app-showcase-code [code]="groupsCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -60,7 +60,7 @@
               ><ui-select-option value="locked" label="Locked" /></ui-select
             ><ui-select label="Loading" loading /></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{statesCode}}</code></pre>
+<app-showcase-code [code]="statesCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -79,7 +79,7 @@
             ><output>{{ formModel().status }}</output>
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{formCode}}</code></pre>
+<app-showcase-code [code]="formCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >

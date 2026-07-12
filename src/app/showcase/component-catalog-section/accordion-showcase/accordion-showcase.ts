@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component, signal } from '@angular/core';
 import { UiAccordion } from '../../../components/ui-accordion/ui-accordion';
 import { UiAccordionItem } from '../../../components/ui-accordion/ui-accordion-item/ui-accordion-item';
@@ -8,7 +9,7 @@ import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 
 @Component({
   selector: 'app-accordion-showcase',
-  imports: [UiAccordion, UiAccordionItem, UiButton, UiCard, UiTab, UiTabItem],
+  imports: [ShowcaseCode, UiAccordion, UiAccordionItem, UiButton, UiCard, UiTab, UiTabItem],
   templateUrl: './accordion-showcase.html',
   styleUrl: './accordion-showcase.css',
 })

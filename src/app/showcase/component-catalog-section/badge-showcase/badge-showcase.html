@@ -10,7 +10,7 @@
         ><ui-tab-item value="preview" label="Preview"
           ><div class="preview"><ui-badge>Draft</ui-badge></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{ defaultCode }}</code></pre>
+<app-showcase-code [code]="defaultCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -26,7 +26,7 @@
             ><ui-badge variant="destructive">Destructive</ui-badge>
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{ variantsCode }}</code></pre>
+<app-showcase-code [code]="variantsCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -41,7 +41,7 @@
             ><ui-badge variant="destructive" withDot>Blocked</ui-badge>
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{ dotCode }}</code></pre>
+<app-showcase-code [code]="dotCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -76,7 +76,7 @@
           </div>
         </ui-tab-item>
         <ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{ notificationCode }}</code></pre>
+<app-showcase-code [code]="notificationCode" />
         </ui-tab-item>
       </ui-tab>
     </ui-card>
@@ -97,7 +97,7 @@
             >
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{ iconCode }}</code></pre>
+<app-showcase-code [code]="iconCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >

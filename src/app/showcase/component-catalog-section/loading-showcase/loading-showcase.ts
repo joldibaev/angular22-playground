@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component } from '@angular/core';
 import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiLoading } from '../../../components/ui-loading/ui-loading';
@@ -6,7 +7,7 @@ import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 
 @Component({
   selector: 'app-loading-showcase',
-  imports: [UiCard, UiLoading, UiTab, UiTabItem],
+  imports: [ShowcaseCode, UiCard, UiLoading, UiTab, UiTabItem],
   templateUrl: './loading-showcase.html',
   styleUrl: './loading-showcase.css',
 })

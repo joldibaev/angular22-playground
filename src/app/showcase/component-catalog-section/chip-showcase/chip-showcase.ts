@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component, signal } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { UiCard } from '../../../components/ui-card/ui-card';
@@ -9,7 +10,7 @@ const INITIAL_TAGS = ['Design', 'Angular', 'CSS', 'A11y'];
 
 @Component({
   selector: 'app-chip-showcase',
-  imports: [UiButton, UiCard, UiChip, UiTab, UiTabItem],
+  imports: [ShowcaseCode, UiButton, UiCard, UiChip, UiTab, UiTabItem],
   templateUrl: './chip-showcase.html',
   styleUrl: './chip-showcase.css',
 })

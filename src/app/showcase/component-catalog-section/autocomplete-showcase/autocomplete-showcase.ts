@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { Component, computed, inject, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
@@ -36,7 +37,7 @@ const EMPTY_SEARCH_STATE: UserSearchState = { users: [], loading: false, failed:
 
 @Component({
   selector: 'app-autocomplete-showcase',
-  imports: [FormField, UiAutocomplete, UiAutocompleteOption, UiButton, UiCard, UiTab, UiTabItem],
+  imports: [ShowcaseCode, FormField, UiAutocomplete, UiAutocompleteOption, UiButton, UiCard, UiTab, UiTabItem],
   templateUrl: './autocomplete-showcase.html',
   styleUrl: './autocomplete-showcase.css',
 })

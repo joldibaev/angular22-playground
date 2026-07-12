@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component, signal } from '@angular/core';
 import { disabled, email, FormField, form, max, min, required } from '@angular/forms/signals';
 import { RouterLink } from '@angular/router';
@@ -8,7 +9,7 @@ import { UiTab } from '../../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 @Component({
   selector: 'app-input-showcase',
-  imports: [FormField, RouterLink, UiCard, UiInput, UiMask, UiTab, UiTabItem],
+  imports: [ShowcaseCode, FormField, RouterLink, UiCard, UiInput, UiMask, UiTab, UiTabItem],
   templateUrl: './input-showcase.html',
   styleUrl: './input-showcase.css',
 })

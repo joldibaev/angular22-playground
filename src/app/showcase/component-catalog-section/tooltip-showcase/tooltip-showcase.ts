@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { UiCard } from '../../../components/ui-card/ui-card';
@@ -7,7 +8,7 @@ import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 import { type UiPanelPlacement } from '../../../shared/arrow-panel';
 @Component({
   selector: 'app-tooltip-showcase',
-  imports: [UiButton, UiCard, UiTooltip, UiTab, UiTabItem],
+  imports: [ShowcaseCode, UiButton, UiCard, UiTooltip, UiTab, UiTabItem],
   templateUrl: './tooltip-showcase.html',
   styleUrl: './tooltip-showcase.css',
 })

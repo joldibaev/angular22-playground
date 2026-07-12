@@ -48,7 +48,7 @@
             </div>
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{ determinateCode }}</code></pre>
+<app-showcase-code [code]="determinateCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -62,7 +62,7 @@
             <span>72 of 120</span
             ><ui-progress label="Import progress" [value]="72" [max]="120" /></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{ maxCode }}</code></pre>
+<app-showcase-code [code]="maxCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -75,7 +75,7 @@
           ><div class="preview column">
             <span>Preparing report</span><ui-progress label="Preparing report" /></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{ indeterminateCode }}</code></pre>
+<app-showcase-code [code]="indeterminateCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >

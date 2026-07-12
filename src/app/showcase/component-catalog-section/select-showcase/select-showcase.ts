@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component, signal } from '@angular/core';
 import { FormField, form } from '@angular/forms/signals';
 import { UiCard } from '../../../components/ui-card/ui-card';
@@ -8,7 +9,7 @@ import { UiTab } from '../../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 @Component({
   selector: 'app-select-showcase',
-  imports: [FormField, UiCard, UiSelect, UiSelectGroup, UiSelectOption, UiTab, UiTabItem],
+  imports: [ShowcaseCode, FormField, UiCard, UiSelect, UiSelectGroup, UiSelectOption, UiTab, UiTabItem],
   templateUrl: './select-showcase.html',
   styleUrl: './select-showcase.css',
 })

@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component, signal } from '@angular/core';
 import {
   UiContextMenu,
@@ -18,7 +19,7 @@ interface DemoFile {
 
 @Component({
   selector: 'app-context-menu-showcase',
-  imports: [
+  imports: [ShowcaseCode,
     UiCard,
     UiContextMenu,
     UiContextMenuTrigger,

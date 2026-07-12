@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component, signal } from '@angular/core';
 import { UiBadge } from '../../../components/ui-badge/ui-badge';
 import { UiButton } from '../../../components/ui-button/ui-button';
@@ -8,7 +9,7 @@ import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 
 @Component({
   selector: 'app-badge-showcase',
-  imports: [UiBadge, UiButton, UiCard, UiIcon, UiTab, UiTabItem],
+  imports: [ShowcaseCode, UiBadge, UiButton, UiCard, UiIcon, UiTab, UiTabItem],
   templateUrl: './badge-showcase.html',
   styleUrl: './badge-showcase.css',
 })

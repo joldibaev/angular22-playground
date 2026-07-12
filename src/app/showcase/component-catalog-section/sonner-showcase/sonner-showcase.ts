@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component, inject, signal } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { UiCard } from '../../../components/ui-card/ui-card';
@@ -21,7 +22,7 @@ const POSITIONS: ReadonlyArray<{ value: UiSonnerPosition; label: string }> = [
 
 @Component({
   selector: 'app-sonner-showcase',
-  imports: [UiButton, UiCard, UiSelect, UiSelectOption, UiSonner, UiSwitch, UiTab, UiTabItem],
+  imports: [ShowcaseCode, UiButton, UiCard, UiSelect, UiSelectOption, UiSonner, UiSwitch, UiTab, UiTabItem],
   templateUrl: './sonner-showcase.html',
   styleUrl: './sonner-showcase.css',
 })

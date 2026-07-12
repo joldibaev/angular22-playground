@@ -14,7 +14,7 @@
               description="Receive release announcements."
             /><ui-switch label="Two-factor authentication" [checked]="true" /></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{statesCode}}</code></pre>
+<app-showcase-code [code]="statesCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -30,7 +30,7 @@
               [checked]="true"
             /></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{sizesCode}}</code></pre>
+<app-showcase-code [code]="sizesCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -47,7 +47,7 @@
               [formField]="formState.protection"
             /></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{validationCode}}</code></pre>
+<app-showcase-code [code]="validationCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -60,7 +60,7 @@
           ><div class="preview">
             <ui-switch label="Audit mode" [formField]="formState.audit" /></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{disabledCode}}</code></pre>
+<app-showcase-code [code]="disabledCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >

@@ -1,10 +1,11 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component, signal } from '@angular/core';
 import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiTab } from '../../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 @Component({
   selector: 'app-tabs-showcase',
-  imports: [UiCard, UiTab, UiTabItem],
+  imports: [ShowcaseCode, UiCard, UiTab, UiTabItem],
   templateUrl: './tabs-showcase.html',
   styleUrl: './tabs-showcase.css',
 })

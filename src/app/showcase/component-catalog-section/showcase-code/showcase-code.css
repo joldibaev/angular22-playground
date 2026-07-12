@@ -1,0 +1,68 @@
+app-showcase-code {
+  display: block;
+  min-width: 0;
+  --ui-showcase-code-tag: color-mix(in oklab, var(--color-brand) 58%, CanvasText);
+  --ui-showcase-code-symbol: color-mix(in oklab, var(--color-brand) 44%, CanvasText);
+  --ui-showcase-code-keyword: color-mix(in oklab, var(--color-destructive) 76%, CanvasText);
+  --ui-showcase-code-literal: color-mix(in oklab, var(--color-destructive) 48%, CanvasText);
+}
+
+app-showcase-code pre {
+  max-block-size: min(22rem, 55dvh);
+  margin: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border-radius: 0.5rem;
+  padding: 0.875rem;
+  background: var(--background-color-subtle);
+  color: contrast-color(var(--background-color-subtle));
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+  font-size: 0.75rem;
+  line-height: 1.55;
+  tab-size: 2;
+  scrollbar-color: color-mix(in oklab, CanvasText 32%, transparent) transparent;
+
+  &:focus-visible {
+    outline: 2px solid var(--focus-ring-color);
+    outline-offset: 2px;
+  }
+}
+
+app-showcase-code .token.comment,
+app-showcase-code .token.prolog,
+app-showcase-code .token.doctype,
+app-showcase-code .token.cdata {
+  color: var(--text-color-muted);
+}
+
+app-showcase-code .token.tag,
+app-showcase-code .token.class-name,
+app-showcase-code .token.function {
+  color: var(--ui-showcase-code-tag);
+}
+
+app-showcase-code .token.attr-name,
+app-showcase-code .token.property,
+app-showcase-code .token.variable {
+  color: var(--ui-showcase-code-symbol);
+}
+
+app-showcase-code .token.keyword,
+app-showcase-code .token.atrule,
+app-showcase-code .token.decorator {
+  color: var(--ui-showcase-code-keyword);
+}
+
+app-showcase-code .token.string,
+app-showcase-code .token.attr-value,
+app-showcase-code .token.number,
+app-showcase-code .token.boolean,
+app-showcase-code .token.entity,
+app-showcase-code .token.url {
+  color: var(--ui-showcase-code-literal);
+}
+
+app-showcase-code .token.punctuation,
+app-showcase-code .token.operator {
+  color: var(--text-color-subtle);
+}

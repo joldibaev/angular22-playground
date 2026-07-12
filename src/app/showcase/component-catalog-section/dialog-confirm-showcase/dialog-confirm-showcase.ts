@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component, signal } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { UiCard } from '../../../components/ui-card/ui-card';
@@ -7,7 +8,7 @@ import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 
 @Component({
   selector: 'app-dialog-confirm-showcase',
-  imports: [UiButton, UiCard, UiDialogConfirm, UiTab, UiTabItem],
+  imports: [ShowcaseCode, UiButton, UiCard, UiDialogConfirm, UiTab, UiTabItem],
   templateUrl: './dialog-confirm-showcase.html',
   styleUrl: './dialog-confirm-showcase.css',
 })

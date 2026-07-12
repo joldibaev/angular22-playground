@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component, signal } from '@angular/core';
 import { disabled, FormField, form, required } from '@angular/forms/signals';
 import { UiCard } from '../../../components/ui-card/ui-card';
@@ -6,7 +7,7 @@ import { UiTab } from '../../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 @Component({
   selector: 'app-checkbox-showcase',
-  imports: [FormField, UiCard, UiCheckbox, UiTab, UiTabItem],
+  imports: [ShowcaseCode, FormField, UiCard, UiCheckbox, UiTab, UiTabItem],
   templateUrl: './checkbox-showcase.html',
   styleUrl: './checkbox-showcase.css',
 })

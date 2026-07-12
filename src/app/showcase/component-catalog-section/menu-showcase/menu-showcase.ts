@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component, signal } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { UiCard } from '../../../components/ui-card/ui-card';
@@ -10,7 +11,7 @@ import { UiTab } from '../../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 @Component({
   selector: 'app-menu-showcase',
-  imports: [
+  imports: [ShowcaseCode,
     UiButton,
     UiCard,
     UiIcon,

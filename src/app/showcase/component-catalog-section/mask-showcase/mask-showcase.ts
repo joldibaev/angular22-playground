@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component, signal } from '@angular/core';
 import { FormField, form } from '@angular/forms/signals';
 import { UiCard } from '../../../components/ui-card/ui-card';
@@ -10,7 +11,7 @@ import { UiTableViewport } from '../../../components/ui-table/ui-table-viewport/
 
 @Component({
   selector: 'app-mask-showcase',
-  imports: [FormField, UiCard, UiInput, UiMask, UiTab, UiTabItem, UiTable, UiTableViewport],
+  imports: [ShowcaseCode, FormField, UiCard, UiInput, UiMask, UiTab, UiTabItem, UiTable, UiTableViewport],
   templateUrl: './mask-showcase.html',
   styleUrl: './mask-showcase.css',
 })

@@ -14,7 +14,7 @@
             </button>
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{defaultCode}}</code></pre>
+<app-showcase-code [code]="defaultCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -39,7 +39,7 @@
             }
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{placementCode}}</code></pre>
+<app-showcase-code [code]="placementCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -63,7 +63,7 @@
             </button>
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{fallbackCode}}</code></pre>
+<app-showcase-code [code]="fallbackCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -87,7 +87,7 @@
             </button>
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{richCode}}</code></pre>
+<app-showcase-code [code]="richCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -120,7 +120,7 @@
             <span aria-live="polite">{{ controlledOpen() ? 'Open' : 'Closed' }}</span>
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{controlledCode}}</code></pre>
+<app-showcase-code [code]="controlledCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >

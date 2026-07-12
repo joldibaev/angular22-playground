@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component, signal } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { UiCard } from '../../../components/ui-card/ui-card';
@@ -41,7 +42,7 @@ const ALL_ROWS = Array.from(
 
 @Component({
   selector: 'app-table-showcase',
-  imports: [
+  imports: [ShowcaseCode,
     UiButton,
     UiCard,
     UiContextMenu,

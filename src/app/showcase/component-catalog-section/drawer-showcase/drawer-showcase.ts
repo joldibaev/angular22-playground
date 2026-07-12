@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component, signal } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { UiCard } from '../../../components/ui-card/ui-card';
@@ -10,7 +11,7 @@ import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 
 @Component({
   selector: 'app-drawer-showcase',
-  imports: [UiButton, UiCard, UiDrawer, UiDrawerClose, UiDrawerTrigger, UiSwitch, UiTab, UiTabItem],
+  imports: [ShowcaseCode, UiButton, UiCard, UiDrawer, UiDrawerClose, UiDrawerTrigger, UiSwitch, UiTab, UiTabItem],
   templateUrl: './drawer-showcase.html',
   styleUrl: './drawer-showcase.css',
 })

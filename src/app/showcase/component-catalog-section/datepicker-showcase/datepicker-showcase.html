@@ -11,7 +11,7 @@
           ><div class="preview">
             <ui-datepicker label="Invoice date" value="2026-06-15" /></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{singleCode}}</code></pre>
+<app-showcase-code [code]="singleCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -29,7 +29,7 @@
               max="2026-06-25"
             /></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{limitsCode}}</code></pre>
+<app-showcase-code [code]="limitsCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -42,7 +42,7 @@
           ><div class="preview">
             <ui-date-range-picker label="Report range" [value]="range" /></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{rangeCode}}</code></pre>
+<app-showcase-code [code]="rangeCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -59,7 +59,7 @@
               [withPresets]="false"
             /></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{presetsCode}}</code></pre>
+<app-showcase-code [code]="presetsCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -76,7 +76,7 @@
               disabled
             /><ui-datepicker label="Loading" value="2026-06-15" loading /></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{statesCode}}</code></pre>
+<app-showcase-code [code]="statesCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -93,7 +93,7 @@
               [formField]="formState.requiredDate"
             /></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{formCode}}</code></pre>
+<app-showcase-code [code]="formCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >

@@ -14,7 +14,7 @@
               shape="rectangle"
             /></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{ shapesCode }}</code></pre>
+<app-showcase-code [code]="shapesCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -32,7 +32,7 @@
               />
             </div></article></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{ compositionCode }}</code></pre>
+<app-showcase-code [code]="compositionCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -49,7 +49,7 @@
               [withAnimation]="false"
             /></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{ staticCode }}</code></pre>
+<app-showcase-code [code]="staticCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >

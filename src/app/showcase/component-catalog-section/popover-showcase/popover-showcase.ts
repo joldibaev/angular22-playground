@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component, signal } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { UiCard } from '../../../components/ui-card/ui-card';
@@ -6,7 +7,7 @@ import { UiTab } from '../../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 @Component({
   selector: 'app-popover-showcase',
-  imports: [UiButton, UiCard, UiPopover, UiTab, UiTabItem],
+  imports: [ShowcaseCode, UiButton, UiCard, UiPopover, UiTab, UiTabItem],
   templateUrl: './popover-showcase.html',
   styleUrl: './popover-showcase.css',
 })

@@ -55,15 +55,3 @@
   gap: 0.5rem;
   margin-block-start: 0.25rem;
 }
-pre {
-  margin: 0;
-  overflow: auto;
-  border-radius: 0.5rem;
-  padding: 0.875rem;
-  background: var(--background-color-subtle);
-  font-size: 0.75rem;
-  &:focus-visible {
-    outline: 2px solid var(--focus-ring-color);
-    outline-offset: 2px;
-  }
-}

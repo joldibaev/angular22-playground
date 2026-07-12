@@ -16,7 +16,7 @@
               ><input type="email" autocomplete="email" placeholder="name@example.com"
             /></ui-input></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{defaultCode}}</code></pre>
+<app-showcase-code [code]="defaultCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -31,7 +31,7 @@
               <input type="number" [formField]="formState.quantity" />
             </ui-input></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{numberCode}}</code></pre>
+<app-showcase-code [code]="numberCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -60,7 +60,7 @@
               />
             </ui-input></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{maskCode}}</code></pre>
+<app-showcase-code [code]="maskCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -84,7 +84,7 @@
               <textarea placeholder="Add handoff notes"></textarea>
             </ui-input></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{textareaCode}}</code></pre>
+<app-showcase-code [code]="textareaCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -101,7 +101,7 @@
               ><input value="Searching records"
             /></ui-input></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{statesCode}}</code></pre>
+<app-showcase-code [code]="statesCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -116,7 +116,7 @@
               ><input type="email" [formField]="formState.email"
             /></ui-input></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{validationCode}}</code></pre>
+<app-showcase-code [code]="validationCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -131,7 +131,7 @@
               ><input [formField]="formState.identity"
             /></ui-input></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{disabledCode}}</code></pre>
+<app-showcase-code [code]="disabledCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >

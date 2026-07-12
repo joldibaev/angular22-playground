@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component, signal } from '@angular/core';
 import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiTab } from '../../../components/ui-tab/ui-tab';
@@ -36,7 +37,7 @@ const FILES: UiTreeItem[] = [
 ];
 @Component({
   selector: 'app-tree-showcase',
-  imports: [UiCard, UiTab, UiTabItem, UiTree],
+  imports: [ShowcaseCode, UiCard, UiTab, UiTabItem, UiTree],
   templateUrl: './tree-showcase.html',
   styleUrl: './tree-showcase.css',
 })

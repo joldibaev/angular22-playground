@@ -12,7 +12,7 @@
             <button uiButton type="button" uiTooltip="Save changes">Save</button>
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{defaultCode}}</code></pre>
+<app-showcase-code [code]="defaultCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -28,7 +28,7 @@
             ><a href="#component-catalog" uiTooltip="Return to catalog heading">Catalog link</a>
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{triggerCode}}</code></pre>
+<app-showcase-code [code]="triggerCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -53,7 +53,7 @@
             }
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{placementCode}}</code></pre>
+<app-showcase-code [code]="placementCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >

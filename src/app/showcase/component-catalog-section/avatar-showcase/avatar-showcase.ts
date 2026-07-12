@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component } from '@angular/core';
 import { UiAvatar } from '../../../components/ui-avatar/ui-avatar';
 import { UiCard } from '../../../components/ui-card/ui-card';
@@ -6,7 +7,7 @@ import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 
 @Component({
   selector: 'app-avatar-showcase',
-  imports: [UiAvatar, UiCard, UiTab, UiTabItem],
+  imports: [ShowcaseCode, UiAvatar, UiCard, UiTab, UiTabItem],
   templateUrl: './avatar-showcase.html',
   styleUrl: './avatar-showcase.css',
 })

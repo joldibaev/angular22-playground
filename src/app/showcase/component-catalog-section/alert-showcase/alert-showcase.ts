@@ -1,3 +1,4 @@
+import { ShowcaseCode } from '../showcase-code/showcase-code';
 import { Component, signal } from '@angular/core';
 import { UiAlert } from '../../../components/ui-alert/ui-alert';
 import { UiButton } from '../../../components/ui-button/ui-button';
@@ -7,7 +8,7 @@ import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 
 @Component({
   selector: 'app-alert-showcase',
-  imports: [UiAlert, UiButton, UiCard, UiTab, UiTabItem],
+  imports: [ShowcaseCode, UiAlert, UiButton, UiCard, UiTab, UiTabItem],
   templateUrl: './alert-showcase.html',
   styleUrl: './alert-showcase.css',
 })

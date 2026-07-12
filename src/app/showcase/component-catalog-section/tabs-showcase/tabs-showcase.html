@@ -20,7 +20,7 @@
             >
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{defaultCode}}</code></pre>
+<app-showcase-code [code]="defaultCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -40,7 +40,7 @@
             >
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{variantsCode}}</code></pre>
+<app-showcase-code [code]="variantsCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -58,7 +58,7 @@
             >
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{verticalCode}}</code></pre>
+<app-showcase-code [code]="verticalCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -83,7 +83,7 @@
             >
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{behaviorCode}}</code></pre>
+<app-showcase-code [code]="behaviorCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
@@ -105,7 +105,7 @@
             ><output>Selected: {{ selected() }}</output>
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">
-          <pre tabindex="0"><code>{{controlledCode}}</code></pre>
+<app-showcase-code [code]="controlledCode" />
         </ui-tab-item></ui-tab
       ></ui-card
     >
