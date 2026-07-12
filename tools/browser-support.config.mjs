@@ -37,7 +37,13 @@ export const browserSupportProfiles = {
     'scrollbar-gutter',
     'scrollbar-width',
   ],
-  tabs: ['light-dark', 'contrast-color', 'has', 'anchor-name'],
+  tabs: [
+    'light-dark',
+    'contrast-color',
+    'has',
+    'anchor-name',
+    'scrollbar-width',
+  ],
   tooltip: ['light-dark', 'popover-hint', 'interest-invokers', 'starting-style', 'transition-behavior'],
   tree: ['light-dark', 'interpolate-size'],
 };

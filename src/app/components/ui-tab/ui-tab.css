@@ -82,6 +82,9 @@
   overflow-y: clip;
   overscroll-behavior-x: contain;
   scroll-padding-inline: 1rem;
+  /* Keep overflow accessible without Windows reserving a visible scrollbar;
+     touchpad, wheel, touch, and keyboard tab navigation still scroll it. */
+  scrollbar-width: none;
 }
 
 .ui-tab-list[aria-orientation='vertical'] {

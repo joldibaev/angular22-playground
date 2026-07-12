@@ -248,6 +248,14 @@ describe('UiTab', () => {
     expect(indicatorStyle.height).toBe('var(--ui-tab-line-indicator-size)');
   });
 
+  it('should keep horizontal tab overflow scrollable without a visible scrollbar', async () => {
+    const hostFixture = await createHostFixture();
+    const tabListStyle = getComputedStyle(getTabList(hostFixture));
+
+    expect(tabListStyle.overflowX).toBe('auto');
+    expect(tabListStyle.scrollbarWidth).toBe('none');
+  });
+
   it('should initialize the selected tab from a query param', async () => {
     const router = TestBed.inject(Router);
 

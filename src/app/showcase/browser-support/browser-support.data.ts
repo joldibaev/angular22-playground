@@ -357,7 +357,8 @@ export const browserSupportProfiles = {
     "light-dark",
     "contrast-color",
     "has",
-    "anchor-name"
+    "anchor-name",
+    "scrollbar-width"
   ],
   "tooltip": [
     "light-dark",
