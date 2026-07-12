@@ -61,20 +61,118 @@ const ALL_ROWS = Array.from(
   styleUrl: './table-showcase.css',
 })
 export class TableShowcase {
-  protected readonly defaultCode = `<table uiTable>\n  <caption>Inventory</caption>\n  <thead><tr><th scope="col">SKU</th><th scope="col">Product</th></tr></thead>\n  <tbody>@for (row of rows; track row.id) { ... }</tbody>\n</table>`;
-  protected readonly presentationCode = `<div uiTableViewport>\n  <table uiTable withStripedRows withRowHover>...</table>\n</div>`;
-  protected readonly sortCode = `<table uiTable [(sort)]="sort" (sortChange)="requestPage($event)">\n  <th uiTableSort="product">Product</th>\n  <th uiTableSort="stock" startDirection="desc">Stock</th>\n</table>`;
+  protected readonly defaultCode = `<table uiTable>
+  <caption>Inventory preview</caption>
+  <thead>
+    <tr>
+      <th scope="col">SKU</th>
+      <th scope="col">Product</th>
+      <th scope="col">Stock</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (row of allRows.slice(0, 4); track row.id) {
+      <tr>
+        <td>{{ row.sku }}</td>
+        <th scope="row">{{ row.product }}</th>
+        <td>{{ row.stock }}</td>
+      </tr>
+    }
+  </tbody>
+</table>`;
+  protected readonly presentationCode = `<div uiTableViewport>
+  <table uiTable withStripedRows withRowHover>
+    <caption>Inventory presentation</caption>
+    <thead>
+      <tr>
+        <th scope="col">SKU</th>
+        <th scope="col">Product</th>
+        <th scope="col">Warehouse</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of allRows.slice(0, 10); track row.id) {
+        <tr>
+          <td>{{ row.sku }}</td>
+          <th scope="row">{{ row.product }}</th>
+          <td>{{ row.warehouse }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>`;
+  protected readonly sortCode = `<table uiTable [sort]="sort()" (sortChange)="requestSortedPage($event)">
+  <thead>
+    <tr>
+      <th scope="col" uiTableSort="product">Product</th>
+      <th scope="col" uiTableSort="stock" startDirection="desc">Stock</th>
+    </tr>
+  </thead>
+  <tbody>
+    @for (row of rows; track row.id) {
+      <tr>
+        <th scope="row">{{ row.product }}</th>
+        <td>{{ row.stock }}</td>
+      </tr>
+    }
+  </tbody>
+</table>`;
   protected readonly contextMenuCode = `<tr
   tabindex="0"
   [uiContextMenuTrigger]="rowMenu"
   [uiContextMenuContext]="row"
->...</tr>
+>
+  <td>{{ row.sku }}</td>
+  <th scope="row">{{ row.product }}</th>
+  <td>{{ row.warehouse }}</td>
+  <td>{{ row.stock }}</td>
+</tr>
 
 <ui-context-menu #rowMenu (itemSelected)="runRowAction($event)">
-  <ui-menu-item value="open">Open</ui-menu-item>
-  <ui-menu-item value="delete" variant="destructive">Delete</ui-menu-item>
+  <ui-menu-item value="open">Open details</ui-menu-item>
+  <ui-menu-item value="duplicate">
+    <ui-icon name="outline-copy" decorative />Duplicate row
+  </ui-menu-item>
+  <ui-menu-item value="delete" variant="destructive">
+    <ui-icon name="outline-trash" decorative />Delete row
+  </ui-menu-item>
 </ui-context-menu>`;
-  protected readonly virtualCode = `<div uiTableViewport>\n  <table #table="uiTable" uiTable virtualScroll [rows]="rows()" [rowHeight]="48" [totalRows]="totalRows" [loading]="loading()" [hasMore]="rows().length < totalRows" (endReached)="loadMore()">\n    <tr uiTableSpacer="start" [columns]="4"></tr>\n    @for (row of table.renderedRows(); track row.id) { ... }\n    <tr uiTableSpacer="end" [columns]="4"></tr>\n    @if (loading()) { ...skeleton rows... }\n  </table>\n</div>`;
+  protected readonly virtualCode = `<div uiTableViewport>
+  <table
+    #table="uiTable"
+    uiTable
+    virtualScroll
+    [rows]="rows()"
+    [rowHeight]="48"
+    [totalRows]="totalRows"
+    [loading]="loading()"
+    [hasMore]="rows().length < totalRows"
+    (endReached)="loadMore()"
+  >
+    <tbody>
+      <tr uiTableSpacer="start" [columns]="4"></tr>
+      @for (row of table.renderedRows(); track row.id) {
+        <tr>
+          <td>{{ row.sku }}</td>
+          <th scope="row">{{ row.product }}</th>
+          <td>{{ row.warehouse }}</td>
+          <td>{{ row.stock }}</td>
+        </tr>
+      }
+      <tr uiTableSpacer="end" [columns]="4"></tr>
+      @if (loading()) {
+        @for (_ of loadingSkeletonRows; track $index) {
+          <tr aria-hidden="true">
+            <td><ui-skeleton /></td>
+            <th scope="row"><ui-skeleton /></th>
+            <td><ui-skeleton /></td>
+            <td><ui-skeleton /></td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>`;
   protected readonly allRows = ALL_ROWS;
   protected readonly sort = signal<string | null>(null);
   protected readonly sortedRows = signal<readonly InventoryRow[]>(ALL_ROWS.slice(0, 10));

@@ -39,15 +39,32 @@ export class ContextMenuShowcase {
     { name: 'Campaign assets', kind: 'Folder' },
   ];
   protected readonly lastAction = signal('None');
-  protected readonly defaultCode = `<div
-  tabindex="0"
-  [uiContextMenuTrigger]="menu"
-  [uiContextMenuContext]="file"
->...</div>
+  protected readonly defaultCode = `@for (file of files; track file.name) {
+  <div
+    class="file"
+    tabindex="0"
+    [uiContextMenuTrigger]="fileMenu"
+    [uiContextMenuContext]="file"
+  >
+    <ui-icon name="outline-file-import" decorative />
+    <strong>{{ file.name }}</strong>
+    <span>{{ file.kind }}</span>
+  </div>
+}
 
-<ui-context-menu #menu (itemSelected)="run($event)">
+<ui-context-menu #fileMenu (itemSelected)="run($event)">
   <ui-menu-item value="open">Open</ui-menu-item>
-  <ui-menu-item value="delete" variant="destructive">Delete</ui-menu-item>
+  <ui-menu-group label="Organize">
+    <ui-menu-item value="rename">
+      <ui-icon name="outline-edit" decorative />Rename
+    </ui-menu-item>
+    <ui-menu-item value="duplicate">
+      <ui-icon name="outline-copy" decorative />Duplicate
+    </ui-menu-item>
+  </ui-menu-group>
+  <ui-menu-item value="delete" variant="destructive">
+    <ui-icon name="outline-trash" decorative />Delete
+  </ui-menu-item>
 </ui-context-menu>`;
 
   protected run(selection: UiContextMenuSelection<unknown>): void {

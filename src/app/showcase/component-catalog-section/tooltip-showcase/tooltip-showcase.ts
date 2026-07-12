@@ -14,7 +14,18 @@ import { type UiPanelPlacement } from '../../../shared/arrow-panel';
 })
 export class TooltipShowcase {
   protected readonly placements: readonly UiPanelPlacement[] = ['top', 'right', 'bottom', 'left'];
-  protected readonly defaultCode = `<button uiButton uiTooltip="Save changes">Save</button>`;
-  protected readonly triggerCode = `<button uiTooltip="Archive order">Archive</button>\n<a href="/help" uiTooltip="Open help center">Help</a>`;
-  protected readonly placementCode = `<button uiTooltip="Details" uiPlacement="right">Right</button>\n<button uiTooltip="Details" uiPlacement="bottom" uiWithFallback>Adaptive</button>`;
+  protected readonly defaultCode = `<button uiButton type="button" uiTooltip="Save changes">Save</button>`;
+  protected readonly triggerCode = `<button uiButton type="button" variant="outline" uiTooltip="Archive order">Archive</button>\n<a href="#component-catalog" uiTooltip="Return to catalog heading">Catalog link</a>`;
+  protected readonly placementCode = `@for (placement of placements; track placement) {
+  <button
+    uiButton
+    type="button"
+    variant="outline"
+    uiTooltip="Saved changes are available"
+    [uiPlacement]="placement"
+    uiWithFallback
+  >
+    {{ placement }}
+  </button>
+}`;
 }

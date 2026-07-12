@@ -25,17 +25,28 @@ export class ButtonShowcase {
     'ghost',
     'link',
   ];
-  protected readonly variantsCode = `<button uiButton>Default</button>\n<button uiButton variant="brand">Brand</button>\n<button uiButton variant="outline">Outline</button>\n<button uiButton variant="destructive">Destructive</button>`;
-  protected readonly sizesCode = `<button uiButton size="sm">Small</button>\n<button uiButton>Medium</button>\n<button uiButton rounded>Pill</button>`;
-  protected readonly statesCode = `<button
+  protected readonly variantsCode = `@for (variant of variants; track variant) {
+  <button uiButton type="button" [variant]="variant">{{ variant }}</button>
+}`;
+  protected readonly sizesCode = `<button uiButton type="button" size="sm">Small</button>\n<button uiButton type="button">Medium</button>\n<button uiButton type="button" variant="brand" rounded>Pill</button>`;
+  protected readonly statesCode = `<button uiButton type="button">Enabled</button>
+<button uiButton type="button" disabled>Disabled</button>
+<button
   uiButton
+  type="button"
+  variant="brand"
   [loading]="saving()"
   (click)="save()"
 >
   Save changes
 </button>`;
-  protected readonly iconsCode = `<button uiButton variant="brand">\n  <ui-icon name="outline-plus" decorative /> Create\n</button>\n<button uiButton iconOnly aria-label="Settings">…</button>`;
-  protected readonly anchorCode = `<a uiButton href="/docs" variant="outline">Open docs</a>\n<a uiButton href="/docs" disabled>Unavailable</a>`;
+  protected readonly iconsCode = `<button uiButton type="button" variant="brand">
+  <ui-icon name="outline-plus" decorative />Create
+</button>
+<button uiButton type="button" variant="ghost" iconOnly aria-label="Settings">
+  <ui-icon name="outline-settings" decorative />
+</button>`;
+  protected readonly anchorCode = `<a uiButton href="#component-catalog" variant="outline">Open catalog</a>\n<a uiButton href="#component-catalog" disabled>Unavailable</a>`;
   protected readonly fluidCode = `<button uiButton variant="brand" fluid>Continue</button>`;
 
   constructor() {

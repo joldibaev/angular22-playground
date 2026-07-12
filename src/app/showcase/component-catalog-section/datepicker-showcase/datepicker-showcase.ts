@@ -19,9 +19,22 @@ export class DatepickerShowcase {
     required(path.requiredDate, { message: 'Pick a date before continuing' }),
   );
   protected readonly singleCode = `<ui-datepicker label="Invoice date" value="2026-06-15" />`;
-  protected readonly limitsCode = `<ui-datepicker min="2026-06-05" max="2026-06-25" />`;
-  protected readonly rangeCode = `<ui-date-range-picker [value]="{start: '2026-06-15', end: '2026-06-20'}" />`;
-  protected readonly presetsCode = `<ui-date-range-picker [withPresets]="false" />`;
-  protected readonly statesCode = `<ui-datepicker size="sm" />\n<ui-datepicker disabled />\n<ui-datepicker loading />`;
-  protected readonly formCode = `required(path.requiredDate, {message: 'Pick a date'});\n\n<ui-datepicker withErrorMessage [formField]="formState.requiredDate" />`;
+  protected readonly limitsCode = `<ui-datepicker
+  label="Delivery date"
+  value="2026-06-15"
+  min="2026-06-05"
+  max="2026-06-25"
+/>`;
+  protected readonly rangeCode = `<ui-date-range-picker label="Report range" [value]="range" />`;
+  protected readonly presetsCode = `<ui-date-range-picker
+  label="Custom range"
+  [value]="range"
+  [withPresets]="false"
+/>`;
+  protected readonly statesCode = `<ui-datepicker label="Small" size="sm" value="2026-06-15" />\n<ui-datepicker label="Disabled" value="2026-06-15" disabled />\n<ui-datepicker label="Loading" value="2026-06-15" loading />`;
+  protected readonly formCode = `required(path.requiredDate, {message: 'Pick a date before continuing'});\n\n<ui-datepicker
+  label="Required date"
+  withErrorMessage
+  [formField]="formState.requiredDate"
+/>`;
 }

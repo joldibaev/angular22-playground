@@ -11,7 +11,7 @@ import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
   styleUrl: './skeleton-showcase.css',
 })
 export class SkeletonShowcase {
-  protected readonly shapesCode = `<ui-skeleton />\n<ui-skeleton shape="circle" />\n<ui-skeleton shape="rectangle" />`;
-  protected readonly compositionCode = `<article aria-busy="true" aria-label="Loading profile">\n  <ui-skeleton shape="circle" />\n  <ui-skeleton />\n</article>`;
-  protected readonly staticCode = `<ui-skeleton shape="rectangle" [withAnimation]="false" />`;
+  protected readonly shapesCode = `<ui-skeleton class="line" />\n<ui-skeleton shape="circle" />\n<ui-skeleton class="rectangle" shape="rectangle" />`;
+  protected readonly compositionCode = `<article class="profile" aria-busy="true" aria-label="Loading profile">\n  <ui-skeleton class="avatar" shape="circle" />\n  <div>\n    <ui-skeleton class="name" />\n    <ui-skeleton class="detail" />\n    <ui-skeleton class="short" />\n  </div>\n</article>`;
+  protected readonly staticCode = `<ui-skeleton\n  class="rectangle"\n  shape="rectangle"\n  [withAnimation]="false"\n/>`;
 }

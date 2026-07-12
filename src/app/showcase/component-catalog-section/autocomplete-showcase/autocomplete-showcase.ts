@@ -91,21 +91,34 @@ readonly results = computed(() =>
 
 <ui-autocomplete label="Team" [(query)]="query">
   @for (team of results(); track team) {
-    <ui-autocomplete-option [value]="team" [label]="team" />
+    <ui-autocomplete-option [value]="'team_' + team.toLowerCase()" [label]="team" />
   }
 </ui-autocomplete>`;
   protected readonly resourceCode = `readonly query = signal('');
 readonly users = httpResource<UsersResponse>(() => {
   const q = query().trim();
   return q.length >= 2
-    ? {url: 'https://dummyjson.com/users/search', params: {q, limit: 8}}
+    ? {
+        url: 'https://dummyjson.com/users/search',
+        params: {q, limit: 8, select: 'id,firstName,lastName,email'},
+      }
     : undefined;
 }, {defaultValue: {users: [], total: 0, skip: 0, limit: 0}});
 readonly results = computed(() => users.hasValue() ? users.value().users : []);
 
-<ui-autocomplete [(query)]="query" [loading]="users.isLoading()">
+<ui-autocomplete
+  label="User"
+  placeholder="Try John"
+  [(query)]="query"
+  [loading]="users.isLoading()"
+  [emptyText]="emptyText()"
+  loadingText="Searching users"
+>
   @for (user of results(); track user.id) {
-    <ui-autocomplete-option [value]="user.id.toString()" [label]="user.firstName" />
+    <ui-autocomplete-option
+      [value]="user.id.toString()"
+      [label]="userLabel(user)"
+    />
   }
 </ui-autocomplete>`;
   protected readonly rxCode = `readonly query = signal('');
@@ -113,17 +126,63 @@ readonly search = toSignal(toObservable(query).pipe(
   map(q => q.trim()),
   debounceTime(300),
   distinctUntilChanged(),
-  switchMap(q => q.length < 2 ? of([]) :
-    http.get<UsersResponse>('https://dummyjson.com/users/search', {params: {q}}).pipe(
-      map(response => response.users),
-      catchError(() => of([])),
+  switchMap(q => q.length < 2 ? of({users: [], loading: false, failed: false}) :
+    http.get<UsersResponse>('https://dummyjson.com/users/search', {
+      params: {q, limit: 8, select: 'id,firstName,lastName,email'},
+    }).pipe(
+      map(response => ({users: response.users, loading: false, failed: false})),
+      startWith({users: [], loading: true, failed: false}),
+      catchError(() => of({users: [], loading: false, failed: true})),
     ),
   ),
-), {initialValue: []});`;
-  protected readonly valueCode = `readonly team = signal('team_support');\n\n<ui-autocomplete label="Team" [(value)]="team">...</ui-autocomplete>`;
-  protected readonly stateCode = `<ui-autocomplete label="Small" size="sm">...</ui-autocomplete>\n<ui-autocomplete label="Loading" loading />\n<ui-autocomplete label="Disabled" disabled>...</ui-autocomplete>`;
-  protected readonly copyCode = `<ui-autocomplete label="Owner" placeholder="Search people" emptyText="No people found" loadingText="Loading people" loading>...</ui-autocomplete>`;
-  protected readonly formCode = `readonly state = form(model, path => required(path.team, {message: 'Choose a team'}));\n\n<ui-autocomplete label="Team" withErrorMessage [formField]="state.team">...</ui-autocomplete>`;
+), {initialValue: {users: [], loading: false, failed: false}});
+
+<ui-autocomplete
+  label="User"
+  placeholder="Try Emily"
+  [(query)]="query"
+  [loading]="search().loading"
+  [emptyText]="emptyText()"
+  loadingText="Searching users"
+>
+  @for (user of search().users; track user.id) {
+    <ui-autocomplete-option
+      [value]="user.id.toString()"
+      [label]="userLabel(user)"
+    />
+  }
+</ui-autocomplete>`;
+  protected readonly valueCode = `readonly selectedTeam = signal('team_support');
+
+<ui-autocomplete label="Assigned team" [(value)]="selectedTeam">
+  @for (team of teams; track team) {
+    <ui-autocomplete-option [value]="'team_' + team.toLowerCase()" [label]="team" />
+  }
+</ui-autocomplete>
+<output>Value: {{ selectedTeam() }}</output>
+<button uiButton type="button" size="sm" variant="ghost" (click)="selectedTeam.set('')">
+  Reset
+</button>`;
+  protected readonly stateCode = `<ui-autocomplete label="Small" size="sm">\n  <ui-autocomplete-option value="platform" label="Platform" />\n</ui-autocomplete>\n<ui-autocomplete label="Loading" loading />\n<ui-autocomplete label="Disabled" disabled>\n  <ui-autocomplete-option value="platform" label="Platform" />\n</ui-autocomplete>`;
+  protected readonly copyCode = `<ui-autocomplete label="Owner" placeholder="Search people" emptyText="No people found">
+  <ui-autocomplete-option value="ada" label="Ada Lovelace" />
+  <ui-autocomplete-option value="grace" label="Grace Hopper" />
+</ui-autocomplete>
+<ui-autocomplete
+  label="Async owner"
+  placeholder="Search people"
+  loadingText="Loading people"
+  loading
+/>`;
+  protected readonly formCode = `readonly formModel = signal({team: ''});
+readonly formState = form(formModel, path => required(path.team, {message: 'Choose a team'}));
+
+<ui-autocomplete label="Required team" withErrorMessage [formField]="formState.team">
+  @for (team of teams; track team) {
+    <ui-autocomplete-option [value]="'team_' + team.toLowerCase()" [label]="team" />
+  }
+</ui-autocomplete>
+<output>Value: {{ formModel().team || 'Empty' }}</output>`;
 
   protected userLabel(user: PlaceholderUser): string {
     return `${user.firstName} ${user.lastName} — ${user.email}`;

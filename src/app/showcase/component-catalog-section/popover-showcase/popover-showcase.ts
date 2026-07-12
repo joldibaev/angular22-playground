@@ -14,9 +14,83 @@ import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 export class PopoverShowcase {
   protected readonly placements: readonly UiPopoverPlacement[] = ['top', 'right', 'bottom', 'left'];
   protected readonly controlledOpen = signal(false);
-  protected readonly defaultCode = `<button uiButton uiPopover [uiContent]="content">Open details</button>\n<ng-template #content>Popover content</ng-template>`;
-  protected readonly placementCode = `<button uiPopover uiPlacement="top" [uiContent]="content">Top</button>\n<button uiPopover uiPlacement="right" [uiContent]="content">Right</button>`;
-  protected readonly fallbackCode = `<button uiPopover uiWithFallback uiPlacement="bottom" [uiContent]="content">Adaptive</button>`;
-  protected readonly richCode = `<button uiPopover uiRole="note" uiDescribedby uiMaxWidth="min(28rem, calc(100vw - 2rem))" [uiContent]="details">Quarterly review</button>`;
-  protected readonly controlledCode = `readonly open = signal(false);\n\n<button #popover="uiPopover" uiPopover [uiVisible]="open()" (uiVisibleChange)="open.set($event)" [uiContent]="content">Toggle</button>\n<button (click)="popover.show()">Show</button>\n<button (click)="popover.hide()">Hide</button>`;
+  protected readonly defaultCode = `<button uiButton type="button" uiPopover [uiContent]="defaultContent">
+  Open details
+</button>
+<ng-template #defaultContent>
+  <strong>Order details</strong>
+  <span>Updated two minutes ago</span>
+</ng-template>`;
+  protected readonly placementCode = `@for (placement of placements; track placement) {
+  <button
+    uiButton
+    type="button"
+    variant="outline"
+    uiPopover
+    [uiPlacement]="placement"
+    [uiContent]="placementContent"
+  >
+    {{ placement }}
+  </button>
+}
+<ng-template #placementContent>
+  <strong>Milestone</strong>
+  <span>Ready for review</span>
+</ng-template>`;
+  protected readonly fallbackCode = `<button
+  uiButton
+  type="button"
+  variant="outline"
+  uiPopover
+  uiWithFallback
+  uiPlacement="bottom"
+  [uiContent]="fallbackContent"
+>
+  Adaptive placement
+</button>
+<ng-template #fallbackContent>
+  <span>Flips when the preferred side overflows.</span>
+</ng-template>`;
+  protected readonly richCode = `<button
+  uiButton
+  type="button"
+  uiPopover
+  uiRole="note"
+  uiDescribedby
+  uiMaxWidth="min(28rem, calc(100vw - 2rem))"
+  [uiContent]="richContent"
+>
+  Quarterly review
+</button>
+<ng-template #richContent>
+  <div class="rich">
+    <strong>Quarterly review</strong>
+    <p>Revenue is ahead of plan while onboarding remains the main friction point.</p>
+    <dl>
+      <div><dt>ARR</dt><dd>$2.4M</dd></div>
+      <div><dt>Activation</dt><dd>68%</dd></div>
+    </dl>
+  </div>
+</ng-template>`;
+  protected readonly controlledCode = `readonly controlledOpen = signal(false);
+
+<button
+  #controlled="uiPopover"
+  uiButton
+  type="button"
+  uiPopover
+  uiPanelId="controlled-popover-example"
+  [uiContent]="controlledContent"
+  [uiVisible]="controlledOpen()"
+  (uiVisibleChange)="controlledOpen.set($event)"
+>
+  Toggle content
+</button>
+<div class="row">
+  <button uiButton type="button" size="sm" variant="ghost" (click)="controlled.show()">Show</button>
+  <button uiButton type="button" size="sm" variant="ghost" (click)="controlled.hide()">Hide</button>
+</div>
+<ng-template #controlledContent>
+  <span>Controlled by component state.</span>
+</ng-template>`;
 }

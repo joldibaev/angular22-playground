@@ -23,6 +23,32 @@ export class MaskShowcase {
   });
   readonly formState = form(this.model);
 
-  protected readonly patternCode = `<ui-input label="Phone">\n  <input uiMask="+000 00 000-00-00" inputmode="tel" [formField]="formState.phone" />\n</ui-input>\n\n<ui-input label="Reference">\n  <input uiMask="UU-0000" [formField]="formState.reference" />\n</ui-input>`;
-  protected readonly separatorCode = `<ui-input label="Amount">\n  <input\n    uiMask="separator.2"\n    thousandSeparator=" "\n    decimalMarker="."\n    inputmode="decimal"\n    [formField]="formState.amount"\n  />\n</ui-input>`;
+  protected readonly patternCode = `<ui-input label="Phone">
+  <input
+    uiMask="+000 00 000-00-00"
+    inputmode="tel"
+    autocomplete="tel"
+    placeholder="+998 90 123-45-67"
+    [formField]="formState.phone"
+  />
+</ui-input>
+
+<ui-input label="Reference">
+  <input
+    uiMask="UU-0000"
+    autocapitalize="characters"
+    placeholder="AB-1234"
+    [formField]="formState.reference"
+  />
+</ui-input>`;
+  protected readonly separatorCode = `<ui-input label="Amount">
+  <input
+    uiMask="separator.2"
+    thousandSeparator=" "
+    decimalMarker="."
+    inputmode="decimal"
+    placeholder="0.00"
+    [formField]="formState.amount"
+  />
+</ui-input>`;
 }

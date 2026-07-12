@@ -18,10 +18,10 @@ export class AlertShowcase {
   protected readonly defaultCode = `import { UiAlert } from './components/ui-alert/ui-alert';
 
 <ui-alert title="Market session">
-  Trading closes today at 17:00.
+  Trading closes today at 17:00. Pending orders remain active until the session ends.
 </ui-alert>`;
   protected readonly destructiveCode = `<ui-alert title="Order rejected" variant="destructive">
-  The entered quantity exceeds the available balance.
+  The entered quantity exceeds the available balance. Review the order and try again.
 </ui-alert>`;
   protected readonly actionCode = `<ui-alert title="Profile incomplete">
   Add a recovery email before enabling withdrawals.

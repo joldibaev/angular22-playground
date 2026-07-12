@@ -12,5 +12,5 @@ import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 export class CardShowcase {
   protected readonly elevatedCode = `<ui-card>Account summary</ui-card>`;
   protected readonly outlinedCode = `<ui-card variant="outlined">Team access</ui-card>`;
-  protected readonly paddingCode = `<ui-card class="compact">Compact item</ui-card>\n\n.compact { --ui-card-padding: .875rem; }`;
+  protected readonly paddingCode = `<ui-card class="compact" variant="outlined">Compact repeated item</ui-card>\n\n.compact { --ui-card-padding: .875rem; }`;
 }

@@ -27,8 +27,72 @@ import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 })
 export class MenuShowcase {
   protected readonly selected = signal('None');
-  protected readonly defaultCode = `<button uiButton uiMenuTrigger [menu]="menu.menu()">Actions</button>\n<ui-menu #menu (itemSelected)="run($event)">\n  <ui-menu-item value="duplicate">Duplicate</ui-menu-item>\n  <ui-menu-item value="archive">Archive</ui-menu-item>\n</ui-menu>`;
-  protected readonly groupCode = `<ui-menu #menu>\n  <ui-menu-group label="Editing">\n    <ui-menu-item value="rename">Rename</ui-menu-item>\n  </ui-menu-group>\n</ui-menu>`;
-  protected readonly stateCode = `<ui-menu-item value="locked" disabled>Locked action</ui-menu-item>\n<ui-menu-item value="remove" variant="destructive">Remove</ui-menu-item>`;
-  protected readonly iconCode = `<button uiButton uiMenuTrigger iconOnly aria-label="More actions" [menu]="menu.menu()">...</button>`;
+  protected readonly defaultCode = `<button
+  uiButton
+  type="button"
+  uiMenuTrigger
+  variant="outline"
+  [menu]="defaultMenu.menu()"
+>
+  Actions
+</button>
+<ui-menu #defaultMenu (itemSelected)="selected.set($event)">
+  <ui-menu-item value="duplicate">Duplicate</ui-menu-item>
+  <ui-menu-item value="archive">Archive</ui-menu-item>
+</ui-menu>`;
+  protected readonly groupCode = `<button
+  uiButton
+  type="button"
+  uiMenuTrigger
+  variant="outline"
+  [menu]="groupedMenu.menu()"
+>
+  Grouped actions
+</button>
+<ui-menu #groupedMenu (itemSelected)="selected.set($event)">
+  <ui-menu-item value="inspect">Inspect</ui-menu-item>
+  <ui-menu-group label="Editing">
+    <ui-menu-item value="duplicate">Duplicate</ui-menu-item>
+    <ui-menu-item value="rename">Rename</ui-menu-item>
+  </ui-menu-group>
+  <ui-menu-group label="Danger zone">
+    <ui-menu-item value="archive">Archive</ui-menu-item>
+  </ui-menu-group>
+</ui-menu>`;
+  protected readonly stateCode = `<button
+  uiButton
+  type="button"
+  uiMenuTrigger
+  variant="outline"
+  [menu]="stateMenu.menu()"
+>
+  Item states
+</button>
+<ui-menu #stateMenu (itemSelected)="selected.set($event)">
+  <ui-menu-item value="edit">Edit</ui-menu-item>
+  <ui-menu-item value="locked" disabled>Locked action</ui-menu-item>
+  <ui-menu-item value="remove" variant="destructive">Remove</ui-menu-item>
+</ui-menu>`;
+  protected readonly iconCode = `<button
+  uiButton
+  type="button"
+  uiMenuTrigger
+  variant="secondary"
+  iconOnly
+  aria-label="More actions"
+  [menu]="iconMenu.menu()"
+>
+  <ui-icon name="outline-dots-vertical" decorative />
+</button>
+<ui-menu #iconMenu (itemSelected)="selected.set($event)">
+  <ui-menu-item value="rename">
+    <ui-icon name="outline-edit" decorative />Rename
+  </ui-menu-item>
+  <ui-menu-item value="move">
+    <ui-icon name="outline-hand-move" decorative />Move to…
+  </ui-menu-item>
+  <ui-menu-item value="remove" variant="destructive">
+    <ui-icon name="outline-trash" decorative />Remove
+  </ui-menu-item>
+</ui-menu>`;
 }

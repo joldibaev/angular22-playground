@@ -27,13 +27,21 @@ export class AccordionShowcase {
 </ui-accordion>`;
 
   protected readonly multiCode = `<ui-accordion multi>
-  <ui-accordion-item label="Billing" [(expanded)]="billingExpanded">...</ui-accordion-item>
-  <ui-accordion-item label="Security" [(expanded)]="securityExpanded">...</ui-accordion-item>
+  <ui-accordion-item label="Billing" [(expanded)]="billingExpanded">
+    Review invoices, payment methods, and billing contacts.
+  </ui-accordion-item>
+  <ui-accordion-item label="Security" [(expanded)]="securityExpanded">
+    Manage workspace access, sessions, and sign-in requirements.
+  </ui-accordion-item>
 </ui-accordion>`;
 
   protected readonly statesCode = `<ui-accordion #accordion multi wrap>
-  <ui-accordion-item label="Available section">...</ui-accordion-item>
-  <ui-accordion-item label="Unavailable section" disabled>...</ui-accordion-item>
+  <ui-accordion-item label="Available section">
+    This section is available to the current user.
+  </ui-accordion-item>
+  <ui-accordion-item label="Unavailable section" disabled>
+    This section is disabled by workspace policy.
+  </ui-accordion-item>
 </ui-accordion>
 
 <button (click)="accordion.expandAll()">Expand all</button>

@@ -18,14 +18,28 @@ export class BadgeShowcase {
   protected readonly defaultCode = `import { UiBadge } from './components/ui-badge/ui-badge';\n\n<ui-badge>Draft</ui-badge>`;
   protected readonly variantsCode = `<ui-badge>Secondary</ui-badge>\n<ui-badge variant="contrast">Contrast</ui-badge>\n<ui-badge variant="brand">Brand</ui-badge>\n<ui-badge variant="outline">Outline</ui-badge>\n<ui-badge variant="destructive">Destructive</ui-badge>`;
   protected readonly dotCode = `<ui-badge withDot>Processing</ui-badge>\n<ui-badge variant="destructive" withDot>Blocked</ui-badge>`;
-  protected readonly iconCode = `<ui-badge variant="brand">\n  <ui-icon name="outline-circle-check" decorative />\n  Verified\n</ui-badge>`;
-  protected readonly notificationCode = `<button class="notification-trigger" aria-label="Notifications, 3 unread">
+  protected readonly iconCode = `<ui-badge variant="brand">\n  <ui-icon name="outline-circle-check" decorative [width]="14" [height]="14" />\n  Verified\n</ui-badge>`;
+  protected readonly notificationCode = `<button
+  uiButton
+  type="button"
+  variant="outline"
+  iconOnly
+  class="notification-trigger"
+  [attr.aria-label]="
+    notificationVisible() ? 'Notifications, 3 unread' : 'Notifications, none unread'
+  "
+>
   <ui-icon name="outline-bell-down" decorative />
   <ui-badge
     variant="brand"
     withNotificationAnimation
     [visible]="notificationVisible()"
-  >3</ui-badge>
+  >
+    3
+  </ui-badge>
+</button>
+<button uiButton type="button" size="sm" variant="ghost" (click)="toggleNotification()">
+  {{ notificationVisible() ? 'Hide notification' : 'Show notification' }}
 </button>`;
 
   protected toggleNotification(): void {

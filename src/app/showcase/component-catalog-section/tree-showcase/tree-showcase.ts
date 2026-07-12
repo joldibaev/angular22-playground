@@ -48,7 +48,22 @@ export class TreeShowcase {
   protected readonly expanded = signal<string[] | undefined>(['src', 'components']);
   protected readonly navSelected = signal<string[]>(['main']);
   protected readonly defaultCode = `<ui-tree aria-label="Project files" [items]="files" [(selected)]="selected" />`;
-  protected readonly multiCode = `<ui-tree aria-label="Project files" [items]="files" multi [(selected)]="selected" />`;
-  protected readonly expansionCode = `<ui-tree [items]="files" [(expanded)]="expanded" [withGuides]="false" />`;
-  protected readonly navCode = `<ui-tree aria-label="Project navigation" [items]="files" nav [(selected)]="currentPage" />`;
+  protected readonly multiCode = `<ui-tree
+  aria-label="Multi-select project files"
+  [items]="files"
+  multi
+  [(selected)]="multiSelected"
+/>`;
+  protected readonly expansionCode = `<ui-tree
+  aria-label="Tree without guides"
+  [items]="files"
+  [(expanded)]="expanded"
+  [withGuides]="false"
+/>`;
+  protected readonly navCode = `<ui-tree
+  aria-label="Project navigation"
+  [items]="files"
+  nav
+  [(selected)]="navSelected"
+/>`;
 }

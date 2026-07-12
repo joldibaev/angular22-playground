@@ -18,8 +18,15 @@ export class RadioShowcase {
     required(path.plan, { message: 'Choose a billing plan' });
     disabled(path.approval, { when: 'Managed by workspace policy' });
   });
-  protected readonly defaultCode = `<ui-radio-group label="Density" value="comfortable">\n  <ui-radio value="compact">Compact</ui-radio>\n  <ui-radio value="comfortable">Comfortable</ui-radio>\n</ui-radio-group>`;
-  protected readonly statesCode = `<ui-radio-group size="sm" label="Plan">\n  <ui-radio value="starter">Starter</ui-radio>\n  <ui-radio value="legacy" disabled>Legacy</ui-radio>\n</ui-radio-group>`;
-  protected readonly validationCode = `<ui-radio-group withErrorMessage [formField]="formState.plan">…</ui-radio-group>`;
-  protected readonly disabledCode = `disabled(path.approval, {when: 'Managed by workspace policy'});\n<ui-radio-group [formField]="formState.approval">…</ui-radio-group>`;
+  protected readonly defaultCode = `<ui-radio-group
+  label="Density"
+  description="Choose the interface density."
+  value="comfortable"
+>
+  <ui-radio value="compact">Compact</ui-radio>
+  <ui-radio value="comfortable">Comfortable</ui-radio>
+</ui-radio-group>`;
+  protected readonly statesCode = `<ui-radio-group size="sm" label="Plan">\n  <ui-radio value="starter">Starter</ui-radio>\n  <ui-radio value="growth">Growth</ui-radio>\n  <ui-radio value="legacy" disabled>Legacy</ui-radio>\n</ui-radio-group>`;
+  protected readonly validationCode = `<ui-radio-group label="Billing plan" withErrorMessage [formField]="formState.plan">\n  <ui-radio value="starter">Starter</ui-radio>\n  <ui-radio value="growth">Growth</ui-radio>\n</ui-radio-group>`;
+  protected readonly disabledCode = `disabled(path.approval, {when: 'Managed by workspace policy'});\n\n<ui-radio-group label="Approval flow" [formField]="formState.approval">\n  <ui-radio value="manual">Manual</ui-radio>\n  <ui-radio value="automatic">Automatic</ui-radio>\n</ui-radio-group>`;
 }

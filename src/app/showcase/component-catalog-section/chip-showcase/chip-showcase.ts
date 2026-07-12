@@ -22,18 +22,22 @@ export class ChipShowcase {
 
 <ui-chip
   removeLabel="Remove Angular"
-  (remove)="removeTag('Angular')"
+  (remove)="reportRemoval('Angular')"
 >
   Angular
 </ui-chip>`;
 
-  protected readonly variantCode = `<ui-chip removeLabel="Remove design">Design</ui-chip>
-<ui-chip variant="destructive" removeLabel="Remove blocked">Blocked</ui-chip>`;
+  protected readonly variantCode = `<ui-chip removeLabel="Remove design" (remove)="reportRemoval('Design')">Design</ui-chip>
+<ui-chip
+  variant="destructive"
+  removeLabel="Remove blocked"
+  (remove)="reportRemoval('Blocked')"
+>Blocked</ui-chip>`;
 
   protected readonly stateCode = `<ui-chip disabled removeLabel="Remove locked filter">Locked filter</ui-chip>
 
 <div class="chip-width-limit">
-  <ui-chip removeLabel="Remove long filter">
+  <ui-chip removeLabel="Remove long filter" (remove)="reportRemoval('Long filter')">
     Orders awaiting fulfillment from the primary warehouse
   </ui-chip>
 </div>`;
@@ -43,10 +47,12 @@ export class ChipShowcase {
 @for (tag of tags(); track tag) {
   <ui-chip
     [removeLabel]="'Remove ' + tag"
-    (remove)="tags.update(tags => tags.filter(item => item !== tag))"
+    (remove)="removeTag(tag)"
   >
     {{ tag }}
   </ui-chip>
+} @empty {
+  <span class="chip-empty">All tags removed</span>
 }`;
 
   protected removeTag(tag: string): void {

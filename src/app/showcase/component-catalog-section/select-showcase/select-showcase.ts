@@ -16,8 +16,8 @@ import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 export class SelectShowcase {
   readonly formModel = signal({ status: 'approved' });
   readonly formState = form(this.formModel);
-  protected readonly defaultCode = `<ui-select label="Status" placeholder="Choose status">\n  <ui-select-option value="created" label="Created" />\n  <ui-select-option value="approved" label="Approved" />\n</ui-select>`;
-  protected readonly groupsCode = `<ui-select label="Project">\n  <ui-select-group label="Pinned">…</ui-select-group>\n  <ui-select-group label="Workflow">…</ui-select-group>\n</ui-select>`;
-  protected readonly statesCode = `<ui-select label="Small" size="sm">…</ui-select>\n<ui-select label="Disabled" disabled>…</ui-select>\n<ui-select label="Loading" loading />`;
-  protected readonly formCode = `readonly model = signal({status: 'approved'});\nreadonly formState = form(this.model);\n\n<ui-select [formField]="formState.status">…</ui-select>`;
+  protected readonly defaultCode = `<ui-select label="Status" placeholder="Choose status">\n  <ui-select-option value="created" label="Created" />\n  <ui-select-option value="approved" label="Approved" />\n  <ui-select-option value="paid" label="Paid" />\n</ui-select>`;
+  protected readonly groupsCode = `<ui-select label="Project" value="research">\n  <ui-select-group label="Pinned">\n    <ui-select-option value="roadmap" label="Roadmap" />\n    <ui-select-option value="research" label="Research" />\n  </ui-select-group>\n  <ui-select-group label="Workflow">\n    <ui-select-option value="review" label="Design review" />\n    <ui-select-option value="release" label="Release candidate" />\n  </ui-select-group>\n</ui-select>`;
+  protected readonly statesCode = `<ui-select label="Small" size="sm">\n  <ui-select-option value="one" label="One" />\n</ui-select>\n<ui-select label="Disabled" disabled>\n  <ui-select-option value="locked" label="Locked" />\n</ui-select>\n<ui-select label="Loading" loading />`;
+  protected readonly formCode = `readonly formModel = signal({status: 'approved'});\nreadonly formState = form(formModel);\n\n<ui-select label="Status" [formField]="formState.status">\n  <ui-select-option value="created" label="Created" />\n  <ui-select-option value="approved" label="Approved" />\n</ui-select>\n<output>{{ formModel().status }}</output>`;
 }
