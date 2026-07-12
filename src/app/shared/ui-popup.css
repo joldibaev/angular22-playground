@@ -1,5 +1,19 @@
 :host {
-  --ui-popup-background: var(--background-color-elevated);
+  /* Popup is a transient layer, so it derives directly from the canvas instead
+     of the persistent surface/elevated hierarchy. The high canvas share keeps
+     text contrast stable while the blur lets the page subtly show through. */
+  --ui-popup-background: color-mix(
+    in oklab,
+    var(--background-color-canvas) 90%,
+    transparent
+  );
+  --ui-popup-color: var(--text-color-canvas);
+  --ui-popup-border-color: color-mix(
+    in oklab,
+    var(--text-color-canvas) 12%,
+    transparent
+  );
+  --ui-popup-backdrop-filter: blur(12px);
   --ui-popup-radius: 0.5rem;
   --ui-popup-padding: 0.5rem;
   --ui-popup-offset: 0.5rem;
@@ -28,7 +42,7 @@
   --ui-popup-accent-hover-background: color-mix(
     in oklab,
     var(--ui-popup-accent-background) 88%,
-    CanvasText
+    var(--text-color-canvas)
   );
 
   --ui-popup-list-gap: 2px;
@@ -84,9 +98,11 @@
   border-radius: var(--ui-popup-radius);
   padding: var(--ui-popup-padding);
   background-color: var(--ui-popup-background);
+  color: var(--ui-popup-color);
+  backdrop-filter: var(--ui-popup-backdrop-filter);
   box-shadow: var(--ui-popup-shadow);
   font-size: var(--ui-popup-font-size);
-  border: 1px solid var(--border-color-default);
+  border: 1px solid var(--ui-popup-border-color);
 
   /* Origin-aware open/close: the box grows from the trigger edge. The close
      transition lives on this base state, the open transition on the

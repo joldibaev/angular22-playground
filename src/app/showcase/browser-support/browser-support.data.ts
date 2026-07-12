@@ -52,6 +52,19 @@ export const browserSupportFeatures = {
       "node": null
     }
   },
+  "backdrop-filter": {
+    "name": "backdrop-filter",
+    "baseline": "low",
+    "baselineLowDate": "2024-09-16",
+    "baselineHighDate": null,
+    "support": {
+      "chrome": "76",
+      "edge": "79",
+      "firefox": "103",
+      "safari": "18",
+      "node": null
+    }
+  },
   "popover": {
     "name": "Popover",
     "baseline": "low",
@@ -237,6 +250,7 @@ export const browserSupportProfiles = {
   "autocomplete": [
     "light-dark",
     "contrast-color",
+    "backdrop-filter",
     "popover",
     "anchor-name",
     "starting-style",
@@ -274,6 +288,7 @@ export const browserSupportProfiles = {
   "datepicker": [
     "light-dark",
     "contrast-color",
+    "backdrop-filter",
     "popover",
     "anchor-name",
     "starting-style",
@@ -310,6 +325,7 @@ export const browserSupportProfiles = {
   ],
   "menu": [
     "light-dark",
+    "backdrop-filter",
     "popover",
     "anchor-name",
     "starting-style",
@@ -335,6 +351,7 @@ export const browserSupportProfiles = {
   ],
   "select": [
     "light-dark",
+    "backdrop-filter",
     "popover",
     "anchor-name",
     "starting-style",
