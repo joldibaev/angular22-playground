@@ -163,7 +163,7 @@ readonly search = toSignal(toObservable(query).pipe(
 <button uiButton type="button" size="sm" variant="ghost" (click)="selectedTeam.set('')">
   Reset
 </button>`;
-  protected readonly stateCode = `<ui-autocomplete label="Small" size="sm">\n  <ui-autocomplete-option value="platform" label="Platform" />\n</ui-autocomplete>\n<ui-autocomplete label="Loading" loading />\n<ui-autocomplete label="Disabled" disabled>\n  <ui-autocomplete-option value="platform" label="Platform" />\n</ui-autocomplete>`;
+  protected readonly stateCode = `<ui-autocomplete label="Loading" loading />\n<ui-autocomplete label="Disabled" disabled>\n  <ui-autocomplete-option value="platform" label="Platform" />\n</ui-autocomplete>`;
   protected readonly copyCode = `<ui-autocomplete label="Owner" placeholder="Search people" emptyText="No people found">
   <ui-autocomplete-option value="ada" label="Ada Lovelace" />
   <ui-autocomplete-option value="grace" label="Grace Hopper" />

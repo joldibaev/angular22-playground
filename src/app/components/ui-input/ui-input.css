@@ -24,17 +24,6 @@ ui-input {
   width: 100%;
 }
 
-/* Compact scale for the whole input family. 2rem (32px) still clears WCAG 2.5.8
-   (AA, 24px min), so sm is a pointer-dense / desktop affordance and is
-   deliberately NOT bumped back up under (pointer: coarse) — that would just make
-   it look like md. Reach for the default md when a control is a primary touch
-   target. */
-ui-input.ui-input-sm {
-  --ui-input-control-height: 2rem;
-  --ui-input-control-padding-inline: 0.75rem;
-  --ui-input-control-font-size: 0.875rem;
-}
-
 .ui-input-container {
   display: grid;
   gap: 0.75rem;

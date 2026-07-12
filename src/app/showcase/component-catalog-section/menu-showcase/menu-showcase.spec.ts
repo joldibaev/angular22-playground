@@ -4,8 +4,9 @@ describe('MenuShowcase', () => {
   it('documents groups, item states, icons, and selection output', async () => {
     const f = TestBed.createComponent(MenuShowcase);
     await f.whenStable();
-    expect(f.nativeElement.querySelectorAll('ui-card')).toHaveLength(4);
+    expect(f.nativeElement.querySelectorAll('ui-card')).toHaveLength(3);
     expect(f.nativeElement.textContent).toContain('Disabled and destructive');
+    expect(f.nativeElement.textContent).not.toContain('Icons and icon-only trigger');
     f.destroy();
   });
 });

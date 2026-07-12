@@ -100,17 +100,6 @@ describe('UiDateRangePicker', () => {
     expect(buttons[1].getAttribute('aria-label')).toBe('Next month');
   });
 
-  it('should forward the compact size to the wrapped ui-input', async () => {
-    const fixture = TestBed.createComponent(UiDateRangePicker);
-    fixture.componentRef.setInput('size', 'sm');
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    expect(fixture.nativeElement.querySelector('ui-input')?.classList.contains('ui-input-sm')).toBe(
-      true,
-    );
-  });
-
   it('should expose a passive loading state without disabling the trigger', async () => {
     const fixture = TestBed.createComponent(UiDateRangePicker);
     fixture.componentRef.setInput('loading', true);

@@ -37,8 +37,12 @@ export class MenuShowcase {
   Actions
 </button>
 <ui-menu #defaultMenu (itemSelected)="selected.set($event)">
-  <ui-menu-item value="duplicate">Duplicate</ui-menu-item>
-  <ui-menu-item value="archive">Archive</ui-menu-item>
+  <ui-menu-item value="duplicate">
+    <ui-icon name="outline-copy" decorative />Duplicate
+  </ui-menu-item>
+  <ui-menu-item value="archive">
+    <ui-icon name="outline-archive" decorative />Archive
+  </ui-menu-item>
 </ui-menu>`;
   protected readonly groupCode = `<button
   uiButton
@@ -50,13 +54,21 @@ export class MenuShowcase {
   Grouped actions
 </button>
 <ui-menu #groupedMenu (itemSelected)="selected.set($event)">
-  <ui-menu-item value="inspect">Inspect</ui-menu-item>
+  <ui-menu-item value="inspect">
+    <ui-icon name="outline-search" decorative />Inspect
+  </ui-menu-item>
   <ui-menu-group label="Editing">
-    <ui-menu-item value="duplicate">Duplicate</ui-menu-item>
-    <ui-menu-item value="rename">Rename</ui-menu-item>
+    <ui-menu-item value="duplicate">
+      <ui-icon name="outline-copy" decorative />Duplicate
+    </ui-menu-item>
+    <ui-menu-item value="rename">
+      <ui-icon name="outline-edit" decorative />Rename
+    </ui-menu-item>
   </ui-menu-group>
   <ui-menu-group label="Danger zone">
-    <ui-menu-item value="archive">Archive</ui-menu-item>
+    <ui-menu-item value="archive">
+      <ui-icon name="outline-archive" decorative />Archive
+    </ui-menu-item>
   </ui-menu-group>
 </ui-menu>`;
   protected readonly stateCode = `<button
@@ -69,27 +81,11 @@ export class MenuShowcase {
   Item states
 </button>
 <ui-menu #stateMenu (itemSelected)="selected.set($event)">
-  <ui-menu-item value="edit">Edit</ui-menu-item>
-  <ui-menu-item value="locked" disabled>Locked action</ui-menu-item>
-  <ui-menu-item value="remove" variant="destructive">Remove</ui-menu-item>
-</ui-menu>`;
-  protected readonly iconCode = `<button
-  uiButton
-  type="button"
-  uiMenuTrigger
-  variant="secondary"
-  iconOnly
-  aria-label="More actions"
-  [menu]="iconMenu.menu()"
->
-  <ui-icon name="outline-dots-vertical" decorative />
-</button>
-<ui-menu #iconMenu (itemSelected)="selected.set($event)">
-  <ui-menu-item value="rename">
-    <ui-icon name="outline-edit" decorative />Rename
+  <ui-menu-item value="edit">
+    <ui-icon name="outline-pencil" decorative />Edit
   </ui-menu-item>
-  <ui-menu-item value="move">
-    <ui-icon name="outline-hand-move" decorative />Move to…
+  <ui-menu-item value="locked" disabled>
+    <ui-icon name="outline-lock" decorative />Locked action
   </ui-menu-item>
   <ui-menu-item value="remove" variant="destructive">
     <ui-icon name="outline-trash" decorative />Remove

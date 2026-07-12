@@ -1,7 +1,7 @@
 <article class="docs" aria-labelledby="select-title">
   <header>
     <h4 id="select-title" class="font-black">Select</h4>
-    <p>Single selection with groups, state feedback, sizing, and Signal Forms.</p>
+    <p>Single selection with groups, state feedback, and Signal Forms.</p>
   </header>
   <section>
     <h5>Default</h5>
@@ -49,14 +49,12 @@
     >
   </section>
   <section>
-    <h5>Sizes and states</h5>
+    <h5>States</h5>
     <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Select sizes and states"
+      ><ui-tab size="sm" aria-label="Select states"
         ><ui-tab-item value="preview" label="Preview"
           ><div class="preview grid">
-            <ui-select label="Small" size="sm"
-              ><ui-select-option value="one" label="One" /></ui-select
-            ><ui-select label="Disabled" disabled
+            <ui-select label="Disabled" disabled
               ><ui-select-option value="locked" label="Locked" /></ui-select
             ><ui-select label="Loading" loading /></div></ui-tab-item
         ><ui-tab-item value="code" label="Code">

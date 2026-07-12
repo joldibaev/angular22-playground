@@ -30,8 +30,6 @@ import {
   type UiDateRangeValue,
 } from './range-calendar.utils';
 
-export type UiDateRangePickerSize = 'sm' | 'md';
-
 const INITIAL_VIEW = new Temporal.PlainYearMonth(1970, 1);
 
 // Range picking keeps a draft until Apply, unlike the single picker which can
@@ -69,8 +67,6 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
   // availability or metadata refreshes. Consumers can bind disabled as well when truly unavailable.
   readonly loading = input(false, { transform: booleanAttribute });
   readonly label = input('Диапазон дат');
-  // Forwarded to the wrapped <ui-input>; the trigger reads its control-size tokens.
-  readonly size = input<UiDateRangePickerSize>('md');
   readonly placeholder = input('Выберите диапазон дат');
   readonly presetsLabel = input('Быстрые диапазоны');
   readonly previousMonthLabel = input('Предыдущий месяц');

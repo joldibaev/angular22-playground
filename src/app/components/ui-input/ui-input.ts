@@ -20,25 +20,15 @@ import { nextId } from '../../shared/unique-id';
 import { UiLoading } from '../ui-loading/ui-loading';
 import { UiInputError } from './ui-input-error/ui-input-error';
 
-export type UiInputSize = 'sm' | 'md';
-
 @Component({
   selector: 'ui-input',
   imports: [UiInputError, UiLoading],
   templateUrl: './ui-input.html',
   styleUrl: './ui-input.css',
   encapsulation: ViewEncapsulation.None,
-  host: {
-    '[class.ui-input-sm]': "size() === 'sm'",
-  },
 })
 export class UiInput {
   readonly label = input('');
-  // Owns the control-size scale for the whole input family: the projected
-  // control (input/textarea/[ngCombobox]) and any [uiInputControl] trigger read
-  // the --ui-input-control-* tokens this sets, so select/autocomplete/date
-  // pickers just forward `size` into their wrapped <ui-input>.
-  readonly size = input<UiInputSize>('md');
   // `aria-busy` and `disabled` are deliberately separate: remote validation/search
   // must not steal focus or stop typing. Consumers can bind both when input is truly unavailable.
   readonly loading = input(false, { transform: booleanAttribute });

@@ -28,8 +28,6 @@ type UiSelectRenderItem = {
   group?: UiSelectGroup;
   option?: UiSelectOption;
 };
-export type UiSelectSize = 'sm' | 'md';
-
 @Component({
   selector: 'ui-select',
   imports: [Combobox, ComboboxPopup, Listbox, ComboboxWidget, Option, UiInput, UiIcon, UiLoading],
@@ -49,8 +47,6 @@ export class UiSelect implements FormValueControl<string> {
   // strictly unavailable initial load.
   loading = input(false, { transform: booleanAttribute });
   label = input('Выбор');
-  // Forwarded to the wrapped <ui-input>, which owns the control-size scale.
-  size = input<UiSelectSize>('md');
   loadingText = input('Загрузка');
   placeholder = input('Выберите значение');
   withErrorMessage = input(false, { transform: booleanAttribute });

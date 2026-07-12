@@ -27,8 +27,6 @@ import {
   WEEKDAYS_MON_FIRST,
 } from './calendar.utils';
 
-export type UiDatepickerSize = 'sm' | 'md';
-
 const INITIAL_VIEW = new Temporal.PlainYearMonth(1970, 1);
 
 // Keep the public picker single-value focused. Range picking has different
@@ -65,8 +63,6 @@ export class UiDatepicker implements FormValueControl<string> {
   // availability or metadata refreshes. Consumers can bind disabled as well when truly unavailable.
   readonly loading = input(false, { transform: booleanAttribute });
   readonly label = input('Дата');
-  // Forwarded to the wrapped <ui-input>; the trigger reads its control-size tokens.
-  readonly size = input<UiDatepickerSize>('md');
   readonly placeholder = input('Выберите дату');
   readonly previousMonthLabel = input('Предыдущий месяц');
   readonly nextMonthLabel = input('Следующий месяц');

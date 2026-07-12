@@ -31,7 +31,7 @@ export class DatepickerShowcase {
   [value]="range"
   [withPresets]="false"
 />`;
-  protected readonly statesCode = `<ui-datepicker label="Small" size="sm" value="2026-06-15" />\n<ui-datepicker label="Disabled" value="2026-06-15" disabled />\n<ui-datepicker label="Loading" value="2026-06-15" loading />`;
+  protected readonly statesCode = `<ui-datepicker label="Disabled" value="2026-06-15" disabled />\n<ui-datepicker label="Loading" value="2026-06-15" loading />`;
   protected readonly formCode = `required(path.requiredDate, {message: 'Pick a date before continuing'});\n\n<ui-datepicker
   label="Required date"
   withErrorMessage

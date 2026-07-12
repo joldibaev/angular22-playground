@@ -36,7 +36,7 @@ max(path.quantity, 100);
   <input type="number" [formField]="formState.quantity" />
 </ui-input>`;
   protected readonly textareaCode = `<ui-input label="Notes">\n  <textarea placeholder="Add handoff notes"></textarea>\n</ui-input>`;
-  protected readonly statesCode = `<ui-input label="Small" size="sm"><input placeholder="Compact field" /></ui-input>\n<ui-input label="Disabled"><input disabled value="Managed by SSO" /></ui-input>\n<ui-input label="Loading" loading><input value="Searching records" /></ui-input>`;
+  protected readonly statesCode = `<ui-input label="Disabled"><input disabled value="Managed by SSO" /></ui-input>\n<ui-input label="Loading" loading><input value="Searching records" /></ui-input>`;
   protected readonly validationCode = `<ui-input label="Work email" withErrorMessage>\n  <input type="email" [formField]="formState.email" />\n</ui-input>`;
   protected readonly disabledCode = `disabled(path.identity, {when: 'Locked by identity provider'});\n\n<ui-input label="Identity">\n  <input [formField]="formState.identity" />\n</ui-input>`;
   protected readonly maskCode = `<ui-input label="Phone">\n  <input uiMask="+000 00 000-00-00" inputmode="tel" [formField]="formState.phone" />\n</ui-input>\n\n<ui-input label="Amount">\n  <input uiMask="separator.2" inputmode="decimal" [formField]="formState.amount" />\n</ui-input>`;

@@ -281,16 +281,6 @@ describe('UiSelect', () => {
     expect(await options[1].isDisabled()).toBe(true);
   });
 
-  it('should forward the compact size to the wrapped ui-input', async () => {
-    fixture.componentRef.setInput('size', 'sm');
-    fixture.detectChanges();
-    await fixture.whenStable();
-
-    expect(fixture.nativeElement.querySelector('ui-input')?.classList.contains('ui-input-sm')).toBe(
-      true,
-    );
-  });
-
   it('should render placeholder when no value is selected', async () => {
     const hostFixture = await createHostFixture();
 
