@@ -1,5 +1,6 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import {
+  afterRenderEffect,
   booleanAttribute,
   Component,
   computed,
@@ -37,6 +38,7 @@ const DEFAULT_WIDTH = 356;
 })
 export class UiSonner implements OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly isBrowser = isPlatformBrowser(this.platformId);
   private readonly document = inject(DOCUMENT);
   private readonly sonner = inject(UI_SONNER_STATE);
 
@@ -107,13 +109,27 @@ export class UiSonner implements OnDestroy {
   });
 
   constructor() {
-    if (isPlatformBrowser(this.platformId)) {
+    if (this.isBrowser) {
       this.document.addEventListener('keydown', this.handleKeydown);
     }
+
+    afterRenderEffect(() => {
+      if (!this.isBrowser) {
+        return;
+      }
+
+      for (const listRef of this.listRefs()) {
+        const list = listRef.nativeElement;
+
+        if (typeof list.showPopover === 'function' && !list.matches(':popover-open')) {
+          list.showPopover();
+        }
+      }
+    });
   }
 
   ngOnDestroy(): void {
-    if (isPlatformBrowser(this.platformId)) {
+    if (this.isBrowser) {
       this.document.removeEventListener('keydown', this.handleKeydown);
     }
   }

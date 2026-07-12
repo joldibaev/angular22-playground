@@ -79,7 +79,6 @@ ui-input:has(.ui-datepicker-trigger[aria-expanded='true']) .ui-datepicker-chevro
   text-align: center;
 }
 
-
 .ui-datepicker-nav,
 .ui-datepicker-action {
   appearance: none;

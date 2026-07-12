@@ -17,12 +17,7 @@
 
 <!-- Preserving lazy content after its first opening gives CSS a real node for a
      matching exit transition and avoids resetting controls on every collapse. -->
-<div
-  #panel="ngAccordionPanel"
-  ngAccordionPanel
-  class="ui-accordion-panel"
-  [preserveContent]="true"
->
+<div #panel="ngAccordionPanel" ngAccordionPanel class="ui-accordion-panel" [preserveContent]="true">
   <ng-template ngAccordionContent>
     <div class="ui-accordion-content">
       <ng-content />

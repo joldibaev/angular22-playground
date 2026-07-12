@@ -15,13 +15,7 @@ import { UiLoading } from '../ui-loading/ui-loading';
 import { afterElementAnimations } from '../../shared/after-element-animations';
 
 export type UiButtonVariant =
-  | 'default'
-  | 'brand'
-  | 'outline'
-  | 'destructive'
-  | 'secondary'
-  | 'ghost'
-  | 'link';
+  'default' | 'brand' | 'outline' | 'destructive' | 'secondary' | 'ghost' | 'link';
 export type UiButtonType = 'button' | 'submit' | 'reset';
 export type UiButtonSize = 'sm' | 'md';
 

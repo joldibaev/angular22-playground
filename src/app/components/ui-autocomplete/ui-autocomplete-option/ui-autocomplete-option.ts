@@ -1,10 +1,4 @@
-import {
-  booleanAttribute,
-  Component,
-  input,
-  TemplateRef,
-  viewChild,
-} from '@angular/core';
+import { booleanAttribute, Component, input, TemplateRef, viewChild } from '@angular/core';
 
 @Component({
   selector: 'ui-autocomplete-option',

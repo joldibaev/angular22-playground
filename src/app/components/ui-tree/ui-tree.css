@@ -12,7 +12,6 @@
   --ui-tree-hover-background: var(--background-color-hover);
   --ui-tree-selected-background: var(--color-brand-subtle);
   --ui-tree-selected-color: var(--color-brand);
-  --ui-tree-focus-ring: var(--focus-ring-color);
   --ui-tree-state-duration: var(--dur-quick);
   --ui-tree-press-duration: var(--dur-press);
   --ui-tree-expand-duration: var(--dur-fast);
@@ -75,7 +74,7 @@
      so the keyboard ring is a plain inset outline — inset so a scrolled
      container never clips it. */
   &:focus-visible {
-    outline: 2px solid var(--ui-tree-focus-ring);
+    outline: 2px solid var(--focus-ring-color);
     outline-offset: -2px;
   }
 

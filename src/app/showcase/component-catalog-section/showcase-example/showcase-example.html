@@ -1,0 +1,16 @@
+<section [attr.aria-labelledby]="labelledBy">
+  <h5 [id]="labelledBy">{{ heading() }}</h5>
+  <div class="description"><ng-content select="[showcaseDescription]" /></div>
+  <div class="frame">
+    <ui-tab size="sm" [attr.aria-label]="ariaLabel()">
+      <ui-tab-item value="preview" label="Preview">
+        <ng-content />
+      </ui-tab-item>
+      <ui-tab-item value="code" label="Code">
+        <app-showcase-code [code]="code()" [language]="language()" />
+      </ui-tab-item>
+    </ui-tab>
+  </div>
+  <div class="note"><ng-content select="[showcaseNote]" /></div>
+  <ng-content select="[showcaseAuxiliary]" />
+</section>

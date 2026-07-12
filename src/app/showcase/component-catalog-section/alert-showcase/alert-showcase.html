@@ -6,95 +6,67 @@
     </p>
   </header>
 
-  <section class="alert-example" aria-labelledby="alert-default-title">
-    <h5 id="alert-default-title">Default</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Default alert example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="alert-preview">
-            <ui-alert title="Market session"
-              >Trading closes today at 17:00. Pending orders remain active until the session
-              ends.</ui-alert
-            >
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="defaultCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+  <app-showcase-example heading="Default" aria-label="Default alert example" [code]="defaultCode">
+    <div class="alert-preview">
+      <ui-alert title="Market session"
+        >Trading closes today at 17:00. Pending orders remain active until the session
+        ends.</ui-alert
+      >
+    </div>
+  </app-showcase-example>
 
-  <section class="alert-example" aria-labelledby="alert-destructive-title">
-    <h5 id="alert-destructive-title">Destructive</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Destructive alert example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="alert-preview">
-            <ui-alert title="Order rejected" variant="destructive"
-              >The entered quantity exceeds the available balance. Review the order and try
-              again.</ui-alert
-            >
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="destructiveCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+  <app-showcase-example
+    heading="Destructive"
+    aria-label="Destructive alert example"
+    [code]="destructiveCode"
+  >
+    <div class="alert-preview">
+      <ui-alert title="Order rejected" variant="destructive"
+        >The entered quantity exceeds the available balance. Review the order and try
+        again.</ui-alert
+      >
+    </div>
+  </app-showcase-example>
 
-  <section class="alert-example" aria-labelledby="alert-action-title">
-    <h5 id="alert-action-title">Action</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Alert action example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="alert-preview">
-            <ui-alert title="Profile incomplete"
-              >Add a recovery email before enabling withdrawals.<button
-                uiButton
-                uiAlertAction
-                type="button"
-                variant="outline"
-                size="sm"
-              >
-                Add email
-              </button></ui-alert
-            >
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="actionCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+  <app-showcase-example heading="Action" aria-label="Alert action example" [code]="actionCode">
+    <div class="alert-preview">
+      <ui-alert title="Profile incomplete"
+        >Add a recovery email before enabling withdrawals.<button
+          uiButton
+          uiAlertAction
+          type="button"
+          variant="outline"
+          size="sm"
+        >
+          Add email
+        </button></ui-alert
+      >
+    </div>
+  </app-showcase-example>
 
-  <section class="alert-example" aria-labelledby="alert-live-title">
-    <h5 id="alert-live-title">Dynamic urgent alert</h5>
-    <p class="alert-context">
-      Visual severity does not announce static content. Add <code>role="alert"</code> only when an
-      urgent message appears dynamically.
-    </p>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Dynamic live alert example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="alert-preview alert-live-preview">
-            <button
-              uiButton
-              type="button"
-              variant="destructive"
-              (click)="withUrgentError.set(!withUrgentError())"
-            >
-              {{ withUrgentError() ? 'Clear error' : 'Simulate connection loss' }}
-            </button>
-            @if (withUrgentError()) {
-              <ui-alert title="Connection lost" variant="destructive" role="alert"
-                >Live prices are unavailable. Reconnect before submitting an order.</ui-alert
-              >
-            }
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="liveCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
+  <app-showcase-example
+    heading="Dynamic urgent alert"
+    aria-label="Dynamic live alert example"
+    [code]="liveCode"
+  >
+    <ng-container showcaseDescription
+      >Visual severity does not announce static content. Add <code>role="alert"</code> only when an
+      urgent message appears dynamically.</ng-container
     >
-  </section>
+    <div class="alert-preview alert-live-preview">
+      <button
+        uiButton
+        type="button"
+        variant="destructive"
+        (click)="withUrgentError.set(!withUrgentError())"
+      >
+        {{ withUrgentError() ? 'Clear error' : 'Simulate connection loss' }}
+      </button>
+      @if (withUrgentError()) {
+        <ui-alert title="Connection lost" variant="destructive" role="alert"
+          >Live prices are unavailable. Reconnect before submitting an order.</ui-alert
+        >
+      }
+    </div>
+  </app-showcase-example>
 </article>

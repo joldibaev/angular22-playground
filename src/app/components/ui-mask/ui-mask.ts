@@ -163,7 +163,8 @@ export class UiMask implements ControlValueAccessor, OnChanges {
     const normalized = this.unmaskSeparator(value);
     const decimalIndex = normalized.indexOf(decimalMarker);
     const integer = decimalIndex === -1 ? normalized : normalized.slice(0, decimalIndex);
-    const decimal = decimalIndex === -1 ? '' : normalized.slice(decimalIndex + decimalMarker.length);
+    const decimal =
+      decimalIndex === -1 ? '' : normalized.slice(decimalIndex + decimalMarker.length);
     const grouped = integer.replace(/\B(?=(\d{3})+(?!\d))/gu, this.thousandSeparator());
 
     if (decimalIndex === -1 || precision === 0) {
@@ -180,7 +181,8 @@ export class UiMask implements ControlValueAccessor, OnChanges {
     const withoutGroups = groupSeparator ? value.split(groupSeparator).join('') : value;
     const markerIndex = precision > 0 ? withoutGroups.indexOf(decimalMarker) : -1;
     const integerSource = markerIndex === -1 ? withoutGroups : withoutGroups.slice(0, markerIndex);
-    const decimalSource = markerIndex === -1 ? '' : withoutGroups.slice(markerIndex + decimalMarker.length);
+    const decimalSource =
+      markerIndex === -1 ? '' : withoutGroups.slice(markerIndex + decimalMarker.length);
     const integer = integerSource.replace(/\D/gu, '');
 
     if (markerIndex === -1) {

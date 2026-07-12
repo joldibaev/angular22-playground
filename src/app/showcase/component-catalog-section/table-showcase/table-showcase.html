@@ -3,256 +3,225 @@
     <h4 id="table-showcase-title" class="font-black">Table</h4>
     <p>Native tables with backend sorting, row actions, and fixed-height virtual scrolling.</p>
   </header>
-  <section aria-labelledby="table-default-title">
-    <h5 id="table-default-title">Default</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Default table example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <div uiTableViewport>
-              <table uiTable>
-                <caption>
-                  Inventory preview
-                </caption>
-                <thead>
-                  <tr>
-                    <th scope="col">SKU</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Stock</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (row of allRows.slice(0, 4); track row.id) {
-                    <tr>
-                      <td>{{ row.sku }}</td>
-                      <th scope="row">{{ row.product }}</th>
-                      <td>{{ row.stock }}</td>
-                    </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="defaultCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="table-presentation-title">
-    <h5 id="table-presentation-title">Striped rows, hover, and sticky header</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Table presentation options"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview presentation">
-            <div uiTableViewport>
-              <table uiTable withStripedRows withRowHover>
-                <caption>
-                  Inventory presentation
-                </caption>
-                <thead>
-                  <tr>
-                    <th scope="col">SKU</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Warehouse</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (row of allRows.slice(0, 10); track row.id) {
-                    <tr>
-                      <td>{{ row.sku }}</td>
-                      <th scope="row">{{ row.product }}</th>
-                      <td>{{ row.warehouse }}</td>
-                    </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="presentationCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="table-sort-title">
-    <h5 id="table-sort-title">Backend sorting and row actions</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Table sorting example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <div uiTableViewport>
-              <table
-                uiTable
-                withRowHover
-                [sort]="sort()"
-                [loading]="sorting()"
-                (sortChange)="requestSortedPage($event)"
-              >
-                <caption>
-                  Sortable inventory
-                </caption>
-                <thead>
-                  <tr>
-                    <th scope="col" uiTableSort="sku">SKU</th>
-                    <th scope="col" uiTableSort="product">Product</th>
-                    <th scope="col" uiTableSort="stock" startDirection="desc">Stock</th>
-                    <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (row of sortedRows(); track row.id) {
-                    <tr>
-                      <td>{{ row.sku }}</td>
-                      <th scope="row">{{ row.product }}</th>
-                      <td>{{ row.stock }}</td>
-                      <td>
-                        <button
-                          uiButton
-                          type="button"
-                          variant="ghost"
-                          size="sm"
-                          (click)="openProduct(row)"
-                        >
-                          Open<span class="sr-only"> {{ row.product }}</span>
-                        </button>
-                      </td>
-                    </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
-            @if (lastAction(); as product) {
-              <output aria-live="polite">Open {{ product }}</output>
+  <app-showcase-example heading="Default" aria-label="Default table example" [code]="defaultCode">
+    <div class="preview">
+      <div uiTableViewport>
+        <table uiTable>
+          <caption>
+            Inventory preview
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">SKU</th>
+              <th scope="col">Product</th>
+              <th scope="col">Stock</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of allRows.slice(0, 4); track row.id) {
+              <tr>
+                <td>{{ row.sku }}</td>
+                <th scope="row">{{ row.product }}</th>
+                <td>{{ row.stock }}</td>
+              </tr>
             }
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="sortCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="table-context-menu-title">
-    <h5 id="table-context-menu-title">Row context menu</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Table row context menu example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <div uiTableViewport>
-              <table uiTable withRowHover>
-                <caption>
-                  Right-click a row, long-press it, or focus it and press Shift+F10
-                </caption>
-                <thead>
-                  <tr>
-                    <th scope="col">SKU</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Warehouse</th>
-                    <th scope="col">Stock</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (row of allRows.slice(0, 5); track row.id) {
-                    <tr
-                      tabindex="0"
-                      [uiContextMenuTrigger]="rowMenu"
-                      [uiContextMenuContext]="row"
-                    >
-                      <td>{{ row.sku }}</td>
-                      <th scope="row">{{ row.product }}</th>
-                      <td>{{ row.warehouse }}</td>
-                      <td>{{ row.stock }}</td>
-                    </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
-
-            <ui-context-menu #rowMenu (itemSelected)="runRowAction($event)"
-              ><ui-menu-item value="open">Open details</ui-menu-item
-              ><ui-menu-item value="duplicate"
-                ><ui-icon slot="start" name="outline-copy" decorative /><span>Duplicate row</span></ui-menu-item
-              ><ui-menu-item value="delete" variant="destructive"
-                ><ui-icon slot="start" name="outline-trash" decorative /><span>Delete row</span></ui-menu-item
-              ></ui-context-menu
-            >
-
-            @if (lastAction(); as action) {
-              <output aria-live="polite">{{ action }}</output>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Striped rows, hover, and sticky header"
+    aria-label="Table presentation options"
+    [code]="presentationCode"
+  >
+    <div class="preview presentation">
+      <div uiTableViewport>
+        <table uiTable withStripedRows withRowHover>
+          <caption>
+            Inventory presentation
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">SKU</th>
+              <th scope="col">Product</th>
+              <th scope="col">Warehouse</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of allRows.slice(0, 10); track row.id) {
+              <tr>
+                <td>{{ row.sku }}</td>
+                <th scope="row">{{ row.product }}</th>
+                <td>{{ row.warehouse }}</td>
+              </tr>
             }
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="contextMenuCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="table-virtual-title">
-    <h5 id="table-virtual-title">Virtual and incremental loading</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Virtual table example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview virtual">
-            <button uiButton type="button" size="sm" variant="outline" (click)="scrollToEnd(table)">
-              Scroll to loaded end
-            </button>
-            <div uiTableViewport>
-              <table
-                #table="uiTable"
-                uiTable
-                virtualScroll
-                withRowHover
-                withStripedRows
-                [rows]="loadedRows()"
-                [rowHeight]="48"
-                [totalRows]="allRows.length"
-                [loading]="loading()"
-                [hasMore]="loadedRows().length < allRows.length"
-                (endReached)="loadMore()"
-              >
-                <caption>
-                  Virtual inventory
-                </caption>
-                <thead>
-                  <tr>
-                    <th scope="col">SKU</th>
-                    <th scope="col">Product</th>
-                    <th scope="col">Warehouse</th>
-                    <th scope="col">Stock</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr uiTableSpacer="start" [columns]="4"></tr>
-                  @for (row of table.renderedRows(); track row.id) {
-                    <tr>
-                      <td>{{ row.sku }}</td>
-                      <th scope="row">{{ row.product }}</th>
-                      <td>{{ row.warehouse }}</td>
-                      <td>{{ row.stock }}</td>
-                    </tr>
-                  }
-                  <tr uiTableSpacer="end" [columns]="4"></tr>
-                  @if (loading()) {
-                    @for (_ of loadingSkeletonRows; track $index) {
-                      <tr class="ui-table-loading-row" aria-hidden="true">
-                        <td><ui-skeleton /></td>
-                        <th scope="row"><ui-skeleton /></th>
-                        <td><ui-skeleton /></td>
-                        <td><ui-skeleton /></td>
-                      </tr>
-                    }
-                  }
-                </tbody>
-              </table>
-            </div>
-            <output aria-live="polite"
-              >Loaded {{ loadedRows().length }} of {{ allRows.length }}</output
-            >
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="virtualCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Backend sorting and row actions"
+    aria-label="Table sorting example"
+    [code]="sortCode"
+  >
+    <div class="preview">
+      <div uiTableViewport>
+        <table
+          uiTable
+          withRowHover
+          [sort]="sort()"
+          [loading]="sorting()"
+          (sortChange)="requestSortedPage($event)"
+        >
+          <caption>
+            Sortable inventory
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col" uiTableSort="sku">SKU</th>
+              <th scope="col" uiTableSort="product">Product</th>
+              <th scope="col" uiTableSort="stock" startDirection="desc">Stock</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of sortedRows(); track row.id) {
+              <tr>
+                <td>{{ row.sku }}</td>
+                <th scope="row">{{ row.product }}</th>
+                <td>{{ row.stock }}</td>
+                <td>
+                  <button
+                    uiButton
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    (click)="openProduct(row)"
+                  >
+                    Open<span class="sr-only"> {{ row.product }}</span>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      @if (lastAction(); as product) {
+        <output aria-live="polite">Open {{ product }}</output>
+      }
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Row context menu"
+    aria-label="Table row context menu example"
+    [code]="contextMenuCode"
+  >
+    <div class="preview">
+      <div uiTableViewport>
+        <table uiTable withRowHover>
+          <caption>
+            Right-click a row, long-press it, or focus it and press Shift+F10
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">SKU</th>
+              <th scope="col">Product</th>
+              <th scope="col">Warehouse</th>
+              <th scope="col">Stock</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of allRows.slice(0, 5); track row.id) {
+              <tr tabindex="0" [uiContextMenuTrigger]="rowMenu" [uiContextMenuContext]="row">
+                <td>{{ row.sku }}</td>
+                <th scope="row">{{ row.product }}</th>
+                <td>{{ row.warehouse }}</td>
+                <td>{{ row.stock }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <ui-context-menu #rowMenu (itemSelected)="runRowAction($event)"
+        ><ui-menu-item value="open">Open details</ui-menu-item
+        ><ui-menu-item value="duplicate"
+          ><ui-icon slot="start" name="outline-copy" decorative /><span
+            >Duplicate row</span
+          ></ui-menu-item
+        ><ui-menu-item value="delete" variant="destructive"
+          ><ui-icon slot="start" name="outline-trash" decorative /><span
+            >Delete row</span
+          ></ui-menu-item
+        ></ui-context-menu
+      >
+
+      @if (lastAction(); as action) {
+        <output aria-live="polite">{{ action }}</output>
+      }
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Virtual and incremental loading"
+    aria-label="Virtual table example"
+    [code]="virtualCode"
+  >
+    <div class="preview virtual">
+      <button uiButton type="button" size="sm" variant="outline" (click)="scrollToEnd(table)">
+        Scroll to loaded end
+      </button>
+      <div uiTableViewport>
+        <table
+          #table="uiTable"
+          uiTable
+          virtualScroll
+          withRowHover
+          withStripedRows
+          [rows]="loadedRows()"
+          [rowHeight]="48"
+          [totalRows]="allRows.length"
+          [loading]="loading()"
+          [hasMore]="loadedRows().length < allRows.length"
+          (endReached)="loadMore()"
+        >
+          <caption>
+            Virtual inventory
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">SKU</th>
+              <th scope="col">Product</th>
+              <th scope="col">Warehouse</th>
+              <th scope="col">Stock</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr uiTableSpacer="start" [columns]="4"></tr>
+            @for (row of table.renderedRows(); track row.id) {
+              <tr>
+                <td>{{ row.sku }}</td>
+                <th scope="row">{{ row.product }}</th>
+                <td>{{ row.warehouse }}</td>
+                <td>{{ row.stock }}</td>
+              </tr>
+            }
+            <tr uiTableSpacer="end" [columns]="4"></tr>
+            @if (loading()) {
+              @for (_ of loadingSkeletonRows; track $index) {
+                <tr class="ui-table-loading-row" aria-hidden="true">
+                  <td><ui-skeleton /></td>
+                  <th scope="row"><ui-skeleton /></th>
+                  <td><ui-skeleton /></td>
+                  <td><ui-skeleton /></td>
+                </tr>
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+      <output aria-live="polite">Loaded {{ loadedRows().length }} of {{ allRows.length }}</output>
+    </div>
+  </app-showcase-example>
 </article>

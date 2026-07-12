@@ -1,0 +1,40 @@
+:host,
+section {
+  display: grid;
+  min-width: 0;
+}
+
+section {
+  gap: 0.625rem;
+}
+
+h5 {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+
+.description,
+.note {
+  color: var(--text-color-muted);
+  text-wrap: pretty;
+
+  &:empty {
+    display: none;
+  }
+}
+
+.note {
+  font-size: 0.875rem;
+}
+
+.frame {
+  --ui-showcase-example-frame-radius: 0.5rem;
+
+  display: grid;
+  min-width: 0;
+  padding: 0.875rem;
+  border: 1px solid var(--border-color-default);
+  border-radius: var(--ui-showcase-example-frame-radius);
+  background: transparent;
+}

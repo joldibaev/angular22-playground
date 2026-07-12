@@ -80,7 +80,9 @@ describe('UiDialog', () => {
   });
 
   it('should hide invoker command wiring behind trigger and close directives', () => {
-    const trigger = fixture.nativeElement.querySelector('button[command="show-modal"]') as HTMLButtonElement;
+    const trigger = fixture.nativeElement.querySelector(
+      'button[command="show-modal"]',
+    ) as HTMLButtonElement;
     const close = dialog().querySelector('.footer-action') as HTMLButtonElement;
 
     expect(trigger.getAttribute('command')).toBe('show-modal');

@@ -10,6 +10,8 @@
   --ui-button-motion-easing: var(--ease-snappy);
   --ui-button-content-swap-blur: 4px;
   --ui-button-content-swap-distance: 4px;
+  --ui-button-focus-visible-border-color: var(--color-brand);
+  --ui-button-focus-ring-color: var(--focus-ring-color);
 
   appearance: none;
   display: inline-flex;
@@ -53,33 +55,46 @@
 }
 
 :host(.ui-button-default) {
-  --ui-button-background: CanvasText;
+  --ui-button-background: var(--text-color-canvas);
   --ui-button-border-color: var(--ui-button-background);
-  --ui-button-color: Canvas;
-  --ui-button-focus-visible-border-color: var(--color-brand);
-  --ui-button-hover-background: color-mix(in oklab, var(--ui-button-background) 88%, Canvas);
-  --ui-button-active-background: color-mix(in oklab, var(--ui-button-background) 80%, Canvas);
+  --ui-button-color: var(--background-color-canvas);
+  --ui-button-hover-background: color-mix(
+    in oklab,
+    var(--ui-button-background) 88%,
+    var(--background-color-canvas)
+  );
+  --ui-button-active-background: color-mix(
+    in oklab,
+    var(--ui-button-background) 80%,
+    var(--background-color-canvas)
+  );
 }
 
 :host(.ui-button-brand) {
   --ui-button-background: var(--color-brand);
   --ui-button-border-color: var(--ui-button-background);
-  --ui-button-color: contrast-color(var(--ui-button-background));
-  --ui-button-focus-visible-border-color: var(--color-brand);
-  --ui-button-hover-background: color-mix(in oklab, var(--ui-button-background) 88%, CanvasText);
-  --ui-button-active-background: color-mix(in oklab, var(--ui-button-background) 80%, CanvasText);
+  --ui-button-color: var(--text-color-on-brand);
+  --ui-button-hover-background: color-mix(
+    in oklab,
+    var(--ui-button-background) 88%,
+    var(--text-color-canvas)
+  );
+  --ui-button-active-background: color-mix(
+    in oklab,
+    var(--ui-button-background) 80%,
+    var(--text-color-canvas)
+  );
 }
 
 :host(.ui-button-outline) {
   --ui-button-background: transparent;
   --ui-button-border-color: var(--border-color-strong);
-  --ui-button-color: contrast-color(Canvas);
-  --ui-button-focus-visible-border-color: var(--color-brand);
+  --ui-button-color: var(--text-color-canvas);
   --ui-button-hover-background: var(--background-color-subtle);
   --ui-button-active-background: color-mix(
     in oklab,
     var(--background-color-subtle) 82%,
-    CanvasText
+    var(--text-color-canvas)
   );
 }
 
@@ -87,30 +102,45 @@
   --ui-button-background: var(--color-destructive-subtle);
   --ui-button-border-color: transparent;
   --ui-button-color: var(--color-destructive);
-  --ui-button-hover-background: color-mix(in oklab, var(--color-destructive) 18%, Canvas);
-  --ui-button-active-background: color-mix(in oklab, var(--color-destructive) 24%, Canvas);
+  --ui-button-hover-background: color-mix(
+    in oklab,
+    var(--color-destructive) 18%,
+    var(--background-color-canvas)
+  );
+  --ui-button-active-background: color-mix(
+    in oklab,
+    var(--color-destructive) 24%,
+    var(--background-color-canvas)
+  );
   --ui-button-focus-visible-border-color: var(--color-destructive);
+  --ui-button-focus-ring-color: var(--destructive-focus-ring-color);
 }
 
 :host(.ui-button-secondary) {
   --ui-button-background: var(--background-color-subtle);
   --ui-button-border-color: transparent;
-  --ui-button-color: contrast-color(var(--ui-button-background));
-  --ui-button-focus-visible-border-color: var(--color-brand);
-  --ui-button-hover-background: color-mix(in oklab, var(--ui-button-background) 86%, CanvasText);
-  --ui-button-active-background: color-mix(in oklab, var(--ui-button-background) 78%, CanvasText);
+  --ui-button-color: var(--text-color-canvas);
+  --ui-button-hover-background: color-mix(
+    in oklab,
+    var(--ui-button-background) 86%,
+    var(--text-color-canvas)
+  );
+  --ui-button-active-background: color-mix(
+    in oklab,
+    var(--ui-button-background) 78%,
+    var(--text-color-canvas)
+  );
 }
 
 :host(.ui-button-ghost) {
   --ui-button-background: transparent;
   --ui-button-border-color: transparent;
-  --ui-button-color: contrast-color(Canvas);
-  --ui-button-focus-visible-border-color: var(--color-brand);
+  --ui-button-color: var(--text-color-canvas);
   --ui-button-hover-background: var(--background-color-subtle);
   --ui-button-active-background: color-mix(
     in oklab,
     var(--background-color-subtle) 82%,
-    CanvasText
+    var(--text-color-canvas)
   );
 }
 
@@ -118,7 +148,6 @@
   --ui-button-background: transparent;
   --ui-button-border-color: transparent;
   --ui-button-color: var(--color-brand);
-  --ui-button-focus-visible-border-color: var(--color-brand);
   --ui-button-hover-background: transparent;
   --ui-button-active-background: transparent;
   --ui-button-min-height: auto;
@@ -185,8 +214,7 @@
 
 :host(:focus-visible) {
   border-color: var(--ui-button-focus-visible-border-color);
-  outline: 3px solid
-    color-mix(in oklab, var(--ui-button-focus-visible-border-color) 50%, transparent);
+  outline: 3px solid var(--ui-button-focus-ring-color);
 }
 
 :host(:disabled),

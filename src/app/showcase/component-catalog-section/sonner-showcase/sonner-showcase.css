@@ -1,7 +1,6 @@
 :host {
   display: block;
   min-width: 0;
-  container-type: inline-size;
 }
 
 .sonner-showcase {
@@ -38,25 +37,9 @@ kbd {
   border-radius: 0.25rem;
   padding: 0.0625rem 0.3125rem;
   background: var(--background-color-elevated);
-  color: contrast-color(var(--background-color-elevated));
+  color: var(--text-color-canvas);
   font: inherit;
   font-weight: 700;
-}
-
-.sonner-example {
-  display: grid;
-  min-width: 0;
-  gap: 0.625rem;
-
-  h5 {
-    margin: 0;
-    font-size: 0.875rem;
-    font-weight: 800;
-  }
-
-  ui-card {
-    --ui-card-padding: 0.875rem;
-  }
 }
 
 .sonner-preview {
@@ -80,13 +63,14 @@ kbd {
   gap: 0.75rem;
 }
 
-
 code,
 kbd {
   font-family: ui-monospace, 'Cascadia Code', monospace;
 }
 
-@container (width < 36rem) {
+/* A size container would trap the nested fixed-position toaster inside this
+   long showcase instead of letting it use the viewport as its containing block. */
+@media (width < 36rem) {
   .sonner-showcase-header {
     flex-direction: column;
   }

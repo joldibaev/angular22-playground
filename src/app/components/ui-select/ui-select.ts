@@ -153,10 +153,7 @@ export class UiSelect implements FormValueControl<string> {
         return;
       }
 
-      if (
-        nextValue === currentValue &&
-        nextPlaceholder === currentPlaceholder
-      ) {
+      if (nextValue === currentValue && nextPlaceholder === currentPlaceholder) {
         this.pendingDisplayValue = nextValue;
         this.pendingPlaceholder = nextPlaceholder;
 
@@ -239,5 +236,4 @@ export class UiSelect implements FormValueControl<string> {
     this.selectedValues.set([]);
     this.popupExpanded.set(false);
   }
-
 }

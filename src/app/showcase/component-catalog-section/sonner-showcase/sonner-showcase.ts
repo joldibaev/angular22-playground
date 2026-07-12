@@ -1,15 +1,11 @@
-import { ShowcaseCode } from '../showcase-code/showcase-code';
-import { Component, inject, signal } from '@angular/core';
+import { ShowcaseExample } from '../showcase-example/showcase-example';
+import { Component, effect, inject, signal } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
-import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiSelect } from '../../../components/ui-select/ui-select';
 import { UiSelectOption } from '../../../components/ui-select/ui-select-option/ui-select-option';
 import { SonnerService } from '../../../components/ui-sonner/sonner.service';
-import { UiSonner } from '../../../components/ui-sonner/ui-sonner';
 import type { UiSonnerPosition } from '../../../components/ui-sonner/ui-sonner.type';
 import { UiSwitch } from '../../../components/ui-switch/ui-switch';
-import { UiTab } from '../../../components/ui-tab/ui-tab';
-import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 
 const POSITIONS: ReadonlyArray<{ value: UiSonnerPosition; label: string }> = [
   { value: 'top-left', label: 'Top left' },
@@ -22,7 +18,7 @@ const POSITIONS: ReadonlyArray<{ value: UiSonnerPosition; label: string }> = [
 
 @Component({
   selector: 'app-sonner-showcase',
-  imports: [ShowcaseCode, UiButton, UiCard, UiSelect, UiSelectOption, UiSonner, UiSwitch, UiTab, UiTabItem],
+  imports: [ShowcaseExample, UiButton, UiSelect, UiSelectOption, UiSwitch],
   templateUrl: './sonner-showcase.html',
   styleUrl: './sonner-showcase.css',
 })
@@ -32,6 +28,16 @@ export class SonnerShowcase {
   protected readonly selectedPosition = signal<UiSonnerPosition>('bottom-right');
   protected readonly expanded = signal(false);
   protected readonly visibleToasts = signal(3);
+  private readonly configureToaster = effect(() => {
+    this.sonner.configure({
+      position: this.selectedPosition(),
+      expand: this.expanded(),
+      visibleToasts: this.visibleToasts(),
+      closeButton: true,
+      closeLabel: 'Dismiss notification',
+      label: 'Notifications',
+    });
+  });
 
   protected readonly defaultCode = `import { inject } from '@angular/core';
 import { SonnerService } from './components/ui-sonner/sonner.service';
@@ -98,18 +104,18 @@ this.sonner.warning('Volatility increased');
 
 this.sonner.dismiss();`;
 
-  protected readonly toasterCode = `<ui-sonner
-  position="bottom-right"
-  [visibleToasts]="3"
-  [expand]="false"
-  [gap]="14"
-  offset="32px"
-  [hotKey]="['altKey', 'KeyT']"
-  [toastOptions]="{ duration: 5000 }"
-  closeButton
-  closeLabel="Dismiss notification"
-  label="Notifications"
-/>`;
+  protected readonly toasterCode = `this.sonner.configure({
+  position: 'bottom-right',
+  visibleToasts: 3,
+  expand: false,
+  gap: 14,
+  offset: '32px',
+  hotKey: ['altKey', 'KeyT'],
+  toastOptions: { duration: 5000 },
+  closeButton: true,
+  closeLabel: 'Dismiss notification',
+  label: 'Notifications',
+});`;
 
   protected setVisibleToasts(value: string): void {
     this.visibleToasts.set(Number(value));

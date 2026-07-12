@@ -1,6 +1,6 @@
 .ui-table-viewport {
   --ui-table-background: var(--background-color-surface);
-  --ui-table-foreground: contrast-color(var(--ui-table-background));
+  --ui-table-foreground: var(--text-color-canvas);
   --ui-table-border-color: var(--border-color-default);
   --ui-table-border-color-strong: var(--border-color-strong);
   --ui-table-header-background: color-mix(
@@ -16,7 +16,7 @@
   );
   --ui-table-row-striped-background: color-mix(
     in oklab,
-    CanvasText 3%,
+    var(--text-color-canvas) 3%,
     var(--ui-table-background)
   );
   --ui-table-row-selected-background: color-mix(
@@ -62,7 +62,7 @@
   border-spacing: 0;
   border-radius: 0.5rem;
   background-color: var(--background-color-surface);
-  color: contrast-color(var(--background-color-surface));
+  color: var(--ui-table-foreground, var(--text-color-canvas));
   font-size: var(--ui-table-font-size, 0.875rem);
   text-align: start;
 

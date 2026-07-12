@@ -342,7 +342,6 @@ export class UiDatepicker implements FormValueControl<string> {
       this.shiftView(event.shiftKey ? 12 : 1);
       return;
     }
-
   }
 
   focus(options?: FocusOptions) {

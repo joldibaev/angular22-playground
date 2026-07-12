@@ -18,8 +18,8 @@ describe('UiCard', () => {
     await fixture.whenStable();
   });
 
-  it('should use the elevated variant by default', () => {
-    expect((fixture.nativeElement as HTMLElement).classList).toContain('ui-card-elevated');
+  it('should use the glass variant by default', () => {
+    expect((fixture.nativeElement as HTMLElement).classList).toContain('ui-card-glass');
   });
 
   it('should render projected content and apply the outlined variant', async () => {
@@ -29,7 +29,7 @@ describe('UiCard', () => {
     const card = hostFixture.nativeElement.querySelector('ui-card') as HTMLElement;
 
     expect(card.classList).toContain('ui-card-outlined');
-    expect(card.classList).not.toContain('ui-card-elevated');
+    expect(card.classList).not.toContain('ui-card-glass');
     expect(card.querySelector('.ui-card-content')?.textContent).toContain('Account summary');
   });
 });

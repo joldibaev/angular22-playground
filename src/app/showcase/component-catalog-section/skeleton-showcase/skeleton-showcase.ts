@@ -1,12 +1,9 @@
-import { ShowcaseCode } from '../showcase-code/showcase-code';
+import { ShowcaseExample } from '../showcase-example/showcase-example';
 import { Component } from '@angular/core';
-import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiSkeleton } from '../../../components/ui-skeleton/ui-skeleton';
-import { UiTab } from '../../../components/ui-tab/ui-tab';
-import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 @Component({
   selector: 'app-skeleton-showcase',
-  imports: [ShowcaseCode, UiCard, UiSkeleton, UiTab, UiTabItem],
+  imports: [ShowcaseExample, UiSkeleton],
   templateUrl: './skeleton-showcase.html',
   styleUrl: './skeleton-showcase.css',
 })

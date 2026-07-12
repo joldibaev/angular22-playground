@@ -5,13 +5,7 @@ import { UiButton } from './ui-button';
 @Component({
   imports: [UiButton],
   template: `
-    <button
-      uiButton
-      type="submit"
-      [loading]="loading()"
-    >
-      Save
-    </button>
+    <button uiButton type="submit" [loading]="loading()">Save</button>
     <a uiButton href="/docs" disabled>Docs</a>
     <a id="invalid-anchor" uiButton>Not a link</a>
     <button uiButton type="button" variant="brand" iconOnly aria-label="Add">+</button>

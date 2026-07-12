@@ -1,11 +1,4 @@
-import {
-  afterNextRender,
-  DestroyRef,
-  Directive,
-  ElementRef,
-  inject,
-  signal,
-} from '@angular/core';
+import { afterNextRender, DestroyRef, Directive, ElementRef, inject, signal } from '@angular/core';
 
 @Directive({
   selector: '[uiTableViewport]',

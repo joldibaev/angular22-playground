@@ -11,13 +11,23 @@
       width="36"
       height="20"
     />
-    <strong>Baseline @if (baselineYear(); as year) { {{ year }} }</strong>
+    <strong
+      >Baseline
+      @if (baselineYear(); as year) {
+        {{ year }}
+      }
+    </strong>
     <span class="status">{{ statusLabel() }}</span>
   </div>
 
   <ul class="browsers" aria-label="Minimum browser versions">
     @for (browser of browsers(); track browser.id) {
-      <li [attr.aria-label]="browser.label + (browser.version ? ' ' + browser.version + ' and later' : ': not supported')">
+      <li
+        [attr.aria-label]="
+          browser.label +
+          (browser.version ? ' ' + browser.version + ' and later' : ': not supported')
+        "
+      >
         <img
           class="browser-icon"
           [src]="'/browser-logos/' + browser.id + '.svg'"
@@ -35,7 +45,10 @@
   <p class="features">
     <span class="sr-only">Features:</span>
     @for (name of featureNames(); track name; let last = $last) {
-      <code>{{ name }}</code>@if (!last) {<span aria-hidden="true">, </span>}
+      <code>{{ name }}</code>
+      @if (!last) {
+        <span aria-hidden="true">, </span>
+      }
     }
   </p>
 </aside>

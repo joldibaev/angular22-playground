@@ -40,7 +40,10 @@ export class UiIcon {
     }
 
     const rootAttributes = parseAttributes(/<svg\s+([^>]+)>/u.exec(svgString)?.[1] ?? '');
-    const paths = Array.from(svgString.matchAll(/<path\s+d="([^"]+)"\s*\/>/gu), (match) => match[1]);
+    const paths = Array.from(
+      svgString.matchAll(/<path\s+d="([^"]+)"\s*\/>/gu),
+      (match) => match[1],
+    );
 
     // Only data consumed by explicit Angular attribute bindings survives this
     // parser. Unknown tags/attributes from a compromised generator are ignored.

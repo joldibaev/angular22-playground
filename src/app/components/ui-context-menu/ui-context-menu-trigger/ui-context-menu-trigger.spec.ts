@@ -6,12 +6,7 @@ import { UiContextMenuTrigger } from './ui-context-menu-trigger';
 @Component({
   imports: [UiContextMenuTrigger],
   template: `
-    <div
-      class="target"
-      tabindex="0"
-      [uiContextMenuTrigger]="menu"
-      [uiContextMenuContext]="context"
-    >
+    <div class="target" tabindex="0" [uiContextMenuTrigger]="menu" [uiContextMenuContext]="context">
       <button type="button" class="row-action">Row action</button>
     </div>
   `,

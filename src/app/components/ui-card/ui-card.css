@@ -1,5 +1,5 @@
 :host {
-  --ui-card-background: var(--background-color-surface);
+  --ui-card-color: var(--text-color-canvas);
   --ui-card-radius: 0.5rem;
   --ui-card-padding: 1rem;
   --ui-card-gap: 0.75rem;
@@ -8,19 +8,24 @@
   min-width: 0;
   border-radius: var(--ui-card-radius);
   background-color: var(--ui-card-background);
-  color: contrast-color(var(--ui-card-background));
+  color: var(--ui-card-color);
 }
 
 :host([hidden]) {
   display: none;
 }
 
-:host(.ui-card-elevated) {
-  border: 1px solid var(--border-color-default);
+:host(.ui-card-glass) {
+  --ui-card-background: var(--ui-glass-background);
+
+  border: 1px solid var(--ui-glass-border-color);
+  backdrop-filter: var(--ui-glass-backdrop-filter);
   box-shadow: var(--shadow-xs);
 }
 
 :host(.ui-card-outlined) {
+  --ui-card-background: var(--background-color-surface);
+
   border: 1px solid var(--border-color-default);
   box-shadow: none;
 }

@@ -9,8 +9,8 @@ ui-popover-panel {
   --ui-panel-open-duration: var(--ui-popover-open-duration);
   --ui-panel-close-duration: var(--ui-popover-close-duration);
   --ui-panel-easing: var(--ui-popover-motion-easing);
-  --ui-panel-background: Canvas;
-  --ui-panel-text-color: contrast-color(var(--ui-panel-background));
+  --ui-panel-background: var(--background-color-canvas);
+  --ui-panel-text-color: var(--text-color-canvas);
   --ui-panel-radius: 0.75rem;
   --ui-panel-padding-block: 0.875rem;
   --ui-panel-padding-inline: 1rem;

@@ -7,11 +7,7 @@ import { UiMask } from './ui-mask';
 @Component({
   imports: [FormField, UiMask],
   template: `
-    <input
-      data-testid="phone"
-      uiMask="+000 00 000-00-00"
-      [formField]="formState.phone"
-    />
+    <input data-testid="phone" uiMask="+000 00 000-00-00" [formField]="formState.phone" />
     <input data-testid="reference" uiMask="UU-0000" [formField]="formState.reference" />
     <input
       data-testid="amount"

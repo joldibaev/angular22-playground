@@ -7,233 +7,131 @@
     <p class="sonner-shortcut"><kbd>Alt</kbd> + <kbd>T</kbd> focuses the newest group</p>
   </header>
 
-  <section class="sonner-example" aria-labelledby="sonner-default-title">
-    <h5 id="sonner-default-title">Default</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Default toast example">
-        <ui-tab-item value="preview" label="Preview">
-          <div class="sonner-preview">
-            <button uiButton type="button" variant="outline" (click)="showDefault()">
-              Show toast
-            </button>
-          </div>
-        </ui-tab-item>
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="defaultCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-  </section>
+  <app-showcase-example heading="Default" aria-label="Default toast example" [code]="defaultCode">
+    <div class="sonner-preview">
+      <button uiButton type="button" variant="outline" (click)="showDefault()">Show toast</button>
+    </div>
+  </app-showcase-example>
 
-  <section class="sonner-example" aria-labelledby="sonner-types-title">
-    <h5 id="sonner-types-title">Types</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Toast type examples">
-        <ui-tab-item value="preview" label="Preview">
-          <div class="sonner-preview sonner-button-row">
-            <button uiButton type="button" (click)="showSuccess()">Success</button>
-            <button uiButton type="button" variant="secondary" (click)="showInfo()">Info</button>
-            <button uiButton type="button" variant="outline" (click)="showWarning()">
-              Warning
-            </button>
-            <button uiButton type="button" variant="destructive" (click)="showDestructive()">
-              Destructive
-            </button>
-          </div>
-        </ui-tab-item>
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="typesCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-  </section>
+  <app-showcase-example heading="Types" aria-label="Toast type examples" [code]="typesCode">
+    <div class="sonner-preview sonner-button-row">
+      <button uiButton type="button" (click)="showSuccess()">Success</button>
+      <button uiButton type="button" variant="secondary" (click)="showInfo()">Info</button>
+      <button uiButton type="button" variant="outline" (click)="showWarning()">Warning</button>
+      <button uiButton type="button" variant="destructive" (click)="showDestructive()">
+        Destructive
+      </button>
+    </div>
+  </app-showcase-example>
 
-  <section class="sonner-example" aria-labelledby="sonner-promise-title">
-    <h5 id="sonner-promise-title">Promise</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Promise toast example">
-        <ui-tab-item value="preview" label="Preview">
-          <div class="sonner-preview">
-            <button uiButton type="button" variant="outline" (click)="showPromise()">
-              Run promise
-            </button>
-          </div>
-        </ui-tab-item>
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="promiseCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-  </section>
+  <app-showcase-example heading="Promise" aria-label="Promise toast example" [code]="promiseCode">
+    <div class="sonner-preview">
+      <button uiButton type="button" variant="outline" (click)="showPromise()">Run promise</button>
+    </div>
+  </app-showcase-example>
 
-  <section class="sonner-example" aria-labelledby="sonner-update-title">
-    <h5 id="sonner-update-title">Loading and update by ID</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Toast update example">
-        <ui-tab-item value="preview" label="Preview">
-          <div class="sonner-preview">
-            <button uiButton type="button" variant="outline" (click)="showUpdate()">
-              Save watchlist
-            </button>
-          </div>
-        </ui-tab-item>
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="updateCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-  </section>
+  <app-showcase-example
+    heading="Loading and update by ID"
+    aria-label="Toast update example"
+    [code]="updateCode"
+  >
+    <div class="sonner-preview">
+      <button uiButton type="button" variant="outline" (click)="showUpdate()">
+        Save watchlist
+      </button>
+    </div>
+  </app-showcase-example>
 
-  <section class="sonner-example" aria-labelledby="sonner-action-title">
-    <h5 id="sonner-action-title">Action and cancel</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Toast action example">
-        <ui-tab-item value="preview" label="Preview">
-          <div class="sonner-preview">
-            <button uiButton type="button" variant="outline" (click)="showAction()">
-              Queue draft
-            </button>
-          </div>
-        </ui-tab-item>
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="actionCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-  </section>
+  <app-showcase-example
+    heading="Action and cancel"
+    aria-label="Toast action example"
+    [code]="actionCode"
+  >
+    <div class="sonner-preview">
+      <button uiButton type="button" variant="outline" (click)="showAction()">Queue draft</button>
+    </div>
+  </app-showcase-example>
 
-  <section class="sonner-example" aria-labelledby="sonner-icon-title">
-    <h5 id="sonner-icon-title">Custom icon</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Custom toast icon example">
-        <ui-tab-item value="preview" label="Preview">
-          <div class="sonner-preview">
-            <button uiButton type="button" variant="outline" (click)="showCustomIcon()">
-              Show custom icon
-            </button>
-          </div>
-        </ui-tab-item>
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="iconCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-  </section>
+  <app-showcase-example
+    heading="Custom icon"
+    aria-label="Custom toast icon example"
+    [code]="iconCode"
+  >
+    <div class="sonner-preview">
+      <button uiButton type="button" variant="outline" (click)="showCustomIcon()">
+        Show custom icon
+      </button>
+    </div>
+  </app-showcase-example>
 
-  <section class="sonner-example" aria-labelledby="sonner-position-title">
-    <h5 id="sonner-position-title">Position</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Toast position example">
-        <ui-tab-item value="preview" label="Preview">
-          <div class="sonner-preview sonner-button-row">
-            @for (position of positions; track position.value) {
-              <button
-                uiButton
-                type="button"
-                variant="outline"
-                (click)="showPosition(position.value)"
-              >
-                {{ position.label }}
-              </button>
-            }
-          </div>
-        </ui-tab-item>
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="positionCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-  </section>
+  <app-showcase-example
+    heading="Position"
+    aria-label="Toast position example"
+    [code]="positionCode"
+  >
+    <div class="sonner-preview sonner-button-row">
+      @for (position of positions; track position.value) {
+        <button uiButton type="button" variant="outline" (click)="showPosition(position.value)">
+          {{ position.label }}
+        </button>
+      }
+    </div>
+  </app-showcase-example>
 
-  <section class="sonner-example" aria-labelledby="sonner-behavior-title">
-    <h5 id="sonner-behavior-title">Behavior</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Toast behavior examples">
-        <ui-tab-item value="preview" label="Preview">
-          <div class="sonner-preview sonner-button-row">
-            <button uiButton type="button" variant="outline" (click)="showPersistent()">
-              Persistent
-            </button>
-            <button uiButton type="button" variant="outline" (click)="showImportant()">
-              Important
-            </button>
-            <button uiButton type="button" variant="outline" (click)="showNonDismissible()">
-              Non-dismissible
-            </button>
-            <button uiButton type="button" variant="outline" (click)="showLifecycle()">
-              Callbacks
-            </button>
-          </div>
-        </ui-tab-item>
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="behaviorCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-  </section>
+  <app-showcase-example
+    heading="Behavior"
+    aria-label="Toast behavior examples"
+    [code]="behaviorCode"
+  >
+    <div class="sonner-preview sonner-button-row">
+      <button uiButton type="button" variant="outline" (click)="showPersistent()">
+        Persistent
+      </button>
+      <button uiButton type="button" variant="outline" (click)="showImportant()">Important</button>
+      <button uiButton type="button" variant="outline" (click)="showNonDismissible()">
+        Non-dismissible
+      </button>
+      <button uiButton type="button" variant="outline" (click)="showLifecycle()">Callbacks</button>
+    </div>
+  </app-showcase-example>
 
-  <section class="sonner-example" aria-labelledby="sonner-stack-title">
-    <h5 id="sonner-stack-title">Stack and multiple groups</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Toast stack examples">
-        <ui-tab-item value="preview" label="Preview">
-          <div class="sonner-preview sonner-button-row">
-            <button uiButton type="button" variant="outline" (click)="showStack()">
-              Stack four
-            </button>
-            <button uiButton type="button" variant="outline" (click)="showMultiplePositions()">
-              Multiple positions
-            </button>
-            <button uiButton type="button" variant="ghost" (click)="dismissAll()">
-              Dismiss all
-            </button>
-          </div>
-        </ui-tab-item>
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="stackCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-  </section>
+  <app-showcase-example
+    heading="Stack and multiple groups"
+    aria-label="Toast stack examples"
+    [code]="stackCode"
+  >
+    <div class="sonner-preview sonner-button-row">
+      <button uiButton type="button" variant="outline" (click)="showStack()">Stack four</button>
+      <button uiButton type="button" variant="outline" (click)="showMultiplePositions()">
+        Multiple positions
+      </button>
+      <button uiButton type="button" variant="ghost" (click)="dismissAll()">Dismiss all</button>
+    </div>
+  </app-showcase-example>
 
-  <section class="sonner-example" aria-labelledby="sonner-toaster-title">
-    <h5 id="sonner-toaster-title">Toaster options</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Toaster option example">
-        <ui-tab-item value="preview" label="Preview">
-          <div class="sonner-preview sonner-options">
-            <ui-select
-              label="Visible toasts"
-              size="sm"
-              [value]="visibleToasts().toString()"
-              (valueChange)="setVisibleToasts($event)"
-            >
-              <ui-select-option value="1" label="1" />
-              <ui-select-option value="3" label="3" />
-              <ui-select-option value="5" label="5" />
-            </ui-select>
+  <app-showcase-example
+    heading="Toaster options"
+    aria-label="Toaster option example"
+    [code]="toasterCode"
+  >
+    <div class="sonner-preview sonner-options">
+      <ui-select
+        label="Visible toasts"
+        size="sm"
+        [value]="visibleToasts().toString()"
+        (valueChange)="setVisibleToasts($event)"
+      >
+        <ui-select-option value="1" label="1" />
+        <ui-select-option value="3" label="3" />
+        <ui-select-option value="5" label="5" />
+      </ui-select>
 
-            <ui-switch
-              size="sm"
-              label="Always expanded"
-              [checked]="expanded()"
-              (checkedChange)="expanded.set($event)"
-            />
-          </div>
-        </ui-tab-item>
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="toasterCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-  </section>
-
-  <ui-sonner
-    [position]="selectedPosition()"
-    [expand]="expanded()"
-    [visibleToasts]="visibleToasts()"
-    closeButton
-    closeLabel="Dismiss notification"
-    label="Notifications"
-  />
+      <ui-switch
+        size="sm"
+        label="Always expanded"
+        [checked]="expanded()"
+        (checkedChange)="expanded.set($event)"
+      />
+    </div>
+  </app-showcase-example>
 </article>

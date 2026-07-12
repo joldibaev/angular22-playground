@@ -7,6 +7,7 @@
   --ui-chip-remove-icon-size: 0.875rem;
   --ui-chip-motion-duration: var(--dur-press);
   --ui-chip-motion-easing: var(--ease-snappy);
+  --ui-chip-focus-ring-color: var(--focus-ring-color);
 
   display: inline-flex;
   min-width: 0;
@@ -39,12 +40,13 @@
   --ui-chip-background: var(--color-destructive-subtle);
   --ui-chip-border-color: transparent;
   --ui-chip-color: var(--color-destructive);
+  --ui-chip-focus-ring-color: var(--destructive-focus-ring-color);
 }
 
 :host(.ui-chip-secondary) {
   --ui-chip-background: var(--background-color-subtle);
   --ui-chip-border-color: transparent;
-  --ui-chip-color: contrast-color(var(--ui-chip-background));
+  --ui-chip-color: var(--text-color-canvas);
 }
 
 .ui-chip-label {
@@ -100,7 +102,7 @@
   }
 
   &:focus-visible {
-    outline: 2px solid color-mix(in oklab, currentColor 50%, transparent);
+    outline: 2px solid var(--ui-chip-focus-ring-color);
     outline-offset: 1px;
     opacity: 1;
   }

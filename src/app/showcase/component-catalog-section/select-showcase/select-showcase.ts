@@ -1,16 +1,13 @@
-import { ShowcaseCode } from '../showcase-code/showcase-code';
+import { ShowcaseExample } from '../showcase-example/showcase-example';
 import { Component, signal } from '@angular/core';
 import { FormField, form } from '@angular/forms/signals';
-import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiIcon } from '../../../components/ui-icon/ui-icon';
 import { UiSelect } from '../../../components/ui-select/ui-select';
 import { UiSelectGroup } from '../../../components/ui-select/ui-select-group/ui-select-group';
 import { UiSelectOption } from '../../../components/ui-select/ui-select-option/ui-select-option';
-import { UiTab } from '../../../components/ui-tab/ui-tab';
-import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 @Component({
   selector: 'app-select-showcase',
-  imports: [ShowcaseCode, FormField, UiCard, UiIcon, UiSelect, UiSelectGroup, UiSelectOption, UiTab, UiTabItem],
+  imports: [ShowcaseExample, FormField, UiIcon, UiSelect, UiSelectGroup, UiSelectOption],
   templateUrl: './select-showcase.html',
   styleUrl: './select-showcase.css',
 })

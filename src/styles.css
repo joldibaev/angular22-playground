@@ -26,9 +26,22 @@
   --background-color-canvas: light-dark(var(--color-neutral-50), var(--color-neutral-950));
   --text-color-canvas: light-dark(var(--color-neutral-950), var(--color-neutral-50));
 
+  /* `contrast-color()` currently returns only absolute black or white. Keep
+     these semantic foregrounds explicit so they stay within our neutral scale;
+     revisit this contract if the platform gains custom contrast candidates. */
+  --text-color-on-brand: light-dark(var(--color-neutral-950), var(--color-neutral-50));
+  --text-color-on-destructive: var(--color-neutral-50);
+
+  /* Shared translucent material for surfaces that intentionally reveal the
+     page behind them. Elevation remains a component-level shadow decision. */
+  --ui-glass-background: color-mix(in oklab, var(--background-color-surface) 80%, transparent);
+  --ui-glass-border-color: color-mix(in oklab, var(--text-color-canvas) 12%, transparent);
+  --ui-glass-backdrop-filter: blur(12px);
+
   --background-color-surface: light-dark(var(--color-white), var(--color-neutral-900));
   --background-color-elevated: light-dark(var(--color-white), var(--color-neutral-800));
   --background-color-subtle: light-dark(var(--color-neutral-100), var(--color-neutral-800));
+
   --background-color-hover: color-mix(in oklab, var(--text-color-muted) 8%, transparent);
   --background-color-backdrop: color-mix(in oklab, black 45%, transparent);
 
@@ -41,17 +54,26 @@
   --border-color-subtle: color-mix(in oklab, var(--border-color-default) 50%, transparent);
 
   --color-brand: light-dark(var(--color-emerald-400), var(--color-emerald-600));
-  --color-brand-subtle: color-mix(in oklab, var(--color-brand) 12%, Canvas);
+  --color-brand-subtle: color-mix(in oklab, var(--color-brand) 12%, var(--background-color-canvas));
 
   --color-destructive: var(--color-red-600);
-  --color-destructive-subtle: color-mix(in oklab, var(--color-destructive) 12%, Canvas);
+  --color-destructive-subtle: color-mix(
+    in oklab,
+    var(--color-destructive) 12%,
+    var(--background-color-canvas)
+  );
 
   /*--shadow-popup: 0 0 0 1px color-mix(in oklab, black 5%, transparent);*/
 
   /* Shared focus ring: every `:focus-visible` outline reads its color from here
      so the ring lives in one place. Stateful controls swap the source color
      (e.g. `--color-destructive` while invalid) but keep the same formula. */
-  --focus-ring-color: color-mix(in oklab, var(--color-brand) 50%, transparent);
+  --focus-ring-color: color-mix(in oklab, var(--color-brand) 25%, transparent);
+  --destructive-focus-ring-color: color-mix(
+    in oklab,
+    var(--color-destructive) 25%,
+    transparent
+  );
 
   /* One dim level for every disabled control, so they read consistently. */
   --opacity-disabled: 0.5;
@@ -78,10 +100,12 @@ html {
 }
 
 body {
+  background-color: var(--background-color-canvas);
   background-image: light-dark(url(/light.svg), url(/dark.svg));
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
+  color: var(--text-color-canvas);
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

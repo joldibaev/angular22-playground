@@ -13,9 +13,13 @@
   border: 1px solid color-mix(in oklab, var(--ui-browser-support-accent) 28%, transparent);
   border-radius: 0.75rem;
   padding: 0.75rem 1rem;
-  background: color-mix(in oklab, var(--ui-browser-support-accent) 8%, Canvas);
+  background: color-mix(
+    in oklab,
+    var(--ui-browser-support-accent) 8%,
+    var(--background-color-canvas)
+  );
   color: contrast-color(
-    color-mix(in oklab, var(--ui-browser-support-accent) 8%, Canvas)
+    color-mix(in oklab, var(--ui-browser-support-accent) 8%, var(--background-color-canvas))
   );
 }
 
@@ -74,7 +78,7 @@
   border: 1px solid var(--border-color-default);
   border-radius: 999px;
   padding: 0.2rem 0.4rem 0.2rem 0.25rem;
-  background: Canvas;
+  background: var(--background-color-canvas);
 }
 
 .browser-icon {
@@ -86,7 +90,7 @@
 
 .version {
   min-width: 1.7rem;
-  color: CanvasText;
+  color: var(--text-color-canvas);
   font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
   font-weight: 700;

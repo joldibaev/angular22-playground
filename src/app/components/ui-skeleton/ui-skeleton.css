@@ -1,6 +1,14 @@
 :host {
-  --ui-skeleton-background: color-mix(in oklab, CanvasText 10%, Canvas);
-  --ui-skeleton-highlight: color-mix(in oklab, CanvasText 18%, Canvas);
+  --ui-skeleton-background: color-mix(
+    in oklab,
+    var(--text-color-canvas) 10%,
+    var(--background-color-canvas)
+  );
+  --ui-skeleton-highlight: color-mix(
+    in oklab,
+    var(--text-color-canvas) 18%,
+    var(--background-color-canvas)
+  );
   --ui-skeleton-radius: 0.375rem;
   --ui-skeleton-duration: calc(var(--dur-slow) * 4);
 

@@ -1,13 +1,10 @@
-import { ShowcaseCode } from '../showcase-code/showcase-code';
+import { ShowcaseExample } from '../showcase-example/showcase-example';
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 import { UiButton, type UiButtonVariant } from '../../../components/ui-button/ui-button';
-import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiIcon } from '../../../components/ui-icon/ui-icon';
-import { UiTab } from '../../../components/ui-tab/ui-tab';
-import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 @Component({
   selector: 'app-button-showcase',
-  imports: [ShowcaseCode, UiButton, UiCard, UiIcon, UiTab, UiTabItem],
+  imports: [ShowcaseExample, UiButton, UiIcon],
   templateUrl: './button-showcase.html',
   styleUrl: './button-showcase.css',
 })

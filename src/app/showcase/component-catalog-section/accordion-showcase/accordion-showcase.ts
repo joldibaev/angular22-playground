@@ -1,16 +1,13 @@
-import { ShowcaseCode } from '../showcase-code/showcase-code';
+import { ShowcaseExample } from '../showcase-example/showcase-example';
 import { Component, signal } from '@angular/core';
 import { UiAccordion } from '../../../components/ui-accordion/ui-accordion';
 import { UiAccordionItem } from '../../../components/ui-accordion/ui-accordion-item/ui-accordion-item';
 import { UiButton } from '../../../components/ui-button/ui-button';
-import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiIcon } from '../../../components/ui-icon/ui-icon';
-import { UiTab } from '../../../components/ui-tab/ui-tab';
-import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 
 @Component({
   selector: 'app-accordion-showcase',
-  imports: [ShowcaseCode, UiAccordion, UiAccordionItem, UiButton, UiCard, UiIcon, UiTab, UiTabItem],
+  imports: [ShowcaseExample, UiAccordion, UiAccordionItem, UiButton, UiIcon],
   templateUrl: './accordion-showcase.html',
   styleUrl: './accordion-showcase.css',
 })

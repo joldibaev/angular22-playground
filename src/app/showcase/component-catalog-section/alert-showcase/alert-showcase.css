@@ -3,8 +3,7 @@
   min-width: 0;
 }
 .alert-showcase,
-.alert-showcase-header,
-.alert-example {
+.alert-showcase-header {
   display: grid;
   min-width: 0;
 }
@@ -14,9 +13,6 @@
 .alert-showcase-header {
   gap: 0.25rem;
 }
-.alert-example {
-  gap: 0.625rem;
-}
 .alert-showcase-header p,
 .alert-context {
   margin: 0;
@@ -25,14 +21,6 @@
 }
 .alert-context {
   font-size: 0.8125rem;
-}
-.alert-example h5 {
-  margin: 0;
-  font-size: 0.875rem;
-  font-weight: 800;
-}
-.alert-example ui-card {
-  --ui-card-padding: 0.875rem;
 }
 .alert-preview {
   display: grid;

@@ -7,46 +7,45 @@
     </p>
   </header>
 
-  <section aria-labelledby="context-menu-default-title">
-    <h5 id="context-menu-default-title">Target context</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Context menu example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <div class="file-grid" aria-label="Example files">
-              @for (file of files; track file.name) {
-                <div
-                  class="file"
-                  tabindex="0"
-                  [uiContextMenuTrigger]="fileMenu"
-                  [uiContextMenuContext]="file"
-                >
-                  <ui-icon name="outline-file-import" decorative />
-                  <strong>{{ file.name }}</strong>
-                  <span>{{ file.kind }}</span>
-                </div>
-              }
-            </div>
+  <app-showcase-example
+    heading="Target context"
+    aria-label="Context menu example"
+    [code]="defaultCode"
+  >
+    <div class="preview">
+      <div class="file-grid" aria-label="Example files">
+        @for (file of files; track file.name) {
+          <div
+            class="file"
+            tabindex="0"
+            [uiContextMenuTrigger]="fileMenu"
+            [uiContextMenuContext]="file"
+          >
+            <ui-icon name="outline-file-import" decorative />
+            <strong>{{ file.name }}</strong>
+            <span>{{ file.kind }}</span>
+          </div>
+        }
+      </div>
 
-            <ui-context-menu #fileMenu (itemSelected)="run($event)"
-              ><ui-menu-item value="open">Open</ui-menu-item
-              ><ui-menu-group label="Organize"
-                ><ui-menu-item value="rename"
-                  ><ui-icon slot="start" name="outline-edit" decorative /><span>Rename</span></ui-menu-item
-                ><ui-menu-item value="duplicate"
-                  ><ui-icon slot="start" name="outline-copy" decorative /><span>Duplicate</span></ui-menu-item
-                ></ui-menu-group
-              ><ui-menu-item value="delete" variant="destructive"
-                ><ui-icon slot="start" name="outline-trash" decorative /><span>Delete</span></ui-menu-item
-              ></ui-context-menu
-            >
+      <ui-context-menu #fileMenu (itemSelected)="run($event)"
+        ><ui-menu-item value="open">Open</ui-menu-item
+        ><ui-menu-group label="Organize"
+          ><ui-menu-item value="rename"
+            ><ui-icon slot="start" name="outline-edit" decorative /><span
+              >Rename</span
+            ></ui-menu-item
+          ><ui-menu-item value="duplicate"
+            ><ui-icon slot="start" name="outline-copy" decorative /><span
+              >Duplicate</span
+            ></ui-menu-item
+          ></ui-menu-group
+        ><ui-menu-item value="delete" variant="destructive"
+          ><ui-icon slot="start" name="outline-trash" decorative /><span>Delete</span></ui-menu-item
+        ></ui-context-menu
+      >
 
-            <output aria-live="polite">Last action: {{ lastAction() }}</output>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="defaultCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+      <output aria-live="polite">Last action: {{ lastAction() }}</output>
+    </div>
+  </app-showcase-example>
 </article>

@@ -1,15 +1,12 @@
-import { ShowcaseCode } from '../showcase-code/showcase-code';
+import { ShowcaseExample } from '../showcase-example/showcase-example';
 import { Component, signal } from '@angular/core';
 import { UiBadge } from '../../../components/ui-badge/ui-badge';
 import { UiButton } from '../../../components/ui-button/ui-button';
-import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiIcon } from '../../../components/ui-icon/ui-icon';
-import { UiTab } from '../../../components/ui-tab/ui-tab';
-import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 
 @Component({
   selector: 'app-badge-showcase',
-  imports: [ShowcaseCode, UiBadge, UiButton, UiCard, UiIcon, UiTab, UiTabItem],
+  imports: [ShowcaseExample, UiBadge, UiButton, UiIcon],
   templateUrl: './badge-showcase.html',
   styleUrl: './badge-showcase.css',
 })

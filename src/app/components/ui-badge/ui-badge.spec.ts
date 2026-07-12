@@ -14,7 +14,9 @@ import { UiBadge } from './ui-badge';
       <span slot="end">Ready</span>
     </ui-badge>
     <ui-badge variant="contrast">High contrast</ui-badge>
-    <ui-badge variant="brand" withNotificationAnimation [visible]="notificationVisible()">3</ui-badge>
+    <ui-badge variant="brand" withNotificationAnimation [visible]="notificationVisible()"
+      >3</ui-badge
+    >
   `,
 })
 class TestHost {

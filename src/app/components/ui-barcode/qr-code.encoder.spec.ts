@@ -2,7 +2,11 @@ import jsQR from 'jsqr';
 
 import { encodeQrCode } from './qr-code.encoder';
 
-function rasterize(path: string, moduleCount = 29, scale = 8): {
+function rasterize(
+  path: string,
+  moduleCount = 29,
+  scale = 8,
+): {
   data: Uint8ClampedArray;
   size: number;
 } {

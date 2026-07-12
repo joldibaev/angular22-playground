@@ -1,16 +1,21 @@
-import { ShowcaseCode } from '../showcase-code/showcase-code';
+import { ShowcaseExample } from '../showcase-example/showcase-example';
 import { HttpClient, httpResource } from '@angular/common/http';
 import { Component, computed, inject, signal } from '@angular/core';
 import { toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { FormField, form, required } from '@angular/forms/signals';
-import { catchError, debounceTime, distinctUntilChanged, map, of, startWith, switchMap } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  of,
+  startWith,
+  switchMap,
+} from 'rxjs';
 import { UiAutocomplete } from '../../../components/ui-autocomplete/ui-autocomplete';
 import { UiAutocompleteOption } from '../../../components/ui-autocomplete/ui-autocomplete-option/ui-autocomplete-option';
 import { UiButton } from '../../../components/ui-button/ui-button';
-import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiIcon } from '../../../components/ui-icon/ui-icon';
-import { UiTab } from '../../../components/ui-tab/ui-tab';
-import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 
 interface PlaceholderUser {
   id: number;
@@ -38,7 +43,7 @@ const EMPTY_SEARCH_STATE: UserSearchState = { users: [], loading: false, failed:
 
 @Component({
   selector: 'app-autocomplete-showcase',
-  imports: [ShowcaseCode, FormField, UiAutocomplete, UiAutocompleteOption, UiButton, UiCard, UiIcon, UiTab, UiTabItem],
+  imports: [ShowcaseExample, FormField, UiAutocomplete, UiAutocompleteOption, UiButton, UiIcon],
   templateUrl: './autocomplete-showcase.html',
   styleUrl: './autocomplete-showcase.css',
 })
@@ -53,12 +58,18 @@ export class AutocompleteShowcase {
   });
   protected readonly selectedTeam = signal('team_support');
   protected readonly resourceQuery = signal('');
-  protected readonly resourceSearch = httpResource<PlaceholderUsersResponse>(() => {
-    const query = this.resourceQuery().trim();
-    return query.length >= 2
-      ? { url: USERS_SEARCH_URL, params: { q: query, limit: 8, select: 'id,firstName,lastName,email' } }
-      : undefined;
-  }, { defaultValue: EMPTY_USERS_RESPONSE });
+  protected readonly resourceSearch = httpResource<PlaceholderUsersResponse>(
+    () => {
+      const query = this.resourceQuery().trim();
+      return query.length >= 2
+        ? {
+            url: USERS_SEARCH_URL,
+            params: { q: query, limit: 8, select: 'id,firstName,lastName,email' },
+          }
+        : undefined;
+    },
+    { defaultValue: EMPTY_USERS_RESPONSE },
+  );
   protected readonly resourceUsers = computed(() =>
     this.resourceSearch.hasValue() ? this.resourceSearch.value().users : [],
   );
@@ -72,9 +83,7 @@ export class AutocompleteShowcase {
       map((query) => query.trim()),
       debounceTime(300),
       distinctUntilChanged(),
-      switchMap((query) =>
-        query.length >= 2 ? this.searchUsers(query) : of(EMPTY_SEARCH_STATE),
-      ),
+      switchMap((query) => (query.length >= 2 ? this.searchUsers(query) : of(EMPTY_SEARCH_STATE))),
     ),
     { initialValue: EMPTY_SEARCH_STATE },
   );
@@ -199,7 +208,11 @@ readonly formState = form(formModel, path => required(path.team, {message: 'Choo
         params: { q: query, limit: 8, select: 'id,firstName,lastName,email' },
       })
       .pipe(
-        map((response): UserSearchState => ({ users: response.users, loading: false, failed: false })),
+        map((response): UserSearchState => ({
+          users: response.users,
+          loading: false,
+          failed: false,
+        })),
         startWith<UserSearchState>({ users: [], loading: true, failed: false }),
         catchError(() => of<UserSearchState>({ users: [], loading: false, failed: true })),
       );

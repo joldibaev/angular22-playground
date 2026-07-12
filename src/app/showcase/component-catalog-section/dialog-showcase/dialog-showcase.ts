@@ -1,16 +1,13 @@
-import { ShowcaseCode } from '../showcase-code/showcase-code';
+import { ShowcaseExample } from '../showcase-example/showcase-example';
 import { Component, signal } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
-import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiDialog } from '../../../components/ui-dialog/ui-dialog';
 import { UiDialogClose } from '../../../components/ui-dialog/ui-dialog-close/ui-dialog-close';
 import { UiDialogTrigger } from '../../../components/ui-dialog/ui-dialog-trigger/ui-dialog-trigger';
-import { UiTab } from '../../../components/ui-tab/ui-tab';
-import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 
 @Component({
   selector: 'app-dialog-showcase',
-  imports: [ShowcaseCode, UiButton, UiCard, UiDialog, UiDialogClose, UiDialogTrigger, UiTab, UiTabItem],
+  imports: [ShowcaseExample, UiButton, UiDialog, UiDialogClose, UiDialogTrigger],
   templateUrl: './dialog-showcase.html',
   styleUrl: './dialog-showcase.css',
 })

@@ -4,8 +4,7 @@
 }
 
 .dialog-success-showcase,
-.dialog-success-showcase > header,
-.dialog-success-showcase > section {
+.dialog-success-showcase > header {
   display: grid;
   min-width: 0;
 }
@@ -18,24 +17,10 @@
   gap: 0.25rem;
 }
 
-.dialog-success-showcase > section {
-  gap: 0.625rem;
-}
-
 .dialog-success-showcase header p {
   margin: 0;
   color: var(--text-color-muted);
   text-wrap: pretty;
-}
-
-.dialog-success-showcase h5 {
-  margin: 0;
-  font-size: 0.875rem;
-  font-weight: 800;
-}
-
-.dialog-success-showcase ui-card {
-  --ui-card-padding: 0.875rem;
 }
 
 .dialog-success-preview {
@@ -50,7 +35,6 @@
   color: var(--text-color-muted);
   font-size: 0.875rem;
 }
-
 
 code {
   font-family: ui-monospace, 'Cascadia Code', monospace;

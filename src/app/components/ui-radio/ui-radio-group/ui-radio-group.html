@@ -21,11 +21,7 @@
       <span class="ui-radio-group-description" [id]="descriptionId">{{ description() }}</span>
     }
 
-    <ui-field-error
-      [open]="showErrorMessage()"
-      [messages]="errorMessages()"
-      [panelId]="errorId"
-    >
+    <ui-field-error [open]="showErrorMessage()" [messages]="errorMessages()" [panelId]="errorId">
       <div class="ui-radio-group-options">
         <ng-content />
       </div>

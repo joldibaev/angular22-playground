@@ -6,233 +6,174 @@
       validation and composition with input behaviors such as masks.
     </p>
   </header>
-  <section>
-    <h5>Text field</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Text input example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-input label="Email"
-              ><input type="email" autocomplete="email" placeholder="name@example.com"
-            /></ui-input></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="defaultCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
+  <app-showcase-example heading="Text field" aria-label="Text input example" [code]="defaultCode">
+    <div class="preview">
+      <ui-input label="Email"
+        ><input type="email" autocomplete="email" placeholder="name@example.com"
+      /></ui-input>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Start and end content"
+    aria-label="Input slot example"
+    [code]="slotsCode"
+  >
+    <div class="preview grid">
+      <ui-input label="Search">
+        <ui-icon slot="start" name="outline-search" decorative />
+        <input
+          #searchInput
+          type="search"
+          [value]="searchQuery()"
+          (input)="searchQuery.set(searchInput.value)"
+        />
+        <button
+          slot="end"
+          type="button"
+          aria-label="Clear search"
+          [disabled]="!searchQuery()"
+          (click)="searchQuery.set('')"
+        >
+          <ui-icon name="outline-x" decorative />
+        </button>
+      </ui-input>
+      <ui-input label="Shortcut">
+        <input placeholder="Open command palette" />
+        <kbd slot="end">⌘K</kbd>
+      </ui-input>
+      <ui-input label="Email">
+        <span slot="start" aria-hidden="true">@</span>
+        <input type="email" autocomplete="email" placeholder="name@example.com" />
+      </ui-input>
+      <ui-input label="Amount">
+        <input inputmode="decimal" value="1250.00" />
+        <span slot="end">USD</span>
+      </ui-input>
+      <ui-input label="Loading" loading>
+        <ui-icon slot="start" name="outline-search" decorative />
+        <input value="Refreshing records" />
+        <ui-icon slot="end" name="outline-x" decorative />
+      </ui-input>
+      <ui-input label="Disabled">
+        <ui-icon slot="start" name="outline-lock" decorative />
+        <input disabled value="Managed by policy" />
+        <span slot="end">SSO</span>
+      </ui-input>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Interactive end content"
+    aria-label="Password visibility example"
+    [code]="passwordCode"
+  >
+    <div class="preview">
+      <ui-input label="Password">
+        <input
+          [type]="passwordVisible() ? 'text' : 'password'"
+          autocomplete="current-password"
+          value="correct horse battery staple"
+        />
+        <button
+          slot="end"
+          type="button"
+          [attr.aria-label]="passwordVisible() ? 'Hide password' : 'Show password'"
+          [attr.aria-pressed]="passwordVisible()"
+          (click)="passwordVisible.update((visible) => !visible)"
+        >
+          <ui-icon [name]="passwordVisible() ? 'outline-eye-off' : 'outline-eye'" decorative />
+        </button>
+      </ui-input>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Number field"
+    aria-label="Number input example"
+    [code]="numberCode"
+  >
+    <div class="preview">
+      <ui-input label="Quantity" withErrorMessage>
+        <input type="number" [formField]="formState.quantity" />
+      </ui-input>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example heading="Masked fields" aria-label="Input mask examples" [code]="maskCode">
+    <ng-container showcaseAuxiliary
+      ><a
+        class="mask-more-link"
+        [routerLink]="[]"
+        [queryParams]="{ component: 'mask' }"
+        queryParamsHandling="merge"
+        fragment="component-catalog"
+      >
+        View mask tokens, behavior, and more examples
+      </a></ng-container
     >
-  </section>
-  <section>
-    <h5>Start and end content</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Input slot example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview grid">
-            <ui-input label="Search">
-              <ui-icon slot="start" name="outline-search" decorative />
-              <input
-                #searchInput
-                type="search"
-                [value]="searchQuery()"
-                (input)="searchQuery.set(searchInput.value)"
-              />
-              <button
-                slot="end"
-                type="button"
-                aria-label="Clear search"
-                [disabled]="!searchQuery()"
-                (click)="searchQuery.set('')"
-              >
-                <ui-icon name="outline-x" decorative />
-              </button>
-            </ui-input>
-            <ui-input label="Shortcut">
-              <input placeholder="Open command palette" />
-              <kbd slot="end">⌘K</kbd>
-            </ui-input>
-            <ui-input label="Email">
-              <span slot="start" aria-hidden="true">@</span>
-              <input type="email" autocomplete="email" placeholder="name@example.com" />
-            </ui-input>
-            <ui-input label="Amount">
-              <input inputmode="decimal" value="1250.00" />
-              <span slot="end">USD</span>
-            </ui-input>
-            <ui-input label="Loading" loading>
-              <ui-icon slot="start" name="outline-search" decorative />
-              <input value="Refreshing records" />
-              <ui-icon slot="end" name="outline-x" decorative />
-            </ui-input>
-            <ui-input label="Disabled">
-              <ui-icon slot="start" name="outline-lock" decorative />
-              <input disabled value="Managed by policy" />
-              <span slot="end">SSO</span>
-            </ui-input>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="slotsCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section>
-    <h5>Interactive end content</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Password visibility example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-input label="Password">
-              <input
-                [type]="passwordVisible() ? 'text' : 'password'"
-                autocomplete="current-password"
-                value="correct horse battery staple"
-              />
-              <button
-                slot="end"
-                type="button"
-                [attr.aria-label]="passwordVisible() ? 'Hide password' : 'Show password'"
-                [attr.aria-pressed]="passwordVisible()"
-                (click)="passwordVisible.update(visible => !visible)"
-              >
-                <ui-icon
-                  [name]="passwordVisible() ? 'outline-eye-off' : 'outline-eye'"
-                  decorative
-                />
-              </button>
-            </ui-input>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="passwordCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section>
-    <h5>Number field</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Number input example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-input label="Quantity" withErrorMessage>
-              <input type="number" [formField]="formState.quantity" />
-            </ui-input></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="numberCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section>
-    <h5>Masked fields</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Input mask examples"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview grid">
-            <ui-input label="Phone">
-              <input
-                uiMask="+000 00 000-00-00"
-                inputmode="tel"
-                autocomplete="tel"
-                placeholder="+998 90 123-45-67"
-                [formField]="formState.phone"
-              />
-            </ui-input>
-            <ui-input label="Amount">
-              <input
-                uiMask="separator.2"
-                inputmode="decimal"
-                placeholder="0.00"
-                [formField]="formState.amount"
-              />
-            </ui-input></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="maskCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-    <a
-      class="mask-more-link"
-      [routerLink]="[]"
-      [queryParams]="{ component: 'mask' }"
-      queryParamsHandling="merge"
-      fragment="component-catalog"
-    >
-      View mask tokens, behavior, and more examples
-    </a>
-  </section>
-  <section>
-    <h5>Textarea</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Textarea example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-input label="Notes">
-              <ui-icon slot="start" name="outline-notes" decorative />
-              <textarea
-                #notesInput
-                placeholder="Add handoff notes"
-                [value]="notes()"
-                (input)="notes.set(notesInput.value)"
-              ></textarea>
-              <button
-                slot="end"
-                type="button"
-                aria-label="Clear notes"
-                [disabled]="!notes()"
-                (click)="notes.set('')"
-              >
-                <ui-icon name="outline-x" decorative />
-              </button>
-            </ui-input></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="textareaCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section>
-    <h5>States</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Input states"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview grid">
-            <ui-input label="Disabled"><input disabled value="Managed by SSO" /></ui-input
-            ><ui-input label="Loading" loading
-              ><input value="Searching records"
-            /></ui-input></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="statesCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section>
-    <h5>Validation</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Input validation example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-input label="Work email" withErrorMessage
-              ><input type="email" [formField]="formState.email"
-            /></ui-input></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="validationCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section>
-    <h5>Signal disabled reason</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Signal disabled input example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-input label="Identity"
-              ><input [formField]="formState.identity"
-            /></ui-input></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="disabledCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+    <div class="preview grid">
+      <ui-input label="Phone">
+        <input
+          uiMask="+000 00 000-00-00"
+          inputmode="tel"
+          autocomplete="tel"
+          placeholder="+998 90 123-45-67"
+          [formField]="formState.phone"
+        />
+      </ui-input>
+      <ui-input label="Amount">
+        <input
+          uiMask="separator.2"
+          inputmode="decimal"
+          placeholder="0.00"
+          [formField]="formState.amount"
+        />
+      </ui-input>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example heading="Textarea" aria-label="Textarea example" [code]="textareaCode">
+    <div class="preview">
+      <ui-input label="Notes">
+        <ui-icon slot="start" name="outline-notes" decorative />
+        <textarea
+          #notesInput
+          placeholder="Add handoff notes"
+          [value]="notes()"
+          (input)="notes.set(notesInput.value)"
+        ></textarea>
+        <button
+          slot="end"
+          type="button"
+          aria-label="Clear notes"
+          [disabled]="!notes()"
+          (click)="notes.set('')"
+        >
+          <ui-icon name="outline-x" decorative />
+        </button>
+      </ui-input>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example heading="States" aria-label="Input states" [code]="statesCode">
+    <div class="preview grid">
+      <ui-input label="Disabled"><input disabled value="Managed by SSO" /></ui-input
+      ><ui-input label="Loading" loading><input value="Searching records" /></ui-input>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Validation"
+    aria-label="Input validation example"
+    [code]="validationCode"
+  >
+    <div class="preview">
+      <ui-input label="Work email" withErrorMessage
+        ><input type="email" [formField]="formState.email"
+      /></ui-input>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Signal disabled reason"
+    aria-label="Signal disabled input example"
+    [code]="disabledCode"
+  >
+    <div class="preview">
+      <ui-input label="Identity"><input [formField]="formState.identity" /></ui-input>
+    </div>
+  </app-showcase-example>
 </article>

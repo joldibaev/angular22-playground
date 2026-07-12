@@ -76,8 +76,7 @@ export class BrowserSupport {
     const versions = this.features().map((feature) => feature.support[browser]);
     // A missing browser version means the feature is unsupported there, but a
     // missing Node version just means the feature never runs in Node — skip it.
-    const relevant =
-      browser === 'node' ? versions.filter((version) => version !== null) : versions;
+    const relevant = browser === 'node' ? versions.filter((version) => version !== null) : versions;
     if (relevant.length === 0 || relevant.includes(null)) return null;
     return (relevant as string[]).sort(compareVersions).at(-1) ?? null;
   }

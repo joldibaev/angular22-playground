@@ -5,67 +5,43 @@
       Independent boolean choices with descriptions, mixed state, sizing, and Signal Forms feedback.
     </p>
   </header>
-  <section>
-    <h5>States</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Checkbox states"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview column">
-            <ui-checkbox label="Unchecked" description="Optional setting." /><ui-checkbox
-              label="Checked"
-              [checked]="true"
-            /><ui-checkbox label="Indeterminate" indeterminate /></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="statesCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section>
-    <h5>Sizes</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Checkbox sizes"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview column">
-            <ui-checkbox size="sm" label="Small" [checked]="true" /><ui-checkbox
-              label="Medium"
-              [checked]="true"
-            /></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="sizesCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section>
-    <h5>Required validation</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Required checkbox example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-checkbox
-              label="Accept terms"
-              description="Required before continuing."
-              withErrorMessage
-              [formField]="formState.terms"
-            /></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="validationCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section>
-    <h5>Disabled reason</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Disabled checkbox example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-checkbox label="Audit logging" [formField]="formState.audit" /></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="disabledCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+  <app-showcase-example heading="States" aria-label="Checkbox states" [code]="statesCode">
+    <div class="preview column">
+      <ui-checkbox label="Unchecked" description="Optional setting." /><ui-checkbox
+        label="Checked"
+        [checked]="true"
+      /><ui-checkbox label="Indeterminate" indeterminate />
+    </div>
+  </app-showcase-example>
+  <app-showcase-example heading="Sizes" aria-label="Checkbox sizes" [code]="sizesCode">
+    <div class="preview column">
+      <ui-checkbox size="sm" label="Small" [checked]="true" /><ui-checkbox
+        label="Medium"
+        [checked]="true"
+      />
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Required validation"
+    aria-label="Required checkbox example"
+    [code]="validationCode"
+  >
+    <div class="preview">
+      <ui-checkbox
+        label="Accept terms"
+        description="Required before continuing."
+        withErrorMessage
+        [formField]="formState.terms"
+      />
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Disabled reason"
+    aria-label="Disabled checkbox example"
+    [code]="disabledCode"
+  >
+    <div class="preview">
+      <ui-checkbox label="Audit logging" [formField]="formState.audit" />
+    </div>
+  </app-showcase-example>
 </article>

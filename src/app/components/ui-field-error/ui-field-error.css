@@ -6,7 +6,7 @@ ui-field-error {
 
 .ui-field-error-panel {
   --ui-panel-background: var(--color-destructive);
-  --ui-panel-text-color: contrast-color(var(--ui-panel-background));
+  --ui-panel-text-color: var(--text-color-on-destructive);
   --ui-panel-gap: 0.25rem;
 }
 

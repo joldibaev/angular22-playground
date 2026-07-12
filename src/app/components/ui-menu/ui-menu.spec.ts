@@ -132,9 +132,7 @@ describe('UiMenu', () => {
     await hostFixture.whenStable();
     await hostFixture.whenRenderingDone();
 
-    const firstItemChildren = Array.from(
-      getMenuItems()[0].querySelectorAll<HTMLElement>('[slot]'),
-    );
+    const firstItemChildren = Array.from(getMenuItems()[0].querySelectorAll<HTMLElement>('[slot]'));
 
     expect(firstItemChildren.map((child) => child.getAttribute('slot'))).toEqual(['start', 'end']);
 
@@ -162,7 +160,6 @@ describe('UiMenu', () => {
     expect(items[0].dataset['variant']).toBe('default');
     expect(items[2].dataset['variant']).toBe('destructive');
   });
-
 
   it('should emit the selected item value and close through Angular Aria harnesses', async () => {
     const hostFixture = await createHostFixture();

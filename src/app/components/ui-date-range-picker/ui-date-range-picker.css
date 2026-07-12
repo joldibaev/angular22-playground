@@ -161,7 +161,6 @@ ui-input:has(.ui-date-range-trigger[aria-expanded='true']) .ui-date-range-chevro
   text-align: center;
 }
 
-
 .ui-date-range-nav {
   display: inline-flex;
   align-items: center;

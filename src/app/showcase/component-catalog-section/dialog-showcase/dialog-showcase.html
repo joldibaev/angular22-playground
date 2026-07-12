@@ -7,380 +7,260 @@
     </p>
   </header>
 
-  <section class="dialog-example" aria-labelledby="dialog-default-title">
-    <h5 id="dialog-default-title">Default</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Default dialog example">
-        <ui-tab-item value="preview" label="Preview"
-          ><div class="dialog-preview">
-            <button
-              uiButton
-              type="button"
-              [uiDialogTrigger]="inviteDialog"
-            >
-              Invite teammates
-            </button>
-          </div></ui-tab-item
-        >
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="defaultCode" />
-        </ui-tab-item>
-      </ui-tab></ui-card
+  <app-showcase-example heading="Default" aria-label="Default dialog example" [code]="defaultCode">
+    <ng-container showcaseAuxiliary
+      ><ui-dialog #inviteDialog="uiDialog" title="Invite teammates" caption="Workspace access">
+        <p class="dialog-copy">
+          Send an invitation link to a teammate. They receive access after accepting it.
+        </p>
+        <div uiDialogFooter class="dialog-actions">
+          <button uiButton type="button" variant="outline" [uiDialogClose]="inviteDialog">
+            Cancel
+          </button>
+          <button uiButton type="button" [uiDialogClose]="inviteDialog">Send invites</button>
+        </div>
+      </ui-dialog></ng-container
     >
-    <ui-dialog #inviteDialog="uiDialog" title="Invite teammates" caption="Workspace access">
-      <p class="dialog-copy">
-        Send an invitation link to a teammate. They receive access after accepting it.
-      </p>
-      <div uiDialogFooter class="dialog-actions">
-        <button
-          uiButton
-          type="button"
-          variant="outline"
-          [uiDialogClose]="inviteDialog"
-        >
-          Cancel
-        </button>
-        <button uiButton type="button" [uiDialogClose]="inviteDialog">
-          Send invites
-        </button>
-      </div>
-    </ui-dialog>
-  </section>
+    <div class="dialog-preview">
+      <button uiButton type="button" [uiDialogTrigger]="inviteDialog">Invite teammates</button>
+    </div>
+  </app-showcase-example>
 
-  <section class="dialog-example" aria-labelledby="dialog-size-title">
-    <h5 id="dialog-size-title">Sizes</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Dialog size examples">
-        <ui-tab-item value="preview" label="Preview"
-          ><div class="dialog-preview dialog-button-row">
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDialogTrigger]="smallDialog"
-            >
-              Small
-            </button>
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDialogTrigger]="mediumDialog"
-            >
-              Medium
-            </button>
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDialogTrigger]="largeDialog"
-            >
-              Large
-            </button>
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDialogTrigger]="extraLargeDialog"
-            >
-              Extra large
-            </button>
-          </div></ui-tab-item
-        >
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="sizeCode" />
-        </ui-tab-item>
-      </ui-tab></ui-card
+  <app-showcase-example heading="Sizes" aria-label="Dialog size examples" [code]="sizeCode">
+    <ng-container showcaseAuxiliary
+      ><ui-dialog #smallDialog="uiDialog" title="Small dialog" size="sm"
+        ><p class="dialog-copy">For short confirmations and focused prompts.</p></ui-dialog
+      ></ng-container
     >
-    <ui-dialog #smallDialog="uiDialog" title="Small dialog" size="sm"
-      ><p class="dialog-copy">For short confirmations and focused prompts.</p></ui-dialog
+    <ng-container showcaseAuxiliary
+      ><ui-dialog #mediumDialog="uiDialog" title="Default dialog" size="md"
+        ><p class="dialog-copy">The default for common forms and messages.</p></ui-dialog
+      ></ng-container
     >
-    <ui-dialog #mediumDialog="uiDialog" title="Default dialog" size="md"
-      ><p class="dialog-copy">The default for common forms and messages.</p></ui-dialog
+    <ng-container showcaseAuxiliary
+      ><ui-dialog #largeDialog="uiDialog" title="Large dialog" size="lg"
+        ><p class="dialog-copy">For workflows that need more horizontal room.</p></ui-dialog
+      ></ng-container
     >
-    <ui-dialog #largeDialog="uiDialog" title="Large dialog" size="lg"
-      ><p class="dialog-copy">For workflows that need more horizontal room.</p></ui-dialog
+    <ng-container showcaseAuxiliary
+      ><ui-dialog #extraLargeDialog="uiDialog" title="Extra-large dialog" size="xl"
+        ><p class="dialog-copy">For dense pickers and multi-column content.</p></ui-dialog
+      ></ng-container
     >
-    <ui-dialog #extraLargeDialog="uiDialog" title="Extra-large dialog" size="xl"
-      ><p class="dialog-copy">For dense pickers and multi-column content.</p></ui-dialog
-    >
-  </section>
-
-  <section class="dialog-example" aria-labelledby="dialog-description-title">
-    <h5 id="dialog-description-title">Role and description</h5>
-    <p class="dialog-context">
-      Use <code>alertdialog</code> only for urgent decisions, and connect supporting copy with
-      <code>ariaDescribedBy</code>.
-    </p>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Dialog role and description example">
-        <ui-tab-item value="preview" label="Preview"
-          ><div class="dialog-preview">
-            <button
-              uiButton
-              type="button"
-              variant="destructive"
-              [uiDialogTrigger]="alertDialog"
-            >
-              Delete workspace
-            </button>
-          </div></ui-tab-item
-        >
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="descriptionCode" />
-        </ui-tab-item>
-      </ui-tab></ui-card
-    >
-    <ui-dialog
-      #alertDialog="uiDialog"
-      title="Delete workspace?"
-      role="alertdialog"
-      size="sm"
-      [ariaDescribedBy]="'workspace-delete-description'"
-    >
-      <p id="workspace-delete-description" class="dialog-copy">
-        This permanently removes the workspace and cannot be undone.
-      </p>
-      <div uiDialogFooter class="dialog-actions">
-        <button uiButton type="button" [uiDialogClose]="alertDialog">
-          Keep workspace
-        </button>
-      </div>
-    </ui-dialog>
-  </section>
-
-  <section class="dialog-example" aria-labelledby="dialog-dismiss-title">
-    <h5 id="dialog-dismiss-title">Dismiss behavior</h5>
-    <p class="dialog-context">
-      <code>any</code> supports backdrop and Escape, <code>closerequest</code> keeps Escape, and
-      <code>none</code> requires an explicit action.
-    </p>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Dialog dismiss examples">
-        <ui-tab-item value="preview" label="Preview"
-          ><div class="dialog-preview dialog-button-row">
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDialogTrigger]="anyDialog"
-            >
-              Any
-            </button>
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDialogTrigger]="requestDialog"
-            >
-              Close request
-            </button>
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDialogTrigger]="lockedDialog"
-            >
-              None
-            </button>
-          </div></ui-tab-item
-        >
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="dismissCode" />
-        </ui-tab-item>
-      </ui-tab></ui-card
-    >
-    <ui-dialog #anyDialog="uiDialog" title="Light dismiss" dismiss="any"
-      ><p class="dialog-copy">
-        Backdrop, Escape, and the close button dismiss this dialog.
-      </p></ui-dialog
-    >
-    <ui-dialog #requestDialog="uiDialog" title="Close request" dismiss="closerequest"
-      ><p class="dialog-copy">Escape works, but clicking the backdrop does not.</p></ui-dialog
-    >
-    <ui-dialog #lockedDialog="uiDialog" title="Blocking task" dismiss="none"
-      ><p class="dialog-copy">Only an explicit close control dismisses this dialog.</p></ui-dialog
-    >
-  </section>
-
-  <section class="dialog-example" aria-labelledby="dialog-scroll-title">
-    <h5 id="dialog-scroll-title">Scrollable content</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Scrollable dialog example">
-        <ui-tab-item value="preview" label="Preview"
-          ><div class="dialog-preview">
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDialogTrigger]="scrollDialog"
-            >
-              Review changes
-            </button>
-          </div></ui-tab-item
-        >
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="scrollCode" />
-        </ui-tab-item>
-      </ui-tab></ui-card
-    >
-    <ui-dialog
-      #scrollDialog="uiDialog"
-      title="Review changes"
-      caption="The body scrolls while actions remain available"
-    >
-      <div class="dialog-long-copy">
-        @for (
-          item of [
-            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
-          ];
-          track item
-        ) {
-          <p>Change {{ item }} updates inventory, pricing, or checkout behavior.</p>
-        }
-      </div>
-      <div uiDialogFooter class="dialog-actions">
-        <button uiButton type="button" [uiDialogClose]="scrollDialog">
-          Apply
-        </button>
-      </div>
-    </ui-dialog>
-  </section>
-
-  <section class="dialog-example" aria-labelledby="dialog-nested-title">
-    <h5 id="dialog-nested-title">Nested dialogs</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Nested dialog example">
-        <ui-tab-item value="preview" label="Preview"
-          ><div class="dialog-preview">
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDialogTrigger]="parentDialog"
-            >
-              Edit order
-            </button>
-          </div></ui-tab-item
-        >
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="nestedCode" />
-        </ui-tab-item>
-      </ui-tab></ui-card
-    >
-    <ui-dialog
-      #parentDialog="uiDialog"
-      title="Edit order"
-      caption="The child enters the top layer above its parent"
-    >
-      <p class="dialog-copy">Unsaved quantity and price changes remain in the parent.</p>
-      <button
-        uiButton
-        type="button"
-        variant="destructive"
-        [uiDialogTrigger]="childDialog"
-      >
-        Discard changes
+    <div class="dialog-preview dialog-button-row">
+      <button uiButton type="button" variant="outline" [uiDialogTrigger]="smallDialog">
+        Small
       </button>
-      <ui-dialog
-        #childDialog="uiDialog"
-        title="Discard changes?"
+      <button uiButton type="button" variant="outline" [uiDialogTrigger]="mediumDialog">
+        Medium
+      </button>
+      <button uiButton type="button" variant="outline" [uiDialogTrigger]="largeDialog">
+        Large
+      </button>
+      <button uiButton type="button" variant="outline" [uiDialogTrigger]="extraLargeDialog">
+        Extra large
+      </button>
+    </div>
+  </app-showcase-example>
+
+  <app-showcase-example
+    heading="Role and description"
+    aria-label="Dialog role and description example"
+    [code]="descriptionCode"
+  >
+    <ng-container showcaseDescription
+      >Use <code>alertdialog</code> only for urgent decisions, and connect supporting copy with
+      <code>ariaDescribedBy</code>.</ng-container
+    >
+    <ng-container showcaseAuxiliary
+      ><ui-dialog
+        #alertDialog="uiDialog"
+        title="Delete workspace?"
         role="alertdialog"
         size="sm"
-        dismiss="closerequest"
+        [ariaDescribedBy]="'workspace-delete-description'"
       >
-        <p class="dialog-copy">The child closes independently while the parent remains open.</p>
+        <p id="workspace-delete-description" class="dialog-copy">
+          This permanently removes the workspace and cannot be undone.
+        </p>
         <div uiDialogFooter class="dialog-actions">
-          <button uiButton type="button" [uiDialogClose]="childDialog">
-            Keep editing
-          </button>
+          <button uiButton type="button" [uiDialogClose]="alertDialog">Keep workspace</button>
         </div>
-      </ui-dialog>
-    </ui-dialog>
-  </section>
+      </ui-dialog></ng-container
+    >
+    <div class="dialog-preview">
+      <button uiButton type="button" variant="destructive" [uiDialogTrigger]="alertDialog">
+        Delete workspace
+      </button>
+    </div>
+  </app-showcase-example>
 
-  <section class="dialog-example" aria-labelledby="dialog-close-title">
-    <h5 id="dialog-close-title">Custom close controls</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Dialog close control example">
-        <ui-tab-item value="preview" label="Preview"
-          ><div class="dialog-preview dialog-button-row">
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDialogTrigger]="labelledCloseDialog"
-            >
-              Custom label
-            </button>
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDialogTrigger]="decisionDialog"
-            >
-              Custom action
-            </button>
-          </div></ui-tab-item
-        >
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="closeCode" />
-        </ui-tab-item>
-      </ui-tab></ui-card
+  <app-showcase-example
+    heading="Dismiss behavior"
+    aria-label="Dialog dismiss examples"
+    [code]="dismissCode"
+  >
+    <ng-container showcaseDescription
+      ><code>any</code> supports backdrop and Escape, <code>closerequest</code> keeps Escape, and
+      <code>none</code> requires an explicit action.</ng-container
     >
-    <ui-dialog #labelledCloseDialog="uiDialog" title="Settings" closeLabel="Close settings"
-      ><p class="dialog-copy">
-        The built-in close button has a context-specific accessible name.
-      </p></ui-dialog
+    <ng-container showcaseAuxiliary
+      ><ui-dialog #anyDialog="uiDialog" title="Light dismiss" dismiss="any"
+        ><p class="dialog-copy">
+          Backdrop, Escape, and the close button dismiss this dialog.
+        </p></ui-dialog
+      ></ng-container
     >
-    <ui-dialog
-      #decisionDialog="uiDialog"
-      title="Required decision"
-      [withCloseButton]="false"
-      dismiss="none"
+    <ng-container showcaseAuxiliary
+      ><ui-dialog #requestDialog="uiDialog" title="Close request" dismiss="closerequest"
+        ><p class="dialog-copy">Escape works, but clicking the backdrop does not.</p></ui-dialog
+      ></ng-container
     >
-      <p class="dialog-copy">
-        A workflow can omit the header close button when completion must be explicit.
-      </p>
-      <div uiDialogFooter class="dialog-actions">
-        <button
-          uiButton
-          type="button"
-          [uiDialogClose]="decisionDialog"
-        >
-          Continue
+    <ng-container showcaseAuxiliary
+      ><ui-dialog #lockedDialog="uiDialog" title="Blocking task" dismiss="none"
+        ><p class="dialog-copy">Only an explicit close control dismisses this dialog.</p></ui-dialog
+      ></ng-container
+    >
+    <div class="dialog-preview dialog-button-row">
+      <button uiButton type="button" variant="outline" [uiDialogTrigger]="anyDialog">Any</button>
+      <button uiButton type="button" variant="outline" [uiDialogTrigger]="requestDialog">
+        Close request
+      </button>
+      <button uiButton type="button" variant="outline" [uiDialogTrigger]="lockedDialog">
+        None
+      </button>
+    </div>
+  </app-showcase-example>
+
+  <app-showcase-example
+    heading="Scrollable content"
+    aria-label="Scrollable dialog example"
+    [code]="scrollCode"
+  >
+    <ng-container showcaseAuxiliary
+      ><ui-dialog
+        #scrollDialog="uiDialog"
+        title="Review changes"
+        caption="The body scrolls while actions remain available"
+      >
+        <div class="dialog-long-copy">
+          @for (
+            item of [
+              1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24,
+            ];
+            track item
+          ) {
+            <p>Change {{ item }} updates inventory, pricing, or checkout behavior.</p>
+          }
+        </div>
+        <div uiDialogFooter class="dialog-actions">
+          <button uiButton type="button" [uiDialogClose]="scrollDialog">Apply</button>
+        </div>
+      </ui-dialog></ng-container
+    >
+    <div class="dialog-preview">
+      <button uiButton type="button" variant="outline" [uiDialogTrigger]="scrollDialog">
+        Review changes
+      </button>
+    </div>
+  </app-showcase-example>
+
+  <app-showcase-example
+    heading="Nested dialogs"
+    aria-label="Nested dialog example"
+    [code]="nestedCode"
+  >
+    <ng-container showcaseAuxiliary
+      ><ui-dialog
+        #parentDialog="uiDialog"
+        title="Edit order"
+        caption="The child enters the top layer above its parent"
+      >
+        <p class="dialog-copy">Unsaved quantity and price changes remain in the parent.</p>
+        <button uiButton type="button" variant="destructive" [uiDialogTrigger]="childDialog">
+          Discard changes
         </button>
-      </div>
-    </ui-dialog>
-  </section>
-
-  <section class="dialog-example" aria-labelledby="dialog-controlled-title">
-    <h5 id="dialog-controlled-title">Controlled and programmatic</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Controlled dialog example">
-        <ui-tab-item value="preview" label="Preview"
-          ><div class="dialog-preview dialog-controlled-preview">
-            <button uiButton type="button" variant="outline" (click)="controlledDialog.show()">
-              Open from code
-            </button>
-            <span aria-live="polite">State: {{ controlledOpen() ? 'open' : 'closed' }}</span>
-          </div></ui-tab-item
+        <ui-dialog
+          #childDialog="uiDialog"
+          title="Discard changes?"
+          role="alertdialog"
+          size="sm"
+          dismiss="closerequest"
         >
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="controlledCode" />
-        </ui-tab-item>
-      </ui-tab></ui-card
+          <p class="dialog-copy">The child closes independently while the parent remains open.</p>
+          <div uiDialogFooter class="dialog-actions">
+            <button uiButton type="button" [uiDialogClose]="childDialog">Keep editing</button>
+          </div>
+        </ui-dialog>
+      </ui-dialog></ng-container
     >
-    <ui-dialog
-      #controlledDialog="uiDialog"
-      title="Controlled dialog"
-      [open]="controlledOpen()"
-      (openChange)="controlledOpen.set($event)"
+    <div class="dialog-preview">
+      <button uiButton type="button" variant="outline" [uiDialogTrigger]="parentDialog">
+        Edit order
+      </button>
+    </div>
+  </app-showcase-example>
+
+  <app-showcase-example
+    heading="Custom close controls"
+    aria-label="Dialog close control example"
+    [code]="closeCode"
+  >
+    <ng-container showcaseAuxiliary
+      ><ui-dialog #labelledCloseDialog="uiDialog" title="Settings" closeLabel="Close settings"
+        ><p class="dialog-copy">
+          The built-in close button has a context-specific accessible name.
+        </p></ui-dialog
+      ></ng-container
     >
-      <p class="dialog-copy">The native toggle event keeps external state synchronized.</p>
-      <div uiDialogFooter class="dialog-actions">
-        <button uiButton type="button" (click)="controlledDialog.close()">Close from code</button>
-      </div>
-    </ui-dialog>
-  </section>
+    <ng-container showcaseAuxiliary
+      ><ui-dialog
+        #decisionDialog="uiDialog"
+        title="Required decision"
+        [withCloseButton]="false"
+        dismiss="none"
+      >
+        <p class="dialog-copy">
+          A workflow can omit the header close button when completion must be explicit.
+        </p>
+        <div uiDialogFooter class="dialog-actions">
+          <button uiButton type="button" [uiDialogClose]="decisionDialog">Continue</button>
+        </div>
+      </ui-dialog></ng-container
+    >
+    <div class="dialog-preview dialog-button-row">
+      <button uiButton type="button" variant="outline" [uiDialogTrigger]="labelledCloseDialog">
+        Custom label
+      </button>
+      <button uiButton type="button" variant="outline" [uiDialogTrigger]="decisionDialog">
+        Custom action
+      </button>
+    </div>
+  </app-showcase-example>
+
+  <app-showcase-example
+    heading="Controlled and programmatic"
+    aria-label="Controlled dialog example"
+    [code]="controlledCode"
+  >
+    <ng-container showcaseAuxiliary
+      ><ui-dialog
+        #controlledDialog="uiDialog"
+        title="Controlled dialog"
+        [open]="controlledOpen()"
+        (openChange)="controlledOpen.set($event)"
+      >
+        <p class="dialog-copy">The native toggle event keeps external state synchronized.</p>
+        <div uiDialogFooter class="dialog-actions">
+          <button uiButton type="button" (click)="controlledDialog.close()">Close from code</button>
+        </div>
+      </ui-dialog></ng-container
+    >
+    <div class="dialog-preview dialog-controlled-preview">
+      <button uiButton type="button" variant="outline" (click)="controlledDialog.show()">
+        Open from code
+      </button>
+      <span aria-live="polite">State: {{ controlledOpen() ? 'open' : 'closed' }}</span>
+    </div>
+  </app-showcase-example>
 </article>

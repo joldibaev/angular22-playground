@@ -2,10 +2,9 @@
   --ui-radio-control-size: 1.25rem;
   --ui-radio-dot-size: 0.6rem;
   --ui-radio-border-color: var(--border-color-strong);
-  --ui-radio-focus-visible-border-color: var(--color-brand);
   --ui-radio-checked-color: var(--color-brand);
   --ui-radio-background: var(--background-color-subtle);
-  --ui-radio-label-color: CanvasText;
+  --ui-radio-label-color: var(--text-color-canvas);
   --ui-radio-state-duration: var(--dur-fast);
   --ui-radio-press-duration: var(--dur-press);
   --ui-radio-motion-easing: var(--ease-snappy);
@@ -72,8 +71,8 @@
   opacity: 0;
   scale: 0.5;
   box-shadow:
-    0 1px 2px color-mix(in oklab, CanvasText 18%, transparent),
-    0 0 0 1px color-mix(in oklab, CanvasText 5%, transparent);
+    0 1px 2px color-mix(in oklab, var(--text-color-canvas) 18%, transparent),
+    0 0 0 1px color-mix(in oklab, var(--text-color-canvas) 5%, transparent);
   transition:
     opacity var(--ui-radio-state-duration) var(--ui-radio-motion-easing),
     scale var(--ui-radio-state-duration) var(--ui-radio-motion-easing);
@@ -92,15 +91,9 @@
 .ui-radio-input:focus-visible + .ui-radio-control {
   border-color: var(
     --ui-radio-current-focus-visible-border-color,
-    var(--ui-radio-focus-visible-border-color)
+    var(--color-brand)
   );
-  outline: 3px solid
-    color-mix(
-      in oklab,
-      var(--ui-radio-current-focus-visible-border-color, var(--ui-radio-focus-visible-border-color))
-        50%,
-      transparent
-    );
+  outline: 3px solid var(--ui-radio-current-focus-ring-color, var(--focus-ring-color));
 }
 
 .ui-radio-title {

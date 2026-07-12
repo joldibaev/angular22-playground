@@ -1,14 +1,11 @@
-import { ShowcaseCode } from '../showcase-code/showcase-code';
+import { ShowcaseExample } from '../showcase-example/showcase-example';
 import { Component, signal } from '@angular/core';
 import { disabled, FormField, form, required } from '@angular/forms/signals';
-import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiRadio } from '../../../components/ui-radio/ui-radio';
 import { UiRadioGroup } from '../../../components/ui-radio/ui-radio-group/ui-radio-group';
-import { UiTab } from '../../../components/ui-tab/ui-tab';
-import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 @Component({
   selector: 'app-radio-showcase',
-  imports: [ShowcaseCode, FormField, UiCard, UiRadio, UiRadioGroup, UiTab, UiTabItem],
+  imports: [ShowcaseExample, FormField, UiRadio, UiRadioGroup],
   templateUrl: './radio-showcase.html',
   styleUrl: './radio-showcase.css',
 })

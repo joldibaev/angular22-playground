@@ -1,10 +1,18 @@
 app-showcase-code {
   display: block;
   min-width: 0;
-  --ui-showcase-code-tag: color-mix(in oklab, var(--color-brand) 58%, CanvasText);
-  --ui-showcase-code-symbol: color-mix(in oklab, var(--color-brand) 44%, CanvasText);
-  --ui-showcase-code-keyword: color-mix(in oklab, var(--color-destructive) 76%, CanvasText);
-  --ui-showcase-code-literal: color-mix(in oklab, var(--color-destructive) 48%, CanvasText);
+  --ui-showcase-code-tag: color-mix(in oklab, var(--color-brand) 58%, var(--text-color-canvas));
+  --ui-showcase-code-symbol: color-mix(in oklab, var(--color-brand) 44%, var(--text-color-canvas));
+  --ui-showcase-code-keyword: color-mix(
+    in oklab,
+    var(--color-destructive) 76%,
+    var(--text-color-canvas)
+  );
+  --ui-showcase-code-literal: color-mix(
+    in oklab,
+    var(--color-destructive) 48%,
+    var(--text-color-canvas)
+  );
 }
 
 app-showcase-code pre {
@@ -15,12 +23,12 @@ app-showcase-code pre {
   border-radius: 0.5rem;
   padding: 0.875rem;
   background: var(--background-color-subtle);
-  color: contrast-color(var(--background-color-subtle));
+  color: var(--text-color-canvas);
   font-family: ui-monospace, 'Cascadia Code', monospace;
   font-size: 0.75rem;
   line-height: 1.55;
   tab-size: 2;
-  scrollbar-color: color-mix(in oklab, CanvasText 32%, transparent) transparent;
+  scrollbar-color: color-mix(in oklab, var(--text-color-canvas) 32%, transparent) transparent;
 
   &:focus-visible {
     outline: 2px solid var(--focus-ring-color);

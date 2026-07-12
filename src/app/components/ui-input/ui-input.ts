@@ -111,12 +111,7 @@ export class UiInput {
 
     this.syncTokenAttribute(control, 'aria-labelledby', this.labelId, Boolean(this.label()));
 
-    this.syncTokenAttribute(
-      control,
-      'aria-errormessage',
-      this.errorId,
-      this.showErrorMessage(),
-    );
+    this.syncTokenAttribute(control, 'aria-errormessage', this.errorId, this.showErrorMessage());
 
     if (this.invalid()) {
       this.renderer.setAttribute(control, 'aria-invalid', 'true');

@@ -420,7 +420,6 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
       this.shiftView(event.shiftKey ? 12 : 1);
       return;
     }
-
   }
 
   focus(options?: FocusOptions) {

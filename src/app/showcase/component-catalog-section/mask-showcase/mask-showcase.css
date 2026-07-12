@@ -5,7 +5,6 @@
 
 .docs,
 .docs > header,
-.docs > section,
 .section-heading {
   display: grid;
   min-width: 0;
@@ -20,11 +19,7 @@
   gap: 0.25rem;
 }
 
-.docs > section {
-  gap: 0.625rem;
-}
-
-.docs :is(p, h5) {
+.docs p {
   margin: 0;
 }
 
@@ -32,18 +27,9 @@
   color: var(--text-color-muted);
 }
 
-.docs h5 {
-  font-size: 0.875rem;
-  font-weight: 800;
-}
-
 code {
   font-family: ui-monospace, 'Cascadia Code', monospace;
   font-size: 0.875em;
-}
-
-ui-card {
-  --ui-card-padding: 0.875rem;
 }
 
 .preview {

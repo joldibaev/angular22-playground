@@ -41,9 +41,7 @@ class DisabledOptionTestHost {}
 
 @Component({
   imports: [UiAutocomplete],
-  template: `
-    <ui-autocomplete placeholder="Find status" emptyText="Nothing found" />
-  `,
+  template: ` <ui-autocomplete placeholder="Find status" emptyText="Nothing found" /> `,
 })
 class PlaceholderTestHost {
   readonly autocomplete = viewChild.required(UiAutocomplete);
@@ -220,9 +218,7 @@ describe('UiAutocomplete', () => {
     const start = hostFixture.nativeElement.querySelector(
       '.ui-autocomplete-start > [slot="start"]',
     );
-    const end = hostFixture.nativeElement.querySelector(
-      '.ui-autocomplete-end > [slot="end"]',
-    );
+    const end = hostFixture.nativeElement.querySelector('.ui-autocomplete-end > [slot="end"]');
 
     expect(start?.textContent).toBe('S');
     expect(end?.textContent).toBe('E');

@@ -1,7 +1,6 @@
-import { ShowcaseCode } from '../showcase-code/showcase-code';
+import { ShowcaseExample } from '../showcase-example/showcase-example';
 import { Component, signal } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
-import { UiCard } from '../../../components/ui-card/ui-card';
 import {
   UiContextMenu,
   UiContextMenuSelection,
@@ -10,8 +9,6 @@ import { UiContextMenuTrigger } from '../../../components/ui-context-menu/ui-con
 import { UiIcon } from '../../../components/ui-icon/ui-icon';
 import { UiMenuItem } from '../../../components/ui-menu/ui-menu-item/ui-menu-item';
 import { UiSkeleton } from '../../../components/ui-skeleton/ui-skeleton';
-import { UiTab } from '../../../components/ui-tab/ui-tab';
-import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 import { UiTable } from '../../../components/ui-table/ui-table';
 import { UiTableSort } from '../../../components/ui-table/ui-table-sort/ui-table-sort';
 import { UiTableSpacer } from '../../../components/ui-table/ui-table-spacer/ui-table-spacer';
@@ -28,30 +25,25 @@ interface InventoryRow {
 
 const PRODUCTS = ['Arabica', 'Matcha', 'Olive oil', 'Protein bar', 'Sparkling water'];
 const WAREHOUSES = ['Central', 'Airport', 'Market'];
-const ALL_ROWS = Array.from(
-  { length: 500 },
-  (_, index): InventoryRow => ({
-    id: index + 1,
-    sku: `SKU-${String(index + 1).padStart(4, '0')}`,
-    product: `${PRODUCTS[index % PRODUCTS.length]} ${index + 1}`,
-    warehouse: WAREHOUSES[index % WAREHOUSES.length],
-    stock: 8 + ((index * 17) % 240),
-    reserved: (index * 7) % 32,
-  }),
-);
+const ALL_ROWS = Array.from({ length: 500 }, (_, index): InventoryRow => ({
+  id: index + 1,
+  sku: `SKU-${String(index + 1).padStart(4, '0')}`,
+  product: `${PRODUCTS[index % PRODUCTS.length]} ${index + 1}`,
+  warehouse: WAREHOUSES[index % WAREHOUSES.length],
+  stock: 8 + ((index * 17) % 240),
+  reserved: (index * 7) % 32,
+}));
 
 @Component({
   selector: 'app-table-showcase',
-  imports: [ShowcaseCode,
+  imports: [
+    ShowcaseExample,
     UiButton,
-    UiCard,
     UiContextMenu,
     UiContextMenuTrigger,
     UiIcon,
     UiMenuItem,
     UiSkeleton,
-    UiTab,
-    UiTabItem,
     UiTable,
     UiTableSort,
     UiTableSpacer,

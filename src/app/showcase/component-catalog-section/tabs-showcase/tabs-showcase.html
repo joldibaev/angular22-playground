@@ -5,114 +5,78 @@
       Keyboard-navigable related panels with controlled selection and optional URL synchronization.
     </p>
   </header>
-  <section aria-labelledby="tabs-default-title">
-    <h5 id="tabs-default-title">Default</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Default tabs example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-tab aria-label="Account sections"
-              ><ui-tab-item value="overview"
-                ><ng-template uiTabLabel
-                  ><ui-icon slot="start" name="outline-user" decorative /><span
-                    >Overview</span
-                  ><span slot="end" aria-label="3 notifications">3</span
-                  ></ng-template
-                ><p>Account summary and current plan.</p></ui-tab-item
-              ><ui-tab-item value="activity" label="Activity"
-                ><p>Recent account activity.</p></ui-tab-item
-              ></ui-tab
-            >
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="defaultCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="tabs-variants-title">
-    <h5 id="tabs-variants-title">Variants and sizes</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Tab variant examples"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview stack">
-            <ui-tab variant="pills" aria-label="Pill tabs"
-              ><ui-tab-item value="one" label="Overview">Pill content</ui-tab-item
-              ><ui-tab-item value="two" label="Metrics">Metrics content</ui-tab-item></ui-tab
-            ><ui-tab variant="line" size="sm" aria-label="Line tabs"
-              ><ui-tab-item value="one" label="Overview">Line content</ui-tab-item
-              ><ui-tab-item value="two" label="Metrics">Metrics content</ui-tab-item></ui-tab
-            >
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="variantsCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="tabs-vertical-title">
-    <h5 id="tabs-vertical-title">Vertical</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Vertical tabs example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-tab orientation="vertical" aria-label="Settings sections"
-              ><ui-tab-item value="profile" label="Profile">Profile settings</ui-tab-item
-              ><ui-tab-item value="security" label="Security">Security settings</ui-tab-item
-              ><ui-tab-item value="billing" label="Billing">Billing settings</ui-tab-item></ui-tab
-            >
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="verticalCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="tabs-behavior-title">
-    <h5 id="tabs-behavior-title">Selection behavior and disabled tabs</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Tab selection behavior example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-tab
-              selectionMode="explicit"
-              [wrap]="false"
-              [softDisabled]="true"
-              aria-label="Explicit tabs"
-              ><ui-tab-item value="overview" label="Overview"
-                >Use arrows to focus and Enter or Space to select.</ui-tab-item
-              ><ui-tab-item value="activity" label="Activity">Activity</ui-tab-item
-              ><ui-tab-item value="billing" label="Billing" disabled
-                >Unavailable</ui-tab-item
-              ></ui-tab
-            >
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="behaviorCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="tabs-controlled-title">
-    <h5 id="tabs-controlled-title">Controlled, fluid, and URL-synced</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Controlled tabs example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview stack">
-            <ui-tab
-              [(selectedTab)]="selected"
-              queryParam="settings-tab"
-              fluid
-              aria-label="URL synced settings"
-              ><ui-tab-item value="overview" label="Overview">Overview</ui-tab-item
-              ><ui-tab-item value="activity" label="Activity">Activity</ui-tab-item
-              ><ui-tab-item value="settings" label="Settings">Settings</ui-tab-item></ui-tab
-            ><output>Selected: {{ selected() }}</output>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="controlledCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+  <app-showcase-example heading="Default" aria-label="Default tabs example" [code]="defaultCode">
+    <div class="preview">
+      <ui-tab aria-label="Account sections"
+        ><ui-tab-item value="overview"
+          ><ng-template uiTabLabel
+            ><ui-icon slot="start" name="outline-user" decorative /><span>Overview</span
+            ><span slot="end" aria-label="3 notifications">3</span></ng-template
+          >
+          <p>Account summary and current plan.</p></ui-tab-item
+        ><ui-tab-item value="activity" label="Activity"
+          ><p>Recent account activity.</p></ui-tab-item
+        ></ui-tab
+      >
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Variants and sizes"
+    aria-label="Tab variant examples"
+    [code]="variantsCode"
+  >
+    <div class="preview stack">
+      <ui-tab variant="pills" aria-label="Pill tabs"
+        ><ui-tab-item value="one" label="Overview">Pill content</ui-tab-item
+        ><ui-tab-item value="two" label="Metrics">Metrics content</ui-tab-item></ui-tab
+      ><ui-tab variant="line" size="sm" aria-label="Line tabs"
+        ><ui-tab-item value="one" label="Overview">Line content</ui-tab-item
+        ><ui-tab-item value="two" label="Metrics">Metrics content</ui-tab-item></ui-tab
+      >
+    </div>
+  </app-showcase-example>
+  <app-showcase-example heading="Vertical" aria-label="Vertical tabs example" [code]="verticalCode">
+    <div class="preview">
+      <ui-tab orientation="vertical" aria-label="Settings sections"
+        ><ui-tab-item value="profile" label="Profile">Profile settings</ui-tab-item
+        ><ui-tab-item value="security" label="Security">Security settings</ui-tab-item
+        ><ui-tab-item value="billing" label="Billing">Billing settings</ui-tab-item></ui-tab
+      >
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Selection behavior and disabled tabs"
+    aria-label="Tab selection behavior example"
+    [code]="behaviorCode"
+  >
+    <div class="preview">
+      <ui-tab
+        selectionMode="explicit"
+        [wrap]="false"
+        [softDisabled]="true"
+        aria-label="Explicit tabs"
+        ><ui-tab-item value="overview" label="Overview"
+          >Use arrows to focus and Enter or Space to select.</ui-tab-item
+        ><ui-tab-item value="activity" label="Activity">Activity</ui-tab-item
+        ><ui-tab-item value="billing" label="Billing" disabled>Unavailable</ui-tab-item></ui-tab
+      >
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Controlled, fluid, and URL-synced"
+    aria-label="Controlled tabs example"
+    [code]="controlledCode"
+  >
+    <div class="preview stack">
+      <ui-tab
+        [(selectedTab)]="selected"
+        queryParam="settings-tab"
+        fluid
+        aria-label="URL synced settings"
+        ><ui-tab-item value="overview" label="Overview">Overview</ui-tab-item
+        ><ui-tab-item value="activity" label="Activity">Activity</ui-tab-item
+        ><ui-tab-item value="settings" label="Settings">Settings</ui-tab-item></ui-tab
+      ><output>Selected: {{ selected() }}</output>
+    </div>
+  </app-showcase-example>
 </article>

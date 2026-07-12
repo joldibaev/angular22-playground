@@ -1,13 +1,10 @@
-import { ShowcaseCode } from '../showcase-code/showcase-code';
+import { ShowcaseExample } from '../showcase-example/showcase-example';
 import { Component, signal } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
-import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiProgress } from '../../../components/ui-progress/ui-progress';
-import { UiTab } from '../../../components/ui-tab/ui-tab';
-import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 @Component({
   selector: 'app-progress-showcase',
-  imports: [ShowcaseCode, UiButton, UiCard, UiProgress, UiTab, UiTabItem],
+  imports: [ShowcaseExample, UiButton, UiProgress],
   templateUrl: './progress-showcase.html',
   styleUrl: './progress-showcase.css',
 })

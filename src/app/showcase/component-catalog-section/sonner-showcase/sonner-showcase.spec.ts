@@ -8,6 +8,7 @@ describe('SonnerShowcase', () => {
   let sonner: SonnerService;
 
   beforeEach(() => {
+    TestBed.configureTestingModule({ imports: [UiSonner] });
     TestBed.overrideComponent(UiSonner, { set: { styles: [] } });
     TestBed.overrideComponent(UiSonnerToast, { set: { styles: [] } });
     sonner = TestBed.inject(SonnerService);
@@ -23,7 +24,7 @@ describe('SonnerShowcase', () => {
     const text = fixture.nativeElement.textContent as string;
     expect(text).toContain('Promise');
     expect(text).toContain('Toaster options');
-    expect(fixture.nativeElement.querySelectorAll('ui-card')).toHaveLength(10);
+    expect(fixture.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(10);
 
     const showButton = Array.from(fixture.nativeElement.querySelectorAll('button')).find(
       (button) => (button as HTMLButtonElement).textContent?.trim() === 'Show toast',

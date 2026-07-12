@@ -4,7 +4,9 @@ import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { AutocompleteShowcase } from './autocomplete-showcase';
 describe('AutocompleteShowcase', () => {
   it('documents filtering, values, states, copy, and Signal Forms', async () => {
-    TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
+    TestBed.configureTestingModule({
+      providers: [provideHttpClient(), provideHttpClientTesting()],
+    });
     const f = TestBed.createComponent(AutocompleteShowcase);
     await f.whenStable();
     expect(f.nativeElement.querySelectorAll('ui-card')).toHaveLength(7);

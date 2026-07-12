@@ -3,128 +3,97 @@
     <h4 id="popover-showcase-title" class="font-black">Popover</h4>
     <p>Click-triggered rich content with native light dismiss, Escape, and anchor positioning.</p>
   </header>
-  <section aria-labelledby="popover-default-title">
-    <h5 id="popover-default-title">Default</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Default popover example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <button uiButton type="button" uiPopover [uiContent]="defaultContent">
-              Open details
-            </button>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="defaultCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="popover-placement-title">
-    <h5 id="popover-placement-title">Placement</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Popover placement examples"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview row">
-            @for (placement of placements; track placement) {
-              <button
-                uiButton
-                type="button"
-                variant="outline"
-                uiPopover
-                [uiPlacement]="placement"
-                [uiContent]="placementContent"
-              >
-                {{ placement }}
-              </button>
-            }
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="placementCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="popover-fallback-title">
-    <h5 id="popover-fallback-title">Collision fallback</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Popover collision fallback example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              uiPopover
-              uiWithFallback
-              uiPlacement="bottom"
-              [uiContent]="fallbackContent"
-            >
-              Adaptive placement
-            </button>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="fallbackCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="popover-rich-title">
-    <h5 id="popover-rich-title">Rich content and semantics</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Rich popover example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <button
-              uiButton
-              type="button"
-              uiPopover
-              uiRole="note"
-              uiDescribedby
-              uiMaxWidth="min(28rem, calc(100vw - 2rem))"
-              [uiContent]="richContent"
-            >
-              Quarterly review
-            </button>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="richCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="popover-controlled-title">
-    <h5 id="popover-controlled-title">Controlled and programmatic</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Controlled popover example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview controlled">
-            <button
-              #controlled="uiPopover"
-              uiButton
-              type="button"
-              uiPopover
-              uiPanelId="controlled-popover-example"
-              [uiContent]="controlledContent"
-              [uiVisible]="controlledOpen()"
-              (uiVisibleChange)="controlledOpen.set($event)"
-            >
-              Toggle content
-            </button>
-            <div class="row">
-              <button uiButton type="button" size="sm" variant="ghost" (click)="controlled.show()">
-                Show</button
-              ><button uiButton type="button" size="sm" variant="ghost" (click)="controlled.hide()">
-                Hide
-              </button>
-            </div>
-            <span aria-live="polite">{{ controlledOpen() ? 'Open' : 'Closed' }}</span>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="controlledCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+  <app-showcase-example heading="Default" aria-label="Default popover example" [code]="defaultCode">
+    <div class="preview">
+      <button uiButton type="button" uiPopover [uiContent]="defaultContent">Open details</button>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Placement"
+    aria-label="Popover placement examples"
+    [code]="placementCode"
+  >
+    <div class="preview row">
+      @for (placement of placements; track placement) {
+        <button
+          uiButton
+          type="button"
+          variant="outline"
+          uiPopover
+          [uiPlacement]="placement"
+          [uiContent]="placementContent"
+        >
+          {{ placement }}
+        </button>
+      }
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Collision fallback"
+    aria-label="Popover collision fallback example"
+    [code]="fallbackCode"
+  >
+    <div class="preview">
+      <button
+        uiButton
+        type="button"
+        variant="outline"
+        uiPopover
+        uiWithFallback
+        uiPlacement="bottom"
+        [uiContent]="fallbackContent"
+      >
+        Adaptive placement
+      </button>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Rich content and semantics"
+    aria-label="Rich popover example"
+    [code]="richCode"
+  >
+    <div class="preview">
+      <button
+        uiButton
+        type="button"
+        uiPopover
+        uiRole="note"
+        uiDescribedby
+        uiMaxWidth="min(28rem, calc(100vw - 2rem))"
+        [uiContent]="richContent"
+      >
+        Quarterly review
+      </button>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Controlled and programmatic"
+    aria-label="Controlled popover example"
+    [code]="controlledCode"
+  >
+    <div class="preview controlled">
+      <button
+        #controlled="uiPopover"
+        uiButton
+        type="button"
+        uiPopover
+        uiPanelId="controlled-popover-example"
+        [uiContent]="controlledContent"
+        [uiVisible]="controlledOpen()"
+        (uiVisibleChange)="controlledOpen.set($event)"
+      >
+        Toggle content
+      </button>
+      <div class="row">
+        <button uiButton type="button" size="sm" variant="ghost" (click)="controlled.show()">
+          Show</button
+        ><button uiButton type="button" size="sm" variant="ghost" (click)="controlled.hide()">
+          Hide
+        </button>
+      </div>
+      <span aria-live="polite">{{ controlledOpen() ? 'Open' : 'Closed' }}</span>
+    </div>
+  </app-showcase-example>
   <ng-template #defaultContent
     ><strong>Order details</strong><span>Updated two minutes ago</span></ng-template
   ><ng-template #placementContent

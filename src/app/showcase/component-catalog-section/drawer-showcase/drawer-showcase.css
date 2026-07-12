@@ -4,8 +4,7 @@
 }
 
 .drawer-showcase,
-.drawer-showcase-header,
-.drawer-example {
+.drawer-showcase-header {
   display: grid;
   min-width: 0;
 }
@@ -16,9 +15,6 @@
 .drawer-showcase-header {
   gap: 0.25rem;
 }
-.drawer-example {
-  gap: 0.625rem;
-}
 
 .drawer-showcase-header p,
 .drawer-context,
@@ -26,16 +22,6 @@
   margin: 0;
   color: var(--text-color-muted);
   text-wrap: pretty;
-}
-
-.drawer-example h5 {
-  margin: 0;
-  font-size: 0.875rem;
-  font-weight: 800;
-}
-
-.drawer-example ui-card {
-  --ui-card-padding: 0.875rem;
 }
 
 .drawer-preview {
@@ -71,7 +57,6 @@
   max-width: 65ch;
   font-size: 0.875rem;
 }
-
 
 code {
   font-family: ui-monospace, 'Cascadia Code', monospace;

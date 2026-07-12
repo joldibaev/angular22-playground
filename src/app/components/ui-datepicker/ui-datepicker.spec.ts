@@ -212,19 +212,22 @@ describe('UiDatepicker', () => {
     expect(datepicker.monthSwapPhase()).toBe('idle');
   });
 
-  it.each(['PageUp', 'PageDown'])('should keep %s navigation inside min/max months', async (key) => {
-    const fixture = await createHostFixture();
-    await openDatepicker(fixture);
-    const panel = getPanel(fixture)!;
+  it.each(['PageUp', 'PageDown'])(
+    'should keep %s navigation inside min/max months',
+    async (key) => {
+      const fixture = await createHostFixture();
+      await openDatepicker(fixture);
+      const panel = getPanel(fixture)!;
 
-    panel.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true }));
-    await fixture.whenStable();
+      panel.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true }));
+      await fixture.whenStable();
 
-    expect(fixture.componentInstance.datepicker().view().toString()).toBe('2026-06');
-    expect(panel.querySelector('.ui-datepicker-title')?.getAttribute('data-swap-phase')).toBe(
-      'idle',
-    );
-  });
+      expect(fixture.componentInstance.datepicker().view().toString()).toBe('2026-06');
+      expect(panel.querySelector('.ui-datepicker-title')?.getAttribute('data-swap-phase')).toBe(
+        'idle',
+      );
+    },
+  );
 
   it('should expose calendar cells through the Angular Aria grid harness', async () => {
     const fixture = await createHostFixture();

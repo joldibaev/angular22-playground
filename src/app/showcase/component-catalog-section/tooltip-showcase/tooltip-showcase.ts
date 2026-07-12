@@ -1,14 +1,11 @@
-import { ShowcaseCode } from '../showcase-code/showcase-code';
+import { ShowcaseExample } from '../showcase-example/showcase-example';
 import { Component } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
-import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiTooltip } from '../../../components/ui-tooltip/ui-tooltip';
-import { UiTab } from '../../../components/ui-tab/ui-tab';
-import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 import { type UiPanelPlacement } from '../../../shared/arrow-panel';
 @Component({
   selector: 'app-tooltip-showcase',
-  imports: [ShowcaseCode, UiButton, UiCard, UiTooltip, UiTab, UiTabItem],
+  imports: [ShowcaseExample, UiButton, UiTooltip],
   templateUrl: './tooltip-showcase.html',
   styleUrl: './tooltip-showcase.css',
 })

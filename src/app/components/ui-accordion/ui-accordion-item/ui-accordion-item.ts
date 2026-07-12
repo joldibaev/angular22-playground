@@ -1,8 +1,4 @@
-import {
-  AccordionContent,
-  AccordionPanel,
-  AccordionTrigger,
-} from '@angular/aria/accordion';
+import { AccordionContent, AccordionPanel, AccordionTrigger } from '@angular/aria/accordion';
 import {
   booleanAttribute,
   ChangeDetectionStrategy,

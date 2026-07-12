@@ -17,10 +17,9 @@ ui-input {
 
   --ui-input-border-color: light-dark(var(--border-color-default), var(--border-color-strong));
   --ui-input-invalid-border-color: var(--color-destructive);
-  --ui-input-focus-visible-border-color: var(--color-brand);
-  --ui-input-invalid-focus-visible-border-color: var(--ui-input-invalid-border-color);
 
-  --ui-input-background: var(--background-color-elevated);
+  --ui-input-background: var(--background-color-surface);
+  --ui-input-color: var(--text-color-canvas);
   --ui-input-placeholder-color: var(--text-color-placeholder);
 
   --ui-input-disabled-reason-color: var(--text-color-muted);
@@ -39,9 +38,8 @@ ui-input {
   &.ui-input-invalid {
     & .ui-input-control {
       --ui-input-current-border-color: var(--ui-input-invalid-border-color);
-      --ui-input-current-focus-visible-border-color: var(
-        --ui-input-invalid-focus-visible-border-color
-      );
+      --ui-input-current-focus-visible-border-color: var(--ui-input-invalid-border-color);
+      --ui-input-current-focus-ring-color: var(--destructive-focus-ring-color);
     }
   }
 }
@@ -59,7 +57,8 @@ ui-input {
 
 .ui-input-control {
   --ui-input-current-border-color: var(--ui-input-border-color);
-  --ui-input-current-focus-visible-border-color: var(--ui-input-focus-visible-border-color);
+  --ui-input-current-focus-visible-border-color: var(--color-brand);
+  --ui-input-current-focus-ring-color: var(--focus-ring-color);
 
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
@@ -74,7 +73,7 @@ ui-input {
   border: 1px solid var(--ui-input-current-border-color);
   border-radius: 0.5rem;
   background-color: var(--ui-input-background);
-  color: contrast-color(var(--ui-input-background));
+  color: var(--ui-input-color);
   padding-inline: var(--ui-input-slot-inset-inline);
 }
 
@@ -155,7 +154,7 @@ ui-input kbd[slot] {
   border: 1px solid var(--border-color-default);
   border-radius: 0.25rem;
   background-color: var(--background-color-subtle);
-  color: contrast-color(var(--background-color-subtle));
+  color: var(--text-color-canvas);
   font-family: ui-monospace, 'Cascadia Code', monospace;
   font-size: 0.75rem;
   font-weight: 700;
@@ -278,18 +277,17 @@ ui-input [ngCombobox][aria-disabled='true'] {
    mouse click opens it without ever matching :focus-visible — [aria-expanded]
    (set by @angular/aria) is what marks it active while the popup is open. */
 .ui-input-control:has(
-    input:focus-visible,
-    textarea:focus-visible,
-    [ngCombobox]:focus-visible,
-    [ngCombobox] :focus-visible,
-    [uiInputControl]:focus-visible,
-    .ui-input-slot :focus-visible,
-    [ngCombobox][aria-expanded='true'],
-    [uiInputControl][aria-expanded='true']
-  ) {
+  input:focus-visible,
+  textarea:focus-visible,
+  [ngCombobox]:focus-visible,
+  [ngCombobox] :focus-visible,
+  [uiInputControl]:focus-visible,
+  .ui-input-slot :focus-visible,
+  [ngCombobox][aria-expanded='true'],
+  [uiInputControl][aria-expanded='true']
+) {
   border-color: var(--ui-input-current-focus-visible-border-color);
-  outline: 3px solid
-    color-mix(in oklab, var(--ui-input-current-focus-visible-border-color) 50%, transparent);
+  outline: 3px solid var(--ui-input-current-focus-ring-color);
 }
 
 @media (prefers-reduced-motion: reduce) {

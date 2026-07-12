@@ -1,9 +1,10 @@
 :host {
   --ui-barcode-width: 240px;
   --ui-barcode-height: 96px;
-  --ui-barcode-background: Canvas;
-  --ui-barcode-color: CanvasText;
+  --ui-barcode-background: var(--background-color-canvas);
+  --ui-barcode-color: var(--text-color-canvas);
   --ui-barcode-fallback-background: var(--background-color-surface);
+  --ui-barcode-fallback-color: var(--text-color-canvas);
   --ui-barcode-fallback-border-color: var(--border-color-default);
 
   /* Standard barcodes need a stable dark-on-light palette to remain scanner-friendly. */
@@ -59,7 +60,7 @@ svg {
   border-radius: 0.5rem;
   padding: 0.75rem;
   background-color: var(--ui-barcode-fallback-background);
-  color: contrast-color(var(--ui-barcode-fallback-background));
+  color: var(--ui-barcode-fallback-color);
   font-size: 0.75rem;
   text-align: center;
 }

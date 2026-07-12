@@ -41,9 +41,7 @@ describe('BrowserSupport', () => {
     await withoutNode.whenStable();
 
     expect(
-      (withNode.nativeElement as HTMLElement).querySelector(
-        '[aria-label="Node.js 26 and later"]',
-      ),
+      (withNode.nativeElement as HTMLElement).querySelector('[aria-label="Node.js 26 and later"]'),
     ).not.toBeNull();
     expect(
       (withoutNode.nativeElement as HTMLElement).querySelector('[aria-label^="Node.js"]'),

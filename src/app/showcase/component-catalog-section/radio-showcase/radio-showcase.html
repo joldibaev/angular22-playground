@@ -5,75 +5,51 @@
       One choice from a labelled group, with native keyboard behavior and Signal Forms integration.
     </p>
   </header>
-  <section>
-    <h5>Default</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Radio group example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-radio-group
-              label="Density"
-              description="Choose the interface density."
-              value="comfortable"
-              ><ui-radio value="compact">Compact</ui-radio
-              ><ui-radio value="comfortable">Comfortable</ui-radio></ui-radio-group
-            >
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="defaultCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section>
-    <h5>Sizes and option state</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Radio sizes and disabled options"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-radio-group size="sm" label="Plan"
-              ><ui-radio value="starter">Starter</ui-radio><ui-radio value="growth">Growth</ui-radio
-              ><ui-radio value="legacy" disabled>Legacy</ui-radio></ui-radio-group
-            >
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="statesCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section>
-    <h5>Required validation</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Required radio group example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-radio-group label="Billing plan" withErrorMessage [formField]="formState.plan"
-              ><ui-radio value="starter">Starter</ui-radio
-              ><ui-radio value="growth">Growth</ui-radio></ui-radio-group
-            >
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="validationCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section>
-    <h5>Disabled reason</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Disabled radio group example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-radio-group label="Approval flow" [formField]="formState.approval"
-              ><ui-radio value="manual">Manual</ui-radio
-              ><ui-radio value="automatic">Automatic</ui-radio></ui-radio-group
-            >
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="disabledCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+  <app-showcase-example heading="Default" aria-label="Radio group example" [code]="defaultCode">
+    <div class="preview">
+      <ui-radio-group
+        label="Density"
+        description="Choose the interface density."
+        value="comfortable"
+        ><ui-radio value="compact">Compact</ui-radio
+        ><ui-radio value="comfortable">Comfortable</ui-radio></ui-radio-group
+      >
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Sizes and option state"
+    aria-label="Radio sizes and disabled options"
+    [code]="statesCode"
+  >
+    <div class="preview">
+      <ui-radio-group size="sm" label="Plan"
+        ><ui-radio value="starter">Starter</ui-radio><ui-radio value="growth">Growth</ui-radio
+        ><ui-radio value="legacy" disabled>Legacy</ui-radio></ui-radio-group
+      >
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Required validation"
+    aria-label="Required radio group example"
+    [code]="validationCode"
+  >
+    <div class="preview">
+      <ui-radio-group label="Billing plan" withErrorMessage [formField]="formState.plan"
+        ><ui-radio value="starter">Starter</ui-radio
+        ><ui-radio value="growth">Growth</ui-radio></ui-radio-group
+      >
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Disabled reason"
+    aria-label="Disabled radio group example"
+    [code]="disabledCode"
+  >
+    <div class="preview">
+      <ui-radio-group label="Approval flow" [formField]="formState.approval"
+        ><ui-radio value="manual">Manual</ui-radio
+        ><ui-radio value="automatic">Automatic</ui-radio></ui-radio-group
+      >
+    </div>
+  </app-showcase-example>
 </article>

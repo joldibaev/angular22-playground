@@ -4,51 +4,47 @@
     [class.ui-checkbox-invalid]="invalid()"
     [class.ui-checkbox-disabled]="disabled()"
   >
-    <ui-field-error
-      [open]="showErrorMessage()"
-      [messages]="errorMessages()"
-      [panelId]="errorId"
-    >
+    <ui-field-error [open]="showErrorMessage()" [messages]="errorMessages()" [panelId]="errorId">
       <label class="ui-checkbox-label" [for]="controlId">
-      <input
-        #control
-        class="ui-checkbox-input"
-        type="checkbox"
-        [id]="controlId"
-        [checked]="checked()"
-        [disabled]="disabled()"
-        [required]="required()"
-        [attr.aria-describedby]="describedBy()"
-        [attr.aria-invalid]="invalid() ? 'true' : null"
-        [attr.aria-errormessage]="showErrorMessage() ? errorId : null"
-        (change)="onChange($event)"
-        (blur)="touch.emit()"
-      />
+        <input
+          #control
+          class="ui-checkbox-input"
+          type="checkbox"
+          [id]="controlId"
+          [checked]="checked()"
+          [disabled]="disabled()"
+          [required]="required()"
+          [attr.aria-describedby]="describedBy()"
+          [attr.aria-invalid]="invalid() ? 'true' : null"
+          [attr.aria-errormessage]="showErrorMessage() ? errorId : null"
+          (change)="onChange($event)"
+          (blur)="touch.emit()"
+        />
 
-      <span class="ui-checkbox-control" aria-hidden="true">
-        <svg class="ui-checkbox-mark" viewBox="0 0 16 16" fill="none">
-          <path class="ui-checkbox-mark-check" d="M3.5 8.5 6.5 11.5 12.5 4.5" />
-          <line class="ui-checkbox-mark-dash" x1="4.5" y1="8" x2="11.5" y2="8" />
-        </svg>
-      </span>
-
-      <span class="ui-checkbox-copy">
-        <span class="ui-checkbox-title">
-          @if (label()) {
-            {{ label() }}
-          } @else {
-            <ng-content />
-          }
-
-          @if (required()) {
-            <span class="ui-checkbox-required" aria-hidden="true">*</span>
-          }
+        <span class="ui-checkbox-control" aria-hidden="true">
+          <svg class="ui-checkbox-mark" viewBox="0 0 16 16" fill="none">
+            <path class="ui-checkbox-mark-check" d="M3.5 8.5 6.5 11.5 12.5 4.5" />
+            <line class="ui-checkbox-mark-dash" x1="4.5" y1="8" x2="11.5" y2="8" />
+          </svg>
         </span>
 
-        @if (description()) {
-          <span class="ui-checkbox-description" [id]="descriptionId">{{ description() }}</span>
-        }
-      </span>
+        <span class="ui-checkbox-copy">
+          <span class="ui-checkbox-title">
+            @if (label()) {
+              {{ label() }}
+            } @else {
+              <ng-content />
+            }
+
+            @if (required()) {
+              <span class="ui-checkbox-required" aria-hidden="true">*</span>
+            }
+          </span>
+
+          @if (description()) {
+            <span class="ui-checkbox-description" [id]="descriptionId">{{ description() }}</span>
+          }
+        </span>
       </label>
     </ui-field-error>
 

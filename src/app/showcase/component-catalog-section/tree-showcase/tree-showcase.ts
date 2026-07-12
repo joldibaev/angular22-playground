@@ -1,8 +1,5 @@
-import { ShowcaseCode } from '../showcase-code/showcase-code';
+import { ShowcaseExample } from '../showcase-example/showcase-example';
 import { Component, signal } from '@angular/core';
-import { UiCard } from '../../../components/ui-card/ui-card';
-import { UiTab } from '../../../components/ui-tab/ui-tab';
-import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 import { UiTree } from '../../../components/ui-tree/ui-tree';
 import { type UiTreeItem } from '../../../components/ui-tree/ui-tree.type';
 const FILES: UiTreeItem[] = [
@@ -37,7 +34,7 @@ const FILES: UiTreeItem[] = [
 ];
 @Component({
   selector: 'app-tree-showcase',
-  imports: [ShowcaseCode, UiCard, UiTab, UiTabItem, UiTree],
+  imports: [ShowcaseExample, UiTree],
   templateUrl: './tree-showcase.html',
   styleUrl: './tree-showcase.css',
 })

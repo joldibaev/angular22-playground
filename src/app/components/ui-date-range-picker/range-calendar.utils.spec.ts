@@ -25,14 +25,11 @@ describe('range calendar utilities', () => {
   });
 
   it('marks committed and reversed pending ranges without including endpoints', () => {
-    const days = buildRangeMonthGrid(
-      Temporal.PlainYearMonth.from('2026-06'),
-      {
-        range: { start: '2026-06-10', end: '2026-06-15' },
-        pending: { start: '2026-06-25', hover: '2026-06-20', selectingEnd: true },
-        today: '2026-06-12',
-      },
-    ).flat();
+    const days = buildRangeMonthGrid(Temporal.PlainYearMonth.from('2026-06'), {
+      range: { start: '2026-06-10', end: '2026-06-15' },
+      pending: { start: '2026-06-25', hover: '2026-06-20', selectingEnd: true },
+      today: '2026-06-12',
+    }).flat();
 
     expect(days.find((day) => day.date === '2026-06-10')).toEqual(
       expect.objectContaining({ isStart: true, isInRange: false }),

@@ -3,8 +3,7 @@
   min-width: 0;
 }
 .barcode-showcase,
-.barcode-showcase-header,
-.barcode-example {
+.barcode-showcase-header {
   display: grid;
   min-width: 0;
 }
@@ -14,9 +13,6 @@
 .barcode-showcase-header {
   gap: 0.25rem;
 }
-.barcode-example {
-  gap: 0.625rem;
-}
 .barcode-showcase-header p,
 .barcode-context {
   margin: 0;
@@ -25,14 +21,6 @@
 }
 .barcode-context {
   font-size: 0.8125rem;
-}
-.barcode-example h5 {
-  margin: 0;
-  font-size: 0.875rem;
-  font-weight: 800;
-}
-.barcode-example ui-card {
-  --ui-card-padding: 0.875rem;
 }
 .barcode-preview {
   display: grid;

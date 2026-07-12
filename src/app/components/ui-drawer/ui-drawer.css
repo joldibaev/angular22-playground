@@ -86,7 +86,7 @@
   block-size: 100dvh;
   overflow: hidden;
   background-color: var(--background-color-surface);
-  color: contrast-color(var(--background-color-surface));
+  color: var(--text-color-canvas);
 }
 
 .ui-drawer-start .ui-drawer-surface {
@@ -129,7 +129,7 @@
 
 .ui-drawer-close:hover {
   background-color: var(--background-color-subtle);
-  color: contrast-color(Canvas);
+  color: var(--text-color-canvas);
 }
 
 /* Press feedback: small icon button dips like the checkbox. */

@@ -63,13 +63,9 @@
   outline: none;
   padding: 0.625rem 0.75rem;
 
-  &[data-variant='default'] {
-    --ui-popup-option-focus-visible-border-color: var(--color-brand);
-  }
-
   &[data-variant='destructive'] {
     --ui-popup-option-hover-background: var(--color-destructive-subtle);
-    --ui-popup-option-focus-visible-border-color: var(--color-destructive);
+    --ui-popup-option-focus-ring-color: var(--destructive-focus-ring-color);
 
     color: var(--color-destructive);
   }

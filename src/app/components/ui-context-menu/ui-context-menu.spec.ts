@@ -109,8 +109,7 @@ describe('UiContextMenu', () => {
   ])('opens from the %s keyboard command at the target edge', async (key, shiftKey) => {
     const fixture = await createHost();
     const target = fixture.nativeElement.querySelector('.target') as HTMLElement;
-    target.getBoundingClientRect = () =>
-      ({ left: 18, bottom: 72 }) as DOMRect;
+    target.getBoundingClientRect = () => ({ left: 18, bottom: 72 }) as DOMRect;
 
     const event = new KeyboardEvent('keydown', { bubbles: true, cancelable: true, key, shiftKey });
     target.dispatchEvent(event);
@@ -126,7 +125,9 @@ describe('UiContextMenu', () => {
   it('emits the action together with its target context', async () => {
     const fixture = await createHost();
     const target = fixture.nativeElement.querySelector('.target') as HTMLElement;
-    target.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, clientX: 12, clientY: 24 }));
+    target.dispatchEvent(
+      new MouseEvent('contextmenu', { bubbles: true, clientX: 12, clientY: 24 }),
+    );
     await fixture.whenStable();
     await fixture.whenRenderingDone();
 

@@ -12,6 +12,7 @@ import {
 import { UI_SONNER_STATE } from './ui-sonner.state';
 import {
   UiSonnerExternalToast,
+  UiSonnerOutletOptions,
   UiSonnerPromise,
   UiSonnerPromiseData,
   UiSonnerToastId,
@@ -113,13 +114,33 @@ export class SonnerService {
     this.state.reset();
   }
 
-  private ensureOutlet(): void {
-    if (!this.isBrowser || this.outletRef || this.document.querySelector('ui-sonner')) {
+  configure(options: UiSonnerOutletOptions): void {
+    const outletRef = this.ensureOutlet();
+
+    if (!outletRef) {
       return;
     }
 
-    // The default API is service-only: lazily mount one Angular-managed outlet
-    // on first use. A manually declared <ui-sonner> still wins for custom inputs.
+    for (const [name, value] of Object.entries(options)) {
+      if (value !== undefined) {
+        outletRef.setInput(name, value);
+      }
+    }
+
+    outletRef.changeDetectorRef.detectChanges();
+  }
+
+  private ensureOutlet(): ComponentRef<UiSonner> | null {
+    if (!this.isBrowser) {
+      return null;
+    }
+
+    if (this.outletRef) {
+      return this.outletRef;
+    }
+
+    // The service is the only outlet owner: keeping the host in body avoids layout
+    // ancestors affecting fixed positioning and prevents competing toaster instances.
     const outletRef = createComponent(UiSonner, {
       environmentInjector: this.environmentInjector,
     });
@@ -128,6 +149,7 @@ export class SonnerService {
     this.document.body.appendChild(outletRef.location.nativeElement);
     outletRef.changeDetectorRef.detectChanges();
     this.outletRef = outletRef;
+    return outletRef;
   }
 
   private destroyOutlet(): void {

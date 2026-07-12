@@ -4,8 +4,7 @@
 }
 
 .docs,
-.docs > header,
-.docs > section {
+.docs > header {
   display: grid;
   min-width: 0;
 }
@@ -16,10 +15,6 @@
 
 .docs > header {
   gap: 0.25rem;
-}
-
-.docs > section {
-  gap: 0.625rem;
 }
 
 .docs header p,
@@ -34,16 +29,6 @@
 
 .docs header p {
   text-wrap: pretty;
-}
-
-.docs h5 {
-  margin: 0;
-  font-size: 0.875rem;
-  font-weight: 800;
-}
-
-.docs ui-card {
-  --ui-card-padding: 0.875rem;
 }
 
 .preview {
@@ -65,7 +50,6 @@
   flex-wrap: wrap;
   gap: 0.5rem;
 }
-
 
 code {
   font-family: ui-monospace, 'Cascadia Code', monospace;

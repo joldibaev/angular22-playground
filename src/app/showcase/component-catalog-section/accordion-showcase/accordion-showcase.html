@@ -7,102 +7,81 @@
     </p>
   </header>
 
-  <section aria-labelledby="accordion-default-title">
-    <h5 id="accordion-default-title">Single expansion</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Single accordion example">
-        <ui-tab-item value="preview" label="Preview">
-          <div class="preview">
-            <ui-accordion [multi]="false">
-              <ui-accordion-item label="What is Angular ARIA?" [expanded]="true">
-                <ui-icon slot="start" name="outline-info-circle" decorative />
-                <span slot="end">Guide</span>
-                <p>
-                  Headless directives that provide accessible behavior without prescribing
-                  styles.
-                </p>
-              </ui-accordion-item>
-              <ui-accordion-item label="Does it support keyboard navigation?">
-                <p>Yes. Use Arrow Up/Down, Home, End, Enter, and Space.</p>
-              </ui-accordion-item>
-              <ui-accordion-item label="When is content rendered?">
-                <p>On first expansion, then it stays mounted so closing can animate cleanly.</p>
-              </ui-accordion-item>
-            </ui-accordion>
-          </div>
-        </ui-tab-item>
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="defaultCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-  </section>
+  <app-showcase-example
+    heading="Single expansion"
+    aria-label="Single accordion example"
+    [code]="defaultCode"
+  >
+    <div class="preview">
+      <ui-accordion [multi]="false">
+        <ui-accordion-item label="What is Angular ARIA?" [expanded]="true">
+          <ui-icon slot="start" name="outline-info-circle" decorative />
+          <span slot="end">Guide</span>
+          <p>Headless directives that provide accessible behavior without prescribing styles.</p>
+        </ui-accordion-item>
+        <ui-accordion-item label="Does it support keyboard navigation?">
+          <p>Yes. Use Arrow Up/Down, Home, End, Enter, and Space.</p>
+        </ui-accordion-item>
+        <ui-accordion-item label="When is content rendered?">
+          <p>On first expansion, then it stays mounted so closing can animate cleanly.</p>
+        </ui-accordion-item>
+      </ui-accordion>
+    </div>
+  </app-showcase-example>
 
-  <section aria-labelledby="accordion-multi-title">
-    <h5 id="accordion-multi-title">Multiple and controlled</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Multiple accordion example">
-        <ui-tab-item value="preview" label="Preview">
-          <div class="preview">
-            <ui-accordion multi>
-              <ui-accordion-item label="Billing" [(expanded)]="billingExpanded">
-                <p>Invoices, payment methods, and billing contacts.</p>
-              </ui-accordion-item>
-              <ui-accordion-item label="Security" [(expanded)]="securityExpanded">
-                <p>Passkeys, active sessions, and two-factor authentication.</p>
-              </ui-accordion-item>
-            </ui-accordion>
-            <output>
-              Open: {{ billingExpanded() ? 'Billing' : '' }}
-              {{ securityExpanded() ? 'Security' : '' }}
-              {{ !billingExpanded() && !securityExpanded() ? 'None' : '' }}
-            </output>
-          </div>
-        </ui-tab-item>
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="multiCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-  </section>
+  <app-showcase-example
+    heading="Multiple and controlled"
+    aria-label="Multiple accordion example"
+    [code]="multiCode"
+  >
+    <div class="preview">
+      <ui-accordion multi>
+        <ui-accordion-item label="Billing" [(expanded)]="billingExpanded">
+          <p>Invoices, payment methods, and billing contacts.</p>
+        </ui-accordion-item>
+        <ui-accordion-item label="Security" [(expanded)]="securityExpanded">
+          <p>Passkeys, active sessions, and two-factor authentication.</p>
+        </ui-accordion-item>
+      </ui-accordion>
+      <output>
+        Open: {{ billingExpanded() ? 'Billing' : '' }}
+        {{ securityExpanded() ? 'Security' : '' }}
+        {{ !billingExpanded() && !securityExpanded() ? 'None' : '' }}
+      </output>
+    </div>
+  </app-showcase-example>
 
-  <section aria-labelledby="accordion-states-title">
-    <h5 id="accordion-states-title">Disabled and programmatic control</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Accordion states example">
-        <ui-tab-item value="preview" label="Preview">
-          <div class="preview">
-            <div class="actions">
-              <button uiButton type="button" size="sm" (click)="controlledAccordion.expandAll()">
-                Expand all
-              </button>
-              <button
-                uiButton
-                type="button"
-                size="sm"
-                variant="outline"
-                (click)="controlledAccordion.collapseAll()"
-              >
-                Collapse all
-              </button>
-            </div>
-            <ui-accordion #controlledAccordion multi wrap>
-              <ui-accordion-item label="Profile">
-                <p>Public profile and account preferences.</p>
-              </ui-accordion-item>
-              <ui-accordion-item label="Managed by your organization" disabled>
-                <p>This section cannot be changed.</p>
-              </ui-accordion-item>
-              <ui-accordion-item label="Notifications">
-                <p>Email and product notification preferences.</p>
-              </ui-accordion-item>
-            </ui-accordion>
-          </div>
-        </ui-tab-item>
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="statesCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-  </section>
+  <app-showcase-example
+    heading="Disabled and programmatic control"
+    aria-label="Accordion states example"
+    [code]="statesCode"
+  >
+    <div class="preview">
+      <div class="actions">
+        <button uiButton type="button" size="sm" (click)="controlledAccordion.expandAll()">
+          Expand all
+        </button>
+        <button
+          uiButton
+          type="button"
+          size="sm"
+          variant="outline"
+          (click)="controlledAccordion.collapseAll()"
+        >
+          Collapse all
+        </button>
+      </div>
+      <ui-accordion #controlledAccordion multi wrap>
+        <ui-accordion-item label="Profile">
+          <p>Public profile and account preferences.</p>
+        </ui-accordion-item>
+        <ui-accordion-item label="Managed by your organization" disabled>
+          <p>This section cannot be changed.</p>
+        </ui-accordion-item>
+        <ui-accordion-item label="Notifications">
+          <p>Email and product notification preferences.</p>
+        </ui-accordion-item>
+      </ui-accordion>
+    </div>
+  </app-showcase-example>
 </article>

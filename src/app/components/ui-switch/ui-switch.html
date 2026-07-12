@@ -4,49 +4,45 @@
     [class.ui-switch-invalid]="invalid()"
     [class.ui-switch-disabled]="disabled()"
   >
-    <ui-field-error
-      [open]="showErrorMessage()"
-      [messages]="errorMessages()"
-      [panelId]="errorId"
-    >
+    <ui-field-error [open]="showErrorMessage()" [messages]="errorMessages()" [panelId]="errorId">
       <label class="ui-switch-label" [for]="controlId">
-      <input
-        #control
-        class="ui-switch-input"
-        type="checkbox"
-        role="switch"
-        [id]="controlId"
-        [checked]="checked()"
-        [disabled]="disabled()"
-        [required]="required()"
-        [attr.aria-describedby]="describedBy()"
-        [attr.aria-invalid]="invalid() ? 'true' : null"
-        [attr.aria-errormessage]="showErrorMessage() ? errorId : null"
-        (change)="onChange($event)"
-        (blur)="touch.emit()"
-      />
+        <input
+          #control
+          class="ui-switch-input"
+          type="checkbox"
+          role="switch"
+          [id]="controlId"
+          [checked]="checked()"
+          [disabled]="disabled()"
+          [required]="required()"
+          [attr.aria-describedby]="describedBy()"
+          [attr.aria-invalid]="invalid() ? 'true' : null"
+          [attr.aria-errormessage]="showErrorMessage() ? errorId : null"
+          (change)="onChange($event)"
+          (blur)="touch.emit()"
+        />
 
-      <span class="ui-switch-control" aria-hidden="true">
-        <span class="ui-switch-thumb"></span>
-      </span>
-
-      <span class="ui-switch-copy">
-        <span class="ui-switch-title">
-          @if (label()) {
-            {{ label() }}
-          } @else {
-            <ng-content />
-          }
-
-          @if (required()) {
-            <span class="ui-switch-required" aria-hidden="true">*</span>
-          }
+        <span class="ui-switch-control" aria-hidden="true">
+          <span class="ui-switch-thumb"></span>
         </span>
 
-        @if (description()) {
-          <span class="ui-switch-description" [id]="descriptionId">{{ description() }}</span>
-        }
-      </span>
+        <span class="ui-switch-copy">
+          <span class="ui-switch-title">
+            @if (label()) {
+              {{ label() }}
+            } @else {
+              <ng-content />
+            }
+
+            @if (required()) {
+              <span class="ui-switch-required" aria-hidden="true">*</span>
+            }
+          </span>
+
+          @if (description()) {
+            <span class="ui-switch-description" [id]="descriptionId">{{ description() }}</span>
+          }
+        </span>
       </label>
     </ui-field-error>
 

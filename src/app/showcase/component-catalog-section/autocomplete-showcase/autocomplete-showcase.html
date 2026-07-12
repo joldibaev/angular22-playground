@@ -6,174 +6,125 @@
       Forms support.
     </p>
   </header>
-  <section aria-labelledby="autocomplete-default-title">
-    <h5 id="autocomplete-default-title">Default filtering</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Default autocomplete example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-autocomplete label="Team" [(query)]="teamQuery">
-              <ui-icon slot="start" name="outline-search" decorative />
-              @for (team of filteredTeams(); track team) {
-                <ui-autocomplete-option [value]="'team_' + team.toLowerCase()" [label]="team">
-                  <ui-icon slot="start" name="outline-users" decorative />
-                  <span slot="end">Team</span>
-                </ui-autocomplete-option>
-              }
-            </ui-autocomplete>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="defaultCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="autocomplete-resource-title">
-    <h5 id="autocomplete-resource-title">HTTP search with httpResource</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="httpResource autocomplete example">
-        <ui-tab-item value="preview" label="Preview">
-          <div class="preview stack">
-            <ui-autocomplete
-              label="User"
-              placeholder="Try John"
-              [(query)]="resourceQuery"
-              [loading]="resourceSearch.isLoading()"
-              [emptyText]="resourceEmptyText()"
-              loadingText="Searching users"
-            >
-              @for (user of resourceUsers(); track user.id) {
-                <ui-autocomplete-option
-                  [value]="user.id.toString()"
-                  [label]="userLabel(user)"
-                />
-              }
-            </ui-autocomplete>
-            @if (resourceSearch.error()) {
-              <p class="request-error" role="status">Could not load users. Try again.</p>
-            }
-          </div>
-        </ui-tab-item>
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="resourceCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-  </section>
-  <section aria-labelledby="autocomplete-rxjs-title">
-    <h5 id="autocomplete-rxjs-title">HTTP search with HttpClient and RxJS</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="RxJS autocomplete example">
-        <ui-tab-item value="preview" label="Preview">
-          <div class="preview stack">
-            <ui-autocomplete
-              label="User"
-              placeholder="Try Emily"
-              [(query)]="rxQuery"
-              [loading]="rxSearch().loading"
-              [emptyText]="rxEmptyText()"
-              loadingText="Searching users"
-            >
-              @for (user of rxSearch().users; track user.id) {
-                <ui-autocomplete-option
-                  [value]="user.id.toString()"
-                  [label]="userLabel(user)"
-                />
-              }
-            </ui-autocomplete>
-            @if (rxSearch().failed) {
-              <p class="request-error" role="status">Could not load users. Try again.</p>
-            }
-          </div>
-        </ui-tab-item>
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="rxCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-  </section>
-  <section aria-labelledby="autocomplete-value-title">
-    <h5 id="autocomplete-value-title">Controlled value</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Controlled autocomplete example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview stack">
-            <ui-autocomplete label="Assigned team" [(value)]="selectedTeam">
-              @for (team of teams; track team) {
-                <ui-autocomplete-option [value]="'team_' + team.toLowerCase()" [label]="team" />
-              }</ui-autocomplete
-            ><output>Value: {{ selectedTeam() }}</output
-            ><button
-              uiButton
-              type="button"
-              size="sm"
-              variant="ghost"
-              (click)="selectedTeam.set('')"
-            >
-              Reset
-            </button>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="valueCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="autocomplete-state-title">
-    <h5 id="autocomplete-state-title">States</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Autocomplete state examples"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview grid">
-            <ui-autocomplete label="Loading" loading /><ui-autocomplete label="Disabled" disabled
-              ><ui-autocomplete-option value="platform" label="Platform" /></ui-autocomplete
-            >
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="stateCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="autocomplete-copy-title">
-    <h5 id="autocomplete-copy-title">Custom status copy</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Autocomplete custom copy example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview grid">
-            <ui-autocomplete label="Owner" placeholder="Search people" emptyText="No people found"
-              ><ui-autocomplete-option value="ada" label="Ada Lovelace" /><ui-autocomplete-option
-                value="grace"
-                label="Grace Hopper"
-              /></ui-autocomplete
-            ><ui-autocomplete
-              label="Async owner"
-              placeholder="Search people"
-              loadingText="Loading people"
-              loading
-            /></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="copyCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="autocomplete-form-title">
-    <h5 id="autocomplete-form-title">Signal Forms</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Autocomplete Signal Forms example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview stack">
-            <ui-autocomplete label="Required team" withErrorMessage [formField]="formState.team">
-              @for (team of teams; track team) {
-                <ui-autocomplete-option [value]="'team_' + team.toLowerCase()" [label]="team" />
-              }</ui-autocomplete
-            ><output>Value: {{ formModel().team || 'Empty' }}</output>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="formCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+  <app-showcase-example
+    heading="Default filtering"
+    aria-label="Default autocomplete example"
+    [code]="defaultCode"
+  >
+    <div class="preview">
+      <ui-autocomplete label="Team" [(query)]="teamQuery">
+        <ui-icon slot="start" name="outline-search" decorative />
+        @for (team of filteredTeams(); track team) {
+          <ui-autocomplete-option [value]="'team_' + team.toLowerCase()" [label]="team">
+            <ui-icon slot="start" name="outline-users" decorative />
+            <span slot="end">Team</span>
+          </ui-autocomplete-option>
+        }
+      </ui-autocomplete>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="HTTP search with httpResource"
+    aria-label="httpResource autocomplete example"
+    [code]="resourceCode"
+  >
+    <div class="preview stack">
+      <ui-autocomplete
+        label="User"
+        placeholder="Try John"
+        [(query)]="resourceQuery"
+        [loading]="resourceSearch.isLoading()"
+        [emptyText]="resourceEmptyText()"
+        loadingText="Searching users"
+      >
+        @for (user of resourceUsers(); track user.id) {
+          <ui-autocomplete-option [value]="user.id.toString()" [label]="userLabel(user)" />
+        }
+      </ui-autocomplete>
+      @if (resourceSearch.error()) {
+        <p class="request-error" role="status">Could not load users. Try again.</p>
+      }
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="HTTP search with HttpClient and RxJS"
+    aria-label="RxJS autocomplete example"
+    [code]="rxCode"
+  >
+    <div class="preview stack">
+      <ui-autocomplete
+        label="User"
+        placeholder="Try Emily"
+        [(query)]="rxQuery"
+        [loading]="rxSearch().loading"
+        [emptyText]="rxEmptyText()"
+        loadingText="Searching users"
+      >
+        @for (user of rxSearch().users; track user.id) {
+          <ui-autocomplete-option [value]="user.id.toString()" [label]="userLabel(user)" />
+        }
+      </ui-autocomplete>
+      @if (rxSearch().failed) {
+        <p class="request-error" role="status">Could not load users. Try again.</p>
+      }
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Controlled value"
+    aria-label="Controlled autocomplete example"
+    [code]="valueCode"
+  >
+    <div class="preview stack">
+      <ui-autocomplete label="Assigned team" [(value)]="selectedTeam">
+        @for (team of teams; track team) {
+          <ui-autocomplete-option [value]="'team_' + team.toLowerCase()" [label]="team" />
+        }</ui-autocomplete
+      ><output>Value: {{ selectedTeam() }}</output
+      ><button uiButton type="button" size="sm" variant="ghost" (click)="selectedTeam.set('')">
+        Reset
+      </button>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="States"
+    aria-label="Autocomplete state examples"
+    [code]="stateCode"
+  >
+    <div class="preview grid">
+      <ui-autocomplete label="Loading" loading /><ui-autocomplete label="Disabled" disabled
+        ><ui-autocomplete-option value="platform" label="Platform"
+      /></ui-autocomplete>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Custom status copy"
+    aria-label="Autocomplete custom copy example"
+    [code]="copyCode"
+  >
+    <div class="preview grid">
+      <ui-autocomplete label="Owner" placeholder="Search people" emptyText="No people found"
+        ><ui-autocomplete-option value="ada" label="Ada Lovelace" /><ui-autocomplete-option
+          value="grace"
+          label="Grace Hopper" /></ui-autocomplete
+      ><ui-autocomplete
+        label="Async owner"
+        placeholder="Search people"
+        loadingText="Loading people"
+        loading
+      />
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Signal Forms"
+    aria-label="Autocomplete Signal Forms example"
+    [code]="formCode"
+  >
+    <div class="preview stack">
+      <ui-autocomplete label="Required team" withErrorMessage [formField]="formState.team">
+        @for (team of teams; track team) {
+          <ui-autocomplete-option [value]="'team_' + team.toLowerCase()" [label]="team" />
+        }</ui-autocomplete
+      ><output>Value: {{ formModel().team || 'Empty' }}</output>
+    </div>
+  </app-showcase-example>
 </article>

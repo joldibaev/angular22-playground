@@ -4,8 +4,7 @@
 }
 
 .dialog-showcase,
-.dialog-showcase-header,
-.dialog-example {
+.dialog-showcase-header {
   display: grid;
   min-width: 0;
 }
@@ -16,9 +15,6 @@
 .dialog-showcase-header {
   gap: 0.25rem;
 }
-.dialog-example {
-  gap: 0.625rem;
-}
 
 .dialog-showcase-header p,
 .dialog-context,
@@ -27,15 +23,6 @@
   margin: 0;
   color: var(--text-color-muted);
   text-wrap: pretty;
-}
-
-.dialog-example h5 {
-  margin: 0;
-  font-size: 0.875rem;
-  font-weight: 800;
-}
-.dialog-example ui-card {
-  --ui-card-padding: 0.875rem;
 }
 
 .dialog-preview {
@@ -77,7 +64,6 @@
   gap: 0.75rem;
   font-size: 0.875rem;
 }
-
 
 code {
   font-family: ui-monospace, 'Cascadia Code', monospace;

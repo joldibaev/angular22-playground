@@ -4,291 +4,191 @@
     <p>Modal edge panels with native focus trapping, light dismiss, and declarative commands.</p>
   </header>
 
-  <section class="drawer-example" aria-labelledby="drawer-default-title">
-    <h5 id="drawer-default-title">Default</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Default drawer example">
-        <ui-tab-item value="preview" label="Preview">
-          <div class="drawer-preview">
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDrawerTrigger]="defaultDrawer"
-            >
-              Open filters
-            </button>
-          </div>
-        </ui-tab-item>
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="defaultCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-    <ui-drawer #defaultDrawer="uiDrawer" title="Filters">
-      <p class="drawer-copy">Choose which orders appear in the table.</p>
-    </ui-drawer>
-  </section>
+  <app-showcase-example heading="Default" aria-label="Default drawer example" [code]="defaultCode">
+    <ng-container showcaseAuxiliary
+      ><ui-drawer #defaultDrawer="uiDrawer" title="Filters">
+        <p class="drawer-copy">Choose which orders appear in the table.</p>
+      </ui-drawer></ng-container
+    >
+    <div class="drawer-preview">
+      <button uiButton type="button" variant="outline" [uiDrawerTrigger]="defaultDrawer">
+        Open filters
+      </button>
+    </div>
+  </app-showcase-example>
 
-  <section class="drawer-example" aria-labelledby="drawer-side-title">
-    <h5 id="drawer-side-title">Sides</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Drawer side examples">
-        <ui-tab-item value="preview" label="Preview">
-          <div class="drawer-preview drawer-button-row">
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDrawerTrigger]="startDrawer"
-            >
-              Start
-            </button>
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDrawerTrigger]="endDrawer"
-            >
-              End
-            </button>
-          </div>
-        </ui-tab-item>
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="sideCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-    <ui-drawer #startDrawer="uiDrawer" title="Navigation" side="start"
-      ><p class="drawer-copy">Primary destinations appear from the inline start.</p></ui-drawer
+  <app-showcase-example heading="Sides" aria-label="Drawer side examples" [code]="sideCode">
+    <ng-container showcaseAuxiliary
+      ><ui-drawer #startDrawer="uiDrawer" title="Navigation" side="start"
+        ><p class="drawer-copy">Primary destinations appear from the inline start.</p></ui-drawer
+      ></ng-container
     >
-    <ui-drawer #endDrawer="uiDrawer" title="Filters" side="end"
-      ><p class="drawer-copy">Contextual tools appear from the inline end.</p></ui-drawer
+    <ng-container showcaseAuxiliary
+      ><ui-drawer #endDrawer="uiDrawer" title="Filters" side="end"
+        ><p class="drawer-copy">Contextual tools appear from the inline end.</p></ui-drawer
+      ></ng-container
     >
-  </section>
+    <div class="drawer-preview drawer-button-row">
+      <button uiButton type="button" variant="outline" [uiDrawerTrigger]="startDrawer">
+        Start
+      </button>
+      <button uiButton type="button" variant="outline" [uiDrawerTrigger]="endDrawer">End</button>
+    </div>
+  </app-showcase-example>
 
-  <section class="drawer-example" aria-labelledby="drawer-size-title">
-    <h5 id="drawer-size-title">Sizes</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Drawer size examples">
-        <ui-tab-item value="preview" label="Preview"
-          ><div class="drawer-preview drawer-button-row">
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDrawerTrigger]="smallDrawer"
-            >
-              Small
-            </button>
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDrawerTrigger]="mediumDrawer"
-            >
-              Medium
-            </button>
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDrawerTrigger]="largeDrawer"
-            >
-              Large
-            </button>
-          </div></ui-tab-item
-        >
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="sizeCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-    <ui-drawer #smallDrawer="uiDrawer" title="Compact drawer" size="sm"
-      ><p class="drawer-copy">For short navigation or focused controls.</p></ui-drawer
+  <app-showcase-example heading="Sizes" aria-label="Drawer size examples" [code]="sizeCode">
+    <ng-container showcaseAuxiliary
+      ><ui-drawer #smallDrawer="uiDrawer" title="Compact drawer" size="sm"
+        ><p class="drawer-copy">For short navigation or focused controls.</p></ui-drawer
+      ></ng-container
     >
-    <ui-drawer #mediumDrawer="uiDrawer" title="Default drawer" size="md"
-      ><p class="drawer-copy">The balanced default for most workflows.</p></ui-drawer
+    <ng-container showcaseAuxiliary
+      ><ui-drawer #mediumDrawer="uiDrawer" title="Default drawer" size="md"
+        ><p class="drawer-copy">The balanced default for most workflows.</p></ui-drawer
+      ></ng-container
     >
-    <ui-drawer #largeDrawer="uiDrawer" title="Wide drawer" size="lg"
-      ><p class="drawer-copy">For forms and denser supporting content.</p></ui-drawer
+    <ng-container showcaseAuxiliary
+      ><ui-drawer #largeDrawer="uiDrawer" title="Wide drawer" size="lg"
+        ><p class="drawer-copy">For forms and denser supporting content.</p></ui-drawer
+      ></ng-container
     >
-  </section>
+    <div class="drawer-preview drawer-button-row">
+      <button uiButton type="button" variant="outline" [uiDrawerTrigger]="smallDrawer">
+        Small
+      </button>
+      <button uiButton type="button" variant="outline" [uiDrawerTrigger]="mediumDrawer">
+        Medium
+      </button>
+      <button uiButton type="button" variant="outline" [uiDrawerTrigger]="largeDrawer">
+        Large
+      </button>
+    </div>
+  </app-showcase-example>
 
-  <section class="drawer-example" aria-labelledby="drawer-footer-title">
-    <h5 id="drawer-footer-title">Body and footer</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Drawer footer example">
-        <ui-tab-item value="preview" label="Preview"
-          ><div class="drawer-preview">
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDrawerTrigger]="footerDrawer"
-            >
-              Edit filters
-            </button>
-          </div></ui-tab-item
-        >
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="footerCode" />
-        </ui-tab-item>
-      </ui-tab></ui-card
+  <app-showcase-example
+    heading="Body and footer"
+    aria-label="Drawer footer example"
+    [code]="footerCode"
+  >
+    <ng-container showcaseAuxiliary
+      ><ui-drawer #footerDrawer="uiDrawer" title="Order filters">
+        <ui-switch
+          label="Only open orders"
+          [checked]="onlyOpenOrders()"
+          (checkedChange)="onlyOpenOrders.set($event)"
+        />
+        <div uiDrawerFooter class="drawer-actions">
+          <button uiButton type="button" variant="outline" (click)="onlyOpenOrders.set(false)">
+            Reset
+          </button>
+          <button uiButton type="button" [uiDrawerClose]="footerDrawer">Apply</button>
+        </div>
+      </ui-drawer></ng-container
     >
-    <ui-drawer #footerDrawer="uiDrawer" title="Order filters">
-      <ui-switch
-        label="Only open orders"
-        [checked]="onlyOpenOrders()"
-        (checkedChange)="onlyOpenOrders.set($event)"
-      />
-      <div uiDrawerFooter class="drawer-actions">
-        <button uiButton type="button" variant="outline" (click)="onlyOpenOrders.set(false)">
-          Reset
-        </button>
-        <button uiButton type="button" [uiDrawerClose]="footerDrawer">
-          Apply
-        </button>
-      </div>
-    </ui-drawer>
-  </section>
+    <div class="drawer-preview">
+      <button uiButton type="button" variant="outline" [uiDrawerTrigger]="footerDrawer">
+        Edit filters
+      </button>
+    </div>
+  </app-showcase-example>
 
-  <section class="drawer-example" aria-labelledby="drawer-dismiss-title">
-    <h5 id="drawer-dismiss-title">Dismiss behavior</h5>
-    <p class="drawer-context">
-      <code>any</code> supports backdrop and Escape, <code>closerequest</code> keeps Escape, and
-      <code>none</code> requires an explicit action.
-    </p>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Drawer dismiss examples">
-        <ui-tab-item value="preview" label="Preview"
-          ><div class="drawer-preview drawer-button-row">
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDrawerTrigger]="anyDrawer"
-            >
-              Any
-            </button>
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDrawerTrigger]="requestDrawer"
-            >
-              Close request
-            </button>
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDrawerTrigger]="lockedDrawer"
-            >
-              None
-            </button>
-          </div></ui-tab-item
-        >
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="dismissCode" />
-        </ui-tab-item>
-      </ui-tab></ui-card
+  <app-showcase-example
+    heading="Dismiss behavior"
+    aria-label="Drawer dismiss examples"
+    [code]="dismissCode"
+  >
+    <ng-container showcaseDescription
+      ><code>any</code> supports backdrop and Escape, <code>closerequest</code> keeps Escape, and
+      <code>none</code> requires an explicit action.</ng-container
     >
-    <ui-drawer #anyDrawer="uiDrawer" title="Light dismiss" dismiss="any"
-      ><p class="drawer-copy">
-        Backdrop, Escape, and the close button dismiss this drawer.
-      </p></ui-drawer
+    <ng-container showcaseAuxiliary
+      ><ui-drawer #anyDrawer="uiDrawer" title="Light dismiss" dismiss="any"
+        ><p class="drawer-copy">
+          Backdrop, Escape, and the close button dismiss this drawer.
+        </p></ui-drawer
+      ></ng-container
     >
-    <ui-drawer #requestDrawer="uiDrawer" title="Close request" dismiss="closerequest"
-      ><p class="drawer-copy">Escape works, but clicking the backdrop does not.</p></ui-drawer
+    <ng-container showcaseAuxiliary
+      ><ui-drawer #requestDrawer="uiDrawer" title="Close request" dismiss="closerequest"
+        ><p class="drawer-copy">Escape works, but clicking the backdrop does not.</p></ui-drawer
+      ></ng-container
     >
-    <ui-drawer #lockedDrawer="uiDrawer" title="Blocking task" dismiss="none"
-      ><p class="drawer-copy">Only an explicit close control dismisses this drawer.</p></ui-drawer
+    <ng-container showcaseAuxiliary
+      ><ui-drawer #lockedDrawer="uiDrawer" title="Blocking task" dismiss="none"
+        ><p class="drawer-copy">Only an explicit close control dismisses this drawer.</p></ui-drawer
+      ></ng-container
     >
-  </section>
+    <div class="drawer-preview drawer-button-row">
+      <button uiButton type="button" variant="outline" [uiDrawerTrigger]="anyDrawer">Any</button>
+      <button uiButton type="button" variant="outline" [uiDrawerTrigger]="requestDrawer">
+        Close request
+      </button>
+      <button uiButton type="button" variant="outline" [uiDrawerTrigger]="lockedDrawer">
+        None
+      </button>
+    </div>
+  </app-showcase-example>
 
-  <section class="drawer-example" aria-labelledby="drawer-close-title">
-    <h5 id="drawer-close-title">Custom close controls</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Drawer close control example">
-        <ui-tab-item value="preview" label="Preview"
-          ><div class="drawer-preview drawer-button-row">
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDrawerTrigger]="labelledCloseDrawer"
-            >
-              Custom label
-            </button>
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              [uiDrawerTrigger]="customCloseDrawer"
-            >
-              Custom action
-            </button>
-          </div></ui-tab-item
-        >
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="closeButtonCode" />
-        </ui-tab-item>
-      </ui-tab></ui-card
+  <app-showcase-example
+    heading="Custom close controls"
+    aria-label="Drawer close control example"
+    [code]="closeButtonCode"
+  >
+    <ng-container showcaseAuxiliary
+      ><ui-drawer #labelledCloseDrawer="uiDrawer" title="Checkout" closeLabel="Close checkout"
+        ><p class="drawer-copy">
+          The built-in close button has a context-specific accessible name.
+        </p></ui-drawer
+      ></ng-container
     >
-    <ui-drawer #labelledCloseDrawer="uiDrawer" title="Checkout" closeLabel="Close checkout"
-      ><p class="drawer-copy">
-        The built-in close button has a context-specific accessible name.
-      </p></ui-drawer
+    <ng-container showcaseAuxiliary
+      ><ui-drawer
+        #customCloseDrawer="uiDrawer"
+        title="Required step"
+        [withCloseButton]="false"
+        dismiss="none"
+      >
+        <p class="drawer-copy">
+          A workflow can omit the header close button when completion must be explicit.
+        </p>
+        <div uiDrawerFooter class="drawer-actions">
+          <button uiButton type="button" [uiDrawerClose]="customCloseDrawer">Done</button>
+        </div>
+      </ui-drawer></ng-container
     >
-    <ui-drawer
-      #customCloseDrawer="uiDrawer"
-      title="Required step"
-      [withCloseButton]="false"
-      dismiss="none"
-    >
-      <p class="drawer-copy">
-        A workflow can omit the header close button when completion must be explicit.
-      </p>
-      <div uiDrawerFooter class="drawer-actions">
-        <button
-          uiButton
-          type="button"
-          [uiDrawerClose]="customCloseDrawer"
-        >
-          Done
-        </button>
-      </div>
-    </ui-drawer>
-  </section>
+    <div class="drawer-preview drawer-button-row">
+      <button uiButton type="button" variant="outline" [uiDrawerTrigger]="labelledCloseDrawer">
+        Custom label
+      </button>
+      <button uiButton type="button" variant="outline" [uiDrawerTrigger]="customCloseDrawer">
+        Custom action
+      </button>
+    </div>
+  </app-showcase-example>
 
-  <section class="drawer-example" aria-labelledby="drawer-controlled-title">
-    <h5 id="drawer-controlled-title">Controlled and programmatic</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Controlled drawer example">
-        <ui-tab-item value="preview" label="Preview"
-          ><div class="drawer-preview drawer-controlled-preview">
-            <button uiButton type="button" variant="outline" (click)="controlledDrawer.show()">
-              Open from code
-            </button>
-            <span aria-live="polite">State: {{ controlledOpen() ? 'open' : 'closed' }}</span>
-          </div></ui-tab-item
-        >
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="controlledCode" />
-        </ui-tab-item>
-      </ui-tab></ui-card
+  <app-showcase-example
+    heading="Controlled and programmatic"
+    aria-label="Controlled drawer example"
+    [code]="controlledCode"
+  >
+    <ng-container showcaseAuxiliary
+      ><ui-drawer
+        #controlledDrawer="uiDrawer"
+        title="Controlled drawer"
+        [open]="controlledOpen()"
+        (openChange)="controlledOpen.set($event)"
+      >
+        <p class="drawer-copy">The native toggle event keeps external state synchronized.</p>
+        <div uiDrawerFooter class="drawer-actions">
+          <button uiButton type="button" (click)="controlledDrawer.close()">Close from code</button>
+        </div>
+      </ui-drawer></ng-container
     >
-    <ui-drawer
-      #controlledDrawer="uiDrawer"
-      title="Controlled drawer"
-      [open]="controlledOpen()"
-      (openChange)="controlledOpen.set($event)"
-    >
-      <p class="drawer-copy">The native toggle event keeps external state synchronized.</p>
-      <div uiDrawerFooter class="drawer-actions">
-        <button uiButton type="button" (click)="controlledDrawer.close()">Close from code</button>
-      </div>
-    </ui-drawer>
-  </section>
+    <div class="drawer-preview drawer-controlled-preview">
+      <button uiButton type="button" variant="outline" (click)="controlledDrawer.show()">
+        Open from code
+      </button>
+      <span aria-live="polite">State: {{ controlledOpen() ? 'open' : 'closed' }}</span>
+    </div>
+  </app-showcase-example>
 </article>

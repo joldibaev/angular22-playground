@@ -16,11 +16,7 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { UiTableViewport } from './ui-table-viewport/ui-table-viewport';
-import type {
-  UiTableEndReachedEvent,
-  UiTableRange,
-  UiTableSortDirection,
-} from './ui-table.types';
+import type { UiTableEndReachedEvent, UiTableRange, UiTableSortDirection } from './ui-table.types';
 
 const DEFAULT_ROW_HEIGHT = 48;
 const DEFAULT_OVERSCAN = 6;
@@ -131,9 +127,7 @@ export class UiTable<T> {
     const totalRows = this.totalRows();
 
     if (totalRows === undefined || !Number.isFinite(totalRows)) {
-      return this.hasMore()
-        ? -1
-        : this.rows().length + nonNegativeInteger(this.headerRows(), 1);
+      return this.hasMore() ? -1 : this.rows().length + nonNegativeInteger(this.headerRows(), 1);
     }
 
     const bodyRows = Math.max(this.rows().length, nonNegativeInteger(totalRows, 0));
@@ -182,7 +176,11 @@ export class UiTable<T> {
 
         bodyRows.forEach((row, index) => {
           const absoluteIndex = rangeStart + index;
-          this.renderer.setAttribute(row, 'aria-rowindex', String(headerOffset + absoluteIndex + 1));
+          this.renderer.setAttribute(
+            row,
+            'aria-rowindex',
+            String(headerOffset + absoluteIndex + 1),
+          );
 
           if (absoluteIndex % 2 === 1) {
             this.renderer.addClass(row, 'ui-table-row-striped');

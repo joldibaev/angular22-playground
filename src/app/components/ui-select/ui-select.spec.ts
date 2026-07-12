@@ -289,7 +289,9 @@ describe('UiSelect', () => {
     expect(
       hostFixture.nativeElement.querySelector('.ui-input-slot-end > .ui-select-end'),
     ).toBeTruthy();
-    expect(hostFixture.nativeElement.querySelector('.ui-select-end .icon-chevron-down')).toBeTruthy();
+    expect(
+      hostFixture.nativeElement.querySelector('.ui-select-end .icon-chevron-down'),
+    ).toBeTruthy();
   });
 
   it('should expose disabled options through Angular Aria', async () => {

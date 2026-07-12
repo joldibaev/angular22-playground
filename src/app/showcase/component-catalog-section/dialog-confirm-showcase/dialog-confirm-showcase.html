@@ -4,140 +4,121 @@
     <p>A focused alert dialog for decisions with explicit confirm and cancel outcomes.</p>
   </header>
 
-  <section class="dialog-confirm-example" aria-labelledby="dialog-confirm-default-title">
-    <h5 id="dialog-confirm-default-title">Default</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Default confirmation dialog example">
-        <ui-tab-item value="preview" label="Preview">
-          <div class="dialog-confirm-preview">
-            <button
-              uiButton
-              type="button"
-              command="show-modal"
-              [attr.commandfor]="saveConfirm.dialogId()"
-            >
-              Save changes
-            </button>
-          </div>
-        </ui-tab-item>
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="defaultCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-    <ui-dialog-confirm
-      #saveConfirm="uiDialogConfirm"
-      title="Save changes?"
-      message="The new values become visible immediately."
-      confirmLabel="Save"
-      cancelLabel="Cancel"
-      (confirm)="report('Saved')"
-      (cancel)="report('Kept editing')"
-    />
-  </section>
+  <app-showcase-example
+    heading="Default"
+    aria-label="Default confirmation dialog example"
+    [code]="defaultCode"
+  >
+    <ng-container showcaseAuxiliary
+      ><ui-dialog-confirm
+        #saveConfirm="uiDialogConfirm"
+        title="Save changes?"
+        message="The new values become visible immediately."
+        confirmLabel="Save"
+        cancelLabel="Cancel"
+        (confirm)="report('Saved')"
+        (cancel)="report('Kept editing')"
+    /></ng-container>
+    <div class="dialog-confirm-preview">
+      <button
+        uiButton
+        type="button"
+        command="show-modal"
+        [attr.commandfor]="saveConfirm.dialogId()"
+      >
+        Save changes
+      </button>
+    </div>
+  </app-showcase-example>
 
-  <section class="dialog-confirm-example" aria-labelledby="dialog-confirm-destructive-title">
-    <h5 id="dialog-confirm-destructive-title">Destructive</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Destructive confirmation dialog example">
-        <ui-tab-item value="preview" label="Preview"
-          ><div class="dialog-confirm-preview">
-            <button
-              uiButton
-              type="button"
-              variant="destructive"
-              command="show-modal"
-              [attr.commandfor]="deleteConfirm.dialogId()"
-            >
-              Delete item
-            </button>
-          </div></ui-tab-item
-        >
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="destructiveCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-    <ui-dialog-confirm
-      #deleteConfirm="uiDialogConfirm"
-      tone="destructive"
-      title="Delete item?"
-      message="This action cannot be undone."
-      confirmLabel="Delete"
-      cancelLabel="Keep item"
-      (confirm)="report('Deleted')"
-      (cancel)="report('Kept item')"
-    />
-  </section>
+  <app-showcase-example
+    heading="Destructive"
+    aria-label="Destructive confirmation dialog example"
+    [code]="destructiveCode"
+  >
+    <ng-container showcaseAuxiliary
+      ><ui-dialog-confirm
+        #deleteConfirm="uiDialogConfirm"
+        tone="destructive"
+        title="Delete item?"
+        message="This action cannot be undone."
+        confirmLabel="Delete"
+        cancelLabel="Keep item"
+        (confirm)="report('Deleted')"
+        (cancel)="report('Kept item')"
+    /></ng-container>
+    <div class="dialog-confirm-preview">
+      <button
+        uiButton
+        type="button"
+        variant="destructive"
+        command="show-modal"
+        [attr.commandfor]="deleteConfirm.dialogId()"
+      >
+        Delete item
+      </button>
+    </div>
+  </app-showcase-example>
 
-  <section class="dialog-confirm-example" aria-labelledby="dialog-confirm-copy-title">
-    <h5 id="dialog-confirm-copy-title">Custom copy</h5>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Custom confirmation copy example">
-        <ui-tab-item value="preview" label="Preview"
-          ><div class="dialog-confirm-preview">
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              command="show-modal"
-              [attr.commandfor]="publishConfirm.dialogId()"
-            >
-              Publish release
-            </button>
-          </div></ui-tab-item
-        >
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="copyCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-    <ui-dialog-confirm
-      #publishConfirm="uiDialogConfirm"
-      title="Publish release?"
-      message="Version 2.4.0 will become available to every workspace."
-      confirmLabel="Publish now"
-      cancelLabel="Review again"
-      (confirm)="report('Published')"
-      (cancel)="report('Returned to review')"
-    />
-  </section>
+  <app-showcase-example
+    heading="Custom copy"
+    aria-label="Custom confirmation copy example"
+    [code]="copyCode"
+  >
+    <ng-container showcaseAuxiliary
+      ><ui-dialog-confirm
+        #publishConfirm="uiDialogConfirm"
+        title="Publish release?"
+        message="Version 2.4.0 will become available to every workspace."
+        confirmLabel="Publish now"
+        cancelLabel="Review again"
+        (confirm)="report('Published')"
+        (cancel)="report('Returned to review')"
+    /></ng-container>
+    <div class="dialog-confirm-preview">
+      <button
+        uiButton
+        type="button"
+        variant="outline"
+        command="show-modal"
+        [attr.commandfor]="publishConfirm.dialogId()"
+      >
+        Publish release
+      </button>
+    </div>
+  </app-showcase-example>
 
-  <section class="dialog-confirm-example" aria-labelledby="dialog-confirm-outcome-title">
-    <h5 id="dialog-confirm-outcome-title">Outcomes and dismissal</h5>
-    <p class="dialog-confirm-context">
-      Cancel also covers Escape, backdrop light dismiss, and the built-in close button.
-    </p>
-    <ui-card variant="outlined">
-      <ui-tab size="sm" aria-label="Confirmation outcome example">
-        <ui-tab-item value="preview" label="Preview"
-          ><div class="dialog-confirm-preview dialog-confirm-outcome">
-            <button
-              uiButton
-              type="button"
-              variant="outline"
-              command="show-modal"
-              [attr.commandfor]="discardConfirm.dialogId()"
-            >
-              Discard draft
-            </button>
-            <span aria-live="polite">Last action: {{ lastAction() }}</span>
-          </div></ui-tab-item
-        >
-        <ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="cancelCode" />
-        </ui-tab-item>
-      </ui-tab>
-    </ui-card>
-    <ui-dialog-confirm
-      #discardConfirm="uiDialogConfirm"
-      tone="destructive"
-      title="Discard draft?"
-      message="Your unpublished changes will be lost."
-      confirmLabel="Discard"
-      cancelLabel="Keep draft"
-      (confirm)="report('Discarded draft')"
-      (cancel)="report('Kept draft')"
-    />
-  </section>
+  <app-showcase-example
+    heading="Outcomes and dismissal"
+    aria-label="Confirmation outcome example"
+    [code]="cancelCode"
+  >
+    <ng-container showcaseDescription
+      >Cancel also covers Escape, backdrop light dismiss, and the built-in close
+      button.</ng-container
+    >
+    <ng-container showcaseAuxiliary
+      ><ui-dialog-confirm
+        #discardConfirm="uiDialogConfirm"
+        tone="destructive"
+        title="Discard draft?"
+        message="Your unpublished changes will be lost."
+        confirmLabel="Discard"
+        cancelLabel="Keep draft"
+        (confirm)="report('Discarded draft')"
+        (cancel)="report('Kept draft')"
+    /></ng-container>
+    <div class="dialog-confirm-preview dialog-confirm-outcome">
+      <button
+        uiButton
+        type="button"
+        variant="outline"
+        command="show-modal"
+        [attr.commandfor]="discardConfirm.dialogId()"
+      >
+        Discard draft
+      </button>
+      <span aria-live="polite">Last action: {{ lastAction() }}</span>
+    </div>
+  </app-showcase-example>
 </article>

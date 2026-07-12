@@ -7,6 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "serve:ssr:angular22": "node dist/angular22/server/server.mjs",
     "generate:browser-support": "node tools/generate-browser-support.mjs"
   },

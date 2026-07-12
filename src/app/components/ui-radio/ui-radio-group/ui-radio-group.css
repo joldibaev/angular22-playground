@@ -3,7 +3,6 @@
   --ui-radio-group-required-color: var(--color-destructive);
   --ui-radio-group-muted-color: var(--text-color-muted);
   --ui-radio-group-invalid-color: var(--color-destructive);
-  --ui-radio-group-invalid-focus-visible-border-color: var(--ui-radio-group-invalid-color);
 
   display: block;
   min-width: 0;
@@ -21,9 +20,8 @@
     & ui-radio {
       --ui-radio-checked-color: var(--ui-radio-group-invalid-color);
       --ui-radio-current-border-color: var(--ui-radio-group-invalid-color);
-      --ui-radio-current-focus-visible-border-color: var(
-        --ui-radio-group-invalid-focus-visible-border-color
-      );
+      --ui-radio-current-focus-visible-border-color: var(--ui-radio-group-invalid-color);
+      --ui-radio-current-focus-ring-color: var(--destructive-focus-ring-color);
     }
   }
 }

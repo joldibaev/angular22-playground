@@ -4,8 +4,7 @@
 }
 
 .chip-showcase,
-.chip-showcase-header,
-.chip-example {
+.chip-showcase-header {
   display: grid;
   min-width: 0;
 }
@@ -16,22 +15,11 @@
 .chip-showcase-header {
   gap: 0.25rem;
 }
-.chip-example {
-  gap: 0.625rem;
-}
 
 .chip-showcase-header p {
   margin: 0;
   color: var(--text-color-muted);
   text-wrap: pretty;
-}
-.chip-example h5 {
-  margin: 0;
-  font-size: 0.875rem;
-  font-weight: 800;
-}
-.chip-example ui-card {
-  --ui-card-padding: 0.875rem;
 }
 
 .chip-preview {
@@ -73,7 +61,6 @@
   color: var(--text-color-muted);
   font-size: 0.875rem;
 }
-
 
 code {
   font-family: ui-monospace, 'Cascadia Code', monospace;

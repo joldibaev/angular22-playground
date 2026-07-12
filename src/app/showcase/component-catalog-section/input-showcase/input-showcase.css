@@ -3,8 +3,7 @@
   min-width: 0;
 }
 .docs,
-.docs > header,
-.docs > section {
+.docs > header {
   display: grid;
   min-width: 0;
 }
@@ -14,17 +13,9 @@
 .docs > header {
   gap: 0.25rem;
 }
-.docs > section {
-  gap: 0.625rem;
-}
 .docs p {
   margin: 0;
   color: var(--text-color-muted);
-}
-.docs h5 {
-  margin: 0;
-  font-size: 0.875rem;
-  font-weight: 800;
 }
 .mask-more-link {
   justify-self: start;
@@ -38,9 +29,6 @@
     outline-offset: 2px;
     border-radius: 0.25rem;
   }
-}
-.docs ui-card {
-  --ui-card-padding: 0.875rem;
 }
 .preview {
   display: grid;

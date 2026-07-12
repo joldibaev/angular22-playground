@@ -3,9 +3,9 @@
 }
 
 .ui-sonner-list {
-  --ui-sonner-background: Canvas;
+  --ui-sonner-background: var(--background-color-canvas);
   --ui-sonner-border-color: var(--border-color-default);
-  --ui-sonner-color: contrast-color(var(--ui-sonner-background));
+  --ui-sonner-color: var(--text-color-canvas);
   /* Overlay close inside the copy row; actions have their own row below. */
   --ui-sonner-close-button-left: auto;
   --ui-sonner-close-button-right: 0.75rem;
@@ -14,9 +14,13 @@
 
   position: fixed;
   z-index: 100;
+  inset: auto;
   width: attr(data-width type(<length>), 356px);
+  overflow: visible;
   margin: 0;
+  border: 0;
   padding: 0;
+  background: transparent;
   list-style: none;
   outline: none;
 }

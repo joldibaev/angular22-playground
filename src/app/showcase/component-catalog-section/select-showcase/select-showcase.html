@@ -3,86 +3,57 @@
     <h4 id="select-title" class="font-black">Select</h4>
     <p>Single selection with groups, state feedback, and Signal Forms.</p>
   </header>
-  <section>
-    <h5>Default</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Default select example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-select label="Status" placeholder="Choose status"
-              ><ui-icon slot="start" name="outline-tag" decorative /><ui-select-option value="created" label="Created"
-                ><ui-icon slot="start" name="outline-notes" decorative /></ui-select-option
-              ><ui-select-option
-                value="approved"
-                label="Approved"
-                ><ui-icon slot="start" name="outline-circle-check" decorative /><span slot="end">Ready</span></ui-select-option
-              ><ui-select-option value="paid" label="Paid" /></ui-select
-            >
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="defaultCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section>
-    <h5>Grouped options</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Grouped select example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-select label="Project" value="research"
-              ><ui-select-group label="Pinned"
-                ><ui-select-option value="roadmap" label="Roadmap" /><ui-select-option
-                  value="research"
-                  label="Research"
-                /></ui-select-group
-              ><ui-select-group label="Workflow"
-                ><ui-select-option value="review" label="Design review" /><ui-select-option
-                  value="release"
-                  label="Release candidate"
-                /></ui-select-group
-              ></ui-select
-            >
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="groupsCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section>
-    <h5>States</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Select states"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview grid">
-            <ui-select label="Disabled" disabled
-              ><ui-select-option value="locked" label="Locked" /></ui-select
-            ><ui-select label="Loading" loading /></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="statesCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section>
-    <h5>Signal Forms</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Select Signal Forms example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-select label="Status" [formField]="formState.status"
-              ><ui-select-option value="created" label="Created" /><ui-select-option
-                value="approved"
-                label="Approved"
-              /></ui-select
-            ><output>{{ formModel().status }}</output>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="formCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+  <app-showcase-example heading="Default" aria-label="Default select example" [code]="defaultCode">
+    <div class="preview">
+      <ui-select label="Status" placeholder="Choose status"
+        ><ui-icon slot="start" name="outline-tag" decorative /><ui-select-option
+          value="created"
+          label="Created"
+          ><ui-icon slot="start" name="outline-notes" decorative /></ui-select-option
+        ><ui-select-option value="approved" label="Approved"
+          ><ui-icon slot="start" name="outline-circle-check" decorative /><span slot="end"
+            >Ready</span
+          ></ui-select-option
+        ><ui-select-option value="paid" label="Paid"
+      /></ui-select>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Grouped options"
+    aria-label="Grouped select example"
+    [code]="groupsCode"
+  >
+    <div class="preview">
+      <ui-select label="Project" value="research"
+        ><ui-select-group label="Pinned"
+          ><ui-select-option value="roadmap" label="Roadmap" /><ui-select-option
+            value="research"
+            label="Research" /></ui-select-group
+        ><ui-select-group label="Workflow"
+          ><ui-select-option value="review" label="Design review" /><ui-select-option
+            value="release"
+            label="Release candidate" /></ui-select-group
+      ></ui-select>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example heading="States" aria-label="Select states" [code]="statesCode">
+    <div class="preview grid">
+      <ui-select label="Disabled" disabled
+        ><ui-select-option value="locked" label="Locked" /></ui-select
+      ><ui-select label="Loading" loading />
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Signal Forms"
+    aria-label="Select Signal Forms example"
+    [code]="formCode"
+  >
+    <div class="preview">
+      <ui-select label="Status" [formField]="formState.status"
+        ><ui-select-option value="created" label="Created" /><ui-select-option
+          value="approved"
+          label="Approved" /></ui-select
+      ><output>{{ formModel().status }}</output>
+    </div>
+  </app-showcase-example>
 </article>

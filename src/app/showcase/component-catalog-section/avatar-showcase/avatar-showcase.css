@@ -3,8 +3,7 @@
   min-width: 0;
 }
 .avatar-showcase,
-.avatar-showcase-header,
-.avatar-example {
+.avatar-showcase-header {
   display: grid;
   min-width: 0;
 }
@@ -14,21 +13,10 @@
 .avatar-showcase-header {
   gap: 0.25rem;
 }
-.avatar-example {
-  gap: 0.625rem;
-}
 .avatar-showcase-header p {
   margin: 0;
   color: var(--text-color-muted);
   text-wrap: pretty;
-}
-.avatar-example h5 {
-  margin: 0;
-  font-size: 0.875rem;
-  font-weight: 800;
-}
-.avatar-example ui-card {
-  --ui-card-padding: 0.875rem;
 }
 .avatar-preview {
   display: grid;

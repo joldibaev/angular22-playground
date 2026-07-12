@@ -11,8 +11,7 @@
   position: relative;
   margin: 0;
   background-color: transparent;
-  transition: background-color var(--ui-accordion-state-duration)
-    var(--ui-accordion-motion-easing);
+  transition: background-color var(--ui-accordion-state-duration) var(--ui-accordion-motion-easing);
 
   /* The trigger keeps its press scale, so the persistent surface and focus ring
      live on this unscaled wrapper. The ring is intentionally equally rounded
@@ -27,8 +26,7 @@
     outline: 2px solid transparent;
     outline-offset: -2px;
     pointer-events: none;
-    transition: outline-color var(--ui-accordion-state-duration)
-      var(--ui-accordion-motion-easing);
+    transition: outline-color var(--ui-accordion-state-duration) var(--ui-accordion-motion-easing);
   }
 
   &:has(.ui-accordion-trigger:hover) {
@@ -43,7 +41,7 @@
 
   &:has(.ui-accordion-trigger:focus-visible) {
     &::after {
-      outline-color: var(--ui-accordion-focus-ring);
+      outline-color: var(--focus-ring-color);
     }
   }
 }

@@ -1,13 +1,13 @@
-import { ShowcaseCode } from '../showcase-code/showcase-code';
+import { ShowcaseExample } from '../showcase-example/showcase-example';
 import { Component, signal } from '@angular/core';
-import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiIcon } from '../../../components/ui-icon/ui-icon';
 import { UiTab } from '../../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 import { UiTabLabel } from '../../../components/ui-tab/ui-tab-item/ui-tab-label';
+
 @Component({
   selector: 'app-tabs-showcase',
-  imports: [ShowcaseCode, UiCard, UiIcon, UiTab, UiTabItem, UiTabLabel],
+  imports: [ShowcaseExample, UiIcon, UiTab, UiTabItem, UiTabLabel],
   templateUrl: './tabs-showcase.html',
   styleUrl: './tabs-showcase.css',
 })
@@ -51,7 +51,7 @@ export class TabsShowcase {
   <ui-tab-item value="activity" label="Activity">Activity content</ui-tab-item>
   <ui-tab-item value="billing" label="Billing" disabled>Unavailable</ui-tab-item>
 </ui-tab>`;
- protected readonly controlledCode = `readonly selected = signal<string | undefined>('overview');
+  protected readonly controlledCode = `readonly selected = signal<string | undefined>('overview');
 
 <ui-tab
   [(selectedTab)]="selected"

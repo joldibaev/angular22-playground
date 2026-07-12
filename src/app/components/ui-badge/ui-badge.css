@@ -30,21 +30,21 @@
 }
 
 :host(.ui-badge-contrast) {
-  --ui-badge-background: CanvasText;
+  --ui-badge-background: var(--text-color-canvas);
   --ui-badge-border-color: var(--ui-badge-background);
-  --ui-badge-color: Canvas;
+  --ui-badge-color: var(--background-color-canvas);
 }
 
 :host(.ui-badge-brand) {
   --ui-badge-background: var(--color-brand);
   --ui-badge-border-color: var(--ui-badge-background);
-  --ui-badge-color: contrast-color(var(--ui-badge-background));
+  --ui-badge-color: var(--text-color-on-brand);
 }
 
 :host(.ui-badge-outline) {
   --ui-badge-background: transparent;
   --ui-badge-border-color: var(--border-color-strong);
-  --ui-badge-color: contrast-color(Canvas);
+  --ui-badge-color: var(--text-color-canvas);
 }
 
 :host(.ui-badge-destructive) {
@@ -56,7 +56,7 @@
 :host(.ui-badge-secondary) {
   --ui-badge-background: var(--background-color-subtle);
   --ui-badge-border-color: transparent;
-  --ui-badge-color: contrast-color(var(--ui-badge-background));
+  --ui-badge-color: var(--text-color-canvas);
 }
 
 .ui-badge-dot {

@@ -26,7 +26,6 @@
     user-select: none;
     -webkit-user-select: none;
   }
-
 }
 
 ui-input:has([ngCombobox][aria-expanded='true']) .icon-chevron-down {

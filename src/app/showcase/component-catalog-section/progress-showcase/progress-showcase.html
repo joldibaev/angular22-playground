@@ -3,81 +3,62 @@
     <h4 id="progress-title" class="font-black">Progress</h4>
     <p>Native determinate and indeterminate progress with a custom visual track.</p>
   </header>
-  <section>
-    <h5>Determinate</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Determinate progress example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview column">
-            <div class="progress-variant">
-              <span>Animated value</span>
-              <ui-progress
-                label="Animated progress"
-                [value]="progress()"
-                withValue
-                withAnimation
-              />
-            </div>
-            <div class="progress-variant">
-              <span>Without animation</span>
-              <ui-progress label="Static progress" [value]="progress()" withValue />
-            </div>
-            <div class="progress-actions">
-              <button
-                uiButton
-                type="button"
-                size="sm"
-                variant="ghost"
-                data-progress-decrease
-                [disabled]="progress() === 0"
-                (click)="decreaseProgress()"
-              >
-                Decrease
-              </button>
-              <button
-                uiButton
-                type="button"
-                size="sm"
-                variant="secondary"
-                data-progress-increase
-                [disabled]="progress() === 100"
-                (click)="increaseProgress()"
-              >
-                Increase
-              </button>
-            </div>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="determinateCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section>
-    <h5>Custom maximum</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Custom maximum progress example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview column">
-            <span>72 of 120</span
-            ><ui-progress label="Import progress" [value]="72" [max]="120" /></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="maxCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section>
-    <h5>Indeterminate</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Indeterminate progress example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview column">
-            <span>Preparing report</span><ui-progress label="Preparing report" /></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="indeterminateCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+  <app-showcase-example
+    heading="Determinate"
+    aria-label="Determinate progress example"
+    [code]="determinateCode"
+  >
+    <div class="preview column">
+      <div class="progress-variant">
+        <span>Animated value</span>
+        <ui-progress label="Animated progress" [value]="progress()" withValue withAnimation />
+      </div>
+      <div class="progress-variant">
+        <span>Without animation</span>
+        <ui-progress label="Static progress" [value]="progress()" withValue />
+      </div>
+      <div class="progress-actions">
+        <button
+          uiButton
+          type="button"
+          size="sm"
+          variant="ghost"
+          data-progress-decrease
+          [disabled]="progress() === 0"
+          (click)="decreaseProgress()"
+        >
+          Decrease
+        </button>
+        <button
+          uiButton
+          type="button"
+          size="sm"
+          variant="secondary"
+          data-progress-increase
+          [disabled]="progress() === 100"
+          (click)="increaseProgress()"
+        >
+          Increase
+        </button>
+      </div>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Custom maximum"
+    aria-label="Custom maximum progress example"
+    [code]="maxCode"
+  >
+    <div class="preview column">
+      <span>72 of 120</span><ui-progress label="Import progress" [value]="72" [max]="120" />
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Indeterminate"
+    aria-label="Indeterminate progress example"
+    [code]="indeterminateCode"
+  >
+    <div class="preview column">
+      <span>Preparing report</span><ui-progress label="Preparing report" />
+    </div>
+  </app-showcase-example>
 </article>

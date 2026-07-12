@@ -1,21 +1,10 @@
 import { IconName } from '../ui-icon/data';
 
 export type UiSonnerToastType =
-  | 'default'
-  | 'action'
-  | 'success'
-  | 'info'
-  | 'warning'
-  | 'destructive'
-  | 'loading';
+  'default' | 'action' | 'success' | 'info' | 'warning' | 'destructive' | 'loading';
 
 export type UiSonnerPosition =
-  | 'top-left'
-  | 'top-center'
-  | 'top-right'
-  | 'bottom-left'
-  | 'bottom-center'
-  | 'bottom-right';
+  'top-left' | 'top-center' | 'top-right' | 'bottom-left' | 'bottom-center' | 'bottom-right';
 
 export type UiSonnerToastId = number | string;
 export type UiSonnerPromise<ToastData = unknown> = Promise<ToastData> | (() => Promise<ToastData>);
@@ -80,4 +69,22 @@ export interface UiSonnerToastOptions {
   duration?: number;
   class?: string;
   descriptionClass?: string;
+}
+
+export interface UiSonnerOutletOptions {
+  invert?: boolean;
+  theme?: UiSonnerTheme;
+  position?: UiSonnerPosition;
+  hotKey?: string[];
+  expand?: boolean;
+  duration?: number;
+  visibleToasts?: number;
+  closeButton?: boolean;
+  closeLabel?: string;
+  toastOptions?: UiSonnerToastOptions;
+  offset?: string | number | null;
+  gap?: number;
+  label?: string;
+  listClass?: string;
+  listStyle?: Record<string, string>;
 }

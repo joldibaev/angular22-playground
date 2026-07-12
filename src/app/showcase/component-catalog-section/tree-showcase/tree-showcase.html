@@ -6,77 +6,53 @@
       focus.
     </p>
   </header>
-  <section aria-labelledby="tree-default-title">
-    <h5 id="tree-default-title">Default</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Default tree example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-tree aria-label="Project files" [items]="files" [(selected)]="selected" /><output
-              >Selected: {{ selected().join(', ') || 'None' }}</output
-            >
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="defaultCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="tree-multi-title">
-    <h5 id="tree-multi-title">Multiple selection</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Multiple tree selection example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-tree
-              aria-label="Multi-select project files"
-              [items]="files"
-              multi
-              [(selected)]="multiSelected"
-            /><output>Selected: {{ multiSelected().join(', ') || 'None' }}</output>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="multiCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="tree-expansion-title">
-    <h5 id="tree-expansion-title">Controlled expansion and guides</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Controlled tree expansion example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-tree
-              aria-label="Tree without guides"
-              [items]="files"
-              [(expanded)]="expanded"
-              [withGuides]="false"
-            /><output>Expanded: {{ expanded()?.join(', ') || 'None' }}</output>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="expansionCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
-  <section aria-labelledby="tree-nav-title">
-    <h5 id="tree-nav-title">Navigation, disabled, and non-selectable nodes</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Tree navigation example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="preview">
-            <ui-tree
-              aria-label="Project navigation"
-              [items]="files"
-              nav
-              [(selected)]="navSelected"
-            /><output>Current page: {{ navSelected()[0] || 'None' }}</output>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="navCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+  <app-showcase-example heading="Default" aria-label="Default tree example" [code]="defaultCode">
+    <div class="preview">
+      <ui-tree aria-label="Project files" [items]="files" [(selected)]="selected" /><output
+        >Selected: {{ selected().join(', ') || 'None' }}</output
+      >
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Multiple selection"
+    aria-label="Multiple tree selection example"
+    [code]="multiCode"
+  >
+    <div class="preview">
+      <ui-tree
+        aria-label="Multi-select project files"
+        [items]="files"
+        multi
+        [(selected)]="multiSelected"
+      /><output>Selected: {{ multiSelected().join(', ') || 'None' }}</output>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Controlled expansion and guides"
+    aria-label="Controlled tree expansion example"
+    [code]="expansionCode"
+  >
+    <div class="preview">
+      <ui-tree
+        aria-label="Tree without guides"
+        [items]="files"
+        [(expanded)]="expanded"
+        [withGuides]="false"
+      /><output>Expanded: {{ expanded()?.join(', ') || 'None' }}</output>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Navigation, disabled, and non-selectable nodes"
+    aria-label="Tree navigation example"
+    [code]="navCode"
+  >
+    <div class="preview">
+      <ui-tree
+        aria-label="Project navigation"
+        [items]="files"
+        nav
+        [(selected)]="navSelected"
+      /><output>Current page: {{ navSelected()[0] || 'None' }}</output>
+    </div>
+  </app-showcase-example>
 </article>

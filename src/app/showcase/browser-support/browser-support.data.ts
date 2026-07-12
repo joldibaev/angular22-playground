@@ -13,19 +13,6 @@ export const browserSupportFeatures = {
       "node": null
     }
   },
-  "contrast-color": {
-    "name": "contrast-color()",
-    "baseline": "low",
-    "baselineLowDate": "2026-04-10",
-    "baselineHighDate": null,
-    "support": {
-      "chrome": "147",
-      "edge": "147",
-      "firefox": "146",
-      "safari": "26",
-      "node": null
-    }
-  },
   "interpolate-size": {
     "name": "interpolate-size",
     "baseline": false,
@@ -36,6 +23,19 @@ export const browserSupportFeatures = {
       "edge": "129",
       "firefox": null,
       "safari": null,
+      "node": null
+    }
+  },
+  "contrast-color": {
+    "name": "contrast-color()",
+    "baseline": "low",
+    "baselineLowDate": "2026-04-10",
+    "baselineHighDate": null,
+    "support": {
+      "chrome": "147",
+      "edge": "147",
+      "firefox": "146",
+      "safari": "26",
       "node": null
     }
   },
@@ -239,7 +239,6 @@ export const browserSupportFeatures = {
 export const browserSupportProfiles = {
   "accordion": [
     "light-dark",
-    "contrast-color",
     "interpolate-size"
   ],
   "alert": [
@@ -249,7 +248,6 @@ export const browserSupportProfiles = {
   ],
   "autocomplete": [
     "light-dark",
-    "contrast-color",
     "backdrop-filter",
     "popover",
     "anchor-name",
@@ -260,34 +258,28 @@ export const browserSupportProfiles = {
     "light-dark"
   ],
   "badge": [
-    "light-dark",
-    "contrast-color"
+    "light-dark"
   ],
   "barcode": [
-    "light-dark",
-    "contrast-color"
+    "light-dark"
   ],
   "button": [
-    "light-dark",
-    "contrast-color"
+    "light-dark"
   ],
   "card": [
     "light-dark",
-    "contrast-color"
+    "backdrop-filter"
   ],
   "checkbox": [
     "light-dark",
-    "contrast-color",
     "popover",
     "anchor-name"
   ],
   "chip": [
-    "light-dark",
-    "contrast-color"
+    "light-dark"
   ],
   "datepicker": [
     "light-dark",
-    "contrast-color",
     "backdrop-filter",
     "popover",
     "anchor-name",
@@ -297,7 +289,6 @@ export const browserSupportProfiles = {
   ],
   "dialog": [
     "light-dark",
-    "contrast-color",
     "dialog-closedby",
     "invoker-commands",
     "starting-style",
@@ -305,7 +296,6 @@ export const browserSupportProfiles = {
   ],
   "drawer": [
     "light-dark",
-    "contrast-color",
     "dialog-closedby",
     "invoker-commands",
     "starting-style",
@@ -313,7 +303,6 @@ export const browserSupportProfiles = {
   ],
   "input": [
     "light-dark",
-    "contrast-color",
     "has",
     "popover",
     "anchor-name",
@@ -333,7 +322,6 @@ export const browserSupportProfiles = {
   ],
   "popover": [
     "light-dark",
-    "contrast-color",
     "popover",
     "invoker-commands",
     "anchor-name",
@@ -345,7 +333,6 @@ export const browserSupportProfiles = {
   ],
   "radio": [
     "light-dark",
-    "contrast-color",
     "popover",
     "anchor-name"
   ],
@@ -362,26 +349,24 @@ export const browserSupportProfiles = {
   ],
   "sonner": [
     "light-dark",
-    "contrast-color",
     "has",
+    "popover",
+    "starting-style",
     "interpolate-size"
   ],
   "switch": [
     "light-dark",
-    "contrast-color",
     "popover",
     "anchor-name"
   ],
   "table": [
     "light-dark",
-    "contrast-color",
     "scrollbar-color",
     "scrollbar-gutter",
     "scrollbar-width"
   ],
   "tabs": [
     "light-dark",
-    "contrast-color",
     "has",
     "anchor-name",
     "scrollbar-width"

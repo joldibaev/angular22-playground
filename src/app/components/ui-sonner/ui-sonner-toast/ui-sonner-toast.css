@@ -219,6 +219,22 @@
   opacity: 1;
 }
 
+/* The first toast mounts while its manual popover is still display:none.
+   Starting styles replay the same entrance when that group enters the top layer. */
+[data-sonner-toast][data-mounted='true'][data-y-position='top'] {
+  @starting-style {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+[data-sonner-toast][data-mounted='true'][data-y-position='bottom'] {
+  @starting-style {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+}
+
 [data-sonner-toast][data-expanded='false'][data-front='false'] {
   --scale: calc(1 - attr(data-index type(<number>), 0) * 0.05);
   --y: translateY(calc(var(--lift-amount) * attr(data-index type(<number>), 0))) scale(var(--scale));
@@ -332,5 +348,12 @@
     transform: none;
     filter: none;
     transition: opacity var(--dur-quick) var(--ui-sonner-text-swap-easing);
+  }
+
+  [data-sonner-toast][data-mounted='true'] {
+    @starting-style {
+      transform: none;
+      opacity: 0;
+    }
   }
 }

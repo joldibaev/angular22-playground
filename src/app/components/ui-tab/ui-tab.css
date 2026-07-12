@@ -1,17 +1,16 @@
 :host {
-  --ui-tab-border-color: light-dark(var(--border-color-default), var(--border-color-strong));
-  --ui-tab-focus-visible-border-color: var(--color-brand);
-  --ui-tab-list-background: light-dark(var(--color-neutral-100), var(--color-neutral-800));
-  --ui-tab-indicator-background: light-dark(white, var(--color-neutral-700));
+  --ui-tab-border-color: var(--border-color-default);
+  --ui-tab-list-background: light-dark(var(--color-neutral-100), var(--color-neutral-900));
+  --ui-tab-indicator-background: var(--background-color-elevated);
   --ui-tab-indicator-shadow: var(--shadow-sm);
   --ui-tab-item-color: var(--text-color-muted);
   --ui-tab-item-hover-color: color-mix(
     in oklab,
     var(--ui-tab-item-color) 45%,
-    contrast-color(Canvas)
+    var(--text-color-canvas)
   );
-  --ui-tab-item-active-color: contrast-color(var(--ui-tab-indicator-background));
-  --ui-tab-line-color: contrast-color(Canvas);
+  --ui-tab-item-active-color: var(--text-color-canvas);
+  --ui-tab-line-color: var(--text-color-canvas);
   --ui-tab-line-indicator-size: 2px;
   --ui-tab-pill-list-padding: 0.25rem;
   --ui-tab-pill-list-radius: 0.5rem;
@@ -189,7 +188,7 @@
 }
 
 .ui-tab-trigger:focus-visible {
-  outline: 3px solid color-mix(in oklab, var(--ui-tab-focus-visible-border-color) 50%, transparent);
+  outline: 3px solid var(--focus-ring-color);
 }
 
 .ui-tab-indicator {
@@ -281,8 +280,7 @@
   outline: none;
 
   &:focus-visible {
-    outline: 3px solid
-      color-mix(in oklab, var(--ui-tab-focus-visible-border-color) 50%, transparent);
+    outline: 3px solid var(--focus-ring-color);
   }
 
   &[inert] {

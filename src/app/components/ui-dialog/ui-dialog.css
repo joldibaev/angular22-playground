@@ -87,7 +87,7 @@
   border: 1px solid var(--border-color-subtle);
   border-radius: 0.75rem;
   background-color: var(--background-color-surface);
-  color: contrast-color(var(--background-color-surface));
+  color: var(--text-color-canvas);
 }
 
 .ui-dialog-header {
@@ -137,7 +137,7 @@
 
 .ui-dialog-close:hover {
   background-color: var(--background-color-subtle);
-  color: contrast-color(Canvas);
+  color: var(--text-color-canvas);
 }
 
 /* Press feedback: small icon button dips like the checkbox. */

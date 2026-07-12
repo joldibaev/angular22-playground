@@ -1,7 +1,7 @@
 :host {
   --ui-dialog-success-icon-size: 5rem;
   --ui-dialog-success-icon-background: var(--color-brand);
-  --ui-dialog-success-icon-color: contrast-color(var(--ui-dialog-success-icon-background));
+  --ui-dialog-success-icon-color: var(--text-color-on-brand);
   --ui-dialog-success-motion-duration: var(--dur-slow);
   --ui-dialog-success-exit-duration: var(--dur-quick);
   --ui-dialog-success-path-delay: calc(var(--dur-press) * 0.6);

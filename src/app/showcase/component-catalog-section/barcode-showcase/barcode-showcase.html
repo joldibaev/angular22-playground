@@ -4,126 +4,88 @@
     <p>Scanner-safe SVG barcodes with validation, sizing, and explicit accessible labeling.</p>
   </header>
 
-  <section class="barcode-example" aria-labelledby="barcode-default-title">
-    <h5 id="barcode-default-title">Default</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Default barcode example"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="barcode-preview">
-            <ui-barcode
-              value="ITEM-42-A"
-              format="CODE128"
-              label="Inventory item ITEM-42-A"
-            /></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="defaultCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+  <app-showcase-example heading="Default" aria-label="Default barcode example" [code]="defaultCode">
+    <div class="barcode-preview">
+      <ui-barcode value="ITEM-42-A" format="CODE128" label="Inventory item ITEM-42-A" />
+    </div>
+  </app-showcase-example>
 
-  <section class="barcode-example" aria-labelledby="barcode-format-title">
-    <h5 id="barcode-format-title">Formats</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Barcode format examples"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="barcode-preview barcode-grid">
-            <figure>
-              <ui-barcode value="4006381333931" format="EAN13" />
-              <figcaption>EAN-13</figcaption>
-            </figure>
-            <figure>
-              <ui-barcode value="55123457" format="EAN8" />
-              <figcaption>EAN-8</figcaption>
-            </figure>
-            <figure>
-              <ui-barcode value="BC-123" format="QR" [width]="112" [height]="112" />
-              <figcaption>QR version 1-L</figcaption>
-            </figure>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="formatsCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+  <app-showcase-example heading="Formats" aria-label="Barcode format examples" [code]="formatsCode">
+    <div class="barcode-preview barcode-grid">
+      <figure>
+        <ui-barcode value="4006381333931" format="EAN13" />
+        <figcaption>EAN-13</figcaption>
+      </figure>
+      <figure>
+        <ui-barcode value="55123457" format="EAN8" />
+        <figcaption>EAN-8</figcaption>
+      </figure>
+      <figure>
+        <ui-barcode value="BC-123" format="QR" [width]="112" [height]="112" />
+        <figcaption>QR version 1-L</figcaption>
+      </figure>
+    </div>
+  </app-showcase-example>
 
-  <section class="barcode-example" aria-labelledby="barcode-dimension-title">
-    <h5 id="barcode-dimension-title">Dimensions</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Barcode dimension examples"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="barcode-preview barcode-grid">
-            <ui-barcode value="ITEM-42-A" [width]="320" [height]="112" /><ui-barcode
-              value="BC-123"
-              format="QR"
-              [width]="160"
-              [height]="160"
-            /></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="dimensionsCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+  <app-showcase-example
+    heading="Dimensions"
+    aria-label="Barcode dimension examples"
+    [code]="dimensionsCode"
+  >
+    <div class="barcode-preview barcode-grid">
+      <ui-barcode value="ITEM-42-A" [width]="320" [height]="112" /><ui-barcode
+        value="BC-123"
+        format="QR"
+        [width]="160"
+        [height]="160"
+      />
+    </div>
+  </app-showcase-example>
 
-  <section class="barcode-example" aria-labelledby="barcode-text-title">
-    <h5 id="barcode-text-title">Human-readable text</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Barcode text examples"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="barcode-preview barcode-grid">
-            <figure>
-              <ui-barcode value="ITEM-42-A" />
-              <figcaption>With text</figcaption>
-            </figure>
-            <figure>
-              <ui-barcode value="ITEM-42-A" [withText]="false" />
-              <figcaption>Without text</figcaption>
-            </figure>
-          </div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="textCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+  <app-showcase-example
+    heading="Human-readable text"
+    aria-label="Barcode text examples"
+    [code]="textCode"
+  >
+    <div class="barcode-preview barcode-grid">
+      <figure>
+        <ui-barcode value="ITEM-42-A" />
+        <figcaption>With text</figcaption>
+      </figure>
+      <figure>
+        <ui-barcode value="ITEM-42-A" [withText]="false" />
+        <figcaption>Without text</figcaption>
+      </figure>
+    </div>
+  </app-showcase-example>
 
-  <section class="barcode-example" aria-labelledby="barcode-accessibility-title">
-    <h5 id="barcode-accessibility-title">Accessible and decorative</h5>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Barcode accessibility examples"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="barcode-preview barcode-grid">
-            <ui-barcode value="ITEM-42-A" label="Inventory item barcode" /><ui-barcode
-              value="DECORATION"
-              decorative
-            /></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="accessibilityCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
-    >
-  </section>
+  <app-showcase-example
+    heading="Accessible and decorative"
+    aria-label="Barcode accessibility examples"
+    [code]="accessibilityCode"
+  >
+    <div class="barcode-preview barcode-grid">
+      <ui-barcode value="ITEM-42-A" label="Inventory item barcode" /><ui-barcode
+        value="DECORATION"
+        decorative
+      />
+    </div>
+  </app-showcase-example>
 
-  <section class="barcode-example" aria-labelledby="barcode-validation-title">
-    <h5 id="barcode-validation-title">Invalid data</h5>
-    <p class="barcode-context">
-      EAN values validate length and checksum; the built-in QR encoder supports version 1-L payloads
-      up to 17 UTF-8 bytes.
-    </p>
-    <ui-card variant="outlined"
-      ><ui-tab size="sm" aria-label="Barcode validation examples"
-        ><ui-tab-item value="preview" label="Preview"
-          ><div class="barcode-preview barcode-grid">
-            <ui-barcode value="12345678" format="EAN8" /><ui-barcode
-              value="012345678901234567"
-              format="QR"
-            /></div></ui-tab-item
-        ><ui-tab-item value="code" label="Code">
-<app-showcase-code [code]="validationCode" />
-        </ui-tab-item></ui-tab
-      ></ui-card
+  <app-showcase-example
+    heading="Invalid data"
+    aria-label="Barcode validation examples"
+    [code]="validationCode"
+  >
+    <ng-container showcaseDescription
+      >EAN values validate length and checksum; the built-in QR encoder supports version 1-L
+      payloads up to 17 UTF-8 bytes.</ng-container
     >
-  </section>
+    <div class="barcode-preview barcode-grid">
+      <ui-barcode value="12345678" format="EAN8" /><ui-barcode
+        value="012345678901234567"
+        format="QR"
+      />
+    </div>
+  </app-showcase-example>
 </article>
