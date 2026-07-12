@@ -21,6 +21,7 @@ export class AccordionShowcase {
   protected readonly defaultCode = `<ui-accordion [multi]="false">
   <ui-accordion-item label="What is Angular ARIA?" [expanded]="true">
     <ui-icon slot="start" name="outline-info-circle" decorative />
+    <span slot="end">Guide</span>
     Headless directives that provide accessible behavior without prescribing styles.
   </ui-accordion-item>
   <ui-accordion-item label="Does it support keyboard navigation?">

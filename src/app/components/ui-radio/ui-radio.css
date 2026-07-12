@@ -48,7 +48,6 @@
   place-items: center;
   width: var(--ui-radio-control-size);
   height: var(--ui-radio-control-size);
-  margin-top: 0.0625rem;
   border: 1px solid var(--ui-radio-current-border-color, var(--ui-radio-border-color));
   border-radius: 50%;
   background-color: var(--ui-radio-background);
@@ -105,6 +104,8 @@
 }
 
 .ui-radio-title {
+  min-height: var(--ui-radio-control-size);
+  align-content: center;
   color: var(--ui-radio-label-color);
   font-size: 0.875rem;
   font-weight: 600;

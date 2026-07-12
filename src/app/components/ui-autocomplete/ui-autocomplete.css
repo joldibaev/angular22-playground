@@ -14,8 +14,6 @@
 
 [ngCombobox] {
   display: block;
-  position: relative;
-  anchor-name: --ui-autocomplete-trigger;
 }
 
 .ui-autocomplete-start,

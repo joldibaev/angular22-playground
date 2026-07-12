@@ -15,11 +15,13 @@ import {
   type WithOptionalFieldTree,
 } from '@angular/forms/signals';
 import { createFieldMessages } from '../../shared/field-messages';
+import { UiFieldError } from '../ui-field-error/ui-field-error';
 
 export type UiCheckboxSize = 'sm' | 'md';
 
 @Component({
   selector: 'ui-checkbox',
+  imports: [UiFieldError],
   templateUrl: './ui-checkbox.html',
   styleUrl: './ui-checkbox.css',
   host: {

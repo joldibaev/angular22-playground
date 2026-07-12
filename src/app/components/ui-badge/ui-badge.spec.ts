@@ -11,6 +11,7 @@ import { UiBadge } from './ui-badge';
     <ui-badge variant="brand">
       <ui-icon slot="start" name="outline-circle-check" decorative [width]="14" [height]="14" />
       <span>Verified</span>
+      <span slot="end">Ready</span>
     </ui-badge>
     <ui-badge variant="contrast">High contrast</ui-badge>
     <ui-badge variant="brand" withNotificationAnimation [visible]="notificationVisible()">3</ui-badge>
@@ -64,6 +65,7 @@ describe('UiBadge', () => {
 
     expect(icon?.getAttribute('aria-hidden')).toBe('true');
     expect(icon?.getAttribute('slot')).toBe('start');
+    expect(badge.querySelector('[slot="end"]')?.textContent).toBe('Ready');
     expect(badge.textContent).toContain('Verified');
     expect(badge.classList.contains('ui-badge-brand')).toBe(true);
   });

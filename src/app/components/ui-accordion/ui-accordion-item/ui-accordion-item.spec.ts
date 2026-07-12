@@ -59,7 +59,7 @@ describe('UiAccordionItem', () => {
   it('two-way binds expansion and preserves lazy content after collapse', async () => {
     const fixture = await createFixture();
     const loader = TestbedHarnessEnvironment.loader(fixture);
-    const accordion = await loader.getHarness(AccordionHarness.with({ title: 'Account' }));
+    const accordion = await loader.getHarness(AccordionHarness);
 
     expect(fixture.nativeElement.querySelector('input')).toBeNull();
 
@@ -81,7 +81,7 @@ describe('UiAccordionItem', () => {
     await fixture.whenStable();
 
     const loader = TestbedHarnessEnvironment.loader(fixture);
-    const accordion = await loader.getHarness(AccordionHarness.with({ title: 'Account' }));
+    const accordion = await loader.getHarness(AccordionHarness);
 
     expect(await accordion.isDisabled()).toBe(true);
     await accordion.toggle();

@@ -17,14 +17,8 @@
 
 [ngCombobox] {
   display: flex;
-  position: relative;
-  anchor-name: --ui-select-trigger;
   align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
   cursor: pointer;
-  /* Track the wrapped ui-input's size scale instead of a fixed inline padding. */
-  padding: 0 var(--ui-input-control-padding-inline, 1rem);
   user-select: none;
   -webkit-user-select: none;
 
@@ -40,7 +34,6 @@ ui-input:has([ngCombobox][aria-expanded='true']) .icon-chevron-down {
 }
 
 .combobox-label {
-  gap: 1rem;
   display: flex;
   align-items: center;
   min-width: 0;

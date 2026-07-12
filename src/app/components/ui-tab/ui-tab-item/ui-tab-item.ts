@@ -20,7 +20,9 @@ import { UiTabLabel } from './ui-tab-label';
 export class UiTabItem {
   readonly element = inject(ElementRef<HTMLElement>);
   readonly template = viewChild.required<TemplateRef<unknown>>('content');
-  readonly labelTemplate = contentChild(UiTabLabel);
+  // A nested tab may contain its own uiTabLabel; only a label projected
+  // directly into this item belongs to this trigger.
+  readonly labelTemplate = contentChild(UiTabLabel, { descendants: false });
 
   value = input.required<string>();
   disabled = input(false, { transform: booleanAttribute });

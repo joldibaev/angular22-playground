@@ -15,7 +15,10 @@ import { UiAutocompleteOption } from './ui-autocomplete-option/ui-autocomplete-o
     <ui-autocomplete>
       <span slot="start">S</span>
       <span slot="end">E</span>
-      <ui-autocomplete-option value="created" label="Created" />
+      <ui-autocomplete-option value="created" label="Created">
+        <span slot="start" class="option-start"></span>
+        <span slot="end" class="option-end"></span>
+      </ui-autocomplete-option>
       <ui-autocomplete-option value="approved" label="Approved" />
       <ui-autocomplete-option value="paid" label="Paid" />
     </ui-autocomplete>
@@ -223,6 +226,12 @@ describe('UiAutocomplete', () => {
 
     expect(start?.textContent).toBe('S');
     expect(end?.textContent).toBe('E');
+    expect(
+      hostFixture.nativeElement.querySelector('.ui-input-slot-start > .ui-autocomplete-start'),
+    ).toBeTruthy();
+    expect(
+      hostFixture.nativeElement.querySelector('.ui-input-slot-end > .ui-autocomplete-end'),
+    ).toBeTruthy();
   });
 
   it('should expose disabled suggestions through Angular Aria', async () => {
@@ -392,7 +401,7 @@ describe('UiAutocomplete', () => {
 
     expect(invalidField.querySelector('.ui-input-label')?.textContent).toContain('Status');
     expect(invalidField.querySelector('.ui-input-label')?.textContent).toContain('*');
-    expect(invalidField.querySelector('.ui-input-error-panel')?.textContent).toContain(
+    expect(invalidField.querySelector('.ui-field-error-panel')?.textContent).toContain(
       'Status is required',
     );
     expect(disabledField.querySelector('[role="combobox"]')?.getAttribute('aria-disabled')).toBe(
@@ -400,7 +409,7 @@ describe('UiAutocomplete', () => {
     );
     // The error panel is always in the DOM (a manual popover), so "no error"
     // means it renders no message rather than being absent.
-    expect(disabledField.querySelector('.ui-input-error-panel')?.textContent?.trim()).toBe('');
+    expect(disabledField.querySelector('.ui-field-error-panel')?.textContent?.trim()).toBe('');
     expect(disabledField.querySelector('.ui-input-disabled-reason')?.textContent).toContain(
       'Status is locked by workflow',
     );
@@ -429,6 +438,8 @@ describe('UiAutocomplete', () => {
       'Approved',
       'Paid',
     ]);
+    expect(options[0].querySelector('.option-start')).toBeTruthy();
+    expect(options[0].querySelector('.option-end')).toBeTruthy();
   });
 
   it('should open the popup without filtering consumer-supplied options', async () => {
@@ -512,16 +523,16 @@ describe('UiAutocomplete', () => {
     await openPopup(hostFixture);
 
     const host = hostFixture.nativeElement.querySelector('ui-autocomplete') as HTMLElement;
-    const combobox = getCombobox(hostFixture);
+    const fieldSurface = host.querySelector('.ui-input-control') as HTMLElement;
     const popup = getPopup(hostFixture) as HTMLElement;
     const hostStyle = getComputedStyle(host);
-    const comboboxStyle = getComputedStyle(combobox);
+    const fieldSurfaceStyle = getComputedStyle(fieldSurface);
     const style = getComputedStyle(popup);
 
     expect(popup).toBeTruthy();
     expect(popup.getAttribute('popover')).toBe('auto');
     expect(hostStyle.anchorScope).toBe('--ui-autocomplete-trigger');
-    expect(comboboxStyle.anchorName).toBe('--ui-autocomplete-trigger');
+    expect(fieldSurfaceStyle.anchorName).toContain('--ui-autocomplete-trigger');
     expect(style.position).toBe('fixed');
     expect(style.inset).toBe('auto');
     expect(style.positionAnchor).toBe('--ui-autocomplete-trigger');

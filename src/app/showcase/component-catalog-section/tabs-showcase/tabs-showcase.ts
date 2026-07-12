@@ -18,6 +18,7 @@ export class TabsShowcase {
     <ng-template uiTabLabel>
       <ui-icon slot="start" name="outline-user" decorative />
       <span>Overview</span>
+      <span slot="end" aria-label="3 notifications">3</span>
     </ng-template>
     <p>Account summary and current plan.</p>
   </ui-tab-item>

@@ -27,6 +27,7 @@ export class ChipShowcase {
 >
   <ui-icon slot="start" name="outline-tag" decorative />
   <span>Angular</span>
+  <span slot="end" aria-label="12 matching items">12</span>
 </ui-chip>`;
 
   protected readonly variantCode = `<ui-chip removeLabel="Remove design" (remove)="reportRemoval('Design')">Design</ui-chip>

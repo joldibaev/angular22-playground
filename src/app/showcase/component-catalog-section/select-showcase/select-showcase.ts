@@ -19,8 +19,13 @@ export class SelectShowcase {
   readonly formState = form(this.formModel);
   protected readonly defaultCode = `<ui-select label="Status" placeholder="Choose status">
   <ui-icon slot="start" name="outline-tag" decorative />
-  <ui-select-option value="created" label="Created" />
-  <ui-select-option value="approved" label="Approved" />
+  <ui-select-option value="created" label="Created">
+    <ui-icon slot="start" name="outline-notes" decorative />
+  </ui-select-option>
+  <ui-select-option value="approved" label="Approved">
+    <ui-icon slot="start" name="outline-circle-check" decorative />
+    <span slot="end">Ready</span>
+  </ui-select-option>
   <ui-select-option value="paid" label="Paid" />
 </ui-select>`;
   protected readonly groupsCode = `<ui-select label="Project" value="research">\n  <ui-select-group label="Pinned">\n    <ui-select-option value="roadmap" label="Roadmap" />\n    <ui-select-option value="research" label="Research" />\n  </ui-select-group>\n  <ui-select-group label="Workflow">\n    <ui-select-option value="review" label="Design review" />\n    <ui-select-option value="release" label="Release candidate" />\n  </ui-select-group>\n</ui-select>`;

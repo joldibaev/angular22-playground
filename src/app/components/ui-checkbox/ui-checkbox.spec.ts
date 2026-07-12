@@ -126,7 +126,7 @@ describe('UiCheckbox', () => {
   it('should show validation errors when withErrorMessage is enabled', async () => {
     const hostFixture = await createSignalFormHostFixture();
     const checkbox = hostFixture.nativeElement.querySelector('ui-checkbox');
-    const message = checkbox.querySelector('.ui-checkbox-error');
+    const message = checkbox.querySelector('.ui-field-error-panel');
     const [input] = getCheckboxes(hostFixture);
 
     expect(message?.getAttribute('role')).toBe('alert');

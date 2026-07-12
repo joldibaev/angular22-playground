@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
   booleanAttribute,
@@ -23,7 +24,17 @@ import { syncPopover } from '../../shared/sync-popover';
 
 @Component({
   selector: 'ui-autocomplete',
-  imports: [Combobox, ComboboxPopup, ComboboxWidget, Listbox, Option, UiInput, UiIcon, UiLoading],
+  imports: [
+    Combobox,
+    ComboboxPopup,
+    ComboboxWidget,
+    Listbox,
+    NgTemplateOutlet,
+    Option,
+    UiIcon,
+    UiInput,
+    UiLoading,
+  ],
   templateUrl: './ui-autocomplete.html',
   styleUrls: ['../../shared/ui-popup.css', './ui-autocomplete.css'],
 })

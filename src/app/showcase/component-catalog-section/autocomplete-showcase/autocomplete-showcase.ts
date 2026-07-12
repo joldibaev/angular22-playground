@@ -93,7 +93,10 @@ readonly results = computed(() =>
 <ui-autocomplete label="Team" [(query)]="query">
   <ui-icon slot="start" name="outline-search" decorative />
   @for (team of results(); track team) {
-    <ui-autocomplete-option [value]="'team_' + team.toLowerCase()" [label]="team" />
+    <ui-autocomplete-option [value]="'team_' + team.toLowerCase()" [label]="team">
+      <ui-icon slot="start" name="outline-users" decorative />
+      <span slot="end">Team</span>
+    </ui-autocomplete-option>
   }
 </ui-autocomplete>`;
   protected readonly resourceCode = `readonly query = signal('');

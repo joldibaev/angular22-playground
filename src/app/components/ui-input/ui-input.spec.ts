@@ -164,12 +164,17 @@ describe('UiInput', () => {
     await hostFixture.whenStable();
 
     const control = hostFixture.nativeElement.querySelector('.ui-input-control') as HTMLElement;
-    const children = Array.from(control.children) as HTMLElement[];
+    const start = control.querySelector('.ui-input-slot-start') as HTMLElement;
+    const content = control.querySelector('.ui-input-control-content') as HTMLElement;
+    const end = control.querySelector('.ui-input-slot-end') as HTMLElement;
 
-    expect(children.map((child) => child.getAttribute('slot'))).toEqual(['start', null, 'end']);
-    expect(children[0].textContent?.trim()).toBe('$');
-    expect(children[1].tagName).toBe('INPUT');
-    expect(children[2].textContent?.trim()).toBe('USD');
+    expect(start.querySelector('[slot="start"]')?.textContent?.trim()).toBe('$');
+    expect(content.querySelector('input')).toBeTruthy();
+    expect(end.querySelector('[slot="end"]')?.textContent?.trim()).toBe('USD');
+    expect(getComputedStyle(control).gridTemplateAreas).toContain('start control end');
+    expect(getComputedStyle(start).gridArea).toBe('start');
+    expect(getComputedStyle(content).gridArea).toBe('control');
+    expect(getComputedStyle(end).gridArea).toBe('end');
   });
 
   it('should expose a passive loading state without disabling the control', async () => {
@@ -206,7 +211,7 @@ describe('UiInput', () => {
   it('should show validation errors in a floating message when withErrorMessage is enabled', async () => {
     const hostFixture = await createSignalFormHostFixture();
     const firstField = hostFixture.nativeElement.querySelector('ui-input');
-    const message = firstField.querySelector('.ui-input-error-panel');
+    const message = firstField.querySelector('.ui-field-error-panel');
     const input = firstField.querySelector('input') as HTMLInputElement;
 
     expect(message?.getAttribute('role')).toBe('alert');
@@ -225,7 +230,7 @@ describe('UiInput', () => {
     expect(input.disabled).toBe(true);
     // The error panel is always in the DOM (a manual popover), so "no error"
     // means it renders no message rather than being absent.
-    expect(disabledField.querySelector('.ui-input-error-panel')?.textContent?.trim()).toBe('');
+    expect(disabledField.querySelector('.ui-field-error-panel')?.textContent?.trim()).toBe('');
     expect(reason?.textContent).toContain('Routing note is managed automatically');
   });
 });

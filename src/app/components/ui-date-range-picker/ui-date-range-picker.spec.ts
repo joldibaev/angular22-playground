@@ -389,14 +389,14 @@ describe('UiDateRangePicker', () => {
     await openRangePicker(fixture);
 
     const host = fixture.nativeElement.querySelector('ui-date-range-picker') as HTMLElement;
-    const trigger = getTrigger(fixture);
+    const fieldSurface = host.querySelector('.ui-input-control') as HTMLElement;
     const panel = getPanel(fixture) as HTMLElement;
     const hostStyle = getComputedStyle(host);
-    const triggerStyle = getComputedStyle(trigger);
+    const fieldSurfaceStyle = getComputedStyle(fieldSurface);
     const panelStyle = getComputedStyle(panel);
 
     expect(hostStyle.anchorScope).toContain('--ui-date-range-trigger-');
-    expect(triggerStyle.anchorName).toContain('--ui-date-range-trigger-');
+    expect(fieldSurfaceStyle.anchorName).toContain('--ui-date-range-trigger-');
     expect(panelStyle.position).toBe('fixed');
     expect(panelStyle.positionAnchor).toContain('--ui-date-range-trigger-');
     expect(panelStyle.top).toContain('anchor(bottom)');

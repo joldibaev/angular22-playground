@@ -17,12 +17,12 @@ import {
   type ValidationError,
 } from '@angular/forms/signals';
 import { nextId } from '../../shared/unique-id';
+import { UiFieldError } from '../ui-field-error/ui-field-error';
 import { UiLoading } from '../ui-loading/ui-loading';
-import { UiInputError } from './ui-input-error/ui-input-error';
 
 @Component({
   selector: 'ui-input',
-  imports: [UiInputError, UiLoading],
+  imports: [UiFieldError, UiLoading],
   templateUrl: './ui-input.html',
   styleUrl: './ui-input.css',
   encapsulation: ViewEncapsulation.None,
@@ -33,10 +33,13 @@ export class UiInput {
   // must not steal focus or stop typing. Consumers can bind both when input is truly unavailable.
   readonly loading = input(false, { transform: booleanAttribute });
   readonly withErrorMessage = input(false, { transform: booleanAttribute });
+  // Composed popup controls anchor to the complete field surface, not the
+  // middle grid cell, so anchor-size(width) includes both adornment columns.
+  readonly popupAnchorName = input('');
   private readonly id = nextId();
   readonly labelId = `ui-input-label-${this.id}`;
   readonly controlId = `ui-input-control-${this.id}`;
-  readonly errorTooltipId = `ui-input-error-${this.id}`;
+  readonly errorId = `ui-field-error-${this.id}`;
 
   private readonly element = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly renderer = inject(Renderer2);
@@ -75,7 +78,7 @@ export class UiInput {
     );
   });
 
-  readonly showErrorTooltip = computed(
+  readonly showErrorMessage = computed(
     () => this.withErrorMessage() && this.invalid() && this.errorMessages().length > 0,
   );
 
@@ -111,8 +114,8 @@ export class UiInput {
     this.syncTokenAttribute(
       control,
       'aria-errormessage',
-      this.errorTooltipId,
-      this.showErrorTooltip(),
+      this.errorId,
+      this.showErrorMessage(),
     );
 
     if (this.invalid()) {

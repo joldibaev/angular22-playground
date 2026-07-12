@@ -283,14 +283,14 @@ describe('UiDatepicker', () => {
     await openDatepicker(fixture);
 
     const host = fixture.nativeElement.querySelector('ui-datepicker') as HTMLElement;
-    const trigger = getTrigger(fixture);
+    const fieldSurface = host.querySelector('.ui-input-control') as HTMLElement;
     const panel = getPanel(fixture) as HTMLElement;
     const hostStyle = getComputedStyle(host);
-    const triggerStyle = getComputedStyle(trigger);
+    const fieldSurfaceStyle = getComputedStyle(fieldSurface);
     const panelStyle = getComputedStyle(panel);
 
     expect(hostStyle.anchorScope).toContain('--ui-datepicker-trigger-');
-    expect(triggerStyle.anchorName).toContain('--ui-datepicker-trigger-');
+    expect(fieldSurfaceStyle.anchorName).toContain('--ui-datepicker-trigger-');
     expect(panelStyle.position).toBe('fixed');
     expect(panelStyle.inset).toBe('auto');
     expect(panelStyle.positionAnchor).toContain('--ui-datepicker-trigger-');

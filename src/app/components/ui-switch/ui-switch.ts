@@ -14,11 +14,13 @@ import {
   type WithOptionalFieldTree,
 } from '@angular/forms/signals';
 import { createFieldMessages } from '../../shared/field-messages';
+import { UiFieldError } from '../ui-field-error/ui-field-error';
 
 export type UiSwitchSize = 'sm' | 'md';
 
 @Component({
   selector: 'ui-switch',
+  imports: [UiFieldError],
   templateUrl: './ui-switch.html',
   styleUrl: './ui-switch.css',
   host: {

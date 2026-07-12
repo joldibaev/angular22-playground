@@ -262,7 +262,10 @@ export const browserSupportProfiles = {
     "contrast-color"
   ],
   "checkbox": [
-    "light-dark"
+    "light-dark",
+    "contrast-color",
+    "popover",
+    "anchor-name"
   ],
   "chip": [
     "light-dark",
@@ -325,7 +328,10 @@ export const browserSupportProfiles = {
     "light-dark"
   ],
   "radio": [
-    "light-dark"
+    "light-dark",
+    "contrast-color",
+    "popover",
+    "anchor-name"
   ],
   "select": [
     "light-dark",
@@ -344,7 +350,10 @@ export const browserSupportProfiles = {
     "interpolate-size"
   ],
   "switch": [
-    "light-dark"
+    "light-dark",
+    "contrast-color",
+    "popover",
+    "anchor-name"
   ],
   "table": [
     "light-dark",

@@ -21,6 +21,7 @@ export class BadgeShowcase {
   protected readonly iconCode = `<ui-badge variant="brand">
   <ui-icon slot="start" name="outline-circle-check" decorative [width]="14" [height]="14" />
   <span>Verified</span>
+  <span slot="end">Ready</span>
 </ui-badge>`;
   protected readonly notificationCode = `<button
   uiButton

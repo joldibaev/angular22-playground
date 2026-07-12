@@ -2,6 +2,7 @@
   [label]="label()"
   [loading]="loading()"
   [withErrorMessage]="withErrorMessage()"
+  popupAnchorName="--ui-autocomplete-trigger"
 >
   <span slot="start" class="ui-autocomplete-start">
     <ng-content select="[slot='start']" />
@@ -79,7 +80,13 @@
               [label]="option.label()"
               [disabled]="option.disabled()"
             >
+              <span class="ui-option-slot">
+                <ng-container [ngTemplateOutlet]="option.startTemplate()" />
+              </span>
               <span class="ui-autocomplete-option-label">{{ option.label() }}</span>
+              <span class="ui-option-slot">
+                <ng-container [ngTemplateOutlet]="option.endTemplate()" />
+              </span>
 
               @if (ngOption.selected()) {
                 <ui-icon name="outline-check" class="icon-check" />

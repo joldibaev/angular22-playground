@@ -1,3 +1,4 @@
+import { NgTemplateOutlet } from '@angular/common';
 import {
   afterRenderEffect,
   booleanAttribute,
@@ -30,7 +31,17 @@ type UiSelectRenderItem = {
 };
 @Component({
   selector: 'ui-select',
-  imports: [Combobox, ComboboxPopup, Listbox, ComboboxWidget, Option, UiInput, UiIcon, UiLoading],
+  imports: [
+    Combobox,
+    ComboboxPopup,
+    ComboboxWidget,
+    Listbox,
+    NgTemplateOutlet,
+    Option,
+    UiIcon,
+    UiInput,
+    UiLoading,
+  ],
   templateUrl: './ui-select.html',
   styleUrls: ['../../shared/ui-popup.css', './ui-select.css'],
 })
@@ -142,7 +153,10 @@ export class UiSelect implements FormValueControl<string> {
         return;
       }
 
-      if (nextValue === currentValue && nextPlaceholder === currentPlaceholder) {
+      if (
+        nextValue === currentValue &&
+        nextPlaceholder === currentPlaceholder
+      ) {
         this.pendingDisplayValue = nextValue;
         this.pendingPlaceholder = nextPlaceholder;
 

@@ -14,19 +14,25 @@
       </label>
     }
 
-    <ui-input-error
-      [open]="showErrorTooltip()"
+    <ui-field-error
+      class="ui-input-control"
+      [open]="showErrorMessage()"
       [messages]="errorMessages()"
-      [panelId]="errorTooltipId"
+      [panelId]="errorId"
+      [additionalAnchorName]="popupAnchorName()"
     >
-      <ng-content select="[slot='start']" />
-      <ng-content />
-      <ng-content select="[slot='end']" />
+      <div class="ui-input-slot ui-input-slot-start">
+        <ng-content select="[slot='start']" />
+      </div>
+      <div class="ui-input-control-content"><ng-content /></div>
+      <div class="ui-input-slot ui-input-slot-end">
+        <ng-content select="[slot='end']" />
 
-      @if (loading()) {
-        <ui-loading slot="end" class="ui-input-loading" decorative />
-      }
-    </ui-input-error>
+        @if (loading()) {
+          <ui-loading slot="end" class="ui-input-loading" decorative />
+        }
+      </div>
+    </ui-field-error>
 
     @if (disabledReasonMessages().length) {
       <span class="ui-input-disabled-reason">

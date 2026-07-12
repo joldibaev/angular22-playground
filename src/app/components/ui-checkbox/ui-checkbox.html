@@ -4,7 +4,12 @@
     [class.ui-checkbox-invalid]="invalid()"
     [class.ui-checkbox-disabled]="disabled()"
   >
-    <label class="ui-checkbox-label" [for]="controlId">
+    <ui-field-error
+      [open]="showErrorMessage()"
+      [messages]="errorMessages()"
+      [panelId]="errorId"
+    >
+      <label class="ui-checkbox-label" [for]="controlId">
       <input
         #control
         class="ui-checkbox-input"
@@ -44,15 +49,8 @@
           <span class="ui-checkbox-description" [id]="descriptionId">{{ description() }}</span>
         }
       </span>
-    </label>
-
-    @if (showErrorMessage()) {
-      <span class="ui-checkbox-error" [id]="errorId" role="alert">
-        @for (message of errorMessages(); track message) {
-          <span>{{ message }}</span>
-        }
-      </span>
-    }
+      </label>
+    </ui-field-error>
 
     @if (disabledReasonMessages().length) {
       <span class="ui-checkbox-disabled-reason" [id]="disabledReasonId">

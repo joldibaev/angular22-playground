@@ -36,6 +36,7 @@
   --ui-popup-option-radius: 0.5rem;
   --ui-popup-option-min-height: 2.25rem;
   --ui-popup-option-padding: 0 1rem;
+  --ui-popup-option-gap: 0.5rem;
   --ui-popup-option-hover-background: var(--ui-popup-interactive-hover-background);
   --ui-popup-option-selected-color: var(--ui-popup-accent-background);
   --ui-popup-option-selected-background: color-mix(
@@ -233,6 +234,7 @@
 .ui-popup-option {
   display: flex;
   align-items: center;
+  gap: var(--ui-popup-option-gap);
   min-height: var(--ui-popup-option-min-height);
   margin: 1px;
   border-radius: var(--ui-popup-option-radius);
@@ -302,4 +304,15 @@
     color: var(--ui-popup-option-selected-color);
     background-color: var(--ui-popup-option-selected-background);
   }
+}
+
+.ui-option-slot:not(:empty) {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-option-slot:empty {
+  display: none;
 }

@@ -10,10 +10,13 @@
         ><ui-tab-item value="preview" label="Preview"
           ><div class="preview">
             <ui-select label="Status" placeholder="Choose status"
-              ><ui-icon slot="start" name="outline-tag" decorative /><ui-select-option value="created" label="Created" /><ui-select-option
+              ><ui-icon slot="start" name="outline-tag" decorative /><ui-select-option value="created" label="Created"
+                ><ui-icon slot="start" name="outline-notes" decorative /></ui-select-option
+              ><ui-select-option
                 value="approved"
                 label="Approved"
-              /><ui-select-option value="paid" label="Paid" /></ui-select
+                ><ui-icon slot="start" name="outline-circle-check" decorative /><span slot="end">Ready</span></ui-select-option
+              ><ui-select-option value="paid" label="Paid" /></ui-select
             >
           </div></ui-tab-item
         ><ui-tab-item value="code" label="Code">

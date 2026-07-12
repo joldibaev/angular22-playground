@@ -83,7 +83,6 @@
   border: 1px solid var(--ui-switch-current-border-color);
   border-radius: var(--ui-switch-track-height);
   background-color: var(--ui-switch-background);
-  margin-top: 0.0625rem;
   position: relative;
   transition:
     background-color var(--ui-switch-state-duration) var(--ui-switch-motion-easing),
@@ -151,6 +150,8 @@
 }
 
 .ui-switch-title {
+  min-height: var(--ui-switch-track-height);
+  align-content: center;
   color: var(--ui-switch-label-color);
   font-size: 0.875rem;
   font-weight: 600;
@@ -164,7 +165,6 @@
 }
 
 .ui-switch-description,
-.ui-switch-error,
 .ui-switch-disabled-reason {
   color: var(--ui-switch-muted-color);
   font-size: 0.875rem;
@@ -175,12 +175,6 @@
   & span {
     display: block;
   }
-}
-
-.ui-switch-error {
-  color: var(--ui-switch-invalid-color);
-  font-size: 0.75rem;
-  padding-left: calc(var(--ui-switch-track-width) + 0.75rem);
 }
 
 .ui-switch-disabled-reason {

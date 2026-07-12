@@ -16,10 +16,12 @@ import {
 } from '@angular/forms/signals';
 import { createFieldMessages } from '../../../shared/field-messages';
 import { nextId } from '../../../shared/unique-id';
+import { UiFieldError } from '../../ui-field-error/ui-field-error';
 import { UI_RADIO_GROUP, type UiRadioGroupControl, type UiRadioSize } from './ui-radio-group.token';
 
 @Component({
   selector: 'ui-radio-group',
+  imports: [UiFieldError],
   providers: [{ provide: UI_RADIO_GROUP, useExisting: forwardRef(() => UiRadioGroup) }],
   templateUrl: './ui-radio-group.html',
   styleUrl: './ui-radio-group.css',

@@ -2,6 +2,7 @@
   [label]="label()"
   [loading]="loading()"
   [withErrorMessage]="withErrorMessage()"
+  popupAnchorName="--ui-select-trigger"
 >
   <span slot="start" class="ui-select-start">
     <ng-content select="[slot='start']" />
@@ -90,7 +91,13 @@
                     [value]="option.value()"
                     [disabled]="option.disabled()"
                   >
+                    <span class="ui-option-slot">
+                      <ng-container [ngTemplateOutlet]="option.startTemplate()" />
+                    </span>
                     <span class="flex-1">{{ option.label() }}</span>
+                    <span class="ui-option-slot">
+                      <ng-container [ngTemplateOutlet]="option.endTemplate()" />
+                    </span>
 
                     @if (ngOption.selected()) {
                       <ui-icon name="outline-check" class="icon-check" />
@@ -106,7 +113,13 @@
                 [value]="option.value()"
                 [disabled]="option.disabled()"
               >
+                <span class="ui-option-slot">
+                  <ng-container [ngTemplateOutlet]="option.startTemplate()" />
+                </span>
                 <span class="flex-1">{{ option.label() }}</span>
+                <span class="ui-option-slot">
+                  <ng-container [ngTemplateOutlet]="option.endTemplate()" />
+                </span>
 
                 @if (ngOption.selected()) {
                   <ui-icon name="outline-check" class="icon-check" />

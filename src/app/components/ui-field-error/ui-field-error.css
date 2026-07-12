@@ -1,0 +1,21 @@
+ui-field-error {
+  display: grid;
+  min-width: 0;
+  width: 100%;
+}
+
+.ui-field-error-panel {
+  --ui-panel-background: var(--color-destructive);
+  --ui-panel-text-color: contrast-color(var(--ui-panel-background));
+  --ui-panel-gap: 0.25rem;
+}
+
+/* Validation messages are cleared as soon as the value becomes valid. Keep
+   open and close immediate so an exit cannot expose an empty panel frame. */
+.ui-field-error-panel:where([popover]) {
+  transition: none;
+}
+
+.ui-field-error-surface span {
+  display: block;
+}

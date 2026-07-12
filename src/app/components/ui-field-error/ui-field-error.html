@@ -1,0 +1,18 @@
+<ng-content />
+
+<!-- The panel stays mounted so validation state can drive the native manual
+     popover without requiring a trigger or changing the accessible relation. -->
+<div
+  #panel
+  class="ui-field-error-panel arrow-panel arrow-panel--top arrow-panel--fallback"
+  popover="manual"
+  [id]="panelId()"
+  role="alert"
+  [style.position-anchor]="anchorName"
+>
+  <span class="ui-field-error-surface arrow-panel-surface">
+    @for (message of messages(); track message) {
+      <span>{{ message }}</span>
+    }
+  </span>
+</div>

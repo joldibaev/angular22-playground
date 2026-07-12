@@ -21,17 +21,15 @@
       <span class="ui-radio-group-description" [id]="descriptionId">{{ description() }}</span>
     }
 
-    <div class="ui-radio-group-options">
-      <ng-content />
-    </div>
-
-    @if (showErrorMessage()) {
-      <span class="ui-radio-group-error" [id]="errorId" role="alert">
-        @for (message of errorMessages(); track message) {
-          <span>{{ message }}</span>
-        }
-      </span>
-    }
+    <ui-field-error
+      [open]="showErrorMessage()"
+      [messages]="errorMessages()"
+      [panelId]="errorId"
+    >
+      <div class="ui-radio-group-options">
+        <ng-content />
+      </div>
+    </ui-field-error>
 
     @if (disabledReasonMessages().length) {
       <span class="ui-radio-group-disabled-reason" [id]="disabledReasonId">

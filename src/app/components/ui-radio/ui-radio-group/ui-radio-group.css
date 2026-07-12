@@ -47,7 +47,6 @@
 }
 
 .ui-radio-group-description,
-.ui-radio-group-error,
 .ui-radio-group-disabled-reason {
   color: var(--ui-radio-group-muted-color);
   font-size: 0.875rem;
@@ -58,9 +57,4 @@
   & span {
     display: block;
   }
-}
-
-.ui-radio-group-error {
-  color: var(--ui-radio-group-invalid-color);
-  font-size: 0.75rem;
 }

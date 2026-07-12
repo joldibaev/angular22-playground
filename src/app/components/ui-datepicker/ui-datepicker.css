@@ -21,40 +21,11 @@
 .ui-datepicker-trigger {
   appearance: none;
   display: flex;
-  position: relative;
   align-items: center;
-  gap: 0.625rem;
   width: 100%;
   min-width: 0;
-  /* Tracks the wrapped ui-input's control-size scale (inherited tokens). */
-  height: var(--ui-input-control-height, 2.5rem);
   cursor: pointer;
-  border: 1px solid var(--ui-input-current-border-color, var(--border-color-default));
-  border-radius: 0.5rem;
-  background-color: var(--ui-input-background, var(--background-color-surface));
-  color: contrast-color(var(--ui-input-background, var(--background-color-surface)));
-  font: inherit;
-  font-size: var(--ui-input-control-font-size, 1rem);
-  padding: 0 0.75rem;
   text-align: start;
-  outline: none;
-
-  &:disabled {
-    cursor: default;
-    opacity: var(--opacity-disabled);
-  }
-
-  &:focus-visible,
-  &[aria-expanded='true'] {
-    border-color: var(--ui-input-current-focus-visible-border-color, var(--color-brand));
-    outline: 3px solid
-      color-mix(
-        in oklab,
-        var(--ui-input-current-focus-visible-border-color, var(--color-brand)) 50%,
-        transparent
-      );
-  }
-
 }
 
 ui-input:has(.ui-datepicker-trigger[aria-expanded='true']) .ui-datepicker-chevron {

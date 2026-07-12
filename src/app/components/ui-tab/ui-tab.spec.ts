@@ -68,6 +68,25 @@ class LineFluidTestHost {
   readonly tab = viewChild.required(UiTab);
 }
 
+@Component({
+  imports: [UiTab, UiTabItem, UiTabLabel],
+  template: `
+    <ui-tab>
+      <ui-tab-item value="preview" label="Preview">
+        <ui-tab>
+          <ui-tab-item value="overview">
+            <ng-template uiTabLabel>Overview</ng-template>
+            Overview panel
+          </ui-tab-item>
+          <ui-tab-item value="activity" label="Activity">Activity panel</ui-tab-item>
+        </ui-tab>
+      </ui-tab-item>
+      <ui-tab-item value="code" label="Code">Code panel</ui-tab-item>
+    </ui-tab>
+  `,
+})
+class NestedTestHost {}
+
 async function createHostFixture(): Promise<ComponentFixture<TestHost>> {
   const hostFixture = TestBed.createComponent(TestHost);
   hostFixture.detectChanges();
@@ -181,6 +200,20 @@ describe('UiTab', () => {
         child.getAttribute('slot'),
       ),
     ).toEqual(['start', 'end']);
+  });
+
+  it('should not use a nested tab label as the parent item label', async () => {
+    const hostFixture = TestBed.createComponent(NestedTestHost);
+    await hostFixture.whenStable();
+
+    const outerTabList = hostFixture.nativeElement.querySelector(
+      'ui-tab > .ui-tab-root > [role="tablist"]',
+    ) as HTMLElement;
+    const outerTabs = Array.from(outerTabList.children).filter(
+      (child): child is HTMLElement => child.getAttribute('role') === 'tab',
+    );
+
+    expect(outerTabs.map((tab) => tab.textContent?.trim())).toEqual(['Preview', 'Code']);
   });
 
   it('should switch selected tabs with Angular Aria harnesses', async () => {

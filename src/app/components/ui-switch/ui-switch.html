@@ -4,7 +4,12 @@
     [class.ui-switch-invalid]="invalid()"
     [class.ui-switch-disabled]="disabled()"
   >
-    <label class="ui-switch-label" [for]="controlId">
+    <ui-field-error
+      [open]="showErrorMessage()"
+      [messages]="errorMessages()"
+      [panelId]="errorId"
+    >
+      <label class="ui-switch-label" [for]="controlId">
       <input
         #control
         class="ui-switch-input"
@@ -42,15 +47,8 @@
           <span class="ui-switch-description" [id]="descriptionId">{{ description() }}</span>
         }
       </span>
-    </label>
-
-    @if (showErrorMessage()) {
-      <span class="ui-switch-error" [id]="errorId" role="alert">
-        @for (message of errorMessages(); track message) {
-          <span>{{ message }}</span>
-        }
-      </span>
-    }
+      </label>
+    </ui-field-error>
 
     @if (disabledReasonMessages().length) {
       <span class="ui-switch-disabled-reason" [id]="disabledReasonId">

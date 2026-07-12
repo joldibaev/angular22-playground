@@ -1,4 +1,12 @@
-import { booleanAttribute, Component, ElementRef, inject, input } from '@angular/core';
+import {
+  booleanAttribute,
+  Component,
+  ElementRef,
+  inject,
+  input,
+  TemplateRef,
+  viewChild,
+} from '@angular/core';
 
 @Component({
   selector: 'ui-select-option',
@@ -7,6 +15,8 @@ import { booleanAttribute, Component, ElementRef, inject, input } from '@angular
 })
 export class UiSelectOption {
   readonly element = inject(ElementRef<HTMLElement>);
+  readonly startTemplate = viewChild.required<TemplateRef<unknown>>('start');
+  readonly endTemplate = viewChild.required<TemplateRef<unknown>>('end');
 
   value = input.required<string>();
   label = input.required<string>();

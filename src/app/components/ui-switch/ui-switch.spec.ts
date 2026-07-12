@@ -118,7 +118,7 @@ describe('UiSwitch', () => {
   it('should show validation errors when withErrorMessage is enabled', async () => {
     const hostFixture = await createSignalFormHostFixture();
     const switchField = hostFixture.nativeElement.querySelector('ui-switch');
-    const message = switchField.querySelector('.ui-switch-error');
+    const message = switchField.querySelector('.ui-field-error-panel');
     const [input] = getSwitches(hostFixture);
 
     expect(message?.getAttribute('role')).toBe('alert');

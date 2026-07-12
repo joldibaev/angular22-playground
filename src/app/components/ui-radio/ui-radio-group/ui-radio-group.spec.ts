@@ -104,7 +104,7 @@ describe('UiRadioGroup', () => {
     const hostFixture = await createSignalFormHostFixture();
     const [lowRadio, highRadio] = getRadios(hostFixture);
     const description = hostFixture.nativeElement.querySelector('.ui-radio-group-description');
-    const error = hostFixture.nativeElement.querySelector('.ui-radio-group-error');
+    const error = hostFixture.nativeElement.querySelector('.ui-field-error-panel');
 
     // The group's name (auto-generated; it can't be set as an attribute on a
     // [formField] node) must propagate to every child radio so native grouping
@@ -134,7 +134,7 @@ describe('UiRadioGroup', () => {
   it('should show validation errors when withErrorMessage is enabled', async () => {
     const hostFixture = await createSignalFormHostFixture();
     const group = hostFixture.nativeElement.querySelector('ui-radio-group');
-    const message = group.querySelector('.ui-radio-group-error');
+    const message = group.querySelector('.ui-field-error-panel');
 
     expect(message?.getAttribute('role')).toBe('alert');
     expect(message?.textContent).toContain('Priority is required');
