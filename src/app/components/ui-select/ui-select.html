@@ -3,6 +3,10 @@
   [loading]="loading()"
   [withErrorMessage]="withErrorMessage()"
 >
+  <span slot="start" class="ui-select-start">
+    <ng-content select="[slot='start']" />
+  </span>
+
   <div
     ngCombobox
     #combobox="ngCombobox"
@@ -23,11 +27,14 @@
         {{ displayedValue() }}
       </span>
     </span>
-
-    @if (!loading()) {
-      <ui-icon name="outline-chevron-down" class="icon-chevron-down" />
-    }
   </div>
+
+  @if (!loading()) {
+    <span slot="end" class="ui-select-end">
+      <ng-content select="[slot='end']" />
+      <ui-icon name="outline-chevron-down" class="icon-chevron-down" decorative />
+    </span>
+  }
 </ui-input>
 
 <!-- The popup stays mounted after its first open: @angular/aria's ComboboxPopup

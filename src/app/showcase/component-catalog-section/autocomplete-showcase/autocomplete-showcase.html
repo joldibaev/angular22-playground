@@ -13,6 +13,7 @@
         ><ui-tab-item value="preview" label="Preview"
           ><div class="preview">
             <ui-autocomplete label="Team" [(query)]="teamQuery">
+              <ui-icon slot="start" name="outline-search" decorative />
               @for (team of filteredTeams(); track team) {
                 <ui-autocomplete-option [value]="'team_' + team.toLowerCase()" [label]="team" />
               }

@@ -2,12 +2,14 @@ import {
   booleanAttribute,
   Component,
   computed,
+  contentChild,
   ElementRef,
   inject,
   input,
   TemplateRef,
   viewChild,
 } from '@angular/core';
+import { UiTabLabel } from './ui-tab-label';
 
 @Component({
   selector: 'ui-tab-item',
@@ -18,6 +20,7 @@ import {
 export class UiTabItem {
   readonly element = inject(ElementRef<HTMLElement>);
   readonly template = viewChild.required<TemplateRef<unknown>>('content');
+  readonly labelTemplate = contentChild(UiTabLabel);
 
   value = input.required<string>();
   disabled = input(false, { transform: booleanAttribute });

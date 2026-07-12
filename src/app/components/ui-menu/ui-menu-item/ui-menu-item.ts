@@ -15,6 +15,7 @@ export type UiMenuItemVariant = 'default' | 'destructive';
   selector: 'ui-menu-item',
   imports: [],
   templateUrl: './ui-menu-item.html',
+  styleUrl: './ui-menu-item.css',
   host: { class: 'hidden' },
 })
 export class UiMenuItem {

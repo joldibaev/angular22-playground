@@ -81,6 +81,17 @@
   min-width: 0;
 }
 
+.ui-accordion-slot:not(:empty) {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-accordion-slot:empty {
+  display: none;
+}
+
 .ui-accordion-chevron {
   flex: none;
   color: var(--text-color-muted);

@@ -15,6 +15,8 @@ import { UiAccordionItem } from './ui-accordion-item';
         [headingLevel]="4"
         [(expanded)]="expanded"
       >
+        <span slot="start" aria-hidden="true">S</span>
+        <span slot="end" aria-hidden="true">E</span>
         <input aria-label="Remembered value" value="draft" />
       </ui-accordion-item>
       <ui-accordion-item label="Security">Security content</ui-accordion-item>
@@ -49,6 +51,9 @@ describe('UiAccordionItem', () => {
     expect(panel.getAttribute('aria-labelledby')).toBe(trigger.id);
     expect(panel.hasAttribute('inert')).toBe(true);
     expect(heading.getAttribute('aria-level')).toBe('4');
+    expect(trigger.querySelector('[slot="start"]')?.textContent).toBe('S');
+    expect(trigger.querySelector('[slot="end"]')?.textContent).toBe('E');
+    expect(panel.querySelector('[slot]')).toBeNull();
   });
 
   it('two-way binds expansion and preserves lazy content after collapse', async () => {

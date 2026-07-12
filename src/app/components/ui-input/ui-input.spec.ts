@@ -62,6 +62,18 @@ class DynamicLabelTestHost {
   readonly label = signal('Account name');
 }
 
+@Component({
+  imports: [UiInput],
+  template: `
+    <ui-input label="Amount">
+      <span slot="start" aria-hidden="true">$</span>
+      <input inputmode="decimal" />
+      <span slot="end">USD</span>
+    </ui-input>
+  `,
+})
+class SlottedContentTestHost {}
+
 function dispatchInputEvent(input: HTMLInputElement, value: string): void {
   input.value = value;
   input.dispatchEvent(new Event('input', { bubbles: true, cancelable: true }));
@@ -144,6 +156,20 @@ describe('UiInput', () => {
     const [titleInput] = getInputs(hostFixture);
 
     expect(titleInput.placeholder).toBe('Ticket title');
+  });
+
+  it('should place start and end slots beside the projected control', async () => {
+    const hostFixture = TestBed.createComponent(SlottedContentTestHost);
+    hostFixture.detectChanges();
+    await hostFixture.whenStable();
+
+    const control = hostFixture.nativeElement.querySelector('.ui-input-control') as HTMLElement;
+    const children = Array.from(control.children) as HTMLElement[];
+
+    expect(children.map((child) => child.getAttribute('slot'))).toEqual(['start', null, 'end']);
+    expect(children[0].textContent?.trim()).toBe('$');
+    expect(children[1].tagName).toBe('INPUT');
+    expect(children[2].textContent?.trim()).toBe('USD');
   });
 
   it('should expose a passive loading state without disabling the control', async () => {

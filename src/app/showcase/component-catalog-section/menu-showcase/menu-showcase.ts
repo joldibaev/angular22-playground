@@ -38,10 +38,13 @@ export class MenuShowcase {
 </button>
 <ui-menu #defaultMenu (itemSelected)="selected.set($event)">
   <ui-menu-item value="duplicate">
-    <ui-icon name="outline-copy" decorative />Duplicate
+    <ui-icon slot="start" name="outline-copy" decorative />
+    <span>Duplicate</span>
+    <kbd slot="end">⌘D</kbd>
   </ui-menu-item>
   <ui-menu-item value="archive">
-    <ui-icon name="outline-archive" decorative />Archive
+    <ui-icon slot="start" name="outline-archive" decorative />
+    <span>Archive</span>
   </ui-menu-item>
 </ui-menu>`;
   protected readonly groupCode = `<button
@@ -55,19 +58,23 @@ export class MenuShowcase {
 </button>
 <ui-menu #groupedMenu (itemSelected)="selected.set($event)">
   <ui-menu-item value="inspect">
-    <ui-icon name="outline-search" decorative />Inspect
+    <ui-icon slot="start" name="outline-search" decorative />
+    <span>Inspect</span>
   </ui-menu-item>
   <ui-menu-group label="Editing">
     <ui-menu-item value="duplicate">
-      <ui-icon name="outline-copy" decorative />Duplicate
+      <ui-icon slot="start" name="outline-copy" decorative />
+      <span>Duplicate</span>
     </ui-menu-item>
     <ui-menu-item value="rename">
-      <ui-icon name="outline-edit" decorative />Rename
+      <ui-icon slot="start" name="outline-edit" decorative />
+      <span>Rename</span>
     </ui-menu-item>
   </ui-menu-group>
   <ui-menu-group label="Danger zone">
     <ui-menu-item value="archive">
-      <ui-icon name="outline-archive" decorative />Archive
+      <ui-icon slot="start" name="outline-archive" decorative />
+      <span>Archive</span>
     </ui-menu-item>
   </ui-menu-group>
 </ui-menu>`;
@@ -82,13 +89,16 @@ export class MenuShowcase {
 </button>
 <ui-menu #stateMenu (itemSelected)="selected.set($event)">
   <ui-menu-item value="edit">
-    <ui-icon name="outline-pencil" decorative />Edit
+    <ui-icon slot="start" name="outline-pencil" decorative />
+    <span>Edit</span>
   </ui-menu-item>
   <ui-menu-item value="locked" disabled>
-    <ui-icon name="outline-lock" decorative />Locked action
+    <ui-icon slot="start" name="outline-lock" decorative />
+    <span>Locked action</span>
   </ui-menu-item>
   <ui-menu-item value="remove" variant="destructive">
-    <ui-icon name="outline-trash" decorative />Remove
+    <ui-icon slot="start" name="outline-trash" decorative />
+    <span>Remove</span>
   </ui-menu-item>
 </ui-menu>`;
 }

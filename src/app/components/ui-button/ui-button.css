@@ -218,6 +218,17 @@
   gap: inherit;
 }
 
+.ui-button-slot:not(:empty) {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-button-slot:empty {
+  display: none;
+}
+
 .ui-button-state {
   position: relative;
   transform: translateY(0);

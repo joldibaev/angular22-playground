@@ -18,7 +18,10 @@ export class BadgeShowcase {
   protected readonly defaultCode = `import { UiBadge } from './components/ui-badge/ui-badge';\n\n<ui-badge>Draft</ui-badge>`;
   protected readonly variantsCode = `<ui-badge>Secondary</ui-badge>\n<ui-badge variant="contrast">Contrast</ui-badge>\n<ui-badge variant="brand">Brand</ui-badge>\n<ui-badge variant="outline">Outline</ui-badge>\n<ui-badge variant="destructive">Destructive</ui-badge>`;
   protected readonly dotCode = `<ui-badge withDot>Processing</ui-badge>\n<ui-badge variant="destructive" withDot>Blocked</ui-badge>`;
-  protected readonly iconCode = `<ui-badge variant="brand">\n  <ui-icon name="outline-circle-check" decorative [width]="14" [height]="14" />\n  Verified\n</ui-badge>`;
+  protected readonly iconCode = `<ui-badge variant="brand">
+  <ui-icon slot="start" name="outline-circle-check" decorative [width]="14" [height]="14" />
+  <span>Verified</span>
+</ui-badge>`;
   protected readonly notificationCode = `<button
   uiButton
   type="button"

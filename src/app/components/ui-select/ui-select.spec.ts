@@ -14,6 +14,8 @@ import { UiSelectOption } from './ui-select-option/ui-select-option';
   imports: [UiSelect, UiSelectOption],
   template: `
     <ui-select>
+      <span slot="start">S</span>
+      <span slot="end">E</span>
       <ui-select-option value="created" label="Created" />
       <ui-select-option value="approved" label="Approved" />
       <ui-select-option value="paid" label="Paid" />
@@ -50,7 +52,11 @@ class PlaceholderTestHost {
 
 @Component({
   imports: [UiSelect],
-  template: `<ui-select loading loadingText="Fetching statuses" />`,
+  template: `
+    <ui-select loading loadingText="Fetching statuses">
+      <span slot="end">E</span>
+    </ui-select>
+  `,
 })
 class LoadingTestHost {
   readonly select = viewChild.required(UiSelect);
@@ -267,6 +273,16 @@ describe('UiSelect', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should forward start and end content to the wrapped ui-input', async () => {
+    const hostFixture = await createHostFixture();
+    const start = hostFixture.nativeElement.querySelector('.ui-select-start > [slot="start"]');
+    const end = hostFixture.nativeElement.querySelector('.ui-select-end > [slot="end"]');
+
+    expect(start?.textContent).toBe('S');
+    expect(end?.textContent).toBe('E');
+    expect(hostFixture.nativeElement.querySelector('.ui-select-end .icon-chevron-down')).toBeTruthy();
+  });
+
   it('should expose disabled options through Angular Aria', async () => {
     const hostFixture = TestBed.createComponent(DisabledOptionTestHost);
     await hostFixture.whenStable();
@@ -311,7 +327,8 @@ describe('UiSelect', () => {
     expect(combobox.getAttribute('aria-busy')).toBe('true');
     expect(combobox.getAttribute('aria-disabled')).not.toBe('true');
     expect(hostFixture.nativeElement.querySelector('.ui-input-loading')).toBeTruthy();
-    expect(combobox.querySelector('.icon-chevron-down')).toBeNull();
+    expect(hostFixture.nativeElement.querySelector('.icon-chevron-down')).toBeNull();
+    expect(hostFixture.nativeElement.querySelector('.ui-select-end')).toBeNull();
 
     // Mirror openPopup(): the deferred ngComboboxPopup only materialises the
     // popup content after a change detection pass following the expand.

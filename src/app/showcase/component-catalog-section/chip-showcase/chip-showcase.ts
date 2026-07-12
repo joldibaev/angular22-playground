@@ -3,6 +3,7 @@ import { Component, signal } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { UiCard } from '../../../components/ui-card/ui-card';
 import { UiChip } from '../../../components/ui-chip/ui-chip';
+import { UiIcon } from '../../../components/ui-icon/ui-icon';
 import { UiTab } from '../../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 
@@ -10,7 +11,7 @@ const INITIAL_TAGS = ['Design', 'Angular', 'CSS', 'A11y'];
 
 @Component({
   selector: 'app-chip-showcase',
-  imports: [ShowcaseCode, UiButton, UiCard, UiChip, UiTab, UiTabItem],
+  imports: [ShowcaseCode, UiButton, UiCard, UiChip, UiIcon, UiTab, UiTabItem],
   templateUrl: './chip-showcase.html',
   styleUrl: './chip-showcase.css',
 })
@@ -24,7 +25,8 @@ export class ChipShowcase {
   removeLabel="Remove Angular"
   (remove)="reportRemoval('Angular')"
 >
-  Angular
+  <ui-icon slot="start" name="outline-tag" decorative />
+  <span>Angular</span>
 </ui-chip>`;
 
   protected readonly variantCode = `<ui-chip removeLabel="Remove design" (remove)="reportRemoval('Design')">Design</ui-chip>

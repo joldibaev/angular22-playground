@@ -41,7 +41,12 @@ export class ButtonShowcase {
   Save changes
 </button>`;
   protected readonly iconsCode = `<button uiButton type="button" variant="brand">
-  <ui-icon name="outline-plus" decorative />Create
+  <ui-icon slot="start" name="outline-plus" decorative />
+  <span>Create</span>
+</button>
+<button uiButton type="button" variant="outline">
+  <span>Continue</span>
+  <ui-icon slot="end" name="outline-chevron-right" decorative />
 </button>
 <button uiButton type="button" variant="ghost" iconOnly aria-label="Settings">
   <ui-icon name="outline-settings" decorative />

@@ -18,6 +18,11 @@ import { UiButton } from './ui-button';
     <button uiButton type="button" rounded>Pill</button>
     <button uiButton type="button" size="sm">Small</button>
     <button uiButton type="button" fluid>Fluid</button>
+    <button uiButton type="button" class="slotted">
+      <span slot="start">+</span>
+      <span>Create</span>
+      <span slot="end">⌘N</span>
+    </button>
   `,
 })
 class TestHost {
@@ -115,5 +120,16 @@ describe('UiButton', () => {
 
     expect(button.classList.contains('ui-button-fluid')).toBe(true);
     expect(getComputedStyle(button).width).toBe('100%');
+  });
+
+  it('should project start and end slots around ordinary content', () => {
+    const content = fixture.nativeElement.querySelector(
+      'button.slotted .ui-button-content',
+    ) as HTMLElement;
+    const children = Array.from(content.querySelectorAll<HTMLElement>('[slot]'));
+
+    expect(children.map((child) => child.getAttribute('slot'))).toEqual(['start', 'end']);
+    expect(children.map((child) => child.textContent?.trim())).toEqual(['+', '⌘N']);
+    expect(content.textContent).toContain('Create');
   });
 });

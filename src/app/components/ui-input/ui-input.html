@@ -19,10 +19,12 @@
       [messages]="errorMessages()"
       [panelId]="errorTooltipId"
     >
+      <ng-content select="[slot='start']" />
       <ng-content />
+      <ng-content select="[slot='end']" />
 
       @if (loading()) {
-        <ui-loading class="ui-input-loading" decorative />
+        <ui-loading slot="end" class="ui-input-loading" decorative />
       }
     </ui-input-error>
 

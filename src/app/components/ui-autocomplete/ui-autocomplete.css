@@ -18,6 +18,11 @@
   anchor-name: --ui-autocomplete-trigger;
 }
 
+.ui-autocomplete-start,
+.ui-autocomplete-end {
+  gap: 0.375rem;
+}
+
 .ui-autocomplete-popup {
   --ui-popup-width: fit-content;
   --ui-popup-min-width: anchor-size(width);

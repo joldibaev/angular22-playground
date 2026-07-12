@@ -71,6 +71,17 @@
   display: contents;
 }
 
+.ui-badge-slot:not(:empty) {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-badge-slot:empty {
+  display: none;
+}
+
 :host(.ui-badge-notification) {
   pointer-events: none;
   translate: -8px 8px;

@@ -1,0 +1,21 @@
+.ui-menu-item-slot:not(:empty) {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-menu-item-slot:empty {
+  display: none;
+}
+
+.ui-menu-item-content {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ui-menu-item-end:not(:empty) {
+  margin-inline-start: auto;
+}

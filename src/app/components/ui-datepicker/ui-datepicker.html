@@ -3,6 +3,8 @@
   [loading]="loading()"
   [withErrorMessage]="withErrorMessage()"
 >
+  <ui-icon slot="start" name="outline-calendar" class="ui-datepicker-trigger-icon" decorative />
+
   <button
     #trigger
     uiInputControl
@@ -16,10 +18,6 @@
     (click)="toggle()"
     (blur)="touch.emit()"
   >
-    <span class="ui-datepicker-trigger-icon" aria-hidden="true">
-      <ui-icon name="outline-calendar" />
-    </span>
-
     <span
       #triggerLabel
       class="ui-datepicker-trigger-label calendar-trigger-swap"
@@ -29,11 +27,11 @@
     >
       {{ displayedTriggerValue() }}
     </span>
-
-    @if (!loading()) {
-      <ui-icon name="outline-chevron-down" class="ui-datepicker-chevron" />
-    }
   </button>
+
+  @if (!loading()) {
+    <ui-icon slot="end" name="outline-chevron-down" class="ui-datepicker-chevron" decorative />
+  }
 </ui-input>
 
 <!-- The panel stays mounted and is shown/hidden through the popover API

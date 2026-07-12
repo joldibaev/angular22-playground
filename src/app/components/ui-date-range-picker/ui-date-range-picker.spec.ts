@@ -111,7 +111,7 @@ describe('UiDateRangePicker', () => {
     expect(trigger.getAttribute('aria-busy')).toBe('true');
     expect(trigger.disabled).toBe(false);
     expect(fixture.nativeElement.querySelector('.ui-input-loading')).toBeTruthy();
-    expect(trigger.querySelector('.ui-date-range-chevron')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.ui-date-range-chevron')).toBeNull();
   });
 
   it('should render the selected range in the trigger', async () => {

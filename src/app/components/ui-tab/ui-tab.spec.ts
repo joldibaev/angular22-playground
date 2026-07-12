@@ -5,12 +5,20 @@ import { TabsHarness } from '@angular/aria/tabs/testing';
 import { Router, provideRouter } from '@angular/router';
 import { UiTab } from './ui-tab';
 import { UiTabItem } from './ui-tab-item/ui-tab-item';
+import { UiTabLabel } from './ui-tab-item/ui-tab-label';
 
 @Component({
-  imports: [UiTab, UiTabItem],
+  imports: [UiTab, UiTabItem, UiTabLabel],
   template: `
     <ui-tab [(selectedTab)]="selected">
-      <ui-tab-item value="overview" label="Overview">Overview panel</ui-tab-item>
+      <ui-tab-item value="overview">
+        <ng-template uiTabLabel>
+          <span slot="start" aria-hidden="true"></span>
+          <span>Overview</span>
+          <span slot="end" aria-hidden="true"></span>
+        </ng-template>
+        Overview panel
+      </ui-tab-item>
       <ui-tab-item value="activity" label="Activity">Activity panel</ui-tab-item>
       <ui-tab-item value="billing" label="Billing" [disabled]="true">Billing panel</ui-tab-item>
     </ui-tab>
@@ -168,6 +176,11 @@ describe('UiTab', () => {
     expect(panels[2].hasAttribute('inert')).toBe(true);
     expect(tabs[0].getAttribute('aria-controls')).toBe(panels[0].id);
     expect(panels[0].getAttribute('aria-labelledby')).toBe(tabs[0].id);
+    expect(
+      Array.from(tabs[0].querySelectorAll<HTMLElement>('[slot]')).map((child) =>
+        child.getAttribute('slot'),
+      ),
+    ).toEqual(['start', 'end']);
   });
 
   it('should switch selected tabs with Angular Aria harnesses', async () => {

@@ -3,13 +3,14 @@ import { Component, signal } from '@angular/core';
 import { disabled, email, FormField, form, max, min, required } from '@angular/forms/signals';
 import { RouterLink } from '@angular/router';
 import { UiCard } from '../../../components/ui-card/ui-card';
+import { UiIcon } from '../../../components/ui-icon/ui-icon';
 import { UiInput } from '../../../components/ui-input/ui-input';
 import { UiMask } from '../../../components/ui-mask/ui-mask';
 import { UiTab } from '../../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 @Component({
   selector: 'app-input-showcase',
-  imports: [ShowcaseCode, FormField, RouterLink, UiCard, UiInput, UiMask, UiTab, UiTabItem],
+  imports: [ShowcaseCode, FormField, RouterLink, UiCard, UiIcon, UiInput, UiMask, UiTab, UiTabItem],
   templateUrl: './input-showcase.html',
   styleUrl: './input-showcase.css',
 })
@@ -29,6 +30,11 @@ export class InputShowcase {
     max(path.quantity, 100, { message: 'Quantity cannot exceed 100' });
   });
   protected readonly defaultCode = `<ui-input label="Email">\n  <input type="email" autocomplete="email" />\n</ui-input>`;
+  protected readonly slotsCode = `<ui-input label="Search">
+  <ui-icon slot="start" name="outline-search" decorative />
+  <input type="search" placeholder="Search records" />
+  <kbd slot="end">⌘K</kbd>
+</ui-input>`;
   protected readonly numberCode = `min(path.quantity, 1);
 max(path.quantity, 100);
 

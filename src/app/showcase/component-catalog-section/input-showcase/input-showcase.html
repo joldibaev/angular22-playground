@@ -22,6 +22,24 @@
     >
   </section>
   <section>
+    <h5>Start and end content</h5>
+    <ui-card variant="outlined"
+      ><ui-tab size="sm" aria-label="Input slot example"
+        ><ui-tab-item value="preview" label="Preview"
+          ><div class="preview">
+            <ui-input label="Search">
+              <ui-icon slot="start" name="outline-search" decorative />
+              <input type="search" placeholder="Search records" />
+              <kbd slot="end">⌘K</kbd>
+            </ui-input>
+          </div></ui-tab-item
+        ><ui-tab-item value="code" label="Code">
+<app-showcase-code [code]="slotsCode" />
+        </ui-tab-item></ui-tab
+      ></ui-card
+    >
+  </section>
+  <section>
     <h5>Number field</h5>
     <ui-card variant="outlined"
       ><ui-tab size="sm" aria-label="Number input example"

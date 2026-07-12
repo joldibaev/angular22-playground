@@ -13,6 +13,8 @@ import { UiAutocompleteOption } from './ui-autocomplete-option/ui-autocomplete-o
   imports: [UiAutocomplete, UiAutocompleteOption],
   template: `
     <ui-autocomplete>
+      <span slot="start">S</span>
+      <span slot="end">E</span>
       <ui-autocomplete-option value="created" label="Created" />
       <ui-autocomplete-option value="approved" label="Approved" />
       <ui-autocomplete-option value="paid" label="Paid" />
@@ -46,7 +48,11 @@ class PlaceholderTestHost {
 
 @Component({
   imports: [UiAutocomplete],
-  template: `<ui-autocomplete loading loadingText="Fetching statuses" />`,
+  template: `
+    <ui-autocomplete loading loadingText="Fetching statuses">
+      <span slot="end">E</span>
+    </ui-autocomplete>
+  `,
 })
 class LoadingTestHost {
   readonly autocomplete = viewChild.required(UiAutocomplete);
@@ -206,6 +212,19 @@ describe('UiAutocomplete', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should forward start and end content to the wrapped ui-input', async () => {
+    const hostFixture = await createHostFixture();
+    const start = hostFixture.nativeElement.querySelector(
+      '.ui-autocomplete-start > [slot="start"]',
+    );
+    const end = hostFixture.nativeElement.querySelector(
+      '.ui-autocomplete-end > [slot="end"]',
+    );
+
+    expect(start?.textContent).toBe('S');
+    expect(end?.textContent).toBe('E');
+  });
+
   it('should expose disabled suggestions through Angular Aria', async () => {
     const hostFixture = TestBed.createComponent(DisabledOptionTestHost);
     await hostFixture.whenStable();
@@ -295,6 +314,7 @@ describe('UiAutocomplete', () => {
     expect(combobox.getAttribute('aria-busy')).toBe('true');
     expect(combobox.disabled).toBe(false);
     expect(hostFixture.nativeElement.querySelector('.ui-input-loading')).toBeTruthy();
+    expect(hostFixture.nativeElement.querySelector('.ui-autocomplete-end')).toBeNull();
 
     combobox.focus();
     dispatchInputEvent(combobox, 'pending');

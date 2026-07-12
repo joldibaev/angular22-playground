@@ -4,12 +4,13 @@ import { UiAccordion } from '../../../components/ui-accordion/ui-accordion';
 import { UiAccordionItem } from '../../../components/ui-accordion/ui-accordion-item/ui-accordion-item';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { UiCard } from '../../../components/ui-card/ui-card';
+import { UiIcon } from '../../../components/ui-icon/ui-icon';
 import { UiTab } from '../../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 
 @Component({
   selector: 'app-accordion-showcase',
-  imports: [ShowcaseCode, UiAccordion, UiAccordionItem, UiButton, UiCard, UiTab, UiTabItem],
+  imports: [ShowcaseCode, UiAccordion, UiAccordionItem, UiButton, UiCard, UiIcon, UiTab, UiTabItem],
   templateUrl: './accordion-showcase.html',
   styleUrl: './accordion-showcase.css',
 })
@@ -19,6 +20,7 @@ export class AccordionShowcase {
 
   protected readonly defaultCode = `<ui-accordion [multi]="false">
   <ui-accordion-item label="What is Angular ARIA?" [expanded]="true">
+    <ui-icon slot="start" name="outline-info-circle" decorative />
     Headless directives that provide accessible behavior without prescribing styles.
   </ui-accordion-item>
   <ui-accordion-item label="Does it support keyboard navigation?">

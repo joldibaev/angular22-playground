@@ -131,6 +131,14 @@
      surfaces elsewhere take a scale dip; tabs deliberately do not. */
 }
 
+.ui-tab-label {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: center;
+  gap: inherit;
+}
+
 /* Compact tabs: shorter triggers and tighter padding. The pill indicator is
    anchored to the trigger box, so it follows the smaller size automatically. */
 :host(.ui-tab-sm) .ui-tab-trigger {

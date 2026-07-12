@@ -70,20 +70,18 @@
       );
   }
 
-  &[aria-expanded='true'] .ui-date-range-chevron {
-    rotate: 180deg;
-  }
+}
+
+ui-input:has(.ui-date-range-trigger[aria-expanded='true']) .ui-date-range-chevron {
+  rotate: 180deg;
 }
 
 .ui-date-range-trigger-icon,
 .ui-date-range-chevron {
-  flex: 0 0 auto;
-  color: var(--text-color-muted);
   pointer-events: none;
 }
 
 .ui-date-range-chevron {
-  margin-left: auto;
   transition: rotate var(--ui-popup-close-duration) var(--ui-popup-easing);
 }
 

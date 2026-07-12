@@ -56,14 +56,17 @@ export class ContextMenuShowcase {
   <ui-menu-item value="open">Open</ui-menu-item>
   <ui-menu-group label="Organize">
     <ui-menu-item value="rename">
-      <ui-icon name="outline-edit" decorative />Rename
+      <ui-icon slot="start" name="outline-edit" decorative />
+      <span>Rename</span>
     </ui-menu-item>
     <ui-menu-item value="duplicate">
-      <ui-icon name="outline-copy" decorative />Duplicate
+      <ui-icon slot="start" name="outline-copy" decorative />
+      <span>Duplicate</span>
     </ui-menu-item>
   </ui-menu-group>
   <ui-menu-item value="delete" variant="destructive">
-    <ui-icon name="outline-trash" decorative />Delete
+    <ui-icon slot="start" name="outline-trash" decorative />
+    <span>Delete</span>
   </ui-menu-item>
 </ui-context-menu>`;
 

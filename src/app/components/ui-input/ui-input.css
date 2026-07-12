@@ -3,6 +3,8 @@ ui-input {
      [uiInputControl] trigger (date pickers). 'md' is the default row height. */
   --ui-input-control-height: 2.5rem;
   --ui-input-control-padding-inline: 1rem;
+  --ui-input-slot-inset-inline: 0.75rem;
+  --ui-input-slot-space: 2.5rem;
   --ui-input-control-font-size: 1rem;
 
   --ui-input-label-color: var(--text-color-muted);
@@ -63,19 +65,38 @@ ui-input {
   position: relative;
   width: 100%;
 
-  &:has(> .ui-input-loading) > :is(input, textarea, [ngCombobox], [uiInputControl]) {
-    padding-inline-end: 3rem;
+  &:has(> [slot='start']:not(:empty))
+    > :is(input, textarea, [ngCombobox], [uiInputControl]) {
+    padding-inline-start: var(--ui-input-slot-space);
+  }
+
+  &:has(> [slot='end']:not(:empty)) > :is(input, textarea, [ngCombobox], [uiInputControl]) {
+    padding-inline-end: var(--ui-input-slot-space);
   }
 }
 
-.ui-input-loading {
+.ui-input-control > [slot='start']:not(:empty),
+.ui-input-control > [slot='end']:not(:empty) {
   position: absolute;
-  /* Centre on the control regardless of size (half the control height). */
   inset-block-start: calc(var(--ui-input-control-height) / 2);
-  inset-inline-end: 1rem;
   z-index: 1;
-  pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color-muted);
   translate: 0 -50%;
+}
+
+.ui-input-control > [slot='start']:not(:empty) {
+  inset-inline-start: var(--ui-input-slot-inset-inline);
+}
+
+.ui-input-control > [slot='end']:not(:empty) {
+  inset-inline-end: var(--ui-input-slot-inset-inline);
+}
+
+.ui-input-loading {
+  pointer-events: none;
 }
 
 .ui-input-disabled .ui-input-loading,

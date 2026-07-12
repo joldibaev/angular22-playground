@@ -68,7 +68,11 @@
         ><ui-tab-item value="preview" label="Preview"
           ><div class="preview row">
             <button uiButton type="button" variant="brand">
-              <ui-icon name="outline-plus" decorative />Create</button
+              <ui-icon slot="start" name="outline-plus" decorative />
+              <span>Create</span></button
+            ><button uiButton type="button" variant="outline">
+              <span>Continue</span>
+              <ui-icon slot="end" name="outline-chevron-right" decorative /></button
             ><button uiButton type="button" variant="ghost" iconOnly aria-label="Settings">
               <ui-icon name="outline-settings" decorative />
             </button></div></ui-tab-item

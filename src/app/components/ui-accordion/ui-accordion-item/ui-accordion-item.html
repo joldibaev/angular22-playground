@@ -8,7 +8,9 @@
     [disabled]="disabled()"
     [(expanded)]="expanded"
   >
+    <span class="ui-accordion-slot"><ng-content select="[slot='start']" /></span>
     <span class="ui-accordion-label">{{ label() }}</span>
+    <span class="ui-accordion-slot"><ng-content select="[slot='end']" /></span>
     <ui-icon class="ui-accordion-chevron" name="outline-chevron-down" [decorative]="true" />
   </button>
 </div>

@@ -30,7 +30,13 @@
         (click)="onTabListInteraction()"
         (keydown)="onTabListInteraction()"
       >
-        {{ item.displayLabel() }}
+        @if (item.labelTemplate(); as labelTemplate) {
+          <span class="ui-tab-label">
+            <ng-container [ngTemplateOutlet]="labelTemplate.template" />
+          </span>
+        } @else {
+          {{ item.displayLabel() }}
+        }
       </button>
     }
 

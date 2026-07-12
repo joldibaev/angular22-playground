@@ -8,6 +8,7 @@ import { UiAutocomplete } from '../../../components/ui-autocomplete/ui-autocompl
 import { UiAutocompleteOption } from '../../../components/ui-autocomplete/ui-autocomplete-option/ui-autocomplete-option';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import { UiCard } from '../../../components/ui-card/ui-card';
+import { UiIcon } from '../../../components/ui-icon/ui-icon';
 import { UiTab } from '../../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 
@@ -37,7 +38,7 @@ const EMPTY_SEARCH_STATE: UserSearchState = { users: [], loading: false, failed:
 
 @Component({
   selector: 'app-autocomplete-showcase',
-  imports: [ShowcaseCode, FormField, UiAutocomplete, UiAutocompleteOption, UiButton, UiCard, UiTab, UiTabItem],
+  imports: [ShowcaseCode, FormField, UiAutocomplete, UiAutocompleteOption, UiButton, UiCard, UiIcon, UiTab, UiTabItem],
   templateUrl: './autocomplete-showcase.html',
   styleUrl: './autocomplete-showcase.css',
 })
@@ -90,6 +91,7 @@ readonly results = computed(() =>
 );
 
 <ui-autocomplete label="Team" [(query)]="query">
+  <ui-icon slot="start" name="outline-search" decorative />
   @for (team of results(); track team) {
     <ui-autocomplete-option [value]="'team_' + team.toLowerCase()" [label]="team" />
   }

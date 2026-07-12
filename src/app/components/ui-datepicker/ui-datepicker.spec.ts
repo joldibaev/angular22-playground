@@ -98,7 +98,7 @@ describe('UiDatepicker', () => {
     expect(trigger.getAttribute('aria-busy')).toBe('true');
     expect(trigger.disabled).toBe(false);
     expect(fixture.nativeElement.querySelector('.ui-input-loading')).toBeTruthy();
-    expect(trigger.querySelector('.ui-datepicker-chevron')).toBeNull();
+    expect(fixture.nativeElement.querySelector('.ui-datepicker-chevron')).toBeNull();
   });
 
   it('should expose customizable month navigation labels', async () => {

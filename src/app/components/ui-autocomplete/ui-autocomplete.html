@@ -3,6 +3,10 @@
   [loading]="loading()"
   [withErrorMessage]="withErrorMessage()"
 >
+  <span slot="start" class="ui-autocomplete-start">
+    <ng-content select="[slot='start']" />
+  </span>
+
   <input
     ngCombobox
     #combobox="ngCombobox"
@@ -17,6 +21,12 @@
     type="text"
     (blur)="touch.emit()"
   />
+
+  @if (!loading()) {
+    <span slot="end" class="ui-autocomplete-end">
+      <ng-content select="[slot='end']" />
+    </span>
+  }
 </ui-input>
 
 <!-- The popup stays mounted after its first open: @angular/aria's ComboboxPopup

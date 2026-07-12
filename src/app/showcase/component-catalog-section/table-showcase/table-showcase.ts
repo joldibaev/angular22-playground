@@ -131,10 +131,12 @@ export class TableShowcase {
 <ui-context-menu #rowMenu (itemSelected)="runRowAction($event)">
   <ui-menu-item value="open">Open details</ui-menu-item>
   <ui-menu-item value="duplicate">
-    <ui-icon name="outline-copy" decorative />Duplicate row
+    <ui-icon slot="start" name="outline-copy" decorative />
+    <span>Duplicate row</span>
   </ui-menu-item>
   <ui-menu-item value="delete" variant="destructive">
-    <ui-icon name="outline-trash" decorative />Delete row
+    <ui-icon slot="start" name="outline-trash" decorative />
+    <span>Delete row</span>
   </ui-menu-item>
 </ui-context-menu>`;
   protected readonly virtualCode = `<div uiTableViewport>

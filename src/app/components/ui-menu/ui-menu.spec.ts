@@ -14,7 +14,11 @@ import { UiMenuTrigger } from './ui-menu-trigger/ui-menu-trigger';
     <button uiButton uiMenuTrigger variant="outline" [menu]="menu.menu()">Ticket actions</button>
 
     <ui-menu #menu (itemSelected)="selected.set($event)">
-      <ui-menu-item value="assign">Assign owner</ui-menu-item>
+      <ui-menu-item value="assign">
+        <span slot="start" aria-hidden="true"></span>
+        <span>Assign owner</span>
+        <span slot="end" aria-hidden="true"></span>
+      </ui-menu-item>
       <ui-menu-item value="snooze">Snooze</ui-menu-item>
       <ui-menu-item value="delete" variant="destructive" [disabled]="true">Delete</ui-menu-item>
     </ui-menu>
@@ -128,6 +132,12 @@ describe('UiMenu', () => {
     await hostFixture.whenStable();
     await hostFixture.whenRenderingDone();
 
+    const firstItemChildren = Array.from(
+      getMenuItems()[0].querySelectorAll<HTMLElement>('[slot]'),
+    );
+
+    expect(firstItemChildren.map((child) => child.getAttribute('slot'))).toEqual(['start', 'end']);
+
     const menu = getMenu();
     const items = getMenuItems();
     const menuStyle = getComputedStyle(menu);
@@ -152,6 +162,7 @@ describe('UiMenu', () => {
     expect(items[0].dataset['variant']).toBe('default');
     expect(items[2].dataset['variant']).toBe('destructive');
   });
+
 
   it('should emit the selected item value and close through Angular Aria harnesses', async () => {
     const hostFixture = await createHostFixture();

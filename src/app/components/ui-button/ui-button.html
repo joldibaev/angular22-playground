@@ -10,6 +10,8 @@
   }
 
   <span class="ui-button-content">
+    <span class="ui-button-slot"><ng-content select="[slot='start']" /></span>
     <ng-content />
+    <span class="ui-button-slot"><ng-content select="[slot='end']" /></span>
   </span>
 </span>

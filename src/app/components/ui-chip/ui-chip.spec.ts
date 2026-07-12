@@ -10,7 +10,7 @@ import { UiChip } from './ui-chip';
       [disabled]="disabled()"
       removeLabel="Remove tag"
       (remove)="removed.set(removed() + 1)"
-      >Angular</ui-chip
+      ><span slot="start">#</span><span>Angular</span><span slot="end">12</span></ui-chip
     >
   `,
 })
@@ -40,6 +40,8 @@ describe('UiChip', () => {
   it('should reflect the variant and project the label', () => {
     expect(host().classList.contains('ui-chip-destructive')).toBe(true);
     expect(host().querySelector('.ui-chip-label')?.textContent?.trim()).toBe('Angular');
+    expect(host().querySelector('[slot="start"]')?.textContent).toBe('#');
+    expect(host().querySelector('[slot="end"]')?.textContent).toBe('12');
   });
 
   it('should render an accessible remove button and emit on click', () => {

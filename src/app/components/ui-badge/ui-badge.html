@@ -2,4 +2,8 @@
   <span class="ui-badge-dot" aria-hidden="true"></span>
 }
 
-<span class="ui-badge-content"><ng-content /></span>
+<span class="ui-badge-content">
+  <span class="ui-badge-slot"><ng-content select="[slot='start']" /></span>
+  <ng-content />
+  <span class="ui-badge-slot"><ng-content select="[slot='end']" /></span>
+</span>

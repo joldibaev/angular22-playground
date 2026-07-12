@@ -53,6 +53,17 @@
   text-overflow: ellipsis;
 }
 
+.ui-chip-slot:not(:empty) {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-chip-slot:empty {
+  display: none;
+}
+
 .ui-chip-remove {
   appearance: none;
   display: inline-flex;
