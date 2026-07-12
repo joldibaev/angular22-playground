@@ -260,19 +260,14 @@ describe('UiDateRangePicker', () => {
     expect(edges).toEqual(['15', '20']);
   });
 
-  it('should layer range preview fill behind selected days', async () => {
+  it('should render each range endpoint as a single cell surface', async () => {
     const fixture = await createHostFixture();
 
     await openRangePicker(fixture);
 
     const start = fixture.nativeElement.querySelector('[data-edge="start"]') as HTMLElement;
-    const day = start.querySelector('.ui-date-range-day') as HTMLElement;
-    const startStyle = getComputedStyle(start);
-    const dayStyle = getComputedStyle(day);
-
-    expect(startStyle.position).toBe('relative');
-    expect(dayStyle.position).toBe('relative');
-    expect(dayStyle.zIndex).toBe('1');
+    expect(start.tagName).toBe('TD');
+    expect(start.children).toHaveLength(0);
   });
 
   it('should not show range preview fill before an end date is previewed', async () => {

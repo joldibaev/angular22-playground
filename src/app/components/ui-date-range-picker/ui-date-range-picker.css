@@ -18,14 +18,12 @@
     var(--ui-popup-accent-background) 16%,
     transparent
   );
-  /* Gaps between adjacent day cells, set as the grid's border-spacing
-     (inline = columns 8 ↔ 9, block = rows 8 ↔ 15). The range fill (::before) stays
-     inside its own cell, so the spacing shows as a real gap on both axes — the
+  /* Gaps between adjacent day cells come from the grid's border-spacing, so the
      range reads as separated per-day tiles rather than one continuous bar. */
   --ui-date-range-day-gap: 0.125rem;
   --ui-date-range-day-gap-inline: 0.125rem;
-  /* Corner radius shared by the day pill and the brand-subtle range tile behind
-     it, so the rounded fill tracks the pill when either is themed. */
+  /* Every date is one surface: the cell itself owns hover, range, and endpoint
+     backgrounds, so overlapping fills cannot drift apart. */
   --ui-date-range-day-radius: 0.375rem;
 
   display: block;
@@ -205,7 +203,6 @@ ui-input:has(.ui-date-range-trigger[aria-expanded='true']) .ui-date-range-chevro
 }
 
 .ui-date-range-cell {
-  position: relative;
   width: calc(100% / 7);
   height: 2.25rem;
   cursor: pointer;
@@ -213,67 +210,35 @@ ui-input:has(.ui-date-range-trigger[aria-expanded='true']) .ui-date-range-chevro
   text-align: center;
   vertical-align: middle;
   outline: none;
+  border-radius: var(--ui-date-range-day-radius);
+  font-size: 0.875rem;
+  transition: scale var(--ui-popup-interactive-press-duration) var(--ui-popup-interactive-easing);
 
   &[aria-disabled='true'] {
     cursor: default;
 
-    .ui-date-range-day {
-      color: var(--ui-popup-muted-color);
-      opacity: 0.55;
-    }
+    color: var(--ui-popup-muted-color);
+    opacity: var(--opacity-disabled);
   }
 
   &.ui-date-range-outside {
     pointer-events: none;
   }
 
-  &[aria-current='date'] .ui-date-range-day {
+  &[aria-current='date'] {
     color: var(--ui-popup-accent-background);
     font-weight: 900;
   }
 
-  /* Range fill is a full-height track behind the day pills (z-index 1).
-     Endpoint cells fill only the inner half (from the pill centre): the cut
-     edge stays hidden under the opaque solid pill, and nothing shows on the
-     outer side of the range. */
-  /* The fill stays inside the cell (inset 0); the gaps between tiles come from the
-     grid's border-spacing. The start/end edge rules below override left/right to
-     50% so an endpoint fills only the inner half toward the range interior. */
-  &::before {
-    position: absolute;
-    inset: 0;
-    border-radius: var(--ui-date-range-day-radius);
-    content: '';
-  }
-
-  &.ui-date-range-in-range::before,
-  &.ui-date-range-pending-range::before {
+  &.ui-date-range-in-range,
+  &.ui-date-range-pending-range {
     background-color: var(--ui-date-range-preview-background);
   }
 
-  &.ui-date-range-pending-start:not(.ui-date-range-pending-range)::before {
-    background-color: transparent;
-  }
-
-  &[data-edge='start']::before {
-    left: 50%;
-    background-color: var(--ui-date-range-preview-background);
-  }
-
-  &[data-edge='end']::before {
-    right: 50%;
-    background-color: var(--ui-date-range-preview-background);
-  }
-
-  &[data-edge='single']::before {
-    background-color: transparent;
-  }
-
-  /* Solid pill on every endpoint: committed edges and `single` carry a
-     `data-edge`; the lone pending start (before an end is hovered) has no
-     `data-edge` yet, so it is matched by its class. */
-  &[data-edge] .ui-date-range-day,
-  &.ui-date-range-pending-start .ui-date-range-day {
+  /* Endpoint color overrides the preview on the same cell; there is no second
+     background layer underneath it. */
+  &[data-edge],
+  &.ui-date-range-pending-start {
     background-color: var(--ui-popup-accent-background);
     color: var(--ui-popup-accent-color);
     font-weight: 900;
@@ -284,36 +249,21 @@ ui-input:has(.ui-date-range-trigger[aria-expanded='true']) .ui-date-range-chevro
       [aria-disabled='true'],
       .ui-date-range-pending-start,
       [data-edge]
-    ):hover
-    .ui-date-range-day {
+    ):hover {
     background-color: var(--ui-popup-interactive-hover-background);
   }
 
-  &:focus-visible .ui-date-range-day,
-  &[data-active='true'] .ui-date-range-day {
+  &:focus-visible,
+  &[data-active='true'] {
     outline: 2px solid var(--focus-ring-color);
     outline-offset: -2px;
   }
 
   /* Press feedback: stronger dip than a button so the small day target reads
      (mirrors the checkbox / datepicker press). */
-  &:not([aria-disabled='true']):active .ui-date-range-day {
+  &:not([aria-disabled='true']):active {
     scale: 0.92;
   }
-}
-
-.ui-date-range-day {
-  display: inline-flex;
-  position: relative;
-  z-index: 1;
-  align-items: center;
-  justify-content: center;
-  width: 2.25rem;
-  height: 2.25rem;
-  border-radius: var(--ui-date-range-day-radius);
-  font-size: 0.875rem;
-  pointer-events: none;
-  transition: scale var(--ui-popup-interactive-press-duration) var(--ui-popup-interactive-easing);
 }
 
 .ui-date-range-footer {
@@ -418,11 +368,7 @@ ui-input:has(.ui-date-range-trigger[aria-expanded='true']) .ui-date-range-chevro
   }
 
   /* Drop the day press-scale. */
-  .ui-date-range-day {
-    transition: none;
-  }
-
-  .ui-date-range-cell:not([aria-disabled='true']):active .ui-date-range-day {
+  .ui-date-range-cell:not([aria-disabled='true']):active {
     scale: none;
   }
 
