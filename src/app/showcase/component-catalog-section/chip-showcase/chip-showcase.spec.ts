@@ -10,7 +10,7 @@ describe('ChipShowcase', () => {
     expect(text).toContain('Variants');
     expect(text).toContain('Disabled and overflow');
     expect(text).toContain('Removal');
-    expect(fixture.nativeElement.querySelectorAll('ui-card')).toHaveLength(4);
+    expect(fixture.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(4);
   });
 
   it('removes and restores interactive tags', async () => {
@@ -18,7 +18,7 @@ describe('ChipShowcase', () => {
     await fixture.whenStable();
 
     const removalExample = fixture.nativeElement.querySelector(
-      '[aria-labelledby="chip-removal-title"]',
+      'app-showcase-example[aria-label="Interactive chip removal example"]',
     ) as HTMLElement;
     (removalExample.querySelector('.ui-chip-remove') as HTMLButtonElement).click();
     await fixture.whenStable();

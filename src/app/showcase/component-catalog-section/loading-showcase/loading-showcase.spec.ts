@@ -4,7 +4,7 @@ describe('LoadingShowcase', () => {
   it('documents status semantics and sizes', async () => {
     const fixture = TestBed.createComponent(LoadingShowcase);
     await fixture.whenStable();
-    expect(fixture.nativeElement.querySelectorAll('ui-card')).toHaveLength(2);
+    expect(fixture.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(2);
     expect(fixture.nativeElement.querySelector('ui-loading[label]')).toBeTruthy();
   });
 });

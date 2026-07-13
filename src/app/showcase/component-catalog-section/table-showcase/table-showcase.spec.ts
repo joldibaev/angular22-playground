@@ -6,7 +6,7 @@ describe('TableShowcase', () => {
   it('documents presentation, sorting, contextual actions, and virtualization', async () => {
     const f = TestBed.createComponent(TableShowcase);
     await f.whenStable();
-    expect(f.nativeElement.querySelectorAll('ui-card')).toHaveLength(5);
+    expect(f.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(5);
     expect(f.debugElement.queryAll(By.directive(UiContextMenuTrigger))).toHaveLength(5);
     expect(f.nativeElement.textContent).toContain('Striped rows, hover, and sticky header');
     expect(f.nativeElement.textContent).toContain('Row context menu');
@@ -19,16 +19,16 @@ describe('TableShowcase', () => {
     await fixture.whenStable();
     const host = fixture.nativeElement as HTMLElement;
     const presentation = host.querySelector(
-      'section[aria-labelledby="table-presentation-title"] tbody',
+      'app-showcase-example[aria-label="Table presentation options"] tbody',
     ) as HTMLElement;
     const contextMenu = host.querySelector(
-      'section[aria-labelledby="table-context-menu-title"] tbody',
+      'app-showcase-example[aria-label="Table row context menu example"] tbody',
     ) as HTMLElement;
     const sortable = host.querySelector(
-      'section[aria-labelledby="table-sort-title"] tbody',
+      'app-showcase-example[aria-label="Table sorting example"] tbody',
     ) as HTMLElement;
     const stockSort = host.querySelector(
-      'section[aria-labelledby="table-sort-title"] th[uiTableSort="stock"] button',
+      'app-showcase-example[aria-label="Table sorting example"] th[uiTableSort="stock"] button',
     ) as HTMLButtonElement;
     const presentationBefore = presentation.textContent;
     const contextMenuBefore = contextMenu.textContent;

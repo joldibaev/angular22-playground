@@ -23,6 +23,10 @@ describe('ShowcaseExample', () => {
     expect(tab.getAttribute('aria-label')).toBe('Default button example');
     expect(fixture.nativeElement.querySelector('.frame')).not.toBeNull();
     expect(fixture.nativeElement.querySelector('ui-card')).toBeNull();
-    expect(fixture.nativeElement.querySelector('app-showcase-code')).not.toBeNull();
+    expect(
+      Array.from(fixture.nativeElement.querySelectorAll('.ui-tab-trigger')).map((trigger) =>
+        (trigger as HTMLElement).textContent?.trim(),
+      ),
+    ).toEqual(['Preview', 'Code']);
   });
 });

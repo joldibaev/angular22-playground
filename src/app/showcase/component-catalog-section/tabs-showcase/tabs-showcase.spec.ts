@@ -6,7 +6,7 @@ describe('TabsShowcase', () => {
     TestBed.configureTestingModule({ providers: [provideRouter([])] });
     const f = TestBed.createComponent(TabsShowcase);
     await f.whenStable();
-    expect(f.nativeElement.querySelectorAll('ui-card')).toHaveLength(5);
+    expect(f.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(5);
     expect(f.nativeElement.textContent).toContain('Selection behavior');
   });
 });

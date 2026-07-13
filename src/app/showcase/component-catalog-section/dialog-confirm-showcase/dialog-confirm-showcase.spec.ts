@@ -10,7 +10,7 @@ describe('DialogConfirmShowcase', () => {
     expect(text).toContain('Destructive');
     expect(text).toContain('Custom copy');
     expect(text).toContain('Outcomes and dismissal');
-    expect(fixture.nativeElement.querySelectorAll('ui-card')).toHaveLength(4);
+    expect(fixture.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(4);
     expect(fixture.nativeElement.querySelectorAll('ui-dialog-confirm')).toHaveLength(4);
   });
 

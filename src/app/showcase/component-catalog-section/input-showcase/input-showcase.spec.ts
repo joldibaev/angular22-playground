@@ -12,7 +12,7 @@ describe('InputShowcase', () => {
     const f = TestBed.createComponent(InputShowcase);
     await f.whenStable();
 
-    expect(f.nativeElement.querySelectorAll('ui-card')).toHaveLength(9);
+    expect(f.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(9);
     expect(f.nativeElement.querySelector('input[type="number"]')).toBeTruthy();
     expect(f.nativeElement.querySelector('textarea')).toBeTruthy();
     expect(f.debugElement.queryAll(By.directive(UiMask))).toHaveLength(2);

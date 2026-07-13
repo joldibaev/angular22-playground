@@ -9,7 +9,7 @@ describe('AutocompleteShowcase', () => {
     });
     const f = TestBed.createComponent(AutocompleteShowcase);
     await f.whenStable();
-    expect(f.nativeElement.querySelectorAll('ui-card')).toHaveLength(7);
+    expect(f.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(7);
     expect(f.nativeElement.textContent).toContain('HTTP search with httpResource');
     expect(f.nativeElement.textContent).toContain('HTTP search with HttpClient and RxJS');
     expect(f.nativeElement.textContent).toContain('Signal Forms');

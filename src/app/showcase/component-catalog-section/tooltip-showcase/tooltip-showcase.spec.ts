@@ -5,7 +5,7 @@ describe('TooltipShowcase', () => {
     const f = TestBed.createComponent(TooltipShowcase);
     await f.whenStable();
     await f.whenRenderingDone();
-    expect(f.nativeElement.querySelectorAll('ui-card')).toHaveLength(3);
+    expect(f.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(3);
     expect(f.nativeElement.querySelector('a[interestfor]')).toBeTruthy();
     f.destroy();
   });

@@ -5,7 +5,7 @@ describe('PopoverShowcase', () => {
     const f = TestBed.createComponent(PopoverShowcase);
     await f.whenStable();
     await f.whenRenderingDone();
-    expect(f.nativeElement.querySelectorAll('ui-card')).toHaveLength(5);
+    expect(f.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(5);
     expect(f.nativeElement.textContent).toContain('Controlled and programmatic');
     f.destroy();
   });

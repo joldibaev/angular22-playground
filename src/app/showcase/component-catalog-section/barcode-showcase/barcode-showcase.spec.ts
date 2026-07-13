@@ -9,7 +9,7 @@ describe('BarcodeShowcase', () => {
     expect(text).toContain('Formats');
     expect(text).toContain('Human-readable text');
     expect(text).toContain('Invalid data');
-    expect(fixture.nativeElement.querySelectorAll('ui-card')).toHaveLength(6);
+    expect(fixture.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(6);
     expect(fixture.nativeElement.querySelector('[data-state="invalid"]')).toBeTruthy();
   });
 });

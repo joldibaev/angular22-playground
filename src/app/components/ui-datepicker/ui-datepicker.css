@@ -48,6 +48,27 @@ ui-input:has(.ui-datepicker-trigger[aria-expanded='true']) .ui-datepicker-chevro
   white-space: nowrap;
 }
 
+.ui-datepicker-trigger-parts {
+  display: inline-flex;
+}
+
+.ui-datepicker-accessible-value {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: clip;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.ui-datepicker-trigger-part {
+  white-space: pre;
+}
+
+.ui-datepicker-trigger-part[data-swap-phase='exit'] {
+  transition-delay: calc(var(--dur-press) * var(--ui-datepicker-part-stagger) * 0.25);
+}
+
 .ui-datepicker-placeholder {
   color: var(--ui-input-placeholder-color, var(--text-color-placeholder));
 }
@@ -229,6 +250,10 @@ ui-input:has(.ui-datepicker-trigger[aria-expanded='true']) .ui-datepicker-chevro
      calendar-specific motion: chevron rotation, day color/press, nav presses. */
   .ui-datepicker-chevron {
     transition: none;
+  }
+
+  .ui-datepicker-trigger-part[data-swap-phase='exit'] {
+    transition-delay: calc(var(--dur-press) * 0);
   }
 
   /* Day keeps its color fade; drop the press-scale. */

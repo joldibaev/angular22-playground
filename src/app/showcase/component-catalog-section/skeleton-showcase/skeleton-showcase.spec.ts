@@ -4,7 +4,7 @@ describe('SkeletonShowcase', () => {
   it('documents shapes, composition, and animation', async () => {
     const f = TestBed.createComponent(SkeletonShowcase);
     await f.whenStable();
-    expect(f.nativeElement.querySelectorAll('ui-card')).toHaveLength(3);
+    expect(f.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(3);
     expect(f.nativeElement.querySelector('[aria-busy="true"]')).toBeTruthy();
   });
 });

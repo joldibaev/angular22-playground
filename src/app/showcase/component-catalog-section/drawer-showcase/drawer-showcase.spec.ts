@@ -10,7 +10,7 @@ describe('DrawerShowcase', () => {
     expect(text).toContain('Sides');
     expect(text).toContain('Dismiss behavior');
     expect(text).toContain('Controlled and programmatic');
-    expect(fixture.nativeElement.querySelectorAll('ui-card')).toHaveLength(7);
+    expect(fixture.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(7);
     expect(fixture.nativeElement.querySelectorAll('ui-drawer')).toHaveLength(13);
   });
 

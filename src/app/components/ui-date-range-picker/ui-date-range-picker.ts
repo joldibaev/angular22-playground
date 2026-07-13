@@ -10,6 +10,7 @@ import {
   signal,
   untracked,
   viewChild,
+  viewChildren,
 } from '@angular/core';
 import { Grid, GridCell, GridRow } from '@angular/aria/grid';
 import type { FormValueControl } from '@angular/forms/signals';
@@ -24,11 +25,22 @@ import {
   buildPresets,
   buildRangeMonthGrid,
   formatRangeDisplay,
+  formatRangeDisplayParts,
   normalizeRange,
   type RangeDay,
   rangeToView,
   type UiDateRangeValue,
 } from './range-calendar.utils';
+
+type SwapPhase = 'idle' | 'exit' | 'enter-start';
+
+interface TriggerDisplayPart {
+  key: string;
+  value: string;
+  pendingValue: string;
+  phase: SwapPhase;
+  stagger: number;
+}
 
 const INITIAL_VIEW = new Temporal.PlainYearMonth(1970, 1);
 
@@ -57,6 +69,7 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
 
   readonly trigger = viewChild<ElementRef<HTMLButtonElement>>('trigger');
   readonly triggerLabel = viewChild.required<ElementRef<HTMLElement>>('triggerLabel');
+  readonly triggerParts = viewChildren<ElementRef<HTMLElement>>('triggerPart');
   readonly monthTitle = viewChild.required<ElementRef<HTMLElement>>('monthTitle');
   readonly panel = viewChild<ElementRef<HTMLElement>>('panel');
   readonly grid = viewChild(Grid);
@@ -113,7 +126,8 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
   readonly isPlaceholderVisible = computed(() => this.displayValue().length === 0);
   readonly displayedTriggerValue = signal('');
   readonly displayedTriggerPlaceholder = signal(true);
-  readonly triggerSwapPhase = signal<'idle' | 'exit' | 'enter-start'>('idle');
+  readonly displayedTriggerParts = signal<TriggerDisplayPart[]>([]);
+  readonly triggerSwapPhase = signal<SwapPhase>('idle');
   readonly rightView = computed(() => this.leftView().add({ months: 1 }));
   readonly leftMonthLabel = computed(() => formatMonthLabel(this.leftView()));
   readonly rightMonthLabel = computed(() => formatMonthLabel(this.rightView()));
@@ -157,12 +171,30 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
   private focusAfterMonthSwap = false;
   private pendingTriggerValue = '';
   private pendingTriggerPlaceholder = true;
+  private pendingTriggerParts: TriggerDisplayPart[] = [];
   private triggerDisplayInitialized = false;
+  private readonly scheduledTriggerParts = new Set<string>();
 
   constructor() {
     afterRenderEffect(() => {
       const nextPlaceholder = this.isPlaceholderVisible();
       const nextValue = this.displayValue() || this.placeholder();
+      const nextParts: TriggerDisplayPart[] = nextPlaceholder
+        ? [
+            {
+              key: 'placeholder',
+              value: nextValue,
+              pendingValue: nextValue,
+              phase: 'idle',
+              stagger: 0,
+            },
+          ]
+        : formatRangeDisplayParts(this.committedRange()).map((part) => ({
+            ...part,
+            pendingValue: part.value,
+            phase: 'idle',
+            stagger: 0,
+          }));
       const currentValue = untracked(this.displayedTriggerValue);
       const currentPlaceholder = untracked(this.displayedTriggerPlaceholder);
 
@@ -170,14 +202,17 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
         this.triggerDisplayInitialized = true;
         this.displayedTriggerValue.set(nextValue);
         this.displayedTriggerPlaceholder.set(nextPlaceholder);
+        this.displayedTriggerParts.set(nextParts);
         this.pendingTriggerValue = nextValue;
         this.pendingTriggerPlaceholder = nextPlaceholder;
+        this.pendingTriggerParts = nextParts;
         return;
       }
 
       if (nextValue === currentValue && nextPlaceholder === currentPlaceholder) {
         this.pendingTriggerValue = nextValue;
         this.pendingTriggerPlaceholder = nextPlaceholder;
+        this.pendingTriggerParts = nextParts;
 
         if (untracked(this.triggerSwapPhase) === 'exit') {
           this.triggerSwapPhase.set('idle');
@@ -188,7 +223,33 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
 
       this.pendingTriggerValue = nextValue;
       this.pendingTriggerPlaceholder = nextPlaceholder;
-      this.triggerSwapPhase.set('exit');
+      this.pendingTriggerParts = nextParts;
+
+      const currentParts = untracked(this.displayedTriggerParts);
+      const hasSameStructure =
+        currentPlaceholder === nextPlaceholder &&
+        currentParts.length === nextParts.length &&
+        currentParts.every((part, index) => part.key === nextParts[index].key);
+
+      if (!hasSameStructure) {
+        this.triggerSwapPhase.set('exit');
+        return;
+      }
+
+      this.displayedTriggerValue.set(nextValue);
+      let changedPartIndex = 0;
+      this.displayedTriggerParts.set(
+        currentParts.map((part, index) =>
+          part.value === nextParts[index].value
+            ? part
+            : {
+                ...part,
+                pendingValue: nextParts[index].value,
+                phase: 'exit',
+                stagger: changedPartIndex++,
+              },
+        ),
+      );
     });
 
     afterRenderEffect(() => {
@@ -202,12 +263,36 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
     });
 
     afterRenderEffect(() => {
+      const parts = this.displayedTriggerParts();
+      const elements = this.triggerParts();
+
+      parts.forEach((part, index) => {
+        if (part.phase !== 'exit' || this.scheduledTriggerParts.has(part.key)) return;
+
+        const element = elements[index]?.nativeElement;
+        if (!element) return;
+
+        this.scheduledTriggerParts.add(part.key);
+        afterElementAnimations(element, () => this.finishTriggerPartSwap(part.key));
+      });
+    });
+
+    afterRenderEffect(() => {
       if (this.triggerSwapPhase() !== 'enter-start') {
         return;
       }
 
       void this.triggerLabel().nativeElement.offsetHeight;
       this.triggerSwapPhase.set('idle');
+    });
+
+    afterRenderEffect(() => {
+      if (!this.displayedTriggerParts().some((part) => part.phase === 'enter-start')) return;
+
+      this.triggerParts().forEach((part) => void part.nativeElement.offsetHeight);
+      this.displayedTriggerParts.update((parts) =>
+        parts.map((part) => (part.phase === 'enter-start' ? { ...part, phase: 'idle' } : part)),
+      );
     });
 
     afterRenderEffect(() => {
@@ -337,6 +422,18 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
     }
 
     this.finishMonthSwap();
+  }
+
+  onTriggerPartTransitionEnd(event: TransitionEvent, key: string) {
+    if (
+      event.target !== event.currentTarget ||
+      event.propertyName !== 'opacity' ||
+      this.triggerSwapPhase() !== 'idle'
+    ) {
+      return;
+    }
+
+    this.finishTriggerPartSwap(key);
   }
 
   applyPreset(preset: { range: () => UiDateRangeValue }) {
@@ -475,7 +572,19 @@ export class UiDateRangePicker implements FormValueControl<UiDateRangeValue> {
 
     this.displayedTriggerValue.set(this.pendingTriggerValue);
     this.displayedTriggerPlaceholder.set(this.pendingTriggerPlaceholder);
+    this.displayedTriggerParts.set(this.pendingTriggerParts);
     this.triggerSwapPhase.set('enter-start');
+  }
+
+  private finishTriggerPartSwap(key: string): void {
+    this.scheduledTriggerParts.delete(key);
+    this.displayedTriggerParts.update((parts) =>
+      parts.map((part) =>
+        part.key === key && part.phase === 'exit'
+          ? { ...part, value: part.pendingValue, phase: 'enter-start' }
+          : part,
+      ),
+    );
   }
 
   private finishMonthSwap(): void {

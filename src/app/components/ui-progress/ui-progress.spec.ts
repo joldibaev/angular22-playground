@@ -5,10 +5,10 @@ import { UiProgress } from './ui-progress';
 @Component({
   imports: [UiProgress],
   template: `
-    <ui-progress label="Upload progress" value="40" max="200" withValue withAnimation />
+    <ui-progress label="Upload progress" value="40" max="200" withValue />
     <ui-progress label="Loading report" />
     <ui-progress label="Duplicated progress" value="120" decorative />
-    <ui-progress label="Static progress" value="50" withValue />
+    <ui-progress label="Secondary progress" value="50" withValue />
   `,
 })
 class TestHost {}
@@ -38,10 +38,12 @@ describe('UiProgress', () => {
     expect(indicator.classList.contains('ui-progress-indeterminate')).toBe(false);
     expect(indicator.style.getPropertyValue('--ui-progress-ratio')).toBe('0.2');
     expect(indicator.classList.contains('ui-progress-with-value')).toBe(true);
-    expect(indicator.classList.contains('ui-progress-animated')).toBe(true);
-    expect(indicator.querySelector('.ui-progress-value')?.textContent?.replace(/\s/g, '')).toBe(
-      '20%',
-    );
+    expect(
+      Array.from(indicator.querySelectorAll<HTMLElement>('.ui-progress-digit-column')).map(
+        (column) => column.style.getPropertyValue('--ui-progress-digit-offset'),
+      ),
+    ).toEqual(['-2', '0']);
+    expect(indicator.querySelector('.ui-progress-suffix')?.textContent).toBe('%');
     expect(indicator.querySelector('.ui-progress-value')?.getAttribute('aria-hidden')).toBe('true');
   });
 
@@ -76,13 +78,8 @@ describe('UiProgress', () => {
     expect(progress.getAttribute('aria-label')).toBeNull();
   });
 
-  it('should keep visible values static unless animation is explicitly enabled', () => {
-    const animatedValue = indicators()[0]?.querySelector('.ui-progress-value');
-    const staticValue = indicators()[3]?.querySelector('.ui-progress-value');
-
-    expect(animatedValue).toBeTruthy();
-    expect(staticValue).toBeTruthy();
-    expect(indicators()[3]?.classList).not.toContain('ui-progress-animated');
-    expect(staticValue?.classList).not.toContain('ui-progress-value-animating');
+  it('should render rolling digit columns by default', () => {
+    expect(indicators()[0]?.querySelectorAll('.ui-progress-digit-column')).toHaveLength(2);
+    expect(indicators()[3]?.querySelectorAll('.ui-progress-digit-column')).toHaveLength(2);
   });
 });

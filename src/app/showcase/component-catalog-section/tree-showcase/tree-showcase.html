@@ -6,7 +6,16 @@
       focus.
     </p>
   </header>
-  <app-showcase-example heading="Default" aria-label="Default tree example" [code]="defaultCode">
+  <app-showcase-example
+    heading="Complete example"
+    aria-label="Complete tree example"
+    [code]="defaultCode"
+  >
+    <p showcaseDescription>
+      Pass a recursive <code>UiTreeItem[]</code>: every item needs a stable <code>id</code> and a
+      <code>label</code>; nested <code>children</code> create branches. The code tab includes the
+      imports, data, state, and template needed to reproduce this example.
+    </p>
     <div class="preview">
       <ui-tree aria-label="Project files" [items]="files" [(selected)]="selected" /><output
         >Selected: {{ selected().join(', ') || 'None' }}</output
@@ -18,6 +27,10 @@
     aria-label="Multiple tree selection example"
     [code]="multiCode"
   >
+    <p showcaseDescription>
+      Add <code>multi</code> and bind an array of selected ids. The code tab includes a compact
+      data set so the variant also works when copied on its own.
+    </p>
     <div class="preview">
       <ui-tree
         aria-label="Multi-select project files"
@@ -32,13 +45,28 @@
     aria-label="Controlled tree expansion example"
     [code]="expansionCode"
   >
+    <p showcaseDescription>
+      Bind <code>expanded</code> when expansion must be controlled outside the tree.
+    </p>
     <div class="preview">
       <ui-tree
-        aria-label="Tree without guides"
+        aria-label="Tree with controlled expansion"
         [items]="files"
         [(expanded)]="expanded"
-        [withGuides]="false"
       /><output>Expanded: {{ expanded()?.join(', ') || 'None' }}</output>
+    </div>
+  </app-showcase-example>
+  <app-showcase-example
+    heading="Without guides"
+    aria-label="Tree without connector guides example"
+    [code]="withoutGuidesCode"
+  >
+    <p showcaseDescription>
+      Set <code>withGuides</code> to <code>false</code> for a flush hierarchy without connector
+      lines.
+    </p>
+    <div class="preview">
+      <ui-tree aria-label="Project files without guides" [items]="files" [withGuides]="false" />
     </div>
   </app-showcase-example>
   <app-showcase-example
@@ -46,6 +74,10 @@
     aria-label="Tree navigation example"
     [code]="navCode"
   >
+    <p showcaseDescription>
+      Navigation mode exposes the active item with <code>aria-current="page"</code>. Item flags can
+      disable selection or the whole row.
+    </p>
     <div class="preview">
       <ui-tree
         aria-label="Project navigation"

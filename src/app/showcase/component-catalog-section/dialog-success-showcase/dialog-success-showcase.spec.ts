@@ -6,7 +6,7 @@ describe('DialogSuccessShowcase', () => {
     const fixture = TestBed.createComponent(DialogSuccessShowcase);
     await fixture.whenStable();
 
-    expect(fixture.nativeElement.querySelectorAll('ui-card')).toHaveLength(2);
+    expect(fixture.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(2);
     expect(fixture.nativeElement.querySelectorAll('ui-dialog-success')).toHaveLength(2);
     expect(fixture.nativeElement.textContent).toContain('Custom action');
   });

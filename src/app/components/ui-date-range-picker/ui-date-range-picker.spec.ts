@@ -123,27 +123,30 @@ describe('UiDateRangePicker', () => {
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
   });
 
-  it('should transition the trigger label when the selected range changes', async () => {
+  it('should stagger only the changed parts when the selected range changes', async () => {
     const fixture = await createHostFixture();
     const rangePicker = fixture.componentInstance.rangePicker();
-    const label = fixture.nativeElement.querySelector(
-      '.ui-date-range-trigger-label',
-    ) as HTMLElement;
-    holdElementAnimations(label);
+    const parts = Array.from(
+      fixture.nativeElement.querySelectorAll('.ui-date-range-trigger-part'),
+    ) as HTMLElement[];
+    parts.forEach(holdElementAnimations);
 
     rangePicker.value.set({ start: '2026-07-01', end: '2026-07-05' });
     await fixture.whenStable();
 
-    expect(label.textContent).toContain('15 июн. 2026 г. — 20 июн. 2026 г.');
-    expect(label.getAttribute('data-swap-phase')).toBe('exit');
+    const exiting = parts.filter((part) => part.getAttribute('data-swap-phase') === 'exit');
+    expect(exiting.map((part) => part.textContent)).toEqual(['15', 'июн.', '20', 'июн.']);
+    expect(
+      exiting.map((part) => part.style.getPropertyValue('--ui-date-range-part-stagger')),
+    ).toEqual(['0', '1', '2', '3']);
 
     const exit = new Event('transitionend', { bubbles: true });
     Object.defineProperty(exit, 'propertyName', { value: 'opacity' });
-    label.dispatchEvent(exit);
+    exiting.forEach((part) => part.dispatchEvent(exit));
     await fixture.whenStable();
 
-    expect(label.textContent).toContain('01 июл. 2026 г. — 05 июл. 2026 г.');
-    expect(label.getAttribute('data-swap-phase')).toBe('idle');
+    expect(getTrigger(fixture).textContent).toContain('01 июл. 2026 г. — 05 июл. 2026 г.');
+    expect(exiting.every((part) => part.getAttribute('data-swap-phase') === 'idle')).toBe(true);
   });
 
   it('should wire ui-input label to the button trigger', async () => {

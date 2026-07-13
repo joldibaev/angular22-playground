@@ -25,7 +25,18 @@
       [attr.data-swap-phase]="triggerSwapPhase()"
       (transitionend)="onTriggerTransitionEnd($event)"
     >
-      {{ displayedTriggerValue() }}
+      <span class="ui-date-range-accessible-value">{{ displayValue() || placeholder() }}</span>
+      <span class="ui-date-range-trigger-parts" aria-hidden="true">
+        @for (part of displayedTriggerParts(); track part.key) {
+          <span
+            #triggerPart
+            class="ui-date-range-trigger-part calendar-trigger-swap"
+            [attr.data-swap-phase]="part.phase"
+            [style.--ui-date-range-part-stagger]="part.stagger"
+            (transitionend)="onTriggerPartTransitionEnd($event, part.key)"
+          >{{ part.value }}</span>
+        }
+      </span>
     </span>
   </button>
 

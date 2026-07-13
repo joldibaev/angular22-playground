@@ -61,6 +61,27 @@ ui-input:has(.ui-date-range-trigger[aria-expanded='true']) .ui-date-range-chevro
   white-space: nowrap;
 }
 
+.ui-date-range-trigger-parts {
+  display: inline-flex;
+}
+
+.ui-date-range-accessible-value {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: clip;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.ui-date-range-trigger-part {
+  white-space: pre;
+}
+
+.ui-date-range-trigger-part[data-swap-phase='exit'] {
+  transition-delay: calc(var(--dur-press) * var(--ui-date-range-part-stagger) * 0.25);
+}
+
 .ui-date-range-placeholder {
   color: var(--ui-input-placeholder-color, var(--text-color-placeholder));
 }
@@ -364,6 +385,10 @@ ui-input:has(.ui-date-range-trigger[aria-expanded='true']) .ui-date-range-chevro
      range-specific motion: chevron rotation, day press, preset/nav/action. */
   .ui-date-range-chevron {
     transition: none;
+  }
+
+  .ui-date-range-trigger-part[data-swap-phase='exit'] {
+    transition-delay: calc(var(--dur-press) * 0);
   }
 
   /* Drop the day press-scale. */

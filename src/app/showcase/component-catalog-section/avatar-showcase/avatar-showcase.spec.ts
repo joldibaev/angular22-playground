@@ -9,6 +9,6 @@ describe('AvatarShowcase', () => {
     expect(text).toContain('Sizes');
     expect(text).toContain('Initials and image fallback');
     expect(text).toContain('Named and anonymous');
-    expect(fixture.nativeElement.querySelectorAll('ui-card')).toHaveLength(4);
+    expect(fixture.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(4);
   });
 });

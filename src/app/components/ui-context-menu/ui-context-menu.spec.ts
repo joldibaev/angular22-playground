@@ -68,7 +68,7 @@ describe('UiContextMenu', () => {
     const style = getComputedStyle(contextMenu);
 
     expect(style.getPropertyValue('--ui-popup-background').trim()).toBe(
-      'color-mix(in oklab, var(--background-color-canvas) 90%, transparent)',
+      'var(--ui-glass-background)',
     );
     expect(style.getPropertyValue('--ui-popup-offset').trim()).toBe('0.5rem');
     expect(style.getPropertyValue('--ui-popup-padding').trim()).toBe('0.25rem');

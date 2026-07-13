@@ -4,7 +4,7 @@ describe('ProgressShowcase', () => {
   it('documents all progress modes', async () => {
     const f = TestBed.createComponent(ProgressShowcase);
     await f.whenStable();
-    expect(f.nativeElement.querySelectorAll('ui-card')).toHaveLength(3);
+    expect(f.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(3);
     f.destroy();
   });
 
@@ -18,20 +18,21 @@ describe('ProgressShowcase', () => {
     const increase = f.nativeElement.querySelector('[data-progress-increase]') as HTMLButtonElement;
     const decrease = f.nativeElement.querySelector('[data-progress-decrease]') as HTMLButtonElement;
 
-    expect(values[0]?.textContent?.replace(/\s/g, '')).toBe('40%');
-    expect(values[1]?.textContent?.replace(/\s/g, '')).toBe('40%');
+    const digits = (value: HTMLElement) =>
+      Array.from(value.querySelectorAll<HTMLElement>('.ui-progress-digit-column')).map((column) =>
+        column.style.getPropertyValue('--ui-progress-digit-offset'),
+      );
+
+    expect(values).toHaveLength(1);
+    expect(digits(values[0])).toEqual(['-4', '0']);
 
     increase.click();
     await f.whenStable();
-    expect(values[0]?.textContent?.replace(/\s/g, '')).toBe('60%');
-    expect(values[1]?.textContent?.replace(/\s/g, '')).toBe('60%');
-    expect(values[0]?.classList).toContain('ui-progress-value-animating');
-    expect(values[1]?.classList).not.toContain('ui-progress-value-animating');
+    expect(digits(values[0])).toEqual(['-6', '0']);
 
     decrease.click();
     await f.whenStable();
-    expect(values[0]?.textContent?.replace(/\s/g, '')).toBe('40%');
-    expect(values[1]?.textContent?.replace(/\s/g, '')).toBe('40%');
+    expect(digits(values[0])).toEqual(['-4', '0']);
 
     f.destroy();
   });

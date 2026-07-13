@@ -7,7 +7,7 @@ describe('AccordionShowcase', () => {
     await fixture.whenStable();
 
     const text = fixture.nativeElement.textContent as string;
-    expect(fixture.nativeElement.querySelectorAll('ui-card')).toHaveLength(3);
+    expect(fixture.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(3);
     expect(fixture.nativeElement.querySelectorAll('ui-accordion')).toHaveLength(3);
     expect(text).toContain('Single expansion');
     expect(text).toContain('Multiple and controlled');

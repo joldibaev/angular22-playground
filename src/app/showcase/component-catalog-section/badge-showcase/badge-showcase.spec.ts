@@ -4,7 +4,7 @@ describe('BadgeShowcase', () => {
   it('documents variants, dots, and projected icons', async () => {
     const fixture = TestBed.createComponent(BadgeShowcase);
     await fixture.whenStable();
-    expect(fixture.nativeElement.querySelectorAll('ui-card')).toHaveLength(5);
+    expect(fixture.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(5);
     expect(fixture.nativeElement.textContent).toContain('Projected icon');
     expect(fixture.nativeElement.textContent).toContain('Notification');
   });

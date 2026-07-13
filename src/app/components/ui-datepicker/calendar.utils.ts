@@ -19,6 +19,11 @@ const DISPLAY_DATE_FORMATTER = new Intl.DateTimeFormat('ru-RU', {
   year: 'numeric',
 });
 
+export interface DisplayDatePart {
+  key: string;
+  value: string;
+}
+
 export const WEEKDAYS_MON_FIRST: readonly string[] = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'вс'];
 
 export function formatMonthLabel(view: Temporal.PlainYearMonth): string {
@@ -31,6 +36,30 @@ export function formatDisplayDate(value: string): string {
   const date = parseInputDate(value);
 
   return date ? DISPLAY_DATE_FORMATTER.format(date) : '';
+}
+
+export function formatDisplayDateParts(value: string): DisplayDatePart[] {
+  const date = parseInputDate(value);
+
+  if (!date) return [];
+
+  const occurrences = new Map<string, number>();
+
+  return DISPLAY_DATE_FORMATTER.formatToParts(date).reduce<DisplayDatePart[]>((parts, part) => {
+    // Russian Intl emits the year suffix as a following literal (`2026 г.`).
+    // Keep it in the year segment so the number and its grammatical marker move together.
+    const previous = parts.at(-1);
+    if (part.type === 'literal' && previous?.key.startsWith('year-')) {
+      previous.value += part.value;
+      return parts;
+    }
+
+    const { type, value: partValue } = part;
+    const occurrence = occurrences.get(type) ?? 0;
+    occurrences.set(type, occurrence + 1);
+    parts.push({ key: `${type}-${occurrence}`, value: partValue });
+    return parts;
+  }, []);
 }
 
 export function buildMonthGrid(

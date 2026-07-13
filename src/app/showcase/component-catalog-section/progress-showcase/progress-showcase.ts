@@ -13,12 +13,8 @@ export class ProgressShowcase {
   protected readonly determinateCode = `readonly progress = signal(40);
 
 <div class="progress-variant">
-  <span>Animated value</span>
-  <ui-progress label="Animated progress" [value]="progress()" withValue withAnimation />
-</div>
-<div class="progress-variant">
-  <span>Without animation</span>
-  <ui-progress label="Static progress" [value]="progress()" withValue />
+  <span>Upload progress</span>
+  <ui-progress label="Upload progress" [value]="progress()" withValue />
 </div>
 <div class="progress-actions">
   <button

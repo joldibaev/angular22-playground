@@ -15,18 +15,18 @@
 
 @if (withValue() && normalizedValue() !== undefined) {
   <span
-    #valueRef
     class="ui-progress-value"
     aria-hidden="true"
-    [class.ui-progress-value-animating]="withAnimation() && digitAnimationPhase() === 'animate'"
   >
-    @for (character of percentageCharacters(); track $index) {
-      <span
-        class="ui-progress-digit"
-        [attr.data-stagger]="$count - $index <= 2 ? 3 - ($count - $index) : null"
-      >
-        {{ character }}
+    @for (item of percentageDigits(); track item.place) {
+      <span class="ui-progress-digit-viewport">
+        <span class="ui-progress-digit-column" [style.--ui-progress-digit-offset]="item.offset">
+          @for (digit of digitValues; track digit) {
+            <span class="ui-progress-digit">{{ digit }}</span>
+          }
+        </span>
       </span>
     }
+    <span class="ui-progress-suffix">%</span>
   </span>
 }

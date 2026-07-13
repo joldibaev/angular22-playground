@@ -155,7 +155,9 @@ describe('UiSonner', () => {
   it('should animate programmatic dismissal before removing state', async () => {
     const id = sonner.info('Dismiss through API');
     await fixture.whenStable();
-    holdAnimations(toasts()[0]);
+    // The service owns a body-level outlet in addition to this configured test
+    // outlet; hold both copies so neither finishes the shared removal early.
+    document.querySelectorAll('[data-sonner-toast]').forEach(holdAnimations);
 
     sonner.dismiss(id);
     await fixture.whenStable();

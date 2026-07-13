@@ -32,7 +32,7 @@ describe('SonnerShowcase', () => {
     showButton.click();
     await fixture.whenStable();
 
-    expect(fixture.nativeElement.querySelector('[data-sonner-toast]')?.textContent).toContain(
+    expect(document.querySelector('[data-sonner-toast]')?.textContent).toContain(
       'Price alert created',
     );
   });

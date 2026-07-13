@@ -10,7 +10,7 @@ describe('DialogShowcase', () => {
     expect(text).toContain('Role and description');
     expect(text).toContain('Nested dialogs');
     expect(text).toContain('Scrollable content');
-    expect(fixture.nativeElement.querySelectorAll('ui-card')).toHaveLength(8);
+    expect(fixture.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(8);
     expect(fixture.nativeElement.querySelectorAll('ui-dialog')).toHaveLength(15);
     expect(fixture.nativeElement.querySelector('ui-dialog-confirm')).toBeNull();
   });

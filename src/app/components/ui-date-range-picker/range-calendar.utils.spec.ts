@@ -2,6 +2,7 @@ import {
   buildPresets,
   buildRangeMonthGrid,
   formatRangeDisplay,
+  formatRangeDisplayParts,
   normalizeRange,
   rangeToView,
 } from './range-calendar.utils';
@@ -16,6 +17,17 @@ describe('range calendar utilities', () => {
       '10 июн. 2026 г. — 20 июн. 2026 г.',
     );
     expect(formatRangeDisplay({ start: '2026-06-10', end: '' })).toBe('С 10 июн. 2026 г.');
+  });
+
+  it('keeps endpoint date parts independently identifiable', () => {
+    const parts = formatRangeDisplayParts({ start: '2026-06-10', end: '2027-07-20' });
+
+    expect(parts.map((part) => part.value).join('')).toBe(
+      formatRangeDisplay({ start: '2026-06-10', end: '2027-07-20' }),
+    );
+    expect(parts.find((part) => part.key === 'start-year-0')?.value).toContain('г.');
+    expect(parts.find((part) => part.key === 'end-year-0')?.value).toContain('г.');
+    expect(parts.find((part) => part.key === 'range-separator')?.value).toBe(' — ');
   });
 
   it('chooses a two-month view that contains both range endpoints', () => {

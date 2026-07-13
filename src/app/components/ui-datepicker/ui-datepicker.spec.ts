@@ -122,27 +122,74 @@ describe('UiDatepicker', () => {
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
   });
 
-  it('should transition the trigger label when the selected date changes', async () => {
+  it('should transition only the changed date part when the selected date changes', async () => {
     const fixture = await createHostFixture();
     const datepicker = fixture.componentInstance.datepicker();
-    const label = fixture.nativeElement.querySelector(
-      '.ui-datepicker-trigger-label',
-    ) as HTMLElement;
-    holdElementAnimations(label);
+    const parts = Array.from(
+      fixture.nativeElement.querySelectorAll('.ui-datepicker-trigger-part'),
+    ) as HTMLElement[];
+    const day = parts.find((part) => part.textContent === '15')!;
+    holdElementAnimations(day);
 
     datepicker.value.set('2026-06-16');
     await fixture.whenStable();
 
-    expect(label.textContent).toContain('15 июн. 2026 г.');
-    expect(label.getAttribute('data-swap-phase')).toBe('exit');
+    expect(day.textContent).toBe('15');
+    expect(day.getAttribute('data-swap-phase')).toBe('exit');
+    expect(parts.filter((part) => part.getAttribute('data-swap-phase') === 'exit')).toEqual([day]);
 
     const exit = new Event('transitionend', { bubbles: true });
     Object.defineProperty(exit, 'propertyName', { value: 'opacity' });
-    label.dispatchEvent(exit);
+    day.dispatchEvent(exit);
     await fixture.whenStable();
 
-    expect(label.textContent).toContain('16 июн. 2026 г.');
-    expect(label.getAttribute('data-swap-phase')).toBe('idle');
+    expect(day.textContent).toBe('16');
+    expect(day.getAttribute('data-swap-phase')).toBe('idle');
+    expect(getTrigger(fixture).textContent).toContain('16 июн. 2026 г.');
+  });
+
+  it('should transition the year together with its suffix', async () => {
+    const fixture = await createHostFixture();
+    const datepicker = fixture.componentInstance.datepicker();
+    const year = Array.from(
+      fixture.nativeElement.querySelectorAll(
+        '.ui-datepicker-trigger-part',
+      ) as NodeListOf<HTMLElement>,
+    ).find((part) => part.textContent?.includes('2026'))!;
+    holdElementAnimations(year);
+
+    datepicker.value.set('2027-06-15');
+    await fixture.whenStable();
+
+    expect(year.textContent).toContain('2026');
+    expect(year.textContent).toContain('г.');
+    expect(year.getAttribute('data-swap-phase')).toBe('exit');
+
+    const exit = new Event('transitionend', { bubbles: true });
+    Object.defineProperty(exit, 'propertyName', { value: 'opacity' });
+    year.dispatchEvent(exit);
+    await fixture.whenStable();
+
+    expect(year.textContent).toContain('2027');
+    expect(year.textContent).toContain('г.');
+    expect(year.getAttribute('data-swap-phase')).toBe('idle');
+  });
+
+  it('should stagger only the date parts that changed', async () => {
+    const fixture = await createHostFixture();
+    const datepicker = fixture.componentInstance.datepicker();
+    const parts = Array.from(
+      fixture.nativeElement.querySelectorAll('.ui-datepicker-trigger-part'),
+    ) as HTMLElement[];
+    parts.forEach(holdElementAnimations);
+
+    datepicker.value.set('2027-07-16');
+    await fixture.whenStable();
+
+    const exiting = parts.filter((part) => part.getAttribute('data-swap-phase') === 'exit');
+    expect(exiting.map((part) => part.style.getPropertyValue('--ui-datepicker-part-stagger'))).toEqual(
+      ['0', '1', '2'],
+    );
   });
 
   it('should wire ui-input label to the button trigger', async () => {

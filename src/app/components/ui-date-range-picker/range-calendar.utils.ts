@@ -1,5 +1,9 @@
 import { parseInputDate } from '../../shared/date.utils';
-import { formatDisplayDate } from '../ui-datepicker/calendar.utils';
+import {
+  formatDisplayDate,
+  formatDisplayDateParts,
+  type DisplayDatePart,
+} from '../ui-datepicker/calendar.utils';
 
 export interface UiDateRangeValue {
   start: string;
@@ -48,6 +52,26 @@ export function formatRangeDisplay(range: UiDateRangeValue): string {
   }
 
   return range.start ? `С ${formatDay(range.start)}` : `До ${formatDay(range.end)}`;
+}
+
+export function formatRangeDisplayParts(range: UiDateRangeValue): DisplayDatePart[] {
+  if (!range.start && !range.end) return [];
+
+  if (range.start && range.end) {
+    return [
+      ...rangeEndpointParts(range.start, 'start'),
+      { key: 'range-separator', value: ' — ' },
+      ...rangeEndpointParts(range.end, 'end'),
+    ];
+  }
+
+  const scope = range.start ? 'start' : 'end';
+  const value = range.start || range.end;
+
+  return [
+    { key: 'range-prefix', value: range.start ? 'С ' : 'До ' },
+    ...rangeEndpointParts(value, scope),
+  ];
 }
 
 export function rangeToView(range: UiDateRangeValue, today: string): Temporal.PlainYearMonth {
@@ -198,6 +222,14 @@ function isBetween(date: string, range: UiDateRangeValue, inclusive = false): bo
 
 function formatDay(value: string): string {
   return formatDisplayDate(value) || value;
+}
+
+function rangeEndpointParts(value: string, scope: 'start' | 'end'): DisplayDatePart[] {
+  const parts = formatDisplayDateParts(value);
+
+  return parts.length
+    ? parts.map((part) => ({ ...part, key: `${scope}-${part.key}` }))
+    : [{ key: `${scope}-value`, value }];
 }
 
 function single(date: Temporal.PlainDate): UiDateRangeValue {

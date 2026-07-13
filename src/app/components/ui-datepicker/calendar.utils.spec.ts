@@ -1,4 +1,9 @@
-import { buildMonthGrid, formatDisplayDate, formatMonthLabel } from './calendar.utils';
+import {
+  buildMonthGrid,
+  formatDisplayDate,
+  formatDisplayDateParts,
+  formatMonthLabel,
+} from './calendar.utils';
 
 describe('calendar utilities', () => {
   it('formats the month label through its first day', () => {
@@ -8,6 +13,16 @@ describe('calendar utilities', () => {
   it('formats valid input dates and rejects impossible dates', () => {
     expect(formatDisplayDate('2026-06-15')).toBe('15 июн. 2026 г.');
     expect(formatDisplayDate('2026-02-31')).toBe('');
+  });
+
+  it('formats display dates into stable independently animated parts', () => {
+    const parts = formatDisplayDateParts('2026-06-15');
+
+    expect(parts.map((part) => part.value).join('')).toBe(formatDisplayDate('2026-06-15'));
+    expect(parts.find((part) => part.key === 'day-0')?.value).toBe('15');
+    expect(parts.find((part) => part.key === 'year-0')?.value).toContain('г.');
+    expect(parts.at(-1)?.key).toBe('year-0');
+    expect(formatDisplayDateParts('2026-02-31')).toEqual([]);
   });
 
   it('builds a Monday-first grid with selection and boundaries', () => {

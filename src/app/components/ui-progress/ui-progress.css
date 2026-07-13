@@ -6,10 +6,7 @@
   --ui-progress-radius: calc(var(--ui-progress-height) / 2);
   --ui-progress-indeterminate-duration: calc(var(--dur-slow) * 3);
   --ui-progress-indeterminate-easing: linear;
-  --ui-progress-digit-distance: 8px;
-  --ui-progress-digit-blur: 2px;
-  --ui-progress-digit-duration: var(--dur-slow);
-  --ui-progress-digit-stagger: calc(var(--dur-press) * 0.3);
+  --ui-progress-digit-duration: var(--dur-fast);
   --ui-progress-digit-easing: var(--ease-snappy);
 
   position: relative;
@@ -54,10 +51,6 @@ progress {
   background-color: var(--ui-progress-indicator-background);
   transform: scaleX(var(--ui-progress-ratio));
   transform-origin: left center;
-  transition: background-color var(--dur-fast) var(--ease-snappy);
-}
-
-:host(.ui-progress-animated) .ui-progress-indicator {
   transition:
     background-color var(--dur-fast) var(--ease-snappy),
     transform var(--dur-fast) var(--ease-snappy);
@@ -74,30 +67,28 @@ progress {
   line-height: 1;
 }
 
-.ui-progress-digit {
+.ui-progress-digit-viewport {
+  position: relative;
   display: inline-block;
-  will-change: translate, filter, opacity;
+  overflow: clip;
+  inline-size: 1ch;
+  block-size: 1em;
+  line-height: 1;
 }
 
-.ui-progress-value-animating .ui-progress-digit {
-  animation: ui-progress-digit-pop-in var(--ui-progress-digit-duration)
-    var(--ui-progress-digit-easing) both;
+.ui-progress-digit-column {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(calc(var(--ui-progress-digit-offset) * 1em));
+  will-change: transform;
+  transition: transform var(--ui-progress-digit-duration) var(--ui-progress-digit-easing);
 }
 
-.ui-progress-value-animating .ui-progress-digit[data-stagger='1'] {
-  animation-delay: var(--ui-progress-digit-stagger);
-}
-
-.ui-progress-value-animating .ui-progress-digit[data-stagger='2'] {
-  animation-delay: calc(var(--ui-progress-digit-stagger) * 2);
-}
-
-@keyframes ui-progress-digit-pop-in {
-  from {
-    translate: 0 var(--ui-progress-digit-distance);
-    filter: blur(var(--ui-progress-digit-blur));
-    opacity: 0;
-  }
+.ui-progress-digit {
+  flex: 0 0 1em;
+  block-size: 1em;
 }
 
 :host(.ui-progress-indeterminate) .ui-progress-indicator {
@@ -113,7 +104,7 @@ progress {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :host(.ui-progress-animated) .ui-progress-indicator {
+  .ui-progress-indicator {
     transition: background-color var(--dur-fast) var(--ease-snappy);
   }
 
@@ -122,13 +113,7 @@ progress {
     animation: none;
   }
 
-  .ui-progress-value-animating .ui-progress-digit {
-    animation-name: ui-progress-digit-fade-in;
-  }
-}
-
-@keyframes ui-progress-digit-fade-in {
-  from {
-    opacity: 0;
+  .ui-progress-digit-column {
+    transition: none;
   }
 }

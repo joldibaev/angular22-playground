@@ -9,7 +9,7 @@ describe('AlertShowcase', () => {
     expect(text).toContain('Destructive');
     expect(text).toContain('Action');
     expect(text).toContain('Dynamic urgent alert');
-    expect(fixture.nativeElement.querySelectorAll('ui-card')).toHaveLength(4);
+    expect(fixture.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(4);
     expect(fixture.nativeElement.querySelector('ui-alert[role="alert"]')).toBeNull();
   });
 

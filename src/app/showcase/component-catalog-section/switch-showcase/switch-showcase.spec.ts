@@ -4,6 +4,6 @@ describe('SwitchShowcase', () => {
   it('documents states, sizes, and form feedback', async () => {
     const f = TestBed.createComponent(SwitchShowcase);
     await f.whenStable();
-    expect(f.nativeElement.querySelectorAll('ui-card')).toHaveLength(4);
+    expect(f.nativeElement.querySelectorAll('app-showcase-example')).toHaveLength(4);
   });
 });
