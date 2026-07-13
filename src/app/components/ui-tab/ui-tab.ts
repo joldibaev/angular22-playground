@@ -4,10 +4,12 @@ import {
   Component,
   computed,
   contentChildren,
+  ElementRef,
   inject,
   input,
   model,
   signal,
+  viewChildren,
 } from '@angular/core';
 import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -63,6 +65,7 @@ export class UiTab {
   ariaLabelledby = input('', { alias: 'aria-labelledby' });
 
   readonly items = contentChildren(UiTabItem);
+  private readonly tabTriggers = viewChildren<ElementRef<HTMLButtonElement>>('tabTrigger');
 
   readonly enabledItems = computed(() => this.items().filter((item) => !item.disabled()));
   private readonly queryParamValue = computed(() => {
@@ -135,6 +138,16 @@ export class UiTab {
         queryParams: { [queryParam]: pendingQueryParamValue },
         queryParamsHandling: 'merge',
         replaceUrl: true,
+      });
+    });
+
+    afterRenderEffect(() => {
+      const selectedTab = this.tabListSelectedTab();
+      const selectedIndex = this.items().findIndex((item) => item.value() === selectedTab);
+
+      this.tabTriggers()[selectedIndex]?.nativeElement.scrollIntoView({
+        block: 'nearest',
+        inline: 'nearest',
       });
     });
   }

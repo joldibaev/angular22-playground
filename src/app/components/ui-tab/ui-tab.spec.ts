@@ -157,6 +157,10 @@ describe('UiTab', () => {
   let component: UiTab;
   let fixture: ComponentFixture<UiTab>;
 
+  beforeAll(() => {
+    HTMLElement.prototype.scrollIntoView ??= () => {};
+  });
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [UiTab],
@@ -300,6 +304,23 @@ describe('UiTab', () => {
 
     expect(tabListStyle.overflowX).toBe('auto');
     expect(tabListStyle.scrollbarWidth).toBe('none');
+  });
+
+  it('should scroll a newly selected tab into the nearest visible position', async () => {
+    const hostFixture = await createHostFixture();
+    const activityTab = getTabTriggers(hostFixture)[1];
+    const scrollIntoView = vi.fn();
+    activityTab.scrollIntoView = scrollIntoView;
+
+    hostFixture.componentInstance.selected.set('activity');
+    hostFixture.detectChanges();
+    await hostFixture.whenStable();
+    await hostFixture.whenRenderingDone();
+
+    expect(scrollIntoView).toHaveBeenCalledWith({
+      block: 'nearest',
+      inline: 'nearest',
+    });
   });
 
   it('should initialize the selected tab from a query param', async () => {
