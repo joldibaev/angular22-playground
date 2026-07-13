@@ -53,7 +53,13 @@ const ALL_ROWS = Array.from({ length: 500 }, (_, index): InventoryRow => ({
   styleUrl: './table-showcase.css',
 })
 export class TableShowcase {
-  protected readonly defaultCode = `<table uiTable>
+  protected readonly defaultCode = `readonly rows = [
+  {id: 1, sku: 'SKU-001', product: 'Keyboard', stock: 42},
+  {id: 2, sku: 'SKU-002', product: 'Mouse', stock: 18},
+  {id: 3, sku: 'SKU-003', product: 'Display', stock: 7},
+];
+
+<table uiTable>
   <caption>Inventory preview</caption>
   <thead>
     <tr>
@@ -63,7 +69,7 @@ export class TableShowcase {
     </tr>
   </thead>
   <tbody>
-    @for (row of allRows.slice(0, 4); track row.id) {
+    @for (row of rows; track row.id) {
       <tr>
         <td>{{ row.sku }}</td>
         <th scope="row">{{ row.product }}</th>
@@ -72,7 +78,13 @@ export class TableShowcase {
     }
   </tbody>
 </table>`;
-  protected readonly presentationCode = `<div uiTableViewport>
+  protected readonly presentationCode = `readonly rows = [
+  {id: 1, sku: 'SKU-001', product: 'Keyboard', warehouse: 'North'},
+  {id: 2, sku: 'SKU-002', product: 'Mouse', warehouse: 'West'},
+  {id: 3, sku: 'SKU-003', product: 'Display', warehouse: 'Central'},
+];
+
+<div uiTableViewport>
   <table uiTable withStripedRows withRowHover>
     <caption>Inventory presentation</caption>
     <thead>
@@ -83,7 +95,7 @@ export class TableShowcase {
       </tr>
     </thead>
     <tbody>
-      @for (row of allRows.slice(0, 10); track row.id) {
+      @for (row of rows; track row.id) {
         <tr>
           <td>{{ row.sku }}</td>
           <th scope="row">{{ row.product }}</th>
@@ -93,7 +105,26 @@ export class TableShowcase {
     </tbody>
   </table>
 </div>`;
-  protected readonly sortCode = `<table uiTable [sort]="sort()" (sortChange)="requestSortedPage($event)">
+  protected readonly sortCode = `import { signal } from '@angular/core';
+
+interface Row {
+  id: number;
+  product: string;
+  stock: number;
+}
+
+readonly sort = signal<string | null>(null);
+readonly rows = signal<readonly Row[]>([
+  {id: 1, product: 'Keyboard', stock: 42},
+  {id: 2, product: 'Mouse', stock: 18},
+]);
+
+requestSortedPage(sort: string | null): void {
+  this.sort.set(sort);
+  // Request the sorted page from the backend, then update rows.
+}
+
+<table uiTable [sort]="sort()" (sortChange)="requestSortedPage($event)">
   <thead>
     <tr>
       <th scope="col" uiTableSort="product">Product</th>
@@ -101,7 +132,7 @@ export class TableShowcase {
     </tr>
   </thead>
   <tbody>
-    @for (row of rows; track row.id) {
+    @for (row of rows(); track row.id) {
       <tr>
         <th scope="row">{{ row.product }}</th>
         <td>{{ row.stock }}</td>
@@ -109,7 +140,28 @@ export class TableShowcase {
     }
   </tbody>
 </table>`;
-  protected readonly contextMenuCode = `<tr
+  protected readonly contextMenuCode = `import { signal } from '@angular/core';
+import { type UiContextMenuSelection } from './components/ui-context-menu/ui-context-menu';
+
+interface Row {
+  id: number;
+  sku: string;
+  product: string;
+  warehouse: string;
+  stock: number;
+}
+
+readonly rows: readonly Row[] = [
+  {id: 1, sku: 'SKU-001', product: 'Keyboard', warehouse: 'North', stock: 42},
+];
+readonly lastAction = signal('None');
+
+runRowAction(selection: UiContextMenuSelection<Row>): void {
+  this.lastAction.set(selection.value + ': ' + selection.context.product);
+}
+
+@for (row of rows; track row.id) {
+<tr
   tabindex="0"
   [uiContextMenuTrigger]="rowMenu"
   [uiContextMenuContext]="row"
@@ -119,6 +171,7 @@ export class TableShowcase {
   <td>{{ row.warehouse }}</td>
   <td>{{ row.stock }}</td>
 </tr>
+}
 
 <ui-context-menu #rowMenu (itemSelected)="runRowAction($event)">
   <ui-menu-item value="open">Open details</ui-menu-item>
@@ -130,8 +183,40 @@ export class TableShowcase {
     <ui-icon slot="start" name="outline-trash" decorative />
     <span>Delete row</span>
   </ui-menu-item>
-</ui-context-menu>`;
-  protected readonly virtualCode = `<div uiTableViewport>
+</ui-context-menu>
+<output>Last action: {{ lastAction() }}</output>`;
+  protected readonly virtualCode = `import { signal } from '@angular/core';
+
+interface Row {
+  id: number;
+  sku: string;
+  product: string;
+  warehouse: string;
+  stock: number;
+}
+
+const createRows = (start: number, count: number): Row[] =>
+  Array.from({length: count}, (_, index) => {
+    const id = start + index + 1;
+    return {id, sku: 'SKU-' + id, product: 'Product ' + id, warehouse: 'North', stock: id};
+  });
+
+readonly totalRows = 1000;
+readonly rows = signal<readonly Row[]>(createRows(0, 80));
+readonly loading = signal(false);
+readonly loadingSkeletonRows = [0, 1, 2] as const;
+
+loadMore(): void {
+  if (this.loading() || this.rows().length >= this.totalRows) return;
+  this.loading.set(true);
+  queueMicrotask(() => {
+    const remaining = this.totalRows - this.rows().length;
+    this.rows.update(rows => [...rows, ...createRows(rows.length, Math.min(80, remaining))]);
+    this.loading.set(false);
+  });
+}
+
+<div uiTableViewport>
   <table
     #table="uiTable"
     uiTable

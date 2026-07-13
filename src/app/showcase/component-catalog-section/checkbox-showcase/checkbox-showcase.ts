@@ -16,11 +16,27 @@ export class CheckboxShowcase {
   });
   protected readonly statesCode = `<ui-checkbox label="Unchecked" description="Optional setting." />\n<ui-checkbox label="Checked" [checked]="true" />\n<ui-checkbox label="Indeterminate" indeterminate />`;
   protected readonly sizesCode = `<ui-checkbox size="sm" label="Small" [checked]="true" />\n<ui-checkbox label="Medium" [checked]="true" />`;
-  protected readonly validationCode = `<ui-checkbox
+  protected readonly validationCode = `import { signal } from '@angular/core';
+import { form, required } from '@angular/forms/signals';
+
+readonly model = signal({terms: false});
+readonly formState = form(this.model, path => {
+  required(path.terms, {message: 'Accept the terms to continue'});
+});
+
+<ui-checkbox
   label="Accept terms"
   description="Required before continuing."
   withErrorMessage
   [formField]="formState.terms"
 />`;
-  protected readonly disabledCode = `disabled(path.audit, {when: 'Managed by workspace policy'});\n\n<ui-checkbox label="Audit logging" [formField]="formState.audit" />`;
+  protected readonly disabledCode = `import { signal } from '@angular/core';
+import { disabled, form } from '@angular/forms/signals';
+
+readonly model = signal({audit: true});
+readonly formState = form(this.model, path => {
+  disabled(path.audit, {when: 'Managed by workspace policy'});
+});
+
+<ui-checkbox label="Audit logging" [formField]="formState.audit" />`;
 }

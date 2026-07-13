@@ -14,7 +14,11 @@ import { UiMenuTrigger } from '../../../components/ui-menu/ui-menu-trigger/ui-me
 })
 export class MenuShowcase {
   protected readonly selected = signal('None');
-  protected readonly defaultCode = `<button
+  protected readonly defaultCode = `import { signal } from '@angular/core';
+
+readonly selected = signal('None');
+
+<button
   uiButton
   type="button"
   uiMenuTrigger
@@ -34,7 +38,11 @@ export class MenuShowcase {
     <span>Archive</span>
   </ui-menu-item>
 </ui-menu>`;
-  protected readonly groupCode = `<button
+  protected readonly groupCode = `import { signal } from '@angular/core';
+
+readonly selected = signal('None');
+
+<button
   uiButton
   type="button"
   uiMenuTrigger
@@ -65,7 +73,11 @@ export class MenuShowcase {
     </ui-menu-item>
   </ui-menu-group>
 </ui-menu>`;
-  protected readonly stateCode = `<button
+  protected readonly stateCode = `import { signal } from '@angular/core';
+
+readonly selected = signal('None');
+
+<button
   uiButton
   type="button"
   uiMenuTrigger

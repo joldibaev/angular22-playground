@@ -26,7 +26,12 @@ export class AccordionShowcase {
   </ui-accordion-item>
 </ui-accordion>`;
 
-  protected readonly multiCode = `<ui-accordion multi>
+  protected readonly multiCode = `import { signal } from '@angular/core';
+
+readonly billingExpanded = signal(true);
+readonly securityExpanded = signal(false);
+
+<ui-accordion multi>
   <ui-accordion-item label="Billing" [(expanded)]="billingExpanded">
     Review invoices, payment methods, and billing contacts.
   </ui-accordion-item>

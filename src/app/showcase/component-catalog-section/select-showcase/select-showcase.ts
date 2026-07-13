@@ -27,5 +27,15 @@ export class SelectShowcase {
 </ui-select>`;
   protected readonly groupsCode = `<ui-select label="Project" value="research">\n  <ui-select-group label="Pinned">\n    <ui-select-option value="roadmap" label="Roadmap" />\n    <ui-select-option value="research" label="Research" />\n  </ui-select-group>\n  <ui-select-group label="Workflow">\n    <ui-select-option value="review" label="Design review" />\n    <ui-select-option value="release" label="Release candidate" />\n  </ui-select-group>\n</ui-select>`;
   protected readonly statesCode = `<ui-select label="Disabled" disabled>\n  <ui-select-option value="locked" label="Locked" />\n</ui-select>\n<ui-select label="Loading" loading />`;
-  protected readonly formCode = `readonly formModel = signal({status: 'approved'});\nreadonly formState = form(formModel);\n\n<ui-select label="Status" [formField]="formState.status">\n  <ui-select-option value="created" label="Created" />\n  <ui-select-option value="approved" label="Approved" />\n</ui-select>\n<output>{{ formModel().status }}</output>`;
+  protected readonly formCode = `import { signal } from '@angular/core';
+import { form } from '@angular/forms/signals';
+
+readonly formModel = signal({status: 'approved'});
+readonly formState = form(this.formModel);
+
+<ui-select label="Status" [formField]="formState.status">
+  <ui-select-option value="created" label="Created" />
+  <ui-select-option value="approved" label="Approved" />
+</ui-select>
+<output>{{ formModel().status }}</output>`;
 }

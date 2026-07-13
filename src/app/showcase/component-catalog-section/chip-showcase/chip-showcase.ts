@@ -18,6 +18,10 @@ export class ChipShowcase {
 
   protected readonly defaultCode = `import { UiChip } from './components/ui-chip/ui-chip';
 
+reportRemoval(label: string): void {
+  console.log('Removed', label);
+}
+
 <ui-chip
   removeLabel="Remove Angular"
   (remove)="reportRemoval('Angular')"
@@ -27,14 +31,22 @@ export class ChipShowcase {
   <span slot="end" aria-label="12 matching items">12</span>
 </ui-chip>`;
 
-  protected readonly variantCode = `<ui-chip removeLabel="Remove design" (remove)="reportRemoval('Design')">Design</ui-chip>
+  protected readonly variantCode = `reportRemoval(label: string): void {
+  console.log('Removed', label);
+}
+
+<ui-chip removeLabel="Remove design" (remove)="reportRemoval('Design')">Design</ui-chip>
 <ui-chip
   variant="destructive"
   removeLabel="Remove blocked"
   (remove)="reportRemoval('Blocked')"
 >Blocked</ui-chip>`;
 
-  protected readonly stateCode = `<ui-chip disabled removeLabel="Remove locked filter">Locked filter</ui-chip>
+  protected readonly stateCode = `reportRemoval(label: string): void {
+  console.log('Removed', label);
+}
+
+<ui-chip disabled removeLabel="Remove locked filter">Locked filter</ui-chip>
 
 <div class="chip-width-limit">
   <ui-chip removeLabel="Remove long filter" (remove)="reportRemoval('Long filter')">
@@ -42,7 +54,13 @@ export class ChipShowcase {
   </ui-chip>
 </div>`;
 
-  protected readonly removalCode = `readonly tags = signal(['Design', 'Angular', 'CSS', 'A11y']);
+  protected readonly removalCode = `import { signal } from '@angular/core';
+
+readonly tags = signal(['Design', 'Angular', 'CSS', 'A11y']);
+
+removeTag(tag: string): void {
+  this.tags.update(tags => tags.filter(current => current !== tag));
+}
 
 @for (tag of tags(); track tag) {
   <ui-chip

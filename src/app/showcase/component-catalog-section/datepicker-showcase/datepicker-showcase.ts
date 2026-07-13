@@ -22,14 +22,26 @@ export class DatepickerShowcase {
   min="2026-06-05"
   max="2026-06-25"
 />`;
-  protected readonly rangeCode = `<ui-date-range-picker label="Report range" [value]="range" />`;
-  protected readonly presetsCode = `<ui-date-range-picker
+  protected readonly rangeCode = `readonly range = {start: '2026-06-15', end: '2026-06-20'};
+
+<ui-date-range-picker label="Report range" [value]="range" />`;
+  protected readonly presetsCode = `readonly range = {start: '2026-06-15', end: '2026-06-20'};
+
+<ui-date-range-picker
   label="Custom range"
   [value]="range"
   [withPresets]="false"
 />`;
   protected readonly statesCode = `<ui-datepicker label="Disabled" value="2026-06-15" disabled />\n<ui-datepicker label="Loading" value="2026-06-15" loading />`;
-  protected readonly formCode = `required(path.requiredDate, {message: 'Pick a date before continuing'});\n\n<ui-datepicker
+  protected readonly formCode = `import { signal } from '@angular/core';
+import { form, required } from '@angular/forms/signals';
+
+readonly model = signal({requiredDate: ''});
+readonly formState = form(this.model, path => {
+  required(path.requiredDate, {message: 'Pick a date before continuing'});
+});
+
+<ui-datepicker
   label="Required date"
   withErrorMessage
   [formField]="formState.requiredDate"

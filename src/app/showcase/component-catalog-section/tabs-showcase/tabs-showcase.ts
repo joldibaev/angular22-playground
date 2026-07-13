@@ -51,7 +51,9 @@ export class TabsShowcase {
   <ui-tab-item value="activity" label="Activity">Activity content</ui-tab-item>
   <ui-tab-item value="billing" label="Billing" disabled>Unavailable</ui-tab-item>
 </ui-tab>`;
-  protected readonly controlledCode = `readonly selected = signal<string | undefined>('overview');
+  protected readonly controlledCode = `import { signal } from '@angular/core';
+
+readonly selected = signal<string | undefined>('overview');
 
 <ui-tab
   [(selectedTab)]="selected"

@@ -20,7 +20,13 @@ export class MaskShowcase {
   });
   readonly formState = form(this.model);
 
-  protected readonly patternCode = `<ui-input label="Phone">
+  protected readonly patternCode = `import { signal } from '@angular/core';
+import { form } from '@angular/forms/signals';
+
+readonly model = signal({phone: '998901234567', reference: 'ab1234'});
+readonly formState = form(this.model);
+
+<ui-input label="Phone">
   <input
     uiMask="+000 00 000-00-00"
     inputmode="tel"
@@ -38,7 +44,13 @@ export class MaskShowcase {
     [formField]="formState.reference"
   />
 </ui-input>`;
-  protected readonly separatorCode = `<ui-input label="Amount">
+  protected readonly separatorCode = `import { signal } from '@angular/core';
+import { form } from '@angular/forms/signals';
+
+readonly model = signal({amount: '1250000.50'});
+readonly formState = form(this.model);
+
+<ui-input label="Amount">
   <input
     uiMask="separator.2"
     thousandSeparator=" "

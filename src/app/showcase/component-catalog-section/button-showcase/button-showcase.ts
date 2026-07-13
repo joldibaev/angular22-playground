@@ -22,11 +22,26 @@ export class ButtonShowcase {
     'ghost',
     'link',
   ];
-  protected readonly variantsCode = `@for (variant of variants; track variant) {
+  protected readonly variantsCode = `import { type UiButtonVariant } from './components/ui-button/ui-button';
+
+readonly variants: UiButtonVariant[] = [
+  'default', 'brand', 'outline', 'destructive', 'secondary', 'ghost', 'link',
+];
+
+@for (variant of variants; track variant) {
   <button uiButton type="button" [variant]="variant">{{ variant }}</button>
 }`;
   protected readonly sizesCode = `<button uiButton type="button" size="sm">Small</button>\n<button uiButton type="button">Medium</button>\n<button uiButton type="button" variant="brand" rounded>Pill</button>`;
-  protected readonly statesCode = `<button uiButton type="button">Enabled</button>
+  protected readonly statesCode = `import { signal } from '@angular/core';
+
+readonly saving = signal(false);
+
+save(): void {
+  this.saving.set(true);
+  setTimeout(() => this.saving.set(false), 2000);
+}
+
+<button uiButton type="button">Enabled</button>
 <button uiButton type="button" disabled>Disabled</button>
 <button
   uiButton

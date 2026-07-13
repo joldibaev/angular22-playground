@@ -41,7 +41,11 @@ export class DrawerShowcase {
   <p>For forms and denser supporting content.</p>
 </ui-drawer>`;
 
-  protected readonly footerCode = `<ui-drawer #drawer="uiDrawer" title="Filters">
+  protected readonly footerCode = `import { signal } from '@angular/core';
+
+readonly onlyOpenOrders = signal(true);
+
+<ui-drawer #drawer="uiDrawer" title="Filters">
   <ui-switch
     label="Only open orders"
     [checked]="onlyOpenOrders()"
@@ -73,7 +77,9 @@ export class DrawerShowcase {
   <button uiButton type="button" [uiDrawerClose]="drawer">Done</button>
 </ui-drawer>`;
 
-  protected readonly controlledCode = `readonly drawerOpen = signal(false);
+  protected readonly controlledCode = `import { signal } from '@angular/core';
+
+readonly drawerOpen = signal(false);
 
 <button uiButton (click)="drawer.show()">Open from code</button>
 <ui-drawer

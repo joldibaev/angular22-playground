@@ -62,7 +62,12 @@ export class DialogShowcase {
   <p>Only an explicit close control dismisses this dialog.</p>
 </ui-dialog>`;
 
-  protected readonly scrollCode = `<ui-dialog #dialog="uiDialog" title="Review changes" caption="The body scrolls">
+  protected readonly scrollCode = `readonly changes = [
+  {id: 1, summary: 'Quantity changed from 10 to 20'},
+  {id: 2, summary: 'Limit price changed to $42.00'},
+];
+
+<ui-dialog #dialog="uiDialog" title="Review changes" caption="The body scrolls">
   <div>
     @for (change of changes; track change.id) {
       <p>{{ change.summary }}</p>
@@ -95,7 +100,9 @@ export class DialogShowcase {
   <button uiButton type="button" [uiDialogClose]="dialog">Continue</button>
 </ui-dialog>`;
 
-  protected readonly controlledCode = `readonly dialogOpen = signal(false);
+  protected readonly controlledCode = `import { signal } from '@angular/core';
+
+readonly dialogOpen = signal(false);
 
 <button uiButton (click)="dialog.show()">Open from code</button>
 <ui-dialog

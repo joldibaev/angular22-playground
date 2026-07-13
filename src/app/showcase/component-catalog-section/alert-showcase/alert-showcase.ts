@@ -26,7 +26,11 @@ export class AlertShowcase {
     Add email
   </button>
 </ui-alert>`;
-  protected readonly liveCode = `@if (withUrgentError()) {
+  protected readonly liveCode = `import { signal } from '@angular/core';
+
+readonly withUrgentError = signal(false);
+
+@if (withUrgentError()) {
   <ui-alert title="Connection lost" variant="destructive" role="alert">
     Live prices are unavailable. Reconnect before submitting an order.
   </ui-alert>

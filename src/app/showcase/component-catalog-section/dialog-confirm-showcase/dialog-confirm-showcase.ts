@@ -12,7 +12,15 @@ import { UiDialogConfirm } from '../../../components/ui-dialog-confirm/ui-dialog
 export class DialogConfirmShowcase {
   protected readonly lastAction = signal('No action yet');
 
-  protected readonly defaultCode = `<button
+  protected readonly defaultCode = `saveChanges(): void {
+  // Persist the changes.
+}
+
+keepEditing(): void {
+  // Keep the current form open.
+}
+
+<button
   uiButton
   command="show-modal"
   [attr.commandfor]="confirm.dialogId()"
@@ -30,7 +38,11 @@ export class DialogConfirmShowcase {
   (cancel)="keepEditing()"
 />`;
 
-  protected readonly destructiveCode = `<ui-dialog-confirm
+  protected readonly destructiveCode = `deleteItem(): void {
+  // Delete the selected item after confirmation.
+}
+
+<ui-dialog-confirm
   #confirm="uiDialogConfirm"
   tone="destructive"
   title="Delete item?"
@@ -48,7 +60,15 @@ export class DialogConfirmShowcase {
   cancelLabel="Review again"
 />`;
 
-  protected readonly cancelCode = `<ui-dialog-confirm
+  protected readonly cancelCode = `discardDraft(): void {
+  // Discard the draft after confirmation.
+}
+
+keepDraft(): void {
+  // Preserve the current draft.
+}
+
+<ui-dialog-confirm
   #confirm="uiDialogConfirm"
   title="Discard draft?"
   message="Your unpublished changes will be lost."

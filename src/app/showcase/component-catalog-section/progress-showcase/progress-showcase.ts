@@ -10,7 +10,17 @@ import { UiProgress } from '../../../components/ui-progress/ui-progress';
 })
 export class ProgressShowcase {
   protected readonly progress = signal(40);
-  protected readonly determinateCode = `readonly progress = signal(40);
+  protected readonly determinateCode = `import { signal } from '@angular/core';
+
+readonly progress = signal(40);
+
+decreaseProgress(): void {
+  this.progress.update(value => Math.max(0, value - 20));
+}
+
+increaseProgress(): void {
+  this.progress.update(value => Math.min(100, value + 20));
+}
 
 <div class="progress-variant">
   <span>Upload progress</span>

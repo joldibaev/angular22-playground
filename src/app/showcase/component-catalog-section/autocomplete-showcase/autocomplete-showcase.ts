@@ -94,9 +94,12 @@ export class AutocompleteShowcase {
   protected readonly formState = form(this.formModel, (path) => {
     required(path.team, { message: 'Choose a team' });
   });
-  protected readonly defaultCode = `readonly query = signal('');
+  protected readonly defaultCode = `import { computed, signal } from '@angular/core';
+
+readonly teams = ['Platform', 'Growth', 'Support', 'Finance', 'Legal'];
+readonly query = signal('');
 readonly results = computed(() =>
-  teams.filter(team => team.toLowerCase().includes(query().toLowerCase())),
+  this.teams.filter(team => team.toLowerCase().includes(this.query().toLowerCase())),
 );
 
 <ui-autocomplete label="Team" [(query)]="query">
@@ -108,9 +111,26 @@ readonly results = computed(() =>
     </ui-autocomplete-option>
   }
 </ui-autocomplete>`;
-  protected readonly resourceCode = `readonly query = signal('');
+  protected readonly resourceCode = `import { httpResource } from '@angular/common/http';
+import { computed, signal } from '@angular/core';
+
+interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
+interface UsersResponse {
+  users: User[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
+readonly query = signal('');
 readonly users = httpResource<UsersResponse>(() => {
-  const q = query().trim();
+  const q = this.query().trim();
   return q.length >= 2
     ? {
         url: 'https://dummyjson.com/users/search',
@@ -118,7 +138,10 @@ readonly users = httpResource<UsersResponse>(() => {
       }
     : undefined;
 }, {defaultValue: {users: [], total: 0, skip: 0, limit: 0}});
-readonly results = computed(() => users.hasValue() ? users.value().users : []);
+readonly results = computed(() => this.users.hasValue() ? this.users.value().users : []);
+readonly emptyText = computed(() =>
+  this.query().trim().length < 2 ? 'Type at least 2 characters' : 'No users found',
+);
 
 <ui-autocomplete
   label="User"
@@ -131,17 +154,34 @@ readonly results = computed(() => users.hasValue() ? users.value().users : []);
   @for (user of results(); track user.id) {
     <ui-autocomplete-option
       [value]="user.id.toString()"
-      [label]="userLabel(user)"
+      [label]="user.firstName + ' ' + user.lastName + ' — ' + user.email"
     />
   }
 </ui-autocomplete>`;
-  protected readonly rxCode = `readonly query = signal('');
-readonly search = toSignal(toObservable(query).pipe(
+  protected readonly rxCode = `import { HttpClient } from '@angular/common/http';
+import { computed, inject, signal } from '@angular/core';
+import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { catchError, debounceTime, distinctUntilChanged, map, of, startWith, switchMap } from 'rxjs';
+
+interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+}
+
+interface UsersResponse {
+  users: User[];
+}
+
+private readonly http = inject(HttpClient);
+readonly query = signal('');
+readonly search = toSignal(toObservable(this.query).pipe(
   map(q => q.trim()),
   debounceTime(300),
   distinctUntilChanged(),
   switchMap(q => q.length < 2 ? of({users: [], loading: false, failed: false}) :
-    http.get<UsersResponse>('https://dummyjson.com/users/search', {
+    this.http.get<UsersResponse>('https://dummyjson.com/users/search', {
       params: {q, limit: 8, select: 'id,firstName,lastName,email'},
     }).pipe(
       map(response => ({users: response.users, loading: false, failed: false})),
@@ -150,6 +190,9 @@ readonly search = toSignal(toObservable(query).pipe(
     ),
   ),
 ), {initialValue: {users: [], loading: false, failed: false}});
+readonly emptyText = computed(() =>
+  this.query().trim().length < 2 ? 'Type at least 2 characters' : 'No users found',
+);
 
 <ui-autocomplete
   label="User"
@@ -162,11 +205,14 @@ readonly search = toSignal(toObservable(query).pipe(
   @for (user of search().users; track user.id) {
     <ui-autocomplete-option
       [value]="user.id.toString()"
-      [label]="userLabel(user)"
+      [label]="user.firstName + ' ' + user.lastName + ' — ' + user.email"
     />
   }
 </ui-autocomplete>`;
-  protected readonly valueCode = `readonly selectedTeam = signal('team_support');
+  protected readonly valueCode = `import { signal } from '@angular/core';
+
+readonly teams = ['Platform', 'Growth', 'Support', 'Finance', 'Legal'];
+readonly selectedTeam = signal('team_support');
 
 <ui-autocomplete label="Assigned team" [(value)]="selectedTeam">
   @for (team of teams; track team) {
@@ -188,8 +234,12 @@ readonly search = toSignal(toObservable(query).pipe(
   loadingText="Loading people"
   loading
 />`;
-  protected readonly formCode = `readonly formModel = signal({team: ''});
-readonly formState = form(formModel, path => required(path.team, {message: 'Choose a team'}));
+  protected readonly formCode = `import { signal } from '@angular/core';
+import { form, required } from '@angular/forms/signals';
+
+readonly teams = ['Platform', 'Growth', 'Support', 'Finance', 'Legal'];
+readonly formModel = signal({team: ''});
+readonly formState = form(this.formModel, path => required(path.team, {message: 'Choose a team'}));
 
 <ui-autocomplete label="Required team" withErrorMessage [formField]="formState.team">
   @for (team of teams; track team) {

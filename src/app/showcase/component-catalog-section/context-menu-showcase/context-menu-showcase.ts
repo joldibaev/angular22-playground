@@ -27,7 +27,26 @@ export class ContextMenuShowcase {
     { name: 'Campaign assets', kind: 'Folder' },
   ];
   protected readonly lastAction = signal('None');
-  protected readonly defaultCode = `@for (file of files; track file.name) {
+  protected readonly defaultCode = `import { signal } from '@angular/core';
+import { type UiContextMenuSelection } from './components/ui-context-menu/ui-context-menu';
+
+interface FileItem {
+  name: string;
+  kind: string;
+}
+
+readonly files: readonly FileItem[] = [
+  {name: 'Q3 forecast.xlsx', kind: 'Spreadsheet'},
+  {name: 'Product brief.docx', kind: 'Document'},
+  {name: 'Campaign assets', kind: 'Folder'},
+];
+readonly lastAction = signal('None');
+
+run(selection: UiContextMenuSelection<FileItem>): void {
+  this.lastAction.set(selection.value + ': ' + selection.context.name);
+}
+
+@for (file of files; track file.name) {
   <div
     class="file"
     tabindex="0"
@@ -56,7 +75,8 @@ export class ContextMenuShowcase {
     <ui-icon slot="start" name="outline-trash" decorative />
     <span>Delete</span>
   </ui-menu-item>
-</ui-context-menu>`;
+</ui-context-menu>
+<output>Last action: {{ lastAction() }}</output>`;
 
   protected run(selection: UiContextMenuSelection<unknown>): void {
     if (!isDemoFile(selection.context)) {

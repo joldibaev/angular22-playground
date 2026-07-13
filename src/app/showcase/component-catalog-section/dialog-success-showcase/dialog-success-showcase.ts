@@ -26,7 +26,11 @@ export class DialogSuccessShowcase {
   message="A receipt has been sent to your email."
 />`;
 
-  protected readonly customCode = `<ui-dialog-success
+  protected readonly customCode = `openWorkspace(): void {
+  // Navigate to the newly created workspace.
+}
+
+<ui-dialog-success
   #success="uiDialogSuccess"
   title="Workspace created"
   message="Your team can now start collaborating."

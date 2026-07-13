@@ -20,7 +20,15 @@ export class BadgeShowcase {
   <span>Verified</span>
   <span slot="end">Ready</span>
 </ui-badge>`;
-  protected readonly notificationCode = `<button
+  protected readonly notificationCode = `import { signal } from '@angular/core';
+
+readonly notificationVisible = signal(false);
+
+toggleNotification(): void {
+  this.notificationVisible.update(visible => !visible);
+}
+
+<button
   uiButton
   type="button"
   variant="outline"

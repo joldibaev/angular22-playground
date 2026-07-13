@@ -16,6 +16,11 @@ const POSITIONS: ReadonlyArray<{ value: UiSonnerPosition; label: string }> = [
   { value: 'bottom-right', label: 'Bottom right' },
 ];
 
+const SONNER_SETUP = `import { inject } from '@angular/core';
+import { SonnerService } from './components/ui-sonner/sonner.service';
+
+readonly sonner = inject(SonnerService);`;
+
 @Component({
   selector: 'app-sonner-showcase',
   imports: [ShowcaseExample, UiButton, UiSelect, UiSelectOption, UiSwitch],
@@ -39,49 +44,69 @@ export class SonnerShowcase {
     });
   });
 
-  protected readonly defaultCode = `import { inject } from '@angular/core';
-import { SonnerService } from './components/ui-sonner/sonner.service';
-
-readonly sonner = inject(SonnerService);
+  protected readonly defaultCode = `${SONNER_SETUP}
 
 this.sonner.show('Price alert created', {
   description: 'AAPL above $220.',
 });`;
 
-  protected readonly typesCode = `this.sonner.success('Portfolio synced');
+  protected readonly typesCode = `${SONNER_SETUP}
+
+this.sonner.success('Portfolio synced');
 this.sonner.info('Market data refreshed');
 this.sonner.warning('Price limit near');
 this.sonner.error('Order rejected');`;
 
-  protected readonly promiseCode = `this.sonner.promise(placeOrder(), {
+  protected readonly promiseCode = `${SONNER_SETUP}
+
+const placeOrder = () => Promise.resolve({id: 42});
+const getMessage = (error: unknown) => error instanceof Error ? error.message : 'Order failed';
+const releaseOrderLock = () => {};
+
+this.sonner.promise(placeOrder(), {
   loading: 'Submitting order',
   success: (order) => \`Order #\${order.id} accepted\`,
   error: (error) => getMessage(error),
   finally: () => releaseOrderLock(),
 });`;
 
-  protected readonly updateCode = `const id = this.sonner.loading('Saving watchlist', undefined, {
+  protected readonly updateCode = `${SONNER_SETUP}
+
+const id = this.sonner.loading('Saving watchlist', undefined, {
   id: 'watchlist-save',
 });
 
 this.sonner.success('Watchlist saved', undefined, { id });
 this.sonner.dismiss(id);`;
 
-  protected readonly actionCode = `this.sonner.show('Draft order queued', {
+  protected readonly actionCode = `${SONNER_SETUP}
+
+const restoreDraft = () => this.sonner.info('Draft restored');
+
+this.sonner.show('Draft order queued', {
   description: 'You can undo it before submission.',
   action: { label: 'Undo', onClick: restoreDraft },
   cancel: { label: 'Ignore' },
 });`;
 
-  protected readonly iconCode = `this.sonner.show('Market opened', {
+  protected readonly iconCode = `${SONNER_SETUP}
+
+this.sonner.show('Market opened', {
   icon: 'outline-bell-down',
 });`;
 
-  protected readonly positionCode = `this.sonner.success('Account synced', undefined, {
+  protected readonly positionCode = `${SONNER_SETUP}
+
+this.sonner.success('Account synced', undefined, {
   position: 'top-left',
 });`;
 
-  protected readonly behaviorCode = `this.sonner.info('Live monitoring enabled', undefined, {
+  protected readonly behaviorCode = `${SONNER_SETUP}
+
+const handleAutoClose = () => console.log('Toast expired');
+const handleDismiss = () => console.log('Toast dismissed');
+
+this.sonner.info('Live monitoring enabled', undefined, {
   duration: Number.POSITIVE_INFINITY,
 });
 
@@ -98,13 +123,17 @@ this.sonner.show('Lifecycle callbacks', {
   onDismiss: handleDismiss,
 });`;
 
-  protected readonly stackCode = `this.sonner.info('Market connected');
+  protected readonly stackCode = `${SONNER_SETUP}
+
+this.sonner.info('Market connected');
 this.sonner.success('Watchlist synced');
 this.sonner.warning('Volatility increased');
 
 this.sonner.dismiss();`;
 
-  protected readonly toasterCode = `this.sonner.configure({
+  protected readonly toasterCode = `${SONNER_SETUP}
+
+this.sonner.configure({
   position: 'bottom-right',
   visibleToasts: 3,
   expand: false,

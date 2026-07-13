@@ -18,7 +18,11 @@ export class PopoverShowcase {
   <strong>Order details</strong>
   <span>Updated two minutes ago</span>
 </ng-template>`;
-  protected readonly placementCode = `@for (placement of placements; track placement) {
+  protected readonly placementCode = `import { type UiPopoverPlacement } from './components/ui-popover/ui-popover';
+
+readonly placements: readonly UiPopoverPlacement[] = ['top', 'right', 'bottom', 'left'];
+
+@for (placement of placements; track placement) {
   <button
     uiButton
     type="button"
@@ -69,7 +73,9 @@ export class PopoverShowcase {
     </dl>
   </div>
 </ng-template>`;
-  protected readonly controlledCode = `readonly controlledOpen = signal(false);
+  protected readonly controlledCode = `import { signal } from '@angular/core';
+
+readonly controlledOpen = signal(false);
 
 <button
   #controlled="uiPopover"
