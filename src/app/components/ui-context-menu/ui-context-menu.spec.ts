@@ -48,18 +48,17 @@ describe('UiContextMenu', () => {
     await TestBed.configureTestingModule({}).compileComponents();
   });
 
-  it('connects the hidden Angular Aria trigger to a uniquely anchored menu', async () => {
+  it('connects the hidden Angular Aria trigger to a viewport-positioned menu', async () => {
     const fixture = await createHost();
+    const contextMenu = fixture.nativeElement.querySelector('ui-context-menu') as HTMLElement;
     const origin = fixture.nativeElement.querySelector('.ui-context-menu-origin') as HTMLElement;
     const menu = document.querySelector('[role="menu"]') as HTMLElement;
 
+    expect(getComputedStyle(contextMenu).position).toBe('static');
     expect(origin.getAttribute('aria-hidden')).toBe('true');
     expect(origin.getAttribute('aria-haspopup')).toBe('true');
-    expect(origin.style.anchorName).toMatch(/^--ui-context-menu-origin-\d+$/);
     expect(menu.getAttribute('popover')).toBe('auto');
-    expect(menu.style.positionAnchor).toBe(origin.style.anchorName);
-    expect(getComputedStyle(menu).positionTryFallbacks).toContain('flip-block');
-    expect(getComputedStyle(menu).positionTryFallbacks).toContain('flip-inline');
+    expect(menu.style.positionAnchor).toBe('');
   });
 
   it('uses the shared menu popup surface tokens', async () => {
@@ -90,10 +89,11 @@ describe('UiContextMenu', () => {
     await fixture.whenRenderingDone();
 
     const origin = fixture.nativeElement.querySelector('.ui-context-menu-origin') as HTMLElement;
+    const menu = fixture.nativeElement.querySelector('[role="menu"]') as HTMLElement;
 
     expect(event.defaultPrevented).toBe(true);
-    expect(origin.style.left).toBe('240px');
-    expect(origin.style.top).toBe('160px');
+    expect(menu.style.left).toBe('240px');
+    expect(menu.style.top).toBe('164px');
     expect(origin.getAttribute('aria-expanded')).toBe('true');
     expect(fixture.componentInstance.menu().context()).toEqual(fixture.componentInstance.row);
     expect(
@@ -116,9 +116,10 @@ describe('UiContextMenu', () => {
     await fixture.whenStable();
 
     const origin = fixture.nativeElement.querySelector('.ui-context-menu-origin') as HTMLElement;
+    const menu = fixture.nativeElement.querySelector('[role="menu"]') as HTMLElement;
     expect(event.defaultPrevented).toBe(true);
-    expect(origin.style.left).toBe('18px');
-    expect(origin.style.top).toBe('72px');
+    expect(menu.style.left).toBe('18px');
+    expect(menu.style.top).toBe('76px');
     expect(origin.getAttribute('aria-expanded')).toBe('true');
   });
 
@@ -139,4 +140,37 @@ describe('UiContextMenu', () => {
       context: fixture.componentInstance.row,
     });
   });
+
+  it('returns focus to the invocation target when the popover closes', async () => {
+    const fixture = await createHost();
+    const target = fixture.nativeElement.querySelector('.target') as HTMLElement;
+    const menu = fixture.nativeElement.querySelector('[role="menu"]') as HTMLElement;
+    const focus = vi.spyOn(target, 'focus');
+
+    target.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, clientX: 12, clientY: 24 }));
+    await fixture.whenStable();
+    menu.dispatchEvent(createToggleEvent('closed'));
+
+    expect(focus).toHaveBeenCalledWith({ preventScroll: true });
+  });
+
+  it('does not focus an invocation target that was removed while the menu was open', async () => {
+    const fixture = await createHost();
+    const target = fixture.nativeElement.querySelector('.target') as HTMLElement;
+    const menu = fixture.nativeElement.querySelector('[role="menu"]') as HTMLElement;
+    const focus = vi.spyOn(target, 'focus');
+
+    target.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, clientX: 12, clientY: 24 }));
+    await fixture.whenStable();
+    target.remove();
+    menu.dispatchEvent(createToggleEvent('closed'));
+
+    expect(focus).not.toHaveBeenCalled();
+  });
 });
+
+function createToggleEvent(newState: 'open' | 'closed'): ToggleEvent {
+  const event = new Event('toggle') as ToggleEvent;
+  Object.defineProperty(event, 'newState', { value: newState });
+  return event;
+}

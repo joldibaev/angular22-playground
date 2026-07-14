@@ -1,9 +1,11 @@
 :host {
   display: contents;
+  position: static;
 }
 
 .ui-context-menu-origin {
   position: fixed;
+  inset: 0 auto auto 0;
   width: 1px;
   height: 1px;
   margin: 0;
@@ -14,7 +16,8 @@
 }
 
 .ui-context-menu-panel {
-  position-try-fallbacks: flip-block, flip-inline;
+  position-anchor: auto;
+  position-try-fallbacks: none;
 
   &[data-visible='false'] {
     display: none;
@@ -28,20 +31,29 @@
   }
 }
 
-@container anchored(fallback: flip-inline) {
-  .ui-context-menu-panel .ui-popup-box {
-    transform-origin: top right;
+.ui-context-menu-panel[data-inline-placement='before'] .ui-popup-box {
+  transform-origin: top right;
+}
+
+.ui-context-menu-panel[data-block-placement='before'] .ui-popup-box {
+  transform-origin: bottom left;
+  translate: 0 0.25rem;
+}
+
+.ui-context-menu-panel[data-block-placement='before'][data-inline-placement='before']
+  .ui-popup-box {
+  transform-origin: bottom right;
+}
+
+@starting-style {
+  .ui-context-menu-panel[data-block-placement='before']:popover-open .ui-popup-box {
+    translate: 0 0.25rem;
   }
 }
 
-@container anchored(fallback: flip-block) {
-  .ui-context-menu-panel .ui-popup-box {
-    transform-origin: bottom left;
-  }
-}
-
-@container anchored(fallback: flip-block) and anchored(fallback: flip-inline) {
-  .ui-context-menu-panel .ui-popup-box {
-    transform-origin: bottom right;
+@media (prefers-reduced-motion: reduce) {
+  .ui-context-menu-panel[data-block-placement='before'] .ui-popup-box,
+  .ui-context-menu-panel[data-block-placement='before']:popover-open .ui-popup-box {
+    translate: none;
   }
 }

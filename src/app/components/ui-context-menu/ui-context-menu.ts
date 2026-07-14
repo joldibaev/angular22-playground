@@ -10,7 +10,6 @@ import {
 } from '@angular/core';
 import { Menu, MenuContent, MenuItem, MenuTrigger } from '@angular/aria/menu';
 import { syncPopover } from '../../shared/sync-popover';
-import { nextId } from '../../shared/unique-id';
 import { UiMenuGroup } from '../ui-menu/ui-menu-group/ui-menu-group';
 import { UiMenuItem } from '../ui-menu/ui-menu-item/ui-menu-item';
 
@@ -27,6 +26,8 @@ export interface UiContextMenuSelection<T> {
 }
 
 const DOCUMENT_POSITION_FOLLOWING = 4;
+const VIEWPORT_MARGIN = 8;
+const POINTER_GAP = 4;
 
 @Component({
   selector: 'ui-context-menu',
@@ -42,8 +43,6 @@ export class UiContextMenu<T = unknown> {
   readonly context = signal<T | undefined>(undefined);
   readonly itemSelected = output<UiContextMenuSelection<T>>();
 
-  protected readonly originId = `ui-context-menu-origin-${nextId()}`;
-  protected readonly anchorName = `--${this.originId}`;
   protected readonly position = signal({ x: 0, y: 0 });
   private returnFocusTo: HTMLElement | undefined;
   protected readonly sections = computed<UiContextMenuSection[]>(() => {
@@ -78,7 +77,14 @@ export class UiContextMenu<T = unknown> {
   constructor() {
     afterRenderEffect(() => {
       const menu = this.menu();
-      syncPopover(menu?.element, menu?.visible() ?? false);
+      const visible = menu?.visible() ?? false;
+      const position = this.position();
+
+      syncPopover(menu?.element, visible);
+
+      if (menu && visible) {
+        positionContextMenu(menu.element, position.x, position.y);
+      }
     });
   }
 
@@ -106,10 +112,49 @@ export class UiContextMenu<T = unknown> {
   protected onPopoverToggle(event: ToggleEvent): void {
     if (event.newState === 'closed') {
       this.trigger().close();
-      this.returnFocusTo?.focus({ preventScroll: true });
+
+      if (this.returnFocusTo?.isConnected) {
+        this.returnFocusTo.focus({ preventScroll: true });
+      }
+
       this.returnFocusTo = undefined;
     }
   }
+}
+
+/**
+ * A pointer is a viewport coordinate, not a durable DOM anchor. Positioning the
+ * top-layer popover directly also avoids containing-block offsets when the menu
+ * is declared inside scrollports such as ui-table-viewport.
+ */
+function positionContextMenu(element: HTMLElement, x: number, y: number): void {
+  element.style.left = `${x}px`;
+  element.style.top = `${y + POINTER_GAP}px`;
+
+  // Layout dimensions stay stable while the inner box performs its scale transition.
+  const menuWidth = element.offsetWidth;
+  const menuHeight = element.offsetHeight;
+  const viewport = element.ownerDocument.defaultView;
+
+  if (!viewport) {
+    return;
+  }
+
+  const opensBefore = x + menuWidth + VIEWPORT_MARGIN > viewport.innerWidth;
+  const opensAbove = y + POINTER_GAP + menuHeight + VIEWPORT_MARGIN > viewport.innerHeight;
+  const preferredLeft = opensBefore ? x - menuWidth : x;
+  const preferredTop = opensAbove ? y - menuHeight - POINTER_GAP : y + POINTER_GAP;
+  const maxLeft = Math.max(VIEWPORT_MARGIN, viewport.innerWidth - menuWidth - VIEWPORT_MARGIN);
+  const maxTop = Math.max(VIEWPORT_MARGIN, viewport.innerHeight - menuHeight - VIEWPORT_MARGIN);
+
+  element.style.left = `${clamp(preferredLeft, VIEWPORT_MARGIN, maxLeft)}px`;
+  element.style.top = `${clamp(preferredTop, VIEWPORT_MARGIN, maxTop)}px`;
+  element.dataset['inlinePlacement'] = opensBefore ? 'before' : 'after';
+  element.dataset['blockPlacement'] = opensAbove ? 'before' : 'after';
+}
+
+function clamp(value: number, minimum: number, maximum: number): number {
+  return Math.min(Math.max(value, minimum), maximum);
 }
 
 function compareDeclarations(

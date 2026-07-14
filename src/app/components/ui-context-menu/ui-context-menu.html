@@ -4,11 +4,7 @@
   class="ui-context-menu-origin"
   tabindex="-1"
   aria-hidden="true"
-  [attr.id]="originId"
-  [style.anchor-name]="anchorName"
   [menu]="menu()"
-  [style.left.px]="position().x"
-  [style.top.px]="position().y"
 ></div>
 
 <div
@@ -16,7 +12,8 @@
   #menuPanel="ngMenu"
   class="ui-popup-surface ui-menu-panel ui-context-menu-panel"
   popover="auto"
-  [style.position-anchor]="anchorName"
+  [style.left.px]="position().x"
+  [style.top.px]="position().y"
   (itemSelected)="onItemSelected($event)"
   (toggle)="onPopoverToggle($event)"
 >

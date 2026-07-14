@@ -160,9 +160,12 @@ runRowAction(selection: UiContextMenuSelection<Row>): void {
   this.lastAction.set(selection.value + ': ' + selection.context.product);
 }
 
+openProduct(row: Row): void {
+  this.lastAction.set('open: ' + row.product);
+}
+
 @for (row of rows; track row.id) {
 <tr
-  tabindex="0"
   [uiContextMenuTrigger]="rowMenu"
   [uiContextMenuContext]="row"
 >
@@ -170,6 +173,11 @@ runRowAction(selection: UiContextMenuSelection<Row>): void {
   <th scope="row">{{ row.product }}</th>
   <td>{{ row.warehouse }}</td>
   <td>{{ row.stock }}</td>
+  <td>
+    <button uiButton type="button" variant="ghost" size="sm" (click)="openProduct(row)">
+      Open<span class="sr-only"> {{ row.product }}</span>
+    </button>
+  </td>
 </tr>
 }
 

@@ -78,9 +78,10 @@ describe('UiContextMenuTrigger', () => {
     expect(fixture.componentInstance.menu.openAt).not.toHaveBeenCalled();
   });
 
-  it('returns keyboard focus to the focused descendant of a table-like row', () => {
+  it('positions from and returns focus to the focused descendant of a table-like row', () => {
     const action = target.querySelector('.row-action') as HTMLButtonElement;
     target.getBoundingClientRect = () => ({ left: 12, bottom: 48 }) as DOMRect;
+    action.getBoundingClientRect = () => ({ left: 30, bottom: 64 }) as DOMRect;
 
     action.dispatchEvent(
       new KeyboardEvent('keydown', {
@@ -92,8 +93,8 @@ describe('UiContextMenuTrigger', () => {
     );
 
     expect(fixture.componentInstance.menu.openAt).toHaveBeenCalledWith(
-      12,
-      48,
+      30,
+      64,
       fixture.componentInstance.context,
       action,
     );

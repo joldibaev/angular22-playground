@@ -122,7 +122,7 @@
       <div uiTableViewport>
         <table uiTable withRowHover>
           <caption>
-            Right-click a row, long-press it, or focus it and press Shift+F10
+            Right-click a row, long-press it, or focus its Open button and press Shift+F10
           </caption>
           <thead>
             <tr>
@@ -130,15 +130,27 @@
               <th scope="col">Product</th>
               <th scope="col">Warehouse</th>
               <th scope="col">Stock</th>
+              <th scope="col">Action</th>
             </tr>
           </thead>
           <tbody>
             @for (row of allRows.slice(0, 5); track row.id) {
-              <tr tabindex="0" [uiContextMenuTrigger]="rowMenu" [uiContextMenuContext]="row">
+              <tr [uiContextMenuTrigger]="rowMenu" [uiContextMenuContext]="row">
                 <td>{{ row.sku }}</td>
                 <th scope="row">{{ row.product }}</th>
                 <td>{{ row.warehouse }}</td>
                 <td>{{ row.stock }}</td>
+                <td>
+                  <button
+                    uiButton
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    (click)="openProduct(row)"
+                  >
+                    Open<span class="sr-only"> {{ row.product }}</span>
+                  </button>
+                </td>
               </tr>
             }
           </tbody>
