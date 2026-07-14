@@ -1,5 +1,4 @@
 import {
-  afterRenderEffect,
   booleanAttribute,
   Component,
   ElementRef,
@@ -54,16 +53,6 @@ export class UiCheckbox implements FormCheckboxControl {
   readonly describedBy = this.messages.describedBy;
 
   private readonly control = viewChild<ElementRef<HTMLInputElement>>('control');
-
-  constructor() {
-    afterRenderEffect(() => {
-      const control = this.control()?.nativeElement;
-
-      if (control) {
-        control.indeterminate = this.indeterminate();
-      }
-    });
-  }
 
   onChange(event: Event): void {
     const control = event.target as HTMLInputElement;
