@@ -32,11 +32,12 @@
   font-size: 0.75rem;
 }
 
+/*todo as component*/
 kbd {
   border: 1px solid var(--border-color-strong);
   border-radius: 0.25rem;
   padding: 0.0625rem 0.3125rem;
-  background: var(--background-color-elevated);
+  background: var(--background-color-subtle);
   color: var(--text-color-canvas);
   font: inherit;
   font-weight: 700;

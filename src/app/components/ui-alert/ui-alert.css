@@ -2,7 +2,7 @@
   --ui-alert-radius: 0.875rem;
   --ui-alert-padding: 1.125rem;
   --ui-alert-gap: 0.875rem;
-  --ui-alert-background: var(--background-color-elevated);
+  --ui-alert-background: var(--background-color-surface);
   --ui-alert-color: contrast-color(var(--ui-alert-background));
 
   position: relative;

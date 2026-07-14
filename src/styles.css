@@ -39,7 +39,6 @@
   --ui-glass-backdrop-filter: blur(12px);
 
   --background-color-surface: light-dark(var(--color-white), var(--color-neutral-900));
-  --background-color-elevated: light-dark(var(--color-white), var(--color-neutral-800));
   --background-color-subtle: light-dark(var(--color-neutral-100), var(--color-neutral-800));
 
   --background-color-hover: color-mix(in oklab, var(--text-color-muted) 8%, transparent);

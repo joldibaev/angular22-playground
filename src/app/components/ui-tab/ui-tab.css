@@ -1,7 +1,7 @@
 :host {
   --ui-tab-border-color: var(--border-color-default);
   --ui-tab-list-background: light-dark(var(--color-neutral-100), var(--color-neutral-900));
-  --ui-tab-indicator-background: var(--background-color-elevated);
+  --ui-tab-indicator-background: light-dark(var(--color-white), var(--color-neutral-800));
   --ui-tab-indicator-shadow: var(--shadow-sm);
   --ui-tab-item-color: var(--text-color-muted);
   --ui-tab-item-hover-color: color-mix(
