@@ -13,7 +13,7 @@ import { UiContextMenuTrigger } from './ui-context-menu-trigger';
 })
 class TestHost {
   readonly context = { id: 7 };
-  readonly menu = { openAt: vi.fn() } as unknown as UiContextMenu<{ id: number }>;
+  readonly menu = { openAt: vi.fn(), close: vi.fn() } as unknown as UiContextMenu<{ id: number }>;
 }
 
 describe('UiContextMenuTrigger', () => {
@@ -38,6 +38,42 @@ describe('UiContextMenuTrigger', () => {
     target.dispatchEvent(event);
 
     expect(event.defaultPrevented).toBe(true);
+    expect(fixture.componentInstance.menu.openAt).toHaveBeenCalledWith(
+      24,
+      36,
+      fixture.componentInstance.context,
+      target,
+    );
+  });
+
+  it('waits for the active context pointer to finish before opening', async () => {
+    target.setPointerCapture = vi.fn();
+    const contextMenuEvent = createPointerEvent('contextmenu', {
+      bubbles: true,
+      cancelable: true,
+      clientX: 24,
+      clientY: 36,
+      button: 2,
+      buttons: 2,
+      pointerId: 4,
+    });
+
+    target.dispatchEvent(contextMenuEvent);
+
+    expect(contextMenuEvent.defaultPrevented).toBe(true);
+    expect(target.setPointerCapture).toHaveBeenCalledWith(4);
+    expect(fixture.componentInstance.menu.close).toHaveBeenCalledOnce();
+    expect(fixture.componentInstance.menu.openAt).not.toHaveBeenCalled();
+
+    target.dispatchEvent(
+      createPointerEvent('pointerup', {
+        bubbles: true,
+        button: 2,
+        pointerId: 4,
+      }),
+    );
+    await Promise.resolve();
+
     expect(fixture.componentInstance.menu.openAt).toHaveBeenCalledWith(
       24,
       36,
@@ -100,3 +136,15 @@ describe('UiContextMenuTrigger', () => {
     );
   });
 });
+
+function createPointerEvent(
+  type: string,
+  init: MouseEventInit & { readonly pointerId: number },
+): PointerEvent {
+  const event = new MouseEvent(type, init) as PointerEvent;
+  Object.defineProperties(event, {
+    pointerId: { value: init.pointerId },
+    pointerType: { value: 'mouse' },
+  });
+  return event;
+}

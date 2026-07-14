@@ -169,6 +169,19 @@ export const browserSupportFeatures = {
       "node": null
     }
   },
+  "pointer-events-api": {
+    "name": "Pointer Events",
+    "baseline": "high",
+    "baselineLowDate": "2020-07-28",
+    "baselineHighDate": "2023-01-28",
+    "support": {
+      "chrome": "55",
+      "edge": "12",
+      "firefox": "59",
+      "safari": "13",
+      "node": null
+    }
+  },
   "scrollbar-color": {
     "name": "scrollbar-color",
     "baseline": "low",
@@ -316,6 +329,7 @@ export const browserSupportProfiles = {
     "light-dark",
     "backdrop-filter",
     "popover",
+    "pointer-events-api",
     "anchor-name",
     "starting-style",
     "transition-behavior"

@@ -45,6 +45,7 @@ export const browserSupportProfiles = {
     'light-dark',
     'backdrop-filter',
     'popover',
+    'pointer-events-api',
     'anchor-name',
     'starting-style',
     'transition-behavior',
