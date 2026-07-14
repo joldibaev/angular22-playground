@@ -5,7 +5,7 @@
     [class.ui-tab-list-pills]="variant() === 'pills'"
     [class.ui-tab-list-line]="variant() === 'line'"
     [class.ui-tab-list-fluid]="fluid()"
-    [selectedTab]="tabListSelectedTab()"
+    [selectedTab]="selectedTab()"
     (selectedTabChange)="onSelectedTabChange($event)"
     [aria-label]="ariaLabel()"
     [attr.aria-labelledby]="ariaLabelledby() || null"
@@ -13,9 +13,6 @@
     [orientation]="orientation()"
     [wrap]="wrap()"
     [softDisabled]="softDisabled()"
-    (pointerdown)="onTabListInteraction()"
-    (click)="onTabListInteraction()"
-    (keydown)="onTabListInteraction()"
   >
     @for (item of items(); track item) {
       <button
@@ -26,10 +23,6 @@
         [value]="item.value()"
         [disabled]="item.disabled()"
         [style.anchor-name]="tabAnchorName($index)"
-        (pointerdown)="onTabListInteraction()"
-        (mousedown)="onTabListInteraction()"
-        (click)="onTabListInteraction()"
-        (keydown)="onTabListInteraction()"
       >
         @if (item.labelTemplate(); as labelTemplate) {
           <span class="ui-tab-label">

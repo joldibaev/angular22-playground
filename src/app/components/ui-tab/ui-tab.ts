@@ -5,15 +5,12 @@ import {
   computed,
   contentChildren,
   ElementRef,
-  inject,
   input,
   model,
-  signal,
+  output,
   viewChildren,
 } from '@angular/core';
-import { DOCUMENT, NgTemplateOutlet } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { NgTemplateOutlet } from '@angular/common';
 import { Tab, TabContent, TabList, TabPanel, Tabs } from '@angular/aria/tabs';
 import { UiTabItem } from './ui-tab-item/ui-tab-item';
 import { nextId } from '../../shared/unique-id';
@@ -34,30 +31,15 @@ export type UiTabSize = 'sm' | 'md';
 })
 export class UiTab {
   private readonly anchorId = nextId();
-  private readonly document = inject(DOCUMENT);
-  // Router is optional: the query-param sync is an opt-in feature (`queryParam`),
-  // so the component must still work when used outside a routing context.
-  private readonly route = inject(ActivatedRoute, { optional: true });
-  private readonly router = inject(Router, { optional: true });
-  private readonly queryParamMap = this.route
-    ? toSignal(this.route.queryParamMap, {
-        initialValue: this.route.snapshot.queryParamMap,
-      })
-    : undefined;
-  private readonly tabListInteracted = signal(false);
-  // Keeps a just-selected tab responsive while its router navigation is pending.
-  // Once the URL catches up, later query-param changes (including RouterLink and Back)
-  // become authoritative again.
-  private readonly pendingQueryParamValue = signal<string | undefined>(undefined);
 
   selectedTab = model<string | undefined>(undefined);
+  readonly tabSelected = output<string>();
 
   selectionMode = input<'follow' | 'explicit'>('follow');
   orientation = input<'horizontal' | 'vertical'>('horizontal');
   wrap = input(true, { transform: booleanAttribute });
   softDisabled = input(true, { transform: booleanAttribute });
   preserveContent = input(true, { transform: booleanAttribute });
-  queryParam = input<string>();
   variant = input<'pills' | 'line'>('pills');
   size = input<UiTabSize>('md');
   fluid = input(false, { transform: booleanAttribute });
@@ -68,20 +50,8 @@ export class UiTab {
   private readonly tabTriggers = viewChildren<ElementRef<HTMLButtonElement>>('tabTrigger');
 
   readonly enabledItems = computed(() => this.items().filter((item) => !item.disabled()));
-  private readonly queryParamValue = computed(() => {
-    const queryParam = this.queryParam();
-
-    return queryParam
-      ? (this.queryParamMap?.().get(queryParam) ??
-          new URLSearchParams(this.document.location.search).get(queryParam) ??
-          undefined)
-      : undefined;
-  });
-  readonly tabListSelectedTab = computed(() => {
-    return this.selectedTab();
-  });
   readonly activeAnchorName = computed(() => {
-    const selectedTab = this.tabListSelectedTab();
+    const selectedTab = this.selectedTab();
     const index = this.items().findIndex((item) => item.value() === selectedTab);
 
     return index >= 0 ? this.tabAnchorName(index) : null;
@@ -91,58 +61,13 @@ export class UiTab {
     afterRenderEffect(() => {
       const firstEnabledItem = this.enabledItems()[0];
 
-      if (!firstEnabledItem) {
-        return;
+      if (firstEnabledItem && this.selectedTab() === undefined) {
+        this.selectedTab.set(firstEnabledItem.value());
       }
-
-      const queryParamValue = this.queryParamValue();
-      const pendingQueryParamValue = this.pendingQueryParamValue();
-
-      if (pendingQueryParamValue) {
-        if (queryParamValue === pendingQueryParamValue) {
-          this.pendingQueryParamValue.set(undefined);
-        }
-        return;
-      }
-
-      if (queryParamValue && this.isEnabledTabValue(queryParamValue)) {
-        if (this.selectedTab() !== queryParamValue) {
-          this.selectedTab.set(queryParamValue);
-        }
-        return;
-      }
-
-      if (this.selectedTab() !== undefined) {
-        return;
-      }
-
-      this.selectedTab.set(firstEnabledItem.value());
     });
 
     afterRenderEffect(() => {
-      const queryParam = this.queryParam();
-      const pendingQueryParamValue = this.pendingQueryParamValue();
-      const queryParamValue = this.queryParamValue();
-
-      if (
-        !this.router ||
-        !queryParam ||
-        !pendingQueryParamValue ||
-        queryParamValue === pendingQueryParamValue
-      ) {
-        return;
-      }
-
-      void this.router.navigate([], {
-        relativeTo: this.route,
-        queryParams: { [queryParam]: pendingQueryParamValue },
-        queryParamsHandling: 'merge',
-        replaceUrl: true,
-      });
-    });
-
-    afterRenderEffect(() => {
-      const selectedTab = this.tabListSelectedTab();
+      const selectedTab = this.selectedTab();
       const selectedIndex = this.items().findIndex((item) => item.value() === selectedTab);
 
       this.tabTriggers()[selectedIndex]?.nativeElement.scrollIntoView({
@@ -153,25 +78,15 @@ export class UiTab {
   }
 
   onSelectedTabChange(value: string | undefined) {
-    if (!value || !this.tabListInteracted()) {
+    if (!value || value === this.selectedTab()) {
       return;
     }
 
     this.selectedTab.set(value);
-    if (this.queryParam()) {
-      this.pendingQueryParamValue.set(value);
-    }
-  }
-
-  onTabListInteraction() {
-    this.tabListInteracted.set(true);
+    this.tabSelected.emit(value);
   }
 
   tabAnchorName(index: number): string {
     return `--ui-tab-${this.anchorId}-${index}`;
-  }
-
-  private isEnabledTabValue(value: string): boolean {
-    return this.enabledItems().some((item) => item.value() === value);
   }
 }

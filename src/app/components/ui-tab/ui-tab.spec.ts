@@ -6,6 +6,7 @@ import { Router, provideRouter } from '@angular/router';
 import { UiTab } from './ui-tab';
 import { UiTabItem } from './ui-tab-item/ui-tab-item';
 import { UiTabLabel } from './ui-tab-item/ui-tab-label';
+import { UiTabQueryParam } from './ui-tab-query-param/ui-tab-query-param';
 
 @Component({
   imports: [UiTab, UiTabItem, UiTabLabel],
@@ -43,7 +44,7 @@ class VerticalTestHost {
 }
 
 @Component({
-  imports: [UiTab, UiTabItem],
+  imports: [UiTab, UiTabItem, UiTabQueryParam],
   template: `
     <ui-tab queryParam="section">
       <ui-tab-item value="overview" label="Overview">Overview panel</ui-tab-item>

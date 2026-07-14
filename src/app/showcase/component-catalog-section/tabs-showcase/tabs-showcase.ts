@@ -4,10 +4,11 @@ import { UiIcon } from '../../../components/ui-icon/ui-icon';
 import { UiTab } from '../../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../../components/ui-tab/ui-tab-item/ui-tab-item';
 import { UiTabLabel } from '../../../components/ui-tab/ui-tab-item/ui-tab-label';
+import { UiTabQueryParam } from '../../../components/ui-tab/ui-tab-query-param/ui-tab-query-param';
 
 @Component({
   selector: 'app-tabs-showcase',
-  imports: [ShowcaseExample, UiIcon, UiTab, UiTabItem, UiTabLabel],
+  imports: [ShowcaseExample, UiIcon, UiTab, UiTabItem, UiTabLabel, UiTabQueryParam],
   templateUrl: './tabs-showcase.html',
   styleUrl: './tabs-showcase.css',
 })

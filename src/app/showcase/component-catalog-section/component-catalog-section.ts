@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UiTab } from '../../components/ui-tab/ui-tab';
 import { UiTabItem } from '../../components/ui-tab/ui-tab-item/ui-tab-item';
+import { UiTabQueryParam } from '../../components/ui-tab/ui-tab-query-param/ui-tab-query-param';
 import { AlertShowcase } from './alert-showcase/alert-showcase';
 import { AccordionShowcase } from './accordion-showcase/accordion-showcase';
 import { AutocompleteShowcase } from './autocomplete-showcase/autocomplete-showcase';
@@ -71,6 +72,7 @@ import { BrowserSupport } from '../browser-support/browser-support';
     TreeShowcase,
     UiTab,
     UiTabItem,
+    UiTabQueryParam,
     UiCard,
     BrowserSupport,
   ],
