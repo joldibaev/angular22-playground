@@ -50,6 +50,16 @@ export const browserSupportProfiles = {
     'starting-style',
     'transition-behavior',
   ],
+  'native-select': [
+    'light-dark',
+    'contrast-color',
+    'has',
+    'customizable-select',
+    'anchor-name',
+    'anchor-size',
+    'starting-style',
+    'transition-behavior',
+  ],
   popover: [
     'light-dark',
     'popover',
@@ -87,6 +97,7 @@ export const browserSupportProfiles = {
 // Anchor Positioning feature also includes syntax that these components do not use.
 export const featureSources = {
   'anchor-name': ['anchor-positioning', 'css.properties.anchor-name'],
+  'anchor-size': ['anchor-positioning', 'css.properties.inline-size.anchor-size'],
 };
 
 // web-features tracks browsers only, so JS features that the dev/test

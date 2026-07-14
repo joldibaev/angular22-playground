@@ -22,6 +22,7 @@ import { InputShowcase } from './input-showcase/input-showcase';
 import { LoadingShowcase } from './loading-showcase/loading-showcase';
 import { MaskShowcase } from './mask-showcase/mask-showcase';
 import { MenuShowcase } from './menu-showcase/menu-showcase';
+import { NativeSelectShowcase } from './native-select-showcase/native-select-showcase';
 import { PopoverShowcase } from './popover-showcase/popover-showcase';
 import { ProgressShowcase } from './progress-showcase/progress-showcase';
 import { RadioShowcase } from './radio-showcase/radio-showcase';
@@ -59,6 +60,7 @@ import { BrowserSupport } from '../browser-support/browser-support';
     LoadingShowcase,
     MaskShowcase,
     MenuShowcase,
+    NativeSelectShowcase,
     PopoverShowcase,
     ProgressShowcase,
     RadioShowcase,

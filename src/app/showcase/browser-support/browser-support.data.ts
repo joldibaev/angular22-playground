@@ -182,6 +182,32 @@ export const browserSupportFeatures = {
       "node": null
     }
   },
+  "customizable-select": {
+    "name": "Customizable <select>",
+    "baseline": false,
+    "baselineLowDate": null,
+    "baselineHighDate": null,
+    "support": {
+      "chrome": "135",
+      "edge": "135",
+      "firefox": null,
+      "safari": null,
+      "node": null
+    }
+  },
+  "anchor-size": {
+    "name": "Anchor positioning",
+    "baseline": "low",
+    "baselineLowDate": "2026-01-13",
+    "baselineHighDate": null,
+    "support": {
+      "chrome": "125",
+      "edge": "125",
+      "firefox": "147",
+      "safari": "26",
+      "node": null
+    }
+  },
   "scrollbar-color": {
     "name": "scrollbar-color",
     "baseline": "low",
@@ -331,6 +357,16 @@ export const browserSupportProfiles = {
     "popover",
     "pointer-events-api",
     "anchor-name",
+    "starting-style",
+    "transition-behavior"
+  ],
+  "native-select": [
+    "light-dark",
+    "contrast-color",
+    "has",
+    "customizable-select",
+    "anchor-name",
+    "anchor-size",
     "starting-style",
     "transition-behavior"
   ],

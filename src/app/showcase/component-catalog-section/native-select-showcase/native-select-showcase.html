@@ -1,0 +1,71 @@
+<article class="docs" aria-labelledby="native-select-title">
+  <header>
+    <h4 id="native-select-title" class="font-black">Native select</h4>
+    <p>
+      A customizable native select. The browser owns keyboard navigation, touch interaction,
+      focus, selection, and popup placement.
+    </p>
+  </header>
+
+  <app-showcase-example
+    heading="Default"
+    aria-label="Default native select example"
+    [code]="defaultCode"
+  >
+    <div class="preview">
+      <ui-native-select
+        [(value)]="value"
+        label="Status"
+        placeholder="Choose status"
+      >
+        <ui-icon slot="start" name="outline-tag" decorative />
+        <option value="created">Created</option>
+        <option value="approved">Approved</option>
+        <option value="paid">Paid</option>
+      </ui-native-select>
+      <output>Selected: {{ value() }}</output>
+    </div>
+  </app-showcase-example>
+
+  <app-showcase-example
+    heading="Grouped options"
+    aria-label="Grouped native select example"
+    [code]="groupsCode"
+  >
+    <div class="preview">
+      <ui-native-select label="Project" value="research">
+        <optgroup label="Pinned">
+          <option value="roadmap">Roadmap</option>
+          <option value="research">Research</option>
+        </optgroup>
+        <optgroup label="Workflow">
+          <option value="review">Design review</option>
+          <option value="release">Release candidate</option>
+        </optgroup>
+      </ui-native-select>
+    </div>
+  </app-showcase-example>
+
+  <app-showcase-example heading="States" aria-label="Native select states" [code]="statesCode">
+    <div class="preview grid">
+      <ui-native-select label="Disabled" value="locked" disabled>
+        <option value="locked">Locked</option>
+      </ui-native-select>
+      <ui-native-select label="Loading" loading />
+    </div>
+  </app-showcase-example>
+
+  <app-showcase-example
+    heading="Signal Forms"
+    aria-label="Native select Signal Forms example"
+    [code]="formCode"
+  >
+    <div class="preview">
+      <ui-native-select label="Project" [formField]="formState.project">
+        <option value="roadmap">Roadmap</option>
+        <option value="research">Research</option>
+      </ui-native-select>
+      <output>{{ formModel().project }}</output>
+    </div>
+  </app-showcase-example>
+</article>

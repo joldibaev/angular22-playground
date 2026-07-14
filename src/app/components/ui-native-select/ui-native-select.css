@@ -1,0 +1,159 @@
+ui-native-select {
+  --ui-native-select-popup-offset: 0.5rem;
+
+  anchor-scope: --ui-native-select-trigger;
+  display: block;
+}
+
+ui-native-select .ui-native-select-start {
+  display: contents;
+}
+
+ui-native-select .ui-native-select-control,
+ui-native-select .ui-native-select-control::picker(select) {
+  appearance: base-select;
+}
+
+ui-native-select .ui-native-select-control {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-align: start;
+}
+
+ui-native-select .ui-native-select-control:disabled {
+  cursor: not-allowed;
+}
+
+ui-native-select .ui-native-select-control:has(option:checked[value='']) {
+  color: var(--text-color-placeholder);
+}
+
+ui-native-select .ui-native-select-control::picker-icon {
+  display: none;
+}
+
+ui-native-select .ui-native-select-end {
+  gap: 0.375rem;
+  pointer-events: none;
+}
+
+ui-native-select .ui-native-select-chevron {
+  transition: rotate var(--dur-quick) var(--ease-snappy);
+}
+
+ui-native-select ui-input:has(.ui-native-select-control:open) .ui-native-select-chevron {
+  rotate: 180deg;
+}
+
+ui-native-select .ui-native-select-control::picker(select) {
+  position: fixed;
+  position-anchor: --ui-native-select-trigger;
+  inset: auto;
+  top: calc(anchor(bottom) + var(--ui-native-select-popup-offset));
+  left: anchor(left);
+  inline-size: anchor-size(width);
+  max-block-size: min(20rem, 70vh);
+  margin: 0;
+  border: 1px solid var(--border-color-default);
+  border-radius: 0.5rem;
+  background: Canvas;
+  color: contrast-color(Canvas);
+  box-shadow: var(--shadow-lg);
+  padding: 0.25rem;
+  opacity: 0;
+  scale: 0.98;
+  transform-origin: top center;
+  position-try-fallbacks: flip-block;
+  transition:
+    opacity var(--dur-quick) var(--ease-snappy),
+    scale var(--dur-quick) var(--ease-snappy),
+    display var(--dur-quick) allow-discrete,
+    overlay var(--dur-quick) allow-discrete;
+}
+
+ui-native-select .ui-native-select-control:open::picker(select) {
+  opacity: 1;
+  scale: 1;
+  transition:
+    opacity var(--dur-fast) var(--ease-snappy),
+    scale var(--dur-fast) var(--ease-snappy),
+    display var(--dur-fast) allow-discrete,
+    overlay var(--dur-fast) allow-discrete;
+}
+
+@starting-style {
+  ui-native-select .ui-native-select-control:open::picker(select) {
+    opacity: 0;
+    scale: 0.95;
+  }
+}
+
+ui-native-select option {
+  min-block-size: 2.5rem;
+  border-radius: 0.25rem;
+  padding: 0.625rem 0.75rem;
+  color: contrast-color(Canvas);
+  font-weight: 400;
+  transition:
+    background-color var(--dur-press) var(--ease-snappy),
+    scale var(--dur-press) var(--ease-snappy);
+}
+
+ui-native-select option[value=''] {
+  color: var(--text-color-placeholder);
+}
+
+ui-native-select option:disabled {
+  opacity: var(--opacity-disabled);
+}
+
+ui-native-select option:checked {
+  background: color-mix(in oklab, var(--color-brand) 14%, Canvas);
+}
+
+ui-native-select option:focus-visible {
+  outline: 2px solid var(--focus-ring-color);
+  outline-offset: -2px;
+}
+
+ui-native-select option:not(:disabled):active {
+  scale: var(--press-scale);
+}
+
+ui-native-select option::checkmark {
+  color: var(--color-brand);
+}
+
+ui-native-select optgroup {
+  color: var(--text-color-muted);
+  font-weight: 700;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  ui-native-select option:not(:disabled):hover {
+    background: var(--background-color-hover);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ui-native-select .ui-native-select-chevron {
+    transition: none;
+  }
+
+  ui-native-select .ui-native-select-control::picker(select) {
+    scale: 1;
+    transition:
+      opacity var(--dur-quick) var(--ease-snappy),
+      display var(--dur-quick) allow-discrete,
+      overlay var(--dur-quick) allow-discrete;
+  }
+
+  ui-native-select option {
+    transition: background-color var(--dur-press) var(--ease-snappy);
+  }
+
+  ui-native-select option:not(:disabled):active {
+    scale: 1;
+  }
+}

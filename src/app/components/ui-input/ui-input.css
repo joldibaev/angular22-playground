@@ -118,13 +118,13 @@ ui-input {
 
 .ui-input-control:has(.ui-input-slot-start > [slot='start']:not(:empty))
   .ui-input-control-content
-  > :is(input, textarea, [ngCombobox], [uiInputControl]) {
+  > :is(input, select, textarea, [ngCombobox], [uiInputControl]) {
   padding-inline-start: 0;
 }
 
 .ui-input-control:has(.ui-input-slot-end > [slot='end']:not(:empty))
   .ui-input-control-content
-  > :is(input, textarea, [ngCombobox], [uiInputControl]) {
+  > :is(input, select, textarea, [ngCombobox], [uiInputControl]) {
   padding-inline-end: 0;
 }
 
@@ -138,7 +138,7 @@ ui-input :is(ui-icon[slot], [slot] ui-icon) svg {
 }
 
 .ui-input-disabled .ui-input-slot,
-.ui-input-control:has(:is(input, textarea, [uiInputControl]):disabled) .ui-input-slot,
+.ui-input-control:has(:is(input, select, textarea, [uiInputControl]):disabled) .ui-input-slot,
 .ui-input-control:has([ngCombobox][aria-disabled='true']) .ui-input-slot {
   opacity: var(--opacity-disabled);
 }
@@ -201,6 +201,7 @@ ui-input button[slot]:disabled {
 }
 
 ui-input input,
+ui-input select,
 ui-input textarea {
   display: block;
 }
@@ -214,6 +215,7 @@ ui-input textarea {
 }
 
 ui-input input,
+ui-input select,
 ui-input textarea,
 ui-input [ngCombobox],
 ui-input [uiInputControl] {
@@ -265,6 +267,7 @@ ui-input textarea::placeholder {
 }
 
 ui-input input:disabled,
+ui-input select:disabled,
 ui-input textarea:disabled,
 ui-input [uiInputControl]:disabled,
 ui-input [ngCombobox][aria-disabled='true'] {
@@ -278,6 +281,7 @@ ui-input [ngCombobox][aria-disabled='true'] {
    (set by @angular/aria) is what marks it active while the popup is open. */
 .ui-input-control:has(
   input:focus-visible,
+  select:focus-visible,
   textarea:focus-visible,
   [ngCombobox]:focus-visible,
   [ngCombobox] :focus-visible,

@@ -94,7 +94,7 @@ export class UiInput {
 
   private syncLabelledControl() {
     const control = this.element.nativeElement.querySelector<HTMLElement>(
-      'input, textarea, [ngCombobox], [uiInputControl]',
+      'input, select, textarea, [ngCombobox], [uiInputControl]',
     );
 
     if (!control) {

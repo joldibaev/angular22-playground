@@ -1,0 +1,33 @@
+<ui-input
+  [label]="label()"
+  [loading]="loading()"
+  [withErrorMessage]="withErrorMessage()"
+  popupAnchorName="--ui-native-select-trigger"
+>
+  <span slot="start" class="ui-native-select-start">
+    <ng-content select="[slot='start']" />
+  </span>
+
+  @if (!loading()) {
+    <span slot="end" class="ui-native-select-end">
+      <ng-content select="[slot='end']" />
+      <ui-icon
+        name="outline-chevron-down"
+        class="ui-native-select-chevron"
+        decorative
+      />
+    </span>
+  }
+
+  <select
+    #control
+    class="ui-native-select-control"
+    [value]="value()"
+    [disabled]="disabled()"
+    (change)="onChange($event)"
+    (blur)="touch.emit()"
+  >
+    <option value="" disabled>{{ placeholder() }}</option>
+    <ng-content />
+  </select>
+</ui-input>

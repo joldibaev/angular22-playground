@@ -1,0 +1,50 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.docs,
+.docs > header {
+  display: grid;
+  min-width: 0;
+}
+
+.docs {
+  gap: 1.25rem;
+}
+
+.docs > header {
+  gap: 0.25rem;
+}
+
+.docs p {
+  margin: 0;
+  color: var(--text-color-muted);
+}
+
+.preview {
+  display: grid;
+  min-height: 9rem;
+  align-content: center;
+  gap: 0.75rem;
+  padding: 1rem;
+}
+
+.preview > ui-native-select {
+  inline-size: min(100%, 22rem);
+  margin-inline: auto;
+}
+
+.grid {
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+}
+
+.grid > ui-native-select {
+  inline-size: 100%;
+}
+
+output {
+  display: block;
+  text-align: center;
+  color: var(--text-color-muted);
+}
