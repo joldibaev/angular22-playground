@@ -47,4 +47,16 @@ describe('BrowserSupport', () => {
       (withoutNode.nativeElement as HTMLElement).querySelector('[aria-label^="Node.js"]'),
     ).toBeNull();
   });
+
+  it('reports the mask APIs instead of inheriting the input component profile', async () => {
+    const fixture = TestBed.createComponent(BrowserSupport);
+    fixture.componentRef.setInput('profile', 'mask');
+    await fixture.whenStable();
+
+    const host = fixture.nativeElement as HTMLElement;
+    expect(host.querySelector('[aria-label="Chrome 64 and later"]')).not.toBeNull();
+    expect(host.textContent).toContain('Regular expressions');
+    expect(host.textContent).toContain('Composition events');
+    expect(host.textContent).not.toContain('Popover');
+  });
 });

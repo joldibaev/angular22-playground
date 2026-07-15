@@ -1,0 +1,22 @@
+<article class="docs" aria-labelledby="date-range-title">
+  <header>
+    <h4 id="date-range-title" class="font-black">Date range picker</h4>
+    <p>Two-date selection with presets and constrained calendar navigation.</p>
+  </header>
+
+  <app-showcase-example heading="Date range" aria-label="Date range example" [code]="rangeCode">
+    <div class="preview">
+      <ui-date-range-picker label="Report range" [value]="range" />
+    </div>
+  </app-showcase-example>
+
+  <app-showcase-example
+    heading="Without presets"
+    aria-label="Range without presets example"
+    [code]="presetsCode"
+  >
+    <div class="preview">
+      <ui-date-range-picker label="Custom range" [value]="range" [withPresets]="false" />
+    </div>
+  </app-showcase-example>
+</article>

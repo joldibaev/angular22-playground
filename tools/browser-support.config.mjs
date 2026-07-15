@@ -16,6 +16,23 @@ export const browserSupportProfiles = {
   card: ['light-dark', 'backdrop-filter'],
   checkbox: ['light-dark', 'popover', 'anchor-name'],
   chip: ['light-dark'],
+  'context-menu': [
+    'light-dark',
+    'backdrop-filter',
+    'popover',
+    'pointer-events-api',
+    'starting-style',
+    'transition-behavior',
+  ],
+  'date-range-picker': [
+    'light-dark',
+    'backdrop-filter',
+    'popover',
+    'anchor-name',
+    'starting-style',
+    'transition-behavior',
+    'temporal',
+  ],
   datepicker: [
     'light-dark',
     'backdrop-filter',
@@ -32,6 +49,20 @@ export const browserSupportProfiles = {
     'starting-style',
     'transition-behavior',
   ],
+  'dialog-confirm': [
+    'light-dark',
+    'dialog-closedby',
+    'invoker-commands',
+    'starting-style',
+    'transition-behavior',
+  ],
+  'dialog-success': [
+    'light-dark',
+    'dialog-closedby',
+    'invoker-commands',
+    'starting-style',
+    'transition-behavior',
+  ],
   drawer: [
     'light-dark',
     'dialog-closedby',
@@ -41,6 +72,14 @@ export const browserSupportProfiles = {
   ],
   input: ['light-dark', 'has', 'popover', 'anchor-name', 'starting-style', 'transition-behavior'],
   loading: ['light-dark'],
+  mask: [
+    'regexp-unicode-property-escapes',
+    'compositionstart-event',
+    'compositionend-event',
+    'input-event',
+    'input-selection-start',
+    'input-set-selection-range',
+  ],
   menu: [
     'light-dark',
     'backdrop-filter',
@@ -98,6 +137,15 @@ export const browserSupportProfiles = {
 export const featureSources = {
   'anchor-name': ['anchor-positioning', 'css.properties.anchor-name'],
   'anchor-size': ['anchor-positioning', 'css.properties.inline-size.anchor-size'],
+  'compositionstart-event': ['composition-events', 'api.Element.compositionstart_event'],
+  'compositionend-event': ['composition-events', 'api.Element.compositionend_event'],
+  'input-event': ['input-event', 'api.Element.input_event'],
+  'input-selection-start': ['input', 'api.HTMLInputElement.selectionStart'],
+  'input-set-selection-range': ['input', 'api.HTMLInputElement.setSelectionRange'],
+  'regexp-unicode-property-escapes': [
+    'regexp',
+    'javascript.regular_expressions.unicode_character_class_escape',
+  ],
 };
 
 // web-features tracks browsers only, so JS features that the dev/test

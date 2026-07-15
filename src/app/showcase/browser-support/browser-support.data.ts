@@ -117,6 +117,19 @@ export const browserSupportFeatures = {
       "node": null
     }
   },
+  "pointer-events-api": {
+    "name": "Pointer Events",
+    "baseline": "high",
+    "baselineLowDate": "2020-07-28",
+    "baselineHighDate": "2023-01-28",
+    "support": {
+      "chrome": "55",
+      "edge": "12",
+      "firefox": "59",
+      "safari": "13",
+      "node": null
+    }
+  },
   "temporal": {
     "name": "Temporal",
     "baseline": false,
@@ -169,16 +182,81 @@ export const browserSupportFeatures = {
       "node": null
     }
   },
-  "pointer-events-api": {
-    "name": "Pointer Events",
+  "regexp-unicode-property-escapes": {
+    "name": "Regular expressions",
     "baseline": "high",
     "baselineLowDate": "2020-07-28",
     "baselineHighDate": "2023-01-28",
     "support": {
-      "chrome": "55",
+      "chrome": "64",
+      "edge": "79",
+      "firefox": "78",
+      "safari": "11.1",
+      "node": null
+    }
+  },
+  "compositionstart-event": {
+    "name": "Composition events",
+    "baseline": "high",
+    "baselineLowDate": "2015-07-29",
+    "baselineHighDate": "2018-01-29",
+    "support": {
+      "chrome": "15",
       "edge": "12",
-      "firefox": "59",
-      "safari": "13",
+      "firefox": "9",
+      "safari": "5",
+      "node": null
+    }
+  },
+  "compositionend-event": {
+    "name": "Composition events",
+    "baseline": "high",
+    "baselineLowDate": "2015-07-29",
+    "baselineHighDate": "2018-01-29",
+    "support": {
+      "chrome": "15",
+      "edge": "12",
+      "firefox": "9",
+      "safari": "5",
+      "node": null
+    }
+  },
+  "input-event": {
+    "name": "input (event)",
+    "baseline": "high",
+    "baselineLowDate": "2020-01-15",
+    "baselineHighDate": "2022-07-15",
+    "support": {
+      "chrome": "1",
+      "edge": "79",
+      "firefox": "6",
+      "safari": "3.1",
+      "node": null
+    }
+  },
+  "input-selection-start": {
+    "name": "<input>",
+    "baseline": "high",
+    "baselineLowDate": "2015-07-29",
+    "baselineHighDate": "2018-01-29",
+    "support": {
+      "chrome": "1",
+      "edge": "12",
+      "firefox": "1",
+      "safari": "1.3",
+      "node": null
+    }
+  },
+  "input-set-selection-range": {
+    "name": "<input>",
+    "baseline": "high",
+    "baselineLowDate": "2015-07-29",
+    "baselineHighDate": "2018-01-29",
+    "support": {
+      "chrome": "1",
+      "edge": "12",
+      "firefox": "1",
+      "safari": "3",
       "node": null
     }
   },
@@ -317,6 +395,23 @@ export const browserSupportProfiles = {
   "chip": [
     "light-dark"
   ],
+  "context-menu": [
+    "light-dark",
+    "backdrop-filter",
+    "popover",
+    "pointer-events-api",
+    "starting-style",
+    "transition-behavior"
+  ],
+  "date-range-picker": [
+    "light-dark",
+    "backdrop-filter",
+    "popover",
+    "anchor-name",
+    "starting-style",
+    "transition-behavior",
+    "temporal"
+  ],
   "datepicker": [
     "light-dark",
     "backdrop-filter",
@@ -327,6 +422,20 @@ export const browserSupportProfiles = {
     "temporal"
   ],
   "dialog": [
+    "light-dark",
+    "dialog-closedby",
+    "invoker-commands",
+    "starting-style",
+    "transition-behavior"
+  ],
+  "dialog-confirm": [
+    "light-dark",
+    "dialog-closedby",
+    "invoker-commands",
+    "starting-style",
+    "transition-behavior"
+  ],
+  "dialog-success": [
     "light-dark",
     "dialog-closedby",
     "invoker-commands",
@@ -350,6 +459,14 @@ export const browserSupportProfiles = {
   ],
   "loading": [
     "light-dark"
+  ],
+  "mask": [
+    "regexp-unicode-property-escapes",
+    "compositionstart-event",
+    "compositionend-event",
+    "input-event",
+    "input-selection-start",
+    "input-set-selection-range"
   ],
   "menu": [
     "light-dark",

@@ -40,11 +40,18 @@
     </ui-tab-item>
 
     <ui-tab-item value="mask" label="Mask">
-      <ui-card><app-browser-support profile="input" /><app-mask-showcase /></ui-card>
+      <ui-card><app-browser-support profile="mask" /><app-mask-showcase /></ui-card>
     </ui-tab-item>
 
     <ui-tab-item value="datepicker" label="Datepicker">
       <ui-card><app-browser-support profile="datepicker" /><app-datepicker-showcase /></ui-card>
+    </ui-tab-item>
+
+    <ui-tab-item value="date-range-picker" label="Date range picker">
+      <ui-card>
+        <app-browser-support profile="date-range-picker" />
+        <app-date-range-picker-showcase />
+      </ui-card>
     </ui-tab-item>
 
     <ui-tab-item value="checkbox" label="Checkbox">
@@ -68,7 +75,10 @@
     </ui-tab-item>
 
     <ui-tab-item value="context-menu" label="Context menu">
-      <ui-card><app-browser-support profile="menu" /><app-context-menu-showcase /></ui-card>
+      <ui-card>
+        <app-browser-support profile="context-menu" />
+        <app-context-menu-showcase />
+      </ui-card>
     </ui-tab-item>
 
     <ui-tab-item value="tree" label="Tree">
@@ -116,11 +126,17 @@
     </ui-tab-item>
 
     <ui-tab-item value="dialog-confirm" label="Dialog confirm">
-      <ui-card><app-browser-support profile="dialog" /><app-dialog-confirm-showcase /></ui-card>
+      <ui-card>
+        <app-browser-support profile="dialog-confirm" />
+        <app-dialog-confirm-showcase />
+      </ui-card>
     </ui-tab-item>
 
     <ui-tab-item value="dialog-success" label="Dialog success">
-      <ui-card><app-browser-support profile="dialog" /><app-dialog-success-showcase /></ui-card>
+      <ui-card>
+        <app-browser-support profile="dialog-success" />
+        <app-dialog-success-showcase />
+      </ui-card>
     </ui-tab-item>
 
     <ui-tab-item value="drawer" label="Drawer">

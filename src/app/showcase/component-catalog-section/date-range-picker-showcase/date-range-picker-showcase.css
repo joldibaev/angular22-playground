@@ -2,35 +2,34 @@
   display: block;
   min-width: 0;
 }
+
 .docs,
 .docs > header {
   display: grid;
   min-width: 0;
 }
+
 .docs {
   gap: 1.25rem;
 }
+
 .docs > header {
   gap: 0.25rem;
 }
+
 .docs p {
   margin: 0;
   color: var(--text-color-muted);
 }
+
 .preview {
   display: grid;
   min-height: 9rem;
   align-content: center;
   padding: 1rem;
 }
-.preview > ui-datepicker {
+
+.preview > ui-date-range-picker {
   inline-size: min(100%, 24rem);
   margin-inline: auto;
-}
-.grid {
-  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-  gap: 1rem;
-}
-.grid > ui-datepicker {
-  inline-size: 100%;
 }

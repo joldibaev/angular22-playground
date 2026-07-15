@@ -1,7 +1,7 @@
 <article class="docs" aria-labelledby="date-title">
   <header>
     <h4 id="date-title" class="font-black">Datepicker</h4>
-    <p>Single-date and date-range selection with limits, presets, states, and Signal Forms.</p>
+    <p>Single-date selection with limits, states, and Signal Forms.</p>
   </header>
   <app-showcase-example heading="Single date" aria-label="Single date example" [code]="singleCode">
     <div class="preview">
@@ -11,20 +11,6 @@
   <app-showcase-example heading="Date limits" aria-label="Limited date example" [code]="limitsCode">
     <div class="preview">
       <ui-datepicker label="Delivery date" value="2026-06-15" min="2026-06-05" max="2026-06-25" />
-    </div>
-  </app-showcase-example>
-  <app-showcase-example heading="Date range" aria-label="Date range example" [code]="rangeCode">
-    <div class="preview">
-      <ui-date-range-picker label="Report range" [value]="range" />
-    </div>
-  </app-showcase-example>
-  <app-showcase-example
-    heading="Range without presets"
-    aria-label="Range without presets example"
-    [code]="presetsCode"
-  >
-    <div class="preview">
-      <ui-date-range-picker label="Custom range" [value]="range" [withPresets]="false" />
     </div>
   </app-showcase-example>
   <app-showcase-example heading="States" aria-label="Datepicker states" [code]="statesCode">
