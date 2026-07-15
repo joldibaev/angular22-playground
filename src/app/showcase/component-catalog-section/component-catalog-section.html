@@ -1,157 +1,115 @@
-<section id="component-catalog" class="space-y-6">
-  <ui-tab aria-label="Component catalog" fluid queryParam="component">
-    <ui-tab-item value="accordion" label="Accordion">
-      <ui-card><app-browser-support profile="accordion" /><app-accordion-showcase /></ui-card>
-    </ui-tab-item>
+<section id="component-catalog" class="catalog">
+  <div class="mobile-catalog-toolbar">
+    <button
+      uiButton
+      type="button"
+      variant="outline"
+      iconOnly
+      aria-label="Открыть каталог компонентов"
+      [uiDrawerTrigger]="navigationDrawer"
+    >
+      <ui-icon name="outline-layout-sidebar" decorative width="20" height="20" />
+    </button>
 
-    <ui-tab-item value="button" label="Button">
-      <ui-card><app-browser-support profile="button" /><app-button-showcase /></ui-card>
-    </ui-tab-item>
+    <div class="mobile-catalog-current">
+      <span>Компонент</span>
+      <strong>{{ activeItem().label }}</strong>
+    </div>
 
-    <ui-tab-item value="loading" label="Loading">
-      <ui-card><app-browser-support profile="loading" /><app-loading-showcase /></ui-card>
-    </ui-tab-item>
+    <span class="mobile-catalog-count">{{ items.length }}</span>
+  </div>
 
-    <ui-tab-item value="progress" label="Progress">
-      <ui-card><app-browser-support profile="progress" /><app-progress-showcase /></ui-card>
-    </ui-tab-item>
+  <ui-drawer
+    #navigationDrawer="uiDrawer"
+    title="Компоненты"
+    side="start"
+    size="sm"
+    closeLabel="Закрыть каталог"
+  >
+    <div class="mobile-navigation">
+      <ui-input label="Найти компонент">
+        <ui-icon slot="start" name="outline-search" decorative />
+        <input
+          #mobileFilter
+          type="search"
+          autocomplete="off"
+          [value]="filter()"
+          (input)="filter.set(mobileFilter.value)"
+        />
+      </ui-input>
 
-    <ui-tab-item value="skeleton" label="Skeleton">
-      <ui-card><app-browser-support profile="skeleton" /><app-skeleton-showcase /></ui-card>
-    </ui-tab-item>
+      <nav class="catalog-navigation" aria-label="Каталог компонентов">
+        @for (group of filteredGroups(); track group.label) {
+          <section class="catalog-navigation-group">
+            <h3>{{ group.label }}</h3>
+            @for (item of group.items; track item.value) {
+              <button
+                type="button"
+                class="catalog-link"
+                [attr.aria-current]="activeItem().value === item.value ? 'page' : null"
+                [uiDrawerClose]="navigationDrawer"
+                (click)="selectComponent(item.value)"
+              >
+                <span>{{ item.label }}</span>
+                <ui-icon name="outline-chevron-right" decorative width="16" height="16" />
+              </button>
+            }
+          </section>
+        } @empty {
+          <p class="catalog-empty">Ничего не найдено</p>
+        }
+      </nav>
+    </div>
+  </ui-drawer>
 
-    <ui-tab-item value="card" label="Card">
-      <ui-card><app-browser-support profile="card" /><app-card-showcase /></ui-card>
-    </ui-tab-item>
+  <div class="catalog-layout">
+    <aside class="catalog-sidebar" aria-label="Навигация по компонентам">
+      <header class="catalog-sidebar-header">
+        <div>
+          <p>Библиотека</p>
+          <h2>Компоненты</h2>
+        </div>
+        <span>{{ items.length }}</span>
+      </header>
 
-    <ui-tab-item value="description-list" label="Description list">
+      <ui-input label="Найти компонент">
+        <ui-icon slot="start" name="outline-search" decorative />
+        <input
+          #desktopFilter
+          type="search"
+          autocomplete="off"
+          [value]="filter()"
+          (input)="filter.set(desktopFilter.value)"
+        />
+      </ui-input>
+
+      <nav class="catalog-navigation desktop-navigation" aria-label="Каталог компонентов">
+        @for (group of filteredGroups(); track group.label) {
+          <section class="catalog-navigation-group">
+            <h3>{{ group.label }}</h3>
+            @for (item of group.items; track item.value) {
+              <button
+                type="button"
+                class="catalog-link"
+                [attr.aria-current]="activeItem().value === item.value ? 'page' : null"
+                (click)="selectComponent(item.value)"
+              >
+                <span>{{ item.label }}</span>
+                <ui-icon name="outline-chevron-right" decorative width="16" height="16" />
+              </button>
+            }
+          </section>
+        } @empty {
+          <p class="catalog-empty">Ничего не найдено</p>
+        }
+      </nav>
+    </aside>
+
+    <div class="catalog-content">
       <ui-card>
-        <app-browser-support profile="description-list" />
-        <app-description-list-showcase />
+        <app-browser-support [profile]="activeItem().value" />
+        <ng-container *ngComponentOutlet="activeItem().component" />
       </ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="select" label="Select">
-      <ui-card><app-browser-support profile="select" /><app-select-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="native-select" label="Native select">
-      <ui-card>
-        <app-browser-support profile="native-select" />
-        <app-native-select-showcase />
-      </ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="input" label="Input">
-      <ui-card><app-browser-support profile="input" /><app-input-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="mask" label="Mask">
-      <ui-card><app-browser-support profile="mask" /><app-mask-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="datepicker" label="Datepicker">
-      <ui-card><app-browser-support profile="datepicker" /><app-datepicker-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="date-range-picker" label="Date range picker">
-      <ui-card>
-        <app-browser-support profile="date-range-picker" />
-        <app-date-range-picker-showcase />
-      </ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="checkbox" label="Checkbox">
-      <ui-card><app-browser-support profile="checkbox" /><app-checkbox-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="switch" label="Switch">
-      <ui-card><app-browser-support profile="switch" /><app-switch-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="radio" label="Radio">
-      <ui-card><app-browser-support profile="radio" /><app-radio-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="autocomplete" label="Autocomplete">
-      <ui-card><app-browser-support profile="autocomplete" /><app-autocomplete-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="menu" label="Menu">
-      <ui-card><app-browser-support profile="menu" /><app-menu-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="context-menu" label="Context menu">
-      <ui-card>
-        <app-browser-support profile="context-menu" />
-        <app-context-menu-showcase />
-      </ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="tree" label="Tree">
-      <ui-card><app-browser-support profile="tree" /><app-tree-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="table" label="Table">
-      <ui-card><app-browser-support profile="table" /><app-table-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="tabs" label="Tabs">
-      <ui-card><app-browser-support profile="tabs" /><app-tabs-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="tooltip" label="Tooltip">
-      <ui-card><app-browser-support profile="tooltip" /><app-tooltip-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="popover" label="Popover">
-      <ui-card><app-browser-support profile="popover" /><app-popover-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="badge" label="Badge">
-      <ui-card><app-browser-support profile="badge" /><app-badge-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="alert" label="Alert">
-      <ui-card><app-browser-support profile="alert" /><app-alert-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="barcode" label="Barcode">
-      <ui-card><app-browser-support profile="barcode" /><app-barcode-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="avatar" label="Avatar">
-      <ui-card><app-browser-support profile="avatar" /><app-avatar-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="chip" label="Chip">
-      <ui-card><app-browser-support profile="chip" /><app-chip-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="dialog" label="Dialog">
-      <ui-card><app-browser-support profile="dialog" /><app-dialog-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="dialog-confirm" label="Dialog confirm">
-      <ui-card>
-        <app-browser-support profile="dialog-confirm" />
-        <app-dialog-confirm-showcase />
-      </ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="dialog-success" label="Dialog success">
-      <ui-card>
-        <app-browser-support profile="dialog-success" />
-        <app-dialog-success-showcase />
-      </ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="drawer" label="Drawer">
-      <ui-card><app-browser-support profile="drawer" /><app-drawer-showcase /></ui-card>
-    </ui-tab-item>
-
-    <ui-tab-item value="sonner" label="Sonner">
-      <ui-card><app-browser-support profile="sonner" /><app-sonner-showcase /></ui-card>
-    </ui-tab-item>
-  </ui-tab>
+    </div>
+  </div>
 </section>
