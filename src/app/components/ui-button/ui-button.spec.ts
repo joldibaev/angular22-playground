@@ -11,6 +11,7 @@ import { UiButton } from './ui-button';
     <button uiButton type="button" variant="brand" iconOnly aria-label="Add">+</button>
     <button uiButton type="button" rounded>Pill</button>
     <button uiButton type="button" size="sm">Small</button>
+    <button uiButton type="button" size="lg">Large</button>
     <button uiButton type="button" fluid>Fluid</button>
     <button uiButton type="button" class="slotted">
       <span slot="start">+</span>
@@ -107,6 +108,12 @@ describe('UiButton', () => {
     const button = fixture.nativeElement.querySelector('button[size="sm"]') as HTMLButtonElement;
 
     expect(button.classList.contains('ui-button-sm')).toBe(true);
+  });
+
+  it('should apply the large touch-target size modifier', () => {
+    const button = fixture.nativeElement.querySelector('button[size="lg"]') as HTMLButtonElement;
+
+    expect(button.classList.contains('ui-button-lg')).toBe(true);
   });
 
   it('should apply the fluid width modifier', () => {

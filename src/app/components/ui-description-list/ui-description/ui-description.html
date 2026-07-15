@@ -1,0 +1,8 @@
+<dt class="ui-description-term">
+  @if (icon(); as iconName) {
+    <ui-icon [name]="iconName" decorative />
+  }
+  <span>{{ label() }}</span>
+</dt>
+
+<dd class="ui-description-details"><ng-content /></dd>

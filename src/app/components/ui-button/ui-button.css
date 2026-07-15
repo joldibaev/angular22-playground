@@ -175,6 +175,15 @@
   --ui-button-font-size: 0.875rem;
 }
 
+/* Large actions use a 3rem (48px) footprint for touch-heavy surfaces such as
+   POS controls while preserving the same radius and typography hierarchy. */
+:host(.ui-button-lg) {
+  --ui-button-min-height: 3rem;
+  --ui-button-icon-only-size: 3rem;
+  --ui-button-padding-inline: 1.25rem;
+  --ui-button-padding-block: 0.75rem;
+}
+
 :host(.ui-button-icon-only) {
   width: var(--ui-button-icon-only-size);
   height: var(--ui-button-icon-only-size);

@@ -1,0 +1,40 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.docs,
+.docs > header {
+  display: grid;
+  min-width: 0;
+}
+
+.docs {
+  gap: 1.25rem;
+}
+
+.docs > header {
+  gap: 0.25rem;
+}
+
+.docs p {
+  margin: 0;
+  color: var(--text-color-muted);
+  text-wrap: pretty;
+}
+
+.preview {
+  display: grid;
+  min-height: 9rem;
+  align-content: center;
+  padding: 1rem;
+}
+
+.preview > ui-description-list {
+  inline-size: min(100%, 34rem);
+  margin-inline: auto;
+}
+
+.compact > ui-description-list {
+  inline-size: min(100%, 22rem);
+}

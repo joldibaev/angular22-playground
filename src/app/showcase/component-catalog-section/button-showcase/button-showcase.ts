@@ -31,7 +31,10 @@ readonly variants: UiButtonVariant[] = [
 @for (variant of variants; track variant) {
   <button uiButton type="button" [variant]="variant">{{ variant }}</button>
 }`;
-  protected readonly sizesCode = `<button uiButton type="button" size="sm">Small</button>\n<button uiButton type="button">Medium</button>\n<button uiButton type="button" variant="brand" rounded>Pill</button>`;
+  protected readonly sizesCode = `<button uiButton type="button" size="sm">Small</button>
+<button uiButton type="button">Medium</button>
+<button uiButton type="button" size="lg">Large</button>
+<button uiButton type="button" variant="brand" rounded>Pill</button>`;
   protected readonly statesCode = `import { signal } from '@angular/core';
 
 readonly saving = signal(false);

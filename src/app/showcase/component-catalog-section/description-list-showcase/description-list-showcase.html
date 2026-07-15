@@ -1,0 +1,32 @@
+<article class="docs" aria-labelledby="description-list-title">
+  <header>
+    <h4 id="description-list-title" class="font-black">Description list</h4>
+    <p>Semantic label-value metadata that stacks automatically in narrow containers.</p>
+  </header>
+
+  <app-showcase-example
+    heading="Account details"
+    aria-label="Description list with leading icons"
+    [code]="defaultCode"
+  >
+    <div class="preview">
+      <ui-description-list aria-label="Account details">
+        <div uiDescription="Username" icon="outline-at">anji</div>
+        <div uiDescription="Role" icon="outline-shield-lock">Administrator</div>
+      </ui-description-list>
+    </div>
+  </app-showcase-example>
+
+  <app-showcase-example
+    heading="Narrow container"
+    aria-label="Responsive description list"
+    [code]="responsiveCode"
+  >
+    <div class="preview compact">
+      <ui-description-list aria-label="Session details">
+        <div uiDescription="Device">Checkout terminal 04</div>
+        <div uiDescription="Last active">July 16, 2026 at 14:32</div>
+      </ui-description-list>
+    </div>
+  </app-showcase-example>
+</article>

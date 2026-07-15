@@ -33,6 +33,7 @@ export const browserSupportProfiles = {
     'transition-behavior',
     'temporal',
   ],
+  'description-list': ['light-dark', 'container-queries'],
   datepicker: [
     'light-dark',
     'backdrop-filter',

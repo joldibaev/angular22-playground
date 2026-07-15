@@ -17,7 +17,7 @@ import { afterElementAnimations } from '../../shared/after-element-animations';
 export type UiButtonVariant =
   'default' | 'brand' | 'outline' | 'destructive' | 'secondary' | 'ghost' | 'link';
 export type UiButtonType = 'button' | 'submit' | 'reset';
-export type UiButtonSize = 'sm' | 'md';
+export type UiButtonSize = 'sm' | 'md' | 'lg';
 
 @Component({
   selector: 'button[uiButton], a[href][uiButton]',
@@ -38,6 +38,7 @@ export type UiButtonSize = 'sm' | 'md';
     '[class.ui-button-rounded]': 'rounded()',
     '[class.ui-button-fluid]': 'fluid()',
     '[class.ui-button-sm]': "size() === 'sm'",
+    '[class.ui-button-lg]': "size() === 'lg'",
     '[attr.type]': 'isButton() ? type() : null',
     '[attr.disabled]': 'isButton() && unavailable() ? "" : null',
     '[attr.aria-disabled]': '!isButton() && unavailable() ? "true" : null',

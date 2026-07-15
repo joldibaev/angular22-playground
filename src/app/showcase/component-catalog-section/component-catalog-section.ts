@@ -15,6 +15,7 @@ import { ChipShowcase } from './chip-showcase/chip-showcase';
 import { ContextMenuShowcase } from './context-menu-showcase/context-menu-showcase';
 import { DatepickerShowcase } from './datepicker-showcase/datepicker-showcase';
 import { DateRangePickerShowcase } from './date-range-picker-showcase/date-range-picker-showcase';
+import { DescriptionListShowcase } from './description-list-showcase/description-list-showcase';
 import { DialogShowcase } from './dialog-showcase/dialog-showcase';
 import { DialogConfirmShowcase } from './dialog-confirm-showcase/dialog-confirm-showcase';
 import { DialogSuccessShowcase } from './dialog-success-showcase/dialog-success-showcase';
@@ -54,6 +55,7 @@ import { BrowserSupport } from '../browser-support/browser-support';
     ContextMenuShowcase,
     DateRangePickerShowcase,
     DatepickerShowcase,
+    DescriptionListShowcase,
     DialogShowcase,
     DialogConfirmShowcase,
     DialogSuccessShowcase,

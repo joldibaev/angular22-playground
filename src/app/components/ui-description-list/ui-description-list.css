@@ -1,0 +1,21 @@
+:host {
+  display: block;
+  min-inline-size: 0;
+}
+
+:host([hidden]) {
+  display: none;
+}
+
+.ui-description-list {
+  --ui-description-list-gap: 1rem;
+  --ui-description-list-row-gap: 1rem;
+  --ui-description-list-column-gap: 1.5rem;
+  --ui-description-list-label-width: 9rem;
+
+  display: grid;
+  min-inline-size: 0;
+  margin: 0;
+  gap: var(--ui-description-list-gap);
+  container: ui-description-list / inline-size;
+}
