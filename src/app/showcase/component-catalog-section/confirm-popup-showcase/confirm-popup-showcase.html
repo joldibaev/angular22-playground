@@ -1,0 +1,97 @@
+<article class="confirm-popup-showcase" aria-labelledby="confirm-popup-showcase-title">
+  <header class="confirm-popup-showcase-header">
+    <h4 id="confirm-popup-showcase-title" class="font-black">Confirm popup</h4>
+    <p>An anchored decision prompt with explicit confirm and cancel outcomes.</p>
+  </header>
+
+  <app-showcase-example
+    heading="Default"
+    aria-label="Default confirmation popup example"
+    [code]="defaultCode"
+  >
+    <div class="confirm-popup-preview">
+      <button
+        uiButton
+        type="button"
+        variant="outline"
+        uiConfirmPopup
+        uiConfirmMessage="Save these changes?"
+        uiConfirmLabel="Save"
+        (uiConfirm)="report('Saved')"
+        (uiCancel)="report('Kept editing')"
+      >
+        Save changes
+      </button>
+    </div>
+  </app-showcase-example>
+
+  <app-showcase-example
+    heading="Destructive"
+    aria-label="Destructive confirmation popup example"
+    [code]="destructiveCode"
+  >
+    <div class="confirm-popup-preview confirm-popup-outcome">
+      <button
+        uiButton
+        type="button"
+        variant="destructive"
+        uiConfirmPopup
+        uiConfirmMessage="Delete this item? This cannot be undone."
+        uiConfirmLabel="Delete"
+        uiCancelLabel="Keep item"
+        uiConfirmTone="destructive"
+        (uiConfirm)="report('Deleted')"
+        (uiCancel)="report('Kept item')"
+      >
+        Delete item
+      </button>
+      <span aria-live="polite">Last action: {{ lastAction() }}</span>
+    </div>
+  </app-showcase-example>
+
+  <app-showcase-example
+    heading="Placement and collision fallback"
+    aria-label="Positioned confirmation popup example"
+    [code]="placementCode"
+  >
+    <div class="confirm-popup-preview">
+      <button
+        uiButton
+        type="button"
+        uiConfirmPopup
+        uiPlacement="right"
+        uiConfirmMessage="Publish this release?"
+        uiConfirmLabel="Publish"
+        (uiConfirm)="report('Published')"
+      >
+        Publish release
+      </button>
+    </div>
+  </app-showcase-example>
+
+  <app-showcase-example
+    heading="Controlled and programmatic"
+    aria-label="Controlled confirmation popup example"
+    [code]="controlledCode"
+  >
+    <div class="confirm-popup-preview confirm-popup-controlled">
+      <button
+        #confirm="uiConfirmPopup"
+        uiButton
+        type="button"
+        uiConfirmPopup
+        uiConfirmMessage="Archive this report?"
+        uiConfirmLabel="Archive"
+        [uiVisible]="controlledOpen()"
+        (uiVisibleChange)="controlledOpen.set($event)"
+        (uiConfirm)="report('Archived')"
+      >
+        Archive report
+      </button>
+      <button uiButton type="button" variant="ghost" (click)="confirm.show()">
+        Open programmatically
+      </button>
+      <span aria-live="polite">{{ controlledOpen() ? 'Open' : 'Closed' }}</span>
+    </div>
+  </app-showcase-example>
+</article>

@@ -19,6 +19,7 @@ import { ButtonShowcase } from './button-showcase/button-showcase';
 import { CardShowcase } from './card-showcase/card-showcase';
 import { CheckboxShowcase } from './checkbox-showcase/checkbox-showcase';
 import { ChipShowcase } from './chip-showcase/chip-showcase';
+import { ConfirmPopupShowcase } from './confirm-popup-showcase/confirm-popup-showcase';
 import { ContextMenuShowcase } from './context-menu-showcase/context-menu-showcase';
 import { DatepickerShowcase } from './datepicker-showcase/datepicker-showcase';
 import { DateRangePickerShowcase } from './date-range-picker-showcase/date-range-picker-showcase';
@@ -153,6 +154,11 @@ export class ComponentCatalogSection {
           value: 'dialog-success',
           label: 'Dialog success',
           component: DialogSuccessShowcase,
+        },
+        {
+          value: 'confirm-popup',
+          label: 'Confirm popup',
+          component: ConfirmPopupShowcase,
         },
         { value: 'drawer', label: 'Drawer', component: DrawerShowcase },
         { value: 'popover', label: 'Popover', component: PopoverShowcase },

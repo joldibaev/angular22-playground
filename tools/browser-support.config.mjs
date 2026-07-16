@@ -16,6 +16,14 @@ export const browserSupportProfiles = {
   card: ['light-dark', 'backdrop-filter'],
   checkbox: ['light-dark', 'popover', 'anchor-name'],
   chip: ['light-dark'],
+  'confirm-popup': [
+    'light-dark',
+    'popover',
+    'invoker-commands',
+    'anchor-name',
+    'starting-style',
+    'transition-behavior',
+  ],
   'context-menu': [
     'light-dark',
     'backdrop-filter',

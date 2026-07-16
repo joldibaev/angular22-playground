@@ -1,0 +1,34 @@
+.ui-confirm-popup-trigger:not(.ui-button):focus-visible {
+  outline: 3px solid var(--focus-ring-color);
+}
+
+ui-confirm-popup-panel {
+  --ui-confirm-popup-open-duration: var(--dur-fast);
+  --ui-confirm-popup-close-duration: var(--dur-quick);
+  --ui-confirm-popup-motion-easing: var(--ease-snappy);
+  --ui-panel-open-duration: var(--ui-confirm-popup-open-duration);
+  --ui-panel-close-duration: var(--ui-confirm-popup-close-duration);
+  --ui-panel-easing: var(--ui-confirm-popup-motion-easing);
+  --ui-panel-background: var(--background-color-canvas);
+  --ui-panel-text-color: var(--text-color-canvas);
+  --ui-panel-radius: 0.75rem;
+  --ui-panel-padding-block: 1rem;
+  --ui-panel-padding-inline: 1rem;
+  --ui-panel-gap: 1rem;
+  --ui-panel-max-width: min(22rem, calc(100vw - 2rem));
+}
+
+.ui-confirm-popup-message {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.ui-confirm-popup-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}

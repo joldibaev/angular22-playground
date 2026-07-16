@@ -1,0 +1,48 @@
+:host {
+  display: block;
+  min-width: 0;
+}
+
+.confirm-popup-showcase,
+.confirm-popup-showcase-header {
+  display: grid;
+  min-width: 0;
+}
+
+.confirm-popup-showcase {
+  gap: 1.25rem;
+}
+
+.confirm-popup-showcase-header {
+  gap: 0.25rem;
+}
+
+.confirm-popup-showcase-header p {
+  margin: 0;
+  color: var(--text-color-muted);
+  text-wrap: pretty;
+}
+
+.confirm-popup-preview {
+  display: flex;
+  min-height: 8rem;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+}
+
+.confirm-popup-outcome,
+.confirm-popup-controlled {
+  flex-direction: column;
+}
+
+.confirm-popup-preview span {
+  color: var(--text-color-muted);
+  font-size: 0.8125rem;
+}
+
+code {
+  font-family: ui-monospace, 'Cascadia Code', monospace;
+}

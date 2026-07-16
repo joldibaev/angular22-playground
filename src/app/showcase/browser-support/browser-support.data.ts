@@ -117,6 +117,19 @@ export const browserSupportFeatures = {
       "node": null
     }
   },
+  "invoker-commands": {
+    "name": "Invoker commands",
+    "baseline": "low",
+    "baselineLowDate": "2025-12-12",
+    "baselineHighDate": null,
+    "support": {
+      "chrome": "135",
+      "edge": "135",
+      "firefox": "144",
+      "safari": "26.2",
+      "node": null
+    }
+  },
   "pointer-events-api": {
     "name": "Pointer Events",
     "baseline": "high",
@@ -153,19 +166,6 @@ export const browserSupportFeatures = {
       "edge": "134",
       "firefox": "141",
       "safari": null,
-      "node": null
-    }
-  },
-  "invoker-commands": {
-    "name": "Invoker commands",
-    "baseline": "low",
-    "baselineLowDate": "2025-12-12",
-    "baselineHighDate": null,
-    "support": {
-      "chrome": "135",
-      "edge": "135",
-      "firefox": "144",
-      "safari": "26.2",
       "node": null
     }
   },
@@ -394,6 +394,14 @@ export const browserSupportProfiles = {
   ],
   "chip": [
     "light-dark"
+  ],
+  "confirm-popup": [
+    "light-dark",
+    "popover",
+    "invoker-commands",
+    "anchor-name",
+    "starting-style",
+    "transition-behavior"
   ],
   "context-menu": [
     "light-dark",

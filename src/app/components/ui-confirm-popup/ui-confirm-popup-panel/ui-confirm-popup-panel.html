@@ -1,0 +1,30 @@
+<div class="ui-confirm-popup-surface arrow-panel-surface">
+  <p [id]="messageId()" class="ui-confirm-popup-message">{{ message() }}</p>
+
+  <div class="ui-confirm-popup-actions">
+    <button
+      uiButton
+      type="button"
+      size="sm"
+      variant="outline"
+      command="hide-popover"
+      [attr.commandfor]="panelId()"
+      [attr.autofocus]="defaultFocus() === 'cancel' ? '' : null"
+      (click)="cancel.emit()"
+    >
+      {{ cancelLabel() }}
+    </button>
+    <button
+      uiButton
+      type="button"
+      size="sm"
+      [variant]="tone() === 'destructive' ? 'destructive' : 'default'"
+      command="hide-popover"
+      [attr.commandfor]="panelId()"
+      [attr.autofocus]="defaultFocus() === 'confirm' ? '' : null"
+      (click)="confirm.emit()"
+    >
+      {{ confirmLabel() }}
+    </button>
+  </div>
+</div>
