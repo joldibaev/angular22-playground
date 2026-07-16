@@ -1,239 +1,381 @@
 <article class="docs" aria-labelledby="table-showcase-title">
   <header>
     <h4 id="table-showcase-title" class="font-black">Table</h4>
-    <p>Native tables with backend sorting, row actions, and fixed-height virtual scrolling.</p>
+    <p>
+      ERP/POS tables with grouped business columns, density-aware controls, pinned service columns,
+      backend filters, and fixed-height virtual scrolling.
+    </p>
   </header>
-  <app-showcase-example heading="Default" aria-label="Default table example" [code]="defaultCode">
-    <div class="preview">
-      <div uiTableViewport>
-        <table uiTable>
-          <caption>
-            Inventory preview
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">SKU</th>
-              <th scope="col">Product</th>
-              <th scope="col">Stock</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (row of allRows.slice(0, 4); track row.id) {
-              <tr>
-                <td>{{ row.sku }}</td>
-                <th scope="row">{{ row.product }}</th>
-                <td>{{ row.stock }}</td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </app-showcase-example>
+
   <app-showcase-example
-    heading="Striped rows, hover, and sticky header"
-    aria-label="Table presentation options"
-    [code]="presentationCode"
+    heading="ERP inventory — grouped, compact, filtered, and virtual"
+    aria-label="ERP virtual inventory table example"
+    [code]="erpCode"
   >
-    <div class="preview presentation">
-      <div uiTableViewport>
-        <table uiTable withStripedRows withRowHover>
-          <caption>
-            Inventory presentation
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">SKU</th>
-              <th scope="col">Product</th>
-              <th scope="col">Warehouse</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (row of allRows.slice(0, 10); track row.id) {
-              <tr>
-                <td>{{ row.sku }}</td>
-                <th scope="row">{{ row.product }}</th>
-                <td>{{ row.warehouse }}</td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </app-showcase-example>
-  <app-showcase-example
-    heading="Backend sorting and row actions"
-    aria-label="Table sorting example"
-    [code]="sortCode"
-  >
-    <div class="preview">
-      <div uiTableViewport>
-        <table
-          uiTable
-          withRowHover
-          [sort]="sort()"
-          [loading]="sorting()"
-          (sortChange)="requestSortedPage($event)"
-        >
-          <caption>
-            Sortable inventory
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col" uiTableSort="sku">SKU</th>
-              <th scope="col" uiTableSort="product">Product</th>
-              <th scope="col" uiTableSort="stock" startDirection="desc">Stock</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (row of sortedRows(); track row.id) {
-              <tr>
-                <td>{{ row.sku }}</td>
-                <th scope="row">{{ row.product }}</th>
-                <td>{{ row.stock }}</td>
-                <td>
-                  <button
-                    uiButton
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    (click)="openProduct(row)"
-                  >
-                    Open<span class="sr-only"> {{ row.product }}</span>
-                  </button>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-      @if (lastAction(); as product) {
-        <output aria-live="polite">Open {{ product }}</output>
-      }
-    </div>
-  </app-showcase-example>
-  <app-showcase-example
-    heading="Row context menu"
-    aria-label="Table row context menu example"
-    [code]="contextMenuCode"
-  >
-    <div class="preview">
-      <div uiTableViewport>
-        <table uiTable withRowHover>
-          <caption>
-            Right-click a row, long-press it, or focus its Open button and press Shift+F10
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">SKU</th>
-              <th scope="col">Product</th>
-              <th scope="col">Warehouse</th>
-              <th scope="col">Stock</th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (row of allRows.slice(0, 5); track row.id) {
-              <tr [uiContextMenuTrigger]="rowMenu" [uiContextMenuContext]="row">
-                <td>{{ row.sku }}</td>
-                <th scope="row">{{ row.product }}</th>
-                <td>{{ row.warehouse }}</td>
-                <td>{{ row.stock }}</td>
-                <td>
-                  <button
-                    uiButton
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    (click)="openProduct(row)"
-                  >
-                    Open<span class="sr-only"> {{ row.product }}</span>
-                  </button>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
+    <div class="preview erp-preview">
+      <div class="table-summary">
+        <span>{{ inventoryTotal() }} результатов</span>
+        <output aria-live="polite">{{ inventoryAction() }}</output>
       </div>
 
-      <ui-context-menu #rowMenu (itemSelected)="runRowAction($event)"
-        ><ui-menu-item value="open">Open details</ui-menu-item
-        ><ui-menu-item value="duplicate"
-          ><ui-icon slot="start" name="outline-copy" decorative /><span
-            >Duplicate row</span
-          ></ui-menu-item
-        ><ui-menu-item value="delete" variant="destructive"
-          ><ui-icon slot="start" name="outline-trash" decorative /><span
-            >Delete row</span
-          ></ui-menu-item
-        ></ui-context-menu
-      >
-
-      @if (lastAction(); as action) {
-        <output aria-live="polite">{{ action }}</output>
-      }
-    </div>
-  </app-showcase-example>
-  <app-showcase-example
-    heading="Virtual and incremental loading"
-    aria-label="Virtual table example"
-    [code]="virtualCode"
-  >
-    <div class="preview virtual">
-      <button uiButton type="button" size="sm" variant="outline" (click)="scrollToEnd(table)">
-        Scroll to loaded end
-      </button>
       <div uiTableViewport>
         <table
-          #table="uiTable"
+          #inventoryTable="uiTable"
           uiTable
+          density="compact"
           virtualScroll
           withRowHover
           withStripedRows
-          [rows]="loadedRows()"
-          [rowHeight]="48"
-          [totalRows]="allRows.length"
-          [loading]="loading()"
-          [hasMore]="loadedRows().length < allRows.length"
-          (endReached)="loadMore()"
+          [rows]="inventoryRows()"
+          [totalRows]="inventoryTotal()"
+          [loading]="inventoryLoading()"
+          [hasMore]="inventoryRows().length < inventoryTotal()"
+          [sort]="inventorySort()"
+          (sortChange)="changeInventorySort($event)"
+          (endReached)="loadMoreInventory()"
         >
           <caption>
-            Virtual inventory
+            Остатки по складам — 10 000 записей в локальном mock endpoint
           </caption>
+          <colgroup>
+            <col class="col-sku" />
+            <col class="col-product" />
+            <col class="col-warehouse" />
+            <col class="col-storage-cell" />
+            @for (_ of inventoryPriceTypes; track $index) {
+              <col class="col-money" />
+            }
+            <col class="col-number" />
+            <col class="col-number" />
+            <col class="col-actions" />
+          </colgroup>
           <thead>
             <tr>
-              <th scope="col">SKU</th>
-              <th scope="col">Product</th>
-              <th scope="col">Warehouse</th>
-              <th scope="col">Stock</th>
+              <th scope="col" rowspan="2" uiTableSort="sku" uiTablePinned="start">SKU</th>
+              <th scope="col" rowspan="2" uiTableSort="product">Товар</th>
+              <th scope="col" rowspan="2" uiTableSort="warehouse">Склад</th>
+              <th scope="col" rowspan="2">Ячейка</th>
+              <th scope="colgroup" [attr.colspan]="inventoryPriceTypes.length">Цена</th>
+              <th scope="colgroup" colspan="2">Наличие</th>
+              <th scope="col" rowspan="2" uiTableActions uiTablePinned="end">Действия</th>
+            </tr>
+            <tr>
+              @for (priceType of inventoryPriceTypes; track priceType.key) {
+                <th scope="col" [uiTableSort]="priceType.key" startDirection="desc">
+                  {{ priceType.label }}
+                </th>
+              }
+              <th scope="col" uiTableSort="stock" startDirection="desc">Остаток</th>
+              <th scope="col" uiTableSort="reserved" startDirection="desc">Резерв</th>
+            </tr>
+            <tr uiTableFilters>
+              <td uiTablePinned="start"></td>
+              <td>
+                <ui-input label="Фильтр по товару или SKU">
+                  <input
+                    #productFilterControl
+                    type="search"
+                    placeholder="Товар или SKU"
+                    [value]="productFilter()"
+                    (input)="productFilter.set(productFilterControl.value); refreshInventory()"
+                  />
+                </ui-input>
+              </td>
+              <td>
+                <ui-select
+                  label="Фильтр по складу"
+                  placeholder="Все склады"
+                  [value]="warehouseFilter()"
+                  (valueChange)="warehouseFilter.set($event); refreshInventory()"
+                >
+                  <ui-select-option value="all" label="Все склады" />
+                  @for (warehouse of ['Central', 'Airport', 'Market']; track warehouse) {
+                    <ui-select-option [value]="warehouse" [label]="warehouse" />
+                  }
+                </ui-select>
+              </td>
+              <td></td>
+              @for (_ of inventoryPriceTypes; track $index) {
+                <td></td>
+              }
+              <td></td>
+              <td></td>
+              <td uiTableActions uiTablePinned="end"></td>
             </tr>
           </thead>
           <tbody>
-            <tr uiTableSpacer="start" [columns]="4"></tr>
-            @for (row of table.renderedRows(); track row.id) {
-              <tr>
-                <td>{{ row.sku }}</td>
+            <tr uiTableSpacer="start" [columns]="inventoryColumnCount"></tr>
+            @for (row of inventoryTable.renderedRows(); track row.id) {
+              <tr
+                [uiContextMenuTrigger]="inventoryRowMenu"
+                [uiContextMenuContext]="row"
+              >
+                <td uiTablePinned="start">{{ row.sku }}</td>
                 <th scope="row">{{ row.product }}</th>
                 <td>{{ row.warehouse }}</td>
-                <td>{{ row.stock }}</td>
+                <td>
+                  <ui-table-input
+                    [ariaLabel]="'Ячейка хранения для ' + row.product + ', ' + row.sku"
+                    [value]="row.storageCell"
+                    (valueChange)="updateInventoryStorageCell(row.id, $event)"
+                  />
+                </td>
+                @for (priceType of inventoryPriceTypes; track priceType.key) {
+                  <td class="ui-table-number">{{ formatMoney(row[priceType.key]) }}</td>
+                }
+                <td class="ui-table-number">{{ row.stock }}</td>
+                <td class="ui-table-number">{{ row.reserved }}</td>
+                <td uiTableActions uiTablePinned="end">
+                  <span class="ui-table-action-group">
+                    <button
+                      uiButton
+                      type="button"
+                      size="sm"
+                      variant="ghost"
+                      iconOnly
+                      [attr.aria-label]="'Редактировать ' + row.product"
+                      (click)="runInventoryAction('edit', row)"
+                    >
+                      <ui-icon name="outline-edit" decorative />
+                    </button>
+                    <button
+                      uiButton
+                      type="button"
+                      size="sm"
+                      variant="destructive"
+                      iconOnly
+                      [attr.aria-label]="'Удалить ' + row.product"
+                      (click)="runInventoryAction('delete', row)"
+                    >
+                      <ui-icon name="outline-trash" decorative />
+                    </button>
+                  </span>
+                </td>
               </tr>
             }
-            <tr uiTableSpacer="end" [columns]="4"></tr>
-            @if (loading()) {
-              @for (_ of loadingSkeletonRows; track $index) {
+            <tr uiTableSpacer="end" [columns]="inventoryColumnCount"></tr>
+            @if (inventoryLoading()) {
+              @for (_ of skeletonRows; track $index) {
                 <tr class="ui-table-loading-row" aria-hidden="true">
-                  <td><ui-skeleton /></td>
-                  <th scope="row"><ui-skeleton /></th>
-                  <td><ui-skeleton /></td>
-                  <td><ui-skeleton /></td>
+                  @for (_ of inventorySkeletonColumns; track $index) {
+                    <td><ui-skeleton /></td>
+                  }
                 </tr>
               }
             }
           </tbody>
         </table>
       </div>
-      <output aria-live="polite">Loaded {{ loadedRows().length }} of {{ allRows.length }}</output>
+
+      <ui-context-menu
+        #inventoryRowMenu
+        (itemSelected)="runInventoryMenuAction($event)"
+      >
+        <ui-menu-item value="open">
+          <ui-icon slot="start" name="outline-eye" decorative />
+          <span>Открыть карточку</span>
+        </ui-menu-item>
+        <ui-menu-item value="edit">
+          <ui-icon slot="start" name="outline-edit" decorative />
+          <span>Редактировать</span>
+        </ui-menu-item>
+        <ui-menu-item value="delete" variant="destructive">
+          <ui-icon slot="start" name="outline-trash" decorative />
+          <span>Удалить</span>
+        </ui-menu-item>
+      </ui-context-menu>
+
+      @if (!inventoryLoading() && inventoryTotal() === 0) {
+        <p class="table-status" role="status">По выбранным фильтрам ничего не найдено.</p>
+      }
+      <output class="load-status" aria-live="polite">
+        Загружено {{ inventoryRows().length }} из {{ inventoryTotal() }}
+      </output>
+    </div>
+  </app-showcase-example>
+
+  <app-showcase-example
+    heading="POS cart — touch density and quantity stepper"
+    aria-label="POS cart table example"
+    [code]="posCode"
+  >
+    <div class="preview pos-preview">
+      <div uiTableViewport>
+        <table uiTable density="touch" withRowHover>
+          <caption>
+            Текущий чек
+          </caption>
+          <colgroup>
+            <col class="col-pos-product" />
+            <col class="col-money" />
+            <col class="col-quantity" />
+            <col class="col-money" />
+            <col class="col-pos-action" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th scope="col">Товар</th>
+              <th scope="col">Цена</th>
+              <th scope="col">Количество</th>
+              <th scope="col">Сумма</th>
+              <th scope="col" uiTableActions uiTablePinned="end">Удалить</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of cart(); track row.id) {
+              <tr>
+                <th scope="row">
+                  <span class="product-cell">
+                    <strong>{{ row.product }}</strong>
+                    <small>{{ row.sku }}</small>
+                  </span>
+                </th>
+                <td class="ui-table-number">{{ formatMoney(row.price) }}</td>
+                <td>
+                  <ui-table-input-number
+                    [ariaLabel]="'Количество ' + row.product"
+                    [value]="row.quantity"
+                    [min]="1"
+                    [max]="row.stock"
+                    (valueChange)="updateQuantity(row.id, $event)"
+                  />
+                </td>
+                <td class="ui-table-number">
+                  <strong>{{ formatMoney(row.price * row.quantity) }}</strong>
+                </td>
+                <td uiTableActions uiTablePinned="end">
+                  <button
+                    uiButton
+                    type="button"
+                    variant="destructive"
+                    iconOnly
+                    [attr.aria-label]="'Удалить ' + row.product + ' из чека'"
+                    (click)="removeCartRow(row.id)"
+                  >
+                    <ui-icon name="outline-trash" decorative />
+                  </button>
+                </td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="5" class="table-empty-cell">В чеке пока нет товаров.</td>
+              </tr>
+            }
+          </tbody>
+          <tfoot>
+            <tr>
+              <th colspan="3" scope="row">Итого</th>
+              <td class="ui-table-number pos-total">{{ formatMoney(cartTotal()) }}</td>
+              <td uiTableActions uiTablePinned="end"></td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </app-showcase-example>
+
+  <app-showcase-example
+    heading="Async states — loading, empty, error, and incremental"
+    aria-label="Table asynchronous states example"
+    [code]="statesCode"
+  >
+    <div class="preview states-preview">
+      <div class="state-controls" role="group" aria-label="Выберите состояние таблицы">
+        <button uiButton type="button" size="sm" variant="outline" (click)="setAsyncState('loading')">
+          Loading
+        </button>
+        <button uiButton type="button" size="sm" variant="outline" (click)="setAsyncState('ready')">
+          Ready
+        </button>
+        <button uiButton type="button" size="sm" variant="outline" (click)="setAsyncState('empty')">
+          Empty
+        </button>
+        <button uiButton type="button" size="sm" variant="outline" (click)="setAsyncState('error')">
+          Error
+        </button>
+        <button
+          uiButton
+          type="button"
+          size="sm"
+          variant="outline"
+          (click)="setAsyncState('incremental')"
+        >
+          Load more
+        </button>
+      </div>
+
+      <div uiTableViewport>
+        <table
+          uiTable
+          density="default"
+          [loading]="asyncState() === 'loading' || asyncState() === 'incremental'"
+        >
+          <caption>
+            Состояния ответа сервера
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col">SKU</th>
+              <th scope="col">Товар</th>
+              <th scope="col">Остаток</th>
+            </tr>
+          </thead>
+          <tbody>
+            @switch (asyncState()) {
+              @case ('loading') {
+                @for (_ of [0, 1, 2, 3]; track $index) {
+                  <tr class="ui-table-loading-row" aria-hidden="true">
+                    <td><ui-skeleton /></td>
+                    <th scope="row"><ui-skeleton /></th>
+                    <td><ui-skeleton /></td>
+                  </tr>
+                }
+              }
+              @case ('empty') {
+                <tr>
+                  <td colspan="3" class="table-empty-cell">Записей пока нет.</td>
+                </tr>
+              }
+              @case ('error') {
+                <tr>
+                  <td colspan="3" class="table-empty-cell">
+                    <span>Не удалось загрузить данные.</span>
+                    <button
+                      uiButton
+                      type="button"
+                      size="sm"
+                      variant="outline"
+                      (click)="setAsyncState('ready')"
+                    >
+                      <ui-icon slot="start" name="outline-refresh" decorative />
+                      Повторить
+                    </button>
+                  </td>
+                </tr>
+              }
+              @default {
+                @for (row of asyncRows; track row.id) {
+                  <tr>
+                    <td>{{ row.sku }}</td>
+                    <th scope="row">{{ row.product }}</th>
+                    <td class="ui-table-number">{{ row.stock }}</td>
+                  </tr>
+                }
+                @if (asyncState() === 'incremental') {
+                  @for (_ of skeletonRows; track $index) {
+                    <tr class="ui-table-loading-row" aria-hidden="true">
+                      <td><ui-skeleton /></td>
+                      <th scope="row"><ui-skeleton /></th>
+                      <td><ui-skeleton /></td>
+                    </tr>
+                  }
+                }
+              }
+            }
+          </tbody>
+        </table>
+      </div>
+      <output class="load-status" aria-live="polite">Состояние: {{ asyncState() }}</output>
     </div>
   </app-showcase-example>
 </article>

@@ -1,4 +1,5 @@
 export type UiTableSortDirection = 'asc' | 'desc';
+export type UiTableDensity = 'compact' | 'default' | 'touch';
 
 export interface UiTableRange {
   readonly start: number;

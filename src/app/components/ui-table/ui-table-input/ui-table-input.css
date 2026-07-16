@@ -1,0 +1,58 @@
+:host {
+  --ui-table-input-background: var(--ui-table-background, var(--background-color-surface));
+  --ui-table-input-border-color: var(--ui-table-border-color-strong, var(--border-color-strong));
+  --ui-table-input-color: var(--ui-table-foreground, var(--text-color-canvas));
+  --ui-table-input-placeholder-color: var(--text-color-placeholder);
+  --ui-table-input-height: var(--ui-table-control-height, 2rem);
+  --ui-table-input-radius: 0.375rem;
+
+  display: block;
+  min-inline-size: 6rem;
+  inline-size: 100%;
+}
+
+input {
+  display: block;
+  min-inline-size: 0;
+  inline-size: 100%;
+  block-size: var(--ui-table-input-height);
+  border: 1px solid var(--ui-table-input-border-color);
+  border-radius: var(--ui-table-input-radius);
+  background-color: var(--ui-table-input-background);
+  color: var(--ui-table-input-color);
+  font: inherit;
+  font-size: var(--ui-table-control-font-size, 0.8125rem);
+  line-height: 1.25rem;
+  outline: none;
+  padding-inline: var(--ui-table-control-padding-inline, 0.625rem);
+  transition:
+    background-color var(--dur-fast) var(--ease-snappy),
+    border-color var(--dur-fast) var(--ease-snappy);
+
+  &::placeholder {
+    color: var(--ui-table-input-placeholder-color);
+  }
+
+  &:hover:not(:disabled) {
+    background-color: color-mix(in oklab, var(--text-color-canvas) 3%, var(--ui-table-input-background));
+  }
+
+  &:focus-visible {
+    border-color: var(--color-brand);
+    outline: 3px solid var(--focus-ring-color);
+    outline-offset: -2px;
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: var(--opacity-disabled);
+  }
+}
+
+:host(.ui-table-input-invalid) input {
+  border-color: var(--color-destructive);
+
+  &:focus-visible {
+    outline-color: var(--destructive-focus-ring-color);
+  }
+}

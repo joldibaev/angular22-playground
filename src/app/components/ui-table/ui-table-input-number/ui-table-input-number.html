@@ -1,0 +1,35 @@
+<button
+  type="button"
+  class="ui-table-input-number-action"
+  [disabled]="!canDecrement()"
+  [attr.aria-label]="decrementLabel() + ' ' + ariaLabel()"
+  (click)="decrement()"
+>
+  <ui-icon name="outline-minus" decorative />
+</button>
+
+<input
+  #control
+  type="number"
+  inputmode="decimal"
+  [value]="value()"
+  [attr.min]="min()"
+  [attr.max]="max()"
+  [attr.step]="safeStep()"
+  [disabled]="disabled()"
+  [required]="required()"
+  [attr.aria-label]="ariaLabel()"
+  [attr.aria-invalid]="invalid() ? 'true' : null"
+  (input)="updateValue($event)"
+  (blur)="normalizeInput()"
+/>
+
+<button
+  type="button"
+  class="ui-table-input-number-action"
+  [disabled]="!canIncrement()"
+  [attr.aria-label]="incrementLabel() + ' ' + ariaLabel()"
+  (click)="increment()"
+>
+  <ui-icon name="outline-plus" decorative />
+</button>

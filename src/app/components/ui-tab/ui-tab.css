@@ -19,6 +19,8 @@
   --ui-tab-motion-easing: var(--ease-snappy);
 
   display: inline-block;
+  min-inline-size: 0;
+  max-inline-size: 100%;
 
   &.ui-tab-fluid {
     display: block;
@@ -29,7 +31,9 @@
 [ngTabs] {
   display: grid;
   gap: 0.75rem;
-  width: max-content;
+  inline-size: var(--ui-tab-root-inline-size, max-content);
+  min-inline-size: 0;
+  max-inline-size: 100%;
 
   &:has(> .ui-tab-list[aria-orientation='vertical']) {
     grid-template-columns: max-content minmax(0, 1fr);
@@ -38,7 +42,7 @@
 }
 
 :host(.ui-tab-fluid) [ngTabs] {
-  width: 100%;
+  inline-size: 100%;
 }
 
 .ui-tab-list {
@@ -253,7 +257,13 @@
 }
 
 :host(.ui-tab-fluid) .ui-tab-panels {
-  width: 100%;
+  inline-size: 100%;
+}
+
+.ui-tab-panels {
+  inline-size: var(--ui-tab-panels-inline-size, auto);
+  min-inline-size: 0;
+  max-inline-size: 100%;
 }
 
 @supports not (position-anchor: --ui-tab-active) {
@@ -277,6 +287,8 @@
 }
 
 [ngTabPanel] {
+  min-inline-size: 0;
+  max-inline-size: 100%;
   outline: none;
 
   &:focus-visible {

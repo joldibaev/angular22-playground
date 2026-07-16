@@ -1,6 +1,8 @@
 .ui-table-sort-trigger {
   display: flex;
   inline-size: 100%;
+  block-size: 100%;
+  min-block-size: var(--ui-table-row-height, 48px);
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
@@ -35,6 +37,19 @@
     cursor: default;
     opacity: var(--opacity-disabled);
   }
+}
+
+/* A percentage height cannot resolve against a rowspan table cell whose block size is intrinsic.
+   The positioned trigger instead fills the final cell box, regardless of how many rows it spans. */
+:host([rowspan]:not(.ui-table-pinned)) {
+  position: relative;
+}
+
+:host([rowspan]) .ui-table-sort-trigger {
+  position: absolute;
+  inset: 0;
+  block-size: auto;
+  min-block-size: 0;
 }
 
 .ui-table-sort-label {

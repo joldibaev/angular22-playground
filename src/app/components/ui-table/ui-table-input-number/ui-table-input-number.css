@@ -1,0 +1,117 @@
+:host {
+  --ui-table-input-number-background: var(
+    --ui-table-background,
+    var(--background-color-surface)
+  );
+  --ui-table-input-number-border-color: var(
+    --ui-table-border-color-strong,
+    var(--border-color-strong)
+  );
+  --ui-table-input-number-height: var(--ui-table-control-height, 2rem);
+  --ui-table-input-number-action-size: var(--ui-table-control-height, 2rem);
+  --ui-table-input-number-radius: 0.375rem;
+
+  display: inline-grid;
+  grid-template-columns: auto minmax(2.75rem, 1fr) auto;
+  min-inline-size: 7.5rem;
+  block-size: var(--ui-table-input-number-height);
+  overflow: hidden;
+  border: 1px solid var(--ui-table-input-number-border-color);
+  border-radius: var(--ui-table-input-number-radius);
+  background-color: var(--ui-table-input-number-background);
+  color: var(--ui-table-foreground, var(--text-color-canvas));
+  vertical-align: middle;
+}
+
+input,
+.ui-table-input-number-action {
+  min-inline-size: 0;
+  border: 0;
+  background-color: transparent;
+  color: inherit;
+  font: inherit;
+  outline: none;
+}
+
+input {
+  inline-size: 100%;
+  text-align: center;
+  appearance: textfield;
+  font-size: var(--ui-table-control-font-size, 0.8125rem);
+  font-variant-numeric: tabular-nums;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    appearance: none;
+    margin: 0;
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--focus-ring-color);
+    outline-offset: -3px;
+  }
+}
+
+.ui-table-input-number-action {
+  display: inline-grid;
+  place-items: center;
+  inline-size: var(--ui-table-input-number-action-size);
+  block-size: 100%;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-press) var(--ease-snappy),
+    scale var(--dur-press) var(--ease-snappy);
+
+  &:first-child {
+    border-inline-end: 1px solid var(--ui-table-input-number-border-color);
+  }
+
+  &:last-child {
+    border-inline-start: 1px solid var(--ui-table-input-number-border-color);
+  }
+
+  &:hover:not(:disabled) {
+    background-color: var(--background-color-hover);
+  }
+
+  &:active:not(:disabled) {
+    scale: var(--press-scale);
+  }
+
+  &:focus-visible {
+    outline: 3px solid var(--focus-ring-color);
+    outline-offset: -3px;
+  }
+
+  &:disabled {
+    cursor: default;
+    opacity: var(--opacity-disabled);
+  }
+}
+
+:host(.ui-table-input-number-invalid) {
+  border-color: var(--color-destructive);
+
+  & input:focus-visible,
+  & .ui-table-input-number-action:focus-visible {
+    outline-color: var(--destructive-focus-ring-color);
+  }
+}
+
+:host(.ui-table-input-number-disabled) {
+  opacity: var(--opacity-disabled);
+
+  & .ui-table-input-number-action:disabled {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ui-table-input-number-action {
+    transition: background-color var(--dur-press) var(--ease-snappy);
+
+    &:active:not(:disabled) {
+      scale: none;
+    }
+  }
+}

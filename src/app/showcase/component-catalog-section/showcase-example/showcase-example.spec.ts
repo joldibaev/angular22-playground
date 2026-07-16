@@ -21,6 +21,7 @@ describe('ShowcaseExample', () => {
     expect(heading.textContent).toContain('Default');
     expect(section.getAttribute('aria-labelledby')).toBe(heading.id);
     expect(tab.getAttribute('aria-label')).toBe('Default button example');
+    expect(tab.classList.contains('ui-tab-fluid')).toBe(false);
     expect(fixture.nativeElement.querySelector('.frame')).not.toBeNull();
     expect(fixture.nativeElement.querySelector('ui-card')).toBeNull();
     expect(

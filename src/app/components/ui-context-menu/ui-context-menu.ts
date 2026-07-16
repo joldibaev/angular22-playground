@@ -4,6 +4,8 @@ import {
   Component,
   computed,
   contentChildren,
+  DestroyRef,
+  inject,
   output,
   signal,
   viewChild,
@@ -44,7 +46,10 @@ export class UiContextMenu<T = unknown> {
   readonly itemSelected = output<UiContextMenuSelection<T>>();
 
   protected readonly position = signal({ x: 0, y: 0 });
+  private readonly destroyRef = inject(DestroyRef);
   private returnFocusTo: HTMLElement | undefined;
+  private restoreFocusOnClose = true;
+  private scrollDocument: Document | undefined;
   protected readonly sections = computed<UiContextMenuSection[]>(() => {
     const groups = this.groups();
     const groupedItems = new Set(groups.flatMap((group) => group.items()));
@@ -84,14 +89,20 @@ export class UiContextMenu<T = unknown> {
 
       if (menu && visible) {
         positionContextMenu(menu.element, position.x, position.y);
+        this.startScrollDismiss(menu.element.ownerDocument);
+      } else {
+        this.stopScrollDismiss();
       }
     });
+
+    this.destroyRef.onDestroy(() => this.stopScrollDismiss());
   }
 
   openAt(x: number, y: number, context: T, returnFocusTo?: HTMLElement): void {
     this.position.set({ x, y });
     this.context.set(context);
     this.returnFocusTo = returnFocusTo;
+    this.restoreFocusOnClose = true;
     this.trigger().open();
   }
 
@@ -111,14 +122,47 @@ export class UiContextMenu<T = unknown> {
 
   protected onPopoverToggle(event: ToggleEvent): void {
     if (event.newState === 'closed') {
+      this.stopScrollDismiss();
       this.trigger().close();
 
-      if (this.returnFocusTo?.isConnected) {
+      if (this.restoreFocusOnClose && this.returnFocusTo?.isConnected) {
         this.returnFocusTo.focus({ preventScroll: true });
       }
 
       this.returnFocusTo = undefined;
+      this.restoreFocusOnClose = true;
     }
+  }
+
+  private readonly onDocumentScroll = (event: Event): void => {
+    const menuElement = this.menu()?.element;
+
+    if (!menuElement || event.composedPath().includes(menuElement)) {
+      return;
+    }
+
+    // Pointer coordinates are not a durable anchor, and a virtual row may disappear during
+    // scrolling. Dismiss instead of leaving actions attached to an invisible record; do not move
+    // focus back to the row because that would fight the user's scroll position.
+    this.restoreFocusOnClose = false;
+    this.stopScrollDismiss();
+    this.trigger().close();
+  };
+
+  private startScrollDismiss(document: Document): void {
+    if (this.scrollDocument === document) {
+      return;
+    }
+
+    this.stopScrollDismiss();
+    this.scrollDocument = document;
+    // Element scroll events do not bubble, so capture is required for nested table scrollports.
+    document.addEventListener('scroll', this.onDocumentScroll, { capture: true, passive: true });
+  }
+
+  private stopScrollDismiss(): void {
+    this.scrollDocument?.removeEventListener('scroll', this.onDocumentScroll, true);
+    this.scrollDocument = undefined;
   }
 }
 

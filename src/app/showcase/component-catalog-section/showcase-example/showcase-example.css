@@ -1,7 +1,7 @@
 :host,
 section {
   display: grid;
-  min-width: 0;
+  min-inline-size: 0;
 }
 
 section {
@@ -32,9 +32,24 @@ h5 {
   --ui-showcase-example-frame-radius: 0.5rem;
 
   display: grid;
-  min-width: 0;
+  grid-template-columns: minmax(0, 1fr);
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: 100%;
   padding: 0.875rem;
   border: 1px solid var(--border-color-default);
   border-radius: var(--ui-showcase-example-frame-radius);
   background: transparent;
+}
+
+.frame > ui-tab {
+  /* Preview/Code stays an intrinsic compact tab list, but its panels must fill the frame. Using
+     UiTab's fluid mode here would stretch the two triggers and recreate the showcase regression. */
+  --ui-tab-root-inline-size: 100%;
+  --ui-tab-panels-inline-size: 100%;
+
+  display: block;
+  inline-size: 100%;
+  min-inline-size: 0;
+  max-inline-size: 100%;
 }

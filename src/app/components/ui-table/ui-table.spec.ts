@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { UiTable } from './ui-table';
+import { UiTableFilters } from './ui-table-filters/ui-table-filters';
 import { UiTableSort } from './ui-table-sort/ui-table-sort';
 import { UiTableSpacer } from './ui-table-spacer/ui-table-spacer';
 import type { UiTableEndReachedEvent } from './ui-table.types';
@@ -13,16 +14,16 @@ interface TestRow {
 }
 
 @Component({
-  imports: [UiTable, UiTableSort, UiTableSpacer, UiTableViewport],
+  imports: [UiTable, UiTableFilters, UiTableSort, UiTableSpacer, UiTableViewport],
   template: `
     <div uiTableViewport>
       <table
         #table="uiTable"
         uiTable
+        density="compact"
         virtualScroll
         withStripedRows
         [rows]="rows()"
-        [rowHeight]="40"
         [overscan]="1"
         [endThreshold]="1"
         [totalRows]="totalRows()"
@@ -36,19 +37,27 @@ interface TestRow {
         </caption>
         <thead>
           <tr>
+            <th scope="colgroup" colspan="2">Product</th>
+            <th scope="col" rowspan="2">Status</th>
+          </tr>
+          <tr>
             <th scope="col" uiTableSort="name">Name</th>
             <th scope="col">ID</th>
           </tr>
+          <tr uiTableFilters>
+            <th colspan="3">Filters</th>
+          </tr>
         </thead>
         <tbody>
-          <tr uiTableSpacer="start" [columns]="2"></tr>
+          <tr uiTableSpacer="start" [columns]="3"></tr>
           @for (row of table.renderedRows(); track row.id) {
             <tr>
               <th scope="row">{{ row.name }}</th>
               <td>{{ row.id }}</td>
+              <td>Active</td>
             </tr>
           }
-          <tr uiTableSpacer="end" [columns]="2"></tr>
+          <tr uiTableSpacer="end" [columns]="3"></tr>
         </tbody>
       </table>
     </div>
@@ -82,9 +91,17 @@ describe('UiTable', () => {
     const tableElement = fixture.nativeElement.querySelector('table') as HTMLTableElement;
 
     expect(tableElement.caption?.textContent).toContain('Products');
+    expect(
+      tableElement.querySelector<HTMLTableCellElement>('th[scope="colgroup"]')?.colSpan,
+    ).toBe(2);
+    expect(tableElement.querySelector<HTMLTableCellElement>('th[rowspan]')?.rowSpan).toBe(2);
     expect(tableElement.querySelector('th[scope="col"]')).toBeTruthy();
-    expect(tableElement.getAttribute('aria-rowcount')).toBe('101');
+    expect(tableElement.classList.contains('ui-table-density-compact')).toBe(true);
+    expect(table.safeRowHeight()).toBe(40);
+    expect(tableElement.getAttribute('aria-rowcount')).toBe('103');
     expect(tableElement.tHead?.rows[0].getAttribute('aria-rowindex')).toBe('1');
+    expect(tableElement.tHead?.rows[1].getAttribute('aria-rowindex')).toBe('2');
+    expect(tableElement.tHead?.rows[2].getAttribute('aria-rowindex')).toBe('3');
   });
 
   it('renders the visible window with automatic spacer geometry', async () => {
@@ -104,11 +121,11 @@ describe('UiTable', () => {
     expect(spacers[0].style.height).toBe('360px');
     expect(spacers[1].style.height).toBe('3440px');
     expect(bodyRows.map((row) => row.getAttribute('aria-rowindex'))).toEqual([
-      '11',
-      '12',
       '13',
       '14',
       '15',
+      '16',
+      '17',
     ]);
     expect(bodyRows.map((row) => row.classList.contains('ui-table-row-striped'))).toEqual([
       true,
@@ -147,6 +164,20 @@ describe('UiTable', () => {
     await fixture.whenStable();
     expect(fixture.componentInstance.endEvents).toEqual([{ loadedRows: 100, renderedEnd: 100 }]);
 
+    viewportElement.scrollTop = 0;
+    viewportElement.dispatchEvent(new Event('scroll'));
+    await fixture.whenStable();
+    viewportElement.scrollTop = 3_840;
+    viewportElement.dispatchEvent(new Event('scroll'));
+    await fixture.whenStable();
+    expect(fixture.componentInstance.endEvents).toHaveLength(1);
+
+    table.resetVirtualScroll();
+    viewportElement.scrollTop = 3_840;
+    viewportElement.dispatchEvent(new Event('scroll'));
+    await fixture.whenStable();
+    expect(fixture.componentInstance.endEvents).toHaveLength(2);
+
     fixture.componentInstance.rows.set(createRows(120));
     viewportElement.scrollTop = 4_640;
     viewportElement.dispatchEvent(new Event('scroll'));
@@ -184,7 +215,7 @@ describe('UiTable', () => {
 
     fixture.componentInstance.hasMore.set(false);
     await fixture.whenStable();
-    expect(tableElement.getAttribute('aria-rowcount')).toBe('101');
+    expect(tableElement.getAttribute('aria-rowcount')).toBe('103');
   });
 
   it('clamps the rendered range after the data source shrinks', async () => {

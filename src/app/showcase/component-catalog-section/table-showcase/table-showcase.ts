@@ -1,38 +1,88 @@
-import { ShowcaseExample } from '../showcase-example/showcase-example';
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal, viewChild } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import {
   UiContextMenu,
-  UiContextMenuSelection,
+  type UiContextMenuSelection,
 } from '../../../components/ui-context-menu/ui-context-menu';
 import { UiContextMenuTrigger } from '../../../components/ui-context-menu/ui-context-menu-trigger/ui-context-menu-trigger';
 import { UiIcon } from '../../../components/ui-icon/ui-icon';
+import { UiInput } from '../../../components/ui-input/ui-input';
 import { UiMenuItem } from '../../../components/ui-menu/ui-menu-item/ui-menu-item';
+import { UiSelect } from '../../../components/ui-select/ui-select';
+import { UiSelectOption } from '../../../components/ui-select/ui-select-option/ui-select-option';
 import { UiSkeleton } from '../../../components/ui-skeleton/ui-skeleton';
 import { UiTable } from '../../../components/ui-table/ui-table';
+import { UiTableActions } from '../../../components/ui-table/ui-table-actions/ui-table-actions';
+import { UiTableFilters } from '../../../components/ui-table/ui-table-filters/ui-table-filters';
+import { UiTableInput } from '../../../components/ui-table/ui-table-input/ui-table-input';
+import { UiTableInputNumber } from '../../../components/ui-table/ui-table-input-number/ui-table-input-number';
+import { UiTablePinned } from '../../../components/ui-table/ui-table-pinned/ui-table-pinned';
 import { UiTableSort } from '../../../components/ui-table/ui-table-sort/ui-table-sort';
 import { UiTableSpacer } from '../../../components/ui-table/ui-table-spacer/ui-table-spacer';
 import { UiTableViewport } from '../../../components/ui-table/ui-table-viewport/ui-table-viewport';
+import { ShowcaseExample } from '../showcase-example/showcase-example';
 
 interface InventoryRow {
   readonly id: number;
   readonly sku: string;
   readonly product: string;
   readonly warehouse: string;
+  readonly storageCell: string;
+  readonly retailPrice: number;
+  readonly wholesalePrice: number;
+  readonly costPrice: number;
   readonly stock: number;
   readonly reserved: number;
 }
 
+interface CartRow {
+  readonly id: number;
+  readonly product: string;
+  readonly sku: string;
+  readonly price: number;
+  readonly stock: number;
+  readonly quantity: number;
+}
+
+type AsyncTableState = 'empty' | 'error' | 'incremental' | 'loading' | 'ready';
+
+const PAGE_SIZE = 120;
 const PRODUCTS = ['Arabica', 'Matcha', 'Olive oil', 'Protein bar', 'Sparkling water'];
 const WAREHOUSES = ['Central', 'Airport', 'Market'];
-const ALL_ROWS = Array.from({ length: 500 }, (_, index): InventoryRow => ({
-  id: index + 1,
-  sku: `SKU-${String(index + 1).padStart(4, '0')}`,
-  product: `${PRODUCTS[index % PRODUCTS.length]} ${index + 1}`,
-  warehouse: WAREHOUSES[index % WAREHOUSES.length],
-  stock: 8 + ((index * 17) % 240),
-  reserved: (index * 7) % 32,
-}));
+const INVENTORY_PRICE_TYPES = [
+  { key: 'retailPrice', label: 'Розничная' },
+  { key: 'wholesalePrice', label: 'Оптовая' },
+  { key: 'costPrice', label: 'Себестоимость' },
+] as const satisfies readonly {
+  readonly key: keyof Pick<InventoryRow, 'costPrice' | 'retailPrice' | 'wholesalePrice'>;
+  readonly label: string;
+}[];
+const INVENTORY_COLUMN_COUNT = 4 + INVENTORY_PRICE_TYPES.length + 2 + 1;
+const INVENTORY = Array.from({ length: 10_000 }, (_, index): InventoryRow => {
+  const retailPrice = 12_000 + ((index * 1_750) % 185_000);
+
+  return {
+    id: index + 1,
+    sku: `SKU-${String(index + 1).padStart(5, '0')}`,
+    product: `${PRODUCTS[index % PRODUCTS.length]} ${index + 1}`,
+    warehouse: WAREHOUSES[index % WAREHOUSES.length],
+    storageCell: `${String.fromCharCode(65 + (index % 6))}-${String((index % 24) + 1).padStart(
+      2,
+      '0',
+    )}`,
+    retailPrice,
+    wholesalePrice: Math.round((retailPrice * 0.88) / 250) * 250,
+    costPrice: Math.round((retailPrice * 0.67) / 250) * 250,
+    stock: 8 + ((index * 17) % 940),
+    reserved: (index * 7) % 64,
+  };
+});
+const INITIAL_INVENTORY_PAGE = queryInventory('', 'all', null, 0);
+const MONEY_FORMAT = new Intl.NumberFormat('ru-RU', {
+  style: 'currency',
+  currency: 'UZS',
+  maximumFractionDigits: 0,
+});
 
 @Component({
   selector: 'app-table-showcase',
@@ -42,9 +92,17 @@ const ALL_ROWS = Array.from({ length: 500 }, (_, index): InventoryRow => ({
     UiContextMenu,
     UiContextMenuTrigger,
     UiIcon,
+    UiInput,
     UiMenuItem,
+    UiSelect,
+    UiSelectOption,
     UiSkeleton,
     UiTable,
+    UiTableActions,
+    UiTableFilters,
+    UiTableInput,
+    UiTableInputNumber,
+    UiTablePinned,
     UiTableSort,
     UiTableSpacer,
     UiTableViewport,
@@ -53,279 +111,278 @@ const ALL_ROWS = Array.from({ length: 500 }, (_, index): InventoryRow => ({
   styleUrl: './table-showcase.css',
 })
 export class TableShowcase {
-  protected readonly defaultCode = `readonly rows = [
-  {id: 1, sku: 'SKU-001', product: 'Keyboard', stock: 42},
-  {id: 2, sku: 'SKU-002', product: 'Mouse', stock: 18},
-  {id: 3, sku: 'SKU-003', product: 'Display', stock: 7},
-];
-
-<table uiTable>
-  <caption>Inventory preview</caption>
-  <thead>
-    <tr>
-      <th scope="col">SKU</th>
-      <th scope="col">Product</th>
-      <th scope="col">Stock</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (row of rows; track row.id) {
-      <tr>
-        <td>{{ row.sku }}</td>
-        <th scope="row">{{ row.product }}</th>
-        <td>{{ row.stock }}</td>
-      </tr>
-    }
-  </tbody>
-</table>`;
-  protected readonly presentationCode = `readonly rows = [
-  {id: 1, sku: 'SKU-001', product: 'Keyboard', warehouse: 'North'},
-  {id: 2, sku: 'SKU-002', product: 'Mouse', warehouse: 'West'},
-  {id: 3, sku: 'SKU-003', product: 'Display', warehouse: 'Central'},
-];
-
-<div uiTableViewport>
-  <table uiTable withStripedRows withRowHover>
-    <caption>Inventory presentation</caption>
-    <thead>
-      <tr>
-        <th scope="col">SKU</th>
-        <th scope="col">Product</th>
-        <th scope="col">Warehouse</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (row of rows; track row.id) {
-        <tr>
-          <td>{{ row.sku }}</td>
-          <th scope="row">{{ row.product }}</th>
-          <td>{{ row.warehouse }}</td>
-        </tr>
-      }
-    </tbody>
-  </table>
-</div>`;
-  protected readonly sortCode = `import { signal } from '@angular/core';
-
-interface Row {
-  id: number;
-  product: string;
-  stock: number;
-}
-
-readonly sort = signal<string | null>(null);
-readonly rows = signal<readonly Row[]>([
-  {id: 1, product: 'Keyboard', stock: 42},
-  {id: 2, product: 'Mouse', stock: 18},
-]);
-
-requestSortedPage(sort: string | null): void {
-  this.sort.set(sort);
-  // Request the sorted page from the backend, then update rows.
-}
-
-<table uiTable [sort]="sort()" (sortChange)="requestSortedPage($event)">
-  <thead>
-    <tr>
-      <th scope="col" uiTableSort="product">Product</th>
-      <th scope="col" uiTableSort="stock" startDirection="desc">Stock</th>
-    </tr>
-  </thead>
-  <tbody>
-    @for (row of rows(); track row.id) {
-      <tr>
-        <th scope="row">{{ row.product }}</th>
-        <td>{{ row.stock }}</td>
-      </tr>
-    }
-  </tbody>
-</table>`;
-  protected readonly contextMenuCode = `import { signal } from '@angular/core';
-import { type UiContextMenuSelection } from './components/ui-context-menu/ui-context-menu';
-
-interface Row {
-  id: number;
-  sku: string;
-  product: string;
-  warehouse: string;
-  stock: number;
-}
-
-readonly rows: readonly Row[] = [
-  {id: 1, sku: 'SKU-001', product: 'Keyboard', warehouse: 'North', stock: 42},
-];
-readonly lastAction = signal('None');
-
-runRowAction(selection: UiContextMenuSelection<Row>): void {
-  this.lastAction.set(selection.value + ': ' + selection.context.product);
-}
-
-openProduct(row: Row): void {
-  this.lastAction.set('open: ' + row.product);
-}
-
-@for (row of rows; track row.id) {
-<tr
-  [uiContextMenuTrigger]="rowMenu"
-  [uiContextMenuContext]="row"
->
-  <td>{{ row.sku }}</td>
-  <th scope="row">{{ row.product }}</th>
-  <td>{{ row.warehouse }}</td>
-  <td>{{ row.stock }}</td>
-  <td>
-    <button uiButton type="button" variant="ghost" size="sm" (click)="openProduct(row)">
-      Open<span class="sr-only"> {{ row.product }}</span>
-    </button>
-  </td>
-</tr>
-}
-
-<ui-context-menu #rowMenu (itemSelected)="runRowAction($event)">
-  <ui-menu-item value="open">Open details</ui-menu-item>
-  <ui-menu-item value="duplicate">
-    <ui-icon slot="start" name="outline-copy" decorative />
-    <span>Duplicate row</span>
-  </ui-menu-item>
-  <ui-menu-item value="delete" variant="destructive">
-    <ui-icon slot="start" name="outline-trash" decorative />
-    <span>Delete row</span>
-  </ui-menu-item>
-</ui-context-menu>
-<output>Last action: {{ lastAction() }}</output>`;
-  protected readonly virtualCode = `import { signal } from '@angular/core';
-
-interface Row {
-  id: number;
-  sku: string;
-  product: string;
-  warehouse: string;
-  stock: number;
-}
-
-const createRows = (start: number, count: number): Row[] =>
-  Array.from({length: count}, (_, index) => {
-    const id = start + index + 1;
-    return {id, sku: 'SKU-' + id, product: 'Product ' + id, warehouse: 'North', stock: id};
-  });
-
-readonly totalRows = 1000;
-readonly rows = signal<readonly Row[]>(createRows(0, 80));
-readonly loading = signal(false);
-readonly loadingSkeletonRows = [0, 1, 2] as const;
-
-loadMore(): void {
-  if (this.loading() || this.rows().length >= this.totalRows) return;
-  this.loading.set(true);
-  queueMicrotask(() => {
-    const remaining = this.totalRows - this.rows().length;
-    this.rows.update(rows => [...rows, ...createRows(rows.length, Math.min(80, remaining))]);
-    this.loading.set(false);
-  });
-}
-
-<div uiTableViewport>
+  protected readonly erpCode = `<div uiTableViewport>
   <table
     #table="uiTable"
     uiTable
+    density="compact"
     virtualScroll
     [rows]="rows()"
-    [rowHeight]="48"
-    [totalRows]="totalRows"
+    [totalRows]="totalRows()"
     [loading]="loading()"
-    [hasMore]="rows().length < totalRows"
+    [hasMore]="rows().length < totalRows()"
     (endReached)="loadMore()"
   >
+    <thead>
+      <tr>
+        <th scope="col" rowspan="2" uiTablePinned="start" uiTableSort="sku">SKU</th>
+        <th scope="col" rowspan="2" uiTableSort="product">Товар</th>
+        <th scope="col" rowspan="2" uiTableSort="warehouse">Склад</th>
+        <th scope="col" rowspan="2">Ячейка</th>
+        <th scope="colgroup" [attr.colspan]="priceTypes().length">Цена</th>
+        <th scope="colgroup" colspan="2">Наличие</th>
+        <th scope="col" rowspan="2" uiTablePinned="end" uiTableActions>Действия</th>
+      </tr>
+      <tr>
+        @for (priceType of priceTypes(); track priceType.id) {
+          <th scope="col" [uiTableSort]="priceType.sort">{{ priceType.name }}</th>
+        }
+        <th scope="col" uiTableSort="stock">Остаток</th>
+        <th scope="col" uiTableSort="reserved">Резерв</th>
+      </tr>
+      <tr uiTableFilters>
+        <td uiTablePinned="start"></td>
+        <td><ui-input label="Фильтр по товару"><input type="search" /></ui-input></td>
+        <td><ui-select label="Склад">...</ui-select></td>
+        <td></td>
+        @for (_ of priceTypes(); track $index) { <td></td> }
+        <td></td><td></td>
+        <td uiTablePinned="end"></td>
+      </tr>
+    </thead>
     <tbody>
-      <tr uiTableSpacer="start" [columns]="4"></tr>
+      <tr uiTableSpacer="start" [columns]="columnCount()"></tr>
       @for (row of table.renderedRows(); track row.id) {
-        <tr>
-          <td>{{ row.sku }}</td>
-          <th scope="row">{{ row.product }}</th>
-          <td>{{ row.warehouse }}</td>
-          <td>{{ row.stock }}</td>
+        <tr [uiContextMenuTrigger]="rowMenu" [uiContextMenuContext]="row">
+          ...
+          <td>
+            <ui-table-input
+              [ariaLabel]="'Storage cell for ' + row.product"
+              [value]="row.storageCell"
+              (valueChange)="updateStorageCell(row.id, $event)"
+            />
+          </td>
+          ...
         </tr>
       }
-      <tr uiTableSpacer="end" [columns]="4"></tr>
-      @if (loading()) {
-        @for (_ of loadingSkeletonRows; track $index) {
-          <tr aria-hidden="true">
-            <td><ui-skeleton /></td>
-            <th scope="row"><ui-skeleton /></th>
-            <td><ui-skeleton /></td>
-            <td><ui-skeleton /></td>
-          </tr>
-        }
-      }
+      <tr uiTableSpacer="end" [columns]="columnCount()"></tr>
     </tbody>
   </table>
-</div>`;
-  protected readonly allRows = ALL_ROWS;
-  protected readonly sort = signal<string | null>(null);
-  protected readonly sortedRows = signal<readonly InventoryRow[]>(ALL_ROWS.slice(0, 10));
-  protected readonly sorting = signal(false);
-  protected readonly loadedRows = signal<readonly InventoryRow[]>(ALL_ROWS.slice(0, 80));
-  protected readonly loading = signal(false);
-  protected readonly loadingSkeletonRows = [0, 1, 2] as const;
-  protected readonly lastAction = signal<string | null>(null);
+</div>
 
-  protected requestSortedPage(sort: string | null): void {
-    this.sort.set(sort);
-    this.sorting.set(true);
+<ui-context-menu #rowMenu (itemSelected)="runInventoryMenuAction($event)">
+  <ui-menu-item value="open">Открыть карточку</ui-menu-item>
+  <ui-menu-item value="edit">Редактировать</ui-menu-item>
+  <ui-menu-item value="delete" variant="destructive">Удалить</ui-menu-item>
+</ui-context-menu>`;
+
+  protected readonly posCode = `<table uiTable density="touch">
+  <tbody>
+    @for (row of cart(); track row.id) {
+      <tr>
+        <th scope="row">{{ row.product }}</th>
+        <td>{{ formatMoney(row.price) }}</td>
+        <td>
+          <ui-table-input-number
+            [ariaLabel]="'Quantity for ' + row.product"
+            [value]="row.quantity"
+            [min]="1"
+            [max]="row.stock"
+            (valueChange)="updateQuantity(row.id, $event)"
+          />
+        </td>
+        <td>{{ formatMoney(row.price * row.quantity) }}</td>
+      </tr>
+    }
+  </tbody>
+</table>`;
+
+  protected readonly statesCode = `readonly state = signal<'loading' | 'ready' | 'empty' | 'error' | 'incremental'>('loading');
+
+<table uiTable [loading]="state() === 'loading' || state() === 'incremental'">
+  <tbody>
+    @switch (state()) {
+      @case ('loading') { <!-- skeleton rows --> }
+      @case ('empty') { <!-- empty state --> }
+      @case ('error') { <!-- error and Retry --> }
+      @default { <!-- rows; append skeletons while incremental --> }
+    }
+  </tbody>
+</table>`;
+
+  protected readonly inventoryRows = signal<readonly InventoryRow[]>(INITIAL_INVENTORY_PAGE.rows);
+  protected readonly inventoryTotal = signal(INITIAL_INVENTORY_PAGE.total);
+  protected readonly inventoryLoading = signal(false);
+  protected readonly inventorySort = signal<string | null>(null);
+  protected readonly productFilter = signal('');
+  protected readonly warehouseFilter = signal('all');
+  protected readonly inventoryAction = signal('Готово к работе');
+  protected readonly skeletonRows = [0, 1, 2] as const;
+  protected readonly inventoryPriceTypes = INVENTORY_PRICE_TYPES;
+  protected readonly inventoryColumnCount = INVENTORY_COLUMN_COUNT;
+  protected readonly inventorySkeletonColumns = Array.from(
+    { length: INVENTORY_COLUMN_COUNT },
+    (_, index) => index,
+  );
+
+  protected readonly cart = signal<readonly CartRow[]>([
+    {
+      id: 1,
+      product: 'Arabica Classic 1 kg',
+      sku: 'SKU-00001',
+      price: 148_000,
+      stock: 42,
+      quantity: 2,
+    },
+    {
+      id: 2,
+      product: 'Matcha Premium 100 g',
+      sku: 'SKU-00002',
+      price: 92_000,
+      stock: 18,
+      quantity: 1,
+    },
+    {
+      id: 3,
+      product: 'Protein bar Cocoa',
+      sku: 'SKU-00003',
+      price: 24_000,
+      stock: 64,
+      quantity: 3,
+    },
+  ]);
+  protected readonly cartTotal = computed(() =>
+    this.cart().reduce((total, row) => total + row.price * row.quantity, 0),
+  );
+
+  protected readonly asyncState = signal<AsyncTableState>('loading');
+  protected readonly asyncRows = INVENTORY.slice(0, 4);
+  private readonly inventoryTable = viewChild<UiTable<InventoryRow>>('inventoryTable');
+  private inventoryRequest = 0;
+
+  protected refreshInventory(): void {
+    const request = ++this.inventoryRequest;
+    this.inventoryLoading.set(true);
+    this.inventoryTable()?.resetVirtualScroll();
 
     queueMicrotask(() => {
-      this.sortedRows.set(mockBackendPage(sort));
-      this.sorting.set(false);
+      if (request !== this.inventoryRequest) {
+        return;
+      }
+
+      const page = queryInventory(
+        this.productFilter(),
+        this.warehouseFilter(),
+        this.inventorySort(),
+        0,
+      );
+      this.inventoryRows.set(page.rows);
+      this.inventoryTotal.set(page.total);
+      this.inventoryLoading.set(false);
     });
   }
 
-  protected openProduct(row: InventoryRow): void {
-    this.lastAction.set(row.product);
+  protected changeInventorySort(sort: string | null): void {
+    this.inventorySort.set(sort);
+    this.refreshInventory();
   }
 
-  protected runRowAction(selection: UiContextMenuSelection<unknown>): void {
-    if (!isInventoryRow(selection.context)) {
+  protected loadMoreInventory(): void {
+    const offset = this.inventoryRows().length;
+
+    if (this.inventoryLoading() || offset >= this.inventoryTotal()) {
       return;
     }
 
-    this.lastAction.set(`${selection.value}: ${selection.context.product}`);
-  }
+    const request = this.inventoryRequest;
+    this.inventoryLoading.set(true);
 
-  protected loadMore(): void {
-    const loaded = this.loadedRows().length;
-
-    if (this.loading() || loaded >= ALL_ROWS.length) {
-      return;
-    }
-
-    this.loading.set(true);
     queueMicrotask(() => {
-      this.loadedRows.set(ALL_ROWS.slice(0, Math.min(loaded + 80, ALL_ROWS.length)));
-      this.loading.set(false);
+      if (request !== this.inventoryRequest) {
+        return;
+      }
+
+      const page = queryInventory(
+        this.productFilter(),
+        this.warehouseFilter(),
+        this.inventorySort(),
+        offset,
+      );
+      this.inventoryRows.update((rows) => [...rows, ...page.rows]);
+      this.inventoryTotal.set(page.total);
+      this.inventoryLoading.set(false);
     });
   }
 
-  protected scrollToEnd(table: UiTable<InventoryRow>): void {
-    table.scrollToIndex(this.loadedRows().length - 1, 'smooth');
+  protected runInventoryAction(action: 'delete' | 'edit' | 'open', row: InventoryRow): void {
+    const labels = {
+      delete: 'Удаление',
+      edit: 'Редактирование',
+      open: 'Карточка товара',
+    } as const;
+    this.inventoryAction.set(`${labels[action]}: ${row.product}`);
+  }
+
+  protected runInventoryMenuAction(selection: UiContextMenuSelection<unknown>): void {
+    if (!isInventoryRow(selection.context) || !isInventoryAction(selection.value)) {
+      return;
+    }
+
+    this.runInventoryAction(selection.value, selection.context);
+  }
+
+  protected updateInventoryStorageCell(id: number, storageCell: string): void {
+    this.inventoryRows.update((rows) =>
+      rows.map((row) => (row.id === id ? { ...row, storageCell } : row)),
+    );
+  }
+
+  protected updateQuantity(id: number, quantity: number): void {
+    this.cart.update((rows) => rows.map((row) => (row.id === id ? { ...row, quantity } : row)));
+  }
+
+  protected removeCartRow(id: number): void {
+    this.cart.update((rows) => rows.filter((row) => row.id !== id));
+  }
+
+  protected setAsyncState(state: AsyncTableState): void {
+    this.asyncState.set(state);
+  }
+
+  protected formatMoney(value: number): string {
+    return MONEY_FORMAT.format(value);
   }
 }
 
-// Showcase-only stand-in for the endpoint response. The table emits sort intent but never sorts data.
-function mockBackendPage(sort: string | null): readonly InventoryRow[] {
-  const rows = ALL_ROWS.slice();
+function queryInventory(
+  productFilter: string,
+  warehouseFilter: string,
+  sort: string | null,
+  offset: number,
+): { readonly rows: readonly InventoryRow[]; readonly total: number } {
+  const query = productFilter.trim().toLocaleLowerCase('ru-RU');
+  let rows = INVENTORY.filter(
+    (row) =>
+      (!query ||
+        row.product.toLocaleLowerCase('ru-RU').includes(query) ||
+        row.sku.toLowerCase().includes(query)) &&
+      (warehouseFilter === 'all' || row.warehouse === warehouseFilter),
+  );
 
   if (sort) {
     const separator = sort.lastIndexOf('-');
     const column = sort.slice(0, separator) as keyof InventoryRow;
     const direction = sort.slice(separator + 1);
-
-    rows.sort((first, second) => {
+    rows = rows.slice().sort((first, second) => {
       const result = compareValues(first[column], second[column]);
       return direction === 'asc' ? result : -result;
     });
   }
 
-  return rows.slice(0, 10);
+  return {
+    rows: rows.slice(offset, offset + PAGE_SIZE),
+    total: rows.length,
+  };
 }
 
 function compareValues(first: string | number, second: string | number): number {
@@ -345,4 +402,8 @@ function isInventoryRow(value: unknown): value is InventoryRow {
     'product' in value &&
     typeof value.product === 'string'
   );
+}
+
+function isInventoryAction(value: string): value is 'delete' | 'edit' | 'open' {
+  return value === 'delete' || value === 'edit' || value === 'open';
 }

@@ -2,53 +2,147 @@
   display: block;
   min-width: 0;
 }
+
 .docs,
 .docs > header {
   display: grid;
   min-width: 0;
 }
+
 .docs {
   gap: 1.25rem;
 }
+
 .docs > header {
   gap: 0.25rem;
 }
-.docs header p {
+
+.docs header p,
+.table-status {
   margin: 0;
   color: var(--text-color-muted);
   text-wrap: pretty;
 }
+
 .preview {
-  display: grid;
+  display: flex;
   min-width: 0;
+  flex-direction: column;
   gap: 0.75rem;
   padding: 1rem;
 }
-.presentation,
-.virtual {
+
+.erp-preview {
+  block-size: 38rem;
+}
+
+.pos-preview {
+  block-size: 24rem;
+}
+
+.states-preview {
+  block-size: 25rem;
+}
+
+.table-summary,
+.state-controls {
   display: flex;
-  flex-direction: column;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.5rem;
 }
-.presentation {
-  block-size: 18rem;
-}
-.virtual {
-  block-size: 32rem;
-}
-.preview output {
+
+.table-summary {
+  justify-content: space-between;
   color: var(--text-color-muted);
   font-size: 0.8125rem;
 }
-.virtual > button {
-  align-self: start;
-  flex: 0 0 auto;
+
+.state-controls {
+  flex-wrap: wrap;
 }
+
+.load-status {
+  flex: 0 0 auto;
+  color: var(--text-color-muted);
+  font-size: 0.8125rem;
+}
+
+.col-sku {
+  inline-size: 8.5rem;
+}
+
+.col-product {
+  inline-size: 18rem;
+}
+
+.col-warehouse {
+  inline-size: 10rem;
+}
+
+.col-storage-cell {
+  inline-size: 8.5rem;
+}
+
+.col-money {
+  inline-size: 9rem;
+}
+
+.col-number {
+  inline-size: 7rem;
+}
+
+.col-actions {
+  inline-size: 5.5rem;
+}
+
+.col-pos-product {
+  inline-size: 20rem;
+}
+
+.col-quantity {
+  inline-size: 10rem;
+}
+
+.col-pos-action {
+  inline-size: 5rem;
+}
+
+.product-cell {
+  display: grid;
+  gap: 0.125rem;
+
+  & small {
+    color: var(--text-color-muted);
+    font-size: 0.75rem;
+    font-weight: 400;
+  }
+}
+
+.pos-total {
+  color: var(--color-brand);
+  font-size: 1rem;
+}
+
+.table-empty-cell {
+  block-size: 8rem;
+  color: var(--text-color-muted);
+  text-align: center;
+
+  & > span {
+    display: block;
+    margin-block-end: 0.75rem;
+  }
+}
+
 .ui-table-loading-row ui-skeleton {
   --ui-skeleton-height: 0.75rem;
 }
+
 .ui-table-loading-row :is(td, th):nth-child(2) ui-skeleton {
   --ui-skeleton-width: 72%;
 }
+
 code {
   font-family: ui-monospace, 'Cascadia Code', monospace;
 }

@@ -167,6 +167,42 @@ describe('UiContextMenu', () => {
 
     expect(focus).not.toHaveBeenCalled();
   });
+
+  it('closes on external scroll without returning focus to the invocation target', async () => {
+    const fixture = await createHost();
+    const target = fixture.nativeElement.querySelector('.target') as HTMLElement;
+    const menu = fixture.nativeElement.querySelector('[role="menu"]') as HTMLElement;
+    const contextMenu = fixture.componentInstance.menu();
+    const close = vi.spyOn(contextMenu.trigger(), 'close');
+    const focus = vi.spyOn(target, 'focus');
+
+    target.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, clientX: 12, clientY: 24 }));
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    close.mockClear();
+
+    target.dispatchEvent(new Event('scroll'));
+    menu.dispatchEvent(createToggleEvent('closed'));
+
+    expect(close).toHaveBeenCalled();
+    expect(focus).not.toHaveBeenCalled();
+  });
+
+  it('keeps the menu open while its own content scrolls', async () => {
+    const fixture = await createHost();
+    const target = fixture.nativeElement.querySelector('.target') as HTMLElement;
+    const menu = fixture.nativeElement.querySelector('[role="menu"]') as HTMLElement;
+    const close = vi.spyOn(fixture.componentInstance.menu().trigger(), 'close');
+
+    target.dispatchEvent(new MouseEvent('contextmenu', { bubbles: true, clientX: 12, clientY: 24 }));
+    await fixture.whenStable();
+    await fixture.whenRenderingDone();
+    close.mockClear();
+
+    menu.dispatchEvent(new Event('scroll'));
+
+    expect(close).not.toHaveBeenCalled();
+  });
 });
 
 function createToggleEvent(newState: 'open' | 'closed'): ToggleEvent {

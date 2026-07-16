@@ -38,6 +38,7 @@ describe('UiContextMenuTrigger', () => {
     target.dispatchEvent(event);
 
     expect(event.defaultPrevented).toBe(true);
+    expect(target.classList.contains('ui-context-menu-trigger')).toBe(true);
     expect(fixture.componentInstance.menu.openAt).toHaveBeenCalledWith(
       24,
       36,

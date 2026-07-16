@@ -4,6 +4,9 @@ import { UiContextMenu } from '../ui-context-menu';
 @Directive({
   selector: '[uiContextMenuTrigger]',
   host: {
+    // Angular may consume a bound directive input without leaving that attribute in the DOM.
+    // Keep this marker as the stable styling hook for table rows and other trigger consumers.
+    class: 'ui-context-menu-trigger',
     '(contextmenu)': 'onContextMenu($event)',
     '(pointerup)': 'onPointerUp()',
     '(pointercancel)': 'onPointerCancel()',

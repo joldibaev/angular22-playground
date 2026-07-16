@@ -13,14 +13,27 @@ import {
   numberAttribute,
   output,
   Renderer2,
+  signal,
   ViewEncapsulation,
 } from '@angular/core';
 import { UiTableViewport } from './ui-table-viewport/ui-table-viewport';
-import type { UiTableEndReachedEvent, UiTableRange, UiTableSortDirection } from './ui-table.types';
+import type {
+  UiTableDensity,
+  UiTableEndReachedEvent,
+  UiTableRange,
+  UiTableSortDirection,
+} from './ui-table.types';
 
-const DEFAULT_ROW_HEIGHT = 48;
 const DEFAULT_OVERSCAN = 6;
+const DENSITY_ROW_HEIGHTS: Readonly<Record<UiTableDensity, number>> = {
+  compact: 40,
+  default: 48,
+  touch: 56,
+};
 
+// This remains a native data table, not an ARIA grid. Adding role="grid" or Angular Aria Grid
+// also commits the component to a complete managed-focus and cell-navigation model; introduce it
+// only as a separate, fully designed interaction mode rather than as a semantic-only upgrade.
 @Component({
   selector: 'table[uiTable]',
   exportAs: 'uiTable',
@@ -34,6 +47,9 @@ const DEFAULT_OVERSCAN = 6;
     '[class.ui-table-with-row-hover]': 'withRowHover()',
     '[class.ui-table-with-striped-rows]': 'withStripedRows()',
     '[class.ui-table-with-sticky-header]': 'withStickyHeader()',
+    '[class.ui-table-density-compact]': "density() === 'compact'",
+    '[class.ui-table-density-default]': "density() === 'default'",
+    '[class.ui-table-density-touch]': "density() === 'touch'",
     '[style.--ui-table-row-height.px]': 'safeRowHeight()',
     '[attr.aria-busy]': "loading() ? 'true' : null",
     '[attr.aria-rowcount]': 'ariaRowCount()',
@@ -42,15 +58,22 @@ const DEFAULT_OVERSCAN = 6;
 export class UiTable<T> {
   readonly rows = input<readonly T[]>([]);
   readonly virtualScroll = input(false, { transform: booleanAttribute });
-  // Virtual rows are deliberately uniform: this is the only row-size source of truth. Measuring
-  // arbitrary projected row content would turn scrolling into a dynamic-height virtualizer.
-  readonly rowHeight = input(DEFAULT_ROW_HEIGHT, { transform: numberAttribute });
+  readonly density = input<UiTableDensity>('default');
+  // Density is the normal row-size source of truth so CSS and spacer math cannot drift apart.
+  // Virtual rows deliberately stay uniform: measuring projected row content would require a
+  // different dynamic-height virtualizer. The override is only for a genuinely custom fixed size.
+  readonly rowHeight = input<number | undefined, unknown>(undefined, {
+    transform: optionalNumber,
+  });
   readonly overscan = input(DEFAULT_OVERSCAN, { transform: numberAttribute });
   readonly endThreshold = input(DEFAULT_OVERSCAN, { transform: numberAttribute });
   readonly totalRows = input<number | undefined, unknown>(undefined, {
     transform: numberAttribute,
   });
-  readonly headerRows = input(1, { transform: numberAttribute });
+  // The table measures <thead> by default; this override only exists for unusual projected markup.
+  readonly headerRows = input<number | undefined, unknown>(undefined, {
+    transform: optionalNumber,
+  });
   // Refreshing does not make already-rendered rows unavailable. Loading marks the table busy and
   // suppresses duplicate pagination requests while preserving reading, scrolling, and selection.
   readonly loading = input(false, { transform: booleanAttribute });
@@ -69,9 +92,15 @@ export class UiTable<T> {
   private readonly elementRef = inject<ElementRef<HTMLTableElement>>(ElementRef);
   private readonly renderer = inject(Renderer2);
   private readonly indexedRows = new Set<HTMLTableRowElement>();
+  private readonly measuredHeaderRows = signal(1);
   private lastEndReachedLength = -1;
 
-  readonly safeRowHeight = computed(() => positiveInteger(this.rowHeight(), DEFAULT_ROW_HEIGHT));
+  readonly safeRowHeight = computed(() =>
+    positiveInteger(this.rowHeight(), DENSITY_ROW_HEIGHTS[this.density()]),
+  );
+  private readonly safeHeaderRows = computed(() =>
+    nonNegativeInteger(this.headerRows(), this.measuredHeaderRows()),
+  );
   readonly visibleRange = computed<UiTableRange>(() => {
     const total = this.rows().length;
 
@@ -127,11 +156,11 @@ export class UiTable<T> {
     const totalRows = this.totalRows();
 
     if (totalRows === undefined || !Number.isFinite(totalRows)) {
-      return this.hasMore() ? -1 : this.rows().length + nonNegativeInteger(this.headerRows(), 1);
+      return this.hasMore() ? -1 : this.rows().length + this.safeHeaderRows();
     }
 
     const bodyRows = Math.max(this.rows().length, nonNegativeInteger(totalRows, 0));
-    return bodyRows + nonNegativeInteger(this.headerRows(), 1);
+    return bodyRows + this.safeHeaderRows();
   });
 
   constructor() {
@@ -146,8 +175,9 @@ export class UiTable<T> {
         const table = this.elementRef.nativeElement;
         const virtual = this.virtualScroll();
         const rangeStart = this.renderedRange().start;
-        const headerOffset = nonNegativeInteger(this.headerRows(), 1);
         const headerRows = table.tHead ? Array.from(table.tHead.rows) : [];
+        const headerOffset =
+          this.headerRows() === undefined ? headerRows.length : this.safeHeaderRows();
         const bodyRows = Array.from(table.tBodies).flatMap((body) =>
           Array.from(body.rows).filter(
             (row) => !row.classList.contains('ui-table-spacer') && row.ariaHidden !== 'true',
@@ -158,6 +188,10 @@ export class UiTable<T> {
       },
       write: (renderState) => {
         const { bodyRows, headerOffset, headerRows, rangeStart, virtual } = renderState();
+
+        if (this.headerRows() === undefined && this.measuredHeaderRows() !== headerRows.length) {
+          this.measuredHeaderRows.set(headerRows.length);
+        }
 
         for (const row of this.indexedRows) {
           this.renderer.removeAttribute(row, 'aria-rowindex');
@@ -202,12 +236,19 @@ export class UiTable<T> {
         loadedRows > 0 &&
         loadedRows - visibleRange.end <= nonNegativeInteger(this.endThreshold(), DEFAULT_OVERSCAN);
 
-      if (!nearEnd) {
+      if (loadedRows === 0) {
         this.lastEndReachedLength = -1;
         return;
       }
 
-      if (!this.hasMore() || this.loading() || this.lastEndReachedLength === loadedRows) {
+      // De-duplicate by loaded length, not by the current scroll position. Clearing this marker
+      // when the user scrolls away would emit the same page request again on every return to end.
+      if (
+        !nearEnd ||
+        !this.hasMore() ||
+        this.loading() ||
+        this.lastEndReachedLength === loadedRows
+      ) {
         return;
       }
 
@@ -224,6 +265,13 @@ export class UiTable<T> {
       top: safeIndex * this.safeRowHeight(),
       behavior,
     });
+  }
+
+  // Sorting/filtering starts a new backend query that may return the same page length. Reset both
+  // the viewport and the endReached de-duplication so that query can paginate independently.
+  resetVirtualScroll(): void {
+    this.lastEndReachedLength = -1;
+    this.scrollToIndex(0);
   }
 
   toggleSort(
@@ -249,10 +297,23 @@ export class UiTable<T> {
   }
 }
 
-function positiveInteger(value: number, fallback: number): number {
-  return Number.isFinite(value) ? Math.max(1, Math.floor(value)) : fallback;
+function positiveInteger(value: number | undefined, fallback: number): number {
+  return typeof value === 'number' && Number.isFinite(value)
+    ? Math.max(1, Math.floor(value))
+    : fallback;
 }
 
-function nonNegativeInteger(value: number, fallback: number): number {
-  return Number.isFinite(value) ? Math.max(0, Math.floor(value)) : fallback;
+function nonNegativeInteger(value: number | undefined, fallback: number): number {
+  return typeof value === 'number' && Number.isFinite(value)
+    ? Math.max(0, Math.floor(value))
+    : fallback;
+}
+
+function optionalNumber(value: unknown): number | undefined {
+  if (value === undefined || value === null || value === '') {
+    return undefined;
+  }
+
+  const parsed = numberAttribute(value);
+  return Number.isFinite(parsed) ? parsed : undefined;
 }

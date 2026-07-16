@@ -9,6 +9,16 @@
     var(--ui-table-background)
   );
   --ui-table-header-foreground: var(--text-color-muted);
+  --ui-table-header-divider-color: color-mix(
+    in oklab,
+    var(--text-color-canvas) 18%,
+    var(--ui-table-header-background)
+  );
+  --ui-table-group-header-background: color-mix(
+    in oklab,
+    var(--ui-table-header-background) 94%,
+    var(--text-color-canvas)
+  );
   --ui-table-row-hover-background: color-mix(
     in oklab,
     var(--color-brand) 8%,
@@ -32,9 +42,15 @@
   --ui-table-header-line-height: 1rem;
   --ui-table-header-padding-block: 0.875rem;
   --ui-table-row-height: 48px;
+  --ui-table-control-height: 2rem;
+  --ui-table-control-font-size: 0.8125rem;
+  --ui-table-control-padding-inline: 0.625rem;
 
   display: block;
   flex: 1 1 0;
+  /* A definite available width keeps the table's max-content width inside this scrollport:
+     narrow tables fill it, while wide tables overflow locally instead of sizing the page. */
+  inline-size: 100%;
   min-inline-size: 0;
   min-block-size: 0;
   max-inline-size: 100%;
@@ -54,6 +70,8 @@
   }
 }
 
+/* Keep both halves of this sizing contract: a short table fills its viewport, while a wide table
+   keeps its intrinsic columns and scrolls inside ui-table-viewport instead of widening the page. */
 .ui-table {
   inline-size: max-content;
   min-inline-size: 100%;
@@ -65,6 +83,28 @@
   color: var(--ui-table-foreground, var(--text-color-canvas));
   font-size: var(--ui-table-font-size, 0.875rem);
   text-align: start;
+
+  &.ui-table-density-compact {
+    --ui-table-cell-padding-block: 0.25rem;
+    --ui-table-cell-padding-inline: 0.75rem;
+    --ui-table-header-padding-block: 0.5rem;
+    --ui-table-control-height: 2rem;
+    --ui-table-control-font-size: 0.8125rem;
+  }
+
+  &.ui-table-density-default {
+    --ui-table-cell-padding-block: 0.5rem;
+    --ui-table-control-height: 2rem;
+  }
+
+  &.ui-table-density-touch {
+    --ui-table-cell-padding-block: 0.375rem;
+    --ui-table-cell-padding-inline: 1rem;
+    --ui-table-header-padding-block: 0.75rem;
+    --ui-table-control-height: 2.75rem;
+    --ui-table-control-font-size: 1rem;
+    --ui-table-control-padding-inline: 0.75rem;
+  }
 
   & caption {
     padding-block: 0.75rem;
@@ -90,7 +130,10 @@
 
   & thead th {
     padding-block: var(--ui-table-header-padding-block, 0.875rem);
-    border-block-end-color: var(--ui-table-border-color-strong, var(--border-color-strong));
+    border-block-end-color: var(
+      --ui-table-header-divider-color,
+      var(--ui-table-border-color-strong, var(--border-color-strong))
+    );
     background-color: var(--ui-table-header-background, var(--background-color-subtle));
     color: var(--ui-table-header-foreground, var(--text-color-muted));
     font-size: var(--ui-table-header-font-size, 0.75rem);
@@ -99,6 +142,64 @@
     line-height: var(--ui-table-header-line-height, 1rem);
     text-align: start;
     text-transform: uppercase;
+  }
+
+  & thead tr > th + th {
+    border-inline-start: 1px solid
+      var(
+        --ui-table-header-divider-color,
+        var(--ui-table-border-color-strong, var(--border-color-strong))
+      );
+  }
+
+  /* A grouped leaf row starts after the row-spanned headers above it, so its first cell must
+     continue that group boundary instead of relying on a sibling that does not exist in this row. */
+  & thead > tr:not(:first-child, .ui-table-filters) > th:first-child {
+    border-inline-start: 1px solid
+      var(
+        --ui-table-header-divider-color,
+        var(--ui-table-border-color-strong, var(--border-color-strong))
+      );
+  }
+
+  /* The pinned start cell owns this boundary so it remains visible while columns scroll below it. */
+  & thead tr > th.ui-table-pinned-start + th {
+    border-inline-start: 0;
+  }
+
+  /* Grouped columns deliberately stay native: colspan/rowspan plus scope="colgroup" gives
+     assistive technology the real header graph without a duplicated JS column model. */
+  & thead th[scope='colgroup'] {
+    background-color: var(
+      --ui-table-group-header-background,
+      var(--ui-table-header-background, var(--background-color-subtle))
+    );
+    text-align: center;
+  }
+
+  & thead th[rowspan] {
+    vertical-align: middle;
+  }
+
+  /* Header rhythm must follow the same density contract as virtual body rows. Keeping the
+     height on <tr> lets both sortable and plain headers share one source of truth. */
+  & thead > tr:not(.ui-table-filters) {
+    block-size: var(--ui-table-row-height);
+  }
+
+  & thead tr.ui-table-filters > :is(th, td) {
+    padding-block: 0.25rem;
+    padding-inline: 0.375rem;
+    border-block-end-color: var(
+      --ui-table-header-divider-color,
+      var(--ui-table-border-color-strong, var(--border-color-strong))
+    );
+    background-color: var(--ui-table-header-background, var(--background-color-subtle));
+    font-size: var(--ui-table-control-font-size, 0.8125rem);
+    font-weight: 500;
+    letter-spacing: normal;
+    line-height: normal;
+    text-transform: none;
   }
 
   & tbody tr:last-child > :is(th, td),
@@ -146,10 +247,107 @@
   }
 }
 
+.ui-table tbody tr:not(.ui-table-spacer) {
+  block-size: var(--ui-table-row-height);
+}
+
 .ui-table-with-sticky-header thead {
   position: sticky;
   z-index: 2;
   inset-block-start: 0;
+}
+
+.ui-table :is(th, td).ui-table-pinned {
+  position: sticky;
+  z-index: 1;
+  background-color: var(
+    --ui-table-row-background,
+    var(--ui-table-background, var(--background-color-surface))
+  );
+
+  &.ui-table-pinned-start {
+    inset-inline-start: var(--ui-table-pinned-offset, 0px);
+    border-inline-end: 1px solid var(--ui-table-border-color-strong, var(--border-color-strong));
+  }
+
+  &.ui-table-pinned-end {
+    inset-inline-end: var(--ui-table-pinned-offset, 0px);
+    border-inline-start: 1px solid var(--ui-table-border-color-strong, var(--border-color-strong));
+  }
+}
+
+.ui-table thead :is(th, td).ui-table-pinned {
+  z-index: 3;
+  background-color: var(--ui-table-header-background, var(--background-color-subtle));
+
+  &.ui-table-pinned-start {
+    border-inline-end-color: var(
+      --ui-table-header-divider-color,
+      var(--ui-table-border-color-strong, var(--border-color-strong))
+    );
+  }
+
+  &.ui-table-pinned-end {
+    border-inline-start-color: var(
+      --ui-table-header-divider-color,
+      var(--ui-table-border-color-strong, var(--border-color-strong))
+    );
+  }
+}
+
+.ui-table tfoot :is(th, td).ui-table-pinned {
+  z-index: 2;
+  background-color: var(--ui-table-header-background, var(--background-color-subtle));
+}
+
+.ui-table :is(th, td).ui-table-actions {
+  min-inline-size: 5rem;
+  padding-block: 0.25rem;
+  padding-inline: 0.375rem;
+  text-align: center;
+
+  & > .ui-table-action-group {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+  }
+}
+
+.ui-table .ui-table-number {
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+}
+
+/* Filters remain regular UiInput/UiSelect controls. The table only adapts their density and hides
+   the repeated visual labels; UiInput keeps each real label connected in the accessibility tree. */
+.ui-table-filters {
+  & ui-input {
+    --ui-input-control-height: var(--ui-table-control-height);
+    --ui-input-control-padding-inline: var(--ui-table-control-padding-inline);
+    --ui-input-control-font-size: var(--ui-table-control-font-size);
+    --ui-input-slot-inset-inline: 0.375rem;
+    --ui-input-slot-gap: 0.25rem;
+  }
+
+  & .ui-input-container {
+    gap: 0;
+  }
+
+  & .ui-input-label {
+    position: absolute;
+    inline-size: 1px;
+    block-size: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  & .ui-input-control {
+    block-size: var(--ui-table-control-height);
+    min-block-size: var(--ui-table-control-height);
+    border-radius: 0.375rem;
+  }
 }
 
 .ui-table-with-row-hover tbody tr:not(.ui-table-spacer) > :is(th, td) {
@@ -163,7 +361,7 @@
   --ui-table-row-background: var(--ui-table-row-hover-background);
 }
 
-.ui-table tbody tr[uiContextMenuTrigger] {
+.ui-table tbody tr.ui-context-menu-trigger {
   cursor: context-menu;
 
   &:focus-visible {

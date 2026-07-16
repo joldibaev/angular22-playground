@@ -5,7 +5,7 @@ import { afterNextRender, DestroyRef, Directive, ElementRef, inject, signal } fr
   exportAs: 'uiTableViewport',
   host: {
     class: 'ui-table-viewport',
-    '(scroll)': 'refresh()',
+    '(scroll)': 'scheduleRefresh()',
   },
 })
 export class UiTableViewport {
@@ -15,6 +15,7 @@ export class UiTableViewport {
 
   private readonly destroyRef = inject(DestroyRef);
   private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  private animationFrame: number | undefined;
 
   constructor() {
     afterNextRender(() => {
@@ -24,9 +25,37 @@ export class UiTableViewport {
         return;
       }
 
-      const observer = new ResizeObserver(() => this.refresh());
+      const observer = new ResizeObserver(() => this.scheduleRefresh());
       observer.observe(this.elementRef.nativeElement);
       this.destroyRef.onDestroy(() => observer.disconnect());
+    });
+
+    this.destroyRef.onDestroy(() => {
+      const view = this.elementRef.nativeElement.ownerDocument.defaultView;
+
+      if (this.animationFrame !== undefined) {
+        view?.cancelAnimationFrame(this.animationFrame);
+      }
+    });
+  }
+
+  // Scroll events can fire faster than the browser paints. One metric update per frame keeps the
+  // virtual range responsive without scheduling redundant Angular work for the same visual frame.
+  scheduleRefresh(): void {
+    if (this.animationFrame !== undefined) {
+      return;
+    }
+
+    const view = this.elementRef.nativeElement.ownerDocument.defaultView;
+
+    if (!view?.requestAnimationFrame) {
+      this.refresh();
+      return;
+    }
+
+    this.animationFrame = view.requestAnimationFrame(() => {
+      this.animationFrame = undefined;
+      this.refresh();
     });
   }
 
@@ -37,7 +66,16 @@ export class UiTableViewport {
   }
 
   scrollTo(options: ScrollToOptions): void {
-    this.elementRef.nativeElement.scrollTo(options);
+    const element = this.elementRef.nativeElement;
+
+    // jsdom does not implement scrollTo; assigning scrollTop keeps component tests deterministic
+    // while the supported Chrome path uses the native scrolling API and its behavior option.
+    if (typeof element.scrollTo === 'function') {
+      element.scrollTo(options);
+    } else if (options.top !== undefined) {
+      element.scrollTop = options.top;
+    }
+
     this.refresh();
   }
 }

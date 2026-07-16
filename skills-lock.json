@@ -19,6 +19,12 @@
       "skillPath": "skills/emil-design-eng/SKILL.md",
       "computedHash": "8bdf9e4e6de7a4969147bf4828a4ad2c5aacd9fba4b690b250a85e0467ca387d"
     },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/find-skills/SKILL.md",
+      "computedHash": "781bd6d3f9b19f8c9af6b53d8d0e4876d0183841b565db34ca7092ffa412d111"
+    },
     "modern-web-guidance": {
       "source": "googlechrome/modern-web-guidance",
       "sourceType": "github",
