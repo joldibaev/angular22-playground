@@ -1,4 +1,4 @@
-import { Component, computed, signal, viewChild } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal, viewChild } from '@angular/core';
 import { UiButton } from '../../../components/ui-button/ui-button';
 import {
   UiContextMenu,
@@ -21,19 +21,11 @@ import { UiTableSort } from '../../../components/ui-table/ui-table-sort/ui-table
 import { UiTableSpacer } from '../../../components/ui-table/ui-table-spacer/ui-table-spacer';
 import { UiTableViewport } from '../../../components/ui-table/ui-table-viewport/ui-table-viewport';
 import { ShowcaseExample } from '../showcase-example/showcase-example';
-
-interface InventoryRow {
-  readonly id: number;
-  readonly sku: string;
-  readonly product: string;
-  readonly warehouse: string;
-  readonly storageCell: string;
-  readonly retailPrice: number;
-  readonly wholesalePrice: number;
-  readonly costPrice: number;
-  readonly stock: number;
-  readonly reserved: number;
-}
+import {
+  INVENTORY_WAREHOUSES,
+  type InventoryRow,
+  TableShowcaseMockService,
+} from './table-showcase-mock.service';
 
 interface CartRow {
   readonly id: number;
@@ -46,9 +38,6 @@ interface CartRow {
 
 type AsyncTableState = 'empty' | 'error' | 'incremental' | 'loading' | 'ready';
 
-const PAGE_SIZE = 120;
-const PRODUCTS = ['Arabica', 'Matcha', 'Olive oil', 'Protein bar', 'Sparkling water'];
-const WAREHOUSES = ['Central', 'Airport', 'Market'];
 const INVENTORY_PRICE_TYPES = [
   { key: 'retailPrice', label: 'Розничная' },
   { key: 'wholesalePrice', label: 'Оптовая' },
@@ -58,26 +47,6 @@ const INVENTORY_PRICE_TYPES = [
   readonly label: string;
 }[];
 const INVENTORY_COLUMN_COUNT = 4 + INVENTORY_PRICE_TYPES.length + 2 + 1;
-const INVENTORY = Array.from({ length: 10_000 }, (_, index): InventoryRow => {
-  const retailPrice = 12_000 + ((index * 1_750) % 185_000);
-
-  return {
-    id: index + 1,
-    sku: `SKU-${String(index + 1).padStart(5, '0')}`,
-    product: `${PRODUCTS[index % PRODUCTS.length]} ${index + 1}`,
-    warehouse: WAREHOUSES[index % WAREHOUSES.length],
-    storageCell: `${String.fromCharCode(65 + (index % 6))}-${String((index % 24) + 1).padStart(
-      2,
-      '0',
-    )}`,
-    retailPrice,
-    wholesalePrice: Math.round((retailPrice * 0.88) / 250) * 250,
-    costPrice: Math.round((retailPrice * 0.67) / 250) * 250,
-    stock: 8 + ((index * 17) % 940),
-    reserved: (index * 7) % 64,
-  };
-});
-const INITIAL_INVENTORY_PAGE = queryInventory('', 'all', null, 0);
 const MONEY_FORMAT = new Intl.NumberFormat('ru-RU', {
   style: 'currency',
   currency: 'UZS',
@@ -107,6 +76,7 @@ const MONEY_FORMAT = new Intl.NumberFormat('ru-RU', {
     UiTableSpacer,
     UiTableViewport,
   ],
+  providers: [TableShowcaseMockService],
   templateUrl: './table-showcase.html',
   styleUrl: './table-showcase.css',
 })
@@ -210,8 +180,14 @@ export class TableShowcase {
   </tbody>
 </table>`;
 
-  protected readonly inventoryRows = signal<readonly InventoryRow[]>(INITIAL_INVENTORY_PAGE.rows);
-  protected readonly inventoryTotal = signal(INITIAL_INVENTORY_PAGE.total);
+  private readonly mock = inject(TableShowcaseMockService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly initialInventoryPage = this.mock.initialInventoryPage();
+
+  protected readonly inventoryRows = signal<readonly InventoryRow[]>(
+    this.initialInventoryPage.rows,
+  );
+  protected readonly inventoryTotal = signal(this.initialInventoryPage.total);
   protected readonly inventoryLoading = signal(false);
   protected readonly inventorySort = signal<string | null>(null);
   protected readonly productFilter = signal('');
@@ -219,6 +195,7 @@ export class TableShowcase {
   protected readonly inventoryAction = signal('Готово к работе');
   protected readonly skeletonRows = [0, 1, 2] as const;
   protected readonly inventoryPriceTypes = INVENTORY_PRICE_TYPES;
+  protected readonly inventoryWarehouses = INVENTORY_WAREHOUSES;
   protected readonly inventoryColumnCount = INVENTORY_COLUMN_COUNT;
   protected readonly inventorySkeletonColumns = Array.from(
     { length: INVENTORY_COLUMN_COUNT },
@@ -256,30 +233,48 @@ export class TableShowcase {
   );
 
   protected readonly asyncState = signal<AsyncTableState>('loading');
-  protected readonly asyncRows = INVENTORY.slice(0, 4);
+  protected readonly asyncRows = this.mock.sampleInventoryRows();
   private readonly inventoryTable = viewChild<UiTable<InventoryRow>>('inventoryTable');
   private inventoryRequest = 0;
+  private inventoryAbortController: AbortController | undefined;
+  private readonly storageAbortControllers = new Map<number, AbortController>();
 
-  protected refreshInventory(): void {
-    const request = ++this.inventoryRequest;
+  constructor() {
+    this.destroyRef.onDestroy(() => {
+      this.inventoryAbortController?.abort();
+      this.storageAbortControllers.forEach((controller) => controller.abort());
+    });
+  }
+
+  protected async refreshInventory(): Promise<void> {
+    const { controller, request } = this.beginInventoryRequest();
     this.inventoryLoading.set(true);
     this.inventoryTable()?.resetVirtualScroll();
 
-    queueMicrotask(() => {
+    try {
+      const page = await this.mock.queryInventory(
+        {
+          product: this.productFilter(),
+          sort: this.inventorySort(),
+          warehouse: this.warehouseFilter(),
+        },
+        { signal: controller.signal },
+      );
+
       if (request !== this.inventoryRequest) {
         return;
       }
 
-      const page = queryInventory(
-        this.productFilter(),
-        this.warehouseFilter(),
-        this.inventorySort(),
-        0,
-      );
       this.inventoryRows.set(page.rows);
       this.inventoryTotal.set(page.total);
-      this.inventoryLoading.set(false);
-    });
+      this.inventoryAction.set('Данные обновлены');
+    } catch (error) {
+      this.reportInventoryError(error, request);
+    } finally {
+      if (request === this.inventoryRequest) {
+        this.inventoryLoading.set(false);
+      }
+    }
   }
 
   protected changeInventorySort(sort: string | null): void {
@@ -287,31 +282,40 @@ export class TableShowcase {
     this.refreshInventory();
   }
 
-  protected loadMoreInventory(): void {
+  protected async loadMoreInventory(): Promise<void> {
     const offset = this.inventoryRows().length;
 
     if (this.inventoryLoading() || offset >= this.inventoryTotal()) {
       return;
     }
 
-    const request = this.inventoryRequest;
+    const { controller, request } = this.beginInventoryRequest();
     this.inventoryLoading.set(true);
 
-    queueMicrotask(() => {
+    try {
+      const page = await this.mock.queryInventory(
+        {
+          offset,
+          product: this.productFilter(),
+          sort: this.inventorySort(),
+          warehouse: this.warehouseFilter(),
+        },
+        { signal: controller.signal },
+      );
+
       if (request !== this.inventoryRequest) {
         return;
       }
 
-      const page = queryInventory(
-        this.productFilter(),
-        this.warehouseFilter(),
-        this.inventorySort(),
-        offset,
-      );
       this.inventoryRows.update((rows) => [...rows, ...page.rows]);
       this.inventoryTotal.set(page.total);
-      this.inventoryLoading.set(false);
-    });
+    } catch (error) {
+      this.reportInventoryError(error, request);
+    } finally {
+      if (request === this.inventoryRequest) {
+        this.inventoryLoading.set(false);
+      }
+    }
   }
 
   protected runInventoryAction(action: 'delete' | 'edit' | 'open', row: InventoryRow): void {
@@ -321,6 +325,10 @@ export class TableShowcase {
       open: 'Карточка товара',
     } as const;
     this.inventoryAction.set(`${labels[action]}: ${row.product}`);
+
+    if (action === 'delete') {
+      void this.deleteInventoryRow(row);
+    }
   }
 
   protected runInventoryMenuAction(selection: UiContextMenuSelection<unknown>): void {
@@ -335,6 +343,23 @@ export class TableShowcase {
     this.inventoryRows.update((rows) =>
       rows.map((row) => (row.id === id ? { ...row, storageCell } : row)),
     );
+
+    this.storageAbortControllers.get(id)?.abort();
+    const controller = new AbortController();
+    this.storageAbortControllers.set(id, controller);
+
+    void this.mock
+      .updateInventoryStorageCell(id, storageCell, { signal: controller.signal })
+      .catch((error: unknown) => {
+        if (!isAbortError(error)) {
+          this.inventoryAction.set('Не удалось сохранить ячейку хранения');
+        }
+      })
+      .finally(() => {
+        if (this.storageAbortControllers.get(id) === controller) {
+          this.storageAbortControllers.delete(id);
+        }
+      });
   }
 
   protected updateQuantity(id: number, quantity: number): void {
@@ -352,45 +377,37 @@ export class TableShowcase {
   protected formatMoney(value: number): string {
     return MONEY_FORMAT.format(value);
   }
-}
 
-function queryInventory(
-  productFilter: string,
-  warehouseFilter: string,
-  sort: string | null,
-  offset: number,
-): { readonly rows: readonly InventoryRow[]; readonly total: number } {
-  const query = productFilter.trim().toLocaleLowerCase('ru-RU');
-  let rows = INVENTORY.filter(
-    (row) =>
-      (!query ||
-        row.product.toLocaleLowerCase('ru-RU').includes(query) ||
-        row.sku.toLowerCase().includes(query)) &&
-      (warehouseFilter === 'all' || row.warehouse === warehouseFilter),
-  );
+  private beginInventoryRequest(): {
+    readonly controller: AbortController;
+    readonly request: number;
+  } {
+    this.inventoryAbortController?.abort();
+    const controller = new AbortController();
+    const request = ++this.inventoryRequest;
+    this.inventoryAbortController = controller;
 
-  if (sort) {
-    const separator = sort.lastIndexOf('-');
-    const column = sort.slice(0, separator) as keyof InventoryRow;
-    const direction = sort.slice(separator + 1);
-    rows = rows.slice().sort((first, second) => {
-      const result = compareValues(first[column], second[column]);
-      return direction === 'asc' ? result : -result;
-    });
+    return { controller, request };
   }
 
-  return {
-    rows: rows.slice(offset, offset + PAGE_SIZE),
-    total: rows.length,
-  };
-}
-
-function compareValues(first: string | number, second: string | number): number {
-  if (typeof first === 'number' && typeof second === 'number') {
-    return first - second;
+  private async deleteInventoryRow(row: InventoryRow): Promise<void> {
+    try {
+      await this.mock.deleteInventoryRow(row.id);
+      this.inventoryRows.update((rows) => rows.filter((candidate) => candidate.id !== row.id));
+      this.inventoryTotal.update((total) => Math.max(0, total - 1));
+      this.inventoryAction.set(`Удалено: ${row.product}`);
+    } catch (error) {
+      if (!isAbortError(error)) {
+        this.inventoryAction.set(`Не удалось удалить: ${row.product}`);
+      }
+    }
   }
 
-  return String(first).localeCompare(String(second));
+  private reportInventoryError(error: unknown, request: number): void {
+    if (request === this.inventoryRequest && !isAbortError(error)) {
+      this.inventoryAction.set('Не удалось загрузить данные mock-сервера');
+    }
+  }
 }
 
 function isInventoryRow(value: unknown): value is InventoryRow {
@@ -406,4 +423,8 @@ function isInventoryRow(value: unknown): value is InventoryRow {
 
 function isInventoryAction(value: string): value is 'delete' | 'edit' | 'open' {
   return value === 'delete' || value === 'edit' || value === 'open';
+}
+
+function isAbortError(error: unknown): boolean {
+  return error instanceof DOMException && error.name === 'AbortError';
 }

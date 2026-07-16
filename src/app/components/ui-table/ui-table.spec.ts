@@ -91,6 +91,7 @@ describe('UiTable', () => {
     const tableElement = fixture.nativeElement.querySelector('table') as HTMLTableElement;
 
     expect(tableElement.caption?.textContent).toContain('Products');
+    expect(tableElement.getAttribute('role')).toBeNull();
     expect(
       tableElement.querySelector<HTMLTableCellElement>('th[scope="colgroup"]')?.colSpan,
     ).toBe(2);

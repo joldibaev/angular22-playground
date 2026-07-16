@@ -5,8 +5,26 @@ import { UiTableInput } from '../../../components/ui-table/ui-table-input/ui-tab
 import { UiTableInputNumber } from '../../../components/ui-table/ui-table-input-number/ui-table-input-number';
 import { UiTablePinned } from '../../../components/ui-table/ui-table-pinned/ui-table-pinned';
 import { TableShowcase } from './table-showcase';
+import { TableShowcaseMockService } from './table-showcase-mock.service';
 
 describe('TableShowcase', () => {
+  beforeEach(() => {
+    TestBed.overrideComponent(TableShowcase, {
+      set: {
+        providers: [
+          {
+            provide: TableShowcaseMockService,
+            useFactory: () => {
+              const service = new TableShowcaseMockService();
+              service.setLatency(0);
+              return service;
+            },
+          },
+        ],
+      },
+    });
+  });
+
   it('documents the ERP, POS, and async table scenarios', async () => {
     const fixture = TestBed.createComponent(TableShowcase);
     await fixture.whenStable();

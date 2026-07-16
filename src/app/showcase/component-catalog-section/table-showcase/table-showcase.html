@@ -89,7 +89,7 @@
                   (valueChange)="warehouseFilter.set($event); refreshInventory()"
                 >
                   <ui-select-option value="all" label="Все склады" />
-                  @for (warehouse of ['Central', 'Airport', 'Market']; track warehouse) {
+                  @for (warehouse of inventoryWarehouses; track warehouse) {
                     <ui-select-option [value]="warehouse" [label]="warehouse" />
                   }
                 </ui-select>
