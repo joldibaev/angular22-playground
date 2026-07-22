@@ -117,7 +117,7 @@ export const browserSupportProfiles = {
     'transition-behavior',
   ],
   progress: ['light-dark'],
-  radio: ['light-dark', 'popover', 'anchor-name'],
+  radio: ['light-dark', 'popover', 'anchor-name', 'individual-transforms'],
   select: [
     'light-dark',
     'backdrop-filter',
@@ -128,8 +128,8 @@ export const browserSupportProfiles = {
   ],
   skeleton: ['light-dark'],
   sonner: ['light-dark', 'has', 'popover', 'starting-style', 'interpolate-size'],
-  switch: ['light-dark', 'popover', 'anchor-name'],
-  table: ['light-dark', 'scrollbar-color', 'scrollbar-gutter', 'scrollbar-width'],
+  switch: ['light-dark', 'popover', 'anchor-name', 'individual-transforms'],
+  table: ['light-dark', 'scrollbar-gutter'],
   tabs: ['light-dark', 'has', 'anchor-name', 'scrollbar-width'],
   tooltip: [
     'light-dark',

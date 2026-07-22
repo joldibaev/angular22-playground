@@ -4,7 +4,6 @@
   --ui-switch-thumb-size: 1rem;
   --ui-switch-thumb-offset: 0.2rem;
   --ui-switch-thumb-translate: 1.25rem;
-  --ui-switch-thumb-squash: 0.45rem;
   --ui-switch-border-color: var(--border-color-strong);
   --ui-switch-checked-color: var(--color-brand);
   --ui-switch-invalid-color: var(--color-destructive);
@@ -12,7 +11,7 @@
   --ui-switch-label-color: var(--text-color-canvas);
   --ui-switch-muted-color: var(--text-color-muted);
   --ui-switch-state-duration: var(--dur-fast);
-  --ui-switch-motion-duration: var(--dur-quick);
+  --ui-switch-motion-duration: var(--dur-fast);
   --ui-switch-motion-easing: var(--ease-snappy);
 
   display: block;
@@ -27,7 +26,6 @@
   --ui-switch-thumb-size: 0.875rem;
   --ui-switch-thumb-offset: 0.1875rem;
   --ui-switch-thumb-translate: 1rem;
-  --ui-switch-thumb-squash: 0.375rem;
 }
 
 .ui-switch-container {
@@ -94,19 +92,19 @@
   left: var(--ui-switch-thumb-offset);
   width: var(--ui-switch-thumb-size);
   height: var(--ui-switch-thumb-size);
-  border-radius: 999px; /* circle at rest, clean pill when stretched */
+  border-radius: 999px;
   background-color: white;
   box-shadow:
     0 1px 2px color-mix(in oklab, var(--text-color-canvas) 18%, transparent),
     0 0 0 1px color-mix(in oklab, var(--text-color-canvas) 5%, transparent);
-  transform: translateY(-50%);
-  /* Travel (`left`) and press-stretch (`width`) ride the same property timing,
-     so they stay in lock-step — no cross-property desync, no origin flip. */
+  /* Travel and press feedback stay independent, so rapid toggles retarget cleanly. */
+  translate: 0 -50%;
+  scale: 1;
   transition:
     background-color var(--ui-switch-state-duration) var(--ui-switch-motion-easing),
     box-shadow var(--ui-switch-state-duration) var(--ui-switch-motion-easing),
-    left var(--ui-switch-motion-duration) var(--ui-switch-motion-easing),
-    width var(--ui-switch-motion-duration) var(--ui-switch-motion-easing);
+    scale var(--ui-switch-motion-duration) var(--ui-switch-motion-easing),
+    translate var(--ui-switch-motion-duration) var(--ui-switch-motion-easing);
 }
 
 .ui-switch-input:checked + .ui-switch-control {
@@ -115,24 +113,11 @@
 }
 
 .ui-switch-input:checked + .ui-switch-control .ui-switch-thumb {
-  left: calc(var(--ui-switch-thumb-offset) + var(--ui-switch-thumb-translate));
+  translate: var(--ui-switch-thumb-translate) -50%;
 }
 
-/* Press feedback: the thumb stretches into a pill toward its travel direction.
-   Off → grows rightward from its fixed left edge. */
 .ui-switch-label:active .ui-switch-input:not(:disabled) + .ui-switch-control .ui-switch-thumb {
-  width: calc(var(--ui-switch-thumb-size) + var(--ui-switch-thumb-squash));
-}
-
-/* On → pull `left` back by the same amount it grows, so the right edge stays
-   pinned and the pill extends leftward instead. */
-.ui-switch-label:active
-  .ui-switch-input:checked:not(:disabled)
-  + .ui-switch-control
-  .ui-switch-thumb {
-  left: calc(
-    var(--ui-switch-thumb-offset) + var(--ui-switch-thumb-translate) - var(--ui-switch-thumb-squash)
-  );
+  scale: 0.94;
 }
 
 .ui-switch-input:focus-visible + .ui-switch-control {
@@ -179,8 +164,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* Track is pure color, so it keeps its fade. The thumb keeps color but drops
-     the slide/stretch. */
+  /* Keep color fades, but remove positional and press movement. */
   .ui-switch-thumb {
     transition:
       background-color var(--ui-switch-state-duration) var(--ui-switch-motion-easing),
@@ -188,6 +172,6 @@
   }
 
   .ui-switch-label:active .ui-switch-input:not(:disabled) + .ui-switch-control .ui-switch-thumb {
-    width: var(--ui-switch-thumb-size);
+    scale: 1;
   }
 }

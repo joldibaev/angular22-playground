@@ -286,16 +286,16 @@ export const browserSupportFeatures = {
       "node": null
     }
   },
-  "scrollbar-color": {
-    "name": "scrollbar-color",
-    "baseline": "low",
-    "baselineLowDate": "2025-12-12",
-    "baselineHighDate": null,
+  "individual-transforms": {
+    "name": "Individual transform properties",
+    "baseline": "high",
+    "baselineLowDate": "2022-08-05",
+    "baselineHighDate": "2025-02-05",
     "support": {
-      "chrome": "121",
-      "edge": "121",
-      "firefox": "64",
-      "safari": "26.2",
+      "chrome": "104",
+      "edge": "104",
+      "firefox": "72",
+      "safari": "14.1",
       "node": null
     }
   },
@@ -513,7 +513,8 @@ export const browserSupportProfiles = {
   "radio": [
     "light-dark",
     "popover",
-    "anchor-name"
+    "anchor-name",
+    "individual-transforms"
   ],
   "select": [
     "light-dark",
@@ -536,13 +537,12 @@ export const browserSupportProfiles = {
   "switch": [
     "light-dark",
     "popover",
-    "anchor-name"
+    "anchor-name",
+    "individual-transforms"
   ],
   "table": [
     "light-dark",
-    "scrollbar-color",
-    "scrollbar-gutter",
-    "scrollbar-width"
+    "scrollbar-gutter"
   ],
   "tabs": [
     "light-dark",

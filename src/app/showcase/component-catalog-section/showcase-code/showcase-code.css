@@ -28,7 +28,6 @@ app-showcase-code pre {
   font-size: 0.75rem;
   line-height: 1.55;
   tab-size: 2;
-  scrollbar-color: color-mix(in oklab, var(--text-color-canvas) 32%, transparent) transparent;
 
   &:focus-visible {
     outline: 2px solid var(--focus-ring-color);

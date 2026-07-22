@@ -87,11 +87,10 @@
   scale: 0.92;
 }
 
-/* The checkmark is a real SVG path so it can draw itself on, rather than a
-   background-image that can only fade. --ui-checkbox-check-length is a hair over the path's
-   geometric length so dashoffset fully hides it when unchecked. */
+/* The 13.46-unit path needs a little more than its geometric length so the
+   2.5-unit round cap clears the start instead of snapping away at the end. */
 .ui-checkbox-mark {
-  --ui-checkbox-check-length: 14;
+  --ui-checkbox-check-length: 15;
 
   width: var(--ui-checkbox-mark-size);
   height: var(--ui-checkbox-mark-size);

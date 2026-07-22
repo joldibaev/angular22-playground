@@ -194,8 +194,6 @@
   gap: var(--ui-popup-list-gap);
   height: 100%;
   overflow: auto;
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(in oklab, var(--text-color-muted) 32%, transparent) transparent;
 }
 
 .ui-popup-status {

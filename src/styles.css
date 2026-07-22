@@ -52,13 +52,16 @@
   --border-color-strong: light-dark(var(--color-neutral-300), var(--color-neutral-700));
   --border-color-subtle: color-mix(in oklab, var(--border-color-default) 50%, transparent);
 
+  --ui-scrollbar-thumb-color: color-mix(in oklab, var(--text-color-muted) 40%, transparent);
+  --ui-scrollbar-track-color: transparent;
+
   --color-brand: light-dark(var(--color-emerald-400), var(--color-emerald-600));
   --color-brand-subtle: color-mix(in oklab, var(--color-brand) 12%, var(--background-color-canvas));
 
-  --color-destructive: var(--color-red-600);
+  --color-destructive: light-dark(var(--color-red-600), var(--color-red-400));
   --color-destructive-subtle: color-mix(
     in oklab,
-    var(--color-destructive) 12%,
+    var(--color-destructive) 14%,
     var(--background-color-canvas)
   );
 
@@ -92,6 +95,11 @@
   --dur-slow: 400ms; /* larger surfaces */
 
   --press-scale: 0.97;
+}
+
+* {
+  scrollbar-color: var(--ui-scrollbar-thumb-color) var(--ui-scrollbar-track-color);
+  scrollbar-width: thin;
 }
 
 html {

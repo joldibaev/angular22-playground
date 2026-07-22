@@ -1,8 +1,9 @@
 :host {
   --ui-radio-control-size: 1.25rem;
-  --ui-radio-dot-size: 0.6rem;
-  --ui-radio-border-color: var(--border-color-strong);
+  --ui-radio-dot-scale: 0.5;
+  --ui-radio-border-color: transparent;
   --ui-radio-checked-color: var(--color-brand);
+  --ui-radio-dot-color: var(--color-white);
   --ui-radio-background: var(--background-color-subtle);
   --ui-radio-label-color: var(--text-color-canvas);
   --ui-radio-state-duration: var(--dur-fast);
@@ -15,7 +16,6 @@
 
 :host(.ui-radio-sm) {
   --ui-radio-control-size: 1rem;
-  --ui-radio-dot-size: 0.5rem;
 }
 
 .ui-radio-label {
@@ -50,10 +50,10 @@
   border: 1px solid var(--ui-radio-current-border-color, var(--ui-radio-border-color));
   border-radius: 50%;
   background-color: var(--ui-radio-background);
+  position: relative;
   transition:
     background-color var(--ui-radio-state-duration) var(--ui-radio-motion-easing),
     border-color var(--ui-radio-state-duration) var(--ui-radio-motion-easing),
-    box-shadow var(--ui-radio-state-duration) var(--ui-radio-motion-easing),
     scale var(--ui-radio-press-duration) var(--ui-radio-motion-easing);
 }
 
@@ -64,17 +64,18 @@
 
 .ui-radio-control::before {
   content: '';
-  width: var(--ui-radio-dot-size);
-  height: var(--ui-radio-dot-size);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--ui-radio-control-size);
+  height: var(--ui-radio-control-size);
   border-radius: 50%;
-  background-color: white;
-  opacity: 0;
-  scale: 0.5;
-  box-shadow:
-    0 1px 2px color-mix(in oklab, var(--text-color-canvas) 18%, transparent),
-    0 0 0 1px color-mix(in oklab, var(--text-color-canvas) 5%, transparent);
+  /* The full-size circle is camouflaged until selection, then reveals while shrinking. */
+  background-color: var(--ui-radio-background);
+  translate: -50% -50%;
+  scale: 1;
   transition:
-    opacity var(--ui-radio-state-duration) var(--ui-radio-motion-easing),
+    background-color var(--ui-radio-state-duration) var(--ui-radio-motion-easing),
     scale var(--ui-radio-state-duration) var(--ui-radio-motion-easing);
 }
 
@@ -84,8 +85,8 @@
 }
 
 .ui-radio-input:checked + .ui-radio-control::before {
-  opacity: 1;
-  scale: 1;
+  background-color: var(--ui-radio-dot-color);
+  scale: var(--ui-radio-dot-scale);
 }
 
 .ui-radio-input:focus-visible + .ui-radio-control {
@@ -107,16 +108,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* Keep the color/box-shadow and the dot's opacity fade; drop the scales. */
+  /* Keep color fades, but remove press and indicator movement. */
   .ui-radio-control {
     transition:
       background-color var(--ui-radio-state-duration) var(--ui-radio-motion-easing),
-      border-color var(--ui-radio-state-duration) var(--ui-radio-motion-easing),
-      box-shadow var(--ui-radio-state-duration) var(--ui-radio-motion-easing);
+      border-color var(--ui-radio-state-duration) var(--ui-radio-motion-easing);
   }
 
   .ui-radio-control::before {
-    transition: opacity var(--ui-radio-state-duration) var(--ui-radio-motion-easing);
+    transition: background-color var(--ui-radio-state-duration) var(--ui-radio-motion-easing);
   }
 
   .ui-radio-label:not(.ui-radio-disabled):active .ui-radio-control {

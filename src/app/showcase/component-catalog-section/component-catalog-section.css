@@ -247,8 +247,6 @@ app-browser-support {
     overflow-y: auto;
     overscroll-behavior-y: contain;
     padding-inline-end: 0.125rem;
-    scrollbar-color: var(--border-color-strong) transparent;
-    scrollbar-width: thin;
   }
 }
 
